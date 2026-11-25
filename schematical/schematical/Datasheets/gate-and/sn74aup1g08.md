@@ -25,7 +25,7 @@
 
 This single 2-input positive-AND gate is designed for 0.8-V to 3.6-V
 V~CC~ operation and performs the Boolean function Y = A · B or
-Y = !{!{A} + !{B}} in positive logic.
+Y = !{!{A} + !{B}} in positive logic. [[12::1]]
 
 The AUP family has quiescent power consumption less than 1 µA. This
 device is fully specified for partial-power-down applications using
@@ -34,9 +34,9 @@ current backflow through the device when it is powered. Unconfirmed:
 "when it is powered" is the source's wording (p.12), in a paragraph
 about partial-power-down applications. The I~off~
 feature also allows for live insertion. Input hysteresis allows slow
-input transition and better switching noise immunity at the input.
+input transition and better switching noise immunity at the input. [[12::2]] [[12::3]] [[12::4]]
 
-3.6-V I/O tolerant to support down translation.
+3.6-V I/O tolerant to support down translation. [[12::4]]
 
 ## Pinout
 
@@ -64,6 +64,7 @@ VCC: Power pin
 NC: No internal connection
 DNU: Do not use
 ```
+[[3::table #1]]
 
 ## Function tables
 
@@ -76,6 +77,7 @@ DNU: Do not use
 | H | L | L |
 | H | H | H |
 ```
+[[12::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -96,6 +98,7 @@ DNU: Do not use
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[5::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -106,6 +109,7 @@ DNU: Do not use
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[5::table #2]]
 
 ## Recommended operating conditions
 
@@ -140,6 +144,7 @@ DNU: Do not use
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See the TI application report Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[5::table #3]] [[6::table #1]]
 
 ## Thermal information
 
@@ -154,6 +159,7 @@ DNU: Do not use
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[6::table #2]]
 
 ## Electrical characteristics
 
@@ -188,6 +194,7 @@ DNU: Do not use
 
 [1] One input at V~CC~ – 0.6 V, other input at V~CC~ or GND.
 ```
+[[7::table #1]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -199,6 +206,7 @@ DNU: Do not use
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 4.1 | pF |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 4.3 | pF |
 ```
+[[8::table #1]]
 
 ## Switching characteristics
 
@@ -215,6 +223,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 1 | 3 | 4.4 | 0.5 | 5.5 | ns |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1 | 2.4 | 3.5 | 0.5 | 4.3 | ns |
 ```
+[[7::table #2]]
 
 ```table id=sw-10pf caption="Switching characteristics, C~L~ = 10 pF" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | V~CC~ | T~A~ = 25 °C | < | < | T~A~ = –40 °C to +85 °C | < | Unit |
@@ -227,6 +236,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 1 | 3.6 | 5.2 | 0.5 | 6.1 | ns |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1 | 2.9 | 4.2 | 0.5 | 4.7 | ns |
 ```
+[[8::table #2]]
 
 ```table id=sw-15pf caption="Switching characteristics, C~L~ = 15 pF" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | V~CC~ | T~A~ = 25 °C | < | < | T~A~ = –40 °C to +85 °C | < | Unit |
@@ -239,6 +249,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 1 | 4.3 | 5.9 | 0.5 | 7.3 | ns |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1 | 3.4 | 4.8 | 0.5 | 5.9 | ns |
 ```
+[[8::table #3]]
 
 ```table id=sw-30pf caption="Switching characteristics, C~L~ = 30 pF" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | V~CC~ | T~A~ = 25 °C | < | < | T~A~ = –40 °C to +85 °C | < | Unit |
@@ -251,6 +262,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 1.8 | 5.7 | 7.6 | 1.3 | 9.4 | ns |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1.5 | 4.7 | 6.2 | 1 | 7.5 | ns |
 ```
+[[8::table #4]]
 
 ## Typical characteristics
 
@@ -261,6 +273,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "TPD", "points": [[0.8, 24], [1.2, 10], [1.5, 7.2], [1.8, 5.8], [2.5, 4.3], [3.3, 3.4]]}
  ]}
 ```
+[[9::Figure 5-1]]
 
 ```curve id=tpd-temp caption="t~pd~ vs temperature, V~CC~ = 1.8 V, 15 pF load"
 {"x": {"label": "Temperature", "unit": "°C", "range": [-50, 150]},
@@ -269,6 +282,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "TPD", "points": [[-40, 5.2], [0, 5.6], [25, 5.7], [85, 6.0], [125, 6.6]]}
  ]}
 ```
+[[9::Figure 5-2]]
 
 ## Parameter measurement information
 
@@ -276,7 +290,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω, slew rate ≥ 1 V/ns. The outputs are measured one at a time,
 with one transition per measurement. t~PLH~ and t~PHL~ are the same as
-t~pd~.
+t~pd~. [[10::2]]
 
 ```table id=pmi-conditions caption="Load circuit test conditions"
 | | V~CC~ = 0.8 V | V~CC~ = 1.2 V ± 0.1 V | V~CC~ = 1.5 V ± 0.1 V | V~CC~ = 1.8 V ± 0.15 V | V~CC~ = 2.5 V ± 0.2 V | V~CC~ = 3.3 V ± 0.3 V |
@@ -285,15 +299,18 @@ t~pd~.
 | V~M~ | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 |
 | V~I~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ |
 ```
+[[1::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit"
 RL: 1 MΩ
 CL: 5, 10, 15, 30 pF
 ```
+[[10::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times"
 VM: VCC/2
 ```
+[[10::figure #1]]
 
 ## Application information
 
@@ -301,18 +318,18 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[13::1]]
 
 The AUP family is TI's solution to the industry's low-power needs in
 battery-powered portable applications. It has a small amount of
 hysteresis built in, allowing for slower or noisy input signals. The
 lowered drive produces slower edges and prevents overshoot and
-undershoot on the outputs.
+undershoot on the outputs. [[13::2]]
 
 The AUP family of single gate logic makes excellent translators for the
 new lower voltage Micro-processors that typically are powered from 0.8 V
 to 1.2 V. They can drop the voltage of peripheral drivers and
-accessories that are still powered by 3.3 V to the new µC power levels.
+accessories that are still powered by 3.3 V to the new µC power levels. [[13::3]]
 
 Conversion note: the typical application schematic (source Figure 8-1) shows a 3.3-V bus driver
 driving the gate's input, the gate on a 1 V regulated V~CC~ with a 0.1 µF
@@ -320,20 +337,20 @@ capacitor, and the gate's output driving a 1-V micro processor.
 
 Design requirements: SN74AUP1G08 device uses CMOS technology and has
 balanced output drive. Take care to avoid bus contention because it can drive
-currents that would exceed maximum limits.
+currents that would exceed maximum limits. [[13::4]]
 
-1. Recommended input conditions
-   - Rise time and fall time specifications. See (Δt/ΔV) in [Recommended Operating Conditions](#recommended-operating-conditions) table.
-   - Specified high and low levels. See (V~IH~ and V~IL~) in [Recommended Operating Conditions](#recommended-operating-conditions) table.
-   - Inputs are overvoltage tolerant allowing them to go as high as 3.6 V at any valid V~CC~
-2. Recommended output conditions
-   - Load currents should not exceed 20 mA on the output and 50 mA total for the part
-   - Outputs should not be pulled above V~CC~
+1. Recommended input conditions [[13::5]]
+   - Rise time and fall time specifications. See (Δt/ΔV) in [Recommended Operating Conditions](#recommended-operating-conditions) table. [[13::5]]
+   - Specified high and low levels. See (V~IH~ and V~IL~) in [Recommended Operating Conditions](#recommended-operating-conditions) table. [[13::5]]
+   - Inputs are overvoltage tolerant allowing them to go as high as 3.6 V at any valid V~CC~ [[13::5]]
+2. Recommended output conditions [[13::5]]
+   - Load currents should not exceed 20 mA on the output and 50 mA total for the part [[13::5]]
+   - Outputs should not be pulled above V~CC~ [[13::5]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the Min and Max supply
-voltage rating located in the Recommended Operating Conditions table.
+voltage rating located in the Recommended Operating Conditions table. [[14::1]]
 
 Each V~CC~ terminal should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 μF is recommended and
@@ -341,11 +358,11 @@ if there are multiple V~CC~ terminals then 0.01 μF or 0.022 μF is
 recommended for each power terminal. It is ok to parallel multiple
 bypass caps to reject different frequencies of noise. A 0.1 μF and 1 μF
 are commonly used in parallel. The bypass capacitor should be installed
-as close to the power terminal as possible for best results.
+as close to the power terminal as possible for best results. [[14::2]]
 
 ### Layout guidelines
 
-When using multiple bit logic devices inputs should not ever float.
+When using multiple bit logic devices inputs should not ever float. [[14::3]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused, for example, when only two inputs of a triple-input AND gate
@@ -361,7 +378,7 @@ to prevent them from floating. The logic level that should be applied to
 any particular unused input depends on the function of the device.
 Generally they will be tied to GND or V~CC~ whichever make more sense or
 is more convenient. It is generally OK to float outputs unless the part
-is a transceiver.
+is a transceiver. [[14::4]]
 
 ## Package
 
@@ -408,6 +425,7 @@ SN74AUP1G08DSFR | Reel of 5000 | -40 to 85 | HE, HER, HEH
 SN74AUP1G08YFPR | Reel of 3000 | -40 to 85 | HEN
 SN74AUP1G08YZPR | Reel of 3000 | -40 to 85 | HEN
 ```
+[[17::table #1]] [[18::table #1]]
 
 Conversion note: the package option addendum also lists SN74AUP1G08DBVRG4.B and SN74AUP1G08DPWRG4.B (p.17), which the catalog doesn't carry, and a `.B` row for every part above. Conversion note: the addendum (p.19) names an automotive version, SN74AUP1G08-Q1.
 

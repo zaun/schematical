@@ -27,24 +27,24 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II. Optimized for
 1.8-V operation and is 3.6-V I/O tolerant to support mixed-mode signal
 operation. I~off~ supports partial power down mode and back drive
 protection. Sub-1-V operable. Max t~pd~ of 2.2 ns at 1.8 V. Low power
-consumption, 10-µA maximum I~CC~. ±8-mA output drive at 1.8 V.
+consumption, 10-µA maximum I~CC~. ±8-mA output drive at 1.8 V. [[1::2]]
 
 This single inverter gate is operational at 0.8-V to 2.7-V V~CC~, but is
-designed specifically for 1.65-V to 1.95-V V~CC~ operation.
+designed specifically for 1.65-V to 1.95-V V~CC~ operation. [[1::1]]
 
-The SN74AUC1G04 performs the Boolean function Y = !{A}.
+The SN74AUC1G04 performs the Boolean function Y = !{A}. [[1::4]]
 
 NanoFree™ package technology is a major breakthrough in IC packaging
-concepts, using the die as the package.
+concepts, using the die as the package. [[1::5]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the ouput, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::6]]
 
 Source error: "ouput" is the source's spelling of "output" (Description, p.1); kept as printed.
 
 For more information about AUC Little Logic devices, see Applications of
-Texas Instruments AUC Sub-1-V Little Logic Devices, SCEA027.
+Texas Instruments AUC Sub-1-V Little Logic Devices, SCEA027. [[1::7]]
 
 ## Pinout
 
@@ -69,6 +69,7 @@ NC: No internal connection
 VCC: Positive supply
 Y: Y inverted output
 ```
+[[3::table #1]]
 
 ## Functional description
 
@@ -76,7 +77,7 @@ Conversion note: the functional block diagram (Figure 2, logic diagram, positive
 
 ### Device functional modes
 
-Table 1 lists the functional modes of the SN74AUC1G04.
+Table 1 lists the functional modes of the SN74AUC1G04. [[8::1]]
 
 ## Function tables
 
@@ -87,6 +88,7 @@ Table 1 lists the functional modes of the SN74AUC1G04.
 | H | L |
 | L | H |
 ```
+[[8::Table 1]]
 
 ## Absolute maximum ratings
 
@@ -106,6 +108,7 @@ Table 1 lists the functional modes of the SN74AUC1G04.
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -117,6 +120,7 @@ Table 1 lists the functional modes of the SN74AUC1G04.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -147,6 +151,7 @@ Table 1 lists the functional modes of the SN74AUC1G04.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[4::table #3]] [[5::table #1]]
 
 ## Thermal information
 
@@ -158,6 +163,7 @@ Table 1 lists the functional modes of the SN74AUC1G04.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -184,6 +190,7 @@ Table 1 lists the functional modes of the SN74AUC1G04.
 [1] All typical values are at T~A~ = 25°C.
 [2] Unconfirmed: the source prints this I~off~ test condition as "V~I~ = V~O~ or 2.7 V" (p.5); kept as printed.
 ```
+[[5::table #3]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 0.8 V | V~CC~ = 1.2 V | V~CC~ = 1.5 V | V~CC~ = 1.8 V | V~CC~ = 2.5 V | Unit |
@@ -191,6 +198,7 @@ Table 1 lists the functional modes of the SN74AUC1G04.
 |---|---|---|--:|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 14 | 14 | 14 | 14 | 19 | pF |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -202,6 +210,7 @@ Conversion note: Figure 1 is in [parameter measurement information](#parameter-m
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | 4.4 | 0.8 | 3 | 0.5 | 2 | 0.5 | 1 | 2.1 | 0.5 | 1.6 | ns |
 ```
+[[5::table #4]]
 
 ```table id=sw-30pf caption="Switching characteristics: C~L~ = 30 pF" conditions="Over recommended operating free-air temperature range, C~L~ = 30 pF (unless otherwise noted) (see Figure 1)"
 | Parameter | From (input) | To (output) | V~CC~ = 1.8 V ± 0.15 V | < | < | V~CC~ = 2.5 V ± 0.2 V | < | Unit |
@@ -209,6 +218,7 @@ Conversion note: Figure 1 is in [parameter measurement information](#parameter-m
 |---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | 0.6 | 1.2 | 2.2 | 0.5 | 1.9 | ns |
 ```
+[[5::table #5]]
 
 ## Parameter measurement information
 
@@ -216,7 +226,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω, slew rate ≥ 1 V/ns. The outputs are measured one at a time,
 with one transition per measurement. t~PLH~ and t~PHL~ are the same as
-t~pd~. All parameters and waveforms are not applicable to all devices.
+t~pd~. All parameters and waveforms are not applicable to all devices. [[7::1]]
 
 Conversion note: the source's test table sets S1 open for
 t~PLH~/t~PHL~, which leaves R~L~ and C~L~ from the output to GND, and its
@@ -234,15 +244,18 @@ V~CC~/2.
 | 1.8 V ± 0.15 V | 30 pF | 1 kΩ | 0.15 V |
 | 2.5 V ± 0.2 V | 30 pF | 500 Ω | 0.15 V |
 ```
+[[5::table #6]]
 
 ```figure ref=load-rl-cl caption="Load circuit for t~PLH~/t~PHL~ (S1 open)"
 RL: see table
 CL: see table
 ```
+[[7::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times"
 VM: VCC/2
 ```
+[[7::figure #1]]
 
 ## Package
 
@@ -270,6 +283,7 @@ SN74AUC1G04DRLR | Reel of 4000 | -40 to 85 | UC7, UCR
 SN74AUC1G04YZPR | Reel of 3000 | -40 to 85 | UCN
 SN74AUC1G04DRYR | Reel of 5000 | -40 to 85 | UC
 ```
+[[10::table #1]]
 
 ## Conversion notes
 

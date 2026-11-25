@@ -51,6 +51,8 @@ struct SchematicScene {
                 BarrelJackSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .header:
                 HeaderSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
+            case .testPoint:
+                TestPointSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .diode:
                 DiodeSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, level: 0)
             case .plainDiode:
@@ -82,6 +84,8 @@ struct SchematicScene {
                 SevenSegmentSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired, levels: [])
             case .nixie:
                 NixieSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired, levels: [])
+            case .dekatron:
+                DekatronSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired, levels: [])
             case .characterLCD:
                 CharacterLCDSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired,
                                              frame: nil, backlights: [])

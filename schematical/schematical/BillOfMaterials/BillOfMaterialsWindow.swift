@@ -43,19 +43,49 @@ nonisolated struct BillOfMaterialsLine: Identifiable, Hashable, Sendable {
 
 nonisolated enum BillOfMaterials {
     /// The lines for `chips`. Parts with no footprint (VCC, GND) are not on
-    /// the board, so they are left out. Pull-ups, pull-downs and
+    /// the board, so they are left out; so are test points, which are not
+    /// bought (plan-57). Pull-ups, pull-downs and
     /// `GENERIC-RESISTOR`s are one `RESISTOR` line per value and package,
     /// whatever their rail (plan-34-G: the same thing to buy). Lines are
     /// in the order of their first reference (C before R before U, U2 before U10).
+    ///
+    /// A chip in a socket mode (plan-51-H) adds the socket's line: for IC + Socket the
+    /// chip's own line and the socket's, for Socket only the socket's alone. The socket
+    /// line's reference is `X` plus the chip's (`XU1`, `PlacedChip.fabricationReference`),
+    /// and chips with the same socket part share the line.
     static func lines(for chips: [PlacedChip]) -> [BillOfMaterialsLine] {
-        var groups: [String: (sample: PlacedChip, references: [String])] = [:]
-        for chip in chips where chip.part.footprint != nil {
-            let line = line(for: chip, references: [])
-            groups[line.id, default: (chip, [])].references.append(chip.reference)
+        var groups: [String: (make: ([String]) -> BillOfMaterialsLine, references: [String])] = [:]
+        func add(_ line: BillOfMaterialsLine, reference: String, make: @escaping ([String]) -> BillOfMaterialsLine) {
+            groups[line.id, default: (make, [])].references.append(reference)
+        }
+        for chip in chips where chip.part.footprint != nil && !chip.part.isTestPoint {
+            if chip.socket?.mode != .socketOnly {
+                add(line(for: chip, references: []), reference: chip.reference) { line(for: chip, references: $0) }
+            }
+            if let socket = chip.socket {
+                add(socketLine(socket, references: []), reference: chip.fabricationReference) {
+                    socketLine(socket, references: $0)
+                }
+            }
         }
         return groups.values
-            .map { line(for: $0.sample, references: $0.references.sorted(by: naturalOrder)) }
+            .map { $0.make($0.references.sorted(by: naturalOrder)) }
             .sorted { naturalOrder($0.references[0], $1.references[0]) }
+    }
+
+    /// The line of a chip's socket: its part number and package ("DIP socket").
+    private static func socketLine(_ socket: ChipSocket, references: [String]) -> BillOfMaterialsLine {
+        let pads = socket.part.footprint?.pads ?? []
+        return BillOfMaterialsLine(
+            partNumber: socket.part.name,
+            package: socket.part.package,
+            value: "",
+            color: "",
+            description: socket.part.description,
+            references: references,
+            manufacturer: socket.part.manufacturer == "Generic" ? "" : socket.part.manufacturer,
+            isSurfaceMount: !pads.isEmpty && pads.allSatisfy { $0.drill == 0 }
+        )
     }
 
     /// The part number and description of a pull resistor's or
@@ -76,7 +106,7 @@ nonisolated enum BillOfMaterials {
                 color: "",
                 description: resistorDescription,
                 references: references,
-                isSurfaceMount: chip.isSurfaceMount
+                isSurfaceMount: chip.isSurfaceMount && chip.socket == nil
             )
         }
         if chip.part.isGenericCapacitor {
@@ -87,7 +117,7 @@ nonisolated enum BillOfMaterials {
                 color: "",
                 description: capacitorDescription,
                 references: references,
-                isSurfaceMount: chip.isSurfaceMount
+                isSurfaceMount: chip.isSurfaceMount && chip.socket == nil
             )
         }
         return BillOfMaterialsLine(
@@ -99,7 +129,8 @@ nonisolated enum BillOfMaterials {
             description: chip.part.description,
             references: references,
             manufacturer: chip.part.manufacturer == "Generic" ? "" : chip.part.manufacturer,
-            isSurfaceMount: chip.isSurfaceMount
+            // A chip in a socket is plugged in by hand; the socket's own line is the placed one.
+            isSurfaceMount: chip.isSurfaceMount && chip.socket == nil
         )
     }
 

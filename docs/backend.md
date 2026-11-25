@@ -256,6 +256,31 @@ Notes:
   pins and `pin_analog` the `"analog"` names (`regulator_element`,
   `regulator_pin_in`, `regulator_pin_out`, `regulator_input_max_mv` in
   `model_pins.h`).
+- **Power switches** (plan-55-A). A power switch part is one to four
+  switches (elements), each a gate for a supply: `powerswitch.c` schedules a
+  timer 1 ns (`POWERSWITCH_DELAY_PS`) after any change of a switch's input
+  or enable pin, and the timer re-reads them and drives the switch's output
+  pins (`sim_schedule_drive`, strong) and its open-drain flag pins. Two
+  switches may name one output (or flag) pin: the pin takes the strongest of
+  them (1 over X over Z for an output, 0 over X over Z for a flag). What it
+  gives:
+
+  | Input | Enable (`"logic"`, active level, or no enable pin) | `out` | `flag` (`"disabled"`) | `flag` (`"fault"`) |
+  |---|---|---|---|---|
+  | 1 | active, or no pin | strong 1 | Z | Z |
+  | 1 | inactive, Z | Z | strong 0 | Z |
+  | 1 | X | strong X | strong X | Z |
+  | X | any | strong X | Z | Z |
+  | 0, Z, not connected | any | Z | Z | Z |
+
+  An enable that is a comparator against the input (`"enableRef":
+  "input"`, an ideal diode's CE) never turns the switch off while the input
+  reads 1, and with the input at 0 or Z a 1 on it turns a `"disabled"` flag
+  low. A 0.5 ns pulse on the enable never moves the output; the output on a
+  net a strong 0 holds is `smoke:`. The kind has no `vcc`; `pin_open_drain`
+  is the flag pins and `pin_analog` the `"analog"` names
+  (`powerswitch_element`, `powerswitch_pin_in`, `powerswitch_pin_out`,
+  `powerswitch_input_max_mv` in `model_pins.h`).
 - **Voltages** (`voltage.h`, plan-07). The simulation is logic-only; a
   separate static check, `voltage_check`, works out each net's voltage from
   its supplies (`PartSupply.mv`), the outputs of powered parts and what an
@@ -264,8 +289,10 @@ Notes:
   its part's `vcc` range, input above its part's input max, switch contact
   above its rating, capacitor pin above its rated voltage, transistor
   rating (a channel pin above `vceo` / `vds`, a MOSFET gate above `vgs`),
-  a regulator's input above its maximum, a fuse or PTC pin above its voltage rating, and two different non-zero
-  supplies on one net (a regulator's regulated level counts as one).
+  a regulator's or a power switch's input above its maximum, a fuse or PTC
+  pin above its voltage rating, and two
+  different non-zero supplies on one net (a regulator's regulated level
+  counts as one; two power switches' levels never clash, the higher wins).
   `voltage_describe` gives the text, e.g. `voltage: 5 V on pin 14 (VCC) of
   SN74AUC00PWR; it needs 0.8-2.7 V`. It takes plain arrays (parts,
   pin→net connections, closed contacts), so the app runs it on a candidate
@@ -285,6 +312,16 @@ Notes:
     `VOLTAGE_REGULATOR_INPUT_OVER`. `voltage_check` takes an optional
     `milliohms` array (one entry per part, 0 = the part's own value): a
     placed `GENERIC-RESISTOR`'s value for the divider.
+  - **Switched level** (plan-55-A). A power switch element whose input has
+    a known non-zero level of at least `vinMin` and whose enable is not
+    inactive (a logic enable at its inactive level; an `"input"` enable above
+    the input) raises a switched level W on its output nets, the input's
+    level. The order of levels is S, then R, then W, then the driven D, the
+    pulled P, the carried C. Two switch outputs on one net never clash: the
+    net reads the higher level (ORing). W different from a supply level or
+    from a regulated level on the net is a `VOLTAGE_SUPPLY_CLASH` (one per
+    net); an input or enable pin above `vinMax` is
+    `VOLTAGE_POWERSWITCH_INPUT_OVER`.
   - `circuit_set_resistance(circuit, part, ohms)` sets that value for a
     resistor part whose manufacturer is `Generic` (more than 0 and at most
     1e9; `part N is not a generic resistor`, `the resistance is out of
@@ -335,8 +372,9 @@ Notes:
   k = 0 is E1's, k = 1 E2's). The image does not depend on the backlight
   or V0; the app dims the face by the backlight lights (one per LED). Any
   other kind: -1, `part N is not a character LCD`.
-- Converters and RTCs (`converter`, `rtc` kinds, plan-24):
-  `circuit_converter_registers` copies the part's registers
+- Converters and RTCs (`converter`, `rtc` kinds, plan-24; the `leddriver` and
+  `lcddriver` kinds of plan-56-B run on the same engine and have registers
+  too): `circuit_converter_registers` copies the part's registers
   (`ConverterRegister`, `converter_state.h`: name, bus address or -1 for an
   internal one, address space, width, value) and returns their count; any
   other kind: -1, `part N has no registers`. `circuit_rtc_time` fills an
@@ -386,7 +424,7 @@ backend/
                            interface), footprints.c + footprint.h (parse,
                            check and expand footprints.json)
     models/                one file per kind: gate.c dff.c jkff.c sram.c
-                           eeprom.c switch.c led.c display7.c nixie.c oscillator.c crystal.c
+                           eeprom.c switch.c led.c display7.c nixie.c dekatron.c lcd.c oscillator.c crystal.c
                            supply.c latch.c, decoder.c (decoders,
                            priority encoders, 7-segment decoders),
                            mux.c + mux.h (multiplexers: the kind and
@@ -415,8 +453,14 @@ backend/
                            plan-40-F);
                            regulator.c (the regulator kind: loader, the
                            regulated-supply model, plan-42-G);
+                           powerswitch.c (the power switch kind: loader,
+                           the supply-gate model, plan-55-A);
                            crystal.c (the crystal kind: loader, the weak
                            clock-on-both-terminals model, plan-44-E);
+                           pld.c (the programmable logic kind: loader,
+                           passive model, facts only);
+                           socket.c (the IC socket kind: loader, passive
+                           model, plan-51-A);
                            inductor.c, fuse.c, terminals.c + terminals.h and
                            model_pins.c (the inductor and fuse kinds: loaders,
                            the closed-contact models, the blowable position, the
@@ -519,6 +563,11 @@ A new kind of part is added the same way every time:
      kind in its `NO_VARIANT` set, `relay`, gets none). A kind
      with no shipped parts gets a hand-written schema instead (the
      `GenericDraft.swift` precedent);
+   - a kind whose device object has a section the loader checks inline (no
+     `KEYS[]` array: the `display` of `leddriver` / `lcddriver`) is
+     hand-written too, as a copy of the kind it shares a loader with, the
+     section a required `.json` field (`LeddriverDraft.swift`), and
+     `PartKindKeysTests.notCalled` skips the section's own arrays;
    - the schema in `PartKinds.schemas` (`Editor/KindSchema.swift`);
    - `test<Kind>` and the kind's shipped part count in
      `PartKindRoundTripTests` (0 mismatched, 0 with extras, 0 rejected).
@@ -550,7 +599,7 @@ guide has device.<key>`: add the key to a step of
 `Guides/<Kind>Guide.swift` (and a `FieldGuide` for it; a required key must
 say where to find it).
 
-A kind with no simulation model (plan-36's `mcu`, plan-46's `generic`)
+A kind with no simulation model (plan-36's `mcu`, plan-46's `generic`, `pld`)
 sets `"simulated": false` on its devices, so `circuit_add_part` refuses its parts, and still
 ships a passive model (no callbacks, the `header.c` shape) so the engine
 never sees a NULL model.
@@ -586,8 +635,8 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   `footprints.txt` did not move.
 - `footprint_check` — every footprint in `footprints.json`, expanded to
   pads, against `tests/golden/footprints.txt` (one line per footprint:
-  `id|pins=N|body=WxH|pads=<designator>:x,y,wxh,shape[,d<drill>][,s<slotLength>][,npth][,r<radius>][,c<chamfer>:<corners>];…`,
-  `s` a slotted hole's length, `npth` a non-plated hole,
+  `id|pins=N|body=WxH|pads=<designator>:x,y,wxh,shape[,d<drill>][,s<slotLength>][,npth][,opp][,r<radius>][,c<chamfer>:<corners>];…[|edge]`,
+  `s` a slotted hole's length, `npth` a non-plated hole, `opp` a pad on the other face of the board, `|edge` a footprint that straddles the board edge,
   corners `tl+tr+br+bl` order; `-`
   for an unnumbered pad), and every footprint used by some part (`footprint`
   or `connectorFootprint`). After an
@@ -613,6 +662,27 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   cathode 0; two anode pins of one name are joined), and the voltage check
   (the anode's level carried to the cathode nets, `VOLTAGE_NIXIE_UNDER` for
   an anode below the firing voltage).
+- `lcd_test` — the `lcd` kind on a fixture glass next to the real part files: the loader's rules
+  and rejections, the model (a cell is lit while its segment and backplane pins are driven and
+  differ; a Z backplane lights nothing) and every shipped glass.
+- `display_out_test` — the `leddriver` and `lcddriver` kinds (plan-56-B) on
+  fixture devices next to the real part files: an SPI 4-digit `digits` driver
+  (scan order and slot time in simulated time, raw and decoded bytes, a decode
+  switch per digit, blank, test and shutdown), the codeB, bcd and ascii7
+  decodes, `static` groups, `ports` (direction field, invert, open drain),
+  a `matrix`, and I2C `lcd` drivers in modes 1:4, 1:3 (backplane-major,
+  MSB-first RAM) and static wired to the real GENERIC-LCD glass (the lit cells
+  equal the RAM bits, the backplanes alternate and are released in turn, the
+  enable bit releases every pin), then the `display` section's rejections
+  (unknown driver, register, field or pin; counts; a `display` on a
+  `converter` or `rtc`). A few of the same rejections are in `library_check`.
+- `dekatron_test` — the `dekatron` kind: the loader's rules and rejections
+  (on fixture tubes), the model on the real GC10B and OG-8 (a glow that
+  steps one position for two overlapping guide pulses, counts backward for
+  the other order, ignores a single or a non-overlapping pulse, goes out with
+  the anode and strikes at cathode 0 again; a single-pulse tube counts one
+  per pulse), every shipped dekatron's ten positions, and the voltage check
+  (the anode's level carried to the cathodes, `VOLTAGE_NIXIE_UNDER`).
 - `latch_test` — the `latch` kind's five models, one case per function-table
   row of the devices that use them (inline fixture devices copied from the
   real ones), plus loader errors and the open-drain answer. Its bench,
@@ -685,6 +755,15 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   maker resistors and from `GENERIC-RESISTOR` values
   (`circuit_set_resistance`), a boost converter's `vinMin`, an enable at
   its inactive level, a chain of two regulators.
+- `powerswitch_test` — the power switch kind (plan-55-A): the fixture parts
+  of `tests/support/powerswitch_fixture.h` (a load switch, current-limited
+  switches, an ideal diode, a dual ideal diode, a quad switch) load and their
+  `PartPowerSwitch` facts read back; the loader's rejections; the engine
+  cases of the Power switches table above; and the voltage rules: the
+  switched level seen through a clash with a 1.2 V supply, ORing, a clash with
+  a rail and with a regulator, chains, `vinMin`, a comparator enable, the
+  input rating. `voltage_test` adds the cases of a circuit without a power
+  switch (unchanged) and the same rules through `voltage_check`.
 - `crystal_test` — the crystal kind (plan-44-E): the fixture parts of
   `tests/support/crystal_fixture.h` (a two-pin and a four-pad crystal, a
   100 MHz one, a three-pad resonator with built-in capacitors) load and
@@ -744,6 +823,12 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   read back (the part's clock over the device's), its listing line ends
   `|unsimulated`, and `circuit_add_part` refuses it with `part "TESTMCU"
   is not simulated`. The kind's loader errors are in `library_check`.
+- `pld_test` — the pld kind: the shipped ATF22V10C, ATF750C and ATF16V8B
+  parts read back their `PartPld` facts (macrocells, the part's tpd, a
+  commercial part's own `vcc`), single part files cover every loader rule
+  (`"simulated"`, `macrocells`, `tpd`, a supply range, a power and a ground
+  pin), the listing line ends `|unsimulated`, and `circuit_add_part` refuses
+  the part.
 - `circuit_check` — the circuit API, including the voltage refusal at
   start, the running switch stop (fixture parts from
   `tests/support/voltage_fixture.h`) and the refusal of a part whose device

@@ -25,14 +25,14 @@
 
 This quadruple 2-input positive-AND gate is designed for 2 V to 5.5 V
 V~CC~ operation. The SN74LV08A device performs the Boolean function
-Y = A • B or Y = !{!{A} + !{B}} in positive logic.
+Y = A • B or Y = !{!{A} + !{B}} in positive logic. [[1::3]]
 
 This device is fully specified for partial-power-down application using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the devices when they are powered down.
+current backflow through the devices when they are powered down. [[9::2]]
 
 Allows down voltage translation. Inputs accept voltages to 5.5V. I~off~
-feature. Allows voltages on the input or output when V~CC~ is 0V.
+feature. Allows voltages on the input or output when V~CC~ is 0V. [[9::4]]
 
 ## Pinout
 
@@ -48,6 +48,7 @@ feature. Allows voltages on the input or output when V~CC~ is 0V.
 GND: Ground pin
 VCC: Power pin
 ```
+[[3::Table 4-1]]
 
 ## Function tables
 
@@ -62,6 +63,7 @@ VCC: Power pin
 [1] H = High voltage level, L = Low voltage level, X = Don’t care.
 [2] H = Driving high, L = Driving low, Z = High-impedance state.
 ```
+[[9::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -83,6 +85,7 @@ VCC: Power pin
 [2] The input and output negative-voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] This value is limited to 5.5 V maximum.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -94,6 +97,7 @@ VCC: Power pin
 [1] JEDEC document JEP155 states that 500 V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250 V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -127,6 +131,7 @@ VCC: Power pin
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs (SCBA004).
 [2] Unconfirmed: the source prints this cell as "VCC × 0.3 5", with a stray 5 after the value.
 ```
+[[5::table #1]]
 
 ## Thermal information
 
@@ -142,6 +147,7 @@ VCC: Power pin
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -163,6 +169,7 @@ VCC: Power pin
 | C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 3.3 V | | 3.3 | | | 3.3 | | pF |
 | ^ | ^ | ^ | 5 V | | 3.3 | | | 3.3 | | pF |
 ```
+[[6::table #1]]
 
 ```table id=noise caption="Noise characteristics (SN74LV08A)" conditions="V~CC~ = 3.3 V, C~L~ = 50 pF, T~A~ = 25 °C"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -173,6 +180,7 @@ VCC: Power pin
 | V~IH(D)~ | High-level dynamic input voltage | 2.31 | | | V |
 | V~IL(D)~ | Low-level dynamic input voltage | | | 0.99 | V |
 ```
+[[7::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -180,6 +188,7 @@ VCC: Power pin
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 10 MHz | 3.3 V | 8 | pF |
 | ^ | ^ | ^ | 5 V | 10 | pF |
 ```
+[[7::table #2]]
 
 ## Switching characteristics
 
@@ -194,6 +203,7 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[6::table #2]]
 
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | Load capacitance | T~A~ = 25 °C | < | < | –40 °C to 85 °C | < | –40 °C to 125 °C | < | Unit |
@@ -204,6 +214,7 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[6::table #3]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | Load capacitance | T~A~ = 25 °C | < | < | –40 °C to 85 °C | < | –40 °C to 125 °C | < | Unit |
@@ -214,6 +225,7 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[6::table #4]]
 
 ## Typical characteristics
 
@@ -224,6 +236,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "TPD in ns", "points": [[2.5, 7.9], [3.3, 5.6], [5, 4.1]]}
  ]}
 ```
+[[7::Figure 5-1]]
 
 ```curve id=tpd-temp caption="TPD vs temperature"
 {"x": {"label": "Temperature", "unit": "°C", "range": [-100, 150]},
@@ -232,6 +245,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "TPD in ns", "points": [[-55, 3.7], [-40, 3.9], [25, 4.1], [85, 4.5], [125, 4.9]]}
  ]}
 ```
+[[7::Figure 5-2]]
 
 ## Parameter measurement information
 
@@ -240,7 +254,7 @@ by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. t~PHL~ and t~PLH~ are
 the same as t~pd~. All parameters and waveforms are not applicable to
-all devices.
+all devices. [[8::1]]
 
 Conversion note: C~L~ is 15 pF or 50 pF as given in the
 [switching characteristics](#switching-characteristics).
@@ -248,10 +262,12 @@ Conversion note: C~L~ is 15 pF or 50 pF as given in the
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
 ```
+[[8::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times, inverting and noninverting outputs"
 VM: 50 % V~CC~
 ```
+[[8::figure #1]]
 
 Conversion note: Figure 6-1 also shows the load circuit for 3-state and
 open-drain outputs (R~L~ = 1 kΩ) and the voltage waveforms for pulse
@@ -263,13 +279,13 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 The SN74LV08A is a low-drive CMOS device that can be used for a multitude
 of bus interface type applications where output ringing is a concern.
 The low drive and slow edge rates will minimize overshoot and undershoot
 on the outputs. The inputs can accept voltages up to 5.5 V at any valid
-V~CC~, thus making it ideal for down translation.
+V~CC~, thus making it ideal for down translation. [[10::2]]
 
 Conversion note: in the source's application diagram a 5 V µC or system logic drives the 1A…4A inputs
 (the B inputs are not shown); the 1Y…4Y outputs drive µC/system logic or
@@ -281,25 +297,25 @@ This device uses CMOS technology and has balanced output drive. Care
 should be taken to avoid bus contention because it can drive currents
 that would exceed maximum limits. The high drive will also create fast
 edges into light loads so routing and load conditions should be
-considered to prevent ringing.
+considered to prevent ringing. [[10::3]]
 
 ### Detailed design procedure
 
-1. Recommended Input Conditions:
+1. Recommended Input Conditions: [[10::4]]
    - For specified high and low levels, see V~IH~ and V~IL~ in
-     [Section 5.3](#recommended-operating-conditions) table.
+     [Section 5.3](#recommended-operating-conditions) table. [[10::4]]
    - Inputs are overvoltage tolerant allowing them to go as high as
-     5.5V at any valid V~CC~.
-2. Recommend Output Conditions:
+     5.5V at any valid V~CC~. [[10::4]]
+2. Recommend Output Conditions: [[10::4]]
    - Load currents should not exceed 25mA per output and 50mA total
-     for the part.
-   - Outputs should not be pulled above V~CC~.
+     for the part. [[10::4]]
+   - Outputs should not be pulled above V~CC~. [[10::4]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX supply
 voltage rating located in the
-[Section 5.3](#recommended-operating-conditions) table.
+[Section 5.3](#recommended-operating-conditions) table. [[12::1]]
 
 Each V~CC~ terminal should have a good bypass capacitor to prevent
 power disturbance. For devices with a single supply, a 0.1μF capacitor
@@ -308,7 +324,7 @@ is recommended. If there are multiple V~CC~ terminals then 0.01μF or
 parallel multiple bypass capacitors to reject different frequencies of
 noise. 0.1μF and 1.0μF capacitors are commonly used in parallel. The
 bypass capacitor should be installed as close to the power terminal as
-possible for the best results.
+possible for the best results. [[12::2]]
 
 ### Layout guidelines
 
@@ -318,7 +334,7 @@ unused. Some examples are when only two inputs of a triple-input AND
 gate are used, or when only 3 of the 4-buffer gates are used. Such
 input pins should not be left unconnected because the undefined
 voltages at the outside connections result in undefined operational
-states.
+states. [[12::3]]
 
 Specified in Figure 8-3 are rules that must be observed under all
 circumstances. All unused inputs of digital logic devices must be connected to a high
@@ -326,7 +342,7 @@ or low bias to prevent them from floating. The logic level that should
 be applied to any particular unused input depends on the function of
 the device. Generally they will be tied to GND or V~CC~, whichever
 makes more sense or is more convenient. It is acceptable to float
-outputs unless the part is a transceiver.
+outputs unless the part is a transceiver. [[12::4]]
 
 Conversion note: the source's layout diagram shows a gate with its
 unused inputs tied to V~CC~ and to ground.
@@ -367,6 +383,7 @@ SN74LV08APWT | | -40 to 125 | LV08A | Obsolete
 SN74LV08ARGYR | Reel of 3000 | -40 to 125 | LV08A
 SN74LV08ARGYRG4 | Reel of 3000 | -40 to 125 | LV08A
 ```
+[[14::table #1]]
 
 ## Conversion notes
 

@@ -1,0 +1,17 @@
+pdf	package	supplier_package	count	evidence	packet
+datasheets/powerswitch/diodes/DML3012LDC.pdf	12-VFDFN Exposed Pad	V-DFN3030-12 (Type B)	13	Pin Description table p3 numbers the exposed drain pad as pin 13 (VIN, "Pin 1 must connect to Pin 13"), in addition to leads 1-12	p07
+datasheets/powerswitch/diodes/ZXMS81045SP.pdf	8-SOIC (0.154", 3.90mm Width) Exposed Pad	8-SO-EP	9	VS supply is the unnumbered exposed pad (tab); recorded as pin 9 because the switch input has no other pin	p08
+datasheets/powerswitch/diodes/ZXMS81045SPQ.pdf	8-SOIC (0.154", 3.90mm Width) Exposed Pad	8-SO-EP	9	VS supply is the unnumbered exposed pad (tab); recorded as pin 9 because the switch input has no other pin	p08
+datasheets/powerswitch/diodes/ZXMS81090SPQ.pdf	8-SOIC (0.154", 3.90mm Width) Exposed Pad	8-SO-EP (Type E)	9	VS supply is the unnumbered exposed pad (tab); recorded as pin 9 because the switch input has no other pin	p08
+datasheets/powerswitch/diodes/ZXMS81200SPQ.pdf	8-SOIC (0.154", 3.90mm Width) Exposed Pad	8-SO-EP (Type E)	9	VS (battery supply) is only on the exposed pad; the pad is counted as the VS pin so the switch has an input	p09
+datasheets/powerswitch/diodes/ZXMS82090S14PQ.pdf	14-SOIC (0.154", 3.90mm Width) Exposed Pad	14-SO-EP	15	VS (battery supply) is only on the exposed pad; the pad is counted as the VS pin so the switch has an input	p09
+datasheets/powerswitch/diodes/ZXMS82120S14PQ.pdf	14-SOIC (0.154", 3.90mm Width) Exposed Pad	14-SO-EP	15	VS (battery supply) is only on the exposed pad; the pad is counted as the VS pin so the switch has an input	p09
+datasheets/powerswitch/diodes/ZXMS82180S14PQ.pdf	14-SOIC (0.154", 3.90mm Width) Exposed Pad	14-SO-EP	15	VS (battery supply) is only on the exposed pad; the pad is counted as the VS pin so the switch has an input	p09
+datasheets/powerswitch/onsemi/fpf1006-d.pdf	6-WDFN Exposed Pad	6-MicroFET (2x2)	7	FPF1006 pin description lists 6, 7 as GND; pin 7 is the numbered exposed pad (bottom view), a second GND	p15
+datasheets/powerswitch/onsemi/ncp45520-d.pdf	8-VFDFN Exposed Pad	8-DFN (2x2)	9	datasheet numbers the exposed pad as a pin of the same function as another pin (VIN pad / EPAD GND); counted as a pin per reader guide	p17
+datasheets/powerswitch/onsemi/ncp45524-d.pdf	8-VFDFN Exposed Pad	8-DFN (2x2)	9	datasheet numbers the exposed pad as a pin of the same function as another pin (VIN pad / EPAD GND); counted as a pin per reader guide	p17
+datasheets/powerswitch/onsemi/ncp45540-d.pdf	12-VFDFN Exposed Pad	12-DFN (3x3)	13	datasheet numbers the exposed pad as a pin of the same function as another pin (VIN pad / EPAD GND); counted as a pin per reader guide	p17
+datasheets/powerswitch/onsemi/ncp45541-d.pdf	12-VFDFN Exposed Pad	12-DFN (3x3)	13	datasheet numbers the exposed pad as a pin of the same function as another pin (VIN pad / EPAD GND); counted as a pin per reader guide	p17
+datasheets/powerswitch/onsemi/ncp45560-d.pdf	12-VFDFN Exposed Pad	12-DFN (3x3)	13	datasheet numbers the exposed pad as a pin of the same function as another pin (VIN pad / EPAD GND); counted as a pin per reader guide	p17
+datasheets/powerswitch/onsemi/ncv451-d.pdf	6-VDFN Exposed Pad	6-DFNW (2x2.2)	7	datasheet numbers the exposed pad as a pin of the same function as another pin (VIN pad / EPAD GND); counted as a pin per reader guide	p17
+datasheets/powerswitch/ti/tps1ha08-q1.pdf	16-PowerTSSOP (0.173", 4.40mm Width)	16-HTSSOP	17	TPS1HA08-Q1 has 16 numbered leads; its only supply input VBB is the unnumbered exposed pad (pin table 5-1), entered as pin 17 so the switch has an input	p22

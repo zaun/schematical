@@ -2945,6 +2945,62 @@
       ]
     },
     {
+      "id": "SN74143",
+      "function": "Counter",
+      "description": "4-bit decade counter/latch with seven-segment constant-current LED driver, BI, RBI/RBO, DP",
+      "drawer": ["Logic", "Counters"],
+      "note": "sn74143 p.1-2, p.7 function table; plan-56-data/specs/pcf1179-sn74143.md § 2. Segment and dp outputs sink current (low = lit, off = high impedance, no pull-up; the 15 mA / 7 mA constant-current limit is not modeled); QA-QD and MAX are push-pull logic outputs; BI/RBO is open collector and also a blanking input",
+      "model": "seg7",
+      "pinouts": {
+        "p24": [
+          {"number":1,"name":"SCEI","role":"input","activeLow":true},
+          {"number":2,"name":"CLK","role":"input"},
+          {"number":3,"name":"CLR","role":"input","activeLow":true},
+          {"number":4,"name":"RBI","role":"input","activeLow":true},
+          {"number":5,"name":"BI","role":"input"},
+          {"number":6,"name":"BI/RBO","role":"inout","activeLow":true},
+          {"number":7,"name":"DP","role":"input"},
+          {"number":8,"name":"dp","role":"output","activeLow":true},
+          {"number":9,"name":"d","role":"output","activeLow":true},
+          {"number":10,"name":"f","role":"output","activeLow":true},
+          {"number":11,"name":"e","role":"output","activeLow":true},
+          {"number":12,"name":"GND","role":"ground"},
+          {"number":13,"name":"g","role":"output","activeLow":true},
+          {"number":14,"name":"c","role":"output","activeLow":true},
+          {"number":15,"name":"a","role":"output","activeLow":true},
+          {"number":16,"name":"b","role":"output","activeLow":true},
+          {"number":17,"name":"QA","role":"output"},
+          {"number":18,"name":"QB","role":"output"},
+          {"number":19,"name":"QC","role":"output"},
+          {"number":20,"name":"QD","role":"output"},
+          {"number":21,"name":"STRB","role":"input"},
+          {"number":22,"name":"MAX","role":"output"},
+          {"number":23,"name":"PCEI","role":"input","activeLow":true},
+          {"number":24,"name":"VCC","role":"power"}
+        ]
+      },
+      "clock": "CLK",
+      "reset": {"pin":"CLR","active":"low"},
+      "toggleEnable": [{"pin":"SCEI","active":"low"}, {"pin":"PCEI","active":"low"}],
+      "latchEnable": {"pin":"STRB","active":"high"},
+      "segments": ["a","b","c","d","e","f","g"],
+      "segmentsActive": "low",
+      "segmentsOutput": "open-drain",
+      "glyphs": ["1111110","0110000","1101101","1111001","0110011","1011011","1011111","1110000","1111111","1111011"],
+      "latchOutputs": ["QA","QB","QC","QD"],
+      "maxCount": {"pin":"MAX","enable":{"pin":"SCEI","active":"low"}},
+      "blank": {"pin":"BI","active":"high"},
+      "rbi": "RBI",
+      "rbo": "BI/RBO",
+      "decimalPoint": {"in":"DP","out":"dp"},
+      "timing": {
+        "TTL": {"rise":28,"fall":28,"maxRise":26,"maxFall":29,"vcc":[4.75,5.25],"note": "CLK to QA-QD tPLH typ 28 ns, tPHL not printed so the same is used (sn74143 p.5); CLK to MAX tPLH 26 / tPHL 29 ns typ; SCEI to MAX (12 / 23 ns) uses the same figures; 5 V 15 pF; VCC 4.75-5.25 V (sn74143 p.4-5)"}
+      },
+      "parts": [
+        {"name":"SN74143N","manufacturer":"Texas Instruments","package":"DIP","pinout":"p24","footprint":"PDIP-24-600","family":"TTL","flags":["obsolete"]}
+      ]
+    },
+    {
       "id": "4059A",
       "function": "Divider",
       "description": "Programmable divide-by-N counter",

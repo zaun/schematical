@@ -27,7 +27,8 @@ typedef enum {
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
     PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE,
     PART_CAPACITOR, PART_REGISTER, PART_MCU, PART_RESISTOR, PART_TRANSISTOR,
-    PART_GENERIC, PART_SERIALMEM, PART_NIXIE, PART_REGULATOR, PART_CRYSTAL,
+    PART_GENERIC, PART_SERIALMEM, PART_NIXIE, PART_REGULATOR, PART_CRYSTAL, PART_DEKATRON, PART_LCD,
+    PART_LEDDRIVER, PART_LCDDRIVER, PART_POWERSWITCH, PART_PLD, PART_SOCKET,
     PART_INDUCTOR, PART_FUSE, PART_RELAY, PART_BUZZER
 } PartKind;
 
@@ -93,6 +94,30 @@ typedef struct {
     uint32_t strike_mv, sustain_mv;
     uint32_t current_min_ua, current_max_ua;
 } PartNixie;
+/* A dekatron: a cold-cathode decade counting tube, one anode, ten cathode
+   positions in a ring (each on a pin of its own, or several on one common
+   pin) and guides between them. The glow rests on one cathode and steps
+   round the ring as the guides are pulsed low. position_pin[p] is the pin of
+   the cathode at position p (0-9; position 0 is the "zero" cathode, and a
+   tube whose zero cathode has a pin of its own gives it the carry output);
+   cathode_pins are the distinct cathode pins in pin-name order of the file.
+   two_guide: 1 for a two-guide tube (guide_pins[0] and [1], bidirectional,
+   two overlapping pulses per count), 0 for a single-pulse tube (guide_pins[0]
+   is the drive guide; any other guide is only biased; forward only).
+   strike_mv: the least anode supply (checked); sustain_mv: the running
+   voltage across the tube; current_*_ua: the anode current range;
+   rate_hz: the highest counting rate (shown). */
+typedef struct {
+    size_t anode_pin;                                    /* index into Part.pins */
+    size_t position_pin[10];                             /* indices into Part.pins */
+    const size_t *cathode_pins; size_t cathode_pin_count;
+    const size_t *guide_pins; size_t guide_count;        /* indices into Part.pins */
+    int two_guide;
+    const char *color, *size, *view;
+    uint32_t strike_mv, sustain_mv;
+    uint32_t current_min_ua, current_max_ua;
+    uint32_t rate_hz;
+} PartDekatron;
 typedef struct { const char *family; uint64_t min_hz, max_hz, default_hz;
                  const char *enable_pin; /* the pin's designator, NULL = none */ } PartOscillator;
 /* mv: the supply's voltage; level = mv > 0 (drives logic 1, else 0).
@@ -130,7 +155,15 @@ typedef struct { const char *model; unsigned channels; const char *grade; const 
    for a barrel jack. center_diameter_um is a barrel's mating plug centre-pin
    diameter (0 for USB); contacts is the number of normally-closed contacts
    (0 for USB). rated_mv / rated_ma: 0 = not given (USB only). */
-typedef struct { uint32_t center_diameter_um, rated_mv, rated_ma; unsigned contacts; char usb; } PartConnector;
+/* card: a card slot's card text ("microSD", "DDR4 SODIMM", "PCI Express"; plan-54-L), NULL for a barrel jack and a USB
+   connector; card_pitch_um: its contact pitch in micrometres, 0 when not given (and for barrel and USB).
+   test_point: 1 for a test point (plan-57), a single passive pin; 0 for every other connector.
+   terminal / jst / pitch_um (plan-45): a PCB terminal block's wire clamp ('s' screw, 'c' spring cage, 'p' push-in, 'h'
+   the board-side header of a pluggable block) or a JST header's series (the first letter: 'X' XH, 'P' PH, 'E' EH,
+   'Z' ZH, 'S' SH / SR, 'G' GH, 'V' VH), and the pin pitch in micrometres; all 0 for every other connector. Both are
+   passive terminals (no contacts); rated_mv / rated_ma are the datasheet's, 0 when it gives none. */
+typedef struct { uint32_t center_diameter_um, rated_mv, rated_ma; unsigned contacts; char usb; const char *card;
+                 uint32_t card_pitch_um; unsigned test_point; uint32_t pitch_um; char terminal; char jst; } PartConnector;
 /* A supply domain of a dual-supply part (plan-20-F): the pins powered from
    one supply. power_pins: the supply's pins (one name, possibly several
    pins, e.g. two VCCB); pins: every other pin of the domain (not ground or
@@ -199,6 +232,18 @@ typedef struct { const char *type; size_t regulator_count; uint8_t mixed; uint8_
                  const uint32_t *vout_mv; const uint32_t *vref_mv;
                  uint32_t vout_max_mv, vin_min_mv, vin_max_mv, dropout_mv, iout_ma, iq_ua;
                  uint64_t fsw_hz; } PartRegulator;
+
+/* A power switch part (plan-55-A): one to four switches (elements): a load
+   switch, a current-limited or USB power switch, or an integrated ideal
+   diode. type: "load", "limited" or "ideal-diode". vin_min_mv / vin_max_mv:
+   the input range's ends (the lowest input at which a switch conducts, the
+   highest the voltage check allows on an input or enable pin); iout_ma:
+   the continuous current per switch; ilimit_ma: a current-limited switch's
+   fixed limit; ron_mohm: the on-resistance; iq_ua: the quiescent current.
+   0 = not given. The facts are for the app; the simulation reads only the
+   pins. */
+typedef struct { const char *type; size_t switch_count;
+                 uint32_t vin_min_mv, vin_max_mv, iout_ma, ilimit_ma, ron_mohm, iq_ua; } PartPowerSwitch;
 
 /* A crystal or ceramic resonator (plan-44-E): a two-terminal frequency
    reference and, in the simulation, a clock source on its own two terminals
@@ -270,6 +315,25 @@ typedef struct { const char *driver, *technology; uint32_t hz, rated_mv, min_mv,
    (RP2040 flash). A part may override clock, flash and psram. */
 typedef struct { const char *core; uint64_t max_hz; uint32_t flash, ram, eeprom, psram; } PartMcu;
 
+/* A programmable logic device (pld kind): facts only, no simulation model
+   yet (its device says "simulated": false). macrocells: the device's output
+   macrocells (a GAL16V8 has 8, an ATF22V10 10). tpd_ps: the part's speed
+   grade, the maximum pin-to-pin delay, in picoseconds. */
+typedef struct { uint32_t macrocells; uint64_t tpd_ps; } PartPld;
+
+/* An IC socket (plan-51-A): a passive part a DIP or PLCC chip plugs into; its
+   pins join nothing. family: "DIP" or "PLCC". row_um: a DIP socket's row
+   spacing in micrometres (5080, 7620, 10160 or 15240), 0 for a PLCC socket.
+   mounting: "through-hole" or "surface-mount". finish: the contact finish as
+   the datasheet prints it ("gold", "tin", "tin-lead"), NULL = not given. The
+   chip footprints the socket holds are Part.fits. The facts are for the app. */
+typedef struct {
+    const char *family;
+    uint32_t row_um;
+    const char *mounting;
+    const char *finish;
+} PartSocket;
+
 /* A serial (SPI) memory chip (serialmem kind). type: "eeprom", "fram",
    "flash" (the three the engine simulates), "dataflash" or "pageeeprom"
    (facts only: their devices say "simulated": false). size: bytes.
@@ -306,6 +370,7 @@ typedef struct {
     double radius;           /* rect only: every corner rounded by this radius; 0 = square */
     double chamfer;          /* rect only: `corners` cut at 45 deg, this far along each edge; 0 = none */
     unsigned corners;        /* PAD_CORNER_* bits the chamfer cuts */
+    int opposite;            /* explicit only: 1 = a surface-mount pad on the other face of the board from the footprint's own side */
 } FootprintPad;
 
 /* A footprint, expanded to a flat pad list by the loader. */
@@ -314,6 +379,7 @@ typedef struct {
     unsigned pins;                      /* designated pads */
     double body_width, body_height;
     int body_round;
+    int edge_mount;                     /* 1 = the housing straddles the board edge (plan-54-E) */
     const FootprintPad *pads; size_t pad_count;   /* "1"…"N" order (grid: row-major); a pin with several pads (explicit only) lists them together, in file order; unnumbered last */
 } PartFootprint;
 
@@ -370,9 +436,16 @@ typedef struct Part {
     const PartResistor *resistor;
     const PartTransistor *transistor;
     const PartNixie *nixie;
+    const PartDekatron *dekatron;
     const PartSerialmem *serialmem;
     const PartRegulator *regulator;
     const PartCrystal *crystal;
+    const PartPowerSwitch *powerswitch;
+    const PartPld *pld;
+    const PartSocket *socket;
+    /* A socket's "fits" (plan-51-A): the chip footprints it holds, in file
+       order; NULL/0 for every other kind. */
+    const PartFootprint *const *fits; size_t fit_count;
     const PartInductor *inductor;
     const PartFuse *fuse;
     const PartRelay *relay;

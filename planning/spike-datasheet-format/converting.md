@@ -48,7 +48,14 @@ is [format.md](format.md); this page is the procedure.
    (values in a table), never drawn as a sidecar SVG for these parts. A
    load figure whose values differ by test (C~L~ 15 pF and 50 pF) gets
    the values in a small table or a sentence next to the figure.
-5. **Check.** Both must pass:
+5. **Cite.** Every prose paragraph and block carries a citation to its
+   PDF page (format.md § Citations). `python3 -I
+   planning/spike-datasheet-format/cite.py fill <file>` writes them from
+   where the validator finds the text; what it reports as not placed you
+   cite by hand: `cite.py list <id> <page>` numbers a page's
+   paragraphs, a page that is a picture is counted by eye from the page
+   image, and a table or figure the PDF labels is cited by its label.
+6. **Check.** Both must pass:
    - `python3 -I planning/spike-datasheet-format/check.py --quiet <file>`:
      `ok`.
    - `python3 -I planning/spike-datasheet-format/validate.py --max 0 <file>`:
@@ -62,9 +69,9 @@ is [format.md](format.md); this page is the procedure.
    - Then compare the **to check by eye** items the validator lists
      (waveforms, curves, picture pages, a scanned datasheet's tables)
      with the page images, and read the file once against the points
-     in issues.md § "Validator limits after the AND-gate review": those
+     in ../datasheet-issues.md § "Validator limits after the AND-gate review": those
      are what the scripts don't check.
-6. **Register** the file: add `"md"` to the id's entry in
+7. **Register** the file: add `"md"` to the id's entry in
    `datasheets.json`.
 
 Variants of one family (`sn74ac08`, `sn74ac08-ep`, `sn74ac08-q1`) are

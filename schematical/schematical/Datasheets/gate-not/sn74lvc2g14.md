@@ -24,19 +24,19 @@
 ## Description
 
 This dual Schmitt-trigger inverter is designed for 1.65-V to 5.5-V
-V~CC~ operation.
+V~CC~ operation. [[1::1]]
 
 NanoFree package technology is a major breakthrough in IC packaging
-concepts, using the die as the package.
+concepts, using the die as the package. [[1::4]]
 
 The SN74LVC2G14 device contains two inverters and performs the Boolean
 function Y = !{A}. The device functions as two independent inverters,
 but because of Schmitt action, it may have different input threshold
-levels for positive-going (V~T+~) and negative-going (V~T–~) signals.
+levels for positive-going (V~T+~) and negative-going (V~T–~) signals. [[1::5]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[8::2]]
 
 Supports 5-V V~CC~ Operation. Inputs Accept Voltages to 5.5 V. Max
 t~pd~ of 5.4 ns at 3.3 V. Low-Power Consumption, 10-μA Maximum I~CC~.
@@ -44,7 +44,7 @@ t~pd~ of 5.4 ns at 3.3 V. Low-Power Consumption, 10-μA Maximum I~CC~.
 <0.8 V at V~CC~ = 3.3 V, T~A~ = 25°C. Typical V~OHV~ (Output V~OH~
 Undershoot) >2 V at V~CC~ = 3.3 V, T~A~ = 25°C. I~off~ Supports Live
 Insertion, Partial-Power-Down Mode, and Back-Drive Protection. Latch-Up
-Performance Exceeds 100 mA Per JESD 78, Class II.
+Performance Exceeds 100 mA Per JESD 78, Class II. [[1::2]]
 
 ## Pinout
 
@@ -66,6 +66,7 @@ Conversion note: DBV and DCK share one pin order. Conversion note: the source dr
 GND: Ground
 VCC: Supply/Power Pin
 ```
+[[3::table #1]]
 
 ## Functional description
 
@@ -73,11 +74,11 @@ The SN74LVC2G14 device contains two Schmitt Trigger Inverter and
 performs the Boolean function Y = !{A}. The device functions as an
 independent inverter, but because of Schmitt Trigger action, it will
 have different input threshold levels for a positive-going (V~t+~) and
-negative-going (V~t-~) signals.
+negative-going (V~t-~) signals. [[8::1]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuit disables the output, preventing damaging
-current back-flow through the device when it is powered down.
+current back-flow through the device when it is powered down. [[8::2]]
 
 Conversion note: the functional block diagram shows two Schmitt-trigger inverters, 1A on pin 1 to 1Y on pin 6 and 2A on pin 3 to 2Y on pin 4.
 
@@ -86,11 +87,11 @@ Conversion note: the functional block diagram shows two Schmitt-trigger inverter
 As the inputs are 5.5-V tolerant, the device can be used as a down
 translator. When the input voltage exceeds V~T+~ (Max), the output will
 follow V~CC~, performing down-translation if the input voltage exceeds
-V~CC~.
+V~CC~. [[8::3]]
 
 ### Device functional modes
 
-Table 1 lists the functional modes of the SN74LVC2G14.
+Table 1 lists the functional modes of the SN74LVC2G14. [[8::4]]
 
 ## Function tables
 
@@ -101,6 +102,7 @@ Table 1 lists the functional modes of the SN74LVC2G14.
 | H | L |
 | L | H |
 ```
+[[8::Table 1]]
 
 ## Absolute maximum ratings
 
@@ -123,6 +125,7 @@ Table 1 lists the functional modes of the SN74LVC2G14.
 [3] The value of V~CC~ is provided in the Recommended Operating Conditions table.
 [4] Unconfirmed: the source prints a minimum junction temperature, the same as the storage temperature's.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -133,6 +136,7 @@ Table 1 lists the functional modes of the SN74LVC2G14.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process. Manufacturing with less than 500-V HBM is possible with the necessary precautions. Pins listed as ±XXX V may actually have higher performance.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process. Manufacturing with less than 250-V CDM is possible with the necessary precautions. Pins listed as ±YYY V may actually have higher performance.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -157,6 +161,7 @@ Table 1 lists the functional modes of the SN74LVC2G14.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -170,6 +175,7 @@ Table 1 lists the functional modes of the SN74LVC2G14.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953.
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -212,6 +218,7 @@ Table 1 lists the functional modes of the SN74LVC2G14.
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 ```
+[[5::table #2]]
 
 ```table id=cpd caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | V~CC~ = 5 V | Unit |
@@ -219,6 +226,7 @@ Table 1 lists the functional modes of the SN74LVC2G14.
 |---|---|---|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 16 | 17 | 18 | 21 | pF |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -230,6 +238,7 @@ Conversion note: Figure 3 is in [parameter measurement information](#parameter-m
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | 3.9 | 9.5 | 1.9 | 5.7 | 2 | 5.4 | 1.5 | 4.3 | ns |
 ```
+[[6::table #2]]
 
 ```table id=sw-125 caption="Switching characteristics, –40°C to 125°C" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 3)"
 | Parameter | From (input) | To (output) | V~CC~ = 1.8 V ± 0.15 V | < | V~CC~ = 2.5 V ± 0.2 V | < | V~CC~ = 3.3 V ± 0.3 V | < | V~CC~ = 5 V ± 0.5 V | < | Unit |
@@ -237,6 +246,7 @@ Conversion note: Figure 3 is in [parameter measurement information](#parameter-m
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | 3.9 | 10.5 | 1.9 | 6.5 | 2 | 6 | 1.5 | 4.7 | ns |
 ```
+[[6::table #3]]
 
 ## Typical characteristics
 
@@ -247,6 +257,7 @@ Conversion note: Figure 3 is in [parameter measurement information](#parameter-m
   {"label": "TPD", "points": [[-35, 3.285], [-20, 3.42], [0, 3.56], [20, 3.68], [35, 3.71], [50, 3.69], [70, 3.62], [85, 3.6], [100, 3.63], [125, 3.75]]}
  ]}
 ```
+[[6::Figure 1]]
 
 ```curve id=tpd-vcc caption="TPD across V~CC~ at 25°C"
 {"x": {"label": "VCC", "unit": "V", "range": [0, 6]},
@@ -255,6 +266,7 @@ Conversion note: Figure 3 is in [parameter measurement information](#parameter-m
   {"label": "TPD", "points": [[1.8, 6.7], [2.5, 4.2], [3.3, 3.7], [5.0, 2.75]]}
  ]}
 ```
+[[6::Figure 2]]
 
 ## Parameter measurement information
 
@@ -262,7 +274,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[7::1]]
 
 Conversion note: the load circuit also has a second R~L~, from the output to switch S1, which goes to V~LOAD~, open or GND; the figure below draws the load with S1 open.
 Conversion note: the source figure also shows pulse-duration, setup-and-hold and enable/disable waveforms, which are not drawn here.
@@ -274,11 +286,13 @@ Conversion note: the source figure also shows pulse-duration, setup-and-hold and
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[7::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[7::Figure 3]]
 
 ```table id=test-conditions caption="Test conditions (Figure 3)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -289,10 +303,12 @@ CL: see table
 | 3.3 V ± 0.3 V | 3 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[7::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[7::Figure 3]]
 
 ## Application information
 
@@ -300,14 +316,14 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI's customers are responsible for determining suitability
 of components for their purposes. Customers should validate and test
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[9::1]]
 
 The SN74LVC2G14 device is a high-drive CMOS device that can be used for
 a multitude of buffer type functions where the input is slow or noisy.
 The device can produce 24 mA of drive current at 3.3 V, making it Ideal
 for driving multiple outputs and good for high-speed applications up to
 100 MHz. The inputs are 5.5-V tolerant allowing it to translate down to
-V~CC~.
+V~CC~. [[9::2]]
 
 Conversion note: the typical application schematic (Figure 4) shows an inverter with a ~2.2MΩ feedback resistor and a 16 pF capacitor from its output to its input, ~32 pF from each side to ground, driving one channel of the SN74LVC2G14, which drives 50 pF.
 
@@ -317,25 +333,25 @@ This device uses CMOS technology and has balanced output drive. Care
 should be taken to avoid bus contention because it can drive currents
 that would exceed maximum limits. The high drive will also create fast
 edges into light loads so routing and load conditions should be
-considered to prevent ringing.
+considered to prevent ringing. [[9::3]]
 
 ### Detailed design procedure
 
-1. Recommended Input Conditions
+1. Recommended Input Conditions [[9::4]]
    - Rise time and fall time specs. See (Δt/ΔV) in the
      [Recommended Operating Conditions](#recommended-operating-conditions)
-     table.
+     table. [[9::4]]
    - Specified high and low levels. See (V~IH~ and V~IL~) in the
-     Recommended Operating Conditions table.
+     Recommended Operating Conditions table. [[9::4]]
    - Inputs are overvoltage tolerant allowing them to go as high as
      (V~I~ max) in the Recommended Operating Conditions table at any
-     valid V~CC~.
-2. Recommend Output Conditions
+     valid V~CC~. [[9::4]]
+2. Recommend Output Conditions [[9::4]]
    - Load currents should not exceed (I~O~ max) per output and should
      not exceed (continuous current through V~CC~ or GND) total current
      for the part. These limits are located in the Absolute Maximum
-     Ratings table.
-   - Outputs should not be pulled above V~CC~.
+     Ratings table. [[9::4]]
+   - Outputs should not be pulled above V~CC~. [[9::4]]
 
 Source error: the Recommended Operating Conditions table (p.4) has no Δt/ΔV, V~IH~ or V~IL~ row; the input thresholds are V~T+~ and V~T–~ in the Electrical Characteristics (p.5).
 
@@ -351,6 +367,7 @@ Source error: the Recommended Operating Conditions table (p.4) has no Δt/ΔV, V
   {"label": "Icc 5V", "points": [[0, 0], [20, 2.4], [35, 4.3], [45, 5.4], [55, 6.7], [60, 7.1], [70, 8.8], [75, 9.1]]}
  ]}
 ```
+[[10::Figure 5]]
 
 ### Power supply recommendations
 
@@ -362,7 +379,7 @@ V~CC~ pins, then TI recommends a 0.01-μF or 0.022-μF capacitor for each
 power pin. It is ok to parallel multiple bypass capacitors to reject
 different frequencies of noise. 0.1-μF and 1-μF capacitors are commonly
 used in parallel. The bypass capacitor should be installed as close to
-the power pin as possible for best results.
+the power pin as possible for best results. [[10::1]]
 
 ### Layout guidelines
 
@@ -372,13 +389,13 @@ unused, for example, when only two inputs of a triple-input AND gate are
 used or only 3 of the 4 buffer gates are used. Such input terminals
 should not be left unconnected because the undefined voltages at the
 outside connections result in undefined operational states. The
-following rules must be observed under all circumstances:
+following rules must be observed under all circumstances: [[10::2]]
 
 - All unused inputs of digital logic devices must be connected to a high
-  or low bias to prevent them from floating.
+  or low bias to prevent them from floating. [[10::2]]
 - The logic level that should be applied to any particular unused input
   depends on the function of the device. Generally they will be tied to
-  GND or V~CC~ whichever make more sense or is more convenient.
+  GND or V~CC~ whichever make more sense or is more convenient. [[10::2]]
 
 Conversion note: the layout schematic (Figure 6) shows the 6-pin SN74LVC2G14 with a 0.1µF capacitor from V~CC~ (pin 5) to ground beside the V~DD~ supply, and the labels "Keep signal traces as short as possible" at 1A and "Unused inputs connected to GND or V~CC~ to prevent floating" at 2A.
 
@@ -397,6 +414,7 @@ SN74LVC2G14DBVRG4 | Reel of 3000 | -40 to 125 | C14F, C14R
 SN74LVC2G14DBVT | Reel of 250 | -40 to 125 | C145, C14F, C14K, C14R
 SN74LVC2G14YZPR | Reel of 3000 | -40 to 125 | CF7, CFN
 ```
+[[13::table #1]]
 
 ## Conversion notes
 

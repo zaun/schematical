@@ -25,13 +25,13 @@
 
 The SN74ALVC00 quadruple 2-input positive-NAND gate is designed for 1.65-V to 3.6-V
 V~CC~ operation. The device performs the Boolean function Y = !{A • B} or
-Y = !{A} + !{B} in positive logic.
+Y = !{A} + !{B} in positive logic. [[1::4]] [[1::5]]
 
 Controlled Baseline: One Assembly/Test Site, One Fabrication Site.
 Enhanced Diminishing Manufacturing Sources (DMS) Support. Enhanced
-Product-Change Notification.
+Product-Change Notification. [[1::1]]
 
-±24-mA Output Drive at 3.3 V.
+±24-mA Output Drive at 3.3 V. [[1::2]]
 
 ## Pinout
 
@@ -47,6 +47,7 @@ Product-Change Notification.
 GND: Ground
 VCC: Positive supply
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -60,6 +61,7 @@ Conversion note: the logic diagram shows each gate as a 2-input NAND gate (posit
 | L | X | H |
 | X | L | H |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -82,10 +84,11 @@ Conversion note: the logic diagram shows each gate as a 2-input NAND gate (posit
 [3] This value is limited to 4.6 V maximum.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 ESD protection exceeds 2000 V per MIL-STD-883, Method 3015; exceeds
 200 V using machine model (C = 200 pF, R = 0). Latch-up performance
-exceeds 250 mA per JESD 17.
+exceeds 250 mA per JESD 17. [[1::1]] [[1::2]]
 
 ## Recommended operating conditions
 
@@ -114,6 +117,7 @@ exceeds 250 mA per JESD 17.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -140,6 +144,7 @@ exceeds 250 mA per JESD 17.
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 ```
+[[3::table #1]]
 
 ```table id=operating caption="Operating characteristics, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | Unit |
@@ -147,6 +152,7 @@ exceeds 250 mA per JESD 17.
 |---|---|---|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance per gate | C~L~ = 0, f = 10 MHz | 20 | 21 | 23 | pF |
 ```
+[[3::table #2]]
 
 ## Switching characteristics
 
@@ -156,6 +162,7 @@ exceeds 250 mA per JESD 17.
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 1 | 4.4 | 1 | 2.8 | | 3.2 | 0.5 | 3 | ns |
 ```
+[[3::table #3]]
 
 ## Parameter measurement information
 
@@ -163,7 +170,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[4::1]]
 
 Conversion note: in the load circuit of Figure 1, S1 is open for t~pd~, so R~L~ and C~L~ load the output to ground.
 
@@ -176,15 +183,18 @@ Conversion note: in the load circuit of Figure 1, S1 is open for t~pd~, so R~L~ 
 | 2.7 V | 2.7 V | ≤2.5 ns | 1.5 V | 6V | 50 pF | 500 Ω | 0.3 V |
 | 3.3 V ± 0.3 V | 2.7 V | ≤2.5 ns | 1.5 V | 6V | 50 pF | 500 Ω | 0.3 V |
 ```
+[[4::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit for t~pd~ (S1 open)"
 RL: see table
 CL: see table
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times"
 VM: see table
 ```
+[[4::figure #1]]
 
 ## Package
 
@@ -197,6 +207,7 @@ VM: see table
 SN74ALVC00IDREP | Reel of 2500 | -40 to 85 | ALVC00IEP
 V62/04685-01XE | Reel of 2500 | -40 to 85 | ALVC00IEP
 ```
+[[5::table #1]]
 
 ## Conversion notes
 

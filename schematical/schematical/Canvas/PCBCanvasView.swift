@@ -14,7 +14,10 @@ import SwiftUI
 /// the selection. A press hits only what is drawn.
 ///
 /// With the Select tool, press on a text, trace or footprint (in that order)
-/// to select it and drag to move it (snapped to the grid). Shift-click adds an item to the
+/// to select it and drag to move it (snapped to the grid). A plain drag on a
+/// lone trace slides the segment under the pointer sideways and the trace
+/// follows, its ends and joins staying put; ⌘-drag moves the whole trace as
+/// one piece. Shift-click adds an item to the
 /// selection or takes it out (plan-15); Shift-drag, or a drag on an item of a
 /// larger selection, moves every selected item by one snapped step. Press on
 /// empty space to pan, which also clears the selection; Shift-drag empty
@@ -40,7 +43,7 @@ import SwiftUI
 /// lines between their pads (`SchematicDocument.ratsnest`), over the marks.
 /// While a trace is drawn, its net's line runs from the trace's end.
 ///
-/// Hovering a drawn pad outlines it and shows its name beside the pointer
+/// Hovering a drawn pad outlines it and shows its name and net beside the pointer
 /// (`SchematicDocument.padLabel`), except during a move, pan or box.
 ///
 /// Board positions are millimetres; the view draws `BoardScale.pointsPerMM`
@@ -87,6 +90,12 @@ struct PCBCanvasView: View {
     var clearsHoles = false
 
     @State private var interaction: Interaction?
+    /// Zoom when the current pinch began, nil between pinches.
+    @State private var pinchStartZoom: CGFloat?
+    /// The press in progress as the system reported it, and how far the
+    /// canvas has scrolled under it since it began. Cleared when it ends.
+    @State private var rawPress: (start: CGPoint, translation: CGSize)?
+    @State private var pressShift: CGSize = .zero
     /// Where the pointer is, for the hovered pad and the Trace tool's
     /// landing ring. Only `PCBHoverLayer` reads it, so the pointer moving
     /// redraws that layer and not the board.
@@ -110,6 +119,9 @@ struct PCBCanvasView: View {
         /// Moves every selected footprint, text and trace from where they
         /// were at the press.
         case moveGroup(base: BoardGroupBase)
+        /// Plain drag on a lone trace: slides the segment under the pointer
+        /// (`SchematicDocument.dragTraceSegment`).
+        case editTrace(base: TraceSegmentBase)
         case pan(startOffset: CGSize)
         /// Cmd-drag on a reference's text: moves only that reference (of
         /// footprint `id`), from where its centre was at the press (board mm).
@@ -188,8 +200,25 @@ struct PCBCanvasView: View {
         }
         .gesture(
             DragGesture(minimumDistance: 0)
-                .onChanged { value in handle(start: value.startLocation, translation: value.translation) }
-                .onEnded { value in end(translation: value.translation) }
+                .onChanged { value in
+                    rawPress = (value.startLocation, value.translation)
+                    handle(start: value.startLocation, translation: shifted(value.translation))
+                }
+                .onEnded { value in
+                    end(translation: shifted(value.translation))
+                    rawPress = nil
+                    pressShift = .zero
+                }
+        )
+        .scrollPans(viewport) { scrolledMidPress(by: $0) }
+        .simultaneousGesture(
+            MagnifyGesture()
+                .onChanged { value in
+                    let start = pinchStartZoom ?? viewport.zoom
+                    pinchStartZoom = start
+                    viewport.setZoom(start * value.magnification, around: value.startLocation)
+                }
+                .onEnded { _ in pinchStartZoom = nil }
         )
         .onContinuousHover { phase in
             switch phase {
@@ -356,8 +385,9 @@ struct PCBCanvasView: View {
                 for finger in board.fingers where !finger.isThroughHole && finger.side == side {
                     context.fill(Path(finger.rect), with: .color(style.color.color))
                 }
-                for (chip, pads) in zip(document.chips, chipPads) where chip.board?.side == side {
-                    for pad in pads where pad.drill == 0 {
+                for (chip, pads) in zip(document.chips, chipPads) {
+                    guard let placed = chip.board?.side else { continue }
+                    for pad in pads where pad.drill == 0 && pad.layerSide(on: placed) == side {
                         context.fill(Self.outline(of: pad), with: .color(style.color.color))
                     }
                 }
@@ -851,6 +881,28 @@ struct PCBCanvasView: View {
 
     // MARK: Gestures
 
+    /// `translation` less the scroll since the press began: the drag as if the
+    /// canvas had stayed put.
+    private func shifted(_ translation: CGSize) -> CGSize {
+        CGSize(width: translation.width - pressShift.width, height: translation.height - pressShift.height)
+    }
+
+    /// The canvas scrolled by `shift` while a press is down: the press's start
+    /// moves with the content, and the drag's effect is worked out again for
+    /// the pointer's unchanged place.
+    private func scrolledMidPress(by shift: CGSize) {
+        guard let raw = rawPress, interaction != nil else { return }
+        if case let .pan(startOffset)? = interaction {
+            // A pan is the offset itself: its start moves with the scroll.
+            interaction = .pan(startOffset: CGSize(width: startOffset.width + shift.width,
+                                                   height: startOffset.height + shift.height))
+        } else {
+            pressShift = CGSize(width: pressShift.width + shift.width, height: pressShift.height + shift.height)
+            pressLocation = CGPoint(x: pressLocation.x + shift.width, y: pressLocation.y + shift.height)
+        }
+        handle(start: raw.start, translation: shifted(raw.translation))
+    }
+
     /// One step of a drag that started at `start` (screen points) and has
     /// moved by `translation`. On the first step it decides what the drag
     /// does: the Text tool places a text there (and the drag moves it); the
@@ -870,6 +922,8 @@ struct PCBCanvasView: View {
         switch current {
         case let .moveGroup(base):
             document.moveBoardGroup(base, by: offset)
+        case let .editTrace(base):
+            document.dragTraceSegment(base, by: offset)
         case let .moveReference(id, from):
             ReferenceDragging.drag(document, id: id, from: from, by: offset)
         case let .pan(startOffset):
@@ -955,7 +1009,14 @@ struct PCBCanvasView: View {
                 return .resize(item: hit.item, handle: hit.handle)
             }
             if let item = document.boardItem(at: point, tolerance: TraceDrawing.tolerance / scale, visible: shown) {
-                selectionPress = document.pressSelection(item, shift: shift)
+                let press = document.pressSelection(item, shift: shift)
+                selectionPress = press
+                // A plain drag on a lone trace edits it, sliding the segment
+                // under the pointer; Cmd-drag moves the trace as one piece.
+                if case let .trace(id) = item, !press.dragsGroup, !NSEvent.modifierFlags.contains(.command),
+                   let base = document.traceSegmentBase(id, at: point) {
+                    return .editTrace(base: base)
+                }
                 return .moveGroup(base: document.boardGroupBase(grab: point))
             }
             if shift {
@@ -981,6 +1042,9 @@ struct PCBCanvasView: View {
         drawingLayer = nil
         if case let .moveGroup(base) = interaction {
             document.settleBoardGroup(base)
+        }
+        if case let .editTrace(base) = interaction {
+            document.settleTraceSegment(base)
         }
         if let press = selectionPress {
             document.releaseSelection(press, wasClick: hypot(translation.width, translation.height) < 3)
@@ -1041,7 +1105,7 @@ private struct PCBHoverLayer: View {
         }
         .overlay(alignment: .topLeading) {
             if let hovered, let location = hover.location {
-                PadLabel(text: hovered.label)
+                PadLabel(text: hovered.label + "\n" + document.netName(ofPad: hovered.pad, in: document.connectivity()))
                     .offset(x: location.x + 14, y: location.y + 14)
             }
         }
@@ -1049,7 +1113,8 @@ private struct PCBHoverLayer: View {
     }
 }
 
-/// The hovered pad's name, in a small tag beside the pointer.
+/// The hovered pad's name and, on a second line, its net, in a small tag
+/// beside the pointer.
 private struct PadLabel: View {
     let text: String
 
@@ -1057,6 +1122,7 @@ private struct PadLabel: View {
         Text(text)
             .font(.system(size: 11, weight: .medium))
             .foregroundStyle(.white)
+            .multilineTextAlignment(.leading)
             .padding(.horizontal, 5)
             .padding(.vertical, 2)
             .background(Color.black.opacity(0.75), in: RoundedRectangle(cornerRadius: 4))

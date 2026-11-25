@@ -24,15 +24,15 @@
 ## Description
 
 The SN74AC04 contains six independent inverters. The device performs the
-Boolean function Y = !{A}.
+Boolean function Y = !{A}. [[1::3]]
 
 Controlled baseline: one assembly/test site, one fabrication site.
 2-V to 6-V V~CC~ operation. Inputs accept voltages to 6 V. Max t~pd~ of
-7 ns at 5 V.
+7 ns at 5 V. [[1::1]]
 
 Extended temperature performance of –55°C to 125°C. Enhanced
 diminishing manufacturing sources (DMS) support. Enhanced
-product-change notification.
+product-change notification. [[1::1]]
 
 ## Pinout
 
@@ -47,6 +47,7 @@ product-change notification.
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Functional description
 
@@ -62,6 +63,7 @@ one inverter, input A, output Y.
 | H | L |
 | L | H |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -83,6 +85,7 @@ one inverter, input A, output Y.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 [4] Long-term high-temperature storage and/or extended use at maximum recommended operating conditions may result in a reduction of overall device life. See http://www.ti.com/ep_quality for additional information on enhanced plastic packaging.
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -109,6 +112,7 @@ one inverter, input A, output Y.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -134,12 +138,14 @@ one inverter, input A, output Y.
 
 [1] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
+[[3::table #1]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 1 MHz | 45 | pF |
 ```
+[[3::table #2]]
 
 ## Switching characteristics
 
@@ -154,6 +160,7 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
+[[3::table #3]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ± 0.5 V (unless otherwise noted)"
 | Symbol | From (input) | To (output) | T~A~ = 25°C | < | < | [1] | < | Unit |
@@ -164,13 +171,14 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
+[[3::table #4]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 2.5 ns, t~f~ ≤ 2.5 ns. The outputs are measured one
-at a time with one input transition per measurement.
+at a time with one input transition per measurement. [[4::1]]
 
 Conversion note: the load circuit also has a 500 Ω resistor from the output
 to switch S1 (2 × V~CC~ or open), and S1 is open for t~PLH~/t~PHL~, which
@@ -180,10 +188,12 @@ leaves the load below.
 RL: 500 Ω
 CL: 50 pF
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms"
 VM: 50% V~CC~
 ```
+[[4::Figure 1]]
 
 ## Package
 
@@ -195,6 +205,7 @@ VM: 50% V~CC~
 ```ordering
 SN74AC04MDREP | Reel of 2500 | -55 to 125 | SAC04MEP
 ```
+[[1::table #3]]
 
 ## Conversion notes
 

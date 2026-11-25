@@ -1,0 +1,2705 @@
+{
+ "kind": "leddriver",
+ "newDevices": [
+  {
+   "id": "AS1115",
+   "function": "8-digit driver",
+   "description": "8-digit 7-segment (64 LED) I2C LED driver: Code-B or no decode per digit, shutdown, display test (HEX decode, scan limit, blink, key scan not modeled)",
+   "drawer": [
+    "Displays & Indicators",
+    "LED drivers"
+   ],
+   "note": "as1115 (PDF pages) p.3 features and ordering, p.4 pinout and pin descriptions, p.6 supply 2.7-5.5 V and 8-digit scan rate, p.12 slave address 0000000, p.13 command byte and read pointer, p.14-15 register map Table 6, shutdown Table 7, decode enable Table 8, p.16 Code-B and HEX fonts Tables 9-10, p.17 no-decode Table 11, key scan registers 0x1C/0x1D, p.18 test mode 0x0F, p.19 intensity and scan limit, p.20 feature register, p.24-25 packages, p.26 Table 25 ordering",
+   "vcc": [
+    2.7,
+    5.5
+   ],
+   "analog": [
+    "ISET"
+   ],
+   "pinouts": {
+    "qsop24": [
+     {
+      "number": 1,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "DIG0",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "DIG1",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "DIG2",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "DIG3",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 7,
+      "name": "DIG4",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "DIG5",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "DIG6",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "DIG7",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "KEYA",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "KEYB",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "ISET",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "SEGA",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "SEGF",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "SEGB",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "SEGG",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 20,
+      "name": "SEGC",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "SEGE",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "SEGDP",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "SEGD",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "IRQ",
+      "role": "output"
+     }
+    ],
+    "tqfn24": [
+     {
+      "number": 1,
+      "name": "DIG2",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "DIG3",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 4,
+      "name": "DIG4",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "DIG5",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "DIG6",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "DIG7",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "KEYA",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "KEYB",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "ISET",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "SEGA",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "SEGF",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "SEGB",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "SEGG",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 17,
+      "name": "SEGC",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "SEGE",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "SEGDP",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "SEGD",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "IRQ",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 23,
+      "name": "DIG0",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "DIG1",
+      "role": "output"
+     }
+    ]
+   },
+   "bus": {
+    "style": "i2c",
+    "scl": "SCL",
+    "sda": "SDA",
+    "address": [],
+    "table": [
+     0
+    ]
+   },
+   "registers": [
+    {
+     "name": "DIG0",
+     "address": 1,
+     "width": 8
+    },
+    {
+     "name": "DIG1",
+     "address": 2,
+     "width": 8
+    },
+    {
+     "name": "DIG2",
+     "address": 3,
+     "width": 8
+    },
+    {
+     "name": "DIG3",
+     "address": 4,
+     "width": 8
+    },
+    {
+     "name": "DIG4",
+     "address": 5,
+     "width": 8
+    },
+    {
+     "name": "DIG5",
+     "address": 6,
+     "width": 8
+    },
+    {
+     "name": "DIG6",
+     "address": 7,
+     "width": 8
+    },
+    {
+     "name": "DIG7",
+     "address": 8,
+     "width": 8
+    },
+    {
+     "name": "DECODE",
+     "address": 9,
+     "width": 8,
+     "fields": [
+      {
+       "name": "D0",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "D1",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "D2",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "D3",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "D4",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "D5",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "D6",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "D7",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "INTENS",
+     "address": 10,
+     "width": 8,
+     "readOnly": 240,
+     "fields": [
+      {
+       "name": "I",
+       "bits": [
+        3,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SCAN",
+     "address": 11,
+     "width": 8,
+     "readOnly": 248,
+     "fields": [
+      {
+       "name": "N",
+       "bits": [
+        2,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SHDN",
+     "address": 12,
+     "width": 8,
+     "readOnly": 126,
+     "fields": [
+      {
+       "name": "KEEP",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "RUN",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "FEATURE",
+     "address": 14,
+     "width": 8,
+     "readOnly": 8,
+     "fields": [
+      {
+       "name": "BLSTART",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "SYNC",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "BLFREQ",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "BLINK",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "HEX",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "REGRES",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "CLKEN",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "TEST",
+     "address": 15,
+     "width": 8,
+     "readOnly": 248,
+     "fields": [
+      {
+       "name": "OPEN",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "SHORT",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "DISP",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SELFADDR",
+     "address": 45,
+     "width": 8,
+     "readOnly": 254,
+     "fields": [
+      {
+       "name": "USER",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "INT01",
+     "address": 16,
+     "width": 8
+    },
+    {
+     "name": "INT23",
+     "address": 17,
+     "width": 8
+    },
+    {
+     "name": "INT45",
+     "address": 18,
+     "width": 8
+    },
+    {
+     "name": "INT67",
+     "address": 19,
+     "width": 8
+    },
+    {
+     "name": "DIAG0",
+     "address": 20,
+     "width": 8,
+     "readOnly": true
+    },
+    {
+     "name": "DIAG1",
+     "address": 21,
+     "width": 8,
+     "readOnly": true
+    },
+    {
+     "name": "DIAG2",
+     "address": 22,
+     "width": 8,
+     "readOnly": true
+    },
+    {
+     "name": "DIAG3",
+     "address": 23,
+     "width": 8,
+     "readOnly": true
+    },
+    {
+     "name": "DIAG4",
+     "address": 24,
+     "width": 8,
+     "readOnly": true
+    },
+    {
+     "name": "DIAG5",
+     "address": 25,
+     "width": 8,
+     "readOnly": true
+    },
+    {
+     "name": "DIAG6",
+     "address": 26,
+     "width": 8,
+     "readOnly": true
+    },
+    {
+     "name": "DIAG7",
+     "address": 27,
+     "width": 8,
+     "readOnly": true
+    },
+    {
+     "name": "KEYA",
+     "address": 28,
+     "width": 8,
+     "reset": 255,
+     "readOnly": true
+    },
+    {
+     "name": "KEYB",
+     "address": 29,
+     "width": 8,
+     "reset": 255,
+     "readOnly": true
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "Command byte",
+      "in": "aaaaaaaa",
+      "action": "pointer",
+      "address": "a",
+      "increment": 1
+     }
+    ],
+    "read": "pointer"
+   },
+   "display": {
+    "driver": "digits",
+    "digits": 8,
+    "digitPins": [
+     "DIG0",
+     "DIG1",
+     "DIG2",
+     "DIG3",
+     "DIG4",
+     "DIG5",
+     "DIG6",
+     "DIG7"
+    ],
+    "digitActive": "low",
+    "segmentPins": [
+     "SEGA",
+     "SEGB",
+     "SEGC",
+     "SEGD",
+     "SEGE",
+     "SEGF",
+     "SEGG",
+     "SEGDP"
+    ],
+    "segmentActive": "high",
+    "segmentBits": [
+     6,
+     5,
+     4,
+     3,
+     2,
+     1,
+     0,
+     7
+    ],
+    "ram": [
+     "DIG0",
+     "DIG1",
+     "DIG2",
+     "DIG3",
+     "DIG4",
+     "DIG5",
+     "DIG6",
+     "DIG7"
+    ],
+    "decode": "codeB",
+    "decodeField": [
+     "DECODE.D0",
+     "DECODE.D1",
+     "DECODE.D2",
+     "DECODE.D3",
+     "DECODE.D4",
+     "DECODE.D5",
+     "DECODE.D6",
+     "DECODE.D7"
+    ],
+    "scan": {
+     "periodUs": 179
+    },
+    "test": "TEST.DISP=1",
+    "shutdown": [
+     "SHDN.RUN=0",
+     "TEST.DISP=0"
+    ]
+   },
+   "parts": [
+    {
+     "name": "AS1115-BSST",
+     "manufacturer": "ams OSRAM",
+     "datasheet": "as1115",
+     "package": "QSOP",
+     "pinout": "qsop24",
+     "footprint": "QSOP-24"
+    },
+    {
+     "name": "AS1115-BQFT",
+     "manufacturer": "ams OSRAM",
+     "datasheet": "as1115",
+     "package": "TQFN",
+     "pinout": "tqfn24",
+     "footprint": "TQFN-24-4X4-AMS"
+    }
+   ]
+  },
+  {
+   "id": "MAX6955",
+   "function": "16-digit driver",
+   "description": "I2C 16-digit 7-segment / 8-digit 14- or 16-segment LED driver with 5 GPIO ports: registers, digit planes P0/P1, address straps and GPIO modeled; the O0-O18 LED outputs, fonts, blink and key scan are not",
+   "drawer": [
+    "Displays & Indicators",
+    "LED drivers"
+   ],
+   "note": "max6955 p.1 features and ordering, p.2-4 electrical and timing, p.6 pin description and I2C, p.8 digit connection Tables 2-4, p.10 address Table 5 and autoincrement Table 6, p.11-12 digit planes, decode, configuration, scan limit, p.13-15 register map Table 7, p.21-24 fonts and Tables 10-15, p.25 power-up Table 16, p.26-31 Tables 17-37, p.32-35 slot configuration Tables 38-41, p.39 pin configurations and packages",
+   "vcc": [
+    2.7,
+    5.5
+   ],
+   "analog": [
+    "ISET",
+    "OSC"
+   ],
+   "pinouts": {
+    "ssop36": [
+     {
+      "number": 1,
+      "name": "P0",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "P1",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "AD0",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "AD1",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "O0",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "O1",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "O2",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "O3",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "O4",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "O5",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "O6",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "O7",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "O8",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 17,
+      "name": "ISET",
+      "role": "input"
+     },
+     {
+      "number": 18,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 19,
+      "name": "V+",
+      "role": "power"
+     },
+     {
+      "number": 20,
+      "name": "OSC",
+      "role": "input"
+     },
+     {
+      "number": 21,
+      "name": "V+",
+      "role": "power"
+     },
+     {
+      "number": 22,
+      "name": "O9",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "O10",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "O11",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "O12",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "O13",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "O14",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "O15",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "O16",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "O17",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "O18",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "BLINK",
+      "role": "output"
+     },
+     {
+      "number": 33,
+      "name": "OSC_OUT",
+      "role": "output"
+     },
+     {
+      "number": 34,
+      "name": "P2",
+      "role": "inout"
+     },
+     {
+      "number": 35,
+      "name": "P3",
+      "role": "inout"
+     },
+     {
+      "number": 36,
+      "name": "P4/IRQ",
+      "role": "inout"
+     }
+    ],
+    "tqfn40": [
+     {
+      "number": 1,
+      "name": "AD1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "O0",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "O1",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "O2",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "O3",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "O4",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "O5",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "O6",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "O7",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "O8",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 12,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 13,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 14,
+      "name": "ISET",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 16,
+      "name": "V+",
+      "role": "power"
+     },
+     {
+      "number": 17,
+      "name": "OSC",
+      "role": "input"
+     },
+     {
+      "number": 18,
+      "name": "V+",
+      "role": "power"
+     },
+     {
+      "number": 19,
+      "name": "V+",
+      "role": "power"
+     },
+     {
+      "number": 20,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 21,
+      "name": "O9",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "O10",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "O11",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "O12",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "O13",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "O14",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "O15",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "O16",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "O17",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "O18",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "BLINK",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "OSC_OUT",
+      "role": "output"
+     },
+     {
+      "number": 33,
+      "name": "P3",
+      "role": "inout"
+     },
+     {
+      "number": 34,
+      "name": "P2",
+      "role": "inout"
+     },
+     {
+      "number": 35,
+      "name": "P4/IRQ",
+      "role": "inout"
+     },
+     {
+      "number": 36,
+      "name": "P0",
+      "role": "inout"
+     },
+     {
+      "number": 37,
+      "name": "P1",
+      "role": "inout"
+     },
+     {
+      "number": 38,
+      "name": "AD0",
+      "role": "input"
+     },
+     {
+      "number": 39,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 40,
+      "name": "SCL",
+      "role": "input"
+     }
+    ]
+   },
+   "bus": {
+    "style": "i2c",
+    "scl": "SCL",
+    "sda": "SDA",
+    "address": [
+     "AD0",
+     "AD1"
+    ],
+    "table": [
+     96,
+     97,
+     99,
+     98,
+     100,
+     101,
+     103,
+     102,
+     108,
+     109,
+     111,
+     110,
+     104,
+     105,
+     107,
+     106
+    ]
+   },
+   "registers": [
+    {
+     "name": "DECODE",
+     "address": 1,
+     "width": 8,
+     "reset": 255,
+     "fields": [
+      {
+       "name": "D0",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "D1",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "D2",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "D3",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "D4",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "D5",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "D6",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "D7",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "GINTENS",
+     "address": 2,
+     "width": 8,
+     "readOnly": 240,
+     "fields": [
+      {
+       "name": "I",
+       "bits": [
+        3,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SCANLIM",
+     "address": 3,
+     "width": 8,
+     "reset": 7,
+     "readOnly": 248,
+     "fields": [
+      {
+       "name": "N",
+       "bits": [
+        2,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "CONFIG",
+     "address": 4,
+     "width": 8,
+     "readOnly": 178,
+     "fields": [
+      {
+       "name": "P",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "I",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "R",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "T",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "E",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "B",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "S",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "PORTCFG",
+     "address": 6,
+     "width": 8,
+     "reset": 31,
+     "fields": [
+      {
+       "name": "KEYS",
+       "bits": [
+        7,
+        5
+       ]
+      },
+      {
+       "name": "P0",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "P1",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "P2",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "P3",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "P4",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    },
+    {
+     "name": "TEST",
+     "address": 7,
+     "width": 8,
+     "readOnly": 254,
+     "fields": [
+      {
+       "name": "T",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "KEYA_DEB",
+     "address": 8,
+     "width": 8,
+     "readOnly": true
+    },
+    {
+     "name": "KEYB_DEB",
+     "address": 9,
+     "width": 8,
+     "readOnly": true
+    },
+    {
+     "name": "KEYC_DEB",
+     "address": 10,
+     "width": 8,
+     "readOnly": true
+    },
+    {
+     "name": "KEYD_DEB",
+     "address": 11,
+     "width": 8,
+     "readOnly": true
+    },
+    {
+     "name": "DTYPE",
+     "address": 12,
+     "width": 8,
+     "fields": [
+      {
+       "name": "CC0",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "CC1",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "CC2",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "CC3",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "CC4",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "CC5",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "CC6",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "CC7",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "KEYB_PRESSED",
+     "address": 13,
+     "width": 8,
+     "readOnly": true
+    },
+    {
+     "name": "KEYC_PRESSED",
+     "address": 14,
+     "width": 8,
+     "readOnly": true
+    },
+    {
+     "name": "KEYD_PRESSED",
+     "address": 15,
+     "width": 8,
+     "readOnly": true
+    },
+    {
+     "name": "INT0",
+     "address": 16,
+     "width": 8
+    },
+    {
+     "name": "INT1",
+     "address": 17,
+     "width": 8
+    },
+    {
+     "name": "INT2",
+     "address": 18,
+     "width": 8
+    },
+    {
+     "name": "INT3",
+     "address": 19,
+     "width": 8
+    },
+    {
+     "name": "INT0A",
+     "address": 20,
+     "width": 8
+    },
+    {
+     "name": "INT1A",
+     "address": 21,
+     "width": 8
+    },
+    {
+     "name": "INT2A",
+     "address": 22,
+     "width": 8
+    },
+    {
+     "name": "INT3A",
+     "address": 23,
+     "width": 8
+    },
+    {
+     "name": "LATCH",
+     "address": 0,
+     "width": 8,
+     "space": "g",
+     "readOnly": 224,
+     "fields": [
+      {
+       "name": "P0",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "P1",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "P2",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "P3",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "P4",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    },
+    {
+     "name": "RD",
+     "width": 8,
+     "fields": [
+      {
+       "name": "P0",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "P1",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "P2",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "P3",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "P4",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    },
+    {
+     "name": "PTR",
+     "width": 1,
+     "fields": [
+      {
+       "name": "G",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "D0_P0",
+     "address": 0,
+     "width": 8,
+     "space": "p0",
+     "reset": 32
+    },
+    {
+     "name": "D1_P0",
+     "address": 1,
+     "width": 8,
+     "space": "p0",
+     "reset": 32
+    },
+    {
+     "name": "D2_P0",
+     "address": 2,
+     "width": 8,
+     "space": "p0",
+     "reset": 32
+    },
+    {
+     "name": "D3_P0",
+     "address": 3,
+     "width": 8,
+     "space": "p0",
+     "reset": 32
+    },
+    {
+     "name": "D4_P0",
+     "address": 4,
+     "width": 8,
+     "space": "p0",
+     "reset": 32
+    },
+    {
+     "name": "D5_P0",
+     "address": 5,
+     "width": 8,
+     "space": "p0",
+     "reset": 32
+    },
+    {
+     "name": "D6_P0",
+     "address": 6,
+     "width": 8,
+     "space": "p0",
+     "reset": 32
+    },
+    {
+     "name": "D7_P0",
+     "address": 7,
+     "width": 8,
+     "space": "p0",
+     "reset": 32
+    },
+    {
+     "name": "D0A_P0",
+     "address": 8,
+     "width": 8,
+     "space": "p0"
+    },
+    {
+     "name": "D1A_P0",
+     "address": 9,
+     "width": 8,
+     "space": "p0"
+    },
+    {
+     "name": "D2A_P0",
+     "address": 10,
+     "width": 8,
+     "space": "p0"
+    },
+    {
+     "name": "D3A_P0",
+     "address": 11,
+     "width": 8,
+     "space": "p0"
+    },
+    {
+     "name": "D4A_P0",
+     "address": 12,
+     "width": 8,
+     "space": "p0"
+    },
+    {
+     "name": "D5A_P0",
+     "address": 13,
+     "width": 8,
+     "space": "p0"
+    },
+    {
+     "name": "D6A_P0",
+     "address": 14,
+     "width": 8,
+     "space": "p0"
+    },
+    {
+     "name": "D7A_P0",
+     "address": 15,
+     "width": 8,
+     "space": "p0"
+    },
+    {
+     "name": "D0_P1",
+     "address": 0,
+     "width": 8,
+     "space": "p1",
+     "reset": 32
+    },
+    {
+     "name": "D1_P1",
+     "address": 1,
+     "width": 8,
+     "space": "p1",
+     "reset": 32
+    },
+    {
+     "name": "D2_P1",
+     "address": 2,
+     "width": 8,
+     "space": "p1",
+     "reset": 32
+    },
+    {
+     "name": "D3_P1",
+     "address": 3,
+     "width": 8,
+     "space": "p1",
+     "reset": 32
+    },
+    {
+     "name": "D4_P1",
+     "address": 4,
+     "width": 8,
+     "space": "p1",
+     "reset": 32
+    },
+    {
+     "name": "D5_P1",
+     "address": 5,
+     "width": 8,
+     "space": "p1",
+     "reset": 32
+    },
+    {
+     "name": "D6_P1",
+     "address": 6,
+     "width": 8,
+     "space": "p1",
+     "reset": 32
+    },
+    {
+     "name": "D7_P1",
+     "address": 7,
+     "width": 8,
+     "space": "p1",
+     "reset": 32
+    },
+    {
+     "name": "D0A_P1",
+     "address": 8,
+     "width": 8,
+     "space": "p1"
+    },
+    {
+     "name": "D1A_P1",
+     "address": 9,
+     "width": 8,
+     "space": "p1"
+    },
+    {
+     "name": "D2A_P1",
+     "address": 10,
+     "width": 8,
+     "space": "p1"
+    },
+    {
+     "name": "D3A_P1",
+     "address": 11,
+     "width": 8,
+     "space": "p1"
+    },
+    {
+     "name": "D4A_P1",
+     "address": 12,
+     "width": 8,
+     "space": "p1"
+    },
+    {
+     "name": "D5A_P1",
+     "address": 13,
+     "width": 8,
+     "space": "p1"
+    },
+    {
+     "name": "D6A_P1",
+     "address": 14,
+     "width": 8,
+     "space": "p1"
+    },
+    {
+     "name": "D7A_P1",
+     "address": 15,
+     "width": 8,
+     "space": "p1"
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "Command byte 0x00-0x03",
+      "in": "x00000aa",
+      "action": "pointer",
+      "address": "a",
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x04",
+      "in": "x0000100",
+      "action": "pointer",
+      "address": 4,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x06",
+      "in": "x0000110",
+      "action": "pointer",
+      "address": 6,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x07",
+      "in": "x0000111",
+      "action": "pointer",
+      "address": 7,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x08",
+      "in": "x0001000",
+      "action": "pointer",
+      "address": 8,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x09",
+      "in": "x0001001",
+      "action": "pointer",
+      "address": 9,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x0A",
+      "in": "x0001010",
+      "action": "pointer",
+      "address": 10,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x0B",
+      "in": "x0001011",
+      "action": "pointer",
+      "address": 11,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x0C",
+      "in": "x0001100",
+      "action": "pointer",
+      "address": 12,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x0D",
+      "in": "x0001101",
+      "action": "pointer",
+      "address": 13,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x0E",
+      "in": "x0001110",
+      "action": "pointer",
+      "address": 14,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x0F",
+      "in": "x0001111",
+      "action": "pointer",
+      "address": 15,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x10",
+      "in": "x0010000",
+      "action": "pointer",
+      "address": 16,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x11",
+      "in": "x0010001",
+      "action": "pointer",
+      "address": 17,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x12",
+      "in": "x0010010",
+      "action": "pointer",
+      "address": 18,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x13",
+      "in": "x0010011",
+      "action": "pointer",
+      "address": 19,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x14",
+      "in": "x0010100",
+      "action": "pointer",
+      "address": 20,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x15",
+      "in": "x0010101",
+      "action": "pointer",
+      "address": 21,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x16",
+      "in": "x0010110",
+      "action": "pointer",
+      "address": 22,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x17",
+      "in": "x0010111",
+      "action": "pointer",
+      "address": 23,
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x05 (GPIO data: written to the latch, read from the pins)",
+      "in": "x0000101",
+      "action": "pointer",
+      "address": 0,
+      "space": "g",
+      "increment": 1,
+      "set": {
+       "PTR.G": 1
+      }
+     },
+     {
+      "name": "Command byte 0x20-0x2F (plane P0)",
+      "in": "x010aaaa",
+      "action": "pointer",
+      "address": "a",
+      "space": "p0",
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Command byte 0x40-0x4F (plane P1)",
+      "in": "x100aaaa",
+      "action": "pointer",
+      "address": "a",
+      "space": "p1",
+      "increment": 1,
+      "set": {
+       "PTR.G": 0
+      }
+     },
+     {
+      "name": "Write D0 planes P0 and P1 (0x60)",
+      "in": "x1100000 dddddddd",
+      "set": {
+       "D0_P0": "d",
+       "D0_P1": "d"
+      }
+     },
+     {
+      "name": "Write D1 planes P0 and P1 (0x61)",
+      "in": "x1100001 dddddddd",
+      "set": {
+       "D1_P0": "d",
+       "D1_P1": "d"
+      }
+     },
+     {
+      "name": "Write D2 planes P0 and P1 (0x62)",
+      "in": "x1100010 dddddddd",
+      "set": {
+       "D2_P0": "d",
+       "D2_P1": "d"
+      }
+     },
+     {
+      "name": "Write D3 planes P0 and P1 (0x63)",
+      "in": "x1100011 dddddddd",
+      "set": {
+       "D3_P0": "d",
+       "D3_P1": "d"
+      }
+     },
+     {
+      "name": "Write D4 planes P0 and P1 (0x64)",
+      "in": "x1100100 dddddddd",
+      "set": {
+       "D4_P0": "d",
+       "D4_P1": "d"
+      }
+     },
+     {
+      "name": "Write D5 planes P0 and P1 (0x65)",
+      "in": "x1100101 dddddddd",
+      "set": {
+       "D5_P0": "d",
+       "D5_P1": "d"
+      }
+     },
+     {
+      "name": "Write D6 planes P0 and P1 (0x66)",
+      "in": "x1100110 dddddddd",
+      "set": {
+       "D6_P0": "d",
+       "D6_P1": "d"
+      }
+     },
+     {
+      "name": "Write D7 planes P0 and P1 (0x67)",
+      "in": "x1100111 dddddddd",
+      "set": {
+       "D7_P0": "d",
+       "D7_P1": "d"
+      }
+     },
+     {
+      "name": "Write D0A planes P0 and P1 (0x68)",
+      "in": "x1101000 dddddddd",
+      "set": {
+       "D0A_P0": "d",
+       "D0A_P1": "d"
+      }
+     },
+     {
+      "name": "Write D1A planes P0 and P1 (0x69)",
+      "in": "x1101001 dddddddd",
+      "set": {
+       "D1A_P0": "d",
+       "D1A_P1": "d"
+      }
+     },
+     {
+      "name": "Write D2A planes P0 and P1 (0x6A)",
+      "in": "x1101010 dddddddd",
+      "set": {
+       "D2A_P0": "d",
+       "D2A_P1": "d"
+      }
+     },
+     {
+      "name": "Write D3A planes P0 and P1 (0x6B)",
+      "in": "x1101011 dddddddd",
+      "set": {
+       "D3A_P0": "d",
+       "D3A_P1": "d"
+      }
+     },
+     {
+      "name": "Write D4A planes P0 and P1 (0x6C)",
+      "in": "x1101100 dddddddd",
+      "set": {
+       "D4A_P0": "d",
+       "D4A_P1": "d"
+      }
+     },
+     {
+      "name": "Write D5A planes P0 and P1 (0x6D)",
+      "in": "x1101101 dddddddd",
+      "set": {
+       "D5A_P0": "d",
+       "D5A_P1": "d"
+      }
+     },
+     {
+      "name": "Write D6A planes P0 and P1 (0x6E)",
+      "in": "x1101110 dddddddd",
+      "set": {
+       "D6A_P0": "d",
+       "D6A_P1": "d"
+      }
+     },
+     {
+      "name": "Write D7A planes P0 and P1 (0x6F)",
+      "in": "x1101111 dddddddd",
+      "set": {
+       "D7A_P0": "d",
+       "D7A_P1": "d"
+      }
+     }
+    ],
+    "read": "pointer",
+    "reads": [
+     {
+      "when": "PTR.G=1",
+      "read": "000[RD:4:0]"
+     }
+    ]
+   },
+   "pins": {
+    "levels": [
+     {
+      "pin": "P0",
+      "field": "RD.P0"
+     },
+     {
+      "pin": "P1",
+      "field": "RD.P1"
+     },
+     {
+      "pin": "P2",
+      "field": "RD.P2"
+     },
+     {
+      "pin": "P3",
+      "field": "RD.P3"
+     },
+     {
+      "pin": "P4/IRQ",
+      "field": "RD.P4"
+     }
+    ]
+   },
+   "display": {
+    "driver": "ports",
+    "openDrain": [
+     "P0",
+     "P1",
+     "P2",
+     "P3",
+     "P4/IRQ"
+    ],
+    "ports": [
+     {
+      "pin": "P0",
+      "dirField": "PORTCFG.P0",
+      "dirOutput": 0,
+      "dataField": "LATCH.P0"
+     },
+     {
+      "pin": "P1",
+      "dirField": "PORTCFG.P1",
+      "dirOutput": 0,
+      "dataField": "LATCH.P1"
+     },
+     {
+      "pin": "P2",
+      "dirField": "PORTCFG.P2",
+      "dirOutput": 0,
+      "dataField": "LATCH.P2"
+     },
+     {
+      "pin": "P3",
+      "dirField": "PORTCFG.P3",
+      "dirOutput": 0,
+      "dataField": "LATCH.P3"
+     },
+     {
+      "pin": "P4/IRQ",
+      "dirField": "PORTCFG.P4",
+      "dirOutput": 0,
+      "dataField": "LATCH.P4"
+     }
+    ]
+   },
+   "parts": [
+    {
+     "name": "MAX6955AAX+",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max6955",
+     "package": "SSOP",
+     "pinout": "ssop36",
+     "footprint": "SSOP-36-A36-2"
+    },
+    {
+     "name": "MAX6955ATL+",
+     "manufacturer": "Analog Devices",
+     "datasheet": "max6955",
+     "package": "TQFN",
+     "pinout": "tqfn40",
+     "footprint": "TQFN-40-T4066-5"
+    }
+   ]
+  }
+ ],
+ "datasheets": [
+  {
+   "id": "as1115",
+   "url": "https://look.ams-osram.com/asset/503a9851-387c-4f72-99df-98749dd72ba2/AS1115-DS000206.pdf"
+  },
+  {
+   "id": "max6955",
+   "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/max6955.pdf"
+  }
+ ],
+ "missingFootprints": [
+  {
+   "id": "TQFN-24-4X4-AMS",
+   "description": "24-pin TQFN (ams OSRAM), 4 x 4 x 0.55 mm body, 0.5 mm pitch, exposed pad 2.8 mm land",
+   "note": "ams AS1115 Figure 32 TQFN(4x4)-24 outline (JEDEC MO-248, as1115.pdf p.25; R4 outline-only: terminal L 0.35 mid (0.30-0.40) so pad length 0.65, b 0.265 mid (0.18-0.35) so pad width 0.32, terminal-centre span D 4.00 - L 0.35 = 3.65 + 0.30 = 3.95; exposed pad D2/E2 2.80 mid (2.70-2.90); body 4.00 BSC; L1 pull-back not applied)",
+   "style": "quad",
+   "pins": 24,
+   "body": {
+    "width": 4.0,
+    "height": 4.0
+   },
+   "sides": [
+    6,
+    6,
+    6,
+    6
+   ],
+   "pitch": 0.5,
+   "spanX": 3.95,
+   "spanY": 3.95,
+   "pad": {
+    "width": 0.65,
+    "height": 0.32,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 2.8,
+    "height": 2.8,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SSOP-36-A36-2",
+   "package": "36-pin SSOP, Maxim code A36-2, outline 21-0040, land pattern 90-0098",
+   "pins": 36,
+   "pitch": "not in the sheet",
+   "body": "not in the sheet",
+   "lead dims": "not in the sheet",
+   "source page": "max6955 p.39 prints only the package codes (no drawing, no dimensions); the MAX6957 sheet (A36-4, same 21-0040 / 90-0098) has none either; analog.com unreachable from this machine. Used by MAX6955AAX+ (part footprint key \"SSOP-36-A36-2\")."
+  },
+  {
+   "id": "TQFN-40-T4066-5",
+   "package": "40-pin TQFN-EP, Maxim code T4066+5, outline 21-0141, land pattern 90-0055",
+   "pins": 40,
+   "pitch": "not in the sheet",
+   "body": "not in the sheet",
+   "lead dims": "not in the sheet",
+   "source page": "max6955 p.39 prints only the codes (the MAX6957 sheet the same). Used by MAX6955ATL+ (part footprint key \"TQFN-40-T4066-5\"). Existing 40-pin 6 x 6 mm 0.5 mm QFN footprints (VQFN-40-RHA, WQFN-40-RTA, QFN-40-6X6-XR) differ in exposed pad; none is confirmed to match."
+  }
+ ],
+ "skipped": [
+  {
+   "part": "MAX6955AAX+T, MAX6955ATL+T",
+   "why": "tape-and-reel names of the two listed parts; not in the datasheet's ordering table (p.1 lists only AAX+ and ATL+). Add them (same device, pinouts and footprints) if stock is wanted: the plan's stock list had AAX+T in stock."
+  },
+  {
+   "part": "40-pin DIP of the MAX6955",
+   "why": "the features list (p.1) says \"36-Pin SSOP and 40-Pin DIP and TQFN Packages\" but the ordering table, the pin configurations and the package table (p.39) have no DIP"
+  },
+  {
+   "part": "AS1115 stock",
+   "why": "not checked here (the main thread checks stock); both AS1115-BSST and AS1115-BQFT of Table 25 are listed"
+  }
+ ],
+ "engineNeeds": [
+  {
+   "need": "pin-multiplexed digit/segment driver for the MAX6955 O0-O18 outputs",
+   "keys": "a new display driver (or `digits` generalisation) whose pins can be a digit (cathode) pin in one scan period and a segment pin in the others, with the pin map chosen per period from a register. Semantics (spec file \"Digit and segment outputs\", Tables 2-4 and 38-41, p.8 and p.32-35): 8 periods k = 0..7 of 200 us at fOSC = 4 MHz (periodUs = 800 / fOSC in MHz, 1.6 ms frame); in period k pin O_k is driven low; the other cathode pin of its slot (O(k xor 1)) and every cathode pin of the other slots that is not a segment pin in the list is released (Z); the other 17 pins of O0-O18 (all but O(2s), O(2s+1), s = k div 2) carry in ascending pin order the list L16 = [a1 a2 b c d1 d2 e f g1 g2 h i j k l m dp], L7 = [1a - 1b 1c 1d 1dp 1e 1f 1g 2a 2b 2c 2d 2e 2f 2g 2dp] or L14 = [a - b c d - e f g1 g2 h i j k l m dp], driven high when lit (anode source), low/Z when not. Bits (CC(2s+1), CC(2s)) of DTYPE (register 0x0C) pick L14 for a set bit and L16/L7 for a clear one for the digit of that cathode; scan limit SCANLIM.N limits k to 0..N; CONFIG.S = 0 releases everything; TEST.T = 1 lights every segment of every period; blank is the font blank. A condition on which of L16 or L7 applies for a clear bit is NOT given by the sheet (see spec): needs the silicon, an evaluation kit or an application note.",
+   "why": "the existing drivers name every pin once (`pin \"X\" is used twice in \"display\"`) and a device has one `display`; the MAX6955's O0-O7 are cathodes and segments."
+  },
+  {
+   "need": "ascii16 and ascii14 decodes (the MAX6955 fonts, 7-bit code + D7 DP)",
+   "keys": "display.decode \"ascii16\" (16 segment pins, the ICM7245 patch's bit order: bit 0 a1, 1 a2, 2 b, 3 c, 4 d1, 5 d2, 6 e, 7 f, 8 g1, 9 g2, 10 h, 11 i, 12 j, 13 k, 14 l, 15 m, 16 DP) with this 128-entry table (code = D6..D0; codes 0x00-0x0F are drawn as seven-segment shapes and are mapped a -> a1+a2, d -> d1+d2, g -> g1+g2 - the natural reading, not stated by the sheet); and \"ascii14\" (bit 0 a, 1 b, 2 c, 3 d, 4 e, 5 f, 6 g1, 7 g2, 8 h, 9 i, 10 j, 11 k, 12 l, 13 m, 14 DP) with its 128-entry table. Note the MAX6955 figure puts d2 at the LEFT and d1 at the RIGHT of the bottom pair (Figure 1 p.7), unlike the ICM7245 naming.",
+   "tables": {
+    "ascii16": [
+     255,
+     12,
+     887,
+     831,
+     908,
+     955,
+     1019,
+     15,
+     1023,
+     959,
+     975,
+     1016,
+     243,
+     892,
+     1011,
+     963,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     19250,
+     22272,
+     19443,
+     2566,
+     5312,
+     19248,
+     59392,
+     23552,
+     0,
+     12,
+     2176,
+     65535,
+     19387,
+     56217,
+     55354,
+     4096,
+     12288,
+     33792,
+     65280,
+     19200,
+     32768,
+     768,
+     16736,
+     36864,
+     37119,
+     12,
+     887,
+     575,
+     908,
+     8627,
+     1019,
+     15,
+     1023,
+     959,
+     18432,
+     34816,
+     12288,
+     816,
+     33792,
+     16902,
+     2807,
+     975,
+     19007,
+     243,
+     18495,
+     1011,
+     451,
+     763,
+     972,
+     18432,
+     124,
+     12736,
+     240,
+     5324,
+     9420,
+     255,
+     967,
+     8447,
+     9159,
+     955,
+     18435,
+     252,
+     37056,
+     41164,
+     46080,
+     21504,
+     36915,
+     18450,
+     9216,
+     18465,
+     36870,
+     48,
+     1024,
+     975,
+     19007,
+     243,
+     18495,
+     1011,
+     451,
+     763,
+     972,
+     18432,
+     124,
+     12736,
+     240,
+     5324,
+     9420,
+     255,
+     967,
+     8447,
+     9159,
+     955,
+     18435,
+     252,
+     37056,
+     41164,
+     46080,
+     21504,
+     36915,
+     18706,
+     18432,
+     18977,
+     836,
+     255
+    ],
+    "ascii14": [
+     9279,
+     6,
+     219,
+     143,
+     230,
+     2153,
+     253,
+     7,
+     255,
+     239,
+     247,
+     4751,
+     57,
+     4623,
+     249,
+     113,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     4809,
+     5568,
+     4857,
+     227,
+     1328,
+     4808,
+     14848,
+     5888,
+     0,
+     6,
+     544,
+     16383,
+     4845,
+     11748,
+     11533,
+     1024,
+     3072,
+     8448,
+     16320,
+     4800,
+     8192,
+     192,
+     4184,
+     9216,
+     9279,
+     6,
+     219,
+     143,
+     230,
+     2153,
+     253,
+     7,
+     255,
+     239,
+     4608,
+     8704,
+     3072,
+     200,
+     8448,
+     4227,
+     699,
+     247,
+     4751,
+     57,
+     4623,
+     249,
+     113,
+     189,
+     246,
+     4608,
+     30,
+     3184,
+     56,
+     1334,
+     2358,
+     63,
+     243,
+     2111,
+     2291,
+     237,
+     4609,
+     62,
+     9264,
+     10294,
+     11520,
+     5376,
+     9225,
+     57,
+     2304,
+     15,
+     9219,
+     8,
+     256,
+     247,
+     4751,
+     57,
+     4623,
+     249,
+     113,
+     189,
+     246,
+     4608,
+     30,
+     3184,
+     56,
+     1334,
+     2358,
+     63,
+     243,
+     2111,
+     2291,
+     237,
+     4609,
+     62,
+     9264,
+     10294,
+     11520,
+     5376,
+     9225,
+     3136,
+     4608,
+     8576,
+     210,
+     63
+    ],
+    "ascii16_bits": [
+     "a1",
+     "a2",
+     "b",
+     "c",
+     "d1",
+     "d2",
+     "e",
+     "f",
+     "g1",
+     "g2",
+     "h",
+     "i",
+     "j",
+     "k",
+     "l",
+     "m"
+    ],
+    "ascii14_bits": [
+     "a",
+     "b",
+     "c",
+     "d",
+     "e",
+     "f",
+     "g1",
+     "g2",
+     "h",
+     "i",
+     "j",
+     "k",
+     "l",
+     "m"
+    ],
+    "source": "Tables 8 and 9, max6955 p.21, read from the PDF vector data and cross-checked against a 300 dpi raster (3696 shapes, 0 disagreements); also written as segment lists in the spec file"
+   },
+   "why": "MAX6955 14/16-segment digits; `ascii7` covers only the 7-segment case"
+  },
+  {
+   "need": "a second `display` driver in one device (digit scan plus GPIO ports)",
+   "keys": "`display` as an array of drivers, or a `ports` section next to `digits`",
+   "why": "MAX6955 has both O0-O18 digit/segment outputs and five GPIO ports P0-P4 (the model uses `ports` for P0-P4 only, so the LED pins are dark)"
+  },
+  {
+   "need": "write-only / read-only register pairs at one address and register aliases",
+   "keys": "a register key `\"readAs\"`/`\"writeTo\"` (or `space` per direction) and a write alias `\"alsoWrites\": [register...]`",
+   "why": "MAX6955: 0x08-0x0B write = key mask, read = debounced key; 0x0C write = digit type, read = Key_A pressed; 0x60-0x6F write one byte into both planes P0 and P1 and read 0x00, with auto-increment through them. AS1115: a write to 0x0A (global intensity) copies the nibble into the four per-digit registers 0x10-0x13. Today the model stores the key masks nowhere, reads 0x0C back as the digit type, takes 0x60-0x6F as single-byte commands, and does not copy the global intensity."
+  },
+  {
+   "need": "action that clears or resets a list of registers (or a field set) on a register write",
+   "keys": "`triggers` / `then` action `\"resetregs\": [\"D0_P0\", ...]` or `\"clearregs\": group`, with the condition on the value written before readOnly masking",
+   "why": "MAX6955 configuration bit R (global clear of both digit planes, transient); AS1115 reg_res (feature D1: reset all control registers except the feature register, digits keep data) and shutdown D7 = 0 (reset the feature register when entering or leaving shutdown). `reset` resets everything and `clear` is DAC-only."
+  },
+  {
+   "need": "decode font chosen by a register field",
+   "keys": "display.decode as an object {\"field\": \"FEATURE.HEX\", \"values\": {\"0\": \"codeB\", \"1\": \"hex\"}} (the same need as the ICM7218 result)",
+   "why": "AS1115 feature D2 decode_sel: 0 Code-B (power-up), 1 HEX; the model is fixed to codeB"
+  },
+  {
+   "need": "scan limit",
+   "keys": "display.scanLimit: a field name; digits above its value are skipped (their pin inactive, the slot time of the others unchanged)",
+   "why": "AS1115 0x0B (power-up 0 = digit 0 only) and MAX6955 0x03; the docs list scan-limit registers as not simulated; with it the AS1115's frame rate would be 10 x fOSC / (N + 2)"
+  },
+  {
+   "need": "I2C address changed by a command (self addressing)",
+   "keys": "bus.selfAddress: {\"register\": \"SELFADDR.USER\", \"addressPins\": [\"<A1 node>\", \"<A0 node>\"]}: after a write that leaves the field at 1 the 7-bit address becomes 00000 A1 A0 from two sampled pin levels (open = 1, shorted = 0)",
+   "why": "AS1115 register 0x2D: after the command the slave address is 00000 A1 A0 with A0 / A1 from the key-scan nodes (open = 1, shorted = 0) at SEGG / SEGF; the sheet does not say how the node is read, so only the factory address 0000000 is modeled"
+  },
+  {
+   "need": "blink (both chips) and the blink phase read-back",
+   "keys": "display.blink: {\"enable\": cond, \"periodUs\": n or field-selected, \"planes\": [RAM1, RAM2]}",
+   "why": "MAX6955 alternates planes P0 and P1 per half blink period (Table 21), the P bit of CONFIG reads the phase; AS1115 blink_en / blink_freq_sel / blink_start; not modeled"
+  },
+  {
+   "need": "key scan and IRQ",
+   "keys": "a `keys` section: matrix of pins sampled while the digit lines scan, debounced/pressed registers, IRQ pin",
+   "why": "MAX6955 Key_A-D on P0-P3 with port bits D7:D5 and IRQ on P4; AS1115 KEYA/KEYB; the models read the key registers as 0 (MAX6955) / 0xFF (AS1115) and do not change P0-P3"
+  },
+  {
+   "need": "pointer auto-increment across unmapped addresses / the 0x7F lock",
+   "keys": "protocol pointer keeps counting through addresses without a register",
+   "why": "MAX6955 command address increments by 1 through unmapped values (0x18-0x1F, 0x30-0x3F) and stays at 0x7F; the engine jumps to the next mapped register of the same space and stays on the last one"
+  },
+  {
+   "need": "(findings of the bench, not new features)",
+   "keys": "(1) `pins.levels` into the register that is also written by the host overwrites the latch with the pin level (a released open-drain output with no pull-up flips to 0): the MAX6955 uses a separate RD register, a `reads` alternative selected by a PTR flag set with `set` on the pointer command, and a pointer command with `space` for the latch. (2) A pointer command is checked at load for a register at its literal address (`no register at address 24`), so unmapped command bytes are simply not commands. (3) An `in` pattern's 8-bit command wins over a longer one that starts with it, so the 0x60-0x6F write-both commands can only exist because no 8-bit pointer pattern matches them.",
+   "why": "for whoever extends the engine"
+  }
+ ],
+ "notes": "Two devices in leddriver.json: AS1115 (8-digit, I2C address 0000000, `digits` driver, Code-B decode per digit, no decode, shutdown, display test, QSOP-24 and TQFN(4x4)-24) and MAX6955 (registers, planes P0/P1 as register spaces p0/p1, 16 address straps, GPIO ports P0-P4 as open-drain `ports`; the O0-O18 LED outputs are NOT driven). Benches pass in a private copy (as1115_test, max6955_test); library_check passes; listing_check, trace_check and footprint_check only differ from the goldens by the four new parts / the new footprint. The two MAX6955 footprints are missing with no dimensions (the sheet has only the package codes), so the MAX6955 parts name footprint ids that must exist before merging. AS1115 TQFN footprint TQFN-24-4X4-AMS is new (rule R4 from p.25); QSOP-24 is reused. Manufacturer \"Analog Devices\" for the Maxim part and \"ams OSRAM\" for the AS1115. The analog.com URL of max6955 could not be verified (timeouts); the ams URL serves the same bytes as the local file. Not modeled (both): intensity, brightness, blink, key scan, LED open/short detection, external clock. MAX6955 only: the digit/segment outputs, fonts, 0x0C read-back, 0x60-0x6F multi-byte writes, config R/T/P bits. AS1115 only: HEX decode (fixed Code-B), scan limit, feature/shutdown reset rules, self addressing, KEYA/KEYB (0xFF). Page citations: max6955 pages are printed = PDF pages; as1115 citations use PDF pages (printed + 2). The shutdown write auto-increment of the AS1115 is an assumption (Figure 22 shows one data byte)."
+}

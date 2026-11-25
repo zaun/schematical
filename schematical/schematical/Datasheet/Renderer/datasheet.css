@@ -46,6 +46,9 @@ nav.outline a:hover { background: var(--head); }
 article { flex: 1 1 auto; min-width: 0; max-width: 980px; padding: 8px 28px 60px; }
 
 .source { color: var(--muted); font-size: 11px; margin-top: 12px; }
+.verified { display: inline-block; margin: 6px 6px 0 0; padding: 2px 8px; border-radius: 10px;
+  background: var(--head); font-size: 11px; }
+.verified.unverified { color: var(--muted); }
 .opened { display: inline-block; margin-top: 6px; padding: 2px 8px; border-radius: 10px;
   background: var(--current); font-size: 11px; }
 
@@ -109,3 +112,12 @@ sup.note-ref a { text-decoration: none; }
   h2 { break-after: avoid; }
   .wave svg { filter: none; }
 }
+
+/* a line of citations after a block renders as an empty paragraph */
+p:empty { display: none; }
+
+/* Verify Datasheet window only: the citations. */
+a.cite { display: inline-block; margin-left: 2px; padding: 0 5px; border-radius: 8px; background: var(--head);
+  color: var(--accent); font: 10px ui-monospace, Menlo, monospace; text-decoration: none; cursor: pointer;
+  white-space: nowrap; vertical-align: baseline; }
+a.cite:hover { background: var(--current); }

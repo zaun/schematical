@@ -29,7 +29,7 @@ LSTTL input logic compatible: V~IL(max)~ = 0.8 V, V~IH(min)~ = 2 V.
 CMOS input logic compatible: I~I~ ≤ 1 µA at V~OL~, V~OH~. Buffered
 inputs. 4.5 V to 5.5 V operation. Wide operating temperature range:
 –55°C to +125°C. Supports fanout up to 10 LSTTL loads. Significant
-power reduction compared to LSTTL logic ICs.
+power reduction compared to LSTTL logic ICs. [[1::2]] [[1::3]]
 
 ## Pinout
 
@@ -54,11 +54,12 @@ GND: Ground
 4B: Channel 4, Input B
 VCC: Positive Supply
 ```
+[[1::table #1]]
 
 ## Functional description
 
 This device contains four independent 2-input NAND gates. Each gate
-performs the Boolean function Y = !{A ● B} in positive logic.
+performs the Boolean function Y = !{A ● B} in positive logic. [[8::1]]
 
 Conversion note: the logic diagram (Figure 8-1, p.8) shows one 2-input NAND gate with a buffer on each of the inputs xA and xB and a buffer on the output xY.
 
@@ -73,29 +74,29 @@ driving larger currents than the device can sustain without being
 damaged. It is important for the output power of the device to be
 limited to avoid damage due to overcurrent. The electrical and thermal
 limits defined in the Absolute Maximum Ratings must be followed at all
-times.
+times. [[8::3]]
 
-Unused push-pull CMOS outputs should be left disconnected.
+Unused push-pull CMOS outputs should be left disconnected. [[8::4]]
 
 ### TTL-compatible CMOS inputs
 
 This device includes TTL-compatible CMOS inputs. These inputs are
 specifically designed to interface with TTL logic devices by having a
-reduced input voltage threshold.
+reduced input voltage threshold. [[8::5]]
 
 TTL-compatible CMOS inputs are high impedance and are typically modeled
 as a resistor in parallel with the input capacitance given in the
 Electrical Characteristics. The worst case resistance is calculated with
 the maximum input voltage, given in the Absolute Maximum Ratings, and
 the maximum input leakage current, given in the Electrical
-Characteristics, using Ohm's law (R = V ÷ I).
+Characteristics, using Ohm's law (R = V ÷ I). [[8::6]]
 
 TTL-compatible CMOS inputs require that input signals transition between
 valid logic states quickly, as defined by the input transition time or
 rate in the Recommended Operating Conditions table. Failing to meet this
 specification will result in excessive power consumption and could cause
 oscillations. More details can be found in Implications of Slow or
-Floating CMOS Inputs.
+Floating CMOS Inputs. [[8::7]]
 
 Do not leave TTL-compatible CMOS inputs floating at any time during
 operation. Unused inputs must be terminated at V~CC~ or GND. If a system
@@ -103,21 +104,22 @@ will not be actively driving an input at all times, a pull-up or
 pull-down resistor can be added to provide a valid input voltage during
 these times. The resistor value will depend on multiple factors, however
 a 10-kΩ resistor is recommended and will typically meet all
-requirements.
+requirements. [[8::8]]
 
 ### Clamp diode structure
 
 The inputs and outputs to this device have both positive and negative
 clamping diodes as depicted in Electrical Placement of Clamping Diodes
-for Each Input and Output.
+for Each Input and Output. [[8::9]]
 
 Voltages beyond the values specified in the Absolute Maximum Ratings
 table can cause damage to the device. The input and output voltage
 ratings may be exceeded if the input and output clamp-current ratings
-are observed.
+are observed. [[8::10]]
 
 ```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output"
 ```
+[[9::Figure 8-2]]
 
 ## Function tables
 
@@ -129,6 +131,7 @@ are observed.
 | L | X | H |
 | X | L | H |
 ```
+[[9::Table 8-1]]
 
 ## Absolute maximum ratings
 
@@ -150,6 +153,7 @@ are observed.
 [3] Guaranteed by design.
 [4] Unconfirmed: the source gives this condition as printed, "V~O~ > –0.5 V or V~O~ < V~CC~ + 0.5 V", which every output voltage meets.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -161,6 +165,7 @@ are observed.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -176,6 +181,7 @@ are observed.
 | ^ | ^ | V~CC~ = 5.5 V | | | 400 | ns |
 | T~A~ | Operating free-air temperature | | -55 | | 125 | °C |
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -191,6 +197,7 @@ are observed.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -208,12 +215,14 @@ are observed.
 | ^ | ^ | One B input at V~CC~ – 2.1 | Other inputs at 0V or V~CC~ | 4.5 V to 5.5 V | | 100 | 396 | | | 495 | | | 539 | µA |
 | C~i~ | Input capacitance | | < | | | | 10 | | | 10 | | | 10 | pF |
 ```
+[[5::table #2]]
 
 ```table id=op caption="Operating characteristics" conditions="Over operating free-air temperature range; typical values measured at T~A~ = 25°C (unless otherwise noted)"
 | Symbol | Parameter | Test conditions | V~CC~ | Min | Typ | Max | Unit |
 |---|---|---|---|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance per gate | No load | 4.5 V to 5.5 V | | 25 | | pF |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -225,6 +234,7 @@ are observed.
 | ^ | ^ | A or B | Y | C~L~ = 15 pF | 5 V | | 8 | | | | | | | | ns |
 | t~t~ | Transition-time | | Y | C~L~ = 50 pF | 4.5 V | | | 15 | | | 19 | | | 22 | ns |
 ```
+[[5::table #3]]
 
 ## Typical characteristics
 
@@ -237,6 +247,7 @@ are observed.
   {"label": "VCC = 6 V", "points": [[0, 5.98], [5.5, 5.8]]}
  ]}
 ```
+[[6::Figure 6-1]]
 
 ```curve id=vol caption="Typical output voltage in the low state (V~OL~), T~A~ = 25°C"
 {"x": {"label": "I_OL", "unit": "mA", "range": [0, 6]},
@@ -247,6 +258,7 @@ are observed.
   {"label": "VCC = 6 V", "points": [[0, 0], [5.5, 0.127]]}
  ]}
 ```
+[[6::Figure 6-2]]
 
 Unconfirmed: Figures 6-1 and 6-2 plot 2-V and 6-V curves, outside the 4.5 V to 5.5 V supply voltage of the recommended operating conditions.
 
@@ -259,15 +271,17 @@ measured when the input duty cycle is 50%. The outputs are measured one
 at a time with one input transition per measurement. C~L~ includes probe
 and test-fixture capacitance. The greater between t~PLH~ and t~PHL~ is
 the same as t~pd~. The greater between t~r~ and t~f~ is the same as
-t~t~.
+t~t~. [[7::1]] [[7::2]] [[7::3]] [[7::4]] [[7::6]] [[7::8]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for push-pull outputs"
 CL: see table
 ```
+[[7::Figure 7-1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delays and input and output transition times"
 VM: 1.3 V (input), 50% (output)
 ```
+[[7::Figure 7-3]]
 
 Conversion note: Figures 7-2 and 7-3 (p.7) draw the input between 0V and 3V, with the delays measured from its 1.3V points and its transition times between 0.3V and 2.7V.
 
@@ -277,7 +291,7 @@ Information in the following applications sections is not part of the
 TI component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 In this application, the CD74HCT00 is used to create an active-low SR
 latch. The two additional gates can be used for a second active-low SR
@@ -287,7 +301,7 @@ tamper indicator LED and provide one bit of data to the system
 controller. When the tamper switch outputs LOW, the output Q becomes
 HIGH. This output remains HIGH until the system controller addresses the
 event and sends a LOW signal to the R input which returns the Q output
-back to LOW.
+back to LOW. [[10::2]]
 
 Conversion note: the typical application diagram (Figure 9-1, p.10) shows two cross-coupled NAND gates with the System Controller on input !{R}, which a resistor R1 pulls up, the Tamper Switch on input !{S}, and output Q going to the System Controller and through R2 to the Tamper Indicator LED.
 
@@ -296,7 +310,7 @@ Conversion note: the typical application diagram (Figure 9-1, p.10) shows two cr
 Ensure the desired supply voltage is within the range specified in the
 Recommended Operating Conditions. The supply voltage sets the device's
 electrical characteristics as described in the Electrical
-Characteristics.
+Characteristics. [[10::3]]
 
 The positive voltage supply must be capable of sourcing current equal to
 the total current to be sourced by all outputs of the CD74HCT00 plus the
@@ -304,7 +318,7 @@ maximum static supply current, I~CC~, listed in Electrical
 Characteristics and any transient current required for switching. The
 logic device can only source as much current as is provided by the
 positive supply source. Be sure not to exceed the maximum total current
-through V~CC~ listed in the Absolute Maximum Ratings.
+through V~CC~ listed in the Absolute Maximum Ratings. [[10::4]]
 
 The ground must be capable of sinking current equal to the total current
 to be sunk by all outputs of the CD74HCT00 plus the maximum supply
@@ -312,37 +326,37 @@ current, I~CC~, listed in Electrical Characteristics, and any transient
 current required for switching. The logic device can only sink as much
 current as can be sunk into its ground connection. Be sure not to exceed
 the maximum total current through GND listed in the Absolute Maximum
-Ratings.
+Ratings. [[10::5]]
 
 The CD74HCT00 can drive a load with a total capacitance less than or
 equal to 50 pF while still meeting all of the datasheet specifications.
 Larger capacitive loads can be applied, however it is not recommended to
-exceed 50 pF.
+exceed 50 pF. [[10::6]]
 
 The CD74HCT00 can drive a load with total resistance described by
 R~L~ ≥ V~O~ / I~O~, with the output voltage and current defined in the
 Electrical Characteristics table with V~OH~ and V~OL~. When outputting
 in the high state, the output voltage in the equation is defined as the
 difference between the measured output voltage and the supply voltage at
-the V~CC~ pin.
+the V~CC~ pin. [[10::7]] [[11::1]]
 
 Total power consumption can be calculated using the information provided
-in CMOS Power Consumption and Cpd Calculation.
+in CMOS Power Consumption and Cpd Calculation. [[11::2]]
 
 Thermal increase can be calculated using the information provided in
 Thermal Characteristics of Standard Linear and Logic (SLL) Packages and
-Devices.
+Devices. [[11::3]]
 
 The maximum junction temperature, T~J(max)~ listed in the Absolute
 Maximum Ratings, is an additional limitation to prevent damage to the
 device. Do not violate any values listed in the Absolute Maximum
-Ratings. These limits are provided to prevent damage to the device.
+Ratings. These limits are provided to prevent damage to the device. [[11::4]]
 
 ### Input considerations
 
 Input signals must cross V~IL(max)~ to be considered a logic LOW, and
 V~IH(min)~ to be considered a logic HIGH. Do not exceed the maximum
-input voltage range found in the Absolute Maximum Ratings.
+input voltage range found in the Absolute Maximum Ratings. [[11::5]]
 
 Unused inputs must be terminated to either V~CC~ or ground. These can be
 directly terminated if the input is completely unused, or they can be
@@ -352,12 +366,12 @@ state of HIGH, and a pull-down resistor is used for a default state of
 LOW. The resistor size is limited by drive current of the controller,
 leakage current into the CD74HCT00, as specified in the Electrical
 Characteristics, and the desired input transition rate. A 10-kΩ resistor
-value is often used due to these factors.
+value is often used due to these factors. [[11::6]]
 
 The CD74HCT00 has CMOS inputs and thus requires fast input transitions to
 operate correctly, as defined in the Recommended Operating Conditions
 table. Slow input transitions can cause oscillations, additional power
-consumption, and reduction in device reliability.
+consumption, and reduction in device reliability. [[11::7]]
 
 ### Output considerations
 
@@ -366,37 +380,37 @@ Drawing current from the output will decrease the output voltage as
 specified by the V~OH~ specification in the Electrical Characteristics.
 The ground voltage is used to produce the output LOW voltage. Sinking
 current into the output will increase the output voltage as specified by
-the V~OL~ specification in the Electrical Characteristics.
+the V~OL~ specification in the Electrical Characteristics. [[11::9]]
 
 Push-pull outputs that could be in opposite states, even for a very
 short time period, should never be connected directly together. This can
-cause excessive current and damage to the device.
+cause excessive current and damage to the device. [[11::10]]
 
 Two channels within the same device with the same input signals can be
-connected in parallel for additional output drive strength.
+connected in parallel for additional output drive strength. [[11::11]]
 
 Unused outputs can be left floating. Do not connect outputs directly to
-V~CC~ or ground.
+V~CC~ or ground. [[11::12]]
 
 ### Detailed design procedure
 
 1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to
    be placed physically close to the device and electrically close to
    both the V~CC~ and GND pins. An example layout is shown in the Layout
-   section.
+   section. [[11::14]]
 2. Ensure the capacitive load at the output is ≤ 50 pF. This is not a
    hard limit, however it will ensure optimal performance. This can be
    accomplished by providing short, appropriately sized traces from the
-   CD74HCT00 to the receiving device(s).
+   CD74HCT00 to the receiving device(s). [[11::14]]
 3. Ensure the resistive load at the output is larger than (V~CC~ /
    I~O(max)~) Ω. This will ensure that the maximum output current from
    the Absolute Maximum Ratings is not violated. Most CMOS inputs have a
    resistive load measured in megaohms; much larger than the minimum
-   calculated above.
+   calculated above. [[11::14]]
 4. Thermal issues are rarely a concern for logic gates, however the
    power consumption and thermal increase can be calculated using the
    steps provided in the application report, CMOS Power Consumption and
-   Cpd Calculation.
+   Cpd Calculation. [[12::1]]
 
 Conversion note: the application timing diagram (Figure 9-2, p.12) shows the !{R}, !{S} and Q waveforms of the latch.
 
@@ -410,7 +424,7 @@ acceptable to parallel multiple bypass caps to reject different
 frequencies of noise. The 0.1-μF and 1-μF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
 power terminal as possible for best results, as shown in given example
-layout image.
+layout image. [[13::1]]
 
 ### Layout guidelines
 
@@ -426,7 +440,7 @@ the input voltage specifications, to prevent them from floating. The
 logic level that must be applied to any particular unused input depends
 on the function of the device. Generally, the inputs are tied to GND or
 V~CC~, whichever makes more sense for the logic function or is more
-convenient.
+convenient. [[13::2]]
 
 Conversion note: the example layout for the CD74HCT00 (Figure 11-1, p.13) shows a 0.1 µF bypass capacitor placed close to the device between V~CC~ and GND, unused inputs tied to V~CC~, an unused output left floating, and a GND flood fill.
 
@@ -453,6 +467,7 @@ CD74HCT00M96 | Reel of 2500 | -55 to 125 | HCT00M
 CD74HCT00M96G4 | Reel of 2500 | -55 to 125 | HCT00M
 CD74HCT00MT | | -55 to 125 | HCT00M | Obsolete
 ```
+[[16::table #1]]
 
 ## Conversion notes
 

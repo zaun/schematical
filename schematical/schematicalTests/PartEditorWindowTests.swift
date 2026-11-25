@@ -11,7 +11,7 @@ final class PartEditorWindowTests: XCTestCase {
     /// (a) Every kind has a form (plan-46-C gave the last five theirs).
     func testEnabledKinds() {
         XCTAssertEqual(PartDraft.enabledKinds, PartDraft.kindNames)
-        XCTAssertEqual(PartDraft.enabledKinds.count, 40)  // plan-47-K, L: inductor, fuse, relay, buzzer
+        XCTAssertEqual(PartDraft.enabledKinds.count, 47)  // plan-47-K, L added inductor, fuse, relay, buzzer
     }
 
     /// A new generic part (plan-46-B, C) starts unsimulated and the backend
@@ -87,6 +87,46 @@ final class PartEditorWindowTests: XCTestCase {
         XCTAssertFalse(model.isDirty)
         model.draft.name = "CHANGED"
         XCTAssertTrue(model.isDirty)
+    }
+
+    /// plan-54-O: the connector kind's schema has the card-slot keys, and a library card slot opens as a draft
+    /// with its `card` (and `cardPitch`) in the kind's device keys and nothing left over.
+    func testConnectorSchemaHasTheCardSlotKeys() throws {
+        let schema = try XCTUnwrap(PartKinds.schemas["connector"])
+        XCTAssertTrue(schema.keys.isSuperset(of: ["card", "cardPitch"]), "\(schema.keys)")
+        let card = try XCTUnwrap(schema.device.first { $0.key == "card" })
+        let pitch = try XCTUnwrap(schema.device.first { $0.key == "cardPitch" })
+        if case .suggested = card.type {} else { XCTFail("card is \(card.type)") }
+        if case .number(unit: "mm") = pitch.type {} else { XCTFail("cardPitch is \(pitch.type)") }
+        for part in try CardSlotTests.representatives().compactMap(\.part) {
+            let draft = try PartDraft(file: XCTUnwrap(BundledPartFile.copy(name: part.name, kind: "connector"), part.name))
+            XCTAssertEqual(draft.extraKeys, [], part.name)
+            XCTAssertTrue(draft.kindDevice.keys.contains("card"), part.name)
+            XCTAssertEqual(draft.kindDevice.keys.contains("cardPitch"), part.detailLabels.count > 1, part.name)
+        }
+    }
+
+    /// plan-45-H: the connector kind's schema has `terminal`, `jst` and `pitch` (millimetres), and a library terminal
+    /// block and JST header open as drafts with their keys in the kind's device keys and nothing left over.
+    func testConnectorSchemaHasTheTerminalKeys() throws {
+        let schema = try XCTUnwrap(PartKinds.schemas["connector"])
+        XCTAssertTrue(schema.keys.isSuperset(of: ["terminal", "jst", "pitch"]), "\(schema.keys)")
+        let terminal = try XCTUnwrap(schema.device.first { $0.key == "terminal" })
+        let jst = try XCTUnwrap(schema.device.first { $0.key == "jst" })
+        let pitch = try XCTUnwrap(schema.device.first { $0.key == "pitch" })
+        if case let .suggested(words) = terminal.type {
+            XCTAssertEqual(Set(words), ["screw", "spring", "push-in", "pluggable"])
+        } else { XCTFail("terminal is \(terminal.type)") }
+        if case let .suggested(series) = jst.type {
+            XCTAssertEqual(Set(series), ["XH", "PH", "EH", "ZH", "SH", "GH", "VH"])
+        } else { XCTFail("jst is \(jst.type)") }
+        if case .number(unit: "mm") = pitch.type {} else { XCTFail("pitch is \(pitch.type)") }
+        for name in ["GENERIC-TERMINAL-5.08-03", "GENERIC-JST-XH-04"] {
+            let draft = try PartDraft(file: XCTUnwrap(BundledPartFile.copy(name: name, kind: "connector"), name))
+            XCTAssertEqual(draft.extraKeys, [], name)
+            XCTAssertTrue(draft.kindDevice.keys.contains("pitch"), name)
+            XCTAssertTrue(draft.kindDevice.keys.contains(name.contains("JST") ? "jst" : "terminal"), name)
+        }
     }
 
     // MARK: Active-low pins (plan-39-B)
@@ -167,5 +207,36 @@ final class PartEditorWindowTests: XCTestCase {
         model.previewPane = .footprint
         XCTAssertEqual(model.previewPane, .footprint)
         XCTAssertEqual(PartEditorModel.PreviewPane.allCases.map(\.title), ["Block", "Footprint"])
+    }
+
+    /// (e) plan-54-F: a custom footprint's opposite pad and edge mount are
+    /// written only when set (`"opposite": true`, `"edgeMount": true`), read
+    /// back into the draft, and load in the backend.
+    func testOppositePadAndEdgeMountRoundTrip() throws {
+        var draft = CustomFootprintDraft.starter(id: "CUSTOM-ABCDEF12", pins: 2)
+        for index in draft.pads.indices { draft.pads[index].drill = 0 }
+        guard case let .object(plain) = draft.encoded() else { return XCTFail("shape") }
+        XCTAssertNil(plain["edgeMount"])
+        for pad in draft.pads {
+            guard case let .object(keys) = pad.encoded() else { return XCTFail("pad") }
+            XCTAssertNil(keys["opposite"])
+        }
+
+        draft.pads[1].opposite = true
+        draft.edgeMount = true
+        guard case let .object(keys) = draft.encoded(), case let .array(pads)? = keys["pads"],
+              case let .object(first) = pads[0], case let .object(second) = pads[1] else { return XCTFail("shape") }
+        XCTAssertEqual(second["opposite"], .bool(true))
+        XCTAssertNil(first["opposite"])
+        XCTAssertEqual(keys["edgeMount"], .bool(true))
+        // The entry reads back to the same draft.
+        XCTAssertEqual(CustomFootprintDraft(json: draft.encoded()), draft)
+        // The backend loads it, and the draft of the loaded footprint is the same draft.
+        guard case let .success(footprint) = CustomFootprintDraftTests.load(draft.encoded()) else {
+            return XCTFail("rejected")
+        }
+        XCTAssertEqual(footprint.pads.map(\.opposite), [false, true])
+        XCTAssertTrue(footprint.edgeMount)
+        XCTAssertEqual(CustomFootprintDraft(footprint: footprint), draft)
     }
 }

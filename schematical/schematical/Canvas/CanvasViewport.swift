@@ -72,6 +72,20 @@ final class CanvasViewport {
         )
     }
 
+    /// Changes zoom while keeping the world point under `anchor` (a screen
+    /// point) fixed, as a pinch does. Zoom stays inside the zoom steps' range
+    /// but is not snapped to them.
+    func setZoom(_ value: CGFloat, around anchor: CGPoint) {
+        let newZoom = min(max(value, zoomRange.lowerBound), zoomRange.upperBound)
+        let point = world(anchor)
+
+        zoom = newZoom
+        offset = CGSize(
+            width: anchor.x - point.x * scale,
+            height: anchor.y - point.y * scale
+        )
+    }
+
     func pan(to newOffset: CGSize) {
         offset = newOffset
     }

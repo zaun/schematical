@@ -4,7 +4,8 @@ import SwiftUI
 /// The Schematic sidebar's Options for a placed part that has a choice of
 /// color, resistance or footprint (the Generic LED, pull resistors): a Color
 /// picker, an Ohms field and a Footprint picker. A header (plan-23) also
-/// gets Rows, Pins per row and Gender. A change takes effect at once on the
+/// gets Rows, Pins per row and Gender; a test point (plan-57) gets Size and
+/// Through hole in place of the Footprint picker. A change takes effect at once on the
 /// canvas, the PCB and the file.
 struct PartOptionsSection: View {
     /// Looks up a header's new size (`HeaderFamily.name(rows:perRow:)`).
@@ -39,6 +40,73 @@ struct PartOptionsSection: View {
     /// Whether `part` has anything for this section to show.
     static func applies(to part: CatalogPart) -> Bool {
         hasColorChoice(part) || !part.footprintChoices.isEmpty
+    }
+
+    /// Whether the section has anything to show for a placed chip: what `applies(to: part)` says, or
+    /// a socket that fits the chip (plan-51-I).
+    static func applies(to chip: PlacedChip, in catalog: PartCatalogStore) -> Bool {
+        applies(to: chip.part) || isSocketable(chip.part, in: catalog)
+    }
+
+    /// Whether a socket fits `part`: it has no footprint choices, and the catalog has a socket that holds its footprint.
+    static func isSocketable(_ part: CatalogPart, in catalog: PartCatalogStore) -> Bool {
+        guard part.footprintChoices.isEmpty, let base = part.footprint else { return false }
+        return !catalog.sockets(fitting: base).isEmpty
+    }
+
+    /// The Mounting control's three choices.
+    enum MountingChoice: String, CaseIterable, Identifiable {
+        case ic, withSocket, socketOnly
+
+        var id: String { rawValue }
+        var title: String {
+            switch self {
+            case .ic: "IC"
+            case .withSocket: "IC + Socket"
+            case .socketOnly: "Socket Only"
+            }
+        }
+
+        init(_ socket: ChipSocket?) {
+            switch socket?.mode {
+            case nil: self = .ic
+            case .withSocket?: self = .withSocket
+            case .socketOnly?: self = .socketOnly
+            }
+        }
+
+        var mode: ChipSocket.Mode? {
+            switch self {
+            case .ic: nil
+            case .withSocket: .withSocket
+            case .socketOnly: .socketOnly
+            }
+        }
+    }
+
+    /// Switches a chip to a mounting choice: IC takes the socket off; from IC a socket mode starts
+    /// with the generic socket, and between the two socket modes the chip keeps its socket.
+    static func choose(_ choice: MountingChoice, for chip: PlacedChip, in document: SchematicDocument,
+                       catalog: PartCatalogStore) {
+        guard let mode = choice.mode else {
+            document.setPartSocket(chip.id, mode: nil, socket: nil)
+            return
+        }
+        let socket = chip.socket?.part ?? chip.part.footprint.flatMap { catalog.genericSocket(fitting: $0) }
+        document.setPartSocket(chip.id, mode: mode, socket: socket)
+    }
+
+    @State private var choosingSocket = false
+
+    /// "Mill-Max Manufacturing Corp. · DIP socket, 0.3 in, through hole, gold".
+    static func socketCaption(_ part: CatalogPart) -> String {
+        var pieces = [SocketPickerSheet.mountingText(part) == "surface-mount" ? "surface mount" : "through hole"]
+        let spacing = SocketPickerSheet.rowSpacingText(part)
+        if !spacing.isEmpty { pieces.insert(spacing, at: 0) }
+        let finish = SocketPickerSheet.finishText(part)
+        if !finish.isEmpty { pieces.append(finish) }
+        let title = "\(part.package), " + pieces.joined(separator: ", ")
+        return part.manufacturer == "Generic" ? title : "\(part.manufacturer) · \(title)"
     }
 
     /// An LED with more than one color.
@@ -95,11 +163,50 @@ struct PartOptionsSection: View {
                     document.setPartFarads(chip.id, farads)
                 }
             }
-            if !current.part.footprintChoices.isEmpty {
+            if current.part.isTestPoint {
+                let mounting = TestPointFamily.parse(current.footprintID ?? current.part.footprint?.id ?? "")
+                    ?? (size: TestPointFamily.defaultSize, throughHole: false)
+                Picker("Size", selection: Binding(
+                    get: { mounting.size },
+                    set: { document.setPartFootprint(
+                        chip.id, TestPointFamily.footprintID(size: $0, throughHole: mounting.throughHole)) }
+                )) {
+                    ForEach(TestPointFamily.sizes, id: \.self) { Text(TestPointFamily.label($0)).tag($0) }
+                }
+                .pickerStyle(.menu)
+                Toggle("Through hole", isOn: Binding(
+                    get: { mounting.throughHole },
+                    set: { document.setPartFootprint(
+                        chip.id, TestPointFamily.footprintID(size: mounting.size, throughHole: $0)) }
+                ))
+            }
+            if !current.part.footprintChoices.isEmpty && !current.part.isTestPoint {
                 FootprintChoicePicker(choices: current.part.footprintChoices, selection: Binding(
                     get: { current.footprintID ?? current.part.footprint?.id ?? "" },
                     set: { document.setPartFootprint(chip.id, $0) }
                 ))
+            }
+            if Self.isSocketable(current.part, in: catalog) {
+                Picker("Mounting", selection: Binding(
+                    get: { MountingChoice(current.socket) },
+                    set: { Self.choose($0, for: current, in: document, catalog: catalog) }
+                )) {
+                    ForEach(MountingChoice.allCases) { Text($0.title).tag($0) }
+                }
+                .pickerStyle(.segmented)
+                if let socket = current.socket {
+                    LabeledContent("Socket", value: socket.part.name)
+                    Text(Self.socketCaption(socket.part))
+                        .font(.caption).foregroundStyle(.secondary)
+                    Button("Choose Socket…") { choosingSocket = true }
+                }
+            }
+        }
+        .sheet(isPresented: $choosingSocket) {
+            SocketPickerSheet(catalog: catalog, document: document, chipID: chip.id) { part in
+                if let now = document.chips.first(where: { $0.id == chip.id }), let mode = now.socket?.mode {
+                    document.setPartSocket(chip.id, mode: mode, socket: part)
+                }
             }
         }
     }

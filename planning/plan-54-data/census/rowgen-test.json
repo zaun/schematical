@@ -1,0 +1,7 @@
+{
+  "format": "schematical-footprints",
+  "version": 1,
+  "footprints": [
+    {"id":"TEST-ROW-8","description":"8-contact test row","note":"plan-54-H fixture: 2 x 4 pads, pitch 1.0, a 0.5 gap after pad 2, side 1 runs right to left, one peg","style":"explicit","pins":8,"body":{"width":7.5,"height":6.0},"edgeMount":true,"pads":[{"pin":1,"x":-1.75,"y":-2.0,"width":0.4,"height":1.2,"shape":"rect"},{"pin":2,"x":-0.75,"y":-2.0,"width":0.4,"height":1.2,"shape":"rect"},{"pin":3,"x":0.75,"y":-2.0,"width":0.4,"height":1.2,"shape":"rect"},{"pin":4,"x":1.75,"y":-2.0,"width":0.4,"height":1.2,"shape":"rect"},{"pin":5,"x":1.75,"y":2.0,"width":0.4,"height":1.2,"shape":"rect","opposite":true},{"pin":6,"x":0.75,"y":2.0,"width":0.4,"height":1.2,"shape":"rect","opposite":true},{"pin":7,"x":-0.75,"y":2.0,"width":0.4,"height":1.2,"shape":"rect","opposite":true},{"pin":8,"x":-1.75,"y":2.0,"width":0.4,"height":1.2,"shape":"rect","opposite":true},{"pin":0,"x":2.75,"y":0.0,"width":1.0,"height":1.0,"shape":"round","drill":1.0,"plated":false}]}
+  ]
+}

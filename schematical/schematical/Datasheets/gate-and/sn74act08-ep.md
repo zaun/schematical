@@ -24,13 +24,13 @@
 ## Description
 
 The SN74ACT08 is a quadruple 2-input positive-AND gate. This device
-performs the Boolean function Y = A · B in positive logic.
+performs the Boolean function Y = A · B in positive logic. [[1::4]]
 
 Controlled baseline. One assembly/test site, one fabrication site.
 Enhanced diminishing manufacturing sources (DMS) support. Enhanced
-product-change notification. 4.5-V to 5.5-V V~CC~ operation.
+product-change notification. 4.5-V to 5.5-V V~CC~ operation. [[1::2]]
 
-Inputs accept voltages to 5.5 V. Inputs are TTL-voltage compatible.
+Inputs accept voltages to 5.5 V. Inputs are TTL-voltage compatible. [[1::1]]
 
 ## Pinout
 
@@ -46,6 +46,7 @@ Inputs accept voltages to 5.5 V. Inputs are TTL-voltage compatible.
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Functional description
 
@@ -62,6 +63,7 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 | L | X | L |
 | X | L | L |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -82,6 +84,7 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -100,6 +103,7 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -126,12 +130,14 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 [2] This is the increase in supply current for each input that is at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 [3] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
+[[3::table #1]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 1 MHz | 20 | pF |
 ```
+[[3::table #2]]
 
 ## Switching characteristics
 
@@ -146,13 +152,14 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
+[[3::table #3]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 2.5 ns, t~f~ ≤ 2.5 ns. The outputs are measured one
-at a time, with one input transition per measurement.
+at a time, with one input transition per measurement. [[4::1]]
 
 Conversion note: the load circuit also has a 500 Ω resistor from the output
 to switch S1 (2 × V~CC~ or open), and S1 is open for t~PLH~/t~PHL~, which
@@ -164,10 +171,12 @@ swings 0 V to 3 V and is measured at 1.5 V, and the outputs are measured at
 RL: 500 Ω
 CL: 50 pF
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times"
 VM: 1.5 V (input), 50 % V~CC~ (outputs)
 ```
+[[4::Figure 1]]
 
 ## Package
 
@@ -180,6 +189,7 @@ VM: 1.5 V (input), 50 % V~CC~ (outputs)
 SN74ACT08IDREP | Reel of 2500 | -40 to 85 | SACT08IEP
 V62/04759-01XE | Reel of 2500 | -40 to 85 | SACT08IEP
 ```
+[[5::table #1]]
 
 ## Conversion notes
 

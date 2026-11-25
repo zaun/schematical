@@ -1,0 +1,1981 @@
+{
+ "kind": "leddriver",
+ "newDevices": [
+  {
+   "id": "IS31FL3707",
+   "function": "8x8 matrix driver",
+   "description": "I2C 8x8 / 7x9 matrix LED driver: 8-bit PWM per dot, per-CS current scaling, global current, software and hardware shutdown, AD address strap",
+   "drawer": [
+    "Displays & Indicators",
+    "LED drivers"
+   ],
+   "note": "is31fl3707 p.1 features, p.3 pinout and pin functions, p.4 ordering, p.5 supply range and tSCAN, p.6 tNOL, p.8 I2C and Table 1 address, p.10 Table 2 register map, p.11 Fig.9 and Table 3 PWM, p.12 Fig.10 and Table 4 scaling, p.13 Tables 5-7, p.14 Tables 8-13, p.15 reset register, p.16 scanning timing and SDB, p.18 shutdown, p.21-23 packages",
+   "pinouts": {
+    "p24": [
+     {
+      "number": 1,
+      "name": "SW2",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "SW1",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 5,
+      "name": "ISET",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "SDB",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 9,
+      "name": "AD",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "CS1",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "CS2",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "CS3",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "CS4",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "CS5",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 16,
+      "name": "CS6",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "CS7",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "SW9/CS8",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "SW8",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "SW7",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "SW6",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "SW5",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "SW4",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "SW3",
+      "role": "output"
+     }
+    ]
+   },
+   "vcc": [
+    2.7,
+    5.5
+   ],
+   "analog": [
+    "ISET"
+   ],
+   "bus": {
+    "style": "i2c",
+    "scl": "SCL",
+    "sda": "SDA",
+    "address": [
+     "AD"
+    ],
+    "table": [
+     104,
+     107,
+     105,
+     106
+    ]
+   },
+   "registers": [
+    {
+     "name": "PWM_SW1_CS1",
+     "address": 3,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW1_CS2",
+     "address": 4,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW1_CS3",
+     "address": 5,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW1_CS4",
+     "address": 6,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW1_CS5",
+     "address": 7,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_08",
+     "address": 8,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_09",
+     "address": 9,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_0A",
+     "address": 10,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_0B",
+     "address": 11,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_0C",
+     "address": 12,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_0D",
+     "address": 13,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "PWM_SW1_CS6",
+     "address": 14,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW1_CS7",
+     "address": 15,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW1_CS8",
+     "address": 16,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_11",
+     "address": 17,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_12",
+     "address": 18,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "PWM_SW2_CS1",
+     "address": 19,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW2_CS2",
+     "address": 20,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW2_CS3",
+     "address": 21,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW2_CS4",
+     "address": 22,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW2_CS5",
+     "address": 23,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_18",
+     "address": 24,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_19",
+     "address": 25,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_1A",
+     "address": 26,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_1B",
+     "address": 27,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_1C",
+     "address": 28,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_1D",
+     "address": 29,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "PWM_SW2_CS6",
+     "address": 30,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW2_CS7",
+     "address": 31,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW2_CS8",
+     "address": 32,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_21",
+     "address": 33,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_22",
+     "address": 34,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "PWM_SW3_CS1",
+     "address": 35,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW3_CS2",
+     "address": 36,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW3_CS3",
+     "address": 37,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW3_CS4",
+     "address": 38,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW3_CS5",
+     "address": 39,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_28",
+     "address": 40,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_29",
+     "address": 41,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_2A",
+     "address": 42,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_2B",
+     "address": 43,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_2C",
+     "address": 44,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_2D",
+     "address": 45,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "PWM_SW3_CS6",
+     "address": 46,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW3_CS7",
+     "address": 47,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW3_CS8",
+     "address": 48,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_31",
+     "address": 49,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_32",
+     "address": 50,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "PWM_SW4_CS1",
+     "address": 51,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW4_CS2",
+     "address": 52,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW4_CS3",
+     "address": 53,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW4_CS4",
+     "address": 54,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW4_CS5",
+     "address": 55,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_38",
+     "address": 56,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_39",
+     "address": 57,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_3A",
+     "address": 58,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_3B",
+     "address": 59,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_3C",
+     "address": 60,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_3D",
+     "address": 61,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "PWM_SW4_CS6",
+     "address": 62,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW4_CS7",
+     "address": 63,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW4_CS8",
+     "address": 64,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_41",
+     "address": 65,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_42",
+     "address": 66,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "PWM_SW5_CS1",
+     "address": 67,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW5_CS2",
+     "address": 68,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW5_CS3",
+     "address": 69,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW5_CS4",
+     "address": 70,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW5_CS5",
+     "address": 71,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_48",
+     "address": 72,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_49",
+     "address": 73,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_4A",
+     "address": 74,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_4B",
+     "address": 75,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_4C",
+     "address": 76,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_4D",
+     "address": 77,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "PWM_SW5_CS6",
+     "address": 78,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW5_CS7",
+     "address": 79,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW5_CS8",
+     "address": 80,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_51",
+     "address": 81,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_52",
+     "address": 82,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "PWM_SW6_CS1",
+     "address": 83,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW6_CS2",
+     "address": 84,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW6_CS3",
+     "address": 85,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW6_CS4",
+     "address": 86,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW6_CS5",
+     "address": 87,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_58",
+     "address": 88,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_59",
+     "address": 89,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_5A",
+     "address": 90,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_5B",
+     "address": 91,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_5C",
+     "address": 92,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_5D",
+     "address": 93,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "PWM_SW6_CS6",
+     "address": 94,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW6_CS7",
+     "address": 95,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW6_CS8",
+     "address": 96,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_61",
+     "address": 97,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_62",
+     "address": 98,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "PWM_SW7_CS1",
+     "address": 99,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW7_CS2",
+     "address": 100,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW7_CS3",
+     "address": 101,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW7_CS4",
+     "address": 102,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW7_CS5",
+     "address": 103,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_68",
+     "address": 104,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_69",
+     "address": 105,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_6A",
+     "address": 106,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_6B",
+     "address": 107,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_6C",
+     "address": 108,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_6D",
+     "address": 109,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "PWM_SW7_CS6",
+     "address": 110,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW7_CS7",
+     "address": 111,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW7_CS8",
+     "address": 112,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_71",
+     "address": 113,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_72",
+     "address": 114,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "PWM_SW8_CS1",
+     "address": 115,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW8_CS2",
+     "address": 116,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW8_CS3",
+     "address": 117,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW8_CS4",
+     "address": 118,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW8_CS5",
+     "address": 119,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_78",
+     "address": 120,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_79",
+     "address": 121,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_7A",
+     "address": 122,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_7B",
+     "address": 123,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_7C",
+     "address": 124,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_7D",
+     "address": 125,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "PWM_SW8_CS6",
+     "address": 126,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW8_CS7",
+     "address": 127,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW8_CS8",
+     "address": 128,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_81",
+     "address": 129,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_82",
+     "address": 130,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "PWM_SW9_CS1",
+     "address": 131,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW9_CS2",
+     "address": 132,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW9_CS3",
+     "address": 133,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW9_CS4",
+     "address": 134,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW9_CS5",
+     "address": 135,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_88",
+     "address": 136,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_89",
+     "address": 137,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_8A",
+     "address": 138,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_8B",
+     "address": 139,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_8C",
+     "address": 140,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_8D",
+     "address": 141,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "PWM_SW9_CS6",
+     "address": 142,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "PWM_SW9_CS7",
+     "address": 143,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_90",
+     "address": 144,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_91",
+     "address": 145,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "SL_CS1",
+     "address": 146,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "SL_CS2",
+     "address": 147,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "SL_CS3",
+     "address": 148,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "SL_CS4",
+     "address": 149,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "SL_CS5",
+     "address": 150,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RSVD_97",
+     "address": 151,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_98",
+     "address": 152,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_99",
+     "address": 153,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_9A",
+     "address": 154,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_9B",
+     "address": 155,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_9C",
+     "address": 156,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "SL_CS6",
+     "address": 157,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "SL_CS7",
+     "address": 158,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "SL_CS8",
+     "address": 159,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "CONFIG",
+     "address": 160,
+     "width": 8,
+     "reset": 16,
+     "fields": [
+      {
+       "name": "SWS",
+       "bits": [
+        7,
+        4
+       ]
+      },
+      {
+       "name": "OSDE",
+       "bits": [
+        2,
+        1
+       ]
+      },
+      {
+       "name": "SSD",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "GCC",
+     "address": 161,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "GCC",
+       "bits": [
+        6,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "RSVD_A2",
+     "address": 162,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_A3",
+     "address": 163,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_A4",
+     "address": 164,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_A5",
+     "address": 165,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_A6",
+     "address": 166,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_A7",
+     "address": 167,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_A8",
+     "address": 168,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_A9",
+     "address": 169,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_AA",
+     "address": 170,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_AB",
+     "address": 171,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_AC",
+     "address": 172,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_AD",
+     "address": 173,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_AE",
+     "address": 174,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_AF",
+     "address": 175,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "PULL",
+     "address": 176,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "PHC",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "SWPDV",
+       "bits": [
+        6,
+        4
+       ]
+      },
+      {
+       "name": "CSPUV",
+       "bits": [
+        2,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SPREAD",
+     "address": 177,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "SSP",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "RNG",
+       "bits": [
+        3,
+        2
+       ]
+      },
+      {
+       "name": "CLT",
+       "bits": [
+        1,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "PWMFREQ",
+     "address": 178,
+     "width": 8,
+     "reset": 1,
+     "fields": [
+      {
+       "name": "PWMF",
+       "bits": [
+        3,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "OSSEL",
+     "address": 179,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "SW",
+       "bits": [
+        3,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "OSSTAT1",
+     "address": 180,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true,
+     "fields": [
+      {
+       "name": "CS05_CS01",
+       "bits": [
+        6,
+        2
+       ]
+      }
+     ]
+    },
+    {
+     "name": "OSSTAT2",
+     "address": 181,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true,
+     "fields": [
+      {
+       "name": "CS08_CS06",
+       "bits": [
+        7,
+        5
+       ]
+      }
+     ]
+    },
+    {
+     "name": "PULLR",
+     "address": 182,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "OPE",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "DTS",
+       "bits": [
+        5,
+        4
+       ]
+      },
+      {
+       "name": "CSPUVR",
+       "bits": [
+        2,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "RSVD_B7",
+     "address": 183,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_B8",
+     "address": 184,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_B9",
+     "address": 185,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_BA",
+     "address": 186,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_BB",
+     "address": 187,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_BC",
+     "address": 188,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_BD",
+     "address": 189,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_BE",
+     "address": 190,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_BF",
+     "address": 191,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_C0",
+     "address": 192,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_C1",
+     "address": 193,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_C2",
+     "address": 194,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_C3",
+     "address": 195,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_C4",
+     "address": 196,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_C5",
+     "address": 197,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_C6",
+     "address": 198,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_C7",
+     "address": 199,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_C8",
+     "address": 200,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_C9",
+     "address": 201,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_CA",
+     "address": 202,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_CB",
+     "address": 203,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_CC",
+     "address": 204,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_CD",
+     "address": 205,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSVD_CE",
+     "address": 206,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true
+    },
+    {
+     "name": "RSTREG",
+     "address": 207,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "V",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DOTS1",
+     "width": 8,
+     "reset": 0,
+     "note": "internal: bit y-1 = dot (SW1, CSy) lit, i.e. its PWM register nonzero; NOT driven by the bus (engineNeeds)"
+    },
+    {
+     "name": "DOTS2",
+     "width": 8,
+     "reset": 0,
+     "note": "internal: bit y-1 = dot (SW2, CSy) lit, i.e. its PWM register nonzero; NOT driven by the bus (engineNeeds)"
+    },
+    {
+     "name": "DOTS3",
+     "width": 8,
+     "reset": 0,
+     "note": "internal: bit y-1 = dot (SW3, CSy) lit, i.e. its PWM register nonzero; NOT driven by the bus (engineNeeds)"
+    },
+    {
+     "name": "DOTS4",
+     "width": 8,
+     "reset": 0,
+     "note": "internal: bit y-1 = dot (SW4, CSy) lit, i.e. its PWM register nonzero; NOT driven by the bus (engineNeeds)"
+    },
+    {
+     "name": "DOTS5",
+     "width": 8,
+     "reset": 0,
+     "note": "internal: bit y-1 = dot (SW5, CSy) lit, i.e. its PWM register nonzero; NOT driven by the bus (engineNeeds)"
+    },
+    {
+     "name": "DOTS6",
+     "width": 8,
+     "reset": 0,
+     "note": "internal: bit y-1 = dot (SW6, CSy) lit, i.e. its PWM register nonzero; NOT driven by the bus (engineNeeds)"
+    },
+    {
+     "name": "DOTS7",
+     "width": 8,
+     "reset": 0,
+     "note": "internal: bit y-1 = dot (SW7, CSy) lit, i.e. its PWM register nonzero; NOT driven by the bus (engineNeeds)"
+    },
+    {
+     "name": "DOTS8",
+     "width": 8,
+     "reset": 0,
+     "note": "internal: bit y-1 = dot (SW8, CSy) lit, i.e. its PWM register nonzero; NOT driven by the bus (engineNeeds)"
+    },
+    {
+     "name": "HW",
+     "width": 1,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "SDB",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "internal: level of the SDB pin (0 = hardware shutdown)"
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "Register address",
+      "in": "aaaaaaaa",
+      "action": "pointer",
+      "address": "a",
+      "increment": 1
+     }
+    ],
+    "read": "pointer",
+    "triggers": [
+     {
+      "write": "RSTREG.V=174",
+      "action": "reset"
+     }
+    ]
+   },
+   "pins": {
+    "levels": [
+     {
+      "pin": "SDB",
+      "field": "HW.SDB"
+     }
+    ]
+   },
+   "display": {
+    "driver": "matrix",
+    "rows": [
+     "SW1",
+     "SW2",
+     "SW3",
+     "SW4",
+     "SW5",
+     "SW6",
+     "SW7",
+     "SW8"
+    ],
+    "rowActive": "high",
+    "columns": [
+     "CS1",
+     "CS2",
+     "CS3",
+     "CS4",
+     "CS5",
+     "CS6",
+     "CS7",
+     "SW9/CS8"
+    ],
+    "columnActive": "low",
+    "ram": [
+     "DOTS1",
+     "DOTS2",
+     "DOTS3",
+     "DOTS4",
+     "DOTS5",
+     "DOTS6",
+     "DOTS7",
+     "DOTS8"
+    ],
+    "scan": {
+     "periodUs": 29.93
+    },
+    "shutdown": "CONFIG.SSD=0",
+    "blank": "HW.SDB=0"
+   },
+   "parts": [
+    {
+     "name": "IS31FL3707-GRLS4-TR",
+     "manufacturer": "Lumissil Microsystems",
+     "datasheet": "is31fl3707",
+     "package": "SOIC",
+     "pinout": "p24",
+     "footprint": "SOIC-24W"
+    },
+    {
+     "name": "IS31FL3707-SALS4-TR",
+     "manufacturer": "Lumissil Microsystems",
+     "datasheet": "is31fl3707",
+     "package": "SSOP",
+     "pinout": "p24",
+     "footprint": "QSOP-24"
+    },
+    {
+     "name": "IS31FL3707-SALS4",
+     "manufacturer": "Lumissil Microsystems",
+     "datasheet": "is31fl3707",
+     "package": "SSOP",
+     "pinout": "p24",
+     "footprint": "QSOP-24"
+    }
+   ]
+  }
+ ],
+ "datasheets": [
+  {
+   "id": "is31fl3707",
+   "url": "https://www.lumissil.com/assets/pdf/core/IS31FL3707_DS.pdf"
+  },
+  {
+   "id": "tlc6983",
+   "url": "https://www.ti.com/lit/ds/symlink/tlc6983.pdf"
+  }
+ ],
+ "missingFootprints": [
+  {
+   "id": "NFBGA-96-ZXL",
+   "description": "96-ball NFBGA (ZXL), 11 x 11 grid less 25, 6 x 6 mm, 0.5 mm pitch",
+   "note": "TI ZXL0096A example board layout (R1; 96X (\u00d80.25) lands, (0.5) pitch), tlc6983.pdf p.68; body 6.0 mid (5.9-6.1) square and ball 0.25 max (0.19-0.25) from the outline p.67; ball map (rows A-L without I, columns 1-11, A1 top left) p.3 Figure 6-2 and Table 6-1 p.4",
+   "style": "grid",
+   "pins": 96,
+   "rows": 11,
+   "columns": 11,
+   "body": {
+    "width": 6.0,
+    "height": 6.0
+   },
+   "pitch": 0.5,
+   "pad": {
+    "width": 0.25,
+    "height": 0.25,
+    "shape": "round"
+   },
+   "balls": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9",
+    "A10",
+    "A11",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8",
+    "B9",
+    "B10",
+    "B11",
+    "C1",
+    "C2",
+    "C10",
+    "C11",
+    "D1",
+    "D2",
+    "D5",
+    "D6",
+    "D7",
+    "D8",
+    "D10",
+    "D11",
+    "E1",
+    "E2",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E10",
+    "E11",
+    "F1",
+    "F2",
+    "F4",
+    "F5",
+    "F6",
+    "F7",
+    "F8",
+    "F10",
+    "F11",
+    "G1",
+    "G2",
+    "G4",
+    "G5",
+    "G6",
+    "G7",
+    "G8",
+    "G10",
+    "G11",
+    "H1",
+    "H2",
+    "H4",
+    "H5",
+    "H6",
+    "H7",
+    "H8",
+    "H10",
+    "H11",
+    "J1",
+    "J2",
+    "J10",
+    "J11",
+    "K1",
+    "K2",
+    "K3",
+    "K4",
+    "K5",
+    "K6",
+    "K7",
+    "K8",
+    "K9",
+    "K10",
+    "K11",
+    "L1",
+    "L2",
+    "L3",
+    "L4",
+    "L5",
+    "L6",
+    "L7",
+    "L8",
+    "L9",
+    "L10",
+    "L11"
+   ]
+  }
+ ],
+ "skipped": [
+  {
+   "part": "TLC6983ZXLR (and TLC6983RRFR)",
+   "why": "no device: the CCSI (no chip select, in-band START/END, 17-bit words with a check bit, dual-edge sampling, chained devices with an index) is not a converter-engine bus style, and the display memory (two banks, auto-advancing write counters, VSYNC bank swap, 48 columns, 16-bit grays, scan period from SEG_LENGTH/LINE_SWT/FREQ_MUL) is beyond the matrix driver. Spec is complete in planning/plan-56-data/specs/is31fl3707-tlc6983.md; the BGA footprint NFBGA-96-ZXL is drawn under missingFootprints (only needed once the device exists; footprint_check fails on an unused footprint, so do not add it before then). RRFR (VQFN-76, p.64) has no footprint drawn and per the task only ZXLR is in stock."
+  }
+ ],
+ "engineNeeds": [
+  {
+   "need": "matrix driver: a dot is lit while its own field is nonzero",
+   "keys": "display.cells: an array of rows, each an array of field names, one per column pin (rows x columns field names, e.g. [[\"PWM_SW1_CS1\", ..., \"PWM_SW1_CS8\"], ...]); a dot is lit while its field is nonzero (optionally display.cellThreshold, lit while the field is >= the threshold). Used instead of `ram`; columnBits then does not apply. Pin SW9/CS8 etc. unchanged.",
+   "why": "IS31FL3707 lights a dot when its 8-bit PWM byte is nonzero (p.17: PWM 0 is dark). The matrix driver takes one bit per column from one field per row, and the PWM bytes arrive by the I2C pointer with auto-increment, where no `set` can turn 'byte != 0' into a bit. Today DOTS1-DOTS8 (internal registers, never written) feed `ram`, so every dot is dark. With the feature the device would replace `ram` by `cells` over the 71 PWM registers (PWM_SWx_CSy; SW9 has CS1-CS7) and drop DOTS1-DOTS8. The bench would then add: write PWM bytes (single and auto-increment) and check SWx high with CSy low in the slot of the row."
+  },
+  {
+   "need": "matrix driver: a pin that is a row or a column by a register field, and a row count from a field",
+   "keys": "rows / columns entries as {\"pin\": \"SW9/CS8\", \"when\": \"CONFIG.SWS=0\"} (row while the condition holds, else column or idle) and display.rowCount {\"field\": \"CONFIG.SWS\", \"values\": {\"0\": 9, \"1\": 8, \"2\": 7, \"3\": 6, \"4\": 5, \"5\": 4, \"6\": 3, \"7\": 2, \"8\": 9}} (a scan round has that many slots; a value not listed uses the first). SWS 1000 is 'SW1-SW9 with the same phase, all on' (not a scan); 'others' = 9 rows.",
+   "why": "IS31FL3707 pin 18 is SW9 in the 7x9 modes and CS8 in the 8x8 modes, and SWS sets 2-9 scanned rows (p.13, p.16). Today the pin is CS8 only and the round is always 8 rows of 29.93 us."
+  },
+  {
+   "need": "shutdown as an OR of conditions",
+   "keys": "display.shutdown accepting {\"any\": [\"CONFIG.SSD=0\", \"HW.SDB=0\"]} next to the string / array (AND) forms",
+   "why": "IS31FL3707 is dark (switches off) in software shutdown (SSD = 0) OR hardware shutdown (SDB low). `shutdown` arrays are ANDs (all must hold), so only SSD=0 is shutdown and SDB low is mapped to `blank` (columns high, rows still scan). Real chip: rows stop too."
+  },
+  {
+   "need": "CCSI bus style (TLC6983)",
+   "keys": "bus {\"style\": \"ccsi\", \"sclk\": \"SCLK\", \"sin\": \"SIN\", \"sout\": \"SOUT\"}: bits sampled on both SCLK edges; idle = SIN high; a frame starts when SIN falls and ends after 18 consecutive high bits; the stream into `protocol` is the 16-bit words with the 17th (check, = NOT of bit 16) bit removed (a check bit that is not the complement could be ignored or drop the frame); read frames insert the device's 3 x 17 bits before the END; chain: a chip-index command (head AA10h) gives the device an index and the device forwards a changed command, SOUT passes SIN delayed by the unselected frames; broadcast commands (all devices act) and non-broadcast data writes (a device removes the last 51 bits of the frame as its own).",
+   "why": "tlc6983 p.24-28. The converter engine has no style without a chip select or with in-band framing; this is the TLC6983's only host interface. The single-device case (chain of 1: chip index 0) is enough for a first model."
+  },
+  {
+   "need": "banked display RAM with auto-advancing write counters (TLC6983)",
+   "keys": "a ram description with 2 banks of lines x pixels x 3 gray words, a write counter (channel 0-15, then line 0..SCAN_NUM) that each WRTGS command (head AA30h, 3 x 16-bit data) writes to and advances, a VSYNC command (head AAF0h) that swaps the banks and clears the counters, and a soft reset (AA80h) that keeps the RAM",
+   "why": "tlc6983 p.29-31. `write`/`pointer` address registers explicitly; nothing carries a counter across commands or swaps two RAMs."
+  },
+  {
+   "need": "matrix driver beyond 16 columns, variable scan period and line count (TLC6983)",
+   "keys": "columns up to 48; cells (above) with 16-bit fields lit while nonzero; rows low-side (rowActive low, rows in display.openDrain so a deselected line is released); scan.periodUs from registers: slot = (SEG_LENGTH + T_SW) / f_GCLK with f_GCLK = (FREQ_MUL + 1) x f_SCLK (SCLK measured from the pin, or a nominal), rows scanned = SCAN_NUM + 1, SUBP_NUM sub-periods per frame (each row once per sub-period); display RAM = the displayed bank",
+   "why": "TLC6983 has 48 outputs (R0-R15, G0-G15, B0-B15) and 16 lines (32 when stacked); display.matrix has `columns` 1-16 and a fixed `periodUs`."
+  }
+ ],
+ "notes": "IS31FL3707 (Lumissil, Rev. A 09/17/2026): one device, three parts (IS31FL3707-GRLS4-TR SOP-24 -> SOIC-24W, -SALS4-TR and -SALS4 SSOP-24 -> QSOP-24; both footprints exist; the drawings match body/pitch/pins, only the pad-centre span differs from the sheet's land pattern, see the spec). Manufacturer 'Lumissil Microsystems' (the sheet is Lumissil's; the brief says ISSI). Datasheet ids is31fl3707 and tlc6983, both URLs answer a PDF of the same size as the local file (729405 and 3571234 bytes). MODELED: I2C bus with the AD strap (0x68 GND, 0x69 SCL, 0x6A SDA, 0x6B VCC), pointer with auto-increment on write and read through the unused addresses (reserved read-only registers RSVD_xx so the pointer steps by one as p.8 says; 214 registers in all), 71 PWM registers PWM_SWx_CSy, 8 scaling SL_CSy, CONFIG (SWS, OSDE, SSD; reset 10h), GCC, PULL, SPREAD, PWMFREQ (reset 01h), OSSEL, OSSTAT1/2 (read only), PULLR, RSTREG (AEh resets), the 8-row scan SW1-SW8 at 29.93 us a row, software shutdown (SSD=0: all rows low, columns high), SDB low blanks the columns. NOT MODELED / WRONG IN THE MODEL: no dot ever lights (PWM nonzero cannot be expressed by the matrix driver: engineNeeds 1; DOTS1-DOTS8 are internal registers nothing writes), pin 18 is CS8 only (no 7x9 mode), the SWS row count, the PWM frequency (row period fixed at 29.93 us), SDB low keeps the rows scanning (shutdown is an AND), PWM duty, scaling, global current, pull voltages, spread spectrum, phase, open/short detection. Install decision for the main thread: the device is register-faithful and loads (library_check, footprint_check, display_out_test and the other 42 tests pass in the copy; listing_check and trace_check differ only by the three extra parts), but its display stays dark; you may hold it back until engineNeeds 1 lands, or ship it as a register model. BENCH (g2/is31fl3707_test.c, 44 checks, needs logic_test(is31fl3707_test) in CMake after display_out_test): parts and footprints, the four AD straps and their ACK/NAK of the other addresses, every register class (reset values, PWM corner dots, scaling, gaps, config and the rest, read-only status), auto-increment write and read across the gaps, the CFh reset (AEh and a non-reset value), the scan sequence over three rounds, the 29.93 us row period, SSD, SDB with the registers still reachable, reset stopping the scan. It checks no lit dot (engineNeeds 1). TLC6983: NO DEVICE (skipped): the CCSI bus and the banked 48x16 RAM are beyond the engine (engineNeeds 4-6). The spec has everything for a later device: command IDs, FC0-FC4 / FC10-FC15 fields and resets, frame and word format, memory write flow, refresh timing, the ZXL ball table. Footprint NFBGA-96-ZXL drawn (loads and passes footprint_check apart from 'unused' since no part uses it yet); add it to footprints.json together with the TLC6983 device, not before. Stock: TLC6983ZXLR was in stock per the task; nothing was queried here (Safari lookups are the main thread's). IS31FL3707 stock unknown (no DigiKey hit before); if none of the three parts is in stock, drop the device."
+}

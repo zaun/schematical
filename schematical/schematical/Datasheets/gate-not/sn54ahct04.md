@@ -24,12 +24,12 @@
 ## Description
 
 The SNx4AHCT04 devices contain six independent inverters. These devices
-perform the Boolean function Y = !{A}.
+perform the Boolean function Y = !{A}. [[1::1]]
 
 Inputs are TTL-voltage compatible. Latch-up performance exceeds 250mA
 per JESD 17. On products compliant to MIL-PRF-38535, all parameters are
 tested unless otherwise noted. On all other products, production
-processing does not necessarily include testing of all parameters.
+processing does not necessarily include testing of all parameters. [[1::2]]
 
 ## Pinout
 
@@ -58,6 +58,7 @@ GND: Ground Pin
 NC: No Connection
 VCC: Power Pin
 ```
+[[3::Table 4-1]]
 
 Conversion note: the pin table (Table 4-1) also lists the thermal pad (PAD) of the RGY and BQA packages, described as Thermal Pad.
 
@@ -66,15 +67,15 @@ Source error: Table 4-1 (p.3) prints the type I (input) for 5Y, which it describ
 ## Functional description
 
 The SNx4AHCT04 devices contain six independent inverters. These devices
-have TTL input levels that allow up translation from 3.3 V to 5 V.
+have TTL input levels that allow up translation from 3.3 V to 5 V. [[8::1]]
 
 Conversion note: the functional block diagram shows one inverter with input A and output Y.
 
-- V~CC~ is optimized at 5 V
-- Allows up voltage translation from 3.3 V to 5 V
-  - Inputs Accept V~IH~ levels of 2 V
-- Slow edge rates minimize output ringing
-- Inputs are TTL-voltage compatible
+- V~CC~ is optimized at 5 V [[8::2]]
+- Allows up voltage translation from 3.3 V to 5 V [[8::2]]
+  - Inputs Accept V~IH~ levels of 2 V [[8::2]]
+- Slow edge rates minimize output ringing [[8::2]]
+- Inputs are TTL-voltage compatible [[1::2]]
 
 ## Function tables
 
@@ -84,6 +85,7 @@ Conversion note: the functional block diagram shows one inverter with input A an
 | H | L |
 | L | H |
 ```
+[[8::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -102,6 +104,7 @@ Conversion note: the functional block diagram shows one inverter with input A an
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -112,6 +115,7 @@ Conversion note: the functional block diagram shows one inverter with input A an
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -131,6 +135,7 @@ Conversion note: the functional block diagram shows one inverter with input A an
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI Application Report, Implications of Slow or Floating CMOS Inputs, (SCBA004).
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -148,6 +153,7 @@ Conversion note: the functional block diagram shows one inverter with input A an
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report, (SPRA953).
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -167,6 +173,7 @@ Conversion note: the functional block diagram shows one inverter with input A an
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested at V~CC~ = 0 V.
 [2] This is the increase in supply current for each input at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[5::table #2]]
 
 ```table id=noise caption="Noise characteristics" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25°C [1]"
 | Symbol | Parameter | SN74AHCT04 | < | < | Unit |
@@ -180,12 +187,14 @@ Conversion note: the functional block diagram shows one inverter with input A an
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[6::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 14 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -200,6 +209,7 @@ Conversion note: the functional block diagram shows one inverter with input A an
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[5::table #3]]
 
 ## Typical characteristics
 
@@ -210,6 +220,7 @@ Conversion note: the functional block diagram shows one inverter with input A an
   {"label": "TPD in ns", "points": [[-55, 4.4], [-40, 4.6], [25, 4.9], [85, 5.4], [125, 5.6]]}
  ]}
 ```
+[[6::Figure 5-1]]
 
 ## Parameter measurement information
 
@@ -217,17 +228,19 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time with one input transition per measurement. All parameters and
-waveforms are not applicable to all devices.
+waveforms are not applicable to all devices. [[7::1]]
 
 Conversion note: in Figure 6-1 the inputs swing 0 V to 3 V and are measured at 1.5 V, the outputs are measured at 50% V~CC~, and its table sets S1 to Open for t~PLH~/t~PHL~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V (input), 50% VCC (output)
 ```
+[[7::Figure 6-1]]
 
 Conversion note: the source figure (Figure 6-1) also shows the load circuit for 3-state and open-drain outputs (R~L~ = 1 kΩ) with its S1 table, and the pulse-duration, setup-and-hold and enable/disable waveforms with their note B, which are not drawn here.
 
@@ -237,7 +250,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[9::1]]
 
 The SNx4AHCT04 is a low-drive CMOS device that can be used for a
 multitude of inverting type applications where output ringing is a
@@ -245,7 +258,7 @@ concern. The low drive and slow edge rates will minimize overshoot and
 undershoot on the outputs. The input switching levels have been lowered
 to accommodate TTL inputs of 0.8-V V~IL~ and 2-V V~IH~. This feature
 makes it ideal for translating up from 3.3 V to 5 V. Figure 8-1 and
-Figure 8-2 show this type of translation.
+Figure 8-2 show this type of translation. [[9::2]]
 
 Conversion note: Figure 8-1 (driving relays) shows two inverters with their inputs joined and their outputs joined, driving a relay coil to ground with a diode across the coil.
 
@@ -257,26 +270,26 @@ This device uses CMOS technology and has balanced output drive. Care
 should be taken to avoid bus contention because it can drive currents
 that would exceed maximum limits. The high drive will also create fast
 edges into light loads, so routing and load conditions should be
-considered to prevent ringing.
+considered to prevent ringing. [[9::3]]
 
 ### Detailed design procedure
 
-1. Recommended input conditions
+1. Recommended input conditions [[9::4]]
    - Rise time and fall time specs: See (Δt/ΔV) in the Recommended
-     Operating Conditions table.
+     Operating Conditions table. [[9::4]]
    - Specified High and low levels: See (V~IH~ and V~IL~) in the
-     Recommended Operating Conditions table.
-2. Recommend output conditions
+     Recommended Operating Conditions table. [[9::4]]
+2. Recommend output conditions [[9::4]]
    - Load currents should not exceed 25 mA per output and 50 mA total
-     for the part
-   - Outputs should not be pulled above V~CC~
+     for the part [[9::4]]
+   - Outputs should not be pulled above V~CC~ [[9::4]]
 
 Conversion note: the application curve (Figure 8-3, up translation) is an oscilloscope picture of an input step and the output step it produces at a higher level.
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX supply
-voltage rating located in the Recommended Operating Conditions table.
+voltage rating located in the Recommended Operating Conditions table. [[10::1]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 μF is recommended.
@@ -284,11 +297,11 @@ If there are multiple V~CC~ pins, 0.01 μF or 0.022 μF is recommended for
 each power pin. It is acceptable to parallel multiple bypass caps to
 reject different frequencies of noise. A 0.1 μF and 1 μF are commonly
 used in parallel. The bypass capacitor should be installed as close to
-the power pin as possible for best results.
+the power pin as possible for best results. [[10::2]]
 
 ### Layout guidelines
 
-When using multiple bit logic devices inputs should not ever float.
+When using multiple bit logic devices inputs should not ever float. [[10::3]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused, for example, when only two inputs of a triple-input AND gate
@@ -304,7 +317,7 @@ or is more convenient. It is generally acceptable to float outputs
 unless the part is a transceiver. If the transceiver has an output
 enable pin, it will disable the outputs section of the part when
 asserted. This will not disable the input section of the IOs, so they
-cannot float when disabled.
+cannot float when disabled. [[10::4]]
 
 Source error: the source prints "#none#" where a figure reference belongs (Layout Guidelines, p.10); kept as printed.
 
@@ -326,6 +339,7 @@ Source error: Figure 8-4 (p.10) labels the pins 1A, 1B, 1Y, 2A, 2B, 2Y, GND, 3Y,
 5962-9680401Q2A | Tube of 55 | -55 to 125 | 5962-9680401Q2A SNJ54AHCT04FK
 5962-9680401QCA | Tube of 25 | -55 to 125 | 5962-9680401QCA SNJ54AHCT04J
 ```
+[[13::table #1]]
 
 ## Conversion notes
 

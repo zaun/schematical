@@ -25,21 +25,21 @@
 
 The SN54LVC14A hex Schmitt-trigger inverter is designed for 2.7-V to
 3.6-V V~CC~ operation, and the SN74LVC14A hex Schmitt-trigger inverter
-is designed for 1.65-V to 3.6-V V~CC~ operation.
+is designed for 1.65-V to 3.6-V V~CC~ operation. [[1::1]]
 
 The devices contain six independent inverters and perform the Boolean
-function Y = !{A}.
+function Y = !{A}. [[1::3]]
 
 Inputs can be driven from either 3.3-V or 5-V devices. This feature
 allows the use of these devices as translators in a mixed 3.3-V or 5-V
-system environment.
+system environment. [[1::4]]
 
 Latch-up performance exceeds 100 mA per JESD 78, Class II. Operate from
 1.65 V to 3.6 V V~CC~. Specified from –40°C to +85°C, –40°C to 125°C,
 and –55°C to 125°C. Inputs accept voltages to 5.5 V. Max t~pd~ of 6.4 ns
 at 3.3 V. On products compliant to MIL-PRF-38535, all parameters are
 tested unless otherwise noted. On all other products, production
-processing does not necessarily include testing of all parameters.
+processing does not necessarily include testing of all parameters. [[1::2]]
 
 ## Pinout
 
@@ -54,6 +54,7 @@ GND: Ground
 VCC: Positive supply
 1Y, 2Y, 3Y, 4Y, 5Y, 6Y: Data output
 ```
+[[4::Table 5-1]]
 
 ## Functional description
 
@@ -70,7 +71,7 @@ larger currents than the device can sustain without being damaged. It is
 important for the power output of the device to be limited to avoid
 thermal runaway and damage due to over-current. The electrical and
 thermal limits defined the in the Absolute Maximum Ratings section must
-be followed at all times.
+be followed at all times. [[11::5]]
 
 Source error: "defined the in the" is the source's wording (Section
 8.3.1, p.11); kept as printed.
@@ -84,7 +85,7 @@ Characteristics table from the input to ground. The worst case
 resistance is calculated with the maximum input voltage, given in the
 Absolute Maximum Ratings table, and the maximum input leakage current,
 given in the Electrical Characteristics table, using Ohm's law
-(R = V ÷ I).
+(R = V ÷ I). [[11::6]]
 
 The Schmitt-trigger input architecture provides hysteresis as defined by
 ΔV~T~ in the Electrical Characteristics table, which makes this device
@@ -92,18 +93,18 @@ extremely tolerant to slow or noisy inputs. While the inputs can be
 driven much slower than standard CMOS inputs, it is still recommended to
 properly terminate unused inputs. Driving the inputs with slow
 transitioning signals will increase dynamic current consumption of the
-device.
+device. [[11::7]]
 
 ### Clamp diodes
 
 The inputs to this device have negative clamping diodes. The outputs to
 this device have both positive and negative clamping diodes as shown in
-Figure 8-2.
+Figure 8-2. [[11::8]]
 
 Voltages beyond the values specified in the Absolute Maximum Ratings
 table can cause damage to the device. The input negative-voltage and
 output voltage ratings may be exceeded if the input and output
-clamp-current ratings are observed.
+clamp-current ratings are observed. [[11::9]]
 
 Conversion note: Figure 8-2, electrical placement of clamping diodes for
 each input and output, shows one diode from GND to the input (-I~IK~),
@@ -114,12 +115,12 @@ one from GND to the output (-I~OK~) and one from the output to V~CC~
 
 Input signals to this device can be driven above the supply voltage so
 long as they remain below the maximum input voltage value specified in
-the Absolute Maximum Ratings table.
+the Absolute Maximum Ratings table. [[12::2]]
 
 ## Function tables
 
 Table 8-1 lists the functional modes for the SN54LVC14A and SN74LVC14A
-devices.
+devices. [[12::3]]
 
 ```table id=function caption="Function table (each inverter)"
 | Input A | Output Y |
@@ -127,6 +128,7 @@ devices.
 | H | L |
 | L | H |
 ```
+[[12::Table 8-1]]
 
 ## Absolute maximum ratings
 
@@ -149,6 +151,7 @@ devices.
 [4] For the D package: above 70°C, the value of P~tot~ derates linearly with 8 mW/K.
 [5] For the DB, DGV, NS, and PW packages: above 60°C, the value of P~tot~ derates linearly with 5.5 mW/K.
 ```
+[[5::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -160,6 +163,7 @@ devices.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[5::table #2]]
 
 ## Recommended operating conditions
 
@@ -179,6 +183,7 @@ devices.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[5::table #3]]
 
 ```table id=roc-74 caption="Recommended operating conditions: SN74LVC14A" conditions="See [1]"
 | Symbol | Parameter | Conditions | SN74LVC14A | < | < | < | < | < | Unit |
@@ -200,6 +205,7 @@ devices.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[6::table #1]]
 
 ## Thermal information
 
@@ -217,6 +223,7 @@ devices.
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 [2] Source conflict: the thermal table (p.6) heads the RGY column "(LCCC)" and "20 PINS"; the device information table (p.1), Figure 5-2 (p.4) and the package option addendum (p.18) give RGY as a 14-pin VQFN.
 ```
+[[6::table #2]]
 
 ## Electrical characteristics
 
@@ -249,6 +256,7 @@ devices.
 [1] T~A~ = 25°C
 [2] Source error: the continued table (p.7) prints V~OL~, I~I~, I~CC~, ΔI~CC~ and C~i~ in the wrong cells (V~OL~ and I~CC~ as test conditions of the V~OH~ rows, I~I~ as a V~CC~, ΔI~CC~ as the symbol of the V~OL~ rows, C~i~ as a test condition) and no symbol on the last four rows; the SN74LVC14A table (p.8) has the same rows with I~OH~ = –12 mA at 2.7 V and 3 V, I~OH~ = –24 mA at 3 V, I~OL~ = 12 mA at 2.7 V and the symbols V~OL~, I~I~, I~CC~, ΔI~CC~ and C~i~, so the marked cells are written as there.
 ```
+[[7::table #1]]
 
 ```table id=ec-74 caption="Electrical characteristics, SN74LVC14A" conditions="Over operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Test conditions | V~CC~ | SN74LVC14A | < | < | < | < | < | < | Unit |
@@ -292,6 +300,7 @@ devices.
 | ΔI~CC~ | | One input at V~CC~ – 0.6 V, Other inputs at V~CC~ or GND | 2.7 V to 3.6 V | | | 500 | | 500 | | 5000 | μA |
 | C~i~ | | V~I~ = V~CC~ or GND | 3.3 V | | 5 | | | | | | pF |
 ```
+[[7::table #2]] [[8::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | Unit |
@@ -299,6 +308,7 @@ devices.
 |---|---|---|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 11 | 12 | 15 | pF |
 ```
+[[9::table #1]]
 
 ## Switching characteristics
 
@@ -310,6 +320,7 @@ devices.
 | t~pd~ | A | Y | 2.7 V | | 7.5 | ns |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1 | 6.4 | ns |
 ```
+[[8::table #2]]
 
 ```table id=sw-74 caption="Switching characteristics, SN74LVC14A" conditions="Over operating free-air temperature range (unless otherwise noted) (see Figure 7-1)"
 | Symbol | From (input) | To (output) | V~CC~ | SN74LVC14A | < | < | < | < | < | < | Unit |
@@ -322,6 +333,7 @@ devices.
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1 | 3.2 | 6.2 | 1 | 6.4 | 1 | 8 | ns |
 | t~sk(o)~ | | | 3.3 V ± 0.3 V | | | 1 | | 1 | | 1.5 | ns |
 ```
+[[9::table #2]]
 
 ## Typical characteristics
 
@@ -332,6 +344,7 @@ devices.
   {"label": "Cpd", "points": [[1.8, 11], [2.5, 12], [3.3, 15]]}
  ]}
 ```
+[[9::Figure 6-1]]
 
 ## Parameter measurement information
 
@@ -339,7 +352,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[10::2]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -354,11 +367,13 @@ and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[10::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[10::Figure 7-1]]
 
 ```table id=test-conditions caption="Test conditions (Figure 7-1)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -369,10 +384,12 @@ CL: see table
 | 2.7 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 3.3 V ± 0.3 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 ```
+[[10::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[10::Figure 7-1]]
 
 ## Application information
 
@@ -380,7 +397,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[13::1]]
 
 Physically interactive interface elements like push buttons or rotary
 knobs offer simple and easy ways to interact with an electronic system.
@@ -395,7 +412,7 @@ case, the LVC14A uses this memory to debounce the physical element's
 signal, or filter the faulty transient signals and pass only the valid
 signal each time the element is used. In this example, we show a push
 button signal passed through an LVC14A that is debounced and inverted to
-the MCU for push detection.
+the MCU for push detection. [[13::2]]
 
 ### Typical application
 
@@ -405,7 +422,7 @@ quality signal due to the error in the physical push button. If the MCU
 attempts to sample this input to detect a push, there is high
 probability that multiple push events will be falsely detected. Once the
 debounce circuit has been implemented, the input is cleaned up, and the
-MCU can perform push detection without any error, as seen in Figure 9-3.
+MCU can perform push detection without any error, as seen in Figure 9-3. [[13::3]]
 
 Conversion note: the debouncer application diagram (Figure 9-1) shows a
 push button on input 1A of an LVC14A supplied from V~CC~ = 3.3 V, and
@@ -415,25 +432,25 @@ output 1Y going to an MCU (MSP43x).
 
 The SN74LVC14A device uses CMOS technology and has balanced output
 drive. Take care to avoid bus contention because it can drive currents
-that would exceed maximum limits.
+that would exceed maximum limits. [[13::4]]
 
 The SN74LVC14A allows for performing logical Boolean functions with
 hysteresis using digital signals. All input signals should remain as
-close as possible to either 0 V or V~CC~ for optimal operation.
+close as possible to either 0 V or V~CC~ for optimal operation. [[13::5]]
 
 ### Detailed design procedure
 
-1. Recommended input conditions:
+1. Recommended input conditions: [[14::1]]
    - For specified high and low levels, see V~IH~ and V~IL~ in the
-     Recommended Operating Conditions: SN74LVC14A table.
+     Recommended Operating Conditions: SN74LVC14A table. [[14::1]]
    - Inputs and outputs are overvoltage tolerant and can therefore go as
-     high as 3.6 V at any valid V~CC~.
-2. Recommended output conditions:
-   - Load currents should not exceed ±50 mA.
-3. Frequency selection criterion:
+     high as 3.6 V at any valid V~CC~. [[14::1]]
+2. Recommended output conditions: [[14::1]]
+   - Load currents should not exceed ±50 mA. [[14::1]]
+3. Frequency selection criterion: [[14::1]]
    - Added trace resistance and capacitance can reduce maximum frequency
      capability; follow the layout practices listed in the Layout
-     section
+     section [[14::1]]
 
 ### Application curves
 
@@ -445,7 +462,7 @@ plots it rising once, smoothly.
 ### Power supply recommendations
 
 The power supply can be any voltage between the minimum and maximum
-supply voltage rating listed in the Absolute Maximum Ratings table.
+supply voltage rating listed in the Absolute Maximum Ratings table. [[14::4]]
 
 Each V~CC~ terminal should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, a 0.1-µF bypass capacitor
@@ -455,11 +472,11 @@ are tied together internally. To reject different frequencies of noise,
 use multiple bypass capacitors in parallel. Capacitors with values of
 0.1 µF and 1 µF are commonly used in parallel. The bypass capacitor
 should be installed as close to the power terminal as possible for best
-results.
+results. [[14::5]]
 
 ### Layout guidelines
 
-When using multiple-bit logic devices, inputs must never float.
+When using multiple-bit logic devices, inputs must never float. [[15::1]]
 
 In many cases, functions (or parts of functions) of digital logic
 devices are unused, for example, when only two inputs of a triple-input
@@ -472,7 +489,7 @@ connected to a high or low bias to prevent them from floating. The logic
 level that must be applied to any particular unused input depends on the
 function of the device. Generally they are tied to GND or V~CC~,
 whichever makes more sense or is more convenient. It is generally
-acceptable to float outputs, unless the part is a transceiver.
+acceptable to float outputs, unless the part is a transceiver. [[15::2]]
 
 Conversion note: the layout diagrams (Figure 11-1) show two gates, one
 with its unused input tied to V~CC~ and one with its unused input tied
@@ -513,6 +530,7 @@ SN74LVC14APWRE4 | Reel of 2000 | -40 to 125 | LC14A
 SN74LVC14APWRG3 | Reel of 2000 | -40 to 125 | LC14A
 SN74LVC14ARGYR | Reel of 3000 | -40 to 125 | LC14A
 ```
+[[21::table #1]]
 
 ## Conversion notes
 

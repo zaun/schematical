@@ -24,11 +24,11 @@
 ## Description
 
 This device contains three independent 3-input AND gates. Each gate
-performs the Boolean function Y = A × B × C in positive logic.
+performs the Boolean function Y = A × B × C in positive logic. [[1::1]]
 
 AEC-Q100 qualified for automotive applications: device temperature grade
 1: -40°C to +125°C. Available in wettable flanks QFN (WBQA) package.
-Operating range from 1.1V to 3.6V. 5.5V tolerant input pins.
+Operating range from 1.1V to 3.6V. 5.5V tolerant input pins. [[1::2]]
 
 ## Pinout
 
@@ -45,9 +45,10 @@ Operating range from 1.1V to 3.6V. 5.5V tolerant input pins.
 GND: Ground
 VCC: Positive supply
 ```
+[[1::table #1]]
 
 The thermal pad can be connected to GND or left floating. Do not connect
-to any other signal or supply. BQA package only.
+to any other signal or supply. BQA package only. [[3::1]]
 
 ## Functional description
 
@@ -64,7 +65,7 @@ input transition time in the
 [recommended operating conditions](#recommended-operating-conditions), to
 avoid excessive current consumption and oscillations. If a slow or noisy
 input signal is required, a device with a Schmitt-trigger input should
-be used to condition the input signal prior to the standard CMOS input.
+be used to condition the input signal prior to the standard CMOS input. [[10::2]] [[10::3]]
 
 Balanced CMOS push-pull outputs: a balanced output allows the device to
 sink and source similar currents. The drive capability of this device
@@ -74,7 +75,7 @@ this device are capable of driving larger currents than the device can
 sustain without being damaged. It is important for the output power of
 the device to be limited to avoid damage due to over-current. The
 electrical and thermal limits defined in the absolute maximum ratings
-must be followed at all times.
+must be followed at all times. [[10::4]]
 
 The SN74LVC11A-Q1 can drive a load with a total capacitance less than or
 equal to the maximum load listed in the
@@ -84,22 +85,23 @@ specifications. Larger capacitive loads can be applied, however it is
 not recommended to exceed the provided load value. If larger capacitive
 loads are required, it is recommended to add a series resistor between
 the output and the capacitor to limit output current to the values given
-in the absolute maximum ratings.
+in the absolute maximum ratings. [[10::5]]
 
 Clamp diode structure: the inputs and outputs to this device have
 negative clamping diodes only. Voltages beyond the values specified in
 the absolute maximum ratings table can cause damage to the device. The
 input and output voltage ratings may be exceeded if the input and output
-clamp-current ratings are observed.
+clamp-current ratings are observed. [[10::6]] [[10::7]]
 
 ```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output (negative clamps only)"
 ```
+[[11::Figure 7-1]]
 
 Wettable flanks: wettable flanks help improve side wetting after
 soldering, which makes QFN packages easier to inspect with automatic
 optical inspection (AOI). A wettable flank can be dimpled or step-cut to
 provide additional surface area for solder adhesion which assists in
-reliably creating a side fillet.
+reliably creating a side fillet. [[11::4]]
 
 ## Function tables
 
@@ -114,6 +116,7 @@ reliably creating a side fillet.
 
 [1] H = high voltage level, L = low voltage level, X = do not care
 ```
+[[11::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -134,6 +137,7 @@ reliably creating a side fillet.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] Unconfirmed: the source gives a minimum of -65 °C for junction temperature, the same as storage temperature.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -143,6 +147,7 @@ reliably creating a side fillet.
 
 [1] AEC Q100-002 indicate that HBM stressing shall be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -179,6 +184,7 @@ reliably creating a side fillet.
 | ^ | ^ | V~CC~ = 2.7 V | | 0.7 | V |
 | ^ | ^ | V~CC~ = 3.6 V | | 0.8 | V |
 ```
+[[4::table #3]] [[5::table #1]]
 
 ## Thermal information
 
@@ -195,6 +201,7 @@ reliably creating a side fillet.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -225,6 +232,7 @@ reliably creating a side fillet.
 
 [1] Source error: the source writes the V~OL~ test conditions as I~OH~ = 100 µA, 4 mA, 8 mA, 12 mA and 24 mA; the recommended operating conditions give these values as low-level output current I~OL~.
 ```
+[[5::table #3]] [[6::table #1]]
 
 ## Switching characteristics
 
@@ -242,6 +250,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | C~L~ = 50 pF | 3.3 V ± 0.3 V | | | 4.1 | ns |
 | t~sk(o)~ | | | | 3.3 V ± 0.3 V | | | 1.5 | ns |
 ```
+[[6::table #2]]
 
 ```table id=noise caption="Noise characteristics, V~CC~ = 3.3 V, C~L~ = 50 pF, T~A~ = 25°C"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -252,6 +261,7 @@ See [parameter measurement information](#parameter-measurement).
 | V~IH(D)~ | High-level dynamic input voltage | 2.0 | | | V |
 | V~IL(D)~ | Low-level dynamic input voltage | | | 0.8 | V |
 ```
+[[6::table #3]]
 
 ## Parameter measurement information
 
@@ -261,7 +271,7 @@ PRR ≤ 1MHz, Z~O~ = 50Ω, t~t~ ≤ 2.5ns. The outputs are measured
 individually with one input transition per measurement. C~L~ includes
 probe and test-fixture capacitance. The greater between t~PLH~ and
 t~PHL~ is the same as t~pd~. The greater between t~r~ and t~f~ is the
-same as t~t~.
+same as t~t~. [[9::1]] [[9::2]] [[9::3]] [[9::5]] [[9::7]]
 
 Conversion note: the waveforms measure the input at V~t~ and the outputs
 at 50%; the transition times are measured between 10% and 90%.
@@ -276,27 +286,30 @@ at 50%; the transition times are measured between 10% and 90%.
 | 2.7V | 1.5V | 500Ω | 50pF | 0.3V |
 | 3.3V ± 0.3V | 1.5V | 500Ω | 50pF | 0.3V |
 ```
+[[9::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit for push-pull outputs"
 RL: see table
 CL: see table
 ```
+[[9::Figure 6-1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Propagation delays and transition times"
 VM: V~t~ (input), 50 % (output)
 ```
+[[9::Figure 6-2]]
 
 ## Application information
 
 Information in the applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
-completeness.
+completeness. [[12::1]]
 
 In this application, this device is used to directly control the RESET
 pin of a motor controller. The controller requires three input signals to all be HIGH
 before being enabled, and should be disabled in the event that any one
 signal goes LOW. The 3-input AND gate function combines the three
-individual reset signals into a single active-low reset signal.
+individual reset signals into a single active-low reset signal. [[12::2]]
 
 Conversion note: the typical application schematic (Figure 8-1) names
 the three input signals PG (from the power supply), ON/OFF (from the
@@ -324,7 +337,7 @@ outputting in the HIGH state, the output voltage in the equation is
 defined as the difference between the measured output voltage and the
 supply voltage at the V~CC~ pin. The maximum junction temperature,
 T~J(max)~, is an additional limitation to prevent damage to the device.
-Do not violate any values listed in the absolute maximum ratings.
+Do not violate any values listed in the absolute maximum ratings. [[12::3]] [[12::4]] [[12::5]] [[12::6]] [[12::7]] [[13::1]] [[13::4]]
 
 Input considerations: input signals must cross V~IL(max)~ to be
 considered a logic LOW, and V~IH(min)~ to be considered a logic HIGH. Do
@@ -336,7 +349,7 @@ the input will be used sometimes, but not always. A 10kΩ resistor value
 is often used. The SN74LVC11A-Q1 has CMOS inputs and thus requires fast
 input transitions to operate correctly. Slow input transitions can cause
 oscillations, additional power consumption, and reduction in device
-reliability.
+reliability. [[13::5]] [[13::6]] [[13::7]]
 
 Output considerations: The positive supply voltage is used to produce
 the output HIGH voltage. Drawing current from the output will decrease
@@ -350,22 +363,22 @@ together. This can cause excessive current and damage to the device. Two
 channels within the same device with the same input signals can be
 connected in parallel for additional output drive strength. Unused
 outputs can be left floating. Do not connect outputs directly to V~CC~
-or ground.
+or ground. [[13::9]] [[13::10]] [[13::11]] [[13::12]]
 
-Detailed design procedure:
+Detailed design procedure: [[13::13]]
 
 1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to
    be placed physically close to the device and electrically close to
-   both the V~CC~ and GND pins.
+   both the V~CC~ and GND pins. [[13::14]]
 2. Ensure the capacitive load at the output is ≤ 70pF. This is not a
-   hard limit; by design, however, it will optimize performance.
+   hard limit; by design, however, it will optimize performance. [[13::14]]
 3. Ensure the resistive load at the output is larger than
    (V~CC~ / I~O(max)~) Ω, so that the maximum output current from the
-   absolute maximum ratings is not violated.
+   absolute maximum ratings is not violated. [[13::14]]
 4. Thermal issues are rarely a concern for logic gates, however the
    power consumption and thermal increase can be calculated using the
    steps provided in the application report, CMOS Power Consumption and
-   Cpd Calculation.
+   Cpd Calculation. [[14::1]]
 
 Power supply: the power supply can be any voltage between the minimum
 and maximum supply voltage rating located in the recommended operating
@@ -373,7 +386,7 @@ conditions. Each V~CC~ terminal should have a bypass capacitor to prevent
 power disturbance. A 0.1μF capacitor is recommended for this device. The
 0.1μF and 1μF capacitors are commonly used in parallel. The bypass
 capacitor should be installed as close to the power terminal as possible
-for best results.
+for best results. [[14::3]]
 
 Layout: when using multiple-input and multiple-channel logic devices
 inputs must not ever be left floating. In many cases, functions or parts
@@ -386,7 +399,7 @@ logic low voltage, as defined by the input voltage specifications, to
 prevent them from floating. The logic level that must be applied to any
 particular unused input depends on the function of the device.
 Generally, the inputs are tied to GND or V~CC~, whichever makes
-more sense for the logic function or is more convenient.
+more sense for the logic function or is more convenient. [[14::4]]
 
 Conversion note: the example layout (Figure 8-3) carries these labels:
 unused inputs tied to GND, unused input tied to V~CC~, unused output
@@ -412,6 +425,7 @@ SN74LVC11ADRQ1 | Reel of 3000 | -40 to 125 | LVC11AQ
 SN74LVC11APWRQ1 | Reel of 3000 | -40 to 125 | LVC11AQ
 SN74LVC11AWBQARQ1 | Reel of 3000 | -40 to 125 | LVC11Q
 ```
+[[17::table #1]]
 
 ## Conversion notes
 

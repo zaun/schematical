@@ -24,11 +24,11 @@
 ## Description
 
 The SN74AHCT1G14 contains a single inverter gate. The device performs
-the Boolean function Y = !{A}.
+the Boolean function Y = !{A}. [[1::1]]
 
 Operating range 4.5V to 5.5V. Max t~pd~ of 8ns at 5V. Low power
 consumption, 1μA max I~CC~. ±8mA output drive at 5V. Inputs are
-TTL-voltage compatible. Latch-up performance exceeds 250 mA per JESD 17.
+TTL-voltage compatible. Latch-up performance exceeds 250 mA per JESD 17. [[1::2]]
 
 ## Pinout
 
@@ -44,15 +44,16 @@ GND: Ground
 Y: Data Output
 VCC: Power
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
 The SN74AHCT1G14 contains a single inverter gate. The device performs
-the Boolean function Y = !{A}.
+the Boolean function Y = !{A}. [[1::1]]
 
 The device functions as an independent inverter gate, but because of the
 Schmitt action, gates may have different input threshold levels for
-positive- (V~T+~) and negative-going (V~T–~) signals.
+positive- (V~T+~) and negative-going (V~T–~) signals. [[8::2]]
 
 Conversion note: the functional block diagram shows one Schmitt-trigger inverter, input A (pin 2), output Y (pin 4).
 
@@ -68,6 +69,7 @@ Conversion note: the functional block diagram shows one Schmitt-trigger inverter
 [1] H = High Voltage Level, L = Low Voltage Level, X = Don’t Care
 [2] H = Driving High, L = Driving Low, Z = High Impedance State
 ```
+[[3::Table 4-1]]
 
 ## Absolute maximum ratings
 
@@ -86,6 +88,7 @@ Conversion note: the functional block diagram shows one Schmitt-trigger inverter
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ## Recommended operating conditions
 
@@ -101,6 +104,7 @@ Conversion note: the functional block diagram shows one Schmitt-trigger inverter
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[4::table #2]]
 
 ## Thermal information
 
@@ -111,6 +115,7 @@ Conversion note: the functional block diagram shows one Schmitt-trigger inverter
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953.
 ```
+[[4::table #3]]
 
 ## Electrical characteristics
 
@@ -160,12 +165,14 @@ Conversion note: the functional block diagram shows one Schmitt-trigger inverter
 [1] Recommended T~A~ = –40°C to 125°C
 [2] Unconfirmed: the source prints I~OH~ = –50 mA and I~OL~ = 50 mA for the rows with the higher V~OH~ and the lower V~OL~; its recommended operating conditions give –8 mA and 8 mA as the maximum output currents.
 ```
+[[5::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 12 | pF |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -185,6 +192,7 @@ Conversion note: the functional block diagram shows one Schmitt-trigger inverter
 | ^ | ^ | ^ | ^ | T~A~ = –40°C to 85°C | 1 | | 9 | ns |
 | ^ | ^ | ^ | ^ | T~A~ = –40°C to 125°C | 1 | | 10 | ns |
 ```
+[[6::table #2]]
 
 ## Parameter measurement information
 
@@ -192,15 +200,17 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time with one input transition per measurement. All parameters and
-waveforms are not applicable to all devices.
+waveforms are not applicable to all devices. [[7::1]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V (input), 50% VCC (output)
 ```
+[[7::Figure 6-1]]
 
 Conversion note: in the source figure (Figure 6-1) the input swings from 0 V to 3 V; the figure also shows the load circuit for 3-state and open-drain outputs with its S1 table, and the pulse-duration, setup-and-hold and enable/disable waveforms with their note B, which are not drawn here.
 
@@ -210,18 +220,18 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[9::1]]
 
 In this application, three 2-input AND gates are combined to produce a
 4-input AND gate function as shown in Typical Application Block Diagram.
 The fourth gate can be used for another application in the system, or
-the inputs can be grounded and the channel left unused.
+the inputs can be grounded and the channel left unused. [[9::2]]
 
 The SN74AHCT1G14 is used to directly control the !{RESET} pin of a motor
 controller. The controller requires four input signals to all be HIGH
 before being enabled, and should be disabled in the event that any one
 signal goes LOW. The 4-input AND gate function combines the four
-individual reset signals into a single active-low reset signal.
+individual reset signals into a single active-low reset signal. [[9::3]]
 
 Source conflict: the Application Information (p.9) and Figure 8-1 describe three 2-input AND gates of a four-gate device; the Description (p.1), the pin table (p.3) and the function table (p.8) give a single inverter gate. Kept as printed.
 
@@ -232,11 +242,11 @@ Conversion note: the typical application block diagram (Figure 8-1) shows three 
 Ensure the desired supply voltage is within the range specified in the
 Recommended Operating Conditions. The supply voltage sets the electrical
 characteristics of the device as described in the Electrical
-Characteristics section.
+Characteristics section. [[9::5]]
 
 The positive voltage supply must be capable of sourcing current equal to
 the maximum static supply current, I~CC~, listed in the Electrical
-Characteristics, and any transient current required for switching.
+Characteristics, and any transient current required for switching. [[9::6]]
 
 The ground must be capable of sinking current equal to the total current
 to be sunk by all outputs of the SN74AHCT1G14 plus the maximum supply
@@ -244,31 +254,31 @@ current, I~CC~, listed in the Electrical Characteristics, and any
 transient current required for switching. The logic device can only sink
 as much current that can be sunk into its ground connection. Be sure to
 not exceed the maximum total current through GND listed in the Absolute
-Maximum Ratings.
+Maximum Ratings. [[9::7]]
 
 The SN74AHCT1G14 can drive a load with a total capacitance less than or
 equal to 50 pF while still meeting all of the data sheet specifications.
 Larger capacitive loads can be applied; however, it is not recommended
-to exceed 50 pF.
+to exceed 50 pF. [[9::8]]
 
 The SN74AHCT1G14 can drive a load with total resistance described by
 R~L~ ≥ V~O~ / I~O~, with the output voltage and current defined in the
 Electrical Characteristics table with V~OL~. When outputting in the HIGH
 state, the output voltage in the equation is defined as the difference
 between the measured output voltage and the supply voltage at the V~CC~
-pin.
+pin. [[9::9]] [[10::1]]
 
 Total power consumption can be calculated using the information provided
-in the CMOS Power Consumption and Cpd Calculation application note.
+in the CMOS Power Consumption and Cpd Calculation application note. [[10::2]]
 
 Thermal increase can be calculated using the information provided in the
 Thermal Characteristics of Standard Linear and Logic (SLL) Packages and
-Devices application note.
+Devices application note. [[10::3]]
 
 The maximum junction temperature, T~J(max)~ listed in the Absolute
 Maximum Ratings, is an additional limitation to prevent damage to the
 device. Do not violate any values listed in the Absolute Maximum
-Ratings. These limits are provided to prevent damage to the device.
+Ratings. These limits are provided to prevent damage to the device. [[10::4]]
 
 Source conflict: the caution (p.10) names a maximum junction temperature listed in the Absolute Maximum Ratings; that table (p.4) has no junction temperature row.
 
@@ -276,7 +286,7 @@ Source conflict: the caution (p.10) names a maximum junction temperature listed 
 
 Input signals must cross to be considered a logic LOW, and to be
 considered a logic HIGH. Do not exceed the maximum input voltage range
-found in the Absolute Maximum Ratings.
+found in the Absolute Maximum Ratings. [[10::5]]
 
 Unconfirmed: the first sentence is printed so, without the names of the levels to be crossed (p.10).
 
@@ -288,36 +298,36 @@ default state of HIGH, and a pull-down resistor is used for a default
 state of LOW. The drive current of the controller, leakage current into
 the SN74AHCT1G14 (as specified in the Electrical Characteristics), and
 the desired input transition rate limits the resistor size. A 10-kΩ
-resistor value is often used due to these factors.
+resistor value is often used due to these factors. [[10::6]]
 
 ### Output considerations
 
 The ground voltage is used to produce the output LOW voltage. Sinking
 current into the output will increase the output voltage as specified by
-the V~OL~ specification in the Electrical Characteristics.
+the V~OL~ specification in the Electrical Characteristics. [[10::8]]
 
 Unused outputs can be left floating. Do not connect outputs directly to
-V~CC~ or ground.
+V~CC~ or ground. [[10::9]]
 
 ### Detailed design procedure
 
 1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to
    be placed physically close to the device and electrically close to
    both the V~CC~ and GND pins. An example layout is shown in the Layout
-   section.
+   section. [[11::1]]
 2. Ensure the capacitive load at the output is ≤ 50 pF. This is not a
    hard limit; it will, however, ensure optimal performance. This can be
    accomplished by providing short, appropriately sized traces from the
-   SN74AHCT1G14 to one or more of the receiving devices.
+   SN74AHCT1G14 to one or more of the receiving devices. [[11::1]]
 3. Ensure the resistive load at the output is larger than
    (V~CC~ / I~O(max)~) Ω, so that the maximum output current from the
    Absolute Maximum Ratings is not violated. Most CMOS inputs have a
    resistive load measured in MΩ; much larger than the minimum
-   calculated previously.
+   calculated previously. [[11::1]]
 4. Thermal issues are rarely a concern for logic gates; the power
    consumption and thermal increase, however, can be calculated using
    the steps provided in the application report, CMOS Power Consumption
-   and Cpd Calculation.
+   and Cpd Calculation. [[11::1]]
 
 Conversion note: the application timing diagram (Figure 8-2) shows the signals !{OC}, PG, ON/!{OFF} and !{OT} and the !{RESET} output of the AND function of Figure 8-1.
 
@@ -331,7 +341,7 @@ acceptable to parallel multiple bypass capacitors to reject different
 frequencies of noise. The 0.1-μF and 1-μF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
 power terminal as possible for best results, as shown in the following
-layout example.
+layout example. [[11::2]]
 
 ### Layout guidelines
 
@@ -347,7 +357,7 @@ the input voltage specifications, to prevent them from floating. The
 logic level that must be applied to any particular unused input depends
 on the function of the device. Generally, the inputs are tied to GND or
 V~CC~, whichever makes more sense for the logic function or is more
-convenient.
+convenient. [[11::3]]
 
 Conversion note: the example layout (Figure 8-3) recommends a GND flood fill for improved signal isolation, noise reduction, and thermal dissipation, a 0.1 µF bypass capacitor placed close to the device, and avoiding 90° corners for signal lines.
 
@@ -368,6 +378,7 @@ SN74AHCT1G14DBVR | Reel of 3000 | -40 to 125 | 36DH, 3CAF, B143, B14G, B14J, B14
 SN74AHCT1G14DCKR | Reel of 3000 | -40 to 125 | 1QN, BF3, BFG, BFJ, BFL, BFS
 SN74AHCT1G14DCKT | | -40 to 125 | BF3, BFG, BFJ, BFS | Obsolete
 ```
+[[15::table #1]]
 
 ## Conversion notes
 

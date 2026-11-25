@@ -24,12 +24,12 @@
 ## Description
 
 The SN74AHCT1G00 device performs the Boolean function Y = !{A × B} or
-Y = !{A} + !{B} in positive logic.
+Y = !{A} + !{B} in positive logic. [[1::1]]
 
 Operating Range of 4.5 V to 5.5 V. Maximum t~pd~ of 7.1 ns at 5 V. Low
 Power Consumption, 10-μA Maximum I~CC~. ±8-mA Output Drive at 5 V.
 Inputs Are TTL-Voltage Compatible. Latch-up Performance Exceeds 250 mA
-Per JESD 17.
+Per JESD 17. [[1::2]]
 
 ## Pinout
 
@@ -45,21 +45,22 @@ GND: Ground Pin
 Y: Output Y
 VCC: Power Pin
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
 The SN74AHCT1G00 device performs the Boolean function Y = !{A × B} or
-Y = !{A} + !{B} in positive logic.
+Y = !{A} + !{B} in positive logic. [[1::1]]
 
 The device has TTL inputs that allow up translation from 3.3 V to 5 V.
-The inputs are high impedance when V~CC~ = 0 V.
+The inputs are high impedance when V~CC~ = 0 V. [[8::2]]
 
 Conversion note: the logic diagram (Figure 7-1) shows one 2-input NAND gate with inputs A (pin 1) and B (pin 2) and output Y (pin 4).
 
 The device is ideal for operating in a 5-V logic system. The low
 propagation delay allows fast switching and higher speeds of operation.
 In addition, the low power consumption makes this device a good choice
-for portable and battery power-sensitive applications.
+for portable and battery power-sensitive applications. [[8::3]]
 
 ## Function tables
 
@@ -71,6 +72,7 @@ for portable and battery power-sensitive applications.
 | L | X | H |
 | X | L | H |
 ```
+[[8::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -89,6 +91,7 @@ for portable and battery power-sensitive applications.
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -99,6 +102,7 @@ for portable and battery power-sensitive applications.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -117,6 +121,7 @@ for portable and battery power-sensitive applications.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs (SCBA004).
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -133,6 +138,7 @@ for portable and battery power-sensitive applications.
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -151,12 +157,14 @@ for portable and battery power-sensitive applications.
 
 [1] This is the increase in supply current for each input at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[5::table #2]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 10.5 | pF |
 ```
+[[5::table #3]]
 
 ## Switching characteristics
 
@@ -171,6 +179,7 @@ for portable and battery power-sensitive applications.
 
 [1] Unconfirmed: the source prints C~L~ = 15 pF for both groups of rows.
 ```
+[[5::table #4]]
 
 ## Typical characteristics
 
@@ -181,6 +190,7 @@ for portable and battery power-sensitive applications.
   {"label": "TPD", "points": [[-55, 3], [-40, 3.2], [0, 3.56], [25, 3.8], [50, 3.98], [85, 4.2], [125, 4.6]]}
  ]}
 ```
+[[6::Figure 5-1]]
 
 ## Parameter measurement information
 
@@ -188,17 +198,19 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time with one input transition per measurement. All parameters and
-waveforms are not applicable to all devices.
+waveforms are not applicable to all devices. [[7::Figure 6-1]]
 
 Conversion note: in Figure 6-1 the inputs swing 0 V to 3 V and are measured at 1.5 V, the outputs are measured at 50% V~CC~, and its table sets S1 to Open for t~PLH~/t~PHL~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V (input), 50% VCC (output)
 ```
+[[7::Figure 6-1]]
 
 Conversion note: the source figure (Figure 6-1) also shows the load circuit for 3-state and open-drain outputs (R~L~ = 1 kΩ) with its S1 table, and the pulse-duration, setup-and-hold and enable/disable waveforms, which are not drawn here.
 
@@ -208,13 +220,13 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[9::1]]
 
 The SN74AHCT1G00 is a low drive CMOS device that can be used for a
 multitude of bus interface type applications where output ringing is a
 concern. The low drive and slow edge rates will minimize overshoot and
 undershoot on the outputs. The TTL inputs can except voltages down to
-3.3 V and translate up to 5 V.
+3.3 V and translate up to 5 V. [[9::2]]
 
 Conversion note: the typical application schematic (Figure 8-1) shows a 3.3-V or 5-V µC or system logic driving the two gate inputs; the gate runs from a 5-V regulated V~CC~ bypassed with 0.1 µF, and its output drives a 5-V accessory.
 
@@ -223,21 +235,21 @@ Conversion note: the typical application schematic (Figure 8-1) shows a 3.3-V or
 This device uses CMOS technology and has balanced output drive. Take
 care to avoid bus contention because it can drive currents that would
 exceed maximum limits. The high drive will also create fast edges into
-light loads so consider routing and load conditions to prevent ringing.
+light loads so consider routing and load conditions to prevent ringing. [[9::3]]
 
 Source conflict: the Application Information (p.9) speaks of a low drive device with slow edge rates, while these Design Requirements (p.9) speak of a high drive that creates fast edges (both kept).
 
 ### Detailed design procedure
 
-- Recommended input conditions:
+- Recommended input conditions: [[9::4]]
   - Specified high and low levels. See (V~IH~ and V~IL~) in
-    [Recommended Operating Conditions](#recommended-operating-conditions).
+    [Recommended Operating Conditions](#recommended-operating-conditions). [[9::4]]
   - Inputs are overvoltage tolerant allowing them to go as high as 5.5 V
-    at any valid V~CC~.
-- Recommended output conditions:
+    at any valid V~CC~. [[9::4]]
+- Recommended output conditions: [[9::4]]
   - Load currents should not exceed 25 mA per output and 50 mA total for
-    the part.
-  - Outputs should not be pulled above V~CC~.
+    the part. [[9::4]]
+  - Outputs should not be pulled above V~CC~. [[9::4]]
 
 Conversion note: the application curve (Figure 8-2, switching characteristics comparison) is an oscilloscope-style plot of the falling outputs of the AHCT1G00, AC00 and HC00 against time, 0 to 20 ns, at V~CC~ = 5 V with a load of 50 Ω/50 pF.
 
@@ -263,6 +275,7 @@ SN74AHCT1G00DCK3 | Reel of 3000 | -40 to 85 | BAY | Last Time Buy
 SN74AHCT1G00DCKR | Reel of 3000 | -40 to 125 | 1QO, BA3, BAG, BAJ, BAS
 SN74AHCT1G00DCKT | | -40 to 125 | BA3, BAG, BAJ, BAS | Obsolete
 ```
+[[13::table #1]]
 
 ## Conversion notes
 

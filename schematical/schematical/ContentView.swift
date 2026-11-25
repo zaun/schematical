@@ -192,8 +192,8 @@ struct ContentView: View {
     /// and ⇧⌘R turns the other way; A steps the Trace tool's angle while
     /// Trace is the PCB tool; ⌘F flips the selected part or net label on the
     /// Schematic; ⌘⌫ deletes the selection (on the PCB only its texts, traces, vias and holes);
-    /// ⌘C copies the selected traces on the PCB and ⌘V pastes them centred
-    /// on the pointer (`TraceClipboard`); on the Schematic they copy the
+    /// ⌘C copies the selected traces, texts and vias on the PCB and ⌘V pastes them centred
+    /// on the pointer (`BoardClipboard`); on the Schematic they copy the
     /// selection and paste it the same way (`SchematicClipboard`; not while
     /// the simulation runs); ⌘X copies and then deletes what it copied; ⌘A
     /// selects everything on the page. These are the Edit menu's items too
@@ -242,28 +242,29 @@ struct ContentView: View {
     }
 
     /// ⌘C: the Schematic selection to `SchematicClipboard`, or the selected
-    /// traces to `TraceClipboard`. Returns whether anything was copied.
+    /// traces, texts and vias to `BoardClipboard`. Returns whether anything was copied.
     private func copySelection() -> Bool {
         if page == .schematic {
             guard let copied = document.schematicCopy() else { return false }
             SchematicClipboard.copy(copied)
             return true
         }
-        let copied = document.selectedTraces()
-        guard !copied.isEmpty else { return false }
-        TraceClipboard.copy(copied)
+        let copied = document.selectedTraces(), copiedTexts = document.selectedTexts()
+        let copiedVias = document.selectedVias()
+        guard !copied.isEmpty || !copiedTexts.isEmpty || !copiedVias.isEmpty else { return false }
+        BoardClipboard.copy(copied, texts: copiedTexts, vias: copiedVias)
         return true
     }
 
     /// ⌘X: copies as ⌘C, then deletes what was copied (on the PCB, the
-    /// selected traces). Not on the Schematic while the simulation runs.
+    /// selected traces, texts and vias). Not on the Schematic while the simulation runs.
     private func cutSelection() -> Bool {
         if page == .schematic {
             guard !simulation.isRunning, copySelection() else { return false }
             return document.deleteSchematicSelection(named: "Cut")
         }
         guard copySelection() else { return false }
-        return document.cutBoardTraces()
+        return document.cutBoardSelection()
     }
 
     /// ⌘V: pastes centred on the pointer, or one step on from the last
@@ -275,11 +276,13 @@ struct ContentView: View {
                 ?? SchematicClipboard.nextOffset()
             return document.pasteSchematic(copied, offset: offset)
         }
-        guard !TraceClipboard.traces.isEmpty else { return false }
-        let copied = TraceClipboard.traces
-        let offset = boardPointer.point.map { TraceClipboard.offset(centring: copied, on: $0, grid: document.board.traceGrid) }
-            ?? TraceClipboard.nextOffset()
-        return !document.pasteTraces(copied, offset: offset).isEmpty
+        guard !BoardClipboard.isEmpty else { return false }
+        let copied = BoardClipboard.traces, copiedTexts = BoardClipboard.texts, copiedVias = BoardClipboard.vias
+        let offset = boardPointer.point.map {
+            BoardClipboard.offset(centring: copied, texts: copiedTexts, vias: copiedVias, on: $0,
+                                  grid: document.board.traceGrid)
+        } ?? BoardClipboard.nextOffset()
+        return !document.pasteBoard(traces: copied, texts: copiedTexts, vias: copiedVias, offset: offset).isEmpty
     }
 
     /// ⌘A: everything on the page shown (on the PCB, what is drawn).
@@ -473,8 +476,8 @@ struct ContentView: View {
                 Button("Cancel", role: .cancel) {}
             } message: {
                 Text(customVoltageRefused
-                    ? "That is not a voltage the tools can use. Enter a number above 0, up to 300 V."
-                    : "The voltage the VCC and Pull-up tools place, up to 300 V.")
+                    ? "That is not a voltage the tools can use. Enter a number above 0, up to 500 V."
+                    : "The voltage the VCC and Pull-up tools place, up to 500 V.")
             }
             .sheet(isPresented: $isAutorouteOpen) {
                 AutorouteSheet(model: autorouteModel, onClose: { isAutorouteOpen = false },

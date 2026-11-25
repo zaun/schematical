@@ -24,10 +24,10 @@
 ## Description
 
 The 'ACT32 devices are quadruple 2-input positive-OR gates. The devices
-perform the Boolean function Y = A + B in positive logic.
+perform the Boolean function Y = A + B in positive logic. [[1::1]]
 
 4.5V to 5.5V V~CC~ operation. Inputs accept voltages to 5.5V. Maximum
-t~pd~ of 10ns at 5V. Inputs are TTL-voltage compatible.
+t~pd~ of 10ns at 5V. Inputs are TTL-voltage compatible. [[1::2]]
 
 ## Pinout
 
@@ -52,10 +52,11 @@ t~pd~ of 10ns at 5V. Inputs are TTL-voltage compatible.
 GND: Ground Pin
 VCC: Power Pin
 ```
+[[3::Table 3-1]]
 
 The thermal pad can be connected to GND or left floating. Do not
 connect to any other signal or supply. Conversion note: the source has
-this for the thermal pad, BQA package only.
+this for the thermal pad, BQA package only. [[4::1]]
 
 ## Functional description
 
@@ -72,6 +73,7 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 | X | H | H |
 | L | L | L |
 ```
+[[9::Table 6-1]]
 
 ## Absolute maximum ratings
 
@@ -90,6 +92,7 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 [1] Stresses beyond those listed under “absolute maximum ratings” may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under “recommended operating conditions” is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[5::table #1]]
 
 ## Recommended operating conditions
 
@@ -109,6 +112,7 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the Implications of Slow or Floating CMOS Inputs application note.
 ```
+[[5::table #2]]
 
 ## Thermal information
 
@@ -125,6 +129,7 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC package thermal metrics application note.
 ```
+[[6::table #1]]
 
 ## Electrical characteristics
 
@@ -153,12 +158,14 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 [2] This is the increase in supply current for each input that is at one of the specified TTL voltage levels, rather than 0V or V~CC~.
 [3] Unconfirmed: the source prints 5.5V on both I~OL~ = 24mA rows, where the I~OH~ = -24mA rows have 4.5V and 5.5V.
 ```
+[[6::table #2]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | C~L~ = 50pF, f = 1MHz | 40 | pF |
 ```
+[[7::table #1]]
 
 ## Switching characteristics
 
@@ -171,13 +178,14 @@ See [parameter measurement information](#parameter-measurement).
 | t~PLH~ | A or B | Y | 1 | 6.5 | 9 | 1 | 10 | ns |
 | t~PHL~ | ^ | ^ | 1 | 6.5 | 9 | 1 | 10 | ns |
 ```
+[[7::table #2]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1MHz,
 Z~O~ = 50Ω, t~r~ ≤ 2.5ns, t~f~ ≤ 2.5ns. The outputs are measured one
-at a time with one input transition per measurement.
+at a time with one input transition per measurement. [[8::1]]
 
 Conversion note: the load circuit also has a 500 Ω resistor from the output
 to switch S1 (2 × V~CC~ or open), and S1 is open for t~PLH~/t~PHL~, which
@@ -189,10 +197,12 @@ swings 0 V to 3 V and is measured at 1.5 V, and the outputs are measured at
 RL: 500 Ω
 CL: 50 pF
 ```
+[[8::Figure 5-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms"
 VM: 1.5 V (input), 50 % V~CC~ (outputs)
 ```
+[[8::Figure 5-1]]
 
 ## Application information
 
@@ -200,7 +210,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 ### Power supply recommendations
 
@@ -211,7 +221,7 @@ disturbance. A 0.1μF capacitor is recommended for this device. It is
 acceptable to parallel multiple bypass capacitors to reject different
 frequencies of noise. The 0.1μF and 1μF capacitors are commonly used in
 parallel. The bypass capacitor should be installed as close to the
-power terminal as possible for best results, as shown in Figure 7-1.
+power terminal as possible for best results, as shown in Figure 7-1. [[10::2]]
 
 ### Layout guidelines
 
@@ -230,7 +240,7 @@ sense for the logic function or is more convenient. Conversion note:
 Figure 7-1, the example layout (p.10), recommends a GND flood fill, a
 bypass capacitor placed close to the device, unused inputs tied to
 V~CC~, an unused output left floating, and no 90° corners for signal
-lines.
+lines. [[10::3]]
 
 ## Package
 
@@ -266,6 +276,7 @@ SN74ACT32PW | | -40 to 85 | AD32 | Obsolete
 SN74ACT32PWR | Reel of 2000 | -40 to 85 | AD32
 SN74ACT32PWRG4 | Reel of 2000 | -40 to 85 | AD32
 ```
+[[13::table #1]]
 
 ## Conversion notes
 

@@ -24,14 +24,14 @@
 ## Description
 
 These hex Schmitt-trigger inverters are designed for 2 V to 5.5 V V~CC~
-operation.
+operation. [[1::2]]
 
 The SN74LV14A devices contain six independent inverters. These devices
-perform the Boolean function Y = !{A}.
+perform the Boolean function Y = !{A}. [[1::3]]
 
 Max t~pd~ of 10 ns at 5 V. Support Mixed-Mode Voltage Operation on All
 Ports. I~off~ Supports Partial-Power-Down Mode Operation. Latch-Up
-Performance Exceeds 250 mA Per JESD 17.
+Performance Exceeds 250 mA Per JESD 17. [[1::1]]
 
 ## Pinout
 
@@ -56,31 +56,32 @@ Performance Exceeds 250 mA Per JESD 17.
 GND: Ground Pin
 VCC: Power Pin
 ```
+[[3::table #1]]
 
 ## Functional description
 
 These hex Schmitt-trigger inverters are designed for 2 V to 5.5 V V~CC~
-operation.
+operation. [[1::2]]
 
 The SN74LV14A devices contain six independent inverters. These devices
-perform the Boolean function Y = !{A}.
+perform the Boolean function Y = !{A}. [[1::3]]
 
 These devices are fully specified for partial-power-down application
 using I~off~. The I~off~ circuitry disables the outputs, preventing
 damaging current backflow through the devices when they are powered
-down.
+down. [[9::3]]
 
 Conversion note: the logic diagram, each inverter (positive logic)
 (Figure 8-1), shows one inverter with a Schmitt-trigger symbol, input A
 and output Y.
 
-- Wide operating voltage range
-  - Operates From 2 V to 5.5 V
-- Allows up or down voltage translation
-  - Inputs and outputs accept voltages to 5.5 V
-- I~off~ feature
-  - Allows voltages on the inputs and outputs when V~CC~ is 0 V
-- Schmitt-trigger inputs allow for slow or noisy inputs
+- Wide operating voltage range [[9::5]]
+  - Operates From 2 V to 5.5 V [[9::5]]
+- Allows up or down voltage translation [[9::5]]
+  - Inputs and outputs accept voltages to 5.5 V [[9::5]]
+- I~off~ feature [[9::5]]
+  - Allows voltages on the inputs and outputs when V~CC~ is 0 V [[9::5]]
+- Schmitt-trigger inputs allow for slow or noisy inputs [[9::5]]
 
 ## Function tables
 
@@ -94,6 +95,7 @@ and output Y.
 [1] H = High Voltage Level, L = Low Voltage Level, X = Don’t Care
 [2] H = Driving High, L = Driving Low, Z = High Impedance State
 ```
+[[9::Table 8-1]]
 
 ## Absolute maximum ratings
 
@@ -115,6 +117,7 @@ and output Y.
 [2] The input and output negative-voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] This value is limited to 5.5-V maximum.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -126,6 +129,7 @@ and output Y.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -148,6 +152,7 @@ and output Y.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs (SCBA004).
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -164,6 +169,7 @@ and output Y.
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -194,6 +200,7 @@ and output Y.
 | C~i~ | Input capacitance | V~I~ = V~CC~ or GND | 3.3 V | | 2.3 | | | 2.3 | | pF |
 | ^ | ^ | ^ | 5 V | | 2.3 | | | 2.3 | | ^ |
 ```
+[[5::table #2]]
 
 ```table id=noise caption="Noise characteristics" conditions="V~CC~ = 3.3 V, C~L~ = 50 pF, T~A~ = 25°C [1]"
 | Symbol | Parameter | SN74LV14A | < | < | Unit |
@@ -207,6 +214,7 @@ and output Y.
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[6::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -214,6 +222,7 @@ and output Y.
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 10 MHz | 3.3 V | 8.8 | pF |
 | ^ | ^ | ^ | 5 V | 9.6 | ^ |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -226,6 +235,7 @@ and output Y.
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[6::table #3]]
 
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 7-1)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | SN74LV14A –40°C to 85°C | < | SN74LV14A –40°C to 125°C | < | Unit |
@@ -236,6 +246,7 @@ and output Y.
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[6::table #4]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 7-1)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | SN74LV14A –40°C to 85°C | < | SN74LV14A –40°C to 125°C | < | Unit |
@@ -246,6 +257,7 @@ and output Y.
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[6::table #5]]
 
 ## Typical characteristics
 
@@ -256,6 +268,7 @@ and output Y.
   {"label": "TPD in ns", "points": [[2.5, 10.2], [3.3, 7.3], [5, 5.1]]}
  ]}
 ```
+[[7::Figure 6-1]]
 
 ```curve id=tpd-temp caption="Figure 6-2. TPD vs Temperature"
 {"x": {"label": "Temperature", "unit": "°C", "range": [-100, 150]},
@@ -264,6 +277,7 @@ and output Y.
   {"label": "TPD in ns", "points": [[-55, 4.7], [-40, 4.9], [25, 5.1], [85, 5.5], [125, 5.9]]}
  ]}
 ```
+[[7::Figure 6-2]]
 
 ## Parameter measurement information
 
@@ -272,15 +286,17 @@ by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. t~PHL~ and t~PLH~ are
 the same as t~pd~. All parameters and waveforms are not applicable to
-all devices.
+all devices. [[8::1]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[8::Figure 7-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% V~CC~
 ```
+[[8::Figure 7-1]]
 
 Conversion note: Figure 7-1 also shows the load circuit for 3-state and
 open-drain outputs (R~L~ = 1 kΩ) with its S1 table, and the voltage
@@ -293,12 +309,12 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 Schmitt triggers should be used anytime you need to translate a sign
 wave into a square wave as shown in Figure 9-1. They may also be used
 where a slow or noisy input needs to be sped up or cleaned up as shown
-in Figure 9-2.
+in Figure 9-2. [[10::2]]
 
 Source error: "sign wave" is the source's spelling of "sine wave"
 (Application Information, p.10); kept as printed.
@@ -318,20 +334,20 @@ This device uses CMOS technology and has balanced output drive. Care
 should be taken to avoid bus contention because it can drive currents
 that would exceed maximum limits. The high drive will also create fast
 edges into light loads so routing and load conditions should be
-considered to prevent ringing.
+considered to prevent ringing. [[11::1]]
 
 ### Detailed design procedure
 
-1. Recommended Input Conditions:
+1. Recommended Input Conditions: [[11::2]]
    - For rise time and fall time specifcations, see Δt/ΔV in Recommended
-     Operating Conditions table.
+     Operating Conditions table. [[11::2]]
    - For specified high and low levels, see V~IH~ and V~IL~ in
-     Recommended Operating Conditions table.
+     Recommended Operating Conditions table. [[11::2]]
    - Inputs and outputs are overvoltage tolerant allowing them to go as
-     high as 5.5 V at any valid V~CC~.
-2. Recommend Output Conditions:
+     high as 5.5 V at any valid V~CC~. [[11::2]]
+2. Recommend Output Conditions: [[11::2]]
    - Load currents should not exceed 35 mA per output and 50 mA total
-     for the part.
+     for the part. [[11::2]]
 
 Source error: "specifcations" is the source's spelling of
 "specifications" (Detailed Design Procedure, p.11); kept as printed.
@@ -351,7 +367,7 @@ slow edges, each with a square-wave output.
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX supply
-voltage rating located in the Recommended Operating Conditions table.
+voltage rating located in the Recommended Operating Conditions table. [[12::1]]
 
 Each V~CC~ terminal should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, a 0.1 μF capacitor is
@@ -360,7 +376,7 @@ recommended. If there are multiple V~CC~ terminals then 0.01 μF or
 parallel multiple bypass capacitors to reject different frequencies of
 noise. 0.1 μF and 1.0 μF capacitors are commonly used in parallel. The
 bypass capacitor should be installed as close to the power terminal as
-possible for the best results.
+possible for the best results. [[12::2]]
 
 ### Layout guidelines
 
@@ -376,7 +392,7 @@ connected to a high or low bias to prevent them from floating. The logic
 level that should be applied to any particular unused input depends on
 the function of the device. Generally they will be tied to GND or
 V~CC~, whichever makes more sense or is more convenient. It is
-acceptable to float outputs unless the part is a transceiver.
+acceptable to float outputs unless the part is a transceiver. [[12::3]]
 
 Conversion note: the layout diagram (Figure 11-1) shows two gates, one
 with its unused input tied to V~CC~ and one with its unused input tied
@@ -415,6 +431,7 @@ SN74LV14APWR | Reel of 2000 | -40 to 125 | LV14A
 SN74LV14APWRG3 | Reel of 2000 | -40 to 125 | LV14A
 SN74LV14ARGYR | Reel of 3000 | -40 to 125 | LV14A
 ```
+[[14::table #1]]
 
 ## Conversion notes
 

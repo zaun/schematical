@@ -21,6 +21,15 @@ int nixie_link(const Part *part, size_t k, size_t *anode, size_t *cathode);
    firing ("strike") voltage. 0 for a cathode, and a part that is no nixie. */
 uint32_t nixie_anode_min_mv(const Part *part, size_t pin);
 
+/* A dekatron's k-th link (dekatron.c): the anode pin and its k-th distinct
+   cathode pin, as indices into Part.pins. 0 past the last cathode pin, and
+   for a part that is no dekatron. */
+int dekatron_link(const Part *part, size_t k, size_t *anode, size_t *cathode);
+/* The least voltage a dekatron's anode needs, in millivolts: the tube's
+   minimum anode supply ("strike"). 0 for any other pin, and a part that is
+   no dekatron. */
+uint32_t dekatron_anode_min_mv(const Part *part, size_t pin);
+
 /* A character LCD's backlight LED `index` (0-based, in the device's
    "backlight" order): its anode and cathode, as indices into Part.pins
    (charlcd.c). 0 past the last LED, and for a module without a backlight. */
@@ -65,6 +74,21 @@ int regulator_pin_out(const Part *part, size_t k, size_t pin);
    refused) when not given and for a part that is no regulator. */
 uint32_t regulator_input_max_mv(const Part *part);
 
+/* A power switch part's k-th switch (0-based, plan-55-A): the first pin (an
+   index into Part.pins) of its input, output, enable and flag names (SIZE_MAX
+   when it has none); enable_low: the enable turns the switch on at 0;
+   enable_ref_input: the enable is a comparator against the input (the
+   LM66100's CE); flag_disabled: the flag is low while the switch is off, else
+   it is a fault flag. Any output may be NULL. 0 past the last switch, and for
+   a part that is no power switch (powerswitch.c). */
+int powerswitch_element(const Part *part, size_t k, size_t *in, size_t *out, size_t *enable,
+                        int *enable_low, int *enable_ref_input, size_t *flag, int *flag_disabled);
+/* 1 when pin carries switch k's input (every pin of the name) / output name. */
+int powerswitch_pin_in(const Part *part, size_t k, size_t pin);
+int powerswitch_pin_out(const Part *part, size_t k, size_t pin);
+/* The input maximum in millivolts: Part.powerswitch->vin_max_mv; 0 (never
+   refused) when not given and for a part that is no power switch. */
+uint32_t powerswitch_input_max_mv(const Part *part);
 /* An inductor's or a fuse's k-th fixed contact (0-based, plan-47-I): two pins
    joined inside the part whatever the circuit does, as indices into Part.pins
    (inductor.c, fuse.c). Contact 0 is the two terminals; then each tie between

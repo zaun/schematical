@@ -24,18 +24,18 @@
 ## Description
 
 Optimized for 1.8-V operation and is 3.6-V I/O tolerant to support
-mixed-mode signal operation.
+mixed-mode signal operation. [[1::1]]
 
 This dual 2-input positive-NAND gate is operational at 0.8-V to 2.7-V
 V~CC~, but is designed specifically for 1.65-V to 1.95-V V~CC~
-operation.
+operation. [[1::4]]
 
 The SN74AUC2G00 performs the Boolean function Y = !{A ⋅ B} or
-Y = !{A} + !{B} in positive logic.
+Y = !{A} + !{B} in positive logic. [[1::5]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::7]]
 
 ## Pinout
 
@@ -60,6 +60,7 @@ Conversion note: the source has no pin table, and the descriptions are the conve
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Functional description
 
@@ -75,6 +76,7 @@ Conversion note: the logic diagram (positive logic) shows two 2-input NAND gates
 | L | X | H |
 | X | L | H |
 ```
+[[2::table #1]]
 
 ## Absolute maximum ratings
 
@@ -98,10 +100,11 @@ Conversion note: the logic diagram (positive logic) shows two 2-input NAND gates
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #2]]
 
 Latch-up performance exceeds 100 mA per JESD 78, Class II. ESD
 protection exceeds JESD 22: 2000-V Human-Body Model (A114-A), 200-V
-Machine Model (A115-A), 1000-V Charged-Device Model (C101).
+Machine Model (A115-A), 1000-V Charged-Device Model (C101). [[1::2]]
 
 ## Recommended operating conditions
 
@@ -132,6 +135,7 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -157,6 +161,7 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 
 [1] All typical values are at T~A~ = 25°C.
 ```
+[[3::table #2]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 0.8 V | V~CC~ = 1.2 V | V~CC~ = 1.5 V | V~CC~ = 1.8 V | V~CC~ = 2.5 V | Unit |
@@ -164,6 +169,7 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 |---|---|---|--:|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 12 | 12 | 12 | 12 | 13 | pF |
 ```
+[[4::table #1]]
 
 ## Switching characteristics
 
@@ -175,6 +181,7 @@ Conversion note: Figure 1 is in [parameter measurement information](#parameter-m
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 8 | 1 | 2.5 | 0.8 | 1.6 | 0.6 | 0.9 | 1.2 | 0.5 | 1 | ns |
 ```
+[[4::table #2]]
 
 ```table id=sw-30pf caption="Switching characteristics" conditions="Over recommended operating free-air temperature range, C~L~ = 30 pF (unless otherwise noted) (see Figure 1)"
 | Parameter | From (input) | To (output) | V~CC~ = 1.8 V ± 0.15 V | < | < | V~CC~ = 2.5 V ± 0.2 V | < | Unit |
@@ -182,6 +189,7 @@ Conversion note: Figure 1 is in [parameter measurement information](#parameter-m
 |---|---|---|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 1.2 | 1.6 | 2.1 | 1 | 1.7 | ns |
 ```
+[[4::table #3]]
 
 ## Parameter measurement information
 
@@ -189,7 +197,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω, slew rate ≥ 1 V/ns. The outputs are measured one at a time,
 with one transition per measurement. t~PLH~ and t~PHL~ are the same as
-t~pd~.
+t~pd~. [[5::1]]
 
 Conversion note: the source's test table sets S1 open for
 t~PLH~/t~PHL~, which leaves R~L~ and C~L~ from the output to GND, and its
@@ -207,15 +215,18 @@ V~CC~/2.
 | 1.8 V ± 0.15 V | 30 pF | 1 kΩ | 0.15 V |
 | 2.5 V ± 0.2 V | 30 pF | 500 Ω | 0.15 V |
 ```
+[[5::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit for t~PLH~/t~PHL~ (S1 open)"
 RL: see table
 CL: see table
 ```
+[[5::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times"
 VM: VCC/2
 ```
+[[5::figure #1]]
 
 ## Package
 
@@ -235,6 +246,7 @@ SN74AUC2G00DCTR | Reel of 3000 | -40 to 85 | U00, R, Z
 SN74AUC2G00DCUR | Reel of 3000 | -40 to 85 | U00Q, U00R, UR
 SN74AUC2G00YZPR | Reel of 3000 | -40 to 85 | UAN
 ```
+[[1::table #2]]
 
 Conversion note: the markings above are from the package option addendum, and the table below is the source's ordering information table (p.1).
 
@@ -247,6 +259,7 @@ Conversion note: the markings above are from the package option addendum, and th
 
 [1] DCT: The actual top-side marking has three additional characters that designate the year, month, and assembly/test site. DCU: The actual top-side marking has one additional character that designates the assembly/test site. YZP: The actual top-side marking has three preceding characters to denote year, month, and sequence code, and one following character to designate the assembly/test site.
 ```
+[[1::table #3]]
 
 ## Conversion notes
 

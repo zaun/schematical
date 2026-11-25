@@ -28,7 +28,7 @@ performs the Boolean function Y = A + B in positive logic. LSTTL
 input logic compatible: V~IL(max)~ = 0.8 V, V~IH(min)~ = 2 V. CMOS input
 logic compatible: I~I~ ≤ 1 µA at V~OL~, V~OH~. Buffered inputs. 4.5 V to
 5.5 V operation. Wide operating temperature range: -55°C to +125°C. Supports fanout up to 10 LSTTL
-loads. Significant power reduction compared to LSTTL logic ICs.
+loads. Significant power reduction compared to LSTTL logic ICs. [[1::1]] [[1::2]]
 
 ## Pinout
 
@@ -53,11 +53,12 @@ GND: Ground
 4B: Channel 4, Input B
 VCC: Positive Supply
 ```
+[[1::table #1]]
 
 ## Functional description
 
 This device contains four independent 2-input OR gates. Each gate
-performs the Boolean function Y = A + B in positive logic.
+performs the Boolean function Y = A + B in positive logic. [[1::1]]
 
 ### Balanced CMOS push-pull outputs
 
@@ -69,7 +70,7 @@ driving larger currents than the device can sustain without being
 damaged. It is important for the output power of the device to be
 limited to avoid damage due to over-current. The electrical and thermal
 limits defined in the Absolute Maximum Ratings must be followed at all
-times.
+times. [[8::2]]
 
 The CD74HCT32 can drive a load with a total capacitance less than or
 equal to the maximum load listed in the Switching Characteristics
@@ -78,7 +79,7 @@ datasheet specifications. Larger capacitive loads can be applied,
 however it is not recommended to exceed the provided load value. If
 larger capacitive loads are required, it is recommended to add a series
 resistor between the output and the capacitor to limit output current to
-the values given in the Absolute Maximum Ratings.
+the values given in the Absolute Maximum Ratings. [[8::3]]
 
 ### TTL-compatible CMOS inputs
 
@@ -87,7 +88,7 @@ as a resistor from the input to ground in parallel with the input
 capacitance given in the Electrical Characteristics. The worst case
 resistance is calculated with the maximum input voltage, given in the
 Absolute Maximum Ratings, and the maximum input leakage current, given
-in the Electrical Characteristics, using ohm's law (R = V ÷ I).
+in the Electrical Characteristics, using ohm's law (R = V ÷ I). [[8::3]] [[8::4]]
 
 Signals applied to the inputs need to have fast edge rates, as defined
 by Δt/Δv in the Recommended Operating Conditions to avoid excessive
@@ -95,12 +96,12 @@ current consumption and oscillations. Source conflict: the Recommended
 Operating Conditions table gives the input transition time t~t~, not
 Δt/Δv. If a slow or noisy input signal is required, a device with a
 Schmitt-trigger input should be used to condition the input signal prior
-to the TTL-compatible CMOS input.
+to the TTL-compatible CMOS input. [[8::5]]
 
 TTL-Compatible CMOS inputs have a lower threshold voltage than standard
 CMOS inputs to allow for compatibility with older bipolar logic devices.
 See the Recommended Operating Conditions for the valid input voltages
-for the CD74HCT32.
+for the CD74HCT32. [[8::6]]
 
 ### Clamp diode structure
 
@@ -108,10 +109,11 @@ The inputs and outputs to this device have both positive and negative
 clamping diodes. Voltages beyond the values specified in the Absolute
 Maximum Ratings table can cause damage to the device. The recommended
 input and output voltage ratings may be exceeded if the input and output
-clamp-current ratings are observed.
+clamp-current ratings are observed. [[9::1]] [[9::2]]
 
 ```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output"
 ```
+[[9::Figure 8-1]]
 
 ## Function tables
 
@@ -123,6 +125,7 @@ clamp-current ratings are observed.
 | H | X | H |
 | X | H | H |
 ```
+[[9::Table 8-1]]
 
 ## Absolute maximum ratings
 
@@ -144,6 +147,7 @@ clamp-current ratings are observed.
 [3] Guaranteed by design.
 [4] Unconfirmed: the source gives this condition as printed, "V~O~ > –0.5 V or V~O~ < V~CC~ + 0.5 V", which every output voltage meets.
 ```
+[[4::table #1]]
 
 ## Recommended operating conditions
 
@@ -159,6 +163,7 @@ clamp-current ratings are observed.
 | ^ | ^ | V~CC~ = 5.5 V | | | 400 | ns |
 | T~A~ | Operating free-air temperature | | -55 | | 125 | °C |
 ```
+[[4::table #2]]
 
 ## Thermal information
 
@@ -176,6 +181,7 @@ clamp-current ratings are observed.
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 [2] Source error: the table heads its columns "CD74HC32"; this is the CDx4HCT32 data sheet (title and every page header).
 ```
+[[4::table #3]]
 
 ## Electrical characteristics
 
@@ -194,12 +200,14 @@ clamp-current ratings are observed.
 
 [1] For dual-supply systems theoretical worst case (V~I~ = 2.4 V, V~CC~ = 5.5 V) specification is 1.8 mA.
 ```
+[[5::table #1]]
 
 ```table id=op caption="Operating characteristics" conditions="Over operating free-air temperature range; typical values measured at T~A~ = 25 °C (unless otherwise noted)"
 | Symbol | Parameter | Test conditions | V~CC~ | Min | Typ | Max | Unit |
 |---|---|---|---|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance per gate | No load | 5 V | | 22 | | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -211,6 +219,7 @@ clamp-current ratings are observed.
 | ^ | ^ | A or B | Y | C~L~ = 15 pF | 5 V | 9 | | | | ns |
 | t~t~ | Transition-time | | Y | C~L~ = 50 pF | 4.5 V | | 15 | 19 | 22 | ns |
 ```
+[[5::table #3]]
 
 ## Typical characteristics
 
@@ -223,6 +232,7 @@ clamp-current ratings are observed.
   {"label": "VCC = 6 V", "points": [[0, 5.98], [5.5, 5.85]]}
  ]}
 ```
+[[6::Figure 6-1]]
 
 ```curve id=vol caption="Typical output voltage in the low state (V~OL~), T~A~ = 25 °C"
 {"x": {"label": "I_OL", "unit": "mA", "range": [0, 6]},
@@ -233,6 +243,7 @@ clamp-current ratings are observed.
   {"label": "VCC = 6 V", "points": [[0, 0], [5.5, 0.126]]}
  ]}
 ```
+[[6::Figure 6-2]]
 
 ## Parameter measurement information
 
@@ -241,33 +252,35 @@ pulses are supplied by generators having the following characteristics:
 PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~t~ < 6 ns. The outputs are measured one at a
 time, with one input transition per measurement. C~L~ = 50 pF and
 includes probe and jig capacitance. t~t~ is the greater of t~r~ and
-t~f~. The maximum between t~PLH~ and t~PHL~ is used for t~pd~.
+t~f~. The maximum between t~PLH~ and t~PHL~ is used for t~pd~. [[7::1]] [[7::2]] [[7::4]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit"
 CL: 50 pF
 ```
+[[7::Figure 7-1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delays and transition times"
 VM: 50 %
 ```
+[[7::Figure 7-2]]
 
 ## Application information
 
 Information in the following applications sections is not part of the
-TI component specification.
+TI component specification. [[10::1]]
 
 ### Typical application
 
 In this application, three 2-input OR gates are combined to produce a
 4-input OR gate function. The fourth gate can be used for another
 application in the system, or the inputs can be grounded and the channel
-left unused.
+left unused. [[10::2]]
 
 This device is used to directly control the Enable pin of a fan driver.
 The fan driver requires only one input signal to be HIGH before being
 enabled, and should be disabled in the event that all signals go LOW.
 The 4-input OR gate function combines the four individual overheat
-signals into a single active-high enable signal.
+signals into a single active-high enable signal. [[10::3]]
 
 Conversion note: the typical application schematic (Figure 9-1) shows
 the overheat signals of Device 1 and Device 2 on one gate and of Device
@@ -279,7 +292,7 @@ outputs onto the EN pin of the fan driver.
 Ensure the desired supply voltage is within the range specified in the
 Recommended Operating Conditions. The supply voltage sets the device's
 electrical characteristics as described in the Electrical
-Characteristics.
+Characteristics. [[10::4]]
 
 The supply must be capable of sourcing current equal to the total
 current to be sourced by all outputs of the CD74HCT32 plus the maximum
@@ -287,12 +300,12 @@ supply current, I~CC~, listed in the Electrical Characteristics. The
 logic device can only source or sink as much current as it is provided
 at the supply and ground pins, respectively. Be sure not to exceed the
 maximum total current through GND or V~CC~ listed in the Absolute
-Maximum Ratings.
+Maximum Ratings. [[10::5]]
 
 The maximum junction temperature, T~J(max)~ listed in the Absolute
 Maximum Ratings, is an additional limitation to prevent damage to the
 device. Do not violate any values listed in the Absolute Maximum
-Ratings. These limits are provided to prevent damage to the device.
+Ratings. These limits are provided to prevent damage to the device. [[11::1]]
 
 ### Input considerations
 
@@ -304,7 +317,7 @@ state of HIGH, and a pull-down resistor is used for a default state of
 LOW. The resistor size is limited by drive current of the controller,
 leakage current into the CD74HCT32, as specified in the Electrical
 Characteristics, and the desired input transition rate. A 10-kΩ resistor
-value is often used due to these factors.
+value is often used due to these factors. [[11::2]]
 
 ### Output considerations
 
@@ -313,25 +326,25 @@ Drawing current from the output will decrease the output voltage as
 specified by the V~OH~ specification in the Electrical Characteristics.
 Similarly, the ground voltage is used to produce the output LOW voltage.
 Sinking current into the output will increase the output voltage as
-specified by the V~OL~ specification in the Electrical Characteristics.
+specified by the V~OL~ specification in the Electrical Characteristics. [[11::4]]
 
 Unused outputs can be left floating. Do not connect outputs directly to
-V~CC~ or ground.
+V~CC~ or ground. [[11::5]]
 
 ### Detailed design procedure
 
 1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to
    be placed physically close to the device and electrically close to
-   both the V~CC~ and GND pins.
+   both the V~CC~ and GND pins. [[11::7]]
 2. Ensure the capacitive load at the output is ≤ 70 pF. This is not a
    hard limit, however it will ensure optimal performance. This can be
    accomplished by providing short, appropriately sized traces from the
-   CD74HCT32 to the receiving device.
+   CD74HCT32 to the receiving device. [[11::7]]
 3. Ensure the resistive load at the output is larger than (V~CC~ /
    I~O(max)~) Ω. This will ensure that the maximum output current from
    the Absolute Maximum Ratings is not violated. Most CMOS inputs have a
    resistive load measured in megaohms; much larger than the minimum
-   calculated above.
+   calculated above. [[11::7]]
 
 ### Power supply recommendations
 
@@ -342,7 +355,7 @@ disturbance. A 0.1-µF capacitor is recommended for this device. It is
 acceptable to parallel multiple bypass caps to reject different
 frequencies of noise. The 0.1-µF and 1-µF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
-power terminal as possible for best results.
+power terminal as possible for best results. [[12::1]]
 
 ### Layout guidelines
 
@@ -357,7 +370,7 @@ logic low voltage, as defined by the input voltage specifications, to
 prevent them from floating. The logic level that must be applied to any
 particular unused input depends on the function of the device.
 Generally, the inputs are tied to GND or V~CC~, whichever makes more
-sense for the logic function or is more convenient.
+sense for the logic function or is more convenient. [[13::1]]
 
 ## Package
 
@@ -380,6 +393,7 @@ CD74HCT32E | Tube of 25 | -55 to 125 | CD74HCT32E
 CD74HCT32EE4 | Tube of 25 | -55 to 125 | CD74HCT32E
 CD74HCT32M96 | Reel of 2500 | -55 to 125 | HCT32M
 ```
+[[15::table #1]]
 
 ## Conversion notes
 

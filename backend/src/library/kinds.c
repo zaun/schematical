@@ -35,10 +35,17 @@ extern const PartKindOps MCU_KIND;
 extern const PartKindOps RESISTOR_KIND;
 extern const PartKindOps TRANSISTOR_KIND;
 extern const PartKindOps GENERIC_KIND;
+extern const PartKindOps PLD_KIND;
 extern const PartKindOps SERIALMEM_KIND;
 extern const PartKindOps NIXIE_KIND;
 extern const PartKindOps REGULATOR_KIND;
 extern const PartKindOps CRYSTAL_KIND;
+extern const PartKindOps DEKATRON_KIND;
+extern const PartKindOps LCD_KIND;
+extern const PartKindOps LEDDRIVER_KIND;
+extern const PartKindOps LCDDRIVER_KIND;
+extern const PartKindOps POWERSWITCH_KIND;
+extern const PartKindOps SOCKET_KIND;
 extern const PartKindOps INDUCTOR_KIND;
 extern const PartKindOps FUSE_KIND;
 extern const PartKindOps RELAY_KIND;
@@ -82,6 +89,13 @@ const PartKindOps *const KINDS[] = {
     &NIXIE_KIND,
     &REGULATOR_KIND,
     &CRYSTAL_KIND,
+    &DEKATRON_KIND,
+    &LCD_KIND,
+    &LEDDRIVER_KIND,
+    &LCDDRIVER_KIND,
+    &POWERSWITCH_KIND,
+    &PLD_KIND,
+    &SOCKET_KIND,
     &INDUCTOR_KIND,
     &FUSE_KIND,
     &RELAY_KIND,

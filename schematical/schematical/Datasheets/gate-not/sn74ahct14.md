@@ -24,12 +24,12 @@
 ## Description
 
 The SNx4AHCT14 devices contain six independent inverters. These devices
-perform the Boolean function Y = !{A}.
+perform the Boolean function Y = !{A}. [[9::1]]
 
 Inputs are TTL-voltage compatible. Latch-up performance exceeds 250 mA
 per JESD 17. On products compliant to MIL-PRF-38535, all parameters are
 tested unless otherwise noted. On all other products, production
-processing does not necessarily include testing of all parameters.
+processing does not necessarily include testing of all parameters. [[1::2]]
 
 ## Pinout
 
@@ -44,6 +44,7 @@ processing does not necessarily include testing of all parameters.
 GND: Ground pin
 VCC: Power pin
 ```
+[[3::Table 5-1]]
 
 Source error: the DESCRIPTION column of the source's pin table (p.3) prints only "1A1", "1Y1" to "6A1", "6Y1" for the inputs and outputs; its TYPE column gives I = input for the A pins and O = output for the Y pins, as described here.
 
@@ -53,14 +54,14 @@ The SNx4AHCT14 devices contain six independent inverters. These devices
 perform the Boolean function Y = !{A}. Each circuit functions as an
 independent inverter, but because of the Schmitt action, the inverters
 have different input threshold levels for positive-going (V~T+~) and for
-negative-going (V~T−~) signals.
+negative-going (V~T−~) signals. [[9::1]]
 
 Conversion note: the functional block diagram shows one Schmitt-trigger inverter, input A, output Y.
 
 ### Feature description
 
-- Inputs are TTL-Voltage compatible
-- Inputs accept very slow or noisy inputs
+- Inputs are TTL-Voltage compatible [[1::2]]
+- Inputs accept very slow or noisy inputs [[9::2]]
 
 ## Function tables
 
@@ -71,6 +72,7 @@ Conversion note: the functional block diagram shows one Schmitt-trigger inverter
 | H | L |
 | L | H |
 ```
+[[9::Table 8-1]]
 
 ## Absolute maximum ratings
 
@@ -88,6 +90,7 @@ Conversion note: the functional block diagram shows one Schmitt-trigger inverter
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=handling caption="Handling ratings"
 | Symbol | Parameter | Conditions | Min | Max | Unit |
@@ -99,6 +102,7 @@ Conversion note: the functional block diagram shows one Schmitt-trigger inverter
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -115,6 +119,7 @@ Conversion note: the functional block diagram shows one Schmitt-trigger inverter
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI Application Report, Implications of Slow or Floating CMOS Inputs, (SCBA004).
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -131,6 +136,7 @@ Conversion note: the functional block diagram shows one Schmitt-trigger inverter
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report, (SPRA953).
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -156,6 +162,7 @@ Conversion note: the functional block diagram shows one Schmitt-trigger inverter
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested at V~CC~ = 0 V.
 [2] This is the increase in supply current for each input at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[5::table #2]]
 
 ```table id=noise caption="Noise characteristics" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25°C [1]"
 | Symbol | Parameter | SN74AHCT14 | < | < | Unit |
@@ -169,12 +176,14 @@ Conversion note: the functional block diagram shows one Schmitt-trigger inverter
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[6::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 12 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -189,6 +198,7 @@ Conversion note: the functional block diagram shows one Schmitt-trigger inverter
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[6::table #3]]
 
 ## Typical characteristics
 
@@ -199,7 +209,7 @@ current; however, you will see higher I~CC~ current due to the amount of
 time the input is not at the rail. This is Delta I~CC~. Delta I~CC~ is
 where the inputs are not at the rails and upper or lower drive
 transistors are partially on. Figure 6-1 shows I~CC~ across the input
-voltage sweep.
+voltage sweep. [[7::1]]
 
 ```curve id=icc-vi caption="Supply current vs input voltage"
 {"x": {"label": "V_I - Input Voltage", "unit": "V", "range": [0, 5]},
@@ -209,6 +219,7 @@ voltage sweep.
   {"label": "Trace B", "points": [[0, 0], [0.63, 0], [1, 0.12], [1.5, 0.59], [2, 1.27], [2.5, 2.15], [2.57, 1.75], [3, 0.84], [3.5, 0.31], [4, 0], [5, 0]]}
  ]}
 ```
+[[7::Figure 6-1]]
 
 Conversion note: the source does not label the two traces of Figure 6-1 or give the supply voltage; "Trace A" and "Trace B" are names given here.
 
@@ -218,17 +229,19 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time with one input transition per measurement. All parameters and
-waveforms are not applicable to all devices.
+waveforms are not applicable to all devices. [[8::1]]
 
 Conversion note: in Figure 7-1 the inputs swing 0 V to 3 V and are measured at 1.5 V, the outputs are measured at 50% V~CC~, and its table sets S1 to Open for t~PLH~/t~PHL~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[8::Figure 7-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V (input), 50% VCC (output)
 ```
+[[8::Figure 7-1]]
 
 Conversion note: the source figure (Figure 7-1) also shows the load circuit for 3-state and open-drain outputs (R~L~ = 1 kΩ) with its S1 table, and the pulse-duration, setup-and-hold and enable/disable waveforms, which are not drawn here.
 
@@ -238,11 +251,11 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 Schmitt triggers should be used anytime you need to translate a sign
 wave into a square wave, or used where a slow or noisy input needs to be
-sped up or cleaned up as in the switch de-bouncer circuit.
+sped up or cleaned up as in the switch de-bouncer circuit. [[10::2]]
 
 Conversion note: the typical application (Figure 9-1, Switch De-Bouncer Using Schmitt Trigger Inverter) shows a 10 kΩ, 1/6 W resistor from 5 V to the input of one SN74AHCT14 inverter, and a switch and a 10 nf capacitor from that input to ground.
 
@@ -252,19 +265,19 @@ This device uses CMOS technology and has balanced output drive. Care
 should be taken to avoid bus contention because it can drive currents
 that would exceed maximum limits. The high drive will also create fast
 edges into light loads; therefore, routing and load conditions should be
-considered to prevent ringing.
+considered to prevent ringing. [[10::5]]
 
 ### Detailed design procedure
 
-1. Recommended input conditions:
+1. Recommended input conditions: [[10::6]]
    - Specified High and low levels: See (V~IH~ and V~IL~) in the
-     Recommended Operating Conditions table.
+     Recommended Operating Conditions table. [[10::6]]
    - Inputs are overvoltage tolerant allowing them to go as high as
-     5.5 V at any valid V~CC~
-2. Recommended output conditions:
+     5.5 V at any valid V~CC~ [[10::6]]
+2. Recommended output conditions: [[10::6]]
    - Load currents should not exceed 25 mA per output and 50 mA total
-     for the part
-   - Outputs should not be pulled above V~CC~
+     for the part [[10::6]]
+   - Outputs should not be pulled above V~CC~ [[10::6]]
 
 Source conflict: step 1 (p.10) points to V~IH~ and V~IL~ in the Recommended Operating Conditions table; that table (p.4) has no V~IH~ or V~IL~ row.
 
@@ -273,7 +286,7 @@ Conversion note: the typical application curves (Figure 9-2) are three sketches 
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX supply
-voltage rating located in the Recommended Operating Conditions table.
+voltage rating located in the Recommended Operating Conditions table. [[11::1]]
 
 Each VCC pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 μf is recommended. If
@@ -281,11 +294,11 @@ there are multiple VCC pins, 0.01 μf or 0.022 μf is recommended for each
 power pin. It is acceptable to parallel multiple bypass caps to reject
 different frequencies of noise. A 0.1 μf and 1 μf are commonly used in
 parallel. The bypass capacitor should be installed as close to the power
-pin as possible for best results.
+pin as possible for best results. [[11::2]]
 
 ### Layout guidelines
 
-When using multiple bit logic devices inputs should not ever float.
+When using multiple bit logic devices inputs should not ever float. [[11::3]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused, for example, when only two inputs of a triple-input AND gate
@@ -301,7 +314,7 @@ sense or is more convenient. It is generally acceptable to float outputs
 unless the part is a transceiver. If the transceiver has an output
 enable pin, it will disable the outputs section of the part when
 asserted. This will not disable the input section of the IO’s so they
-cannot float when disabled.
+cannot float when disabled. [[11::4]]
 
 Conversion note: the layout diagram (Figure 9-3) shows two gates, one with its unused input tied to V~CC~ and one with its unused input tied to ground.
 
@@ -340,6 +353,7 @@ SN74AHCT14NSR | Reel of 2000 | -40 to 125 | AHCT14 | Last Time Buy
 SN74AHCT14PW | | -40 to 125 | HB14 | Obsolete
 SN74AHCT14RGYR | Reel of 3000 | -40 to 125 | HB14 | NRND
 ```
+[[14::table #1]] [[15::table #1]]
 
 ## Conversion notes
 

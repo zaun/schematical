@@ -24,11 +24,11 @@
 ## Description
 
 This device is a quadruple 2-input positive-AND gate that performs the
-Boolean function Y = A • B in positive logic.
+Boolean function Y = A • B in positive logic. [[1::1]]
 
 Qualified for automotive applications. Operating range 2V to 5.5V
 V~CC~. EPIC™ (Enhanced-Performance Implanted CMOS) process. Latch-up
-performance exceeds 250 mA per JESD 17.
+performance exceeds 250 mA per JESD 17. [[1::2]]
 
 Source error: the source prints "Y + A • B or Y = !{A + B}" (one bar
 over A + B), while the function table (Table 6-1) gives Y = H only when
@@ -49,11 +49,12 @@ is kept out.
 GND: Ground
 VCC: Positive Supply
 ```
+[[3::Table 3-1]]
 
 The thermal pad can be connected to GND or left floating. Do not connect
 to any other signal or supply. Conversion note: the thermal pad is on
 the BQA package (Figure 3-2); the pin table names its row "Thermal
-Information".
+Information". [[3::1]]
 
 ## Function tables
 
@@ -65,6 +66,7 @@ Information".
 | L | X | L |
 | X | L | L |
 ```
+[[8::Table 6-1]]
 
 ## Absolute maximum ratings
 
@@ -83,6 +85,7 @@ Information".
 [1] Stresses beyond those listed under "absolute maximum ratings" may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under "recommended operating conditions" is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed. Source error: the V~I~ and V~O~ rows carry marker 1; this note (2) is the voltage-rating note and has no other marker.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -91,6 +94,7 @@ Information".
 
 [1] AEC Q100-002 indicates that HBM stressing must be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -119,6 +123,7 @@ Information".
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 [2] Unconfirmed: the source prints the unit mA for the V~CC~ = 2 V rows; the absolute maximum continuous output current is ±25 mA and the electrical characteristics test at I~OH~ = –50 µA and I~OL~ = 50 µA.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -129,6 +134,7 @@ Information".
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics. Conversion note: all packages are 14 pins.
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -150,6 +156,7 @@ Information".
 | I~CC~ | | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | 20 | | 20 | µA |
 | C~i~ | | V~I~ = V~CC~ or GND | 5 V | | 4 | 10 | | | | | pF |
 ```
+[[5::table #2]]
 
 ```table id=noise caption="Noise characteristics [1]" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25 °C"
 | Symbol | Parameter | Min | Max | Unit |
@@ -161,12 +168,14 @@ Information".
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[6::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 18 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -181,6 +190,7 @@ See [parameter measurement information](#parameter-measurement).
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 8.7 | 12.3 | 1 | 14 | 1 | 14 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 8.7 | 12.3 | 1 | 14 | 1 | 14 | ns |
 ```
+[[5::table #3]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Parameter | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | T~A~ = –40°C to 125°C | < | T~A~ = –40°C to 85°C | < | Unit |
@@ -191,6 +201,7 @@ See [parameter measurement information](#parameter-measurement).
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 5.8 | 7.9 | 1 | 9 | 1 | 9 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 5.8 | 7.9 | 1 | 9 | 1 | 9 | ns |
 ```
+[[6::table #3]]
 
 ## Parameter measurement information
 
@@ -199,15 +210,17 @@ generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. Conversion note: C~L~
 is 15 pF or 50 pF, as given in the
-[switching characteristics](#switching-characteristics).
+[switching characteristics](#switching-characteristics). [[7::Figure 5-1]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
 ```
+[[7::Figure 5-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50 % VCC
 ```
+[[7::Figure 5-1]]
 
 Conversion note: the source figure also shows the 3-state and open-drain load circuit,
 pulse-duration, setup-and-hold and enable/disable waveforms, which do
@@ -233,6 +246,7 @@ SN74AHC08QPWRG4Q1 | Reel of 2000 | -40 to 125 | HA08Q
 SN74AHC08QPWRQ1 | Reel of 2000 | -40 to 125 | HA08Q
 SN74AHC08QWBQARQ1 | Reel of 3000 | -40 to 125 | AHC08Q
 ```
+[[11::table #1]]
 
 ## Conversion notes
 

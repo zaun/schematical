@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, inductor, fuse, relay, buzzer, supply, microprocessor, microcontroller, serial controller, serial memory) is described in a JSON part file in
+diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, crystal, inductor, fuse, relay, buzzer, supply, microprocessor, microcontroller, serial controller, serial memory, LED and LCD driver, programmable logic device, IC socket) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -31,6 +31,8 @@ diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character
 | `connector.json` | `connector` |
 | `converter.json` | `converter` |
 | `rtc.json` | `rtc` |
+| `leddriver.json` | `leddriver` |
+| `lcddriver.json` | `lcddriver` |
 | `diode.json` | `diode` |
 | `mux.json` | `mux` |
 | `buffer.json` | `buffer` |
@@ -44,6 +46,10 @@ diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character
 | `transistor.json` | `transistor` |
 | `serialmem.json` | `serialmem` |
 | `nixie.json` | `nixie` |
+| `dekatron.json` | `dekatron` |
+| `lcd.json` | `lcd` |
+| `pld.json` | `pld` |
+| `socket.json` | `socket` |
 
 Beside them, `datasheets.json` holds the datasheet URLs parts name with
 `"datasheet"` (see [Datasheets](#datasheets)), and `footprints.json` the land
@@ -122,17 +128,17 @@ parts) last.
 |---|---|
 | Analog | Data converters (ADC, DAC); Timers and Op-amps (plan-48) |
 | Clocks | Crystal › kHz / MHz; Ceramic resonator; Oscillator; the RTC leaf |
-| Connector | Barrel, Header, USB; later Terminal block, JST, Card slot, IC Socket |
+| Connector | Barrel, Header, USB, Card slot; Test Point (a leaf of the category itself, no sub-group); later Terminal block, JST, IC Socket |
 | Discrete | Capacitors › Ceramic / Electrolytic / Tantalum; Diodes; Resistors › Array / Chip / Through-hole; Transistors › BJT / MOSFET |
-| Displays & Indicators | LED; 7-Segment; Character LCD; Buzzers (plan-47) |
-| Interface | Serial (UART, Bridge UART, I2C controller); Parallel I/O (PIA, VIA) |
-| Logic | Arithmetic, Buffers, Counters, Decoders & muxes, Flip-flops & latches, Gates, Registers |
+| Displays & Indicators | LED; 7-Segment; Character LCD; LCD glass (plan-56); Buzzers (plan-47) |
+| Interface | Serial (UART, Bridge UART, I2C controller); Parallel I/O (PIA, VIA); Driver (LED, LCD: display driver ICs, plan-56) |
+| Logic | Arithmetic, Buffers, Counters, Decoders & muxes, Flip-flops & latches, Gates, Registers, CPLD (the PLDs and GALs: ATF16V8, ATF22V10, ATF750C) |
 | Memory | EEPROM; SRAM; Serial › EEPROM / FRAM / Flash |
 | Microcontroller | AVR › AT90 / ATmega / ATtiny / Dx / Ex / Lx/Sx / XMEGA / megaAVR 0 / tinyAVR 0/1/2; ESP32; RP2040 |
 | Power | Regulators › Linear / Switching |
 | Processor | the bus CPUs (6502, 65816, Z80, …) |
 | Switches & Relays | DIP; Tactile; Relay (plan-47) |
-| Vintage | Display tubes › Nixie / Numitron / VFD / Neon; Support ICs |
+| Vintage | Display tubes › Nixie / Numitron / VFD / Neon / Dekatron; Support ICs |
 
 **Vintage** is old technology that is no longer made, kept as its own
 category (by era, not function). It is not where obsolete parts go: an
@@ -248,6 +254,7 @@ one device with one of these parts (see [Single part files](#single-part-files))
 | `"footprint"` | the `id` of a footprint in `footprints.json` (see [Footprints](#footprints)). Required on every part except VCC/GND supplies (`VCC`, `GND`, `5V`, …), which reject it. Pull parts (`"pull": true`) are resistors and require it |
 | `"connectorFootprint"` | optional: a second footprint, the `id` of one in `footprints.json`, that the PCB Style option switches to (**Connector Only**). Same rules as `footprint`. Character LCD modules use it (§ `charlcd`) |
 | `"footprintChoices"` | optional: the footprints a placed part may use, each `{"package": …, "footprint": …}`, in picker order. The part's own `footprint` is one of them (the default), with the part's `package`. `GENERIC-LED` uses it (§ `led`; rules in [The `"footprint"` part key](#the-footprint-part-key)) |
+| `"fits"` | a socket part only (required there, rejected on every other kind: `"fits" is only for a socket`): the chip footprints the socket holds, a non-empty array of footprint ids. Each id must exist (`unknown fits footprint "X"`), be listed once (`fits footprint "X" listed twice`), have as many pins as the part (`fits footprint "X" has 12 pins; the part has 14`) and a pad for every pin (`pin "7" has no pad in fits footprint "X"`). § `socket` |
 | `"vcc"`, `"inputMax"` | on gate, dff, jkff, sram, eeprom, serialmem and oscillator parts only: the part's own supply range / input limit, replacing the one it inherits (see [Supply voltage](#supply-voltage-vcc-and-inputmax)) |
 
 Every other key belongs to the kind.
@@ -509,7 +516,19 @@ reports `HTTP 403` for most Suntsu crystal entries even though the URLs are the
 maker's own and open in a browser; the local PDFs under
 `datasheets/crystal/suntsu/` are the Internet Archive's copies of those URLs.
 Treat those failures as expected (plan-44-F: 9 of the 11 `suntsu.com` entries
-403, the other two answer).
+403, the other two answer). The same goes for Amphenol ICC's card-slot
+datasheets (plan-54): their entries name `cdn.amphenol-cs.com`, which answers a
+script `HTTP 403` or `429`; the local PDFs are Amphenol's own `catsy.925` file
+store's copies of the same documents. The terminal-block and JST datasheets
+(plan-45) were checked host by host: `datasheet.weidmueller.com` (149 URLs),
+`www.we-online.com` (219; it throttles a fast run to `HTTP 403`, so run it
+alone) and `www.jst-mfg.com` (7) all serve a PDF; `www.phoenixcontact.com`
+(68) serves all 68 on a first run, then throttles the script to `HTTP 403`
+for a while (a later run: 20 of 68 passed, the next 0 of 68, and `curl` got
+403 too), so run it once and treat a 403 there as expected;
+`www.jst.com` answers a script `HTTP 403` for both its entries
+(`eSR_SZ`, `eSR_SZ-new`), though the URLs open in a browser, so treat those two
+as expected.
 
 The inductor, fuse, PTC, relay and buzzer entries (plan-47-K, L) were checked
 on 2026-11-22, host by host, with the new entries' ids (1264 entries, 16
@@ -535,6 +554,7 @@ but no `"datasheet"`; `listing_check` prints how many there are. They are:
 | Manufacturer | Datasheet (local copy) | Parts |
 |---|---|---|
 | General Instrument | `ay-5-1013` | AY-3-1015D, AY-5-1013A, AY-5-1013A-HR |
+| Analog Devices (Harris) | `icm7231-icm7232-harris` | ICM7232AFIPL, ICM7232BFIPL |
 | Intel | `82510` | N82510, TN82510 |
 | Intel | `8251a` | D8251A, LD8251A, MD8251A/B, N8251A, P8251A, P8251A-G |
 | Lite-On | `LSHD-5601` | LSHD-5601 |
@@ -557,6 +577,7 @@ but no `"datasheet"`; `listing_check` prints how many there are. They are:
 | Microchip Technology | `com78c802` | COM78C802P |
 | Microchip Technology | `com78c804` | COM78C804LJP |
 | Microchip Technology | `com92c451` | COM92C451P |
+| Renesas Electronics (Harris) | `cd22105-harris` | CD22105AE |
 | Renesas Electronics | `cdp1854a` | CDP1854ADS2082, CP1854ACD, CP1854AE |
 | Renesas Electronics | `cdp65c51` | CDP65C51M1, CDP65C51M4S2357 |
 | Renesas Electronics | `hd-6406` | HD3-6406-5 |
@@ -566,7 +587,11 @@ but no `"datasheet"`; `listing_check` prints how many there are. They are:
 | USSR (various makers) | `datasheets/nixie/k155id1` (reference sheet) | K155ID1 |
 | USSR (various makers) | `datasheets/nixie/` (passport scans and the reference books; each device's `note` names its files) | IN-1, IN-2, IN-3, IN-7, IN-7A, IN-7B, IN-8, IN-12A, IN-12B, IN-14, IN-15A, IN-15B, IN-16, IN-17, IN-18, IN-19A, IN-19B, IN-19V, INS-1 |
 | USSR (various makers) | `datasheets/nixie/k155ie2`, `k155tm7` (reference sheets) | K155IE2, K155TM7 |
-| USSR (various makers) | `datasheets/vfd/` (passport scans and reference pages) | IV-6, IV-9, IV-11, IV-12, IV-16, IV-18 |
+| USSR (various makers) | `datasheets/vfd/` (passport scans and reference pages) | IV-6, IV-8, IV-9, IV-11, IV-12, IV-16, IV-17, IV-18, IV-22, IV-25, IV-27 |
+| Ericsson Telephones (ETL) | `datasheets/dekatron/` (`gc10b_01`, `gc10d_01`, `gs10c_01`, `gs10d`) | GC10B, GC10D, GS10C, GS10D |
+| Philips / Mullard / Valvo | `datasheets/dekatron/` (`z303c_01`, `z502s`, `z504s_01`, `z505s`) | Z303C, Z502S, Z504S, Z505S |
+| Raytheon | `datasheets/dekatron/ck7978` | CK7978 |
+| USSR (various makers) | `datasheets/dekatron/` (passport scans: `og4_01`, `og7`, `og8`, `a102`; bases in `datasheets/nixie/russian_bases`) | OG-4, OG-7, OG-8, A-102 |
 | RFT (VEB Werk für Fernsehelektronik) | `datasheets/nixie/z573m_rft_book_05` | Z573M |
 | Burroughs | `datasheets/nixie/b-5870_burroughs_specifying_guide_1061k` | B-5870 |
 | Generic | `datasheets/nixie/ne-2_vcc_neon_indicator_lamps` | NE-2 |
@@ -614,6 +639,7 @@ left side. Pads are axis-aligned.
 | `"style"` | `"dual"`, `"quad"`, `"grid"` or `"explicit"` |
 | `"pins"` | number of designated pads (1–1000). `dual`, `quad` and `explicit` pads are `"1"`…`"<pins>"`; `grid` pads, and `explicit` pads given by `"ball"`, are ball names |
 | `"body"` | `{"width", "height"}` > 0, optional `"round": true` (drawn as an ellipse) |
+| `"edgeMount"` | optional, only `true`: the housing straddles the board edge (a card-edge socket on the board's edge). The app checks only the footprint's pads, not its body, against the board outline; the footprint's `note` says where the board edge is relative to the pads |
 | `"pad"` | `{"width", "height", "shape"}`, sizes > 0, shape `"rect"` or `"round"` (an oval, a stadium: a semicircle of the short side at each end of the long side; a circle when width = height), plus optional corner keys (below). Not on `explicit` |
 | `"drill"` | optional, default 0 (surface mount); a through-hole diameter, smaller than both pad sides. Not on `explicit` |
 | `"pin1Shape"` | optional, `dual`/`quad` only: pin 1's pad shape (through-hole parts use `"rect"` to mark pin 1); pin 1 then has square corners |
@@ -730,6 +756,35 @@ column c, row index r (A = 0):  x = (c − 1 − (columns−1)/2) · pitch
                                 y = (r − (rows−1)/2) · pitch
 ```
 
+**Card slots** name `"card"`: what the slot takes, a string of 1 to 40
+characters (`"microSD"`, `"Nano SIM"`, `"DDR4 SODIMM"`, `"PCI Express"`), and
+optionally `"cardPitch"`: the contact pitch in millimetres, above 0 and at most
+20 (module and card-edge sockets; none for memory / SIM sockets). `"cardPitch"`
+without `"card"` is rejected. A card slot has no `centerPin`, `contacts`, `usb`,
+`ratedVolts` or `ratedAmps` (each is rejected with "a card slot has no ..."). It
+is passive like a USB connector: every pin is an `inout` terminal (`nc` for a pad
+the datasheet marks not connected), nothing is driven, and two pins of one slot
+on one net join nothing in play mode. `PartConnector` carries `card` and
+`card_pitch_um` (NULL / 0 for barrel jacks and USB connectors).
+
+| | |
+|---|---|
+| drawer | `["Connector", "Card slot", "<leaf>"]`: leaf `SD`, `microSD`, `SIM` or `Smart card` for a memory / SIM socket, `Memory module` for a module socket (DIMM, SO-DIMM, SIMM, SOCAMM), `Card edge` for a card-edge socket (PCI Express, M.2, MicroTCA, dual and single edge) |
+| function | the card text for a memory / SIM or module socket (`Nano SIM`, `DDR4 SODIMM`); `<pitch> mm <card>` for a card-edge socket (`1.00 mm PCI Express`) |
+| package | by the mounting: `SMD right angle`, `SMD vertical`, `Through hole vertical`, `Through hole right angle`, `Hybrid vertical`, `Hybrid right angle`, `Board edge straddle` |
+| device id | `card-<family>-<maker slug>-<variant slug>`, `<family>` `socket` (memory / SIM), `module` or `edge` (`card-socket-gct-sim8055-nano-sim`) |
+
+Pins, numbered 1 … N: a memory / SIM socket's by function as the datasheet
+names them (`CLK`, `CMD`, `DAT0`, `VCC`, `RST`, `CD`) with one last `SHIELD` pin
+for the shell tabs; a module or card-edge socket's by the contact designator
+(`1` … `288`, `A1` … `B12`), or by the signal names the datasheet's pin table
+prints. Mounting pegs and board-lock holes are footprint pads with no pin. A
+pinout of more than 40 pins has `"side": "in"` on its first half (rounded up), so
+the block symbol has two columns. Footprints are `SOCK-…` (memory / SIM),
+`DIMM-…` (module) and `EDGE-…` (card edge), `explicit`; a straddle-mount socket
+uses `opposite` pads and `"edgeMount": true` (§ Footprints). Only Active parts
+are in the library (`datasheets/skipped-parts.md`, `datasheets/obsolete-not-included.md`).
+
 ### `header` — pin header
 
 Through-hole pin headers, one or two rows, numbered zigzag: pin 2 is across
@@ -795,10 +850,51 @@ Holes on explicit pads (USB connector shell legs and locating pegs):
 {"pin": 0, "x": 0, "y": -3, "width": 1.0, "height": 1.0, "shape": "round", "drill": 1.0, "plated": false}
 ```
 
+Pads on the other face of the board (a straddle-mount card-edge socket has
+contacts on both faces):
+
+| Key | Value |
+|---|---|
+| `"opposite"` | optional, only `true`: a surface-mount pad on the other face of the board from the footprint's own side. Never with `drill`, `slotLength` or `"plated": false` (an opposite pad is surface mount) |
+
+```json
+{"pin": 3, "x": 1.5, "y": 2, "width": 0.4, "height": 1.2, "shape": "rect", "opposite": true}
+```
+
+A footprint is drawn as seen from its own side, so an `opposite` pad is
+copper on the other face: on Bottom for a part placed on Top, and on Top for
+a part placed on Bottom (every pad's layer swaps when the part flips). Only
+`explicit` pads take it; on the other styles' `pad` it is an unknown key.
+
 The app draws a slot as a capsule and a non-plated hole as a hole with no
 copper; neither the ratsnest nor traces connect to a non-plated hole, and
 the design-rule check counts it only as a hole (hole to hole, silkscreen,
 solder mask), not as copper.
+
+### Terminal-block and JST footprints (`TB-`, `JST-`)
+
+The through-hole PCB terminal blocks (screw, spring-cage and push-in, one level, 2 to 12 positions at 3.50, 3.81,
+5.00, 5.08, 7.50 and 7.62 mm) have footprints `TB-<maker>-<series>-<pitch>-<V|H|A><T>-<NN>` (`TB-WUR-WR-TBL-SERIES-1377-5.00-HT-03`:
+V vertical, H horizontal, A angled wire entry; T through hole; NN the position count in two digits); the JST board
+headers (XH, PH, EH, ZH, VH, GH, SH / SR; top entry V, side entry H; through hole T, surface mount S) have
+`JST-<series>-<pitch>-<V|H><T|S>-<NN>` (`JST-GH-1.25-HS-07`). They are not
+written by hand: `scripts/gen-terminals.js` generates every one from one table entry per variant
+(`scripts/terminal-footprints.json`: pitch, hole diameter, the housing's width formula `n x pitch + bodyExtra` and depth,
+the hole row's offset, and a `note` that names the maker's drawing, its page and every number read), and
+`node scripts/gen-terminals.js --write` puts exactly the footprints the `connector` parts name into
+`footprints.json` (a second run changes nothing; `--check` fails when the file differs). A block with one row of holes
+centred on its housing is a `header` footprint (`rows` 1, square pad on pin 1); a block with two holes per pole
+(`holes`), poles that alternate between two rows (`stagger`), a first column that is not centred (`edgeX`) or poles
+numbered from the right (`reverse`), an empty slot between two poles (`gaps`) or mounting holes at the ends of the row
+(`flange`) is an `explicit` one, with one pad per hole and every hole of a pole on that pole's pin. A flange is two
+holes beyond the end poles: non-plated pegs (`"pin": 0`, `"plated": false`, the hole itself, as the drawing shows no
+copper ring) or, where the maker draws solder flange pins, plated unnumbered pads (`"pin": 0`); `pegs` are the same
+single holes at one end only (JST's boss and shroud pegs, beside pole 1). A surface-mount JST header (`smd`) is an
+`explicit` footprint of rect pads without a drill, the layout figure's land sizes, and two unnumbered rect tabs
+(`"pin": 0`, the reinforcement pads) beyond the end pads. JST's layout figures are the view from the mounting surface:
+the footprint is that figure mirrored left to right, pin 1 the left pad. The through-hole pad is rule R5-T: round, the drill + 0.7 mm at most the pitch - 0.8 mm, the drill the drawing's hole diameter
+(the middle of a min / max), the drill + 0.3 mm where that would leave no copper (JST ZH at 1.5 mm); pin 1's pad is square. Where a maker draws different housings under one series, each
+housing is its own variant (Weidmuller LM and LM1N, Phoenix SMKDS 2,5 and SMKDS 3).
 
 ### Custom footprints in a part file
 
@@ -820,8 +916,13 @@ never writes `footprints.json`:
 
 A custom part has a `"footprint"` only:
 `"connectorFootprint"` and `"footprintChoices"` stay with the bundled parts
-that use them (the generic LED, character LCDs, headers and pull resistors),
-whose footprint menus the PCB sidebar owns. A numbered pinout's custom
+that use them (the generic LED, character LCDs, headers, test points and pull
+resistors), whose footprint menus the PCB sidebar owns. The one exception is a
+custom **socket**: it keeps its own `"footprint"` (its land pattern) and names bundled
+chip footprints in `"fits"` (the Part Editor's **Fits** list on the Footprint section and
+the wizard's Footprint page: a checkbox per bundled footprint with the pinout's pad count,
+the socket's own and the `SKT-…` ones left out), the one case a custom part lists bundled
+footprints; a socket with none is refused with `missing "fits"`. A numbered pinout's custom
 footprint has numbered pads (`"pin"`); a ball pinout's custom footprint is
 a `grid`, whose `"balls"` are the pinout's ball names, or an `explicit` one
 with `"ball"` pads.
@@ -889,6 +990,15 @@ with `"ball"` pads.
 - **R9 — SMD cans (V-chip)** (plan-33-C § 4.1): the datasheet's land
   table for the can size (R1); else R4 on the base plate's terminal
   drawing; body the base plate (A × B, mid-values). Pin 1 is `+`.
+- **R10 — IC sockets** (plan-51-C § 3.1, `scripts/gen-sockets.js`, ids `SKT-…`): a
+  through-hole socket takes the drawing's recommended PC-board hole (R1: drill = that
+  hole, mid-value of a range) or, when it gives only the tail, R5 (drill = the largest
+  tail cross-section + 0.25, up to 0.05; a square post's is its diagonal); round pad =
+  drill + 0.7, at least 1.5; `pin1Shape` `rect`; `span` the row spacing. A surface-mount
+  DIP socket takes the drawing's land pattern (R1: its pad size, pitch and centre-to-centre
+  span), else R2 from the tail; a surface-mount PLCC socket R1 or R3. The body is the
+  housing outline (mid-values), not the chip's. The socket's pad `n` is the chip's pin
+  `n` (a PLCC socket uses the chip's `slots`), so a chip's pins land on the socket's pads.
 - **No overlapping pads.** If a land pattern's max-only pad sizes make
   pads touch (PLCC-32's corner pads at Y1 = .100 in max), shorten the pads
   and keep their centres, and say so in the `note`.
@@ -914,7 +1024,7 @@ Constant sources. Device key:
 
 | Key | Value |
 |---|---|
-| `"volts"` | the supply's voltage, 0 to 300. More than 0 drives its pin to 1, strong; 0 (ground) drives 0, strong. `PartSupply.mv` holds it in millivolts and `PartSupply.level` is `mv > 0`. |
+| `"volts"` | the supply's voltage, 0 to 500. More than 0 drives its pin to 1, strong; 0 (ground) drives 0, strong. `PartSupply.mv` holds it in millivolts and `PartSupply.level` is `mv > 0`. |
 | `"pull"` | optional, `true` or `false` (default `false`). `true` makes the device a pull part: a pull-up for `volts` > 0, a pull-down for 0. `PartSupply.pull` is 1. |
 
 The device has one pinout with one pin. Parts carry no kind keys. Each
@@ -970,7 +1080,7 @@ sets that net, and a pull never clashes with a supply or another pull.
 `170V` and `200V` are the nixie tubes' anode supplies (§ `nixie`), and
 `PULLUP-170V` / `PULLUP-200V` the anode resistor to them (the app's supply
 menu lists the rails up to `12V`; these two, and a rail of any other voltage
-up to 300 V, come from its **Custom…** item, which loads a supply and its
+up to 500 V, come from its **Custom…** item, which loads a supply and its
 pull-up named by the voltage, the decimal point written as the `V`: `48V`,
 `3V6`, `PULLUP-48V`. A file that names such a rail gets it the same way): a nixie anode is never wired to the rail directly.
 
@@ -1848,7 +1958,8 @@ whether its drawing is a bottom view that was mirrored. `"flags":
 
 ### `connector`
 
-Barrel power connectors are passive `inout` terminals. `centerPin` is the
+Barrel power connectors, USB connectors (below), card slots, test points, PCB terminal blocks and JST board headers
+(the last subsections) are all in this kind. Barrel power connectors are passive `inout` terminals. `centerPin` is the
 mating plug centre-pin diameter in millimetres; `ratedVolts` and `ratedAmps`
 are the connector ratings. A two-terminal jack has centre and sleeve pins.
 A switched jack additionally names `"contacts": [["Sleeve", "Switch"]]`:
@@ -1896,9 +2007,69 @@ USB footprints (`USB-SS-…` Same Sky, `USB-AMP-…` Amphenol ICC,
 every number used). The origin is the centre of the housing's top-view
 outline, and a right-angle or mid-mount connector's mating face points up
 (−y). A mid-mount part's board cut-out is not part of the footprint; its
-size is in the footprint `note`. Parts that need pads on the bottom
-layer, rotated slots or L-shaped / keyhole shell slots are not in the
-library (`datasheets/skipped-parts.md`).
+size is in the footprint `note`. Parts that need rotated slots or
+L-shaped / keyhole shell slots are not in the library
+(`datasheets/skipped-parts.md`); a pad on the other face of the board is an
+`opposite` pad (§ `explicit`), and the USB parts skipped for pads on the
+bottom layer stay skipped.
+
+**Test points** (plan-57) name `"testPoint": true` on the device (never on a
+part; `false` or a non-boolean is `"testPoint" must be true`). A test point is
+one passive `inout` pin: it has no `centerPin`, `contacts`, `usb`, `card`,
+`cardPitch`, `ratedVolts` or `ratedAmps` (each rejected with "a test point has
+no ..."), and its pinout has exactly one pin (`a test point has exactly one
+pin`; every other connector keeps `a connector has at least two pins`). It
+joins nothing in play mode. `PartConnector.test_point` is 1 for it (0 for every
+other connector).
+
+| | |
+|---|---|
+| drawer | `["Connector"]`: the leaf `Test Point` of the category itself, listed after its groups |
+| function | `Test Point` |
+| package | `Pad <d> mm` or `Through hole <d> mm`, one per footprint choice |
+| device id | `testpoint` |
+
+The library has one part, `GENERIC-TESTPOINT` (manufacturer `Generic`, no
+datasheet): pin `1` named `TP`, default footprint `TESTPOINT-PAD-1.5`, and ten
+`footprintChoices`, `d` = 1.0, 1.5, 2.0, 2.5, 3.0 mm, pads first and then through
+hole. The footprints are `explicit`, one round pad at the origin whose body is
+the pad: `TESTPOINT-PAD-<d>` (surface mount) and `TESTPOINT-THT-<d>` (plated
+hole, drill 0.5, 0.8, 1.0, 1.3, 1.5 mm for the five sizes). They are generic land
+patterns (no drawing). The app draws a test point as a small circle on a pin
+stub with a `TP` reference, leaves it out of the Bill of Materials, and shows
+Size and Through hole in its Options in place of the footprint menu.
+
+**Terminal blocks and JST headers** (plan-45) are passive terminals like the USB connectors: nothing is driven, two of
+their pins on two driven nets join nothing. A device names **one** of
+
+| Key | Value |
+|---|---|
+| `"terminal"` | a PCB terminal block's wire clamp: `"screw"`, `"spring"` (spring cage), `"push-in"` or `"pluggable"` (the board-side header of a plug-in block) |
+| `"jst"` | a JST board header's series: `"XH"`, `"PH"`, `"EH"`, `"ZH"`, `"SH"` (covers the SH and SR parts: one datasheet, one 1.00 mm pitch), `"GH"` or `"VH"` |
+
+and then must name `"pitch"` in millimetres (above 0, at most 20). `ratedVolts` and `ratedAmps` are optional, as for USB
+(the datasheet's rating, the IEC one when it prints both; a part the maker gives no rating has none). There is no
+`centerPin` and no `contacts` (rejected: `a terminal block has no "centerPin"` / `a JST connector has no ...`); more than
+one of `usb`, `terminal` and `jst` is `a connector is one of "usb", "terminal" and "jst"`; `pitch` without `terminal` or
+`jst` is `"pitch" is only for terminal blocks and JST connectors`; a card slot and a test point reject all three keys.
+`PartConnector` has `pitch_um` (micrometres), `terminal` (`'s'` screw, `'c'` spring cage, `'p'` push-in, `'h'`
+pluggable header; 0 otherwise) and `jst` (the series' first letter `'X'`, `'P'`, `'E'`, `'Z'`, `'S'`, `'G'`, `'V'`; 0
+otherwise); `ratedVolts` / `ratedAmps` land in `rated_mv` / `rated_ma`. Every pin is a passive `inout` terminal named `"1"` …
+`"n"`, pin 1 the first along the row (the left pad of the footprint).
+
+| | |
+|---|---|
+| drawer | `["Connector", "Terminal block", "<pitch> mm"]` (the pitch to two decimals: `3.50 mm`, `3.81 mm`, `5.00 mm`, `5.08 mm`, `7.50 mm`, `7.62 mm`) and `["Connector", "JST", "<series>"]` |
+| function | terminal block: `Screw, vertical`, `Spring, horizontal`, `Push-in, angled`, `Plug-in header, vertical` (the clamp and the wire-entry direction), or `Generic`; JST: `Top entry`, `Side entry` or `Generic` |
+| package | `Through hole vertical`, `Through hole right angle`, `Through hole angled`, `SMD vertical`, `SMD right angle` |
+| footprint | `TB-…` (terminal blocks) and `JST-…` (JST headers): § Terminal-block and JST footprints, generated by `scripts/gen-terminals.js` |
+
+The library holds 589 such parts (plan-45): 501 from Phoenix Contact, Weidmüller, Würth Elektronik and JST, and 88
+generics, `GENERIC-TERMINAL-<pitch>-<NN>` (6 pitches × 11 position counts, 2 to 12) and `GENERIC-JST-XH-<NN>` /
+`GENERIC-JST-PH-<NN>` (11 each, 2 to 12). A generic has no rating, no datasheet, function `Generic` and the footprint of
+its pitch's representative part. The parts are written by `planning/plan-45-data/census/gen-parts.py` (idempotent:
+it drops and rewrites the blocks whose ids start `tb-`, `jst-`, `generic-terminal-` or `generic-jst-` and leaves every
+other block byte for byte; `--check` fails when the file differs).
 
 ### `header`
 
@@ -1922,6 +2093,54 @@ lists pins 1 … R·NN in order, named by number. Each part's
 `Right angle` (`PINHDR-<R>X<NN>-RA`); the script also writes those 160
 `header`-style footprints (every `PINHDR-` line of `footprints.json`) from
 the Würth WR-PHD drawings in `datasheets/connector-header/`.
+
+### `socket`
+
+An IC socket (plan-51, `backend/src/models/socket.c`): the part a DIP or
+PLCC chip plugs into. Passive `inout` terminals like `header`: each pin is just
+its net, the model drives nothing, and a placed socket does not turn Run off
+(`"simulated"` stays `true`). The sockets are listed under Connector › IC
+Socket. Device keys:
+
+| Key | Value |
+|---|---|
+| `"family"` | required, `"DIP"` or `"PLCC"` (`unknown socket family "X"`) |
+| `"rowSpacing"` | a DIP socket only, required there: the row spacing in mm, one of 5.08, 7.62, 10.16, 15.24 (`"rowSpacing" must be 5.08, 7.62, 10.16 or 15.24`); a PLCC socket rejects it (`a PLCC socket has no "rowSpacing"`) |
+
+Part keys:
+
+| Key | Value |
+|---|---|
+| `"mounting"` | required, `"through-hole"` or `"surface-mount"` (`unknown socket mounting "X"`) |
+| `"finish"` | optional, a non-empty string: the contact finish as the datasheet prints it (`"gold"`, `"tin"`, `"tin-lead"`); the app shows it |
+| `"fits"` | required: the chip footprints the socket holds (the common part key, [Parts](#parts)) |
+
+Pins: every pin is `inout` (`socket pin "X" must be inout`); a DIP socket has
+an even pin count of 4 to 64 (`a DIP socket needs an even pin count of 4 to
+64`), a PLCC socket 20, 28, 32, 44, 52, 68 or 84 (`a PLCC socket needs 20,
+28, 32, 44, 52, 68 or 84 pins`). The part's own `footprint` is the socket's
+land pattern, with a pad for every pin like any part's.
+
+The library's sockets are `Parts/socket.json`, written by `node scripts/gen-sockets.js
+--write` (`--check` exits 1 when a file differs; running it twice changes nothing) from
+`planning/plan-51-data/` (`series.tsv`, `candidates.tsv`, `fits.tsv`): 575 parts in 15
+devices, one device per socket shape (`dip-14-300`, `plcc-44`, …; the shapes the library's
+chips use), 15 generic sockets and 560 parts of three makers. The generic ones are
+`GENERIC-SOCKET-DIP-<pins>-<300|600>` (through hole, the Mill-Max 110 footprint) and
+`GENERIC-SOCKET-PLCC-<pins>` (surface mount: Assmann A-CCS Z-SM for 28, 32 and 44 pins,
+Mill-Max 940 for 68), manufacturer `Generic`, no datasheet. Each maker part names its
+datasheet (the maker's catalog or drawing, `datasheets/ic-socket/`, ids `mill-max-088-145`,
+`precidip-catalog-dilsockets`, `assmann-ass-4852-co`, …), its own `SKT-…` footprint (one per
+distinct pad geometry, ids by family, pins, row spacing, mounting, maker and series), and the
+contact finish DigiKey lists. Through-hole PLCC sockets are not in the library: their
+tails are on two staggered rows of 2.54 mm holes that `quad` cannot draw
+(`datasheets/skipped-parts.md`).
+
+`"fits"` names chip footprints by id: nothing derives the fit from pad
+positions, since an oscillator or a 7-segment display also has the package
+`DIP`. The loader checks that each listed footprint has the socket's pin
+count and a pad for every pin designator, so a socket's pin `n` is the pad
+`n` of every chip it holds. `Part.fits` lists them in file order.
 
 ### `sram`
 
@@ -2529,6 +2748,42 @@ on a 5 V net is refused). The RP2040's 1.1 V core-supply pins (`DVDD`) are
 `power` pins fed by its own `VREG_VOUT` output; the check drives an output
 at the part's level, so `DVDD` sees the I/O level and passes. The check
 cannot judge the 1.1 V rail itself.
+
+### `pld`
+
+Programmable logic devices (`backend/src/models/pld.c`): the GAL / PAL
+class SPLDs and the CPLDs built like them (ATF16V8B, ATF22V10C, ATF750C),
+listed under Logic › CPLD. **Facts only for now**: what such a chip does is
+the logic its owner programs into it, and there is no model of that yet, so
+every `pld` device says `"simulated": false` and a circuit refuses its parts;
+the app disables Simulation › Run while one is placed. The engine model is
+passive (no callbacks, like `mcu`). The function level of the drawer is the
+architecture (`"16V8"`, `"22V10"`, `"750C"`).
+
+```json
+"simulated": false,
+"macrocells": 10,
+"vcc": [4.5, 5.5]
+```
+
+| Key | Value |
+|---|---|
+| `"simulated"` | required, `false` (`a pld has no simulation model: "simulated" must be false`) |
+| `"macrocells"` | required, the output macrocells, 1 to 1024 (`"macrocells" must be above 0`) |
+| `"vcc"`, `"inputMax"` | the supply range ([Supply voltage](#supply-voltage-vcc-and-inputmax)); every part must end up with a `vcc` |
+
+Part keys:
+
+| Key | Value |
+|---|---|
+| `"tpd"` | required, the part's speed grade: the maximum pin-to-pin delay, ns, above 0 (`"tpd" must be above 0`) |
+| `"vcc"`, `"inputMax"` | override the device's (a commercial `-7` grade is specified at 5 V ± 5%, so `[4.75, 5.25]`) |
+
+Pins: any count, any roles and names; no key names a pin, so the many
+`I/O` and `IN` pins keep the datasheet's names. Each pinout needs a `power`
+and a `ground` pin. The PLCC pinouts of the 24-pin parts list their extra
+`VCC` and `GND` pins (pins 1, 8, 15 and 22), which the datasheet says may be
+left unconnected.
 
 ### `generic`
 
@@ -3510,6 +3765,9 @@ The serial kind's object (`docs/parts-format.md` § SPI and I2C host ports):
   carry the part key `"i2cAddress"` (§ 11). A package without the strap pins
   (ADC081C021 SOT-6: fixed 0x54) sets `"i2cAddress"` in its `packages` entry
   (§ 1); its pinout may then lack the strap pins.
+- No bus (plan-56-F): `{"style": "none"}`, a `leddriver` / `lcddriver` device only (the PCF1179C
+  clock; § `lcddriver`, `clock` driver). The device has no `protocol`, and the pins its `display`
+  section names are the only ones the engine reads.
 - Parallel (plan-24-E):
 
 ```json
@@ -3664,6 +3922,7 @@ Actions:
 | `updateall` | DAC: copies input → DAC register for every channel (a "write channel n and update all" command: `then: ["updateall"]`) |
 | `clear` | DAC: input and DAC registers to `dac.clearCode` |
 | `setbits`, `clearbits` | the register at `address` / `register`: OR in / clear the bits of capture `data` (read-modify-write opcodes) |
+| `lcdload` | lcd display drivers with a `load` section (§ `lcd` driver): every following byte of the transfer is display data stored into the display RAM |
 
 #### `conversion` (ADC)
 
@@ -3828,6 +4087,340 @@ Further forms (from the RTC datasheets, plan-24-B):
 - `protocol.reads` entries may give `"read"` as an address map (an object,
   like `protocol.read`): pages/blocks selected by a field (DP8570).
 
+### `leddriver`
+
+LED display driver ICs (plan-56-B): `leddriver.json`, `"kind": "leddriver"`,
+`"function"` `"LED"`, `"drawer": ["Interface", "Driver"]`. MAX6951, ICM7218, AS1115 and the like: a host
+writes digit bytes (or a bit RAM) over a bus and the chip scans them out on
+digit/segment (or row/column) pins that a `7seg` display or an LED matrix
+shows. Built on the converter engine exactly as `rtc` is
+(`backend/src/models/converter.c`, `converter_load.c`), plus a `"display"`
+section run by `backend/src/models/display_out.c`. `Part.kind` is
+`PART_LEDDRIVER`; the parts have no kind-specific facts (`Part.converter` is
+NULL). The part's registers show in the app's register window like a
+converter's (`circuit_converter_registers`).
+
+The device describes its digital side with the converter keys, as § `converter`
+documents them (`bus`, `configBus`, `timing`, `registers`, `protocol`,
+`pins`, `analog`, `vcc`, `inputMax`) and names what its pins do with the
+register contents in `"display"`. The converter-only keys (`type`, `bits`,
+`channels`, `codeFormat`, `conversion`, `ready`, `dac`) and `clock` are
+rejected (`unknown key`); `display` is required, and is rejected on
+`converter` and `rtc` devices. Part keys are the converter's (`name`,
+`package`, `pinout`, `footprint`, `flags`, `vcc`, `inputMax`, `i2cAddress`,
+`i2c`, `resets`). A pin role is as in § `converter`: scan lines, segment
+pins and backplane pins are `output`, port pins `inout`, bus inputs `input`.
+
+The bus, registers and protocol decide what the host's writes do; nothing
+else about the display is modeled: **brightness, intensity, segment
+current, scan-limit registers, LED-open/short detection and key scanning
+are not simulated** (a register may hold them, a register's bits that no
+`display` key names do nothing). Time is simulated time: a scan slot lasts
+the `scan` period written from the datasheet's oscillator, so a `7seg`
+shows a multiplexed digit as it does with any scanned driver ("on at any
+time during the last step").
+
+The outputs are computed from the registers when a scan slot starts and
+again after every register or pin change, so a write shows at once, and a
+reset (the reset pin, the reset command, power-on) shows the registers'
+reset values.
+
+#### `display`
+
+An object whose `"driver"` names one of seven output drivers (`digits`, `static`, `matrix`, `ports`, `lcd`, `clock`, `ccsi`); its other keys
+depend on the driver. Rules common to every driver:
+
+| Term | Meaning |
+|---|---|
+| pin name | a pin of every pinout of the device (a pinout without it is rejected at load: `no pin "X" in this pinout`). A pin has one job: naming it twice in `display` is `pin "X" is used twice in "display"`. The bus pins are not named here |
+| field name | `"REG"` (the whole register) or `"REG.FIELD"`: the register's `fields` (§ `registers`); its value is the field's bits, right-aligned. A name that is no register or field is `unknown register` / `register "REG" has no field "F"` |
+| condition | a string `"REG.FIELD=v"` or `"REG.FIELD!=v"` (or an array of them, all must hold), the converter's `when` form (§ `protocol`) |
+| `"high"` / `"low"` | a level word: the level of the named state (`digitActive`, `segmentActive`, `rowActive`, `columnActive`) |
+| `"ram"` | the registers that hold what to show: an array of field names (one per digit or row for `digits` and `matrix`; the bit stream of `lcd`), or the shorthand `{"bytes": n, "address": a, "space": "reg"}`: it makes n byte registers named `RAM<a>` … `RAM<a+n-1>` (8 bits, reset 0, at addresses a… in `space`, default `"reg"`; as `clock.ram` of an `rtc`) and `ram` is those registers in order. The protocol can name them (`[RAM3]`) or address them |
+| `"scan"` | `{"periodUs": n}`: the time one scan slot (one digit, one row) lasts, 0 < n ≤ 1e7. Datasheet: the oscillator period times the cycles per digit |
+| `"openDrain"` | optional array of pin names the driver uses: those pins drive 0 or release (Z), never 1 (open-drain outputs; the voltage check treats them like any open-drain pin) |
+| `"note"` | allowed anywhere, ignored |
+
+No other key is accepted. A condition or field a driver key names is checked
+at load.
+
+##### `digits`
+
+A multiplexed digit scan. In slot k only digit k's pin is at its active
+level, the other digit pins at the inactive level, and the segment pins carry
+digit k's value; then slot k+1, round and round (slot 0 starts at time 0).
+
+| Key | Value |
+|---|---|
+| `"digits"` | n, 1–32 |
+| `"digitPins"` | n pin names, in digit order (digit 1 is the first slot) |
+| `"digitActive"` | `"high"` or `"low"`: the level that selects a digit |
+| `"segmentPins"` | the data pins: 7 names (segments a–g in that order), 8 (a–g then the decimal point), or 14 / 16 (alphanumeric segments, in your own order; no decode) |
+| `"segmentActive"` | `"high"` or `"low"`: the level of a lit segment |
+| `"segmentBits"` | optional: one bit number (0–31, all different) per segment pin: the bit of the digit's value that segment pin follows when the value is not decoded. Default: pin i follows bit i (a = bit 0 … g = bit 6, point = bit 7). MAX6951: `[6,5,4,3,2,1,0,7]` |
+| `"ram"` | n field names, in digit order: each digit's value (an 8-bit data register, or a field) |
+| `"decode"` | `"none"` (default), `"hex"`, `"codeB"`, `"bcd"`, `"ascii7"`: how a digit's value is turned into segments a–g (needs 7 or 8 segment pins), below |
+| `"decodeField"` | optional with a `decode`: a field name (the same for every digit) or an array of n field names (one per digit): a digit is decoded while its field is nonzero, else its value is raw (segmentBits). Without it, every digit is decoded |
+| `"decodeActive"` | optional, 1 (default) or 0: with `decodeField`, decode while the field is nonzero (1) or while it is 0 (0) |
+| `"dpBit"` | optional, default 7: the bit of a decoded value that lights the decimal point (the 8th segment pin) |
+| `"scan"` | required, above |
+| `"blank"`, `"test"`, `"shutdown"` | optional conditions, below |
+| `"sharedPins"`, `"segmentLines"` | optional pair, the MAX6950/51 wiring (below): replaces `digitPins` and `segmentPins` |
+| `"scanLimit"` | optional, needs `sharedPins`: a field name; only digits 0 to its value are scanned (a test scans all of them) |
+| `"blink"` | optional, needs `sharedPins`: `{"enable": condition, "ram": [n field names], "halfPeriodUs": n or {"field": "REG.F", "values": {"0": 1000000, "1": 500000}}}`: while `enable` holds, the digit shows its `ram` field in the first half of each blink period and its `blink.ram` field (the second plane) in the second half; the period starts at time 0 |
+
+Decodes (segments a–g; "value" is the digit's value, `ram` register or field):
+
+| `decode` | Value used | Result |
+|---|---|---|
+| `hex` | bits 3–0 | 0–9 A b C d E F (7 shows a, b, c; 6 and 9 have their a and d bars) |
+| `codeB` | bits 3–0 | 0–9, 10 `-` (g), 11 E, 12 H, 13 L, 14 P, 15 blank |
+| `bcd` | bits 3–0 | 0–9; 10–15 blank |
+| `ascii7` | bits 6–0 | 7-segment ASCII: digits, upper case (lower case reads the same), `- _ = " ' ( ) [ ] ? / $ !` and a few more; space, the control codes and every character with no 7-segment shape are blank |
+
+The decimal point of a decoded digit comes from bit `dpBit` of its value. A
+raw value lights segment pin j when bit `segmentBits[j]` is 1.
+
+`shutdown` (a condition), while true: every digit pin and every segment pin at
+the inactive level. Else `test`, while true: every segment pin lit in every
+slot (digit pins scan as usual). Else `blank`, while true: no segment lit
+(digit pins scan as usual). So shutdown beats test and test beats blank; to
+let the display test show in shutdown (MAX6951) add `TEST.T=0` to
+the `shutdown` array. A condition left out never holds. Intensity registers
+are plain registers: not in `display`.
+
+**Shared digit and segment pins** (`"sharedPins"`: 9 pin names; MAX6950/51). Digit k (k below
+`digits`, at most 9) is selected on shared pin k, which takes the `digitActive` level, and the other
+eight pins carry its segments in column order, `segmentLines` naming the segment each of those eight
+shows (`["dp", "g", "f", "e", "d", "c", "b", "a"]`: a to g and dp, each once). A lit segment drives the
+`segmentActive` level and an unlit one is released (Z), so one chip drives eight single-digit common-
+cathode displays wired as the datasheet's table shows, with no ghost segments. `segmentBits`
+(8 entries, in the order a b c d e f g dp), `decode`, `decodeField` (one per digit), `ram` (one field
+per digit), `scan`, `blank`, `test` and `shutdown` work as above (shutdown releases every shared pin).
+
+```json
+"registers": [
+  {"name": "DIGIT0", "address": 1, "width": 8}, {"name": "DIGIT1", "address": 2, "width": 8},
+  {"name": "DECODE", "address": 9, "width": 8, "fields": [{"name": "D0", "bits": [0, 0]}, {"name": "D1", "bits": [1, 1]}]},
+  {"name": "CONFIG", "address": 4, "width": 8, "reset": 1, "fields": [{"name": "RUN", "bits": [0, 0]}]},
+  {"name": "TEST", "address": 7, "width": 8, "fields": [{"name": "T", "bits": [0, 0]}]}
+],
+"display": {
+  "driver": "digits", "digits": 2, "digitPins": ["DIG0", "DIG1"], "digitActive": "low",
+  "segmentPins": ["SEGA", "SEGB", "SEGC", "SEGD", "SEGE", "SEGF", "SEGG", "SEGDP"], "segmentActive": "high",
+  "segmentBits": [6, 5, 4, 3, 2, 1, 0, 7], "ram": ["DIGIT0", "DIGIT1"],
+  "decode": "hex", "decodeField": ["DECODE.D0", "DECODE.D1"],
+  "scan": {"periodUs": 250}, "test": "TEST.T=1", "shutdown": ["CONFIG.RUN=0", "TEST.T=0"]
+}
+```
+
+##### `matrix`
+
+Rows scanned one at a time, the columns carry the active row's bits: an LED
+matrix or a digit scan whose data is a bit RAM. The same scan as `digits`
+with raw values only.
+
+| Key | Value |
+|---|---|
+| `"rows"` | 1–32 pin names: the scan lines, in order |
+| `"rowActive"` | `"high"` / `"low"`: the level that selects a row |
+| `"columns"` | 1–16 pin names: the data pins |
+| `"columnActive"` | `"high"` / `"low"`: the level of a set bit |
+| `"columnBits"` | optional: one bit number per column pin, as `segmentBits`; default column i follows bit i |
+| `"ram"` | one field name per row (or `{"bytes": ...}` with that many bytes) |
+| `"scan"` | required: the time one row lasts |
+| `"blank"`, `"test"`, `"shutdown"` | as `digits` (test: every column set; shutdown: every row and column inactive) |
+
+```json
+"display": {"driver": "matrix", "rows": ["R1", "R2", "R3"], "rowActive": "low",
+            "columns": ["C1", "C2", "C3", "C4"], "columnActive": "high", "columnBits": [3, 2, 1, 0],
+            "ram": {"bytes": 3, "address": 0}, "scan": {"periodUs": 200}, "shutdown": "CFG.RUN=0"}
+```
+
+##### `static`
+
+Non-multiplexed outputs: every output pin follows its group's value at
+all times (ICM7212-style 4-digit latch/decoder, a latched byte output).
+Nothing scans and no timer runs.
+
+| Key | Value |
+|---|---|
+| `"segmentActive"` | `"high"` / `"low"`: the level of a lit segment / set bit |
+| `"groups"` | 1–32 groups `{"pins": [pin names], "ram": field name, "decodeField": field name}`; every group has the same number of pins (1–16) |
+| `"segmentBits"`, `"decode"`, `"decodeActive"`, `"dpBit"` | as `digits`: raw group pin j follows bit `segmentBits[j]` of the group's field (default j); with a `decode` (7 or 8 pins per group) a group is decoded always, or while its own `decodeField` is nonzero (zero with `decodeActive` 0). A group's `decodeField` needs a `decode` |
+
+```json
+"display": {"driver": "static", "segmentActive": "low", "decode": "hex", "groups": [
+  {"pins": ["A1", "B1", "C1", "D1", "E1", "F1", "G1"], "ram": "V1"},
+  {"pins": ["A2", "B2", "C2", "D2", "E2", "F2", "G2"], "ram": "V2", "decodeField": "MODE.M"}]}
+```
+
+##### `ports`
+
+General-purpose port pins: each pin is driven from a data field, or
+released (Z) while its direction field says input.
+
+| Key | Value |
+|---|---|
+| `"ports"` | 1–256 ports `{"pin", "dataField", "dirField", "dirOutput", "invert", "sinkValues", "pullupValues", "readField"}` |
+| `"pin"` | pin name |
+| `"dataField"` | field name: the pin drives 1 while the field is nonzero (0 otherwise), or the opposite with `invert` |
+| `"dirField"` | optional field name: the pin is an output while the field's value is in `dirOutput`, else released. Without it the pin is always an output |
+| `"dirOutput"` | optional (needs `dirField`): a value or an array of up to 64 values that make the pin an output. Default 1 |
+| `"invert"` | optional boolean, default false |
+| `"sinkValues"` | optional (needs `dirField`): a value or an array of up to 64 `dirField` values that make the pin an open-drain LED sink: it drives 0 while `dataField` is nonzero and is released otherwise |
+| `"pullupValues"` | optional (needs `dirField`): `dirField` values that make the pin an input with a pullup: a weak 1, so a floating pin reads 1 and an external driver wins |
+| `"readField"` | optional field name: refreshed on every register or pin change with the value a read of the port should return: `dataField` while the pin is an output or a sink, the pin's level (Z and X read 0) while it is an input. The protocol reads it with `[REG.FIELD]` |
+| `"shutdown"`, `"test"` | optional conditions (driver level): while `shutdown` holds every port is released (an input without pullup), except the sink ports while `test` holds; while `test` holds every sink port sinks (drives 0) whatever its data bit; push-pull outputs are not touched by the test |
+
+Open-drain port outputs: list the pin in `display.openDrain` (it then drives 0 or Z).
+
+```json
+"display": {"driver": "ports", "openDrain": ["P2"], "ports": [
+  {"pin": "P0", "dirField": "DIR.D0", "dataField": "DATA.B0"},
+  {"pin": "P2", "dirField": "CFG.M2", "dirOutput": [1, 3], "dataField": "DATA.B2", "invert": true}]}
+```
+
+##### `lcd`
+
+(`lcddriver` devices.) Backplane and segment waveforms from a display RAM,
+to drive an `lcd` glass (§ `lcd`) wired to the driver's pins. The frame has one
+slot per backplane (`static`: one slot): in slot k the backplane pin k is
+driven with the frame's level and every other backplane pin is released (Z);
+every segment pin is driven with (its RAM bit for backplane k) XOR the frame's
+level. The level alternates 0, 1, 0, 1 … on consecutive frames (AC drive). A
+glass cell (segment pin ≠ backplane pin, both driven) is therefore lit in
+the slot of its backplane exactly when its RAM bit is 1, and the glass's
+lights read it as stable.
+
+| Key | Value |
+|---|---|
+| `"mode"` | `"static"`, `"1:2"`, `"1:3"` or `"1:4"` (1, 2, 3 or 4 backplanes) |
+| `"backplanes"` | exactly 1 / 2 / 3 / 4 pin names, in slot order |
+| `"segmentPins"` | 1–160 pin names: segment pin g of the RAM below |
+| `"ram"` | the RAM as a bit stream: an array of field names whose bits, in order, are the stream (an 8-bit register contributes 8 bits, a 3-bit field 3), or `{"bytes": n, "address": a}` (the byte registers `RAM<a>` …). At least segments × backplanes bits |
+| `"ramOrder"` | `"segment"` (default): the stream lists segment 0's bits for backplane 0, 1, … then segment 1's…, i.e. bit (segment g, backplane k) is stream bit g × backplanes + k (PCF8576: bit 0 of a byte is backplane 1); `"backplane"`: backplane 0's bits for segment 0, 1, … then backplane 1's…, i.e. k × segments + g |
+| `"bitOrder"` | `"lsb"` (default): within a register or field the stream starts at bit 0; `"msb"`: at its top bit |
+| `"frameUs"` | the frame time in µs (all slots together; 0 < n ≤ 1e7); a slot lasts frameUs / backplanes (static: a frame is one slot and the level alternates every frame) |
+| `"enable"` | optional condition: while false every backplane and segment pin is released (Z) and the glass is dark (the display-enable / blank bit). A condition left out is always enabled |
+
+```json
+"registers": [{"name": "CTRL", "address": 16, "width": 8, "reset": 1, "fields": [{"name": "ON", "bits": [0, 0]}]}],
+"display": {"driver": "lcd", "mode": "1:4", "backplanes": ["BP1", "BP2", "BP3", "BP4"],
+            "segmentPins": ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"],
+            "ram": {"bytes": 8, "address": 0}, "frameUs": 2000, "enable": "CTRL.ON=1"}
+```
+
+LCD bias levels, contrast, and the drive waveform's analog shape are not
+modeled; an `lcd` glass reads 0 and 1 only.
+
+**A run-time mode and a loadable RAM** (PCF8576, PCF85176, PCA85176, PCA85276;
+plan-56-E). The chip's mode-set command picks static, 1:2, 1:3 or 1:4 while it
+runs, and display data bytes are written through a data pointer that places
+their bits by mode. Instead of the string `"mode"`, name the register field
+that holds it:
+
+| Key | Value |
+|---|---|
+| `"mode"` | `{"field": "REG.FIELD", "values": {"<field value>": "static" \| "1:2" \| "1:3" \| "1:4"}}`: up to 4 values; a field value not listed uses the first. The mode names the slot count (1, 2, 3, 4); `"backplanes"` then lists 1 to 4 pins (the RAM's rows), and `"ramOrder"` must be `"segment"` (RAM column g = segment pin g, bit k of a column = backplane k, whatever the mode) |
+| `"slots"` | required with a mode field: mode name -> an array with one entry per slot of that mode, each an array of the `backplanes` pins driven in that slot (the others are released). The slot's RAM row is its number. PCF8576: static `[[BP0, BP1, BP2, BP3]]`, 1:2 `[[BP0, BP2], [BP1, BP3]]`, 1:3 `[[BP0], [BP1, BP3], [BP2]]`, 1:4 one pin each. A slot lasts `frameUs` divided by the mode's slot count |
+| `"outputBank"` | optional field name: while it is nonzero and the mode has at most 2 slots, slot k shows RAM row k + 2 (PCF8576 bank-select O) |
+| `"load"` | optional: lets the protocol action `lcdload` (below) store display data bytes. `"pointer"`: the field holding the data pointer (a RAM column); `"step"`: mode name -> the columns the pointer advances per byte (1 to 64; every mode of `mode` needs one); `"bank"`: optional field name, nonzero stores into rows + 2 in a mode of at most 2 slots (bank-select I); `"subaddress"` and `"hardware"` (together): the counter and the hardware strap field; bits are stored only while they are equal; `"subaddresses"`: the counter's modulus, 2 to 256, default 8 |
+
+The protocol action **`lcdload`** (a command's `action`) turns every following
+byte of the transfer into display data: in a mode of n slots the byte's bits, most
+significant bit first, go in groups of n down a column: bit j to RAM column
+pointer + j / n, row j % n (plus 2 when the input bank applies). With a
+`subaddress`, a bit whose column is past the last one falls into the next device
+(the counter + 1, column 0 on), and is stored only if that counter value is the
+hardware subaddress; without one the bits past the last column are dropped. After
+the byte the pointer advances by the mode's `step`; past the last column it wraps
+and the counter increments. A bit that belongs to another device's subaddress is
+not stored but the pointer still advances.
+
+```json
+"display": {"driver": "lcd",
+  "mode": {"field": "MODE.M", "values": {"0": "1:4", "1": "static", "2": "1:2", "3": "1:3"}},
+  "backplanes": ["BP0", "BP1", "BP2", "BP3"],
+  "slots": {"static": [["BP0", "BP1", "BP2", "BP3"]], "1:2": [["BP0", "BP2"], ["BP1", "BP3"]],
+            "1:3": [["BP0"], ["BP1", "BP3"], ["BP2"]], "1:4": [["BP0"], ["BP1"], ["BP2"], ["BP3"]]},
+  "segmentPins": ["S0", "S1"], "ram": {"bytes": 20, "address": 0}, "frameUs": 6487,
+  "enable": "MODE.E=1", "outputBank": "BANK.O",
+  "load": {"pointer": "PTR.P", "step": {"static": 8, "1:2": 4, "1:3": 3, "1:4": 2}, "bank": "BANK.I",
+           "subaddress": "SUB.A", "hardware": "HW", "subaddresses": 8}}
+```
+
+##### `clock` driver (plan-56-F, PCF1179C)
+
+A bus-less duplex LCD **clock face**: the device has `"bus": {"style": "none"}` (no host bus; `protocol`, `registers`
+and `conversion` are not needed) and `"display": {"driver": "clock", ...}`. The chip keeps hours, minutes and seconds on
+a 1 Hz timer of simulated time (24-hour counters; the 12-hour face is derived: 12, 1 ... 11 and AM / PM), shows the four
+digits through glyph tables onto the segment pins, and runs its time-setting buttons. Start-up is 0:00; the `mode` pin
+high makes it a 12-hour face starting at 1:00 AM, and an open `mode` pin starts 24-hour (a reset then flips the face).
+The `mode` strap is read while the supply comes up (until the first second has counted).
+
+| key | meaning |
+|---|---|
+| `backplanes`, `segmentPins`, `frameUs` | as the `lcd` driver (2-4 backplanes, each slot one backplane driven, the others released) |
+| `digits` | 1-4 objects `{"value", "cells", "glyphs"}` in display order: `value` is `hourTens`, `hourUnits`, `minuteTens` or `minuteUnits` (12- or 24-hour as set); `cells` seven entries a-g, each `{"pin", "bp"}` (a segment pin, a backplane name) or `null`; `glyphs` the segments lit for each value 0, 1, ... as 7-character `a`-`g` strings (a value past the table lights nothing). Several segments may share a cell (a tied pair, `A3` and `D3`): the cell is lit while any of them is |
+| `colon`, `am`, `pm` | one cell each (`{"pin", "bp"}`); the colon is on while the `flash` pin is not high, else on in odd seconds; `am` is lit in the 12-hour face before noon, `pm` after |
+| `mode`, `flash`, `enable`, `fast`, `data` | input pins (names): `mode` high = 12-hour; `flash` high = the colon pulses at 1 Hz; `enable` high enables the keys (the keys do nothing while it is not high); `fast` low stops the counters and divides the three key times by `fastDivisor` (default 64); `data` low blocks the reset |
+| `keys` | one or two `{"pin", "unit"}` (`hour` or `minute`); a key is pressed while its pin reads 0 (a released pin reads 1: pull-up) |
+| `debounceMs` (65), `firstRepeatMs` (1000), `repeatMs` (250), `fastDivisor` (64) | key times |
+
+A key counts as pressed after its pin has been low `debounceMs` while `enable` is high: the hours (or minutes) advance by
+one; if it is still held `firstRepeatMs` later it advances every `repeatMs` until released. A minute key zeroes the
+seconds and does not carry into the hours. Two keys held together (overlapping) light every cell and advance
+nothing; releasing both resets the clock to its start-up time (re-reading `mode`), unless `data` is low.
+
+##### `ccsi` driver (plan-56-D, TLC6983)
+
+A 48 x 16 common-cathode RGB matrix driver on TI's continuous clock series interface, with `"bus": {"style": "none"}`
+(the interface is the driver's own: `sclk`, `sin`, `sout` below; no `protocol`, no registers). `{"driver": "ccsi",
+"sclk": "SCLK", "sin": "SIN", "sout": "SOUT", "lines": [16 names], "red": [16], "green": [16], "blue": [16],
+"scan": {"periodUs": 9}, "openDrain": [the line pins]}`.
+
+- **Interface.** SIN is sampled on both edges of SCLK. It idles high; a frame starts when SIN falls (START), then a 16-bit command ID and
+  N x 48 bits of data, each as 17-bit words (16 data bits MSB first and a check bit equal to NOT the 16th bit), then 18 consecutive highs
+  starting on a word boundary (END). A frame with a wrong check bit or a length that is not 17 + 51 n is ignored. A data command takes the last unit
+  (3 words, bits 47-32, 31-16, 15-0) of its frame, as the device cut off by a chain would.
+- **Commands.** FC0-FC4 (AA00h-AA04h), FC10, FC11 (AA0Ah, AA0Bh): 48-bit registers with the reset values of the register figures;
+  FC0 and FC1 take effect at the next VSYNC. Reads (AA60h-AA64h, AA6Ah, AA6Bh, AA6Ch-AA6Fh = 0, AA70h = chip index 0): after the END the
+  chip answers on SOUT, one bit per SCLK edge: START, the command ID (17 bits) and the register's 48 bits (3 words). SRAM write (AA30h, WRTGS): the unit goes to the
+  grayscale memory at (line counter, pixel counter) of the bank that is not displayed, the pixel counter counts to 16, then the line counter (to SCAN_NUM + 1, then 0).
+  VSYNC (AAF0h) swaps the banks and clears both counters; Soft_Reset (AA80h) restores the registers (not the memory); Chip Index (AA10h) sets index 0.
+- **Outputs.** In turn (every `periodUs`) line n = 0 .. SCAN_NUM (FC0 bits 20-16, plus 1; lines past 15 have no pin) is pulled low and the other `lines` are
+  released (list them in `openDrain`); that line's pixel p (0-15) drives `red[p]`, `green[p]`, `blue[p]` high while its 16-bit gray value (bits 15-0, 31-16, 47-32 of its unit) is nonzero, else low.
+- **Not modeled:** SOUT pass-through of a chain (chip index counts, broadcast versus non-broadcast), the PWM gray levels and DS-PWM timing, current setting
+  (BC, CC, IMAX, IREF), LED open / short detection, power saving, thermal and IREF protection; the register values are stored and read back only.
+
+#### Writing a device
+
+1. Transcribe the bus, registers and protocol as for any converter-engine
+   device (§ `converter`, § `rtc`); `backend/tests/display_out_test.c` has an
+   SPI or I2C fixture device of every driver.
+2. Pick the driver from the datasheet's output stage. Digit RAM → `digits`;
+   a bit RAM with columns → `matrix`; latched outputs → `static` or `ports`;
+   backplane/segment outputs → `lcd`.
+3. Give every pin the display uses a role and a name in each pinout; the
+   same name in the `display` section.
+4. Write the register bits the driver reads (decode enables, shutdown,
+   display test, blank, display enable) as `fields`, and a condition for each.
+5. Put the oscillator period from the datasheet into `scan.periodUs` /
+   `frameUs`.
+
+### `lcddriver`
+
+LCD driver ICs (plan-56-B): `lcddriver.json`, `"kind": "lcddriver"`,
+`"function"` `"LCD"`, `"drawer": ["Interface", "Driver"]`. PCF8576, PCF85176,
+PCF8553, BU91795 and the like: a host writes a display RAM over I2C or SPI and
+the chip drives an `lcd` glass's backplane and segment pins. The same kind as
+`leddriver` in every way (device keys, part keys, the `display` section and its
+drivers; § `leddriver`) except its name, `Part.kind` (`PART_LCDDRIVER`) and the
+drawer; the driver used is normally `lcd`, and a device may also use `ports`
+for its general-purpose outputs (`static`, `digits` and `matrix` are accepted
+too). Pin roles: backplane and segment pins `output`.
+
 ### `7seg`
 
 LED 7-segment displays, and two kinds of 7-segment tube (`"type"`, below).
@@ -3851,16 +4444,16 @@ any time during the last step", so a multiplexed digit counts as lit.
 
 | Key | Value |
 |---|---|
-| `"digits"` | number of digits (1–8) |
+| `"digits"` | number of digits (1–14) |
 | `"commonAnode"` | `true` for common anode, `false` for common cathode |
 | `"colonAfter"`, `"dotAfter"` | the digit the colon (L1, L2) / raised dot (L3) sits after; 0 = none |
 | `"color"`, `"size"`, `"chip"` | shown as is (`"Red"`, `"0.56 in"`, LED chip) |
-| `"leds"` | every LED in display (and lights) order: `digit` (1…, or 0 = the colon/dot group) and `segment` (`A`–`G`, `DP`, `LDP`, `HJ`, `L1`–`L3`) |
+| `"leds"` | every LED in display (and lights) order: `digit` (1…, or 0 = the colon/dot group) and `segment` (`A`–`G`, `DP`, `LDP`, `HJ`, `L1`–`L3`; for a 16-segment character `A1`, `A2`, `D1`, `D2`, `G1`, `G2` (the halves of the top, bottom and middle bars) and `H` `J` `K` (upper left diagonal, upper centre bar, upper right diagonal), `N` `M` `L` (lower left diagonal, lower centre bar, lower right diagonal) with `B` `C` `E` `F` the four outer verticals; `P1`–`P7`: a row of dots, left to right) |
 | `"segmentPins"` | segment pin name → `digit` (0 = shared by every digit, multiplexed) and the `segments` it drives |
 | `"commonPins"` | common pin name → its digit, or `"extras"` for the colon/dot common. A name used by several pins means all of them. |
 | `"segmentSide"`, `"commonSide"` | drawing order of the symbol's two sides, by name; a shared name expands to its pins in pinout order. `PartDisplay.segment_pins`/`common_pins` hold these pins' indices into `Part.pins`. |
 | `"vf"` | `[min, max]` volts: the segment forward voltage (datasheet "Forward Voltage Per Segment"), 0 < min ≤ max ≤ 10; min is the datasheet minimum, or its typical value when no minimum is printed. `PartDisplay.vf_min_mv`/`vf_max_mv`. Shown, not checked. Required. For a tube (`type` below) the limit is 100 and it is the segment voltage (numitron: nominal, max) or the anode and grid voltage (VFD: nominal, static max) |
-| `"type"` | optional: `"led"` (default), `"numitron"` or `"vfd"`. `PartDisplay.type` |
+| `"type"` | optional: `"led"` (default), `"numitron"`, `"vfd"` or `"vfd-static"`. `PartDisplay.type` |
 
 **Tubes.** `"type": "numitron"` is an incandescent 7-segment tube (IV-9,
 IV-16): each segment is a filament between its lead and the common, so it
@@ -3872,7 +4465,12 @@ vacuum fluorescent tube (IV-6, IV-11, IV-12, IV-18): `commonAnode` must be
 its anode pin and its digit's grid both read 1. The filament leads are
 pins with role `input` that no map names: they do nothing in the
 simulation (the tube glows without them) and the app draws them under the
-commons. For a tube `"chip"` holds a rating shown as is: a numitron's
+commons. `"type": "vfd-static"` is a vacuum fluorescent tube with no grid
+(the IV-25): `commonAnode` is `false`, the one common is the filament cathode
+and a segment glows while its anode reads 1 and that cathode reads 0, as an
+LED does. VFD parts go to 14 digits (the IV-27 has two stems of leads, so
+its pinout runs 1–22 for the first and 23–33 for the second) and to
+16-segment characters (the IV-17). For a tube `"chip"` holds a rating shown as is: a numitron's
 segment current (`"19.5 mA per segment"`), a VFD's filament (`"1.5 V,
 100 mA filament"`). Drawers are Vintage › Display tubes › Numitron and Vintage › Display tubes › VFD;
 footprints are `explicit` lead circles like the nixies' (`TUBE-IV-…`).
@@ -3881,6 +4479,80 @@ An LED's segment pin is the first pin (in pin order) in `segmentPins` that
 drives its segment for its digit (or every digit); its commons are the
 first two pins of its digit in `commonPins`. Unused positions are pins with
 role `nc` (no connect) or `absent` (no lead). Parts carry no kind keys.
+
+### `lcd`
+
+Segment liquid-crystal glass (plan-56-A): a set of cells, each between one
+segment pin and one backplane pin. A cell is lit while both pins are driven
+(0 or 1) and their levels differ: the digital form of "the segment waveform is
+out of phase with the backplane". A multiplexed driver drives the backplane of
+the active slot and leaves the others at Z, so only that backplane's cells can
+light in that slot; static glass is the one-backplane case. The glass drives
+nothing and there is no bias, contrast or DC-damage model. Lights report "on
+at any time during the last step", as on a multiplexed `7seg`.
+
+```json
+"digits": 4, "colonAfter": 0, "dotAfter": 0, "color": "Gray", "size": "0.5 in",
+"drive": "1:3", "backplanes": ["COM1", "COM2", "COM3"],
+"cells": [{"digit": 1, "segment": "A", "pin": "S1", "bp": "COM1"}],
+"segmentSide": ["S1", "S2"], "backplaneSide": ["COM1", "COM2", "COM3"]
+```
+
+| Key | Value |
+|---|---|
+| `"digits"`, `"colonAfter"`, `"dotAfter"`, `"color"`, `"size"` | as `7seg` (1–14 digits) |
+| `"drive"` | `"static"`, `"1:2"`, `"1:3"` or `"1:4"`: the multiplex the glass is made for. Shown, not used by the model |
+| `"backplanes"` | 1–4 pin names (role `input`) |
+| `"cells"` | every cell in lights order: `digit` (1…, 0 = the colon/dot/annunciator group), `segment` (`A`–`G`, `DP`, `L1`–`L3` colon and raised dot, `LB` low battery, `MINUS`, `AM` and `PM` clock annunciators), `pin` (a segment pin, role `input`) and `bp` (one of `backplanes`). One digit and segment appears once; several cells may share a segment pin (a multiplexed glass shares each pin between backplanes, and a half digit's B and C share one pin) |
+| `"segmentSide"`, `"backplaneSide"` | drawing order of the symbol's two sides, by pin name; `PartDisplay.segment_pins` / `common_pins` hold these pins' indices (the backplanes are the common pins) |
+
+`Part.display` is the same `PartDisplay` a `7seg` has (`type` holds the drive;
+`common_anode` is 0), so the app draws it with the 7-segment symbol. Parts
+carry no kind keys.
+
+### `dekatron`
+
+Dekatrons: cold-cathode decade counting tubes (GC10B, GS10C, OG-4, Z504S, …).
+One anode, ten cathode positions in a ring and the guides between them. The
+glow rests on one cathode and walks round the ring as the guides are pulsed
+low; the tube drives nothing, and its ten lights (one per cathode position,
+`0`–`9`) show where the glow is. The glow exists while the anode reads 1 and
+strikes at cathode 0; an anode that stops reading 1 puts it out, and that is
+how a counter is reset (there is no reset pulse). A guide counts as pulsed
+while its pin reads 0.
+
+```json
+"anode": "A",
+"cathodes": {"K0": [0], "K": [1, 2, 3, 4, 5, 6, 7, 8, 9]},
+"guides": ["G1", "G2"], "drive": "double",
+"color": "Orange", "size": "29.5 mm", "view": "end",
+"strike": 350, "sustain": 196, "current": [0.25, 0.55], "rate": 4000
+```
+
+| Key | Value |
+|---|---|
+| `"anode"` | the anode's pin name (exactly one pin) |
+| `"cathodes"` | non-empty object: cathode pin name → the positions it carries, an array of whole numbers 0–9. Every position 0–9 must be on exactly one pin, and a pin may carry several (a common cathode for 1–9). Each name is exactly one pin. `PartDekatron.position_pin[p]` is position p's pin and `cathode_pins` the distinct cathode pins in file order |
+| `"guides"` | pin names of the guides. `"drive": "double"`: exactly two; `"single"`: one to four, of which only the first is driven (the others are biased and do nothing here) |
+| `"drive"` | `"double"`: a two-guide tube. The ring is cathode, guide 1, guide 2, cathode, …; a guide pulled low pulls the glow onto its electrode when that is next to it, and when both guides are back high a glow on a guide settles on the cathode beside it (guide 1's is the one before it, guide 2's the one after). So two overlapping pulses, guide 1 low, guide 2 low, guide 1 high, guide 2 high, count one step forward and the same pulses guide 2 first count one step backward; a single pulse, or two pulses that do not overlap, count nothing. `"single"`: a single-pulse tube, the ring cathode, guide, cathode, …: the first guide falling pulls the glow onto the guide and its rising moves the glow on to the next cathode, one step forward per pulse |
+| `"color"`, `"size"` | the glow and the bulb, shown as is (`"Orange"`, `"29.5 mm"`) |
+| `"view"` | `"side"` or `"end"` (a dekatron is read through the dome of the bulb: `"end"`) |
+| `"strike"` | volts, 0 < … ≤ 800: the least anode supply (the datasheet's minimum supply, else its ignition voltage). **Checked** like a nixie's: an anode below it is `VOLTAGE_NIXIE_UNDER` |
+| `"sustain"` | volts, 0 < `sustain` ≤ `strike`: the running voltage across the tube (the datasheet's maximum). Shown |
+| `"current"` | `[min, max]` milliamps, 0 < min ≤ max ≤ 100: the anode current. Shown |
+| `"rate"` | the highest counting rate in pulses per second (1 – 10 000 000). Shown |
+
+`PartDekatron` holds them (`two_guide`, `strike_mv`, `sustain_mv`,
+`current_*_ua`, `rate_hz`, …). Every pin has role `input`, or `nc`. Parts carry
+no kind keys and have no `vcc`. The voltage check treats the anode as a
+nixie's: its level is carried to every cathode net, and an anode below
+`strike` is a problem. The usual circuit is a `PULLUP-450V` (the anode
+resistor to a 450 V rail, from the supply menu's Custom…; a rail goes up to
+500 V) on the anode, the guides biased a few tens of volts positive and pulsed low
+by transistors, and a resistor from each cathode (or the common) to ground; the
+carry output of a tube whose cathode 0 has its own pin is the voltage across that resistor.
+Drawer Vintage › Display tubes › Dekatron; footprints are `explicit` base
+pin patterns (`TUBE-RSH5-1`, `TUBE-RSH30`, `TUBE-13PIN`, `TUBE-B12A-CAP`).
 
 ### `nixie`
 
@@ -4201,6 +4873,7 @@ Main path D → Q; `units` = the number of units.
 | `"presetActive"`, `"clearActive"` | `"high"`/`"low"`; required when any unit has `pre` / `clr`. |
 | `"presetWins"` | bool; required when some unit has both: true → both asserted store 1, false → 0. |
 | `"output"` | `"push-pull"` (default) or `"open-drain"`. |
+| `"phase"` | optional pin name (CD4054B display frequency): `q` shows the stored bit XOR this pin's level and `qn` its complement. An X or Z level shows X. |
 
 Per unit: `clr`/`pre` act at once; else while transparent the stored bit
 follows D; else it holds. `q` shows the bit, `qn` its complement, both
@@ -4338,6 +5011,7 @@ Main path BCD input → segment; `units` = 1.
 | `"rbi"`, `"rbo"` | optional pin names, given together (SN7447A): RBI is read active low; RBO (role `inout`, open drain) is pulled low while RBI is low, the code is 0 and lamp test is off; read as an input, a low on it blanks every segment (Z reads high) |
 | `"latch"` | optional control: the code is held while asserted (CD4056B strobe) |
 | `"phase"` | optional pin name: every segment level is XORed with it (CD4056B DF, liquid-crystal drive) |
+| `"phaseOut"` | optional pin name, needs `"phase"`: an output that copies the `phase` pin's level (CD4055B DF OUT; the real pin is level-shifted, the engine has no second supply) |
 
 Priority: blank (`blank` asserted or RBO low) > lamp test (every segment
 lit) > ripple blanking (RBI low and code 0) > the glyph of the code. The
@@ -4617,8 +5291,8 @@ Priority: reset > preset enable > clock.
 
 #### Model `seg7`
 
-Decade counters 0–9 with decoded 7-segment outputs: 4026B, 4033B, 40110B.
-`units` = 1; main path clock → segment.
+Decade counters 0–9 with decoded 7-segment outputs: 4026B, 4033B, 40110B, SN74143.
+`units` = 1; main path clock → segment (and the latched `latchOutputs`).
 
 | Key | Value |
 |---|---|
@@ -4631,10 +5305,27 @@ Decade counters 0–9 with decoded 7-segment outputs: 4026B, 4033B, 40110B.
 | `"ungatedC"` | optional pin (4026B): segment c of the count, not gated |
 | `"lampTest"` | optional control (4033B): every segment 1 |
 | `"rippleBlank"` | optional `{"in", "out"}` (4033B): count 0 and `in` = 0 → segments 0; `out` = NOT(count = 0 AND `in` = 0) |
-| `"toggleEnable"` | optional control (40110B): counting only while asserted |
+| `"toggleEnable"` | optional control (40110B), or an array of 1 to 4 controls (SN74143: SCEI and PCEI): counting only while every one is asserted at the clock edge. An unknown (X or Z) control with another one deasserted holds the count; otherwise the count goes unknown |
 | `"latchEnable"` | optional control (40110B): while asserted the segments hold the count they showed; the counter keeps counting |
 
-Segments: lamp test > (display enable 0, or ripple blank) > glyph.
+The keys below are all optional and added for the SN74143 (plan-56-F); a part
+that uses none of them behaves as before.
+
+| Key | Value |
+|---|---|
+| `"segmentsActive"` | `"high"` (default) or `"low"`: the pin level of a lit segment and of the `decimalPoint` output; `"low"` drives 1 for dark (or Z with `segmentsOutput`) |
+| `"segmentsOutput"` | `"push-pull"` (default) or `"open-drain"`: the seven segment pins, the `decimalPoint` output and the `rbo` pin drive 0 or release to Z, never 1 (the voltage check treats them as open drain). Needs `"segmentsActive": "low"` |
+| `"maxCount"` | `{"pin": out, "enable": control}` (SN74143 MAX): a push-pull output, low while the **count** (not the latched display) is 9 and the `enable` control is asserted, high for counts 0–8 and while `enable` is deasserted, X while the count or `enable` is unknown. Its delays are the timing entry's `maxRise` / `maxFall` (ns) when it has them, else its `rise` / `fall` |
+| `"latchOutputs"` | 4 push-pull pins, LSB first (QA–QD): the bits of the displayed (latched) count, so they hold while `latchEnable` is asserted |
+| `"blank"` | optional control (SN74143 BI, `"active": "high"`): every segment and the `decimalPoint` output go dark and the `rbo` pin is pulled low while asserted |
+| `"rbi"` + `"rbo"` | together, pin names (SN74143 RBI and BI/RBO, as the decoder `seg7`): the `rbo` pin must have role `inout`. RBI is read active low; RBI low with the latched code 0 blanks every segment and the dp output. The `rbo` pin is pulled low (open drain) while `blank` is asserted **or** (RBI low and the latched code is 0), and released otherwise; read as an input, a low on it from outside blanks every segment and the dp output (Z reads high, X reads X). An alternative to `rippleBlank` (not both) |
+| `"decimalPoint"` | `{"in": pin, "out": pin}` (SN74143 DP and dp): the `out` pin is lit (per `segmentsActive`) while `in` reads 1 and nothing blanks; X while `in` is X and nothing blanks |
+
+The timing entry's extra keys are `carryPulse`, `borrowPulse`, `maxRise` and
+`maxFall` (all optional, ns).
+
+Segments: (`blank`, or the `rbo` pin low) > lamp test > (display enable 0, or
+ripple blank, or `rbi` low with the latched 0) > glyph.
 
 #### Model `divn`
 

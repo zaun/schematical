@@ -24,16 +24,16 @@
 ## Description
 
 The ’AHC05 devices contain six independent inverters. These devices
-perform the Boolean function Y = !{A}.
+perform the Boolean function Y = !{A}. [[1::2]]
 
 The open-drain outputs require pullup resistors to perform correctly.
 They can be connected to other open-drain outputs to implement
-active-low wired-OR or active-high wired-AND functions.
+active-low wired-OR or active-high wired-AND functions. [[1::3]]
 
 Operating Range 2-V to 5.5-V V~CC~. Latch-Up Performance Exceeds 250 mA
 Per JESD 17. ESD Protection Exceeds JESD 22. 2000-V Human-Body Model
 (A114-A). 200-V Machine Model (A115-A). 1000-V Charged-Device Model
-(C101).
+(C101). [[1::1]]
 
 ## Pinout
 
@@ -48,6 +48,7 @@ Per JESD 17. ESD Protection Exceeds JESD 22. 2000-V Human-Body Model
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -58,6 +59,7 @@ VCC: Supply voltage
 | H | L |
 | L | H |
 ```
+[[2::table #1]]
 
 ## Absolute maximum ratings
 
@@ -82,6 +84,7 @@ VCC: Supply voltage
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #2]]
 
 ## Recommended operating conditions
 
@@ -107,6 +110,7 @@ VCC: Supply voltage
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -125,12 +129,14 @@ VCC: Supply voltage
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested at V~CC~ = 0 V.
 ```
+[[3::table #2]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 3 | pF |
 ```
+[[4::table #1]]
 
 ## Switching characteristics
 
@@ -145,6 +151,7 @@ VCC: Supply voltage
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[3::table #3]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 1)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | SN54AHC05 | < | SN74AHC05 | < | Unit |
@@ -157,6 +164,7 @@ VCC: Supply voltage
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[4::table #2]]
 
 ## Parameter measurement information
 
@@ -168,12 +176,13 @@ the output control. All input pulses are supplied by generators having
 the following characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ ≤ 3 ns,
 t~f~ ≤ 3 ns. The outputs are measured one at a time with one input
 transition per measurement. All parameters and waveforms are not
-applicable to all devices.
+applicable to all devices. [[5::1]]
 
 ```figure ref=load-ttl caption="Figure 1. Load circuit for 3-state and open-drain outputs, S1 at V~CC~"
 RL: 1 kΩ
 CL: see table
 ```
+[[5::Figure 1]]
 
 ```table id=s1 caption="Figure 1. Switch S1"
 | Test | S1 |
@@ -183,6 +192,7 @@ CL: see table
 | t~PHZ~/t~PZH~ | GND |
 | Open Drain | V~CC~ |
 ```
+[[5::table #1]]
 
 Conversion note: in the source's load circuit for 3-state and open-drain
 outputs (Figure 1), R~L~ goes to a switch, S1, with the positions
@@ -218,6 +228,7 @@ SN74AHC05N | Tube of 25 | -40 to 85 | SN74AHC05N
 SN74AHC05PW | | -40 to 85 | HA05 | Obsolete
 SN74AHC05PWR | Reel of 2000 | -40 to 85 | HA05
 ```
+[[1::table #2]]
 
 ## Conversion notes
 

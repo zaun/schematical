@@ -1,0 +1,102 @@
+--- a/backend/src/models/converter_load.c
++++ b/backend/src/models/converter_load.c
+@@ -2262,7 +2262,7 @@
+ enum {
+     DISP_MAX_USED = 512,
+     DISP_MAX_LINES = 32,            /* digits, rows */
+-    DISP_MAX_SEGMENTS = 16,         /* data pins of one digit / row / group */
++    DISP_MAX_SEGMENTS = 17,         /* data pins of one digit / row / group */
+     DISP_MAX_LCD_SEGMENTS = 160
+ };
+ 
+@@ -2523,7 +2523,7 @@
+ }
+ 
+ static int dl_decode_name(Ld *ld, const cJSON *o, DispDecode *out) {
+-    static const char *const NAMES[] = {"none", "hex", "codeB", "bcd", "ascii7", NULL};
++    static const char *const NAMES[] = {"none", "hex", "codeB", "bcd", "ascii7", "ascii16", NULL};
+     const char *s = "none";
+     size_t i;
+ 
+@@ -2540,7 +2540,7 @@
+             return 0;
+         }
+     }
+-    return kind_error(ld->ctx, "\"decode\" must be \"none\", \"hex\", \"codeB\", \"bcd\" or \"ascii7\"");
++    return kind_error(ld->ctx, "\"decode\" must be \"none\", \"hex\", \"codeB\", \"bcd\", \"ascii7\" or \"ascii16\"");
+ }
+ 
+ /* decode, decodeField, decodeActive, dpBit of a digits or static driver. `data_pins`: how many
+@@ -2559,7 +2559,10 @@
+     }
+     c->decode_active = (int)active;
+     c->dp_bit = dp;
+-    if (c->decode != DEC_NONE && data_pins != 7 && data_pins != 8) {
++    if (c->decode == DEC_ASCII16 && data_pins != 16 && data_pins != 17) {
++        return kind_error(ld->ctx, "\"decode\" \"ascii16\" needs 16 segment pins (a1 a2 b c d1 d2 e f g1 g2 h i j k l m) or 17 (and the point)");
++    }
++    if (c->decode != DEC_NONE && c->decode != DEC_ASCII16 && data_pins != 7 && data_pins != 8) {
+         return kind_error(ld->ctx, "\"decode\" needs 7 segment pins (a-g) or 8 (and the point)");
+     }
+     if ((v = member(o, "decodeField")) != NULL) {
+@@ -2675,7 +2678,7 @@
+         return -1;
+     }
+     if (!matrix && c->out_count != 7 && c->out_count != 8 && c->out_count != 14 &&
+-        c->out_count != 16) {
++        c->out_count != 16 && c->out_count != 17) {
+         return kind_error(ld->ctx, "\"segmentPins\" names 7 pins (a-g), 8 (and the point), 14 or 16");
+     }
+     if (dl_bits(ld, o, matrix ? "columnBits" : "segmentBits", c->out_count, &c->out_bits) != 0 ||
+--- a/backend/src/models/display_out.c
++++ b/backend/src/models/display_out.c
+@@ -57,6 +57,20 @@
+     0x73, 0x67, 0x50, 0x6D, 0x78, 0x3E, 0x1C, 0x2A, 0x76, 0x6E, 0x5B, 0x39, 0x30, 0x0F, 0x01, 0x00
+ };
+ 
++/* ASCII16: the 64-character 16-segment font of the ICM7244/7245 (datasheet Figure 9), indexed by the 6-bit
++   code D5..D0 (= ASCII & 0x3F); bit 0 a1, 1 a2, 2 b, 3 c, 4 d1, 5 d2, 6 e, 7 f, 8 g1, 9 g2, 10 h, 11 i,
++   12 j, 13 k, 14 l, 15 m, 16 DP. */
++static const uint32_t ASCII16_FONT[64] = {
++    0x00AF7, 0x003CF, 0x04A3F, 0x000F3, 0x0483F, 0x003F3, 0x001C3, 0x002FB,
++    0x003CC, 0x04800, 0x0007C, 0x031C0, 0x000F0, 0x014CC, 0x024CC, 0x000FF,
++    0x003C7, 0x020FF, 0x023C7, 0x003BB, 0x04803, 0x000FC, 0x090C0, 0x0A0CC,
++    0x0B400, 0x05400, 0x09033, 0x04812, 0x02400, 0x04821, 0x09006, 0x00030,
++    0x00000, 0x10800, 0x00084, 0x04B32, 0x04BBB, 0x0DB99, 0x0D83A, 0x00800,
++    0x03000, 0x08400, 0x0FF00, 0x04B00, 0x08000, 0x00300, 0x10000, 0x09000,
++    0x090FF, 0x04800, 0x00377, 0x0023F, 0x0038C, 0x021B3, 0x003FB, 0x0000F,
++    0x003FF, 0x003BF, 0x10000, 0x08000, 0x08030, 0x00330, 0x02030, 0x04207
++};
++
+ static uint32_t segments_of(DispDecode d, uint32_t value) {
+     switch (d) {
+     case DEC_HEX:
+@@ -70,6 +84,8 @@
+ 
+         return c < 32 ? 0 : ASCII_FONT[c - 32];
+     }
++    case DEC_ASCII16:
++        return ASCII16_FONT[value & 0x3Fu];
+     default:
+         return 0;
+     }
+@@ -83,7 +99,7 @@
+ 
+     if (decoded) {
+         out = segments_of(c->decode, value);
+-        if (pins > 7 && ((value >> c->dp_bit) & 1u)) {
++        if (c->decode != DEC_ASCII16 && pins > 7 && ((value >> c->dp_bit) & 1u)) {
+             out |= 1u << 7;
+         }
+         return out;
+--- a/backend/src/models/display_out.h
++++ b/backend/src/models/display_out.h
+@@ -20,7 +20,7 @@
+ 
+ typedef enum { DISP_DIGITS, DISP_STATIC, DISP_MATRIX, DISP_PORTS, DISP_LCD } DispDriver;
+ 
+-typedef enum { DEC_NONE, DEC_HEX, DEC_CODEB, DEC_BCD, DEC_ASCII7 } DispDecode;
++typedef enum { DEC_NONE, DEC_HEX, DEC_CODEB, DEC_BCD, DEC_ASCII7, DEC_ASCII16 } DispDecode;
+ 
+ /* One group of a static driver: its output pins and the field that feeds them. */
+ typedef struct {

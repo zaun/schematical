@@ -27,6 +27,19 @@ final class BillOfMaterialsTests: XCTestCase {
         XCTAssertFalse(lines.contains { $0.partNumber == "GND" })
     }
 
+    /// plan-57: test points are not bought, so they have no line, in the
+    /// window or in either CSV.
+    func testTestPointsAreLeftOut() throws {
+        let doc = TestSupport.newDocument()
+        try TestSupport.place(doc, "GENERIC-TESTPOINT", at: CGPoint(x: 100, y: 100))
+        try TestSupport.place(doc, "GENERIC-TESTPOINT", at: CGPoint(x: 300, y: 100))
+        try TestSupport.place(doc, "SN74HC00D", at: CGPoint(x: 500, y: 100))
+        let lines = BillOfMaterials.lines(for: doc.chips)
+        XCTAssertEqual(lines.map(\.partNumber), ["SN74HC00D"])
+        XCTAssertFalse(BillOfMaterials.csv(lines).contains("TESTPOINT"))
+        XCTAssertFalse(BillOfMaterials.jlcpcbCSV(lines).contains("TESTPOINT"))
+    }
+
     /// LEDs of different colors are separate lines.
     func testLEDColorsSplitLines() throws {
         let doc = TestSupport.newDocument()
@@ -59,6 +72,25 @@ final class BillOfMaterialsTests: XCTestCase {
         let other = try XCTUnwrap(lines.first { $0.partNumber == "GENERIC-REG-3V3" })
         XCTAssertEqual(other.references, ["U3"])
         XCTAssertEqual(other.package, "DPAK")
+    }
+
+    /// plan-55-J: a power switch is a U line with its part number, maker, package and footprint.
+    func testPowerSwitchesAreULines() throws {
+        let part = try XCTUnwrap(TestSupport.allParts
+            .filter { $0.kind == PART_POWERSWITCH && $0.footprint != nil }.sorted { $0.name < $1.name }.first,
+                                 "no power switch")
+        let doc = TestSupport.newDocument()
+        try TestSupport.place(doc, part.name, at: CGPoint(x: 100, y: 100))
+        try TestSupport.place(doc, part.name, at: CGPoint(x: 300, y: 100))
+        let lines = BillOfMaterials.lines(for: doc.chips)
+        XCTAssertEqual(lines.count, 1)
+        let line = try XCTUnwrap(lines.first)
+        XCTAssertEqual(line.partNumber, part.name)
+        XCTAssertEqual(line.references, ["U1", "U2"])
+        XCTAssertEqual(line.manufacturer, part.manufacturer)
+        XCTAssertEqual(line.package, part.package)
+        XCTAssertEqual(line.description, part.description)
+        XCTAssertFalse(line.manufacturer.isEmpty)
     }
 
     func testCSVQuotesFieldsWithCommas() {

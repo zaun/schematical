@@ -18,7 +18,9 @@ Reads `<raw dir>/<piece>.jsonl*` (list.js) and applies plan-45-A § 3:
   no datasheet   no maker-site URL with a file to download (common.resolve_urls), or with --urls
                  a URL that url-check.tsv lists and that is not a PDF (a URL it does not list,
                  because its row was not a candidate in the first pass, is not judged)
-  stock check    with --stock: a part number `found` 0 in the file is out
+  stock check    with --stock: applied last, to the finished pick (no refill): a `candidate` whose
+                 part number is `found` 0 in the file becomes out; every part number in the file
+                 gets `stock_checked` 1 or 0
   variant        the footprint family of a row (common.variant). Terminal blocks: per (maker,
                  pitch) the top fixed-block variant (category 371) and the top pluggable header
                  variant (category 370) among those with at least 4 in-scope rows, by the
@@ -78,10 +80,6 @@ def main():
     for r in rows:
         r['state'], r['reason'] = 'out', common.scope(r)
         r['pdf'] = r['hit'] = r['dead'] = r['stock_checked'] = ''
-        if r['mpn'] in stock:
-            r['stock_checked'] = 1 if stock[r['mpn']] == '1' else 0
-            if stock[r['mpn']] != '1' and not r['reason']:
-                r['reason'] = 'stock check'
     common.dedupe(rows)
     common.resolve_urls(rows)
     for r in rows:
@@ -117,6 +115,13 @@ def main():
             r['state'] = 'candidate'
         else:
             r['reason'] = 'below quota'
+    # The stock check is applied to the finished pick (plan-45-A § 5: no refill, each row is its own
+    # part): it must not re-run the duplicate and variant-quota choices, which would pick new rows.
+    for r in rows:
+        if r['mpn'] in stock:
+            r['stock_checked'] = 1 if stock[r['mpn']] == '1' else 0
+            if stock[r['mpn']] != '1' and r['state'] == 'candidate':
+                r['state'], r['reason'] = 'out', 'stock check'
     rows.sort(key=lambda r: (r['maker'], r['state'] != 'candidate', r['variant'], r['positions'], r['mpn']))
     with open(sys.argv[2], 'w', newline='') as f:
         w = csv.writer(f, delimiter='\t', lineterminator='\n')

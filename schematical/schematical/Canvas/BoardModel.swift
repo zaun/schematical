@@ -120,6 +120,18 @@ nonisolated struct PlacedPad: Hashable {
     var slotLength: Double = 0
     /// False for a non-plated hole: a hole with no copper.
     var plated: Bool = true
+    /// A surface-mount pad on the other face of the board from its part's
+    /// side (a straddle-mount contact; plan-54-E).
+    var opposite: Bool = false
+
+    /// The side whose copper layer this pad is on, for a part on `side`: the
+    /// part's own side, or the other one for an opposite pad. Every site that
+    /// decides a surface-mount pad's layer from its part's side uses this
+    /// (a through-hole pad is on every layer, and is never opposite).
+    func layerSide(on side: BoardSide) -> BoardSide {
+        guard opposite else { return side }
+        return side == .top ? .bottom : .top
+    }
 
     /// The hole's outline box: a `drill` circle, or a `drill` × `slotLength`
     /// slot along the pad's longer side. Nil for a surface-mount pad.
@@ -157,10 +169,14 @@ nonisolated enum BoardReference {
 // MARK: - A placed part's footprint
 
 extension PlacedChip {
-    /// The footprint on the board: the connector footprint when the style is
-    /// Connector Only and the part has one, else the chosen footprint choice,
-    /// else the part's footprint.
+    /// The footprint on the board: the socket's when the chip is in a socket
+    /// mode, else the connector footprint when the style is Connector Only
+    /// and the part has one, else the chosen footprint choice, else the
+    /// part's footprint.
     nonisolated var footprint: Footprint? {
+        // A chip in a socket mode sits on the socket's footprint (plan-51-H); a socket
+        // ignores the connector style (only the character LCDs have one, and none is socketable).
+        if let socket { return socket.part.footprint }
         let base = footprintChoice?.footprint ?? part.footprint
         return board?.style == .connector ? part.connectorFootprint ?? base : base
     }
@@ -177,8 +193,21 @@ extension PlacedChip {
                              rect: board.board(centre: pad.centre, size: pad.size),
                              drill: pad.drill, shape: pad.shape, radius: pad.radius,
                              chamfer: pad.chamfer, corners: pad.corners.mirrored(board.side == .bottom).rotated(by: board.rotation),
-                             slotLength: pad.slotLength, plated: pad.plated)
+                             slotLength: pad.slotLength, plated: pad.plated, opposite: pad.opposite)
         }
+    }
+
+    /// The pads' bounds on the board, without the body: what an `edgeMount`
+    /// footprint is checked against the board outline by. Nil when there are
+    /// no pads.
+    nonisolated var boardPadBounds: CGRect? {
+        guard let footprint, let board else { return nil }
+        var bounds: CGRect?
+        for pad in footprint.pads {
+            let rect = board.board(centre: pad.centre, size: pad.size)
+            bounds = bounds.map { $0.union(rect) } ?? rect
+        }
+        return bounds
     }
 
     /// The body outline on the board, and whether it is drawn as an ellipse.

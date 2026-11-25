@@ -34,7 +34,7 @@ final class DrawerCategoriesTests: XCTestCase {
     /// Interface keeps the serial and parallel I/O chips; converters moved to
     /// Analog and the real-time clocks to Clocks.
     func testInterfaceAnalogAndClocks() throws {
-        XCTAssertEqual(paths(under: "Interface"), ["Interface > Parallel I/O", "Interface > Serial"])
+        XCTAssertEqual(paths(under: "Interface"), ["Interface > Driver", "Interface > Parallel I/O", "Interface > Serial"])
         let interface = try category("Interface")
         let serial = try XCTUnwrap(interface.subcategories.first { $0.subcategory == "Serial" })
         XCTAssertEqual(Set(serial.functions.map(\.function)), ["UART", "Bridge UART", "I2C controller"])
@@ -55,19 +55,20 @@ final class DrawerCategoriesTests: XCTestCase {
     func testDisplaysAndIndicators() {
         XCTAssertEqual(paths(under: "Displays & Indicators"),
                        ["Displays & Indicators > 7-Segment", "Displays & Indicators > Character LCD",
-                        "Displays & Indicators > LED"])
+                        "Displays & Indicators > LCD glass", "Displays & Indicators > LED"])
     }
 
     /// Vintage is old technology: the tubes under one group, and the support
     /// chips; nothing is there only because it is obsolete.
     func testVintage() throws {
-        XCTAssertEqual(paths(under: "Vintage"),
+        XCTAssertEqual(Set(paths(under: "Vintage")),
                        ["Vintage > Support ICs", "Vintage > Display tubes > Nixie", "Vintage > Display tubes > Numitron",
-                        "Vintage > Display tubes > VFD", "Vintage > Display tubes > Neon"])
+                        "Vintage > Display tubes > VFD", "Vintage > Display tubes > Neon",
+                        "Vintage > Display tubes > Dekatron"])
         let vintage = try category("Vintage")
         XCTAssertEqual(Set(vintage.subcategories.map(\.subcategory)), ["Display tubes", "Support ICs"])
         let tubes = try XCTUnwrap(vintage.subcategories.first { $0.subcategory == "Display tubes" })
-        XCTAssertEqual(Set(tubes.subgroups.map(\.subcategory)), ["Nixie", "Numitron", "VFD", "Neon"])
+        XCTAssertEqual(Set(tubes.subgroups.map(\.subcategory)), ["Nixie", "Numitron", "VFD", "Neon", "Dekatron"])
     }
 
     func testMicrocontrollerAndMemory() throws {

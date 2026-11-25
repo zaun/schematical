@@ -24,7 +24,7 @@
 ## Description
 
 The ’AHCT00 device performs the Boolean function Y = !{A • B} or
-Y = !{A} + !{B} in positive logic.
+Y = !{A} + !{B} in positive logic. [[1::4]]
 
 Controlled baseline – one assembly/test site, one fabrication site.
 Extended temperature performance of –55°C to 125°C.
@@ -32,7 +32,7 @@ Inputs are TTL-voltage compatible. Component qualification in accordance with JE
 industry standards to ensure reliable operation over an extended
 temperature range. Such qualification testing should not be viewed as
 justifying use of this component beyond specified performance and
-environmental limits.
+environmental limits. [[1::1]] [[1::3]]
 
 ## Pinout
 
@@ -48,6 +48,7 @@ environmental limits.
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -59,6 +60,7 @@ VCC: Supply voltage
 | L | X | H |
 | X | L | H |
 ```
+[[1::table #2]]
 
 Conversion note: the logic diagram, each gate (positive logic), shows one 2-input NAND gate with inputs A and B and output Y.
 
@@ -82,10 +84,11 @@ Conversion note: the logic diagram, each gate (positive logic), shows one 2-inpu
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 Latch-up performance exceeds 250 mA per JESD 17. ESD protection exceeds
 JESD 22 – 2000-V human-body model (A114-A) – 200-V machine model
-(A115-A).
+(A115-A). [[1::1]] [[1::2]]
 
 ## Recommended operating conditions
 
@@ -104,6 +107,7 @@ JESD 22 – 2000-V human-body model (A114-A) – 200-V machine model
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -122,6 +126,7 @@ JESD 22 – 2000-V human-body model (A114-A) – 200-V machine model
 
 [1] This is the increase in supply current for each input at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[2::table #3]]
 
 ```table id=noise caption="Noise characteristics [1]" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25°C"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -134,12 +139,14 @@ JESD 22 – 2000-V human-body model (A114-A) – 200-V machine model
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[3::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 10.5 | pF |
 ```
+[[3::table #2]]
 
 ## Switching characteristics
 
@@ -152,6 +159,7 @@ JESD 22 – 2000-V human-body model (A114-A) – 200-V machine model
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 5.5 | 7.9 | 1 | 9 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 5.5 | 7.9 | 1 | 9 | ns |
 ```
+[[3::table #3]]
 
 ## Parameter measurement information
 
@@ -159,17 +167,19 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time with one input transition per measurement. All parameters and
-waveforms are not applicable to all devices.
+waveforms are not applicable to all devices. [[4::1]]
 
 Conversion note: C~L~ is 15 pF or 50 pF, as given in the [switching characteristics](#sw); in the source figure the inputs swing 0 V to 3 V and are measured at 1.5 V, and the outputs are measured at 50% V~CC~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V (input), 50% VCC (output)
 ```
+[[4::Figure 1]]
 
 Conversion note: the source figure also shows the 3-state and open-drain load circuit and the pulse-duration, setup-and-hold and enable/disable waveforms, which do not apply to this part.
 
@@ -189,6 +199,7 @@ SN74AHCT00MPWREP | Reel of 2000 | -55 to 125 | AHT00EP | Last Time Buy
 V62/03653-01XE | Reel of 2000 | -55 to 125 | AHT00EP | Last Time Buy
 V62/03653-01YE | Reel of 2500 | -55 to 125 | AHCT00MEP | NRND
 ```
+[[5::table #1]]
 
 ## Conversion notes
 

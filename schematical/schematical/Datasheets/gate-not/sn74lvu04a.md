@@ -23,10 +23,10 @@
 
 ## Description
 
-These hex inverters are designed for 2-V to 5.5-V V~CC~ operation.
+These hex inverters are designed for 2-V to 5.5-V V~CC~ operation. [[1::2]]
 
 The ’LVU04A devices contain six independent inverters with unbuffered
-outputs. These devices perform the Boolean function Y = !{A}.
+outputs. These devices perform the Boolean function Y = !{A}. [[1::3]]
 
 Unbuffered Outputs. Max t~pd~ of 6.5 ns at 5 V. Typical V~OLP~ (Output
 Ground Bounce) <0.8 V at V~CC~ = 3.3 V, T~A~ = 25°C. Typical V~OHV~
@@ -34,7 +34,7 @@ Ground Bounce) <0.8 V at V~CC~ = 3.3 V, T~A~ = 25°C. Typical V~OHV~
 Mixed-Mode Voltage Operation on All Ports. Latch-Up Performance Exceeds
 250 mA Per JESD 17. ESD Protection Exceeds JESD 22. 2000-V Human-Body
 Model (A114-A). 200-V Machine Model (A115-A). 1000-V Charged-Device
-Model (C101).
+Model (C101). [[1::1]]
 
 ## Pinout
 
@@ -49,6 +49,7 @@ Model (C101).
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -59,6 +60,7 @@ VCC: Supply voltage
 | H | L |
 | L | H |
 ```
+[[2::table #1]]
 
 ## Absolute maximum ratings
 
@@ -86,6 +88,7 @@ VCC: Supply voltage
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 [5] The package thermal impedance is calculated in accordance with JESD 51-5.
 ```
+[[2::table #2]]
 
 ## Recommended operating conditions
 
@@ -116,6 +119,7 @@ VCC: Supply voltage
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -135,6 +139,7 @@ VCC: Supply voltage
 | I~CC~ | | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 20 | | | 20 | µA |
 | C~i~ | | V~I~ = V~CC~ or GND | 3.3 V | | 4 | | | 4 | | pF |
 ```
+[[3::table #2]]
 
 ```table id=noise caption="Noise characteristics" conditions="V~CC~ = 3.3 V, C~L~ = 50 pF, T~A~ = 25°C [1]"
 | Symbol | Parameter | SN74LVU04A | < | < | Unit |
@@ -148,6 +153,7 @@ VCC: Supply voltage
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[4::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -155,6 +161,7 @@ VCC: Supply voltage
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 10 MHz | 3.3 V | 5.6 | pF |
 | ^ | ^ | ^ | 5 V | 6.7 | ^ |
 ```
+[[4::table #2]]
 
 ## Switching characteristics
 
@@ -167,6 +174,7 @@ VCC: Supply voltage
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[4::table #3]]
 
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 3.3 V ± 0.3 V (unless otherwise noted) (see Figure 1)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | SN54LVU04A | < | SN74LVU04A | < | Unit |
@@ -177,6 +185,7 @@ VCC: Supply voltage
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[4::table #4]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ± 0.5 V (unless otherwise noted) (see Figure 1)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | SN54LVU04A | < | SN74LVU04A | < | Unit |
@@ -187,6 +196,7 @@ VCC: Supply voltage
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[4::table #5]]
 
 ## Parameter measurement information
 
@@ -195,15 +205,17 @@ by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. t~PHL~ and t~PLH~ are
 the same as t~pd~. All parameters and waveforms are not applicable to
-all devices.
+all devices. [[5::1]]
 
 ```figure ref=load-cmos-50pf caption="Figure 1. Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[5::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Figure 1. Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% V~CC~
 ```
+[[5::Figure 1]]
 
 Conversion note: the source figure (Figure 1) also shows the load
 circuit for 3-state and open-drain outputs with its S1 table, and the
@@ -235,6 +247,7 @@ SN74LVU04APW | | -40 to 85 | LU04A | Obsolete
 SN74LVU04APWR | Reel of 2000 | -40 to 85 | LU04A
 SN74LVU04APWT | | -40 to 85 | LU04A | Obsolete
 ```
+[[1::table #2]]
 
 ## Conversion notes
 

@@ -25,17 +25,17 @@
 
 Controlled Baseline – One Assembly/Test Site, One Fabrication Site.
 Extended Temperature Performance of –40°C to 125°C and –55°C to 125°C.
-Inputs Accept Voltages to 5.5 V.
+Inputs Accept Voltages to 5.5 V. [[1::1]]
 
 The SN74LVC32A quadruple 2-input positive-OR gate is designed for 2.7-V
-to 3.6-V V~CC~ operation.
+to 3.6-V V~CC~ operation. [[1::3]]
 
 The device performs the Boolean function Y = A + B or
-Y = !{!{A} • !{B}} in positive logic.
+Y = !{!{A} • !{B}} in positive logic. [[1::4]]
 
 Inputs can be driven from either 3.3-V or 5-V devices. This feature
 allows the use of this device as a translator in a mixed 3.3-V/5-V
-system environment.
+system environment. [[1::5]]
 
 ## Pinout
 
@@ -51,6 +51,7 @@ system environment.
 GND: Ground
 VCC: Positive supply
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -62,6 +63,7 @@ VCC: Positive supply
 | X | H | H |
 | L | L | L |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -84,6 +86,7 @@ VCC: Positive supply
 [3] The value of V~CC~ is provided in the recommended operating conditions table.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -107,6 +110,7 @@ VCC: Positive supply
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 [2] Long-term high-temperature storage and/or extended use at maximum recommended operating conditions may result in a reduction of overall device life. See http://www.ti.com/ep_quality for additional information on enhanced plastic packaging.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -127,6 +131,7 @@ VCC: Positive supply
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 ```
+[[3::table #1]]
 
 ```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 2.5 V | V~CC~ = 3.3 V | Unit |
@@ -134,6 +139,7 @@ VCC: Positive supply
 |---|---|---|--:|--:|---|
 | C~pd~ | Power dissipation capacitance per gate | f = 10 MHz | 10.6 | 12.5 | pF |
 ```
+[[3::table #2]]
 
 ## Switching characteristics
 
@@ -143,15 +149,16 @@ VCC: Positive supply
 |---|---|---|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | | 4.4 | 1 | 3.8 | ns |
 ```
+[[3::table #3]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
-per measurement. t~PLH~ and t~PHL~ are the same as t~pd~.
+per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. [[4::2]]
 
-All parameters and waveforms are not applicable to all devices.
+All parameters and waveforms are not applicable to all devices. [[4::2]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -166,11 +173,13 @@ setup-and-hold and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[4::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: 500 Ω
 CL: 50 pF
 ```
+[[4::Figure 1]]
 
 ```table id=test-conditions caption="Test conditions (Figure 1)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -179,10 +188,12 @@ CL: 50 pF
 | 2.7 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 3.3 V ± 0.3 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 ```
+[[4::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V
 ```
+[[4::Figure 1]]
 
 ## Package
 
@@ -205,6 +216,7 @@ V62/04661-01YE | Reel of 2000 | -40 to 125 | LVC32AE
 V62/04661-02XE | Reel of 2500 | -55 to 125 | LVC32AM
 V62/04661-02YE | Reel of 2000 | -55 to 125 | LVC32AM
 ```
+[[5::table #1]]
 
 ## Conversion notes
 

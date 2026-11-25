@@ -6,7 +6,8 @@
 raw=${1:?usage: list.sh <raw dir>}
 mkdir -p "$raw"
 here=${0:A:h}
-eval "$(grep -E '^export DIGIKEY_CLIENT_(ID|SECRET)=' ~/.zshrc)"
+# Both keys: list.js uses the second (DIGIKEY_*2, its own quota) unless DK_OPT2=0 (census/dk.js).
+eval "$(grep -E '^export DIGIKEY_CLIENT_(ID|SECRET)2?=' ~/.zshrc)"
 # piece = <category>-<maker id>-<scope>. Categories: 371 Terminal Blocks - Wire to Board,
 # 370 Terminal Blocks - Headers, Plugs and Sockets, 314 Rectangular Connectors - Headers,
 # Male Pins. Makers: 277 Phoenix Contact, 281 Weidmuller, 732 Wurth Elektronik (the three

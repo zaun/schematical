@@ -9,18 +9,25 @@ import XCTest
 final class PartKindRoundTripTests: XCTestCase {
     /// The shipped part count of each kind (`rg -o '"manufacturer"' Parts/<kind>.json | wc -l`).
     static let expected: [String: Int] = [
-        "dff": 867, "jkff": 186, "mux": 346, "decoder": 325,
-        "latch": 752, "buffer": 2137, "arith": 107,
-        "counter": 732, "shift": 597,
-        "sram": 172, "eeprom": 174, "switch": 2070, "led": 1, "7seg": 55, "oscillator": 1145, "supply": 18,
-        "cpu": 21, "pio": 7, "serial": 247, "charlcd": 72, "connector": 376, "converter": 1914, "rtc": 16,
+        "dff": 867, "jkff": 186, "mux": 346, "decoder": 352,
+        "latch": 768, "buffer": 2137, "arith": 107,
+        "counter": 733, "shift": 597,
+        "sram": 172, "eeprom": 174, "switch": 2070, "led": 1, "7seg": 60, "oscillator": 1145, "supply": 18,
+        "cpu": 21, "pio": 7, "serial": 247, "charlcd": 72, "connector": 1541, "converter": 1914, "rtc": 16,
         "diode": 11166, "header": 80, "register": 220,
         // plan-46-C.
         "resistor": 1975, "capacitor": 1032, "transistor": 1256, "mcu": 1424,
         "nixie": 22,
+        "dekatron": 13,
+        "lcd": 8,
         "serialmem": 92,
         "regulator": 603,
         "crystal": 604,
+        "powerswitch": 817,
+        "leddriver": 41,
+        "lcddriver": 22,
+        "pld": 25,
+        "socket": 575,
     ].merging(shippedCounts(["inductor", "fuse", "relay", "buzzer"])) { current, _ in current }
 
     /// plan-47-K, L: the four kinds' counts are read from the shipped part
@@ -79,9 +86,16 @@ final class PartKindRoundTripTests: XCTestCase {
     func testTransistor() { check("transistor") }
     func testMcu() { check("mcu") }
     func testNixie() { check("nixie") }
+    func testDekatron() { check("dekatron") }
+    func testLcd() { check("lcd") }
     func testSerialmem() { check("serialmem") }
     func testRegulator() { check("regulator") }
     func testCrystal() { check("crystal") }
+    func testPowerswitch() { check("powerswitch") }
+    func testSocket() { check("socket") }
+    func testLeddriver() { check("leddriver") }
+    func testLcddriver() { check("lcddriver") }
+    func testPld() { check("pld") }
     func testInductor() { check("inductor") }
     func testFuse() { check("fuse") }
     func testRelay() { check("relay") }

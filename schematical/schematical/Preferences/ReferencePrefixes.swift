@@ -9,6 +9,7 @@ nonisolated enum ReferenceCategory: String, CaseIterable, Identifiable, Sendable
     case resistor, switchPart, transformer, testPoint
     case integratedCircuit, memory, microcontroller, processor
     case crystal
+    case socket
 
     var id: String { rawValue }
 
@@ -39,6 +40,7 @@ nonisolated enum ReferenceCategory: String, CaseIterable, Identifiable, Sendable
         case .microcontroller: "Microcontroller"
         case .processor: "Processor"
         case .crystal: "Crystal"
+        case .socket: "IC Socket"
         }
     }
 
@@ -65,6 +67,7 @@ nonisolated enum ReferenceCategory: String, CaseIterable, Identifiable, Sendable
         case .testPoint: "TP"
         case .integratedCircuit, .memory, .microcontroller, .processor: "U"
         case .crystal: "Y"
+        case .socket: "XS"
         }
     }
 
@@ -80,15 +83,16 @@ nonisolated enum ReferenceCategory: String, CaseIterable, Identifiable, Sendable
             if case let .diode(type, _, _, _, _, _) = part.details, type == "zener" { return .zenerDiode }
             return .diode
         case PART_LED: return .led
-        case PART_7SEG, PART_CHARLCD, PART_NIXIE: return .display
+        case PART_7SEG, PART_CHARLCD, PART_NIXIE, PART_DEKATRON, PART_LCD: return .display
         case PART_OSCILLATOR: return .oscillator
         case PART_CRYSTAL: return .crystal
+        case PART_SOCKET: return .socket
         case PART_INDUCTOR: return .inductor
         case PART_FUSE: return .fuse
         case PART_RELAY: return .relay
         case PART_BUZZER: return .speaker
         case PART_SWITCH: return .switchPart
-        case PART_CONNECTOR: return .femaleConnector
+        case PART_CONNECTOR: return part.isTestPoint ? .testPoint : .femaleConnector
         case PART_HEADER:
             return (gender ?? part.genders.first) == "Female" ? .femaleConnector : .maleConnector
         case PART_SRAM, PART_EEPROM, PART_SERIALMEM: return .memory

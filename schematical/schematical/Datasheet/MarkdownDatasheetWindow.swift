@@ -86,18 +86,28 @@ final class DatasheetPage: NSObject, WKNavigationDelegate {
     private(set) var title = ""
     private(set) var failure: String?
     @ObservationIgnored private var payload: String?
+    /// True in the Verify Datasheet window only: the page shows its citations.
+    @ObservationIgnored private let showsCitations: Bool
+    /// A click on a citation (Verify Datasheet window only).
+    @ObservationIgnored var onCitation: ((CitationClick) -> Void)?
 
-    override init() {
+    init(showsCitations: Bool = false) {
+        self.showsCitations = showsCitations
         webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
         super.init()
         webView.navigationDelegate = self
         webView.setValue(false, forKey: "drawsBackground")
+        if showsCitations {
+            webView.configuration.userContentController.add(CitationMessages(page: self), name: "cite")
+        }
     }
 
     func load(_ target: MarkdownDatasheetTarget) {
+        failure = nil
         do {
             let built = try DatasheetPayload.build(path: target.path, partName: target.partName,
-                                                   catalog: PartCatalogStore.shared)
+                                                   catalog: PartCatalogStore.shared,
+                                                   citations: showsCitations)
             payload = built.json
             title = built.title
             guard let html = Bundle.main.url(forResource: "datasheet", withExtension: "html"),
@@ -144,8 +154,32 @@ final class DatasheetPage: NSObject, WKNavigationDelegate {
     }
 }
 
+/// A click on a citation chip: the PDF page (from 1), the reference
+/// ("2", "Table 6-3", "table #2") and the text of the paragraph it ends.
+struct CitationClick: Equatable {
+    let page: Int
+    let reference: String
+    let text: String
+}
+
+/// Receives the page's "cite" messages without the web view's content
+/// controller keeping the datasheet page alive.
+private final class CitationMessages: NSObject, WKScriptMessageHandler {
+    weak var page: DatasheetPage?
+
+    init(page: DatasheetPage) { self.page = page }
+
+    func userContentController(_ controller: WKUserContentController, didReceive message: WKScriptMessage) {
+        guard let body = message.body as? [String: Any],
+              let number = body["page"] as? Int, number >= 1,
+              let reference = body["ref"] as? String else { return }
+        let click = CitationClick(page: number, reference: reference, text: body["text"] as? String ?? "")
+        MainActor.assumeIsolated { page?.onCitation?(click) }
+    }
+}
+
 /// WKWebView in SwiftUI.
-private struct DatasheetWebView: NSViewRepresentable {
+struct DatasheetWebView: NSViewRepresentable {
     let page: DatasheetPage
 
     func makeNSView(context: Context) -> WKWebView { page.webView }
@@ -178,8 +212,8 @@ enum DatasheetPayload {
     }()
 
     @MainActor
-    static func build(path: String, partName: String,
-                      catalog: PartCatalogStore) throws -> (json: String, title: String) {
+    static func build(path: String, partName: String, catalog: PartCatalogStore,
+                      citations: Bool = false) throws -> (json: String, title: String) {
         let name = (path as NSString).lastPathComponent
         guard let url = Bundle.main.url(forResource: (name as NSString).deletingPathExtension,
                                         withExtension: "md"),
@@ -252,6 +286,7 @@ enum DatasheetPayload {
             "devices": devices,
             "footprints": footprints,
             "figures": figures,
+            "showCitations": citations,
         ]
         let data = try JSONSerialization.data(withJSONObject: payload)
         return (String(decoding: data, as: UTF8.self), front["title"] as? String ?? "")

@@ -24,10 +24,10 @@
 ## Description
 
 The SNx4ACT11 device contains three independent 3-input AND gates. These
-devices perform the Boolean function Y = A · B · C in positive logic.
+devices perform the Boolean function Y = A · B · C in positive logic. [[1::1]]
 
 4.5V to 5.5V V~CC~ operation. Inputs accept voltages to 5.5V. Inputs
-are TTL-voltage compatible.
+are TTL-voltage compatible. [[1::2]]
 
 Conversion note: SN74ACT11 is
 specified from –40 °C to 85 °C and SN54ACT11 from –55 °C to 125 °C
@@ -52,6 +52,7 @@ GND: Ground
 VCC: Positive Supply
 NC: No internal connection
 ```
+[[6::table #1]]
 
 ```table id=thermal-pad caption="Thermal pad"
 | Name | Description |
@@ -60,6 +61,7 @@ NC: No internal connection
 
 [1] BQA Package only
 ```
+[[4::table #1]]
 
 Source conflict: the source's pinout drawings and pin table name pin 9
 3C and pin 11 3A (FK: pin 13 3C, pin 16 3A), but the pin table describes
@@ -85,6 +87,7 @@ PW, and W packages.
 | X | L | X | L |
 | X | X | L | L |
 ```
+[[8::Table 6-1]]
 
 ## Absolute maximum ratings
 
@@ -103,6 +106,7 @@ PW, and W packages.
 [1] Stresses beyond those listed under absolute maximum ratings may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under recommended operating conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[5::table #1]]
 
 ## Recommended operating conditions
 
@@ -122,6 +126,7 @@ PW, and W packages.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[5::table #2]]
 
 ## Thermal information
 
@@ -132,6 +137,7 @@ PW, and W packages.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report. Conversion note: all packages are 14 pins.
 ```
+[[5::table #3]]
 
 ## Electrical characteristics
 
@@ -159,12 +165,14 @@ PW, and W packages.
 [1] Not more than one output should be tested at a time, and the duration of the test should not exceed 10 ms.
 [2] This is the increase in supply current for each input that is at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[6::table #2]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25 °C"
 | Parameter | < | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 1 MHz | 20 | pF |
 ```
+[[6::table #3]]
 
 ## Switching characteristics
 
@@ -177,13 +185,14 @@ See [parameter measurement information](#parameter-measurement).
 | t~PLH~ | A, B, or C | Y | 1.5 | 6 | 9.5 | 1 | 10.5 | 1 | 10.5 | ns |
 | t~PHL~ | ^ | ^ | 1.5 | 6 | 9.5 | 1 | 10.5 | 1 | 10.5 | ^ |
 ```
+[[6::table #4]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 2.5 ns, t~f~ ≤ 2.5 ns. The outputs are measured one
-at a time with one input transition per measurement.
+at a time with one input transition per measurement. [[7::1]]
 
 Conversion note: the load circuit also has a 500 Ω resistor from the output to switch S1
 (2 × V~CC~ or open), and S1 is open for t~PLH~ and t~PHL~, which leaves the
@@ -193,15 +202,17 @@ load below.
 RL: 500 Ω
 CL: 50 pF
 ```
+[[7::Figure 5-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times"
 VM: 50 % V~CC~
 ```
+[[7::Figure 5-1]]
 
 ## Application information
 
 Information in the following applications sections is not part of the
-TI component specification.
+TI component specification. [[9::1]]
 
 ### Typical application
 
@@ -214,7 +225,7 @@ signal. Conversion note: the typical application schematic shows the
 power supply's PG output,
 the over-current detection's !{OC} output and an on/off switch drive
 the three inputs of one gate; its output drives the motor controller's
-!{RESET}.
+!{RESET}. [[9::2]]
 
 ```wavedrom id=app-timing caption="Typical application timing diagram"
 {"signal": [
@@ -224,6 +235,7 @@ the three inputs of one gate; its output drives the motor controller's
   {"name": "RESET#", "wave": "0..1.0..1."}
 ]}
 ```
+[[10::Figure 7-2]]
 
 #### Power considerations
 
@@ -241,7 +253,7 @@ total current through GND or V~CC~ listed in the
 junction temperature, T~J(max)~ listed in the Absolute Maximum Ratings,
 is an additional limitation to prevent damage to the device
 (Source conflict: the absolute maximum ratings table lists no T~J~). Do
-not violate any values listed in the Absolute Maximum Ratings.
+not violate any values listed in the Absolute Maximum Ratings. [[9::3]] [[9::4]] [[9::7]]
 
 #### Input considerations
 
@@ -257,7 +269,7 @@ rates cannot be slow. Source conflict: the description and the ΔI~CC~
 note give TTL-voltage-compatible inputs. Slow input edge rates can cause
 oscillations and damaging shoot-through current. The recommended rates
 are defined in the
-[recommended operating conditions](#recommended-operating-conditions).
+[recommended operating conditions](#recommended-operating-conditions). [[10::1]] [[10::2]]
 
 #### Output considerations
 
@@ -266,22 +278,22 @@ specified by the V~OH~ specification in the Electrical Characteristics.
 Sinking current into the output will increase the output voltage as
 specified by the V~OL~ specification in the Electrical Characteristics.
 Unused outputs can be left floating. Do not
-connect outputs directly to V~CC~ or ground.
+connect outputs directly to V~CC~ or ground. [[10::4]] [[10::5]]
 
 #### Detailed design procedure
 
 1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to
    be placed physically close to the device and electrically close to
-   both the V~CC~ and GND pins.
+   both the V~CC~ and GND pins. [[10::7]]
 2. Ensure the capacitive load at the output is ≤ 70 pF. This is not a
-   hard limit, however it will ensure optimal performance.
+   hard limit, however it will ensure optimal performance. [[10::7]]
 3. Ensure the resistive load at the output is larger than
    (V~CC~ / I~O(max)~) Ω. This will ensure that the maximum output
-   current from the Absolute Maximum Ratings is not violated.
+   current from the Absolute Maximum Ratings is not violated. [[10::7]]
 4. Thermal issues are rarely a concern for logic gates, however the
    power consumption and thermal increase can be calculated using the
    steps provided in the application report, CMOS Power Consumption and
-   C~pd~ Calculation.
+   C~pd~ Calculation. [[10::7]]
 
 ### Power supply recommendations
 
@@ -293,7 +305,7 @@ disturbance. A 0.1µF capacitor is recommended for this device. It is
 acceptable to parallel multiple bypass caps to reject different
 frequencies of noise. The 0.1µF and 1µF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
-power terminal as possible for best results.
+power terminal as possible for best results. [[10::9]]
 
 ### Layout guidelines
 
@@ -306,7 +318,7 @@ voltage, as defined by the input voltage specifications, to prevent
 them from floating. The logic level that must be applied to any
 particular unused input depends on the function of the device.
 Generally, the inputs are tied to GND or V~CC~, whichever makes more
-sense for the logic function or is more convenient.
+sense for the logic function or is more convenient. [[11::1]]
 
 ## Package
 
@@ -347,6 +359,7 @@ SNJ54ACT11W | Tube of 25 | -55 to 125 | 5962-9077201QDA SNJ54ACT11W
 5962-9077201Q2A | Tube of 55 | -55 to 125 | 5962-9077201Q2A SNJ54ACT11FK
 SNJ54ACT11FK | Tube of 55 | -55 to 125 | 5962-9077201Q2A SNJ54ACT11FK
 ```
+[[14::table #1]]
 
 ## Conversion notes
 

@@ -1,0 +1,324 @@
+maker	variant	pdf	rows	example	scheme	volts	amps	pinout	note
+JST	JST|EH|2.50|H|tht	datasheets/connector-jst/eEH.pdf	11	S2B-EH	S(?P<n>\d+)B-EH	250	3	1..n	EH side entry S*B-EH: tables p2-4, allocation p6 ("S…Side entry type", no suffix)
+JST	JST|EH|2.50|V|tht	datasheets/connector-jst/eEH.pdf	11	B2B-EH-A	B(?P<n>\d+)B-EH-A	250	3	1..n	EH top entry B*B-EH-A (Type A): tables p2-4, allocation p6
+JST	JST|GH|1.25|H|smd	datasheets/connector-jst/eGH.pdf	7	SM06B-GHS-TB	SM(?P<n>\d+)B-GHS-TB	50	1.0	1..n	GH side entry SM*B-GHS-TB: table p3-5, allocation p6 (SM…SMT side entry)
+JST	JST|GH|1.25|V|smd	datasheets/connector-jst/eGH.pdf	10	BM03B-GHS-TBT	BM(?P<n>\d+)B-GHS-TBT	50	1.0	1..n	GH top entry BM*B-GHS-TBT: tables p3-5 print the T (suction tape: T…Yes, allocation p6)
+JST	JST|PH|2.00|H|smd	datasheets/connector-jst/ePH.pdf	11	S2B-PH-SM4-TB	S(?P<n>\d+)B-PH-SM4-TB	100	2	1..n	PH SMT side entry S*B-PH-SM4-TB: table p4, allocation p5
+JST	JST|PH|2.00|H|tht	datasheets/connector-jst/ePH.pdf	11	S2B-PH-K-S	S(?P<n>\d+)B-PH-K-S	100	2	1..n	PH through-hole side entry S*B-PH-K-S (clinched, colour S): table p3, allocation p5
+JST	JST|PH|2.00|V|smd	datasheets/connector-jst/ePH.pdf	11	B2B-PH-SM4-TBT	B(?P<n>\d+)B-PH-SM4-TBT?	100	2	1..n	PH SMT top entry B*B-PH-SM4-TB, and with suction tape B*B-PH-SM4-TBT ("T…Yes", allocation p5; the T form is not printed in the tables p4, the TB form is)
+JST	JST|PH|2.00|V|tht	datasheets/connector-jst/ePH.pdf	10	B2B-PH-K-S	B(?P<n>\d+)B-PH-K-S	100	2	1..n	PH through-hole top entry B*B-PH-K-S: table p3, allocation p5
+JST	JST|SH/SR|1.00|H|smd	datasheets/connector-jst/eSH.pdf	5	SM04B-SRSS-TB	SM(?P<n>\d+)B-SRSS-TB	50	1.0	1..n	SH/SR SMT side entry SM*B-SRSS-TB: tables p2-3, allocation p4
+JST	JST|SH/SR|1.00|H|smd	datasheets/connector-jst/eSR_SZ.pdf	4	SM12B-SRSS-TB	SM(?P<n>\d+)B-SRSS-TB	50	0.7	1..n	SR SMT side entry SM*B-SRSS-TB: tables p2-3, allocation p4
+JST	JST|SH/SR|1.00|V|smd	datasheets/connector-jst/eSH.pdf	3	BM06B-SRSS-TB	BM(?P<n>\d+)B-SRSS-TB	50	1.0	1..n	SH/SR SMT top entry BM*B-SRSS-TB: tables p2-3, allocation p4
+JST	JST|SH/SR|1.00|V|smd	datasheets/connector-jst/eSR_SZ-new.pdf	2	BM08B-SRSS-TB	BM(?P<n>\d+)B-SRSS-TB	50	0.7	1..n	SR SMT top entry BM*B-SRSS-TB (newer revision): tables p2-3, allocation p3
+JST	JST|SH/SR|1.00|V|smd	datasheets/connector-jst/eSR_SZ.pdf	6	BM05B-SRSS-TB	BM(?P<n>\d+)B-SRSS-TBT?	50	0.7	1..n	SR SMT top entry BM*B-SRSS-TB, and with suction tape BM*B-SRSS-TBT ("T…Yes", allocation p4; the TB forms are printed in the tables p2-3)
+JST	JST|VH|3.96|H|tht	datasheets/connector-jst/eVH.pdf	9	B4PS-VH	B(?P<n>\d+)PS-VH	250	10	1..n	VH side entry without stopper B*PS-VH: tables p2-4 (the S*P-VH "with stopper" column is not a candidate)
+JST	JST|VH|3.96|V|tht	datasheets/connector-jst/eVH.pdf	17	B3P-VH	B(?P<n>\d+)P-VH(?:-B)?	250	10	1..n	VH top entry B*P-VH and B*P-VH-B (colour): tables p2-4, allocation p5-6
+JST	JST|XH|2.50|H|smd	datasheets/connector-jst/eXH.pdf	2	S3B-XH-SM4-TB	S(?P<n>\d+)B-XH-SM4-TB	250	3	1..n	XH SMT side entry S*B-XH-SM4-TB: table p6, allocation p9
+JST	JST|XH|2.50|H|tht	datasheets/connector-jst/eXH.pdf	10	S6B-XH-A	S(?P<n>\d+)B-XH-A(?:-1)?	250	3	1..n	XH side entry S*B-XH-A and S*B-XH-A-1 (both printed in the table p5, circuits 2-15): allocation p9
+JST	JST|XH|2.50|V|tht	datasheets/connector-jst/eXH.pdf	11	B2B-XH-A	B(?P<n>\d+)B-XH-A	250	3	1..n	XH top entry B*B-XH-A (without boss): table p5, allocation p9
+JST	JST|ZH|1.50|H|smd	datasheets/connector-jst/eZH.pdf	10	S6B-ZR-SM4A-TF	S(?P<n>\d+)B-ZR-SM4A-TF	50	1.0	1..n	ZH SMT SM4 side entry S*B-ZR-SM4A-TF: table p5, allocation p6
+JST	JST|ZH|1.50|H|tht	datasheets/connector-jst/eZH.pdf	10	S5B-ZR	S(?P<n>\d+)B-ZR(?:-3\.4)?	50	1.0	1..n	ZH side entry S*B-ZR and S*B-ZR-3.4 (soldering length 3.4 mm): tables p3-4, allocation p6
+JST	JST|ZH|1.50|V|smd	datasheets/connector-jst/eZH.pdf	10	B8B-ZR-SM4-TF	B(?P<n>\d+)B-ZR-SM4-TFT?	50	1.0	1..n	ZH SMT SM4 top entry B*B-ZR-SM4-TF, and with suction tape B*B-ZR-SM4-TFT ("T…Yes", allocation p6)
+JST	JST|ZH|1.50|V|tht	datasheets/connector-jst/eZH.pdf	10	B5B-ZR	B(?P<n>\d+)B-ZR(?:-3\.4)?	50	1.0	1..n	ZH top entry B*B-ZR and B*B-ZR-3.4: tables p3-4, allocation p6
+Phoenix Contact	PHX|BCH|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5430810.pdf	1	5430810		160	8	1..n	
+Phoenix Contact	PHX|BCH|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5441278.pdf	1	5441278		160	8	1..n	
+Phoenix Contact	PHX|BCH|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5441294.pdf	1	5441294		160	8	1..n	
+Phoenix Contact	PHX|BCH|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5441304.pdf	1	5441304		160	8	1..n	
+Phoenix Contact	PHX|BCH|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5441317.pdf	1	5441317		160	8	1..n	
+Phoenix Contact	PHX|BCH|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5452095.pdf	1	5452095		160	8	1..n	
+Phoenix Contact	PHX|BCH|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5452102.pdf	1	5452102		160	8	1..n	
+Phoenix Contact	PHX|BCH|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5431194.pdf	1	5431194		160	8	1..n	
+Phoenix Contact	PHX|BCH|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5431217.pdf	1	5431217		160	8	1..n	
+Phoenix Contact	PHX|BCH|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5431220.pdf	1	5431220		160	8	1..n	
+Phoenix Contact	PHX|BCH|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5431246.pdf	1	5431246		160	8	1..n	
+Phoenix Contact	PHX|BCH|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5431288.pdf	1	5431288		160	8	1..n	
+Phoenix Contact	PHX|BCH|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5444262.pdf	1	5444262		160	8	1..n	
+Phoenix Contact	PHX|BCH|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/5444288.pdf	1	5444288		160	8	1..n	
+Phoenix Contact	PHX|COMBICON-GMSTBVA|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/1766699.pdf	1	1766699		400	12	1..n	
+Phoenix Contact	PHX|COMBICON-GMSTBVA|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/1766725.pdf	1	1766725		630	12	1..n	
+Phoenix Contact	PHX|COMBICON-GMSTBVA|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/1766738.pdf	1	1766738		630	12	1..n	
+Phoenix Contact	PHX|COMBICON-ICV|5.08|V|tht|pluggable|Header-FemaleSockets	datasheets/connector-terminal/phoenix/1785955.pdf	1	1785955		320	12	1..n	
+Phoenix Contact	PHX|COMBICON-ICV|5.08|V|tht|pluggable|Header-FemaleSockets	datasheets/connector-terminal/phoenix/1785968.pdf	1	1785968		320	12	1..n	
+Phoenix Contact	PHX|COMBICON-ICV|5.08|V|tht|pluggable|Header-FemaleSockets	datasheets/connector-terminal/phoenix/1785971.pdf	1	1785971		320	12	1..n	
+Phoenix Contact	PHX|COMBICON-ICV|5.08|V|tht|pluggable|Header-FemaleSockets	datasheets/connector-terminal/phoenix/1786019.pdf	1	1786019		320	12	1..n	
+Phoenix Contact	PHX|COMBICON-ICV|5.08|V|tht|pluggable|Header-FemaleSockets	datasheets/connector-terminal/phoenix/1943535.pdf	1	1943535		320	16	1..n	
+Phoenix Contact	PHX|COMBICON-ICV|5.08|V|tht|pluggable|Header-FemaleSockets	datasheets/connector-terminal/phoenix/1943632.pdf	1	1943632		320	16	1..n	
+Phoenix Contact	PHX|COMBICON-PC|7.62|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/1720466.pdf	1	1720466		630	41	1..n	
+Phoenix Contact	PHX|COMBICON-PC|7.62|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/1720479.pdf	1	1720479		630	41	1..n	
+Phoenix Contact	PHX|COMBICON-PC|7.62|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/1720482.pdf	1	1720482		630	41	1..n	
+Phoenix Contact	PHX|COMBICON-PC|7.62|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/1720877.pdf	1	1720877		630	41	1..n	
+Phoenix Contact	PHX|COMBICON-PC|7.62|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/phoenix/1804836.pdf	1	1804836		630	20	1..n	
+Phoenix Contact	PHX|COMBICON-PST|5.00|V|tht|pluggable|Header-MalePins-Unshroud	datasheets/connector-terminal/phoenix/1933189.pdf	1	1933189		250	12	1..n	
+Phoenix Contact	PHX|COMBICON-PST|5.00|V|tht|pluggable|Header-MalePins-Unshroud	datasheets/connector-terminal/phoenix/1933192.pdf	1	1933192		250	12	1..n	
+Phoenix Contact	PHX|COMBICON-PST|5.00|V|tht|pluggable|Header-MalePins-Unshroud	datasheets/connector-terminal/phoenix/1933202.pdf	1	1933202		250	12	1..n	
+Phoenix Contact	PHX|COMBICON-PST|5.00|V|tht|pluggable|Header-MalePins-Unshroud	datasheets/connector-terminal/phoenix/1933228.pdf	1	1933228		250	12	1..n	
+Phoenix Contact	PHX|COMBICON-PST|5.00|V|tht|pluggable|Header-MalePins-Unshroud	datasheets/connector-terminal/phoenix/1933244.pdf	1	1933244		250	12	1..n	
+Phoenix Contact	PHX|COMBICON-PST|5.00|V|tht|pluggable|Header-MalePins-Unshroud	datasheets/connector-terminal/phoenix/1933273.pdf	1	1933273		250	12	1..n	
+Phoenix Contact	PHX|COMBICON-PST|5.00|V|tht|pluggable|Header-MalePins-Unshroud	datasheets/connector-terminal/phoenix/1933286.pdf	1	1933286		320	12	1..n	
+Phoenix Contact	PHX|COMBICON-PT|5.00|H|tht|screw	datasheets/connector-terminal/phoenix/1935161.pdf	1	1935161		400	17.5	1..n	
+Phoenix Contact	PHX|COMBICON-PT|5.00|H|tht|screw	datasheets/connector-terminal/phoenix/1935174.pdf	1	1935174		400	17.5	1..n	
+Phoenix Contact	PHX|COMBICON-PT|5.00|H|tht|screw	datasheets/connector-terminal/phoenix/1935187.pdf	1	1935187		400	17.5	1..n	
+Phoenix Contact	PHX|COMBICON-PT|5.00|H|tht|screw	datasheets/connector-terminal/phoenix/1935190.pdf	1	1935190		400	17.5	1..n	
+Phoenix Contact	PHX|COMBICON-PT|5.00|H|tht|screw	datasheets/connector-terminal/phoenix/1935200.pdf	1	1935200		400	17.5	1..n	
+Phoenix Contact	PHX|COMBICON-PT|5.00|H|tht|screw	datasheets/connector-terminal/phoenix/1935213.pdf	1	1935213		400	17.5	1..n	
+Phoenix Contact	PHX|COMBICON-PT|5.00|H|tht|screw	datasheets/connector-terminal/phoenix/1935226.pdf	1	1935226		400	17.5	1..n	
+Phoenix Contact	PHX|COMBICON-PT|5.00|H|tht|screw	datasheets/connector-terminal/phoenix/1935239.pdf	1	1935239		400	17.5	1..n	
+Phoenix Contact	PHX|COMBICON-PT|5.00|H|tht|screw	datasheets/connector-terminal/phoenix/1935268.pdf	1	1935268		400	17.5	1..n	
+Phoenix Contact	PHX|COMBICON-PT|5.00|H|tht|screw	datasheets/connector-terminal/phoenix/1935815.pdf	1	1935815		400	32	1..n	
+Phoenix Contact	PHX|COMBICON-PT|5.00|H|tht|screw	datasheets/connector-terminal/phoenix/1935873.pdf	1	1935873		400	32	1..n	
+Phoenix Contact	PHX|COMBICON-SMKDS|5.08|A|tht|screw	datasheets/connector-terminal/phoenix/1702558.pdf	1	1702558		400	20	1..n	
+Phoenix Contact	PHX|COMBICON-SMKDS|5.08|A|tht|screw	datasheets/connector-terminal/phoenix/1705469.pdf	1	1705469		250	20	1..n	
+Phoenix Contact	PHX|COMBICON-SMKDS|5.08|A|tht|screw	datasheets/connector-terminal/phoenix/1705472.pdf	1	1705472		250	20	1..n	
+Phoenix Contact	PHX|COMBICON-SMKDS3|5.08|A|tht|screw	datasheets/connector-terminal/phoenix/1713040.pdf	1	1713040		250	24	1..n	
+Phoenix Contact	PHX|COMBICON-SPT-THR|3.81|V|tht|push-in	datasheets/connector-terminal/phoenix/1822422.pdf	1	1822422		160	13.5	1..n	
+Phoenix Contact	PHX|COMBICON-SPT-THR|3.81|V|tht|push-in	datasheets/connector-terminal/phoenix/1822435.pdf	1	1822435		160	13.5	1..n	
+Phoenix Contact	PHX|COMBICON-SPT-THR|3.81|V|tht|push-in	datasheets/connector-terminal/phoenix/1823324.pdf	1	1823324		160	13.5	1..n	
+Phoenix Contact	PHX|COMBICON-SPT-THR|3.81|V|tht|push-in	datasheets/connector-terminal/phoenix/1823337.pdf	1	1823337		160	13.5	1..n	
+Phoenix Contact	PHX|COMBICON-SPT-THR|3.81|V|tht|push-in	datasheets/connector-terminal/phoenix/1823379.pdf	1	1823379		160	13.5	1..n	
+Phoenix Contact	PHX|COMBICON-SPT-THR|3.81|V|tht|push-in	datasheets/connector-terminal/phoenix/1823395.pdf	1	1823395		160	13.5	1..n	
+Phoenix Contact	PHX|COMBICON-SPT-THR|3.81|V|tht|push-in	datasheets/connector-terminal/phoenix/1823405.pdf	1	1823405		160	13.5	1..n	
+Phoenix Contact	PHX|COMBICON-SPTA|3.50|A|tht|spring	datasheets/connector-terminal/phoenix/1752117.pdf	1	1752117		200	9	1..n	
+Phoenix Contact	PHX|COMBICON-SPTA|3.50|A|tht|spring	datasheets/connector-terminal/phoenix/1752133.pdf	1	1752133		200	9	1..n	
+Phoenix Contact	PHX|COMBICON-SPTA|3.50|A|tht|spring	datasheets/connector-terminal/phoenix/1752159.pdf	1	1752159		200	9	1..n	
+Phoenix Contact	PHX|COMBICON-SPTA|3.50|A|tht|spring	datasheets/connector-terminal/phoenix/1752162.pdf	1	1752162		200	9	1..n	
+Phoenix Contact	PHX|COMBICON-SPTA|3.50|A|tht|spring	datasheets/connector-terminal/phoenix/1752175.pdf	1	1752175		200	9	1..n	
+Phoenix Contact	PHX|COMBICON-SPT|7.50|V|tht|spring	datasheets/connector-terminal/phoenix/1719325.pdf	1	1719325		1000	41	1..n	
+Phoenix Contact	PHX|COMBICON-SPT|7.50|V|tht|spring	datasheets/connector-terminal/phoenix/1719338.pdf	1	1719338		1000	41	1..n	
+Phoenix Contact	PHX|COMBICON-SPT|7.50|V|tht|spring	datasheets/connector-terminal/phoenix/1719354.pdf	1	1719354		800	41	1..n	
+Phoenix Contact	PHX|COMBICON-SPT|7.50|V|tht|spring	datasheets/connector-terminal/phoenix/1719370.pdf	1	1719370		800	41	1..n	
+Phoenix Contact	PHX|COMBICON-SPT|7.50|V|tht|spring	datasheets/connector-terminal/phoenix/1719383.pdf	1	1719383		1000	41	1..n	
+Phoenix Contact	PHX|COMBICON-SPT|7.50|V|tht|spring	datasheets/connector-terminal/phoenix/1719419.pdf	1	1719419		1000	41	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/2741400000.pdf	1	2741400000		400	26.8	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/2741420000.pdf	1	2741420000		400	26.8	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/2741430000.pdf	1	2741430000		400	26.8	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/2741440000.pdf	1	2741440000		400	26.8	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/2741480000.pdf	1	2741480000		400	26.8	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/2741510000.pdf	1	2741510000		400	26.8	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000072497.pdf	1	8000072497		400	26.8	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000072503.pdf	1	8000072503		400	26.8	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000072506.pdf	1	8000072506		400	26.8	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000072508.pdf	1	8000072508		400	26.8	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000072509.pdf	1	8000072509		400	26.8	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000072510.pdf	1	8000072510		400	26.8	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000072511.pdf	1	8000072511		400	26.8	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000072512.pdf	1	8000072512		400	26.8	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000072513.pdf	1	8000072513		400	26.8	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000072514.pdf	1	8000072514		400	26.8	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|5.00|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000072515.pdf	1	8000072515		400	26.8	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|7.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000078308.pdf	1	8000078308		1000	30.4	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|7.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000078321.pdf	1	8000078321		1000	30.4	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|7.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000078323.pdf	1	8000078323		1000	30.4	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|7.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000078324.pdf	1	8000078324		1000	30.4	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|7.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000078325.pdf	1	8000078325		1000	30.4	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|7.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000078326.pdf	1	8000078326		1000	30.4	1..n	
+Weidmuller	WDM|Omnimate-4.0-MHS|7.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/8000078327.pdf	1	8000078327		1000	30.4	1..n	
+Weidmuller	WDM|Omnimate-LLFS|7.50|H|tht|push-in	datasheets/connector-terminal/weidmuller/2473000000.pdf	1	2473000000		1000	41	1..n	
+Weidmuller	WDM|Omnimate-LLFS|7.50|H|tht|push-in	datasheets/connector-terminal/weidmuller/2473020000.pdf	1	2473020000		1000	41	1..n	
+Weidmuller	WDM|Omnimate-LLFS|7.50|H|tht|push-in	datasheets/connector-terminal/weidmuller/2473030000.pdf	1	2473030000		1000	41	1..n	
+Weidmuller	WDM|Omnimate-LLFS|7.50|H|tht|push-in	datasheets/connector-terminal/weidmuller/2473040000.pdf	1	2473040000		1000	41	1..n	
+Weidmuller	WDM|Omnimate-LM|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/1716020000.pdf	1	1716020000		630	17.5	1..n	
+Weidmuller	WDM|Omnimate-LM|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/1716030000.pdf	1	1716030000		630	17.5	1..n	
+Weidmuller	WDM|Omnimate-LM1N|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/1766320000.pdf	1	1766320000		630	17.5	1..n	
+Weidmuller	WDM|Omnimate-LM1N|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/1766330000.pdf	1	1766330000		630	17.5	1..n	
+Weidmuller	WDM|Omnimate-LM|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/9993920000.pdf	1	9993920000		630	17.5	1..n	
+Weidmuller	WDM|Omnimate-LM|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/9993940000.pdf	1	9993940000		630	17.5	1..n	
+Weidmuller	WDM|Omnimate-LM|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/9993960000.pdf	1	9993960000		630	17.5	1..n	
+Weidmuller	WDM|Omnimate-LM|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/9994140000.pdf	1	9994140000		630	17.5	1..n	
+Weidmuller	WDM|Omnimate-LM|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/9994180000.pdf	1	9994180000		630	17.5	1..n	
+Weidmuller	WDM|Omnimate-LM|5.08|H|tht|screw	datasheets/connector-terminal/weidmuller/9994190000.pdf	1	9994190000		630	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.50|H|tht|spring	datasheets/connector-terminal/weidmuller/1824420000.pdf	1	1824420000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.50|H|tht|spring	datasheets/connector-terminal/weidmuller/1824430000.pdf	1	1824430000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.50|H|tht|spring	datasheets/connector-terminal/weidmuller/1824440000.pdf	1	1824440000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.50|H|tht|spring	datasheets/connector-terminal/weidmuller/1824470000.pdf	1	1824470000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.50|H|tht|spring	datasheets/connector-terminal/weidmuller/1824480000.pdf	1	1824480000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.50|H|tht|spring	datasheets/connector-terminal/weidmuller/1824490000.pdf	1	1824490000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.50|H|tht|spring	datasheets/connector-terminal/weidmuller/1824500000.pdf	1	1824500000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.50|H|tht|spring	datasheets/connector-terminal/weidmuller/1824510000.pdf	1	1824510000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.50|H|tht|spring	datasheets/connector-terminal/weidmuller/1824520000.pdf	1	1824520000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.50|H|tht|spring	datasheets/connector-terminal/weidmuller/1870580000.pdf	1	1870580000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.50|H|tht|spring	datasheets/connector-terminal/weidmuller/1870590000.pdf	1	1870590000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.81|A|tht|spring	datasheets/connector-terminal/weidmuller/1885410000.pdf	1	1885410000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.81|A|tht|spring	datasheets/connector-terminal/weidmuller/1885440000.pdf	1	1885440000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.81|A|tht|spring	datasheets/connector-terminal/weidmuller/1885900000.pdf	1	1885900000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.81|A|tht|spring	datasheets/connector-terminal/weidmuller/1885920000.pdf	1	1885920000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.81|A|tht|spring	datasheets/connector-terminal/weidmuller/1885930000.pdf	1	1885930000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.81|A|tht|spring	datasheets/connector-terminal/weidmuller/1885940000.pdf	1	1885940000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.81|A|tht|spring	datasheets/connector-terminal/weidmuller/1885950000.pdf	1	1885950000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.81|A|tht|spring	datasheets/connector-terminal/weidmuller/1885960000.pdf	1	1885960000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|3.81|A|tht|spring	datasheets/connector-terminal/weidmuller/1885970000.pdf	1	1885970000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|5.00|V|tht|spring	datasheets/connector-terminal/weidmuller/1825960000.pdf	1	1825960000		500	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|5.00|V|tht|spring	datasheets/connector-terminal/weidmuller/1825970000.pdf	1	1825970000		500	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|5.00|V|tht|spring	datasheets/connector-terminal/weidmuller/1825990000.pdf	1	1825990000		500	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|5.00|V|tht|spring	datasheets/connector-terminal/weidmuller/1826000000.pdf	1	1826000000		500	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|5.00|V|tht|spring	datasheets/connector-terminal/weidmuller/1826020000.pdf	1	1826020000		500	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|5.00|V|tht|spring	datasheets/connector-terminal/weidmuller/1870160000.pdf	1	1870160000		500	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|7.62|A|tht|spring	datasheets/connector-terminal/weidmuller/1884970000.pdf	1	1884970000		800	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|7.62|A|tht|spring	datasheets/connector-terminal/weidmuller/1884980000.pdf	1	1884980000		800	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|7.62|A|tht|spring	datasheets/connector-terminal/weidmuller/1884990000.pdf	1	1884990000		800	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|7.62|A|tht|spring	datasheets/connector-terminal/weidmuller/1886180000.pdf	1	1886180000		800	17.5	1..n	
+Weidmuller	WDM|Omnimate-LSF-SMT|7.62|A|tht|spring	datasheets/connector-terminal/weidmuller/1886190000.pdf	1	1886190000		800	17.5	1..n	
+Weidmuller	WDM|Omnimate-SC|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1793250000.pdf	1	1793250000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-SC-F|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1862720000.pdf	1	1862720000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-SC|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1862730000.pdf	1	1862730000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-SC|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1862870000.pdf	1	1862870000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-SC|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1863220000.pdf	1	1863220000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-SC|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1942270000.pdf	1	1942270000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-SC-F|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1942470000.pdf	1	1942470000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-SC-F|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1942490000.pdf	1	1942490000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-SC-F|3.81|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1942510000.pdf	1	1942510000		320	17.5	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1604470000.pdf	1	1604470000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1604480000.pdf	1	1604480000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1604510000.pdf	1	1604510000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1604520000.pdf	1	1604520000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1604530000.pdf	1	1604530000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1604560000.pdf	1	1604560000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1604570000.pdf	1	1604570000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL-F|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1607520000.pdf	1	1607520000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL-F|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1607530000.pdf	1	1607530000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL-F|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1607570000.pdf	1	1607570000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL-F|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1607580000.pdf	1	1607580000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1614240000.pdf	1	1614240000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1614250000.pdf	1	1614250000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1616020000.pdf	1	1616020000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1616030000.pdf	1	1616030000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1616040000.pdf	1	1616040000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1616050000.pdf	1	1616050000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1616060000.pdf	1	1616060000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1616080000.pdf	1	1616080000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1616100000.pdf	1	1616100000		320	17	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1752984002.pdf	1	1752984002		320	15	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1753014002.pdf	1	1753014002		320	15	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1753044001.pdf	1	1753044001		320	15	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1753062001.pdf	1	1753062001		320	15	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1753082001.pdf	1	1753082001		320	15	1..n	
+Weidmuller	WDM|Omnimate-SL-F|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1805230000.pdf	1	1805230000		320	15	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1842340000.pdf	1	1842340000		320	15	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1842360000.pdf	1	1842360000		320	15	1..n	
+Weidmuller	WDM|Omnimate-SL-F|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1842610000.pdf	1	1842610000		320	15	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1928230000.pdf	1	1928230000		320	15	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1934610000.pdf	1	1934610000		320	15	1..n	
+Weidmuller	WDM|Omnimate-SL|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1934630000.pdf	1	1934630000		320	15	1..n	
+Weidmuller	WDM|Omnimate-SL-F|3.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1936340000.pdf	1	1936340000		320	15	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1146750000.pdf	1	1146750000		400	24	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1146840000.pdf	1	1146840000		400	24	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1146890000.pdf	1	1146890000		400	24	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1147430000.pdf	1	1147430000		400	24	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1147510000.pdf	1	1147510000		400	24	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1147640000.pdf	1	1147640000		400	24	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1149470000.pdf	1	1149470000		400	24	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1149500000.pdf	1	1149500000		400	24	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1149670000.pdf	1	1149670000		400	24	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1397350000.pdf	1	1397350000		400	24	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1539220000.pdf	1	1539220000		400	24	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1775954001.pdf	1	1775954001		400	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1775964001.pdf	1	1775964001		400	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1775992001.pdf	1	1775992001		400	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL-F1|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1776364001.pdf	1	1776364001		400	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL-F1|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1776374001.pdf	1	1776374001		400	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL-F1|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1776384001.pdf	1	1776384001		400	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL-F1|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1776394001.pdf	1	1776394001		400	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL-F1|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1776404001.pdf	1	1776404001		400	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL-F2|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1820630000.pdf	1	1820630000		400	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL-F2|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1820780000.pdf	1	1820780000		400	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1838210000.pdf	1	1838210000		400	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1838220000.pdf	1	1838220000		400	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1838230000.pdf	1	1838230000		400	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1838260000.pdf	1	1838260000		400	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1838270000.pdf	1	1838270000		400	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL|7.62|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1026790000.pdf	1	1026790000		630	29	1..n	
+Weidmuller	WDM|Omnimate-SL-F|7.62|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1026820000.pdf	1	1026820000		630	29	1..n	
+Weidmuller	WDM|Omnimate-SL-F|7.62|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1095960000.pdf	1	1095960000		630	29	1..n	
+Weidmuller	WDM|Omnimate-SL-F|7.62|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1124310000.pdf	1	1124310000		630	29	1..n	
+Weidmuller	WDM|Omnimate-SL-GAP|7.62|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1173770000.pdf	1	1173770000		630	29	1..n	
+Weidmuller	WDM|Omnimate-SL|7.62|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1472240000.pdf	1	1472240000		630	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL|7.62|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1472250000.pdf	1	1472250000		630	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL|7.62|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1472260000.pdf	1	1472260000		630	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL|7.62|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1472270000.pdf	1	1472270000		630	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL|7.62|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1472280000.pdf	1	1472280000		630	27.5	1..n	
+Weidmuller	WDM|Omnimate-SL|7.62|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1980370000.pdf	1	1980370000		630	29	1..n	
+Weidmuller	WDM|Omnimate-SL|7.62|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/weidmuller/1980420000.pdf	1	1980420000		630	29	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0008|5.08|V|tht|screw	datasheets/connector-terminal/wurth/950008102500000.pdf	1	950008102500000		250	14	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0008|5.08|V|tht|screw	datasheets/connector-terminal/wurth/950008103500000.pdf	1	950008103500000		250	14	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0008|5.08|V|tht|screw	datasheets/connector-terminal/wurth/950008105500000.pdf	1	950008105500000		250	14	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0008|5.08|V|tht|screw	datasheets/connector-terminal/wurth/950008106500000.pdf	1	950008106500000		250	14	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0008|5.08|V|tht|screw	datasheets/connector-terminal/wurth/950008107500000.pdf	1	950008107500000		250	14	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0008|5.08|V|tht|screw	datasheets/connector-terminal/wurth/950008108500000.pdf	1	950008108500000		250	14	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0011|7.50|H|tht|screw	datasheets/connector-terminal/wurth/950011202000000.pdf	1	950011202000000		750	24	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0011|7.50|H|tht|screw	datasheets/connector-terminal/wurth/950011203000000.pdf	1	950011203000000		750	24	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0011|7.50|H|tht|screw	datasheets/connector-terminal/wurth/950011204000000.pdf	1	950011204000000		750	24	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0011|7.50|H|tht|screw	datasheets/connector-terminal/wurth/950011205000000.pdf	1	950011205000000		750	24	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0011|7.50|H|tht|screw	datasheets/connector-terminal/wurth/950011206000000.pdf	1	950011206000000		750	24	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0011|7.50|H|tht|screw	datasheets/connector-terminal/wurth/950011207000000.pdf	1	950011207000000		750	24	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0011|7.50|H|tht|screw	datasheets/connector-terminal/wurth/950011208000000.pdf	1	950011208000000		750	24	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0016|5.00|V|tht|pluggable|Header-BladePins	datasheets/connector-terminal/wurth/950016002010000.pdf	1	950016002010000		250	16	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0016|5.00|V|tht|pluggable|Header-BladePins	datasheets/connector-terminal/wurth/950016003010000.pdf	1	950016003010000		250	16	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0016|5.00|V|tht|pluggable|Header-BladePins	datasheets/connector-terminal/wurth/950016004010000.pdf	1	950016004010000		250	16	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0016|5.00|V|tht|pluggable|Header-BladePins	datasheets/connector-terminal/wurth/950016005010000.pdf	1	950016005010000		250	16	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0016|5.00|V|tht|pluggable|Header-BladePins	datasheets/connector-terminal/wurth/950016006010000.pdf	1	950016006010000		250	16	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0016|5.00|V|tht|pluggable|Header-BladePins	datasheets/connector-terminal/wurth/950016007010000.pdf	1	950016007010000		250	16	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0016|5.00|V|tht|pluggable|Header-BladePins	datasheets/connector-terminal/wurth/950016008010000.pdf	1	950016008010000		250	16	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0018|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/950018202000000.pdf	1	950018202000000		500	20	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0018|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/950018203000000.pdf	1	950018203000000		500	20	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0018|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/950018204000000.pdf	1	950018204000000		500	20	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0018|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/950018206000000.pdf	1	950018206000000		500	20	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-0018|7.50|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/950018208000000.pdf	1	950018208000000		500	20	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-1377|5.00|H|tht|screw	datasheets/connector-terminal/wurth/691137710002.pdf	1	691137710002		250	24	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-1377|5.00|H|tht|screw	datasheets/connector-terminal/wurth/691137710003.pdf	1	691137710003		250	24	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-1377|5.00|H|tht|screw	datasheets/connector-terminal/wurth/691137710004.pdf	1	691137710004		250	24	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-1377|5.00|H|tht|screw	datasheets/connector-terminal/wurth/691137710005.pdf	1	691137710005		250	24	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-1377|5.00|H|tht|screw	datasheets/connector-terminal/wurth/691137710006.pdf	1	691137710006		250	24	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-1377|5.00|H|tht|screw	datasheets/connector-terminal/wurth/691137710008.pdf	1	691137710008		250	24	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-3114|7.62|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691311400102.pdf	7	691311400102	6913114001(?P<n>\d\d)	300	20	1..n	series sheet, title block "WERI PART NO: 691 311 400 1xx", xx = pins (p1)
+Wurth Elektronik	WE|WR-TBL-Series-311|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691311500102.pdf	1	691311500102		320	15	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-311|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691311500103.pdf	1	691311500103		320	15	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-311|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691311500104.pdf	1	691311500104		320	15	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-311|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691311500105.pdf	1	691311500105		320	15	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-311|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691311500106.pdf	1	691311500106		320	15	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-311|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691311500107.pdf	1	691311500107		320	15	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-311|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691311500108.pdf	1	691311500108		320	15	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-311|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691311500109.pdf	1	691311500109		320	15	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-311|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691311500110.pdf	1	691311500110		320	15	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-311|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691311500111.pdf	1	691311500111		320	15	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-311|5.08|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691311500112.pdf	1	691311500112		320	15	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-321|3.81|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691321300002.pdf	1	691321300002		300	10.5	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-321|3.81|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691321300003.pdf	1	691321300003		300	10.5	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-321|3.81|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691321300004.pdf	1	691321300004		300	10.5	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-321|3.81|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691321300006.pdf	1	691321300006		300	10.5	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-321|3.81|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691321300007.pdf	1	691321300007		300	10.5	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-321|3.81|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691321300008.pdf	1	691321300008		300	10.5	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-321|3.81|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691321300009.pdf	1	691321300009		300	10.5	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-321|3.81|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691321300010.pdf	1	691321300010		300	10.5	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-321|3.81|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691321300011.pdf	1	691321300011		300	10.5	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-321|3.81|V|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691321300012.pdf	1	691321300012		300	10.5	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-3221|3.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691322110002.pdf	1	691322110002		300	10.5	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-3221|3.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691322110003.pdf	1	691322110003		300	10.5	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-3221|3.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691322110004.pdf	1	691322110004		300	10.5	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-3221|3.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691322110005.pdf	1	691322110005		300	10.5	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-3221|3.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691322110006.pdf	1	691322110006		300	10.5	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-3221|3.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691322110007.pdf	1	691322110007		300	10.5	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-3221|3.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691322110008.pdf	1	691322110008		300	10.5	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-3221|3.50|H|tht|pluggable|Header-MalePins-Shrouded	datasheets/connector-terminal/wurth/691322110012.pdf	1	691322110012		300	10.5	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4114|7.62|H|tht|spring	datasheets/connector-terminal/wurth/691411410002.pdf	1	691411410002		300	10	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4114|7.62|H|tht|spring	datasheets/connector-terminal/wurth/691411410003.pdf	1	691411410003		300	10	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4114|7.62|H|tht|spring	datasheets/connector-terminal/wurth/691411410004.pdf	1	691411410004		300	10	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4114|7.62|H|tht|spring	datasheets/connector-terminal/wurth/691411410005.pdf	1	691411410005		300	10	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4114|7.62|H|tht|spring	datasheets/connector-terminal/wurth/691411410006.pdf	1	691411410006		300	10	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4114|7.62|H|tht|spring	datasheets/connector-terminal/wurth/691411410008.pdf	1	691411410008		300	10	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4114|7.62|H|tht|spring	datasheets/connector-terminal/wurth/691411410009.pdf	1	691411410009		300	10	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4114|7.62|H|tht|spring	datasheets/connector-terminal/wurth/691411410010.pdf	1	691411410010		300	10	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4114|7.62|H|tht|spring	datasheets/connector-terminal/wurth/691411410012.pdf	1	691411410012		300	10	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4123|3.81|A|tht|spring	datasheets/connector-terminal/wurth/691412320002M.pdf	1	691412320002M		450	4	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4123|3.81|A|tht|spring	datasheets/connector-terminal/wurth/691412320003.pdf	1	691412320003		450	4	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4123|3.81|A|tht|spring	datasheets/connector-terminal/wurth/691412320004.pdf	1	691412320004		450	4	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4123|3.81|A|tht|spring	datasheets/connector-terminal/wurth/691412320005.pdf	1	691412320005		450	4	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4123|3.81|A|tht|spring	datasheets/connector-terminal/wurth/691412320006M.pdf	1	691412320006M		450	4	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4123|3.81|A|tht|spring	datasheets/connector-terminal/wurth/691412320007M.pdf	1	691412320007M		450	4	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4123|3.81|A|tht|spring	datasheets/connector-terminal/wurth/691412320008.pdf	1	691412320008		450	4	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4123|3.81|A|tht|spring	datasheets/connector-terminal/wurth/691412320009M.pdf	1	691412320009M		450	4	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4123|3.81|A|tht|spring	datasheets/connector-terminal/wurth/691412320010.pdf	1	691412320010		450	4	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4123|3.81|A|tht|spring	datasheets/connector-terminal/wurth/691412320011.pdf	1	691412320011		450	4	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-4123|3.81|A|tht|spring	datasheets/connector-terminal/wurth/691412320012.pdf	1	691412320012		450	4	1..n	
+Wurth Elektronik	WE|WR-TBL-Series-412B|3.50|A|tht|spring	datasheets/connector-terminal/wurth/691412120002B.pdf	6	691412120002B	6914121200(?P<n>\d\d)B	250	2	1..n	series sheet, title block "WERI PART NO: 691 412 120 0xx B", xx = pins; A = (3.5 x NB PINS) + 1.5 (p1)
+JST	JST|VH-FB|3.96|V|tht	datasheets/connector-jst/eVH.pdf	9	B4PS-VH	B(?P<n>\d+)P-VH-FB-B	250	7	1..n	VH shrouded header B*P-VH-FB-B (the table p4 prints "B2P-VH-FB-BNote2"): split off VH top entry by plan-45-E (it has a mounting peg)
+JST	JST|XH-M|2.50|V|tht	datasheets/connector-jst/eXH.pdf	2	S3B-XH-SM4-TB	B(?P<n>\d+)B-XH-AM	250	3	1..n	XH top entry with boss B*B-XH-AM ("M…With boss", allocation p9): split off XH top entry by plan-45-E (it has a boss peg hole)

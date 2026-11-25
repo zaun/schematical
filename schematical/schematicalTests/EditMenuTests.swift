@@ -50,15 +50,95 @@ final class EditMenuTests: XCTestCase {
         let led = try TestSupport.place(doc, "GENERIC-LED", at: p(100, 100))
         let trace = try XCTUnwrap(doc.addTrace(points: [p(5, 5), p(15, 5)], layer: .top))
         doc.endCoalescing()
-        XCTAssertFalse(doc.cutBoardTraces(), "nothing selected")
+        XCTAssertFalse(doc.cutBoardSelection(), "nothing selected")
 
         doc.selectAllBoard()
-        XCTAssertTrue(doc.cutBoardTraces())
+        XCTAssertTrue(doc.cutBoardSelection())
         XCTAssertFalse(doc.traces.contains { $0.id == trace })
         XCTAssertTrue(doc.chips.contains { $0.id == led.id })
         XCTAssertEqual(doc.undoName(on: .pcb), "Cut")
         XCTAssertTrue(doc.undo(on: .pcb))
         XCTAssertTrue(doc.traces.contains { $0.id == trace })
+    }
+
+    func testCopyPasteBoardText() throws {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(2)
+        let id = doc.addText(at: p(20, 20))
+        doc.setText(id, "Hello")
+        doc.setTextSize(id, 80)
+        doc.setTextRotation(id, 90)
+        doc.setTextSide(id, .bottom)
+        doc.setLocked(.text(id), true)
+        doc.endCoalescing()
+
+        let copied = doc.selectedTexts()
+        XCTAssertEqual(copied.map(\.id), [id])
+        let offset = BoardClipboard.offset(centring: [], texts: copied, on: p(60, 40), grid: doc.board.traceGrid)
+        let ids = doc.pasteBoard(traces: [], texts: copied, offset: offset)
+        let pasted = try XCTUnwrap(doc.texts.first { $0.id == ids.first })
+        XCTAssertEqual(doc.texts.count, 2)
+        XCTAssertNotEqual(pasted.id, id)
+        XCTAssertEqual([pasted.text, "\(pasted.size)", "\(pasted.rotation)"], ["Hello", "80", "90"])
+        XCTAssertEqual(pasted.side, .bottom)
+        XCTAssertFalse(pasted.locked, "a copy is not locked")
+        XCTAssertEqual(pasted.boardRect.midX, 60, accuracy: doc.board.grid, "centred on the pointer")
+        XCTAssertEqual(pasted.boardRect.midY, 40, accuracy: doc.board.grid)
+        XCTAssertEqual(doc.boardSelection.items, [.text(pasted.id)], "the copy is the selection")
+        XCTAssertEqual(doc.undoName(on: .pcb), "Paste")
+        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.texts.map(\.id), [id])
+    }
+
+    func testCopyPasteVia() throws {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(2)
+        let id = try XCTUnwrap(doc.addVia(at: p(20, 20)))
+        doc.setViaDiameter(id, 1.2)
+        doc.setViaDrill(id, 0.6)
+        doc.setLocked(.via(id), true)
+        doc.endCoalescing()
+
+        let copied = doc.selectedVias()
+        XCTAssertEqual(copied.map(\.id), [id])
+        let offset = BoardClipboard.offset(centring: [], vias: copied, on: p(60, 40), grid: doc.board.traceGrid)
+        let ids = doc.pasteBoard(traces: [], texts: [], vias: copied, offset: offset)
+        let pasted = try XCTUnwrap(doc.vias.first { $0.id == ids.first })
+        XCTAssertEqual(doc.vias.count, 2)
+        XCTAssertNotEqual(pasted.id, id)
+        XCTAssertEqual(pasted.drill, 0.6)
+        XCTAssertEqual(pasted.diameter, 1.2)
+        XCTAssertFalse(pasted.locked, "a copy is not locked")
+        XCTAssertEqual(pasted.centre.x, 60, accuracy: doc.board.traceGrid)
+        XCTAssertEqual(pasted.centre.y, 40, accuracy: doc.board.traceGrid)
+        XCTAssertEqual(doc.boardSelection.items, [.via(pasted.id)])
+        XCTAssertEqual(doc.undoName(on: .pcb), "Paste")
+        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.vias.map(\.id), [id])
+    }
+
+    func testPasteViaRefusedOnOneLayerBoard() throws {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(1)
+        let copied = [BoardVia(id: UUID(), centre: p(20, 20))]
+        XCTAssertEqual(doc.pasteBoard(traces: [], texts: [], vias: copied, offset: .zero), [])
+        XCTAssertTrue(doc.vias.isEmpty)
+    }
+
+    func testCutBoardSelectionTakesTextsWithTraces() throws {
+        let doc = TestSupport.newDocument()
+        let text = doc.addText(at: p(20, 20))
+        let trace = try XCTUnwrap(doc.addTrace(points: [p(5, 5), p(15, 5)], layer: .top))
+        doc.endCoalescing()
+        doc.setLayerCount(2)
+        let via = try XCTUnwrap(doc.addVia(at: p(30, 30)))
+        doc.endCoalescing()
+        doc.selectAllBoard()
+        XCTAssertTrue(doc.cutBoardSelection())
+        XCTAssertFalse(doc.vias.contains { $0.id == via })
+        XCTAssertFalse(doc.texts.contains { $0.id == text })
+        XCTAssertFalse(doc.traces.contains { $0.id == trace })
+        XCTAssertEqual(doc.undoName(on: .pcb), "Cut")
     }
 
     func testCutSchematicIsNamedCut() throws {

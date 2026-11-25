@@ -25,13 +25,13 @@
 
 The CD74ACT10 contains three independent 3-input NAND gates. The device
 performs the Boolean functions Y = !{A • B • C} or
-Y = !{A} + !{B} + !{C} in positive logic.
+Y = !{A} + !{B} + !{C} in positive logic. [[1::3]]
 
 Inputs are TTL-voltage compatible. Speed of bipolar F, AS, and S, with
 significantly reduced power consumption. Balanced propagation delays.
 ±24-mA output drive current. Fanout to 15 F devices.
 SCR latchup-resistant CMOS process and circuit design. Exceeds 2-kV ESD
-protection per MIL-STD-883, Method 3015.
+protection per MIL-STD-883, Method 3015. [[1::1]] [[1::2]]
 
 ## Pinout
 
@@ -48,6 +48,7 @@ protection per MIL-STD-883, Method 3015.
 GND: Ground
 VCC: Positive supply
 ```
+[[1::table #1]]
 
 ## Functional description
 
@@ -65,6 +66,7 @@ one 3-input NAND gate with inputs A, B and C and output Y.
 | X | L | X | H |
 | X | X | L | H |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -84,6 +86,7 @@ one 3-input NAND gate with inputs A, B and C and output Y.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -102,6 +105,7 @@ one 3-input NAND gate with inputs A, B and C and output Y.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -125,6 +129,7 @@ one 3-input NAND gate with inputs A, B and C and output Y.
 [1] Test one output at a time, not exceeding 1-second duration. Measurement is made by forcing indicated current and measuring voltage to minimize power dissipation. Test verifies a minimum 50-Ω transmission-line drive capability at 85°C and 75-Ω transmission-line drive capability at 125°C.
 [2] Additional quiescent supply current per input pin, TTL inputs high, 1 unit load
 ```
+[[3::table #1]]
 
 ```table id=input-load caption="ACT input load table [1]" values=Value
 | Input | Unit load | Unit |
@@ -133,12 +138,14 @@ one 3-input NAND gate with inputs A, B and C and output Y.
 
 [1] Unit load is ΔI~CC~ limit specified in electrical characteristics table (e.g., 2.4 mA at 25°C).
 ```
+[[3::table #2]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Typ | Unit |
 |---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | 50 | pF |
 ```
+[[3::table #3]]
 
 ## Switching characteristics
 
@@ -149,6 +156,7 @@ one 3-input NAND gate with inputs A, B and C and output Y.
 | t~PLH~ | A, B, or C | Y | 3.4 | 13.5 | 3.5 | 12.3 | ns |
 | t~PHL~ | A, B, or C | Y | 3.4 | 13.5 | 3.5 | 12.3 | ns |
 ```
+[[3::table #4]]
 
 ## Parameter measurement information
 
@@ -157,7 +165,7 @@ supplied by generators having the following characteristics:
 PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ = 3 ns, t~f~ = 3 ns. Phase relationships
 between waveforms are arbitrary. The outputs are measured one at a time
 with one input transition per measurement. t~PLH~ and t~PHL~ are the
-same as t~pd~.
+same as t~pd~. [[4::1]]
 
 Conversion note: the load circuit of Figure 1 also has R1 = 500 Ω
 from the output to switch S1 (2 × V~CC~, Open or GND), and S1 is Open
@@ -170,10 +178,12 @@ the voltage waveforms the input swings 0 V to 3 V and is measured at
 RL: 500 Ω (R2)
 CL: 50 pF
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delay and output transition times"
 VM: 1.5 V (input), 50% V~CC~ (outputs)
 ```
+[[4::Figure 1]]
 
 ## Package
 
@@ -190,6 +200,7 @@ CD74ACT10E | Tube of 25 | -55 to 125 | CD74ACT10E
 CD74ACT10M | | -55 to 125 | ACT10M | Obsolete
 CD74ACT10M96 | Reel of 2500 | -55 to 125 | ACT10M
 ```
+[[1::table #3]]
 
 ## Conversion notes
 

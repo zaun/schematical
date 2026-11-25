@@ -32,6 +32,17 @@ struct PartLook {
         case canOscillator
         case smdOscillator
         case usb(String?)
+        /// A card slot (plan-54-O): a dark housing over the footprint's pads,
+        /// `height` mm tall (by what the slot takes).
+        case cardSlot(height: CGFloat)
+        /// A PCB terminal block (plan-45-H): a green housing with a dark wire
+        /// entry over each pole.
+        case terminalBlock
+        /// A JST board header (plan-45-H): a natural-white housing with a
+        /// polarization notch at pin 1.
+        case jstHeader
+        /// A test point (plan-57): a bare pad or plated hole with no body.
+        case testPad
         case barrel
         case toPackage
         case block(height: CGFloat)
@@ -80,8 +91,15 @@ struct PartLook {
                 return .sevenSegment(digits: max(1, info.digits), tint: ledTint(info.color))
             }
             return .sevenSegment(digits: 1, tint: ledTint("Red"))
+        case PART_LCD:
+            if case let .display(info) = part.details {
+                return .sevenSegment(digits: max(1, info.digits), tint: ledTint(info.color))
+            }
+            return .sevenSegment(digits: 1, tint: ledTint("Gray"))
         case PART_NIXIE:
             return .nixie(endView: part.nixie?.view == "end", tint: ledTint(part.nixie?.color ?? "Orange"))
+        case PART_DEKATRON:
+            return .nixie(endView: part.dekatron?.view == "end", tint: ledTint(part.dekatron?.color ?? "Orange"))
         case PART_SWITCH:
             if part.isTactileSwitch { return .tactile }
             return .dipSwitch(positions: max(1, chip.switchesOn.count))
@@ -90,7 +108,10 @@ struct PartLook {
             if !tht { return .chipLED(tint) }
             return footprint.bodyRound ? .radialLED(tint) : .squareLED(tint)
         case PART_CONNECTOR:
+            if part.isTestPoint { return .testPad }
             if case let .connector(_, _, _, _, usb) = part.details, let usb { return .usb(usb) }
+            if part.isCardSlot { return .cardSlot(height: cardSlotHeight(of: part)) }
+            if case let .wireConnector(kind, _, _, _, _) = part.details { return kind == "jst" ? .jstHeader : .terminalBlock }
             if id.hasPrefix("USB") { return .usb(nil) }
             return .barrel
         case PART_OSCILLATOR:
@@ -125,6 +146,17 @@ struct PartLook {
             abs(pad.centre.x) > body.width / 2 || abs(pad.centre.y) > body.height / 2
         }
         return outside ? .leadedIC(ceramic: ceramic) : .leadlessIC(ceramic: ceramic)
+    }
+
+    /// How tall a card slot stands, mm, by its drawer leaf: the common height
+    /// of DigiKey's listings (plan-54-O § 3): 3.0 for a memory / SIM socket,
+    /// 5.2 for a memory module, 6.0 for a card-edge socket.
+    static func cardSlotHeight(of part: CatalogPart) -> CGFloat {
+        switch part.drawer.last {
+        case "Memory module": 5.2
+        case "Card edge": 6.0
+        default: 3.0
+        }
     }
 
     static func ledTint(_ name: String) -> Tint {
@@ -205,6 +237,10 @@ struct PartLook {
             case "C": 3.2
             default: 4
             }
+        case let .cardSlot(height): height
+        case .terminalBlock: 9.5
+        case .jstHeader: 6
+        case .testPad: 0
         case .barrel: 11
         case .toPackage: 15
         case let .block(height): height
@@ -221,11 +257,11 @@ struct PartLook {
         /// A box over a footprint-frame rectangle; `decorate` draws on its
         /// top in the footprint frame.
         func box(_ rect: CGRect, _ z0: CGFloat, _ z1: CGFloat, _ tint: Tint, top: Tint? = nil, radius: CGFloat = 0,
-                 decorate: ((inout GraphicsContext) -> Void)? = nil) {
+                 depth: CGFloat? = nil, decorate: ((inout GraphicsContext) -> Void)? = nil) {
             let r = board(rect)
             let centre = board(CGPoint(x: rect.midX, y: rect.midY))
             let shape = radius > 0 ? Path(roundedRect: r, cornerRadius: radius) : Path(r)
-            out.append(RenderSolid(depth: projection.depth(centre) + z0 * 0.001, height: z1, shadow: shape) { context in
+            out.append(RenderSolid(depth: depth ?? (projection.depth(centre) + z0 * 0.001), height: z1, shadow: shape) { context in
                 painter.box(r, from: z0, to: z1, tint: tint, top: top, radius: radius, in: &context,
                             decorate: decorate.map { draw in { layer in
                                 layer.concatenate(local)
@@ -265,6 +301,15 @@ struct PartLook {
 
         /// Leads from the body's edge out to each pad beyond it.
         func leads(foot z1: CGFloat, shoulder: CGFloat, width: CGFloat, throughHole: Bool) {
+            // A lead is sorted against the body by the side it leaves from, not
+            // by its own centre: on a long body turned in the view a far-side
+            // lead near the body's near end is nearer than the body's centre
+            // and would be painted over the body.
+            let bodyDepth = projection.depth(board(.zero))
+            func leadDepth(exit: CGPoint) -> CGFloat {
+                let d = projection.depth(board(exit)) - bodyDepth
+                return bodyDepth + (d < 0 ? -0.02 : 0.02)
+            }
             for pad in pads {
                 let c = pad.centre, w2 = body.width / 2, h2 = body.height / 2
                 var leg: CGRect?
@@ -280,14 +325,18 @@ struct PartLook {
                     leg = CGRect(x: c.x - across / 2, y: min(s * h2, end), width: across, height: abs(end - s * h2))
                 }
                 guard let leg else { continue }
-                box(leg, 0, throughHole ? shoulder : z1, .tin, top: Tint.tin.shaded(1.15))
+                // The side's midpoint, not where along the side the lead is: the sort is by which side.
+                let exit = horizontalSide(of: c) ? CGPoint(x: c.x > 0 ? w2 : -w2, y: 0)
+                    : CGPoint(x: 0, y: c.y > 0 ? h2 : -h2)
+                let depth = leadDepth(exit: exit)
+                box(leg, 0, throughHole ? shoulder : z1, .tin, top: Tint.tin.shaded(1.15), depth: depth)
                 if !throughHole {
                     // The shoulder where the lead leaves the body.
                     let s = horizontalSide(of: c)
                     let shoulderRect = s
                         ? CGRect(x: c.x > 0 ? body.width / 2 : -body.width / 2 - 0.25, y: leg.minY, width: 0.25, height: leg.height)
                         : CGRect(x: leg.minX, y: c.y > 0 ? body.height / 2 : -body.height / 2 - 0.25, width: leg.width, height: 0.25)
-                    box(shoulderRect, 0, shoulder, .tin)
+                    box(shoulderRect, 0, shoulder, .tin, depth: depth)
                 }
             }
         }
@@ -558,6 +607,48 @@ struct PartLook {
                 }
                 layer.stroke(ridges, with: .color(.black.opacity(0.18)), lineWidth: 0.2)
             }
+
+        case .cardSlot:
+            // The housing is the bounds of the pads: a dark box over them.
+            let padBounds = pads.reduce(CGRect.null) {
+                $0.union(CGRect(x: $1.centre.x - $1.size.width / 2, y: $1.centre.y - $1.size.height / 2,
+                                width: $1.size.width, height: $1.size.height))
+            }
+            let housing = Tint(0.16, 0.17, 0.19)
+            if !padBounds.isNull { box(padBounds, 0, h, housing, top: housing.shaded(1.15)) }
+
+        case .terminalBlock:
+            // A green housing over the footprint's body with a dark wire entry
+            // over each pole (one per pin: the pad of each designator, or the
+            // middle of a pole's two holes).
+            let green = Tint(0.17, 0.58, 0.32)
+            var poles: [String: [CGPoint]] = [:]
+            for pad in pads { if let designator = pad.designator { poles[designator, default: []].append(pad.centre) } }
+            var pitch: CGFloat = 5
+            if case let .wireConnector(_, _, pitchUM, _, _) = chip.part.details { pitch = CGFloat(pitchUM) / 1000 }
+            let entry = min(max(pitch * 0.6, 1.6), 3.2)
+            box(bodyRect, 0, h, green, top: green.shaded(1.12)) { layer in
+                for (_, points) in poles {
+                    let cx = points.map(\.x).reduce(0, +) / CGFloat(points.count)
+                    let cy = points.map(\.y).reduce(0, +) / CGFloat(points.count)
+                    layer.fill(Path(rect(cx, cy, entry, entry)), with: .color(Tint(0.08, 0.08, 0.09).color))
+                }
+            }
+
+        case .jstHeader:
+            // A natural-white housing; a dark notch on the top edge at pin 1's end.
+            let white = Tint(0.93, 0.91, 0.84)
+            let p1 = pad1?.centre ?? CGPoint(x: -body.width / 2, y: 0)
+            let notch = horizontal
+                ? rect(min(max(p1.x, -body.width / 2 + 0.6), body.width / 2 - 0.6), -body.height / 2 + 0.45, 1.2, 0.9)
+                : rect(-body.width / 2 + 0.45, min(max(p1.y, -body.height / 2 + 0.6), body.height / 2 - 0.6), 0.9, 1.2)
+            box(bodyRect, 0, h, white, top: white.shaded(1.05)) { layer in
+                layer.fill(Path(notch), with: .color(Tint(0.35, 0.33, 0.28).color))
+            }
+
+        case .testPad:
+            // A test point has no body; the pad is drawn by the board's copper.
+            break
 
         case .barrel:
             box(bodyRect, 0, h, Tint(0.10, 0.10, 0.11), top: Tint(0.14, 0.14, 0.15))

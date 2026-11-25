@@ -25,11 +25,11 @@
 
 These devices contain four independent 2-input positive-OR gates. They
 perform the Boolean functions Y = !{!{A} • !{B}} or Y = A + B in positive
-logic.
+logic. [[1::2]]
 
 The SN54ALS32 and SN54AS32 are characterized for operation over the
 full military temperature range of –55°C to 125°C. The SN74ALS32 and
-SN74AS32 are characterized for operation from 0°C to 70°C.
+SN74AS32 are characterized for operation from 0°C to 70°C. [[1::3]]
 
 ## Pinout
 
@@ -49,6 +49,7 @@ GND: Ground
 VCC: Positive supply
 NC: No internal connection
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -60,6 +61,7 @@ NC: No internal connection
 | X | H | H |
 | L | L | L |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -74,6 +76,7 @@ NC: No internal connection
 
 [1] Stresses beyond those listed under "absolute maximum ratings" may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under "recommended operating conditions" is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 ```
+[[2::table #1]]
 
 ```table id=abs-max-as caption="Absolute maximum ratings, SN54AS32 and SN74AS32 [1]" parts="*AS32*, 5962-97560*" conditions="Over operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Conditions | Min | Max | Unit |
@@ -86,6 +89,7 @@ NC: No internal connection
 
 [1] Stresses beyond those listed under "absolute maximum ratings" may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under "recommended operating conditions" is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 ```
+[[2::table #2]]
 
 ## Recommended operating conditions
 
@@ -100,6 +104,7 @@ NC: No internal connection
 | I~OL~ | Low-level output current | | | 4 | | | 8 | mA |
 | T~A~ | Operating free-air temperature | -55 | | 125 | 0 | | 70 | °C |
 ```
+[[2::table #3]]
 
 ```table id=roc-as caption="Recommended operating conditions, SN54AS32 and SN74AS32" parts="*AS32*, 5962-97560*"
 | Symbol | Parameter | SN54AS32 | < | < | SN74AS32 | < | < | Unit |
@@ -112,6 +117,7 @@ NC: No internal connection
 | I~OL~ | Low-level output current | | | 20 | | | 20 | mA |
 | T~A~ | Operating free-air temperature | -55 | | 125 | 0 | | 70 | °C |
 ```
+[[2::table #4]]
 
 ## Electrical characteristics
 
@@ -133,6 +139,7 @@ NC: No internal connection
 [1] All typical values are at V~CC~ = 5 V, T~A~ = 25°C.
 [2] The output conditions have been chosen to produce a current that closely approximates one half of the true short-circuit output current, I~OS~.
 ```
+[[2::table #5]]
 
 ```table id=ec-as caption="Electrical characteristics, SN54AS32 and SN74AS32" parts="*AS32*, 5962-97560*" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | Test conditions | < | SN54AS32 | < | < | SN74AS32 | < | < | Unit |
@@ -151,6 +158,7 @@ NC: No internal connection
 [1] All typical values are at V~CC~ = 5 V, T~A~ = 25°C.
 [2] The output conditions have been chosen to produce a current that closely approximates one half of the true short-circuit output current, I~OS~.
 ```
+[[3::table #1]]
 
 ## Switching characteristics
 
@@ -165,6 +173,7 @@ Conversion note: Figure 1 is in [parameter measurement information](#parameter-m
 
 [1] For conditions shown as MIN or MAX, use the appropriate value specified under recommended operating conditions.
 ```
+[[2::table #6]]
 
 ```table id=sw-as caption="Switching characteristics, SN54AS32 and SN74AS32 (see Figure 1)" parts="*AS32*, 5962-97560*" conditions="V~CC~ = 4.5 V to 5.5 V, C~L~ = 50 pF, R~L~ = 500 Ω, T~A~ = MIN to MAX [1]"
 | Symbol | From (input) | To (output) | SN54AS32 | < | SN74AS32 | < | Unit |
@@ -175,13 +184,14 @@ Conversion note: Figure 1 is in [parameter measurement information](#parameter-m
 
 [1] For conditions shown as MIN or MAX, use the appropriate value specified under recommended operating conditions.
 ```
+[[3::table #2]]
 
 ## Parameter measurement information
 
 Series 54ALS/74ALS and 54AS/74AS devices. C~L~ includes probe and jig
 capacitance. All input pulses have the following characteristics:
 PRR ≤ 1 MHz, t~r~ = t~f~ = 2 ns, duty cycle = 50%. The outputs are
-measured one at a time with one transition per measurement.
+measured one at a time with one transition per measurement. [[4::1]]
 
 Conversion note: in the figure the input pulses swing from 0.3 V to 3.5 V and all waveforms are measured at 1.3 V.
 
@@ -189,10 +199,12 @@ Conversion note: in the figure the input pulses swing from 0.3 V to 3.5 V and al
 RL: 500 Ω
 CL: 50 pF
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times"
 VM: 1.3 V
 ```
+[[4::Figure 1]]
 
 ## Package
 
@@ -238,6 +250,7 @@ SNJ54ALS32FK | Tube of 55 | -55 to 125 | 5962-86836012A SNJ54ALS32FK
 5962-9756001Q2A | Tube of 55 | -55 to 125 | 5962-9756001Q2A SNJ54AS32FK
 SNJ54AS32FK | Tube of 55 | -55 to 125 | 5962-9756001Q2A SNJ54AS32FK
 ```
+[[5::table #1]] [[6::table #1]]
 
 ## Conversion notes
 

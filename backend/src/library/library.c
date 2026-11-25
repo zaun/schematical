@@ -260,7 +260,7 @@ static const char *const DEVICE_KEYS[] = {
 };
 static const char *const PART_KEYS[] = {
     "name", "package", "pinout", "flags", "footprint", "connectorFootprint",
-    "footprintChoices", "manufacturer", "datasheet", NULL
+    "footprintChoices", "fits", "manufacturer", "datasheet", NULL
 };
 static const char *const PIN_KEYS[] = {"number", "ball", "name", "role", "group", "side",
                                          "activeLow", NULL};
@@ -661,6 +661,60 @@ static int load_footprint_choices(KindContext *ctx, const PartLibrary *library,
     return 0;
 }
 
+static const char FITS_SHAPE[] = "\"fits\" must be a non-empty array of footprint ids";
+
+/* "fits" (plan-51-A): the chip footprints a socket holds, by id. Required on
+   a socket part, rejected on every other kind. Each footprint must exist, be
+   listed once, have the part's pin count and a pad for every pin. */
+static int load_fits(KindContext *ctx, const PartLibrary *library, const cJSON *part_json,
+                     const PartKindOps *ops, Part *part) {
+    const cJSON *array = cJSON_GetObjectItemCaseSensitive(part_json, "fits");
+    const cJSON *entry;
+    const PartFootprint **fits;
+    size_t n = 0, k;
+
+    if (ops->kind != PART_SOCKET) {
+        return array == NULL ? 0 : kind_error(ctx, "\"fits\" is only for a socket");
+    }
+    if (array == NULL) {
+        return kind_error(ctx, "missing \"fits\"");
+    }
+    if (!cJSON_IsArray(array) || cJSON_GetArraySize(array) == 0) {
+        return kind_error(ctx, "%s", FITS_SHAPE);
+    }
+    fits = kind_alloc(ctx, (size_t)cJSON_GetArraySize(array) * sizeof(*fits));
+    if (fits == NULL) {
+        return -1;
+    }
+    cJSON_ArrayForEach(entry, array) {
+        const PartFootprint *footprint;
+
+        if (!cJSON_IsString(entry)) {
+            return kind_error(ctx, "%s", FITS_SHAPE);
+        }
+        footprint = part_library_find_footprint(library, entry->valuestring);
+        if (footprint == NULL) {
+            return kind_error(ctx, "unknown fits footprint \"%s\"", entry->valuestring);
+        }
+        for (k = 0; k < n; k++) {
+            if (fits[k] == footprint) {
+                return kind_error(ctx, "fits footprint \"%s\" listed twice", entry->valuestring);
+            }
+        }
+        if (footprint->pins != part->pin_count) {
+            return kind_error(ctx, "fits footprint \"%s\" has %u pins; the part has %zu",
+                              entry->valuestring, footprint->pins, part->pin_count);
+        }
+        if (check_pads(ctx, part, footprint, "fits footprint", entry->valuestring) != 0) {
+            return -1;
+        }
+        fits[n++] = footprint;
+    }
+    part->fits = fits;
+    part->fit_count = n;
+    return 0;
+}
+
 /* The optional "manufacturer" and "datasheet" keys: a datasheet needs a
    manufacturer, and a "Generic" part has none. */
 static int load_part_source(KindContext *ctx, const PartLibrary *library,
@@ -781,6 +835,9 @@ static int load_part(KindContext *ctx, PartLibrary *library, FileParts *file,
     }
     if ((ops->kind != PART_SUPPLY || is_pull) && part->footprint == NULL) {
         return kind_error(ctx, "missing \"footprint\"");
+    }
+    if (load_fits(ctx, library, part_json, ops, part) != 0) {
+        return -1;
     }
     if (name_set_add(&file->names, part->name, part) != 0 || file_add_part(file, part) != 0) {
         return kind_error(ctx, "out of memory");

@@ -24,20 +24,20 @@
 ## Description
 
 The SN74LVC1G27 device performs the Boolean function Y = !{A + B + C} or
-Y = !{A} • !{B} • !{C} in positive logic.
+Y = !{A} • !{B} • !{C} in positive logic. [[1::1]]
 
 NanoFree™ package technology is a major breakthrough in IC packaging
-concepts, using the die as the package.
+concepts, using the die as the package. [[1::3]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::4]]
 
 Supports 5-V V~CC~ Operation. Inputs Accept Voltages to 5.5 V. Supports
 Down Translation to V~CC~. Max t~pd~ of 4.5 ns at 3.3 V. Low Power
 Consumption, 10-µA Max I~CC~. ±24-mA Output Drive at 3.3 V. I~off~
 Supports Live Insertion, Partial-Power-Down Mode, and Back-Drive
-Protection. Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II.
+Protection. Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II. [[1::2]]
 
 ## Pinout
 
@@ -57,6 +57,7 @@ GND: Ground
 VCC: Supply voltage
 Y: Output Y
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -69,6 +70,7 @@ Y: Output Y
 | X | X | H | L |
 | L | L | L | H |
 ```
+[[2::table #1]]
 
 Conversion note: the logic diagram (positive logic) shows one 3-input
 NOR gate with inputs A, B and C and output Y.
@@ -96,9 +98,10 @@ NOR gate with inputs A, B and C and output Y.
 [3] The value of V~CC~ is provided in the recommended operating conditions table.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #2]]
 
 ESD Protection Exceeds JESD 22: 2000-V Human-Body Model (A114-A), 200-V
-Machine Model (A115-A), 1000-V Charged-Device Model (C101).
+Machine Model (A115-A), 1000-V Charged-Device Model (C101). [[1::2]]
 
 ## Recommended operating conditions
 
@@ -134,6 +137,7 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -161,6 +165,7 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 ```
+[[4::table #1]]
 
 ```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | V~CC~ = 5 V | Unit |
@@ -168,6 +173,7 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 |---|---|---|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 17 | 18 | 19 | 22 | pF |
 ```
+[[5::table #1]]
 
 ## Switching characteristics
 
@@ -180,6 +186,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A, B, or C | Y | 2 | 18.2 | 1.2 | 6.2 | 1 | 4.5 | 0.8 | 3.1 | ns |
 ```
+[[4::table #2]]
 
 ```table id=sw-30-50pf-85 caption="Switching characteristics, C~L~ = 30 pF or 50 pF, –40°C to 85°C" conditions="Over recommended operating free-air temperature range, C~L~ = 30 pF or 50 pF (unless otherwise noted) (see Figure 2)"
 | Symbol | From (input) | To (output) | SN74LVC1G27, –40°C to 85°C | < | < | < | < | < | < | < | Unit |
@@ -188,6 +195,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A, B, or C | Y | 2.2 | 20.5 | 1.4 | 7.1 | 1.3 | 5.4 | 1 | 3.6 | ns |
 ```
+[[4::table #3]]
 
 ```table id=sw-30-50pf-125 caption="Switching characteristics, C~L~ = 30 pF or 50 pF, –40°C to 125°C" conditions="Over recommended operating free-air temperature range, C~L~ = 30 pF or 50 pF (unless otherwise noted) (see Figure 2)"
 | Symbol | From (input) | To (output) | < | SN74LVC1G27, –40°C to 125°C | < | < | < | < | < | < | < | Unit |
@@ -206,6 +214,7 @@ See [parameter measurement information](#parameter-measurement).
 | t~PLH~ | CLK | Q or !{Q} | C~L~ = 50 pF | 9.2 | 15.4 | 1 | 17.5 | 1 | 17.5 | 1 | 17.5 | ^ |
 | t~PHL~ | ^ | ^ | ^ | 9.2 | 15.4 | 1 | 17.5 | 1 | 17.5 | 1 | 17.5 | ^ |
 ```
+[[5::table #2]]
 
 Source error: the fmax rows and the t~PLH~ and t~PHL~ rows from !{PRE} or !{CLR} and CLK to Q or !{Q} are those of a flip-flop; the SN74LVC1G27 has only the pins A, B, C and Y (pin drawings, p.1), and the rows are kept as printed.
 
@@ -215,7 +224,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[6::1]]
 
 Conversion note: in both load circuits one R~L~ goes from the output to
 ground and a second R~L~ from the output to switch S1, which goes to
@@ -232,11 +241,13 @@ setup-and-hold and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[6::table #1]]
 
 ```figure ref=load-rl-cl caption="Figure 1, load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[6::Figure 1]]
 
 ```table id=test-conditions-fig1 caption="Figure 1, test conditions"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -247,10 +258,12 @@ CL: see table
 | 3.3 V ± 0.3 V | 3 V | ≤2.5 ns | 1.5 V | 6 V | 15 pF | 1 MΩ | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤2.5 ns | V~CC~/2 | 2 × V~CC~ | 15 pF | 1 MΩ | 0.3 V |
 ```
+[[6::table #2]]
 
 ```figure ref=waveforms-tpd caption="Figure 1, voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[6::Figure 1]]
 
 ### Figure 2 (C~L~ = 30 pF or 50 pF)
 
@@ -261,11 +274,13 @@ VM: see table
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[6::table #3]]
 
 ```figure ref=load-rl-cl caption="Figure 2, load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[6::Figure 1]]
 
 ```table id=test-conditions-fig2 caption="Figure 2, test conditions"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -276,10 +291,12 @@ CL: see table
 | 3.3 V ± 0.3 V | 3 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[7::table #1]]
 
 ```figure ref=waveforms-tpd caption="Figure 2, voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[6::Figure 1]]
 
 ## Package
 
@@ -310,6 +327,7 @@ SN74LVC1G27DSFR | Reel of 5000 | -40 to 125 | CU
 SN74LVC1G27DSFRG4 | Reel of 5000 | -40 to 125 | CU
 SN74LVC1G27YZPR | Reel of 3000 | -40 to 85 | CUN
 ```
+[[9::table #1]]
 
 ## Conversion notes
 

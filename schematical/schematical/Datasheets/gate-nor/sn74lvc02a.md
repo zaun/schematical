@@ -25,18 +25,18 @@
 
 Inputs can be driven from either 3.3V or 5V devices. This feature allows
 the use of these devices as translators in a mixed 3.3V/5V system
-environment.
+environment. [[1::1]]
 
 The device performs the Boolean function Y = !{A + B} or
-Y = !{A} ⋅ !{B} in positive logic.
+Y = !{A} ⋅ !{B} in positive logic. [[1::2]]
 
 Inputs can be driven from either 3.3V or 5V devices. This feature allows
 the use of this device as a translator in a mixed 3.3V/5V system
-environment.
+environment. [[1::1]] [[1::3]]
 
 Operate from 1.65V to 3.6V. Specified from –40°C to 85°C, –40°C to
 125°C, and –55°C to 125°C. Inputs accept voltages to 5.5V. Latch-up
-performance exceeds 250mA per JESD 17.
+performance exceeds 250mA per JESD 17. [[1::1]]
 
 ## Pinout
 
@@ -65,6 +65,7 @@ GND: Ground Pin
 VCC: Power Pin
 NC: No Connection
 ```
+[[3::Table 3-1]]
 
 ## Functional description
 
@@ -81,6 +82,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 | X | H | L |
 | L | L | H |
 ```
+[[3::Table 3-1]]
 
 ## Absolute maximum ratings
 
@@ -102,6 +104,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 [3] For the D package: above 70°C, the value of P~tot~ derates linearly with 8 mW/K.
 [4] For the DB, NS, and PW packages: above 60°C, the value of P~tot~ derates linearly with 5.5 mW/K.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -112,6 +115,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -131,6 +135,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 | I~OL~ | Low-level output current | V~CC~ = 2.7V | | 12 | mA |
 | ^ | ^ | V~CC~ = 3V | | 24 | mA |
 ```
+[[4::table #3]]
 
 ```table id=roc-74 caption="Recommended operating conditions, SN74LVC02A" parts=SN74*
 | Symbol | Parameter | Conditions | SN74LVC02A | < | < | < | < | < | Unit |
@@ -156,6 +161,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 | ^ | ^ | V~CC~ = 2.7V | | 12 | | 12 | | 12 | mA |
 | ^ | ^ | V~CC~ = 3V | | 24 | | 24 | | 24 | mA |
 ```
+[[5::table #1]]
 
 ## Thermal information
 
@@ -167,6 +173,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC package thermal metrics application report.
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -189,6 +196,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 
 [1] T~A~ = 25°C
 ```
+[[5::table #3]]
 
 ```table id=ec-74 caption="Electrical characteristics, SN74LVC02A" parts=SN74* conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | Test conditions | V~CC~ | SN74LVC02A | < | < | < | < | < | < | Unit |
@@ -211,6 +219,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 | ΔI~CC~ | One input at V~CC~ – 0.6 V, Other inputs at V~CC~ or GND | 2.7V to 3.6V | | | 500 | | 500 | | 5000 | μA |
 | C~i~ | V~I~ = V~CC~ or GND | 3.3 V | | 5 | | | | | | pF |
 ```
+[[6::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -219,6 +228,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 | ^ | ^ | ^ | 2.5V | 8.5 | pF |
 | ^ | ^ | ^ | 3.3V | 9.5 | pF |
 ```
+[[7::table #1]]
 
 ## Switching characteristics
 
@@ -230,6 +240,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 | t~pd~ | A or B | Y | 2.7V | | 5.4 | ns |
 | ^ | ^ | ^ | 3.3V ± 0.3V | 1 | 4.4 | ns |
 ```
+[[6::table #2]]
 
 ```table id=sw-74 caption="Switching characteristics, SN74LVC02A" parts=SN74* conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Load Circuit and Voltage Waveforms)"
 | Symbol | From (input) | To (output) | V~CC~ | SN74LVC02A | < | < | < | < | < | < | Unit |
@@ -242,6 +253,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 | ^ | ^ | ^ | 3.3V ± 0.3V | 1 | 3.6 | 4.2 | 1 | 4.4 | 1 | 5.5 | ns |
 | t~sk(o)~ | | | 3.3V ± 0.3V | | | | | 1 | | 1.5 | ns |
 ```
+[[6::table #3]]
 
 ## Parameter measurement information
 
@@ -249,7 +261,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[8::2]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -264,11 +276,13 @@ and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[8::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[8::Figure 5-1]]
 
 ```table id=test-conditions caption="Test conditions (Figure 5-1)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -279,10 +293,12 @@ CL: see table
 | 2.7 V | 2.7 V | ≤2.5 ns | 1.5 V | 6V | 50 pF | 500 Ω | 0.3 V |
 | 3.3 V ± 0.3 V | 2.7 V | ≤2.5 ns | 1.5 V | 6V | 50 pF | 500 Ω | 0.3 V |
 ```
+[[8::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[8::Figure 5-1]]
 
 ## Application information
 
@@ -290,7 +306,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 ### Power supply recommendations
 
@@ -302,7 +318,7 @@ acceptable to parallel multiple bypass caps to reject different
 frequencies of noise. The 0.1-μF and 1-μF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
 power terminal as possible for best results, as shown in given example
-layout image.
+layout image. [[10::2]]
 
 ### Layout guidelines
 
@@ -318,17 +334,17 @@ the input voltage specifications, to prevent them from floating. The
 logic level that must be applied to any particular unused input depends
 on the function of the device. Generally, the inputs are tied to GND or
 V~CC~, whichever makes more sense for the logic function or is more
-convenient.
+convenient. [[10::3]]
 
 Conversion note: the example layout for the SNx4LVC02A (Figure 7-1) is
 given here by its labels.
 
-- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation
-- Bypass capacitor placed close to the device
-- 0.1 μF
-- Unused output left floating
-- Unused inputs tied to V~CC~
-- Avoid 90° corners for signal lines
+- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation [[10::4]]
+- Bypass capacitor placed close to the device [[10::6]]
+- 0.1 μF [[10::2]]
+- Unused output left floating [[10::3]]
+- Unused inputs tied to V~CC~ [[10::3]]
+- Avoid 90° corners for signal lines [[10::5]]
 
 ## Package
 
@@ -382,6 +398,7 @@ SNJ54LVC02AFK | Tube of 55 | -55 to 125 | 5962-9760401Q2A SNJ54LVC02AFK
 SNJ54LVC02AJ | Tube of 25 | -55 to 125 | 5962-9760401QCA SNJ54LVC02AJ
 SNJ54LVC02AW | Tube of 25 | -55 to 125 | 5962-9760401QDA SNJ54LVC02AW
 ```
+[[13::table #1]] [[14::table #1]]
 
 ## Conversion notes
 

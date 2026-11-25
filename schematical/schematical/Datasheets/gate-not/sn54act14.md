@@ -23,10 +23,10 @@
 
 ## Description
 
-These Schmitt-trigger devices contain six independent inverters.
+These Schmitt-trigger devices contain six independent inverters. [[1::1]]
 
 V~CC~ operation of 4.5V to 5.5V. Inputs accept voltages to 5.5V. Max
-t~pd~ of 11ns at 5V. Inputs are TTL-voltage compatible.
+t~pd~ of 11ns at 5V. Inputs are TTL-voltage compatible. [[1::2]]
 
 ## Pinout
 
@@ -55,32 +55,33 @@ GND: Ground
 VCC: Positive Supply
 NC: No internal connection
 ```
+[[3::Table 4-1]]
 
 Connect the GND pin to the exposed thermal pad for correct operation.
 Connect the thermal pad to any internal PCB ground plane using multiple
 vias for good thermal performance. Conversion note: the source has this
-in the thermal pad row of the pin function table.
+in the thermal pad row of the pin function table. [[4::1]]
 
 ## Functional description
 
 These 'ACT14 devices perform the Boolean function Y = !{A}. Because of
 the Schmitt action, they have different input threshold levels for
-positive-going (V~T+~) and for negative-going (V~T−~) signals.
+positive-going (V~T+~) and for negative-going (V~T−~) signals. [[8::1]]
 
 These circuits are temperature compensated and can be triggered from
 the slowest of input ramps and still give clean, jitter-free output
 signals. They also have a greater noise margin than conventional
-inverters.
+inverters. [[8::2]]
 
 Conversion note: the logic diagram (positive logic) and the functional
 block diagram show one inverter with the hysteresis symbol, input A and
 output Y.
 
-- V~CC~ is optimized at 5 V
-- Allows up voltage translation from 3.3 V to 5 V
-  - Inputs accept V~IH~ levels of 2 V
-- Slow edge rates minimize output ringing
-- Inputs are TTL-Voltage compatible
+- V~CC~ is optimized at 5 V [[8::3]]
+- Allows up voltage translation from 3.3 V to 5 V [[8::3]]
+  - Inputs accept V~IH~ levels of 2 V [[8::3]]
+- Slow edge rates minimize output ringing [[8::3]]
+- Inputs are TTL-Voltage compatible [[1::2]]
 
 ### Balanced CMOS push-pull outputs
 
@@ -92,22 +93,23 @@ Additionally, the outputs of this device are capable of driving larger
 currents than the device can sustain without being damaged. It is
 important to limit the output power of the device to avoid damage due
 to overcurrent. The electrical and thermal limits defined in the
-Absolute Maximum Ratings must be followed at all times.
+Absolute Maximum Ratings must be followed at all times. [[8::4]]
 
-Unused push-pull CMOS outputs must be left disconnected.
+Unused push-pull CMOS outputs must be left disconnected. [[8::5]]
 
 ### Clamp diode structure
 
 As shown in Figure 7-1, the inputs and outputs to this device have both
-positive and negative clamping diodes.
+positive and negative clamping diodes. [[8::6]]
 
 Voltages beyond the values specified in the Absolute Maximum Ratings
 table can cause damage to the device. The input and output voltage
 ratings may be exceeded if the input and output clamp-current ratings
-are observed.
+are observed. [[8::7]]
 
 ```figure ref=clamp-diodes caption="Figure 7-1. Electrical placement of clamping diodes for each input and output"
 ```
+[[8::Figure 7-1]]
 
 ## Function tables
 
@@ -118,6 +120,7 @@ are observed.
 | H | L |
 | L | H |
 ```
+[[9::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -135,6 +138,7 @@ are observed.
 
 [1] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[5::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -145,6 +149,7 @@ are observed.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[5::table #2]]
 
 ## Recommended operating conditions
 
@@ -159,6 +164,7 @@ are observed.
 | I~OL~ | Low-level output current | | 24 | | 24 | mA |
 | T~A~ | Operating free-air temperature | -55 | 125 | -40 | 85 | °C |
 ```
+[[5::table #3]]
 
 ## Thermal information
 
@@ -170,6 +176,7 @@ are observed.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[5::table #4]]
 
 ## Electrical characteristics
 
@@ -203,12 +210,14 @@ are observed.
 [1] Not more than one output should be tested at a time, and the duration of the test should not exceed 2 ms.
 [2] This is the increase in supply current for each input that is at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[6::table #1]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 1 MHz | 20 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -219,13 +228,14 @@ are observed.
 | t~PLH~ | A | Y | 1.5 | 11.5 | 1 | 14 | 1 | 12.5 | ns |
 | t~PHL~ | ^ | ^ | 1.5 | 10 | 1 | 13 | 1 | 11 | ns |
 ```
+[[6::table #3]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 2.5 ns, t~f~ ≤ 2.5 ns. The outputs are measured one
-at a time, with one input transition per measurement.
+at a time, with one input transition per measurement. [[7::Figure 6-1]]
 
 Conversion note: the load circuit of Figure 6-1 also has a 500 Ω
 resistor from the output to switch S1 (2 × V~CC~ or open), and S1 is
@@ -237,10 +247,12 @@ the voltage waveforms the input swings 0 V to 3 V and is measured at
 RL: 500 Ω
 CL: 50 pF
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms"
 VM: 1.5 V (input), 50% V~CC~ (outputs)
 ```
+[[7::Figure 6-1]]
 
 ## Application information
 
@@ -248,7 +260,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 The SNx4ACT14 device is a low-drive CMOS device that can be used for a
 multitude of bus interface type applications where output ringing is a
@@ -256,7 +268,7 @@ concern. The low drive and slow edge rates will minimize overshoot and
 undershoot on the outputs. The inputs are tolerant to 5.5 V at any
 valid V~CC~. This feature makes it Ideal for translating down to the
 V~CC~ level. Switching Characteristics Comparison shows the reduction
-in ringing compared to higher drive parts such as AC.
+in ringing compared to higher drive parts such as AC. [[10::2]]
 
 Conversion note: the typical application schematic (Figure 8-1) shows a
 Counter with outputs 2^0^ to 2^3^ and a D-Type Flip-Flop with output
@@ -270,21 +282,21 @@ This device uses CMOS technology and has balanced output drive. Care
 should be taken to avoid bus contention because it can drive currents
 that would exceed maximum limits. The high drive will also create fast
 edges into light loads, so routing and load conditions should be
-considered to prevent ringing.
+considered to prevent ringing. [[10::3]]
 
 ### Detailed design procedure
 
-1. Recommended Input Conditions
+1. Recommended Input Conditions [[10::4]]
    - For rise time and fall time specifications, see Δt/ΔV in the
-     Recommended Operating Conditions table.
+     Recommended Operating Conditions table. [[10::4]]
    - For specified High and low levels, see V~IH~ and V~IL~ in the
-     Recommended Operating Conditions table.
+     Recommended Operating Conditions table. [[10::4]]
    - Inputs are overvoltage tolerant allowing them to go as high as
-     5.5 V at any valid V~CC~.
-2. Recommend Output Conditions
+     5.5 V at any valid V~CC~. [[10::4]]
+2. Recommend Output Conditions [[10::4]]
    - Load currents should not exceed 35 mA per output and 70 mA total
-     for the part.
-   - Outputs should not be pulled above V~CC~.
+     for the part. [[10::4]]
+   - Outputs should not be pulled above V~CC~. [[10::4]]
 
 Conversion note: the typical application timing diagram (Figure 8-2)
 shows the square waves 2^3^, !{2^3^} and 2^4^, with 2^4^ at half the
@@ -293,7 +305,7 @@ frequency of 2^3^, and the legend "Input – 32 kHz, 2^4^ – 1 kHz".
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX supply
-voltage rating located in the Recommended Operating Conditions table.
+voltage rating located in the Recommended Operating Conditions table. [[11::2]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 μF is recommended.
@@ -301,7 +313,7 @@ If there are multiple V~CC~ pins, 0.01 μF or 0.022 μF is recommended
 for each power pin. It is acceptable to parallel multiple bypass caps
 to reject different frequencies of noise. A 0.1 μF and 1 μF are
 commonly used in parallel. The bypass capacitor should be installed as
-close to the power pin as possible for best results.
+close to the power pin as possible for best results. [[11::3]]
 
 ### Layout guidelines
 
@@ -311,7 +323,7 @@ unused. Some examples are when only two inputs of a triple-input AND
 gate are used, or when only 3 of the 4-buffer gates are used. Such
 input pins should not be left unconnected because the undefined
 voltages at the outside connections result in undefined operational
-states.
+states. [[11::4]]
 
 Specified in Example Diagram are rules that must be observed under all
 circumstances. All unused inputs of digital logic devices must be
@@ -322,7 +334,7 @@ GND or V~CC~, whichever makes more sense or is more convenient. It is
 acceptable to float outputs unless the part is a transceiver. If the
 transceiver has an output enable pin, it will disable the outputs
 section of the part when asserted. This will not disable the input
-section of the I/Os so they also cannot float when disabled.
+section of the I/Os so they also cannot float when disabled. [[11::5]]
 
 Conversion note: Figure 8-3, the example layout for the SN74ACT14
 (p.11), recommends a GND flood fill for improved signal isolation,
@@ -363,6 +375,7 @@ SNJ54ACT14FK | Tube of 55 | -55 to 125 | 5962-9218301M2A SNJ54ACT14FK | Last Tim
 SNJ54ACT14J | Tube of 25 | -55 to 125 | 5962-9218301MCA SNJ54ACT14J | NRND
 SNJ54ACT14W | Tube of 25 | -55 to 125 | 5962-9218301MDA SNJ54ACT14W | Last Time Buy
 ```
+[[14::table #1]]
 
 ## Conversion notes
 

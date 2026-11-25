@@ -268,7 +268,7 @@ as text are listed, wording keeps the source's negations and
 obligations, and source problems are labelled `Source conflict:`,
 `Source error:` or `Unconfirmed:`, never resolved silently.
 
-Every sample was then corrected against its PDF; [issues.md](issues.md)
+Every sample was then corrected against its PDF; [datasheet-issues.md](../datasheet-issues.md)
 lists what was found. Before the pass, validate.py reported 31 errors in
 the eight smaller samples and 41 in the three microcontroller files.
 Most were derived or image-only values, now listed; about a dozen in the

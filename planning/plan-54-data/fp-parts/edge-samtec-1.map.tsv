@@ -1,0 +1,4 @@
+stem	positions	footprint	note
+EDGE-SAMTEC-EDGE-RATE-HSEC6-B	42	EDGE-SAMTEC-EDGE-RATE-HSEC6-B-84	N=42 is the 042-per-row shield part (HSEC6-042-01-S-DV-S-WT, DigiKey lists 42): 84 contacts, 84 pins, the same -042 land pattern as the 84-position footprint
+EDGE-SAMTEC-MEC1-C	40	EDGE-SAMTEC-MEC1-40	same print (mec1-1xx-xx-xx-d-emx-xx-xx-mkt.pdf) and the same 20-per-row EM2 land pattern as the MEC1 line, 40 pads, pitch 1.0
+EDGE-SAMTEC-ER18	38	EDGE-SAMTEC-ER18-B-38	ER18 line N=38 (ERI8-019-S-D-RA, flyer eri8-ra.pdf with no layout): same connector as the 019-position ERI8-XXX-X-D-RA-X-XR of the mkt print, 38 pins, 19 per row, 0.8 pitch

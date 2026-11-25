@@ -25,18 +25,18 @@
 
 The SN74AHC32 is a quadruple 2-input positive-OR gate. This device
 performs the Boolean function Y = !{!{A} • !{B}} or Y = A + B in
-positive logic.
+positive logic. [[1::3]]
 
 Controlled Baseline. Extended Temperature Performance of –55°C to 125°C.
 EPIC (Enhanced-Performance Implanted CMOS) Process. Operating Range 2-V
 to 5.5-V V~CC~. Latch-Up Performance Exceeds 250 mA Per JESD 17. ESD
 Protection Exceeds 2000 V Per MIL-STD-883, Method 3015; Exceeds 200 V
-Using Machine Model (C = 200 pF, R = 0).
+Using Machine Model (C = 200 pF, R = 0). [[1::1]]
 
 Component qualification in accordance with JEDEC and industry standards
 to ensure reliable operation over an extended temperature range. Such
 qualification testing should not be viewed as justifying use of this
-component beyond specified performance and environmental limits.
+component beyond specified performance and environmental limits. [[1::2]]
 
 ## Pinout
 
@@ -52,6 +52,7 @@ component beyond specified performance and environmental limits.
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -63,6 +64,7 @@ VCC: Supply voltage
 | X | H | H |
 | L | L | L |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -84,6 +86,7 @@ VCC: Supply voltage
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -111,6 +114,7 @@ VCC: Supply voltage
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -132,6 +136,7 @@ VCC: Supply voltage
 | I~CC~ | | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 2 | | 20 | µA |
 | C~i~ | | V~I~ = V~CC~ or GND | 5 V | | 2 | 10 | | | pF |
 ```
+[[3::table #2]]
 
 ```table id=noise caption="Noise characteristics [1]" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25°C"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -144,12 +149,14 @@ VCC: Supply voltage
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[4::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 14 | pF |
 ```
+[[4::table #2]]
 
 ## Switching characteristics
 
@@ -164,6 +171,7 @@ See [parameter measurement information](#parameter-measurement).
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 8 | 11.4 | 1 | 13 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 8 | 11.4 | 1 | 13 | ns |
 ```
+[[4::table #3]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 1)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | Min | Max | Unit |
@@ -174,21 +182,24 @@ See [parameter measurement information](#parameter-measurement).
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 5.3 | 7.5 | 1 | 8.5 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 5.3 | 7.5 | 1 | 8.5 | ns |
 ```
+[[4::table #4]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
-time with one input transition per measurement.
+time with one input transition per measurement. [[5::1]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[5::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% VCC
 ```
+[[5::Figure 1]]
 
 Conversion note: the source figure (Figure 1) also shows the load
 circuit for 3-state and open-drain outputs with its S1 table, and the
@@ -211,6 +222,7 @@ SN74AHC32MPWREP | Reel of 2000 | -55 to 125 | AHC32EP
 V62/03651-01XE | Reel of 2000 | -55 to 125 | AHC32EP
 V62/03651-01YE | Reel of 2500 | -55 to 125 | AHC32MEP
 ```
+[[6::table #1]]
 
 ## Conversion notes
 

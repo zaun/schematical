@@ -103,7 +103,7 @@ nonisolated enum SupplyChoice {
     static let names = ["5V", "3V3", "2V5", "1V8", "1V2", "12V"]
     static let defaultName = "5V"
     /// The highest rail the backend loads (`supply.c`).
-    static let maxVolts = 300.0
+    static let maxVolts = 500.0
 
     /// The rail name of a voltage, the decimal point written as the `V`:
     /// 170 is "170V", 3.3 "3V3", 1.25 "1V25". Millivolt steps; nil outside
@@ -198,11 +198,17 @@ nonisolated enum PartSymbol: Hashable {
     /// A nixie tube: cathodes on the left, the anode on the right, the tube
     /// in the middle (`NixieSymbolView`).
     case nixie
+    /// A dekatron: cathodes on the left, the anode and guides on the right,
+    /// the ring of ten cathode positions in the middle (`DekatronSymbolView`).
+    case dekatron
     case characterLCD
     case barrelJack
     /// A generic pin header (plan-23): pins on the left, and with two rows
     /// the even pins on the right.
     case header
+    /// A test point (plan-57): one pin on the left of a 40 x 20 body, drawn as
+    /// a small circle on the end of its lead (`TestPointSymbolView`).
+    case testPoint
 
     /// Supplies have their pin on the top or bottom edge, so their view needs
     /// room above and below the body for the pin stub.
@@ -313,6 +319,8 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.barrelJack(pins)
         case .header:
             self = Self.header(pins, rows: part.headerSize?.rows ?? 1)
+        case .testPoint:
+            self = Self.testPoint(pins)
         case .diode, .plainDiode:
             self = Self.diode(pins)
         case .capacitor, .resistor:
@@ -343,6 +351,8 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.sevenSegment(pins, display: part.display)
         case .nixie:
             self = Self.nixie(pins, nixie: part.nixie)
+        case .dekatron:
+            self = Self.dekatron(pins, dekatron: part.dekatron)
         case .characterLCD:
             self = Self.characterLCD(pins, info: part.characterLCD)
         }
@@ -406,11 +416,22 @@ nonisolated struct ChipLayout: Hashable {
     static let sevenSegmentColonWidth: CGFloat = 8
     static let sevenSegmentNameColumn: CGFloat = 36
 
+    /// Width of one digit's cell: a row of dots (the IV-25's P1-P7) is wider
+    /// than a numeral.
+    static func sevenSegmentCellWidth(_ display: DisplayInfo) -> CGFloat {
+        display.leds.contains { $0.segment.hasPrefix("P") } ? 42 : sevenSegmentDigitSize.width
+    }
+
+    /// The gap between digits: narrower for a display of more than eight (the IV-27's 14).
+    static func sevenSegmentGap(_ display: DisplayInfo) -> CGFloat {
+        display.digits > 8 ? 4 : sevenSegmentDigitGap
+    }
+
     /// Width of the face that shows the digits, colon included.
     static func sevenSegmentFaceWidth(_ display: DisplayInfo) -> CGFloat {
         let digits = CGFloat(max(display.digits, 1))
         let colon = display.colonAfter > 0 ? sevenSegmentColonWidth : 0
-        return digits * sevenSegmentDigitSize.width + (digits + 1) * sevenSegmentDigitGap + colon
+        return digits * sevenSegmentCellWidth(display) + (digits + 1) * sevenSegmentGap(display) + colon
     }
 
     /// Segment pins on the left and common pins on the right, in the order
@@ -475,6 +496,37 @@ nonisolated struct ChipLayout: Hashable {
             }
         }
         let width = SchematicGrid.snap(nixieFaceSize.width + 2 * sevenSegmentNameColumn + 5)
+        return ChipLayout(
+            size: CGSize(width: max(width, bodyWidth), height: headerHeight + pitch * CGFloat(rows)),
+            slots: slots
+        )
+    }
+
+    /// Dekatron: the ring of cathode positions in the middle of the body.
+    static let dekatronFaceSize = CGSize(width: 64, height: 64)
+
+    /// Cathode pins on the left; the anode and the guides on the right, then
+    /// (after a gap) any other pin.
+    private static func dekatron(_ pins: [ChipPin], dekatron: DekatronInfo?) -> ChipLayout {
+        guard let dekatron else { return ChipLayout(pins: pins) }
+        let byIndex = Dictionary(pins.map { ($0.index, $0) }, uniquingKeysWith: { first, _ in first })
+        let left = dekatron.cathodePins.compactMap { byIndex[$0] }
+        let used = Set(dekatron.cathodePins + dekatron.guidePins + [dekatron.anodePin])
+        let unused = pins.filter { !used.contains($0.index) }.sorted { $0.index < $1.index }
+        let right = stack([[dekatron.anodePin].compactMap { byIndex[$0] }, dekatron.guidePins.compactMap { byIndex[$0] }, unused])
+        let faceRows = Int(((dekatronFaceSize.height + 16) / pitch).rounded(.up))
+        let rows = max(left.count, right.count, faceRows)
+
+        var slots: [PinSlot] = []
+        for (row, pin) in left.enumerated() {
+            slots.append(PinSlot(pin: pin, side: .left, centerY: centerY(forRow: row)))
+        }
+        for (row, pin) in right.enumerated() {
+            if let pin {
+                slots.append(PinSlot(pin: pin, side: .right, centerY: centerY(forRow: row)))
+            }
+        }
+        let width = SchematicGrid.snap(dekatronFaceSize.width + 2 * sevenSegmentNameColumn + 5)
         return ChipLayout(
             size: CGSize(width: max(width, bodyWidth), height: headerHeight + pitch * CGFloat(rows)),
             slots: slots
@@ -557,6 +609,14 @@ nonisolated struct ChipLayout: Hashable {
                     centerY: pitch / 2 + pitch * CGFloat(position / rows))
         }
         return ChipLayout(size: CGSize(width: headerBodyWidth, height: pitch * CGFloat(columns)), slots: slots)
+    }
+
+    /// A test point: its one pin on the left, centred in a header-wide, one-row-tall body.
+    static func testPoint(_ pins: [ChipPin]) -> ChipLayout {
+        let slots = pins.sorted { $0.index < $1.index }.prefix(1).map {
+            PinSlot(pin: $0, side: .left, centerY: pitch / 2)
+        }
+        return ChipLayout(size: CGSize(width: headerBodyWidth, height: pitch), slots: slots)
     }
 
     /// The lever of a switch position (1-based), in body coordinates.
@@ -878,6 +938,28 @@ nonisolated struct MemoryFile: Hashable, Sendable {
     var name: String { url.lastPathComponent }
 }
 
+/// A DIP or PLCC chip's socket (plan-51-H): `part` is a `PART_SOCKET` catalog
+/// part whose `fits` hold the chip's footprint, and `mode` says whether the
+/// chip is soldered into it or left out. A chip with no `ChipSocket` is a plain IC.
+nonisolated struct ChipSocket: Hashable, Sendable {
+    /// The file's values are the raw values.
+    enum Mode: String, Sendable {
+        /// The chip sits in the socket: the Bill of Materials lists both.
+        case withSocket
+        /// The socket is on the board, the chip is not inserted.
+        case socketOnly
+    }
+
+    var part: CatalogPart
+    var mode: Mode
+
+    /// Whether `part` is a socket that holds `chip`'s base footprint.
+    static func fits(_ socket: CatalogPart, _ chip: CatalogPart) -> Bool {
+        guard socket.kind == PART_SOCKET, chip.footprintChoices.isEmpty, let base = chip.footprint else { return false }
+        return socket.fits.contains { $0.id == base.id }
+    }
+}
+
 nonisolated struct PlacedChip: Identifiable, Hashable {
     let id: UUID
     /// "U1", "R3": letters then a number. Changed through
@@ -919,6 +1001,9 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// plan-33-H). Nil for every other part, real capacitors included (their
     /// value is their part's).
     var farads: Double?
+    /// The socket the chip is in or on (plan-51-H); nil = a plain IC. Only a
+    /// chip a socket fits can have one: with footprint choices, never.
+    var socket: ChipSocket?
     /// Whether the Schematic draws the reference above the part; the
     /// sidebar's Display Reference. On unless turned off.
     var showsReference = true
@@ -940,7 +1025,8 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         footprintID: String? = nil,
         gender: String? = nil,
         ohms: Double? = nil,
-        farads: Double? = nil
+        farads: Double? = nil,
+        socket: ChipSocket? = nil
     ) {
         self.id = id
         self.reference = reference
@@ -981,6 +1067,8 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         } else {
             self.farads = nil
         }
+        // A socket is kept only when it is one that holds this chip's footprint.
+        self.socket = socket.flatMap { ChipSocket.fits($0.part, part) ? $0 : nil }
         // A switch has one state per position, OFF unless given; others none.
         // A tactile switch has one, "pressed", and always starts released
         // (the file never stores it; plan-27-J).
@@ -1011,7 +1099,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         var chip = PlacedChip(id: id, reference: reference, part: newPart, symbol: symbol, origin: origin,
                               isFlipped: isFlipped && symbol.canFlip, rotation: rotation, switchesOn: switchesOn, board: board,
                               memoryFile: memoryFile, color: color, footprintID: footprint, gender: gender,
-                              ohms: ohms, farads: farads)
+                              ohms: ohms, farads: farads, socket: socket)
         chip.showsReference = showsReference
         return chip
     }
@@ -2272,8 +2360,8 @@ final class SchematicDocument {
     func updatePart(uuid: String, to newPart: CatalogPart) -> Bool {
         let ids = chips.filter { $0.part.uuid == uuid }.map(\.id)
         guard !ids.isEmpty else { return false }
-        let symbol = schematical.symbol(for: newPart)
-        for id in ids { swapPart(of: id, to: newPart, symbol: symbol) }
+        let newSymbol = symbol(for: newPart)
+        for id in ids { swapPart(of: id, to: newPart, symbol: newSymbol) }
         history.clear()
         return true
     }
@@ -2311,20 +2399,55 @@ final class SchematicDocument {
                   chips[index].footprintID != footprintID,
                   chips[index].part.footprintChoices.contains(where: { $0.footprint.id == footprintID })
             else { return }
-            let before = chips[index].footprint
-            chips[index].footprintID = footprintID
-            guard var changed = chips[index].board, let before, let after = chips[index].footprint else { return }
-            // The reference was placed for the old body.
-            changed.referenceOffset = .zero
-            let pad1 = chips[index].part.firstPinDesignator
-            if let old = before.pads.first(where: { $0.designator == pad1 }),
-               let new = after.pads.first(where: { $0.designator == pad1 }) {
-                let anchor = changed.board(old.centre)
-                let landed = changed.board(new.centre)
-                changed.centre.x += anchor.x - landed.x
-                changed.centre.y += anchor.y - landed.y
+            changingFootprint(of: index) { chips[index].footprintID = footprintID }
+        }
+    }
+
+    /// Runs `change`, which swaps the footprint of the chip at `index`, and
+    /// keeps the pad of the part's first pin at its board point: the
+    /// placement moves by the difference between the old and new pad 1, the
+    /// reference text goes back to its default offset. The chip's rotation,
+    /// origin, marks and style are kept (`setPartFootprint`, `setPartSocket`).
+    private func changingFootprint(of index: Int, _ change: () -> Void) {
+        let before = chips[index].footprint
+        change()
+        guard var changed = chips[index].board, let before, let after = chips[index].footprint else { return }
+        // The reference was placed for the old body.
+        changed.referenceOffset = .zero
+        let pad1 = chips[index].part.firstPinDesignator
+        if let old = before.pads.first(where: { $0.designator == pad1 }),
+           let new = after.pads.first(where: { $0.designator == pad1 }) {
+            let anchor = changed.board(old.centre)
+            let landed = changed.board(new.centre)
+            changed.centre.x += anchor.x - landed.x
+            changed.centre.y += anchor.y - landed.y
+        }
+        chips[index].board = changed
+    }
+
+    /// Puts a chip in or out of a socket (plan-51-H). `mode` nil is a plain IC;
+    /// otherwise `socket` is the socket part (a chip already in a socket mode
+    /// keeps its own when `socket` is nil). Does nothing for a socket that
+    /// does not hold the chip's footprint, a chip a socket cannot take, or
+    /// when nothing changes. Going between IC and a socket mode puts the
+    /// socket's footprint (or the chip's back) on the PCB with the first pin's
+    /// pad where it was; between the two socket modes only the mode changes,
+    /// and between two sockets that share a footprint nothing moves.
+    func setPartSocket(_ id: UUID, mode: ChipSocket.Mode?, socket: CatalogPart?) {
+        recordEdit(.schematic, "Change Socket") {
+            guard let index = chips.firstIndex(where: { $0.id == id }) else { return }
+            var new: ChipSocket?
+            if let mode {
+                guard let part = socket ?? chips[index].socket?.part,
+                      ChipSocket.fits(part, chips[index].part) else { return }
+                new = ChipSocket(part: part, mode: mode)
             }
-            chips[index].board = changed
+            guard chips[index].socket != new else { return }
+            if chips[index].socket?.part.footprint?.id == new?.part.footprint?.id {
+                chips[index].socket = new
+            } else {
+                changingFootprint(of: index) { chips[index].socket = new }
+            }
         }
     }
 
@@ -2581,7 +2704,8 @@ final class SchematicDocument {
                     part: chip.part,
                     symbol: chip.symbol, origin: shifted(chip.origin), isFlipped: chip.isFlipped,
                     rotation: chip.rotation, switchesOn: chip.switchesOn, memoryFile: chip.memoryFile, color: chip.color,
-                    footprintID: chip.footprintID, gender: chip.gender, ohms: chip.ohms, farads: chip.farads
+                    footprintID: chip.footprintID, gender: chip.gender, ohms: chip.ohms, farads: chip.farads,
+                    socket: chip.socket
                 )
                 placed.showsReference = chip.showsReference
                 placed.board = placed.footprint.map {
@@ -2953,11 +3077,20 @@ final class SchematicDocument {
     /// Sets where a footprint's marks are drawn. A nil layer is left as it is.
     func setFootprintMarks(_ id: UUID, outline: MarkLayer? = nil, pin1: MarkLayer? = nil,
                            reference: MarkLayer? = nil) {
+        setFootprintMarks([id], outline: outline, pin1: pin1, reference: reference)
+    }
+
+    /// Sets where the marks of every footprint in `ids` are drawn, as one
+    /// undo step. A nil layer is left as it is; a part with no footprint is
+    /// skipped.
+    func setFootprintMarks(_ ids: some Collection<UUID>, outline: MarkLayer? = nil, pin1: MarkLayer? = nil,
+                           reference: MarkLayer? = nil) {
         recordEdit(.pcb, "Change Marks") {
-            guard let index = chips.firstIndex(where: { $0.id == id }), chips[index].board != nil else { return }
-            if let outline { chips[index].board?.outline = outline }
-            if let pin1 { chips[index].board?.pin1 = pin1 }
-            if let reference { chips[index].board?.reference = reference }
+            for index in chips.indices where ids.contains(chips[index].id) && chips[index].board != nil {
+                if let outline { chips[index].board?.outline = outline }
+                if let pin1 { chips[index].board?.pin1 = pin1 }
+                if let reference { chips[index].board?.reference = reference }
+            }
         }
     }
 
@@ -3411,9 +3544,13 @@ final class SchematicDocument {
             return Self.point(point, touches: pad)
         }
         for side in [BoardSide.top, .bottom] {
-            for (chip, pads) in zip(chips, chipPads).reversed() where chip.board?.side == side {
+            for (chip, pads) in zip(chips, chipPads).reversed() {
+                guard let placed = chip.board?.side else { continue }
+                // A pad is on its layer's side, which an opposite pad's is
+                // not its part's.
                 guard let pad = pads.last(where: {
-                    $0.plated && visible.showsPad(drill: $0.drill, side: side) && hits($0)
+                    $0.plated && $0.layerSide(on: placed) == side && visible.showsPad(drill: $0.drill, side: side)
+                        && hits($0)
                 }) else { continue }
                 guard let designator = pad.designator else { return (pad, "\(chip.reference) centre pad") }
                 let name = chip.part.pins.first { $0.designator == designator }?.name ?? ""
@@ -3442,12 +3579,13 @@ final class SchematicDocument {
     // MARK: Traces (PCB)
 
     /// The pads on `layer`, with their parts: a surface-mount pad is on its
-    /// part's side layer; a through-hole pad is on every layer.
+    /// layer's side (its part's, or the other for an opposite pad); a
+    /// through-hole pad is on every layer.
     func pads(on layer: CopperLayer) -> [(chip: PlacedChip, pad: PlacedPad)] {
         zip(chips, chipPads).flatMap { chip, pads -> [(chip: PlacedChip, pad: PlacedPad)] in
             guard let side = chip.board?.side else { return [] }
             return pads
-                .filter { $0.plated && ($0.drill > 0 || side.copperLayer == layer) }
+                .filter { $0.plated && ($0.drill > 0 || $0.layerSide(on: side).copperLayer == layer) }
                 .map { (chip: chip, pad: $0) }
         }
     }
@@ -3702,6 +3840,24 @@ final class SchematicDocument {
         return traces.filter { ids.contains($0.id) }
     }
 
+    /// The selected board texts, in creation order, for ⌘C.
+    func selectedTexts() -> [BoardText] {
+        let ids = Set(boardSelection.items.compactMap { item -> UUID? in
+            if case let .text(id) = item { return id }
+            return nil
+        })
+        return texts.filter { ids.contains($0.id) }
+    }
+
+    /// The selected vias, in creation order, for ⌘C.
+    func selectedVias() -> [BoardVia] {
+        let ids = Set(boardSelection.items.compactMap { item -> UUID? in
+            if case let .via(id) = item { return id }
+            return nil
+        })
+        return vias.filter { ids.contains($0.id) }
+    }
+
     /// ⌘V on the PCB: adds a copy of each of `copied` moved by `offset`
     /// (mm), with new ids, its width and layer kept, joined to whatever it
     /// touches, as one step. The copies become the whole selection. A trace
@@ -3709,20 +3865,55 @@ final class SchematicDocument {
     /// the new ids.
     @discardableResult
     func pasteTraces(_ copied: [BoardTrace], offset: CGSize) -> [UUID] {
-        let pasted = copied.filter { traceLayerRefusal($0.layer) == nil }
-        guard !pasted.isEmpty else { return [] }
+        pasteBoard(traces: copied, texts: [], offset: offset)
+    }
+
+    /// ⌘V on the PCB: adds a copy of each of `traces` (as `pasteTraces`), of
+    /// each of `texts` and of each of `vias`, moved by `offset` (mm), with
+    /// new ids, as one step. A text keeps its words, size, layer, rotation
+    /// and side (Top on a 1-layer board), lands on the grid and is not
+    /// locked. A via keeps its drill, diameter and tenting, lands on the
+    /// trace grid, is not locked and is not the autorouter's; none are
+    /// pasted on a 1-layer board. The copies become the whole selection.
+    /// Returns the new ids.
+    @discardableResult
+    func pasteBoard(traces copied: [BoardTrace], texts copiedTexts: [BoardText], vias copiedVias: [BoardVia] = [],
+                    offset: CGSize) -> [UUID] {
+        let pastedTraces = copied.filter { traceLayerRefusal($0.layer) == nil }
+        let pastedVias = board.layers > 1 ? copiedVias : []
+        guard !pastedTraces.isEmpty || !copiedTexts.isEmpty || !pastedVias.isEmpty else { return [] }
         return recordEdit(.pcb, "Paste") { () -> [UUID] in
+            var items: [BoardItem] = []
             var ids: [UUID] = []
-            for trace in pasted {
+            for trace in pastedTraces {
                 let copy = BoardTrace(id: UUID(), layer: trace.layer, width: trace.width,
                                       points: trace.points.map {
                                           CGPoint(x: $0.x + offset.width, y: $0.y + offset.height)
                                       })
                 traces.append(copy)
                 ids.append(copy.id)
+                items.append(.trace(copy.id))
             }
             for id in ids { join(id) }
-            boardSelection.set(Set(ids.map(BoardItem.trace)))
+            for text in copiedTexts {
+                let moved = CGPoint(x: text.anchor.x + offset.width, y: text.anchor.y + offset.height)
+                let copy = BoardText(id: UUID(), text: text.text, anchor: BoardGrid.snap(moved, spacing: board.grid),
+                                     size: text.size, layer: text.layer, rotation: text.rotation,
+                                     side: board.layers == 1 ? .top : text.side)
+                texts.append(copy)
+                ids.append(copy.id)
+                items.append(.text(copy.id))
+            }
+            for via in pastedVias {
+                let moved = CGPoint(x: via.centre.x + offset.width, y: via.centre.y + offset.height)
+                let copy = BoardVia(id: UUID(), centre: BoardGrid.snap(moved, spacing: board.traceGrid),
+                                    drill: via.drill, diameter: via.diameter,
+                                    tentedTop: via.tentedTop, tentedBottom: via.tentedBottom)
+                vias.append(copy)
+                ids.append(copy.id)
+                items.append(.via(copy.id))
+            }
+            boardSelection.set(Set(items))
             return ids
         }
     }
@@ -3759,15 +3950,19 @@ final class SchematicDocument {
         return true
     }
 
-    /// ⌘X on the PCB, after the selected traces were copied: deletes just
-    /// those traces (what ⌘C takes), as one step named "Cut". Returns
-    /// whether any were deleted.
+    /// ⌘X on the PCB, after the selection was copied: deletes just the
+    /// selected traces, texts and vias (what ⌘C takes), as one step named "Cut".
+    /// Returns whether any were deleted.
     @discardableResult
-    func cutBoardTraces() -> Bool {
+    func cutBoardSelection() -> Bool {
         let traceIDs = Set(selectedTraces().map(\.id))
-        guard !traceIDs.isEmpty else { return false }
+        let textIDs = Set(selectedTexts().map(\.id))
+        let viaIDs = Set(selectedVias().map(\.id))
+        guard !traceIDs.isEmpty || !textIDs.isEmpty || !viaIDs.isEmpty else { return false }
         recordEdit(.pcb, "Cut") {
             traces.removeAll { traceIDs.contains($0.id) }
+            texts.removeAll { textIDs.contains($0.id) }
+            vias.removeAll { viaIDs.contains($0.id) }
             pruneSelection()
         }
         return true
@@ -3982,13 +4177,37 @@ final class SchematicDocument {
     }
 
     /// Puts `net` in class `classID`, out of every other class; nil puts it
-    /// back in the Default class.
+    /// back in the Default class. The copper already on the net takes the
+    /// class's rules: every trace its width, every via its hole and metal
+    /// (`applyClass(toNet:)`). One undo step.
     func assignNet(_ net: PlaneNet, to classID: UUID?) {
         recordEdit(.pcb, "Change Net Class") {
             for index in board.netClasses.indices where board.netClasses[index].members.contains(net) {
                 board.netClasses[index].members.removeAll { $0 == net }
             }
             if let classID, let index = netClassIndex(classID) { board.netClasses[index].members.append(net) }
+            applyClass(toNet: net)
+        }
+    }
+
+    /// Gives the traces and vias of `net` the width and via of its class
+    /// (the Default class's when it is in none), so copper drawn before the
+    /// net changed class matches new copper. The class's clearance is read
+    /// by the checks, so there is nothing to set for it.
+    private func applyClass(toNet net: PlaneNet) {
+        let copper = connectivity()
+        guard let netID = copper.net(of: net) else { return }
+        let rules = netClass(ofNet: netID, in: copper).map {
+            NetRules(width: $0.width, clearance: $0.clearance, viaDrill: $0.viaDrill, viaDiameter: $0.viaDiameter)
+        } ?? NetRules.defaults(for: board.rules)
+        let items = copperItems(ofNet: netID, in: copper)
+        for index in traces.indices where items.traces.contains(traces[index].id) && traces[index].width != rules.width {
+            traces[index].width = rules.width
+        }
+        for index in vias.indices where items.vias.contains(vias[index].id)
+            && (vias[index].drill != rules.viaDrill || vias[index].diameter != rules.viaDiameter) {
+            vias[index].drill = rules.viaDrill
+            vias[index].diameter = rules.viaDiameter
         }
     }
 
@@ -4274,8 +4493,10 @@ final class SchematicDocument {
                 pour.thermalGap = like.thermalGap
                 pour.spokeWidth = like.spokeWidth
                 pour.minWidth = like.minWidth
-            } else if planeNetChoices().contains(where: { $0.net == .ground }) {
-                pour.net = .ground
+            } else {
+                pour.clearance = BoardPour.startClearance
+                pour.minWidth = BoardPour.startMinWidth
+                if planeNetChoices().contains(where: { $0.net == .ground }) { pour.net = .ground }
             }
             pours.append(pour)
             boardSelection.replace(with: .pour(pour.id))
@@ -4664,6 +4885,28 @@ final class SchematicDocument {
         }
     }
 
+    /// Locks or unlocks every item in `items` as one undo step.
+    func setLocked(_ items: some Collection<BoardItem>, _ locked: Bool) {
+        guard items.contains(where: { isLocked($0) != locked }) else { return }
+        recordEdit(.pcb, locked ? "Lock Position" : "Unlock Position") {
+            for item in items { setLocked(item, locked) }
+        }
+    }
+
+    /// Puts every footprint and text in `items` on `side` of the board, as
+    /// one undo step. Other items have no side and are skipped.
+    func setSide(of items: some Collection<BoardItem>, _ side: BoardSide) {
+        recordEdit(.pcb, "Change Side") {
+            for item in items {
+                switch item {
+                case let .footprint(id): setFootprintSide(id, side)
+                case let .text(id): setTextSide(id, side)
+                default: break
+                }
+            }
+        }
+    }
+
     // MARK: Group drags (PCB)
 
     /// Where every selected footprint (its centre) and text (its anchor) is
@@ -4771,6 +5014,60 @@ final class SchematicDocument {
         recordEdit(.pcb, "Move") {
             for id in base.traces.keys { join(id) }
         }
+    }
+
+    // MARK: Segment drags (PCB)
+
+    /// What a plain Select drag on trace `id` at `point` (board mm) takes
+    /// hold of: the segment nearest the press, the trace's points now and
+    /// which of them must stay where they are. Nil for a locked trace or
+    /// none.
+    func traceSegmentBase(_ id: UUID, at point: CGPoint) -> TraceSegmentBase? {
+        guard let trace = traces.first(where: { $0.id == id }), !trace.locked,
+              let segment = trace.segments.indices.min(by: {
+                  Self.distance(from: point, toSegment: trace.segments[$0].0, trace.segments[$0].1)
+                      < Self.distance(from: point, toSegment: trace.segments[$1].0, trace.segments[$1].1)
+              }) else { return nil }
+        var anchored: Set<Int> = []
+        let others = traces.filter { $0.id != id && $0.layer == trace.layer }
+        let padRects = pads(on: trace.layer).map(\.1.rect) + board.fingers.filter { $0.isOn(trace.layer) }.map(\.rect)
+            + board.extraPads.filter { $0.isOn(trace.layer) }.map(\.rect)
+        for (index, vertex) in trace.points.enumerated() {
+            let shared = others.contains { $0.points.contains { TraceRoute.same($0, vertex) } }
+            let viaHere = vias.contains { Self.distance(from: $0.centre, to: vertex) <= $0.diameter / 2 }
+            if shared || viaHere || padRects.contains(where: { $0.contains(vertex) }) { anchored.insert(index) }
+        }
+        return TraceSegmentBase(id: id, segment: segment, points: trace.points, anchored: anchored)
+    }
+
+    /// One frame of a plain drag on a trace segment: the segment slides
+    /// sideways by the part of `delta` (mm) at right angles to it, snapped
+    /// to the trace grid, and the rest of the trace follows (`TraceRoute.slide`).
+    func dragTraceSegment(_ base: TraceSegmentBase, by delta: CGSize) {
+        recordEdit(.pcb, "Move Segment") {
+            guard let index = traces.firstIndex(where: { $0.id == base.id }) else { return }
+            let a = base.points[base.segment], b = base.points[base.segment + 1]
+            let length = Self.distance(from: a, to: b)
+            guard length > TraceRoute.epsilon else { return }
+            let normal = CGPoint(x: -(b.y - a.y) / length, y: (b.x - a.x) / length)
+            var distance = delta.width * normal.x + delta.height * normal.y
+            let spacing = board.traceGrid
+            if abs(normal.x) < 1e-9 || abs(normal.y) < 1e-9 {
+                // Along an axis: the segment lands on a trace grid line.
+                let axis: CGFloat = abs(normal.x) > abs(normal.y) ? a.x : a.y
+                let direction: CGFloat = abs(normal.x) > abs(normal.y) ? normal.x : normal.y
+                distance = (BoardGrid.snap(axis + distance * direction, spacing: spacing) - axis) * direction
+            } else {
+                distance = BoardGrid.snap(distance, spacing: spacing)
+            }
+            let target = TraceRoute.slide(base.points, segment: base.segment, by: distance, anchored: base.anchored)
+            if traces[index].points != target { traces[index].points = target }
+        }
+    }
+
+    /// The end of a segment drag: the trace joins what it now touches.
+    func settleTraceSegment(_ base: TraceSegmentBase) {
+        recordEdit(.pcb, "Move Segment") { join(base.id) }
     }
 
     /// What a Select press at `point` (board mm) picks: a text, else a via,

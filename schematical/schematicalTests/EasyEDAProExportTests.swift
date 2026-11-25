@@ -121,6 +121,23 @@ final class EasyEDAProExportTests: XCTestCase {
         XCTAssertGreaterThan(checked, 200)
     }
 
+    /// plan-54-G: a footprint file is the footprint as seen from its own side, so
+    /// an opposite pad is a layer 2 (bottom) pad of it and every other pad a
+    /// layer 1 one, whichever side the part is placed on.
+    func testOppositePadsAreOnTheBottomLayerOfTheirFootprint() throws {
+        for side in [BoardSide.top, .bottom] {
+            let (doc, _) = try OppositePadTests.fixture(side: side)
+            let entries = EasyEDAProExport.entries(for: doc, base: "t")
+            let footprint = try lines(try entry(entries, suffix: ".efoo").text)
+            let pads = footprint.filter { $0[0] as? String == "PAD" }
+            XCTAssertEqual(pads.count, 14, "\(side) part")
+            for pad in pads {
+                let number = try XCTUnwrap(pad[5] as? String)
+                XCTAssertEqual(pad[4] as? Int, number == "2" || number == "3" ? 2 : 1, "\(side) part, pad \(number)")
+            }
+        }
+    }
+
     func testBoardHasNetsCopperPlaneAndText() throws {
         let doc = try ExportSamples.routed()
         let entries = EasyEDAProExport.entries(for: doc, base: "r")

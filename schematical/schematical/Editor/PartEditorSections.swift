@@ -116,6 +116,9 @@ struct FootprintSection: View {
         } else {
             bundledFootprint
         }
+        if model.draft.kind == "socket" {
+            FitsEditor(model: model)
+        }
     }
 
     private var bundledFootprint: some View {
@@ -153,6 +156,52 @@ struct FootprintSection: View {
                 model.draft.customFootprint = custom
             }
         }
+    }
+}
+
+/// A socket's `fits` (plan-51-G): the chip footprints it holds, a checkbox per bundled
+/// footprint with the part's pad count. The part's own footprint and the socket footprints
+/// (`SKT-…`) are not offered; an id the file names that is not offered stays listed, so it
+/// can be unchecked. With nothing checked the key is absent, and the loader says `missing "fits"`.
+struct FitsEditor: View {
+    @Bindable var model: PartEditorModel
+
+    /// The footprints offered for a part of `pins` pads whose own footprint is `own`.
+    static func choices(_ footprints: [Footprint], pins: Int, own: String?) -> [Footprint] {
+        footprints.filter { Int($0.pins) == pins && $0.id != own && !$0.id.hasPrefix("SKT-") }
+    }
+
+    /// `fits` with `id` turned on (appended) or off; nil when nothing is left.
+    static func toggled(_ fits: [String]?, _ id: String, on: Bool) -> [String]? {
+        var list = fits ?? []
+        if on {
+            if !list.contains(id) { list.append(id) }
+        } else {
+            list.removeAll { $0 == id }
+        }
+        return list.isEmpty ? nil : list
+    }
+
+    var body: some View {
+        let pins = model.draft.pinCount
+        let offered = Self.choices(model.validator.footprints, pins: pins, own: model.draft.footprint)
+        let offeredIDs = Set(offered.map(\.id))
+        Section("Fits") {
+            ForEach(offered, id: \.id) { footprint in
+                Toggle("\(footprint.id) — \(footprint.description)", isOn: binding(footprint.id))
+            }
+            ForEach((model.draft.fits ?? []).filter { !offeredIDs.contains($0) }, id: \.self) { id in
+                Toggle(id, isOn: binding(id))
+            }
+            Text("The chip footprints this socket holds: bundled footprints with \(pins) pads. "
+                + "Pin n of the chip sits on the socket's pad n.")
+                .font(.caption).foregroundStyle(.secondary)
+        }
+    }
+
+    private func binding(_ id: String) -> Binding<Bool> {
+        Binding(get: { (model.draft.fits ?? []).contains(id) },
+                set: { model.draft.fits = Self.toggled(model.draft.fits, id, on: $0) })
     }
 }
 

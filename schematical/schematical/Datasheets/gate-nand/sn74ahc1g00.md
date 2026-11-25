@@ -24,12 +24,12 @@
 ## Description
 
 The SN74AHC1G00 performs the Boolean function Y = !{A • B} or
-Y = !{A} + !{B} in positive logic.
+Y = !{A} + !{B} in positive logic. [[1::1]]
 
 Operating range: 2 V to 5.5 V. Maximum t~pd~ of 6.5 ns at 5 V. Low power
 consumption: maximum I~CC~ of 10 μA. ±8-mA output drive at 5 V. Schmitt
 trigger action at all inputs makes the circuit tolerant for slower input
-rise and fall time. Latch-up performance exceeds 250 mA per JESD 17.
+rise and fall time. Latch-up performance exceeds 250 mA per JESD 17. [[1::2]]
 
 ## Pinout
 
@@ -45,12 +45,13 @@ GND: Ground
 Y: Output
 VCC: Power
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
 The SN74AHC1G00 device performs the NAND Boolean function Y = !{A × B}
 or Y = !{A} + !{B} in positive logic. The device has a wide operating
-range of V~CC~ from 2 V to 5 V.
+range of V~CC~ from 2 V to 5 V. [[9::1]]
 
 Conversion note: the functional block diagram (Figure 7-1) is the logic diagram of one 2-input NAND gate, inputs A (pin 1) and B (pin 2), output Y (pin 4).
 
@@ -61,7 +62,7 @@ from 2 V to 5 V. The low propagation delay allows fast switching and
 higher speeds of operation. In addition, the low power consumption of
 10-uA (maximum) makes this device a good choice for portable and battery
 power-sensitive applications. The Schmitt trigger action on all inputs
-have noise rejection capabilities.
+have noise rejection capabilities. [[9::2]]
 
 ## Function tables
 
@@ -76,6 +77,7 @@ have noise rejection capabilities.
 [1] H = High Voltage Level, L = Low Voltage Level, X = Don’t Care
 [2] H = Driving High, L = Driving Low, Z = High Impedance State
 ```
+[[9::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -95,6 +97,7 @@ have noise rejection capabilities.
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -105,6 +108,7 @@ have noise rejection capabilities.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -132,6 +136,7 @@ have noise rejection capabilities.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See the TI application report, Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[4::table #3]] [[5::table #1]]
 
 ## Thermal information
 
@@ -147,6 +152,7 @@ have noise rejection capabilities.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953.
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -195,12 +201,14 @@ have noise rejection capabilities.
 
 [1] Recommended T~A~ = –40°C to +125°C
 ```
+[[5::table #3]] [[6::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Min | Typ | Max | Unit |
 |---|---|---|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | | 9.5 | | pF |
 ```
+[[7::table #1]]
 
 ## Switching characteristics
 
@@ -222,6 +230,7 @@ have noise rejection capabilities.
 
 [1] Recommended T~A~ = –40°C to +125°C
 ```
+[[6::table #2]]
 
 ```table id=sw-5v caption="Switching characteristics: V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ± 0.5 V (unless otherwise noted) (see Load Circuit and Voltage Waveforms)"
 | Symbol | From (input) | To (output) | Output capacitance | T~A~ [1] | Min | Typ | Max | Unit |
@@ -242,6 +251,7 @@ have noise rejection capabilities.
 [1] Recommended T~A~ = –40°C to +125°C
 [2] Unconfirmed: the source prints a maximum of 6.5 ns for –40°C to +85°C at C~L~ = 50 pF, below the 7.5 ns maximum it prints for 25°C on the row above.
 ```
+[[7::table #2]]
 
 ## Typical characteristics
 
@@ -253,6 +263,7 @@ have noise rejection capabilities.
   {"label": "Vcc=5 +/-0.5 V, A/B to Y, CL = 50 pF", "points": [[25, 7.5], [50, 7.6], [85, 8.2], [125, 9.2]]}
  ]}
 ```
+[[7::Figure 5-1]]
 
 ## Parameter measurement information
 
@@ -260,15 +271,17 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time with one input transition per measurement. All parameters and
-waveforms are not applicable to all devices.
+waveforms are not applicable to all devices. [[8::1]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[8::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% VCC
 ```
+[[7::Figure 5-1]]
 
 Conversion note: the source figure (Figure 6-1) also shows the load
 circuit for 3-state and open-drain outputs with its S1 table, and the
@@ -281,7 +294,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 Conversion note: the typical application (Figure 8-1) shows two cross-coupled NAND gates, with inputs S and R and outputs Q and !{Q}.
 
@@ -291,19 +304,19 @@ This SN74AHC1G00 device uses CMOS technology and has balanced output
 drive. Take care to avoid bus contention because it can drive currents
 that would exceed maximum limits. The high drive also creates fast edges
 into light loads. Routing and load conditions must be considered to
-prevent ringing.
+prevent ringing. [[10::2]]
 
 ### Detailed design procedure
 
-- Recommended input conditions:
+- Recommended input conditions: [[10::3]]
   - Specified high and low levels. See V~IH~ and V~IL~ in
-    [Recommended Operating Conditions](#recommended-operating-conditions).
+    [Recommended Operating Conditions](#recommended-operating-conditions). [[10::3]]
   - Inputs are overvoltage tolerant allowing them to go as high as 5.5 V
-    at any valid V~CC~.
-- Recommended output conditions:
+    at any valid V~CC~. [[10::3]]
+- Recommended output conditions: [[10::3]]
   - Load currents must not exceed 25 mA per output and 50 mA total for
-    the part.
-  - Outputs should not be pulled above V~CC~.
+    the part. [[10::3]]
+  - Outputs should not be pulled above V~CC~. [[10::3]]
 
 ### Application curve
 
@@ -315,12 +328,13 @@ prevent ringing.
   {"label": "Vcc=5 +/-0.5 V, A/B to Y, CL = 15 pF", "points": [[25, 5.4], [50, 5.8], [85, 6.5], [125, 7.2]]}
  ]}
 ```
+[[7::Figure 5-1]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the minimum and maximum
 supply voltage rating located in the
-[Recommended Operating Conditions](#recommended-operating-conditions).
+[Recommended Operating Conditions](#recommended-operating-conditions). [[11::1]]
 
 Each V~CC~ terminal should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, TI recommends a 0.1-μF
@@ -329,18 +343,18 @@ capacitor; if there are multiple V~CC~ terminals, then TI recommends a
 capacitors can be paralleled to reject different frequencies of noise.
 Frequencies of 0.1 μF and 1 μF are commonly used in parallel. The bypass
 capacitor must be installed as close as possible to the power terminal
-for best results.
+for best results. [[11::2]]
 
 ### Layout guidelines
 
-When using multiple bit logic devices inputs must not ever float.
+When using multiple bit logic devices inputs must not ever float. [[12::1]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused. For example, when only two inputs of a triple-input AND gate
 are used or only three of the four buffer gates are used. Such input
 pins must not be left unconnected because the undefined voltages at the
 outside connections result in undefined operational states. The
-following are the rules must be observed under all circumstances.
+following are the rules must be observed under all circumstances. [[12::2]]
 
 All unused inputs of digital logic devices must be connected to a high
 or low bias to prevent them from floating. The logic level that should
@@ -350,7 +364,7 @@ sense or is more convenient. Floating outputs is generally acceptable,
 unless the part is a transceiver. If the transceiver has an output
 enable pin, it disables the outputs section of the part when asserted.
 This does not disable the input section of the input and output, so they
-also cannot float when disabled.
+also cannot float when disabled. [[12::3]]
 
 Conversion note: the layout recommendation (Figure 8-3) shows two gates, one with its unused input tied to V~CC~ and one with its unused input tied to ground.
 
@@ -379,6 +393,7 @@ SN74AHC1G00DCKT | | -40 to 125 | AA3, AAG, AAJ, AAS | Obsolete
 SN74AHC1G00DCKTG4 | Reel of 250 | -40 to 125 | AA3
 SN74AHC1G00DRLR | Reel of 4000 | -40 to 125 | AAB, AAS
 ```
+[[15::table #1]]
 
 ## Conversion notes
 

@@ -6,7 +6,8 @@
 raw=${1:?usage: list.sh <raw dir>}
 mkdir -p "$raw"
 here=${0:A:h}
-eval "$(grep -E '^export DIGIKEY_CLIENT_(ID|SECRET)=' ~/.zshrc)"
+# Both keys' credentials; list.js uses the second key unless DK_OPT2=0 is set (list.js header).
+eval "$(grep -E '^export DIGIKEY_CLIENT_(ID|SECRET)2?=' ~/.zshrc)"
 # 54 Mill-Max, 1212 Preci-Dip, 43 Aries, 19 3M, 17 TE AMP, 123 Assmann WSW, 612 Samtec,
 # 2057 Adam Tech, 609 Amphenol ICC, 52 On Shore, 1175 CNC Tech, 952 Harwin: the makers of
 # category 409 with a DIP or PLCC socket in stock (plan-51-A § 2).

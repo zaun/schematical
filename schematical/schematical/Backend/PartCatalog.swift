@@ -197,6 +197,26 @@ nonisolated struct RegulatorInfo: Hashable, Sendable {
     let fswHz: UInt64
 }
 
+/// A power switch part's facts (plan-55-J), from the backend's
+/// `PartPowerSwitch`. Every value is 0 when not given.
+nonisolated struct PowerSwitchInfo: Hashable, Sendable {
+    /// "load", "limited" (a current-limited or USB switch) or "ideal-diode".
+    let type: String
+    /// The switches in the package (more than 1: a dual, triple or quad).
+    let switches: Int
+    /// The input range's ends, in millivolts.
+    let vinMinMV: UInt32
+    let vinMaxMV: UInt32
+    /// The continuous current per switch and a current-limited switch's
+    /// limit, in milliamps.
+    let ioutMA: UInt32
+    let ilimitMA: UInt32
+    /// The on-resistance, in milliohms.
+    let ronMOhm: UInt32
+    /// The quiescent current, in microamps.
+    let iqUA: UInt32
+}
+
 /// A crystal or ceramic resonator part's facts (plan-44-G), from the
 /// backend's `PartCrystal`. A value is 0 when not given.
 nonisolated struct CrystalInfo: Hashable, Sendable {
@@ -330,6 +350,35 @@ nonisolated struct DisplayInfo: Hashable, Sendable {
     /// (commons) sides, top to bottom.
     let segmentPins: [Int]
     let commonPins: [Int]
+}
+
+/// A dekatron's facts (`PartDekatron`): one anode, ten cathode positions in a
+/// ring and the guides that step the glow round it.
+nonisolated struct DekatronInfo: Hashable, Sendable {
+    /// Pin indices (into `CatalogPart.pins`): `positionPins[p]` is the pin of
+    /// the cathode at position p (0-9, also the order the simulation reports
+    /// the lights); several positions may share a pin.
+    let positionPins: [Int]
+    /// The distinct cathode pins, in the file's order.
+    let cathodePins: [Int]
+    let anodePin: Int
+    /// The guides, in the file's order (a single-pulse tube's first guide is
+    /// the driven one).
+    let guidePins: [Int]
+    /// A two-guide tube counts both ways with two overlapping pulses; a
+    /// single-pulse tube counts forward with one.
+    let twoGuide: Bool
+    /// The glow color name ("Orange"), the bulb size, "side" or "end" view.
+    let color: String
+    let size: String
+    let view: String
+    /// Least anode supply, running voltage, millivolts.
+    let strikeMV: UInt32
+    let sustainMV: UInt32
+    /// Anode current range, microamps; the highest counting rate, hertz.
+    let currentMinUA: UInt32
+    let currentMaxUA: UInt32
+    let rateHz: UInt32
 }
 
 /// A nixie tube's facts (`PartNixie`): one anode and one cathode per glyph.
@@ -509,6 +558,10 @@ nonisolated struct Footprint: Hashable, Sendable {
         var slotLength: Double = 0
         /// False for a non-plated hole: no copper, the pad is the hole itself.
         var plated: Bool = true
+        /// A surface-mount pad on the other face of the board from the
+        /// footprint's own side (plan-54-E); it swaps layers with the part's
+        /// side. See `PlacedPad.layerSide(on:)`.
+        var opposite: Bool = false
     }
 
     let id: String
@@ -516,6 +569,9 @@ nonisolated struct Footprint: Hashable, Sendable {
     let body: CGSize
     let bodyRound: Bool
     let pads: [Pad]
+    /// The housing straddles the board edge (plan-54-E): the placement check
+    /// asks only that its pads are on the board.
+    var edgeMount: Bool = false
 
     // Ids are unique across the library, so a footprint is its id.
     static func == (a: Footprint, b: Footprint) -> Bool { a.id == b.id }
@@ -556,6 +612,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case led(colors: [String])
         case display(DisplayInfo)
         case nixie(NixieInfo)
+        case dekatron(DekatronInfo)
         case oscillator(family: String, minHz: UInt64, maxHz: UInt64, defaultHz: UInt64, enablePin: String?)
         /// `mv`: the supply's voltage in millivolts (0 for ground); `pull`:
         /// a pull-up or pull-down part (drives weakly).
@@ -571,6 +628,21 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// A barrel jack (`usb` nil) or a USB connector (`usb` "A", "B" or
         /// "C"; no centre pin or contacts, ratings 0 when not given).
         case connector(centerPinUM: UInt32, ratedMV: UInt32, ratedMA: UInt32, contacts: Int, usb: String?)
+        /// A PCB terminal block or a JST board header (plan-45): `kind` is
+        /// "terminal" or "jst"; `variant` the terminal block's clamp ("screw",
+        /// "spring", "push-in", "pluggable") or the JST series ("XH", "PH",
+        /// "EH", "ZH", "SH", "GH", "VH"); `pitchUM` the pole pitch in
+        /// micrometres; the ratings are 0 when the maker gives none. A passive
+        /// row of pins.
+        case wireConnector(kind: String, variant: String, pitchUM: UInt32, ratedMV: UInt32, ratedMA: UInt32)
+        /// A card slot (plan-54): a socket for a memory or SIM card, a memory
+        /// module or a card edge; a passive block of pins. `card`: what the
+        /// slot takes ("microSD", "DDR4 SODIMM", "PCI Express"); `pitchUM`:
+        /// the contact pitch in micrometres, 0 when the part gives none.
+        case cardSlot(card: String, pitchUM: UInt32)
+        /// A test point (plan-57): one passive pin, a bare pad or plated hole
+        /// to probe; a `connector` device with `"testPoint": true`.
+        case testPoint
         /// A parallel I/O peripheral on the 65xx bus (plan-14): its model
         /// ("pia6521", "via6522"), speed grade and highest clock.
         case pio(model: String, grade: String, maxHz: UInt64)
@@ -582,6 +654,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case converter(type: String, bits: Int, channels: Int)
         /// A real-time clock (plan-24): no kind-specific facts.
         case rtc
+        /// An LED or LCD display driver (plan-56): no kind-specific facts.
+        case displayDriver
         /// A serial (SPI) memory chip: EEPROM, F-RAM or flash (`SerialMemoryInfo`).
         case serialmem(SerialMemoryInfo)
         /// A diode part (plan-29): its type ("rectifier", "fast",
@@ -599,6 +673,10 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// A microcontroller (plan-36): its core ("avr", "avrxt", "riscv", …),
         /// highest clock, and flash, RAM, EEPROM and PSRAM in bytes (0 = none).
         case mcu(core: String, maxHz: UInt64, flash: UInt32, ram: UInt32, eeprom: UInt32, psram: UInt32)
+        /// A programmable logic device (GAL, ATF16V8, ATF22V10, ATF750): its
+        /// output macrocells and its speed grade, the maximum pin-to-pin
+        /// delay, in picoseconds. Not simulated yet.
+        case pld(macrocells: Int, tpdPS: UInt64)
         /// A resistor (plan-34): its resistance in ohms (0 = a jumper), its
         /// tolerance in percent and rated power per element in watts (nil when
         /// not given: the generic part, a jumper's tolerance), and the
@@ -611,9 +689,21 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// regulators (more than 1: a dual, triple or quad), its facts
         /// (`RegulatorInfo`).
         case regulator(RegulatorInfo)
+        /// A power switch (plan-55): a load switch, a current-limited or
+        /// USB switch or an integrated ideal diode, one to four switches
+        /// (more than 1: a dual, triple or quad), its facts
+        /// (`PowerSwitchInfo`).
+        case powerswitch(PowerSwitchInfo)
         /// A crystal or ceramic resonator (plan-44): a two-terminal
         /// frequency reference, its facts (`CrystalInfo`).
         case crystal(CrystalInfo)
+        /// An IC socket (plan-51): a passive block of pins a DIP or PLCC chip
+        /// plugs into. `family`: "DIP" or "PLCC"; `rowUM`: a DIP socket's row
+        /// spacing in micrometres (0 for PLCC); `mounting`: "through-hole" or
+        /// "surface-mount"; `finish`: the contact finish ("gold", "tin",
+        /// "tin-lead"), nil when not given. The chip footprints it holds are
+        /// `CatalogPart.fits`.
+        case socket(family: String, rowUM: UInt32, mounting: String, finish: String?)
         /// A fixed inductor (plan-47): a two-terminal part, its facts
         /// (`InductorInfo`).
         case inductor(InductorInfo)
@@ -662,6 +752,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// picker order; one of them is `footprint` (the default). Empty for
     /// most parts.
     let footprintChoices: [FootprintChoice]
+    /// A socket's `fits` (plan-51): the chip footprints it holds, in file
+    /// order. Empty for every other kind.
+    let fits: [Footprint]
     /// The recommended supply range and the highest input voltage,
     /// millivolts. Nil for supplies, LEDs, 7-segment displays and switches.
     let vcc: (minMV: UInt32, maxMV: UInt32, inputMaxMV: UInt32)?
@@ -703,10 +796,13 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
             return "VF \(VoltageCheck.volts(info.vfMinMV))–\(VoltageCheck.volts(info.vfMaxMV)) V"
         case let .nixie(info):
             return "\(VoltageCheck.volts(info.strikeMV)) V min"
+        case let .dekatron(info):
+            return "\(VoltageCheck.volts(info.strikeMV)) V min"
         case let .dipSwitch(_, _, ratedMV) where ratedMV > 0,
              let .tactileSwitch(_, ratedMV, _, _, _) where ratedMV > 0:
             return "\(VoltageCheck.volts(ratedMV)) V max"
-        case let .connector(_, ratedMV, _, _, _) where ratedMV > 0:
+        case let .connector(_, ratedMV, _, _, _) where ratedMV > 0,
+             let .wireConnector(_, _, _, ratedMV, _) where ratedMV > 0:
             return "\(VoltageCheck.volts(ratedMV)) V max"
         default:
             return nil
@@ -716,6 +812,24 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// A tactile (momentary push-button) switch, plan-27.
     var isTactileSwitch: Bool {
         if case .tactileSwitch = details { return true }
+        return false
+    }
+
+    /// A terminal block or a JST board header (plan-45).
+    var isWireConnector: Bool {
+        if case .wireConnector = details { return true }
+        return false
+    }
+
+    /// A card slot: a socket for a memory or SIM card, a module or a card edge (plan-54).
+    var isCardSlot: Bool {
+        if case .cardSlot = details { return true }
+        return false
+    }
+
+    /// A test point: one passive pin on a bare pad or plated hole (plan-57).
+    var isTestPoint: Bool {
+        if case .testPoint = details { return true }
         return false
     }
 
@@ -755,8 +869,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// A processor: a part with a processor window.
     var isCpu: Bool { kind == PART_CPU }
 
-    /// A converter or RTC: a part with a register window (plan-24-I).
-    var hasRegisters: Bool { kind == PART_CONVERTER || kind == PART_RTC }
+    /// A converter, RTC or display driver: a part with a register window
+    /// (plan-24-I, plan-56-G).
+    var hasRegisters: Bool {
+        kind == PART_CONVERTER || kind == PART_RTC || kind == PART_LEDDRIVER || kind == PART_LCDDRIVER
+    }
 
     /// A pull-up or pull-down: a resistor on the board, with a resistance
     /// (`PlacedChip.ohms`) and footprint choices.
@@ -805,6 +922,12 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// A voltage regulator part's facts (plan-42-I); nil for every other kind.
     var regulator: RegulatorInfo? {
         if case let .regulator(info) = details { return info }
+        return nil
+    }
+
+    /// A power switch part's facts (plan-55-J); nil for every other kind.
+    var powerswitch: PowerSwitchInfo? {
+        if case let .powerswitch(info) = details { return info }
         return nil
     }
 
@@ -892,6 +1015,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         return nil
     }
 
+    var dekatron: DekatronInfo? {
+        if case let .dekatron(info) = details { return info }
+        return nil
+    }
+
     var characterLCD: CharacterLCDInfo? {
         if case let .characterLCD(info) = details { return info }
         return nil
@@ -916,6 +1044,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .led(colors): return colors
         case let .display(info): return [info.color]
         case let .nixie(info): return [info.color]
+        case let .dekatron(info): return [info.color]
         default: return []
         }
     }
@@ -927,12 +1056,14 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     }
 
     /// The count shown next to the name in the drawer: gates or flip-flops per
-    /// package, switch positions, display digits. Nil for other parts.
+    /// package, switch positions, display digits, a card slot's or a terminal
+    /// block's pins. Nil for other parts.
     var count: Int? {
         switch details {
         case let .logic(_, units): return units
         case let .dipSwitch(positions, _, _): return positions
         case let .display(info): return info.digits
+        case .cardSlot, .wireConnector: return pins.count
         default: return nil
         }
     }
@@ -972,6 +1103,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .led(colors): return colors.count == 1 ? colors : ["\(colors.count) colors"]
         case let .display(info): return [info.color, info.size, info.commonAnode ? "CA" : "CC"]
         case let .nixie(info): return [info.size, info.view == "end" ? "End view" : "Side view"]
+        case let .dekatron(info): return [info.size, info.twoGuide ? "2 guides" : "Single pulse"]
         case let .oscillator(family, _, _, _, _): return [family]
         case .supply: return []
         case let .cpu(_, _, maxHz): return ["\(maxHz / 1_000_000) MHz"]
@@ -980,15 +1112,22 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .serial(_, channels, _, host):
             return [PartFacts.serialHost(host)] + (channels > 1 ? ["\(channels) channels"] : [])
         case let .pio(_, _, maxHz): return ["\(maxHz / 1_000_000) MHz"]
+        case let .wireConnector(kind, variant, pitchUM, _, ratedMA):
+            let pitch = String(format: "%.2f mm", Double(pitchUM) / 1000)
+            let current = ratedMA > 0 ? [String(format: "%g A", Double(ratedMA) / 1000)] : []
+            return kind == "jst" ? [variant, pitch] : [pitch, PartFacts.clampName(variant)] + current
         case let .connector(_, _, ratedMA, _, usb?):
             return ["USB-\(usb)"] + (ratedMA > 0 ? [String(format: "%.1f A", Double(ratedMA) / 1000)] : [])
         case let .connector(centerPinUM, _, ratedMA, contacts, nil):
             return [String(format: "%.1f mm", Double(centerPinUM) / 1000),
                     String(format: "%.1f A", Double(ratedMA) / 1000)] + (contacts > 0 ? ["switched"] : [])
+        case let .cardSlot(card, pitchUM):
+            return [card] + (pitchUM > 0 ? [String(format: "%.2f mm", Double(pitchUM) / 1000)] : [])
+        case .testPoint: return []
         case let .header(rows, perRow, _): return ["\(rows)×\(perRow)"]
         case let .converter(_, bits, channels):
             return ["\(bits)-bit"] + (channels > 1 ? ["\(channels) channels"] : [])
-        case .rtc: return []
+        case .rtc, .displayDriver: return []
         case let .serialmem(info):
             // The function level of the drawer already says the density.
             return info.maxClockKHz > 0 ? [PartFacts.hertz(UInt64(info.maxClockKHz) * 1000)] : []
@@ -1001,6 +1140,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
             return [CapacitorValue.text(farads)] + (ratedMV > 0 ? ["\(PartFacts.milli(ratedMV)) V"] : [])
                 + (dielectric.map { [$0] } ?? [])
         case let .mcu(_, maxHz, _, _, _, _): return [PartFacts.hertz(maxHz)]
+        case let .pld(_, tpdPS): return [PartFacts.duration(tpdPS)]
         case let .resistor(ohms, tolerancePercent, powerW, _):
             return [ResistorValue.text(ohms)]
                 + (tolerancePercent.map { [PartFacts.percentText($0)] } ?? [])
@@ -1016,10 +1156,17 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
             let output = outputs.isEmpty ? (info.adjustable ? ["ADJ"] : [])
                 : ["\(outputs.map { PartFacts.milli($0) }.joined(separator: "/")) V"]
             return output + (info.ioutMA > 0 ? ["\(PartFacts.milli(info.ioutMA)) A"] : [])
+        case let .powerswitch(info):
+            // The input maximum and the current: "≤ 5.5 V", "1.5 A" (plan-55-J).
+            return (info.vinMaxMV > 0 ? ["≤ \(PartFacts.milli(info.vinMaxMV)) V"] : [])
+                + (info.ioutMA > 0 ? ["\(PartFacts.milli(info.ioutMA)) A"] : [])
         case let .crystal(info):
             // The load capacitance and the tolerance, when the part gives them.
             return (info.loadFF > 0 ? [CapacitorValue.text(Double(info.loadFF) / 1e15)] : [])
                 + (info.tolerancePPM > 0 ? [CrystalInfo.ppmText(info.tolerancePPM)] : [])
+        case let .socket(_, _, mounting, finish):
+            // The mounting and the contact finish: "through hole", "gold".
+            return [mounting == "surface-mount" ? "surface mount" : "through hole"] + (finish.map { [$0] } ?? [])
         case let .inductor(info):
             // The rated current and the shielding (plan-47-M).
             return (info.ratedMA > 0 ? [PartFacts.amps(mA: info.ratedMA)] : [])
@@ -1095,8 +1242,10 @@ extension Footprint {
                        chamfer: pad.chamfer,
                        corners: Corners(rawValue: Int(pad.corners)),
                        slotLength: pad.slot_length,
-                       plated: pad.npth == 0)
+                       plated: pad.npth == 0,
+                       opposite: pad.opposite != 0)
         }
+        edgeMount = footprint.edge_mount != 0
     }
 }
 
@@ -1105,10 +1254,11 @@ extension CatalogPart {
     /// `connectorFootprint` are the Swift copies of `part.footprint` and
     /// `part.connector_footprint`, shared by every part that uses them.
     nonisolated init(_ part: Part, footprint: Footprint?, connectorFootprint: Footprint? = nil,
-                     footprintChoices: [FootprintChoice] = []) {
+                     footprintChoices: [FootprintChoice] = [], fits: [Footprint] = []) {
         self.footprint = footprint
         self.connectorFootprint = connectorFootprint
         self.footprintChoices = footprintChoices
+        self.fits = fits
         vcc = part.vcc.map { ($0.pointee.min_mv, $0.pointee.max_mv, $0.pointee.input_max_mv) }
         supplyDomains = (0..<part.domain_count).compactMap { k in
             guard let domain = part.domains?[k], let range = domain.vcc?.pointee else { return nil }
@@ -1193,6 +1343,23 @@ extension CatalogPart {
                 currentMinUA: nixie.current_min_ua,
                 currentMaxUA: nixie.current_max_ua
             ))
+        } else if let dekatron = part.dekatron?.pointee {
+            let positionPins = withUnsafeBytes(of: dekatron.position_pin) { Array($0.bindMemory(to: Int.self)) }
+            details = .dekatron(DekatronInfo(
+                positionPins: positionPins,
+                cathodePins: indices(dekatron.cathode_pins, dekatron.cathode_pin_count),
+                anodePin: dekatron.anode_pin,
+                guidePins: indices(dekatron.guide_pins, dekatron.guide_count),
+                twoGuide: dekatron.two_guide != 0,
+                color: string(dekatron.color),
+                size: string(dekatron.size),
+                view: string(dekatron.view),
+                strikeMV: dekatron.strike_mv,
+                sustainMV: dekatron.sustain_mv,
+                currentMinUA: dekatron.current_min_ua,
+                currentMaxUA: dekatron.current_max_ua,
+                rateHz: dekatron.rate_hz
+            ))
         } else if let osc = part.oscillator?.pointee {
             details = .oscillator(family: string(osc.family), minHz: osc.min_hz, maxHz: osc.max_hz,
                                   defaultHz: osc.default_hz,
@@ -1221,6 +1388,16 @@ extension CatalogPart {
             let rows = max(Int(header.rows), 1)
             details = .header(rows: rows, perRow: Int(part.pin_count) / rows,
                               genders: (0..<header.gender_count).map { string(header.genders?[$0]) })
+        } else if let connector = part.connector?.pointee, connector.test_point != 0 {
+            details = .testPoint
+        } else if let connector = part.connector?.pointee, let card = connector.card {
+            details = .cardSlot(card: string(card), pitchUM: connector.card_pitch_um)
+        } else if let connector = part.connector?.pointee, connector.terminal != 0 || connector.jst != 0 {
+            details = .wireConnector(kind: connector.terminal != 0 ? "terminal" : "jst",
+                                     variant: connector.terminal != 0
+                                         ? PartFacts.clampWord(connector.terminal) : PartFacts.jstSeries(connector.jst),
+                                     pitchUM: connector.pitch_um, ratedMV: connector.rated_mv,
+                                     ratedMA: connector.rated_ma)
         } else if let connector = part.connector?.pointee {
             details = .connector(centerPinUM: connector.center_diameter_um, ratedMV: connector.rated_mv,
                                  ratedMA: connector.rated_ma, contacts: Int(connector.contacts),
@@ -1231,6 +1408,8 @@ extension CatalogPart {
                                  channels: Int(converter.channels))
         } else if part.kind == PART_RTC {
             details = .rtc
+        } else if part.kind == PART_LEDDRIVER || part.kind == PART_LCDDRIVER {
+            details = .displayDriver
         } else if let memory = part.serialmem?.pointee {
             details = .serialmem(SerialMemoryInfo(
                 type: string(memory.type), size: memory.size, addressBytes: Int(memory.address_bytes),
@@ -1251,6 +1430,8 @@ extension CatalogPart {
         } else if let mcu = part.mcu?.pointee {
             details = .mcu(core: string(mcu.core), maxHz: mcu.max_hz, flash: mcu.flash, ram: mcu.ram,
                            eeprom: mcu.eeprom, psram: mcu.psram)
+        } else if let pld = part.pld?.pointee {
+            details = .pld(macrocells: Int(pld.macrocells), tpdPS: pld.tpd_ps)
         } else if let resistor = part.resistor?.pointee {
             details = .resistor(ohms: Double(resistor.milliohms) / 1000,
                                 tolerancePercent: resistor.tolerance_ppm == 0 ? nil
@@ -1278,11 +1459,20 @@ extension CatalogPart {
                 vinMinMV: regulator.vin_min_mv, vinMaxMV: regulator.vin_max_mv,
                 dropoutMV: regulator.dropout_mv, ioutMA: regulator.iout_ma,
                 iqUA: regulator.iq_ua, fswHz: regulator.fsw_hz))
+        } else if let powerswitch = part.powerswitch?.pointee {
+            details = .powerswitch(PowerSwitchInfo(
+                type: string(powerswitch.type), switches: Int(powerswitch.switch_count),
+                vinMinMV: powerswitch.vin_min_mv, vinMaxMV: powerswitch.vin_max_mv,
+                ioutMA: powerswitch.iout_ma, ilimitMA: powerswitch.ilimit_ma,
+                ronMOhm: powerswitch.ron_mohm, iqUA: powerswitch.iq_ua))
         } else if let crystal = part.crystal?.pointee {
             details = .crystal(CrystalInfo(
                 type: string(crystal.type), hz: crystal.hz, loadFF: crystal.load_ff,
                 tolerancePPM: crystal.tolerance_ppm, stabilityPPM: crystal.stability_ppm,
                 esrMOhm: crystal.esr_mohm, capacitors: crystal.capacitors != 0))
+        } else if let socket = part.socket?.pointee {
+            details = .socket(family: string(socket.family), rowUM: socket.row_um,
+                              mounting: string(socket.mounting), finish: socket.finish.map { String(cString: $0) })
         } else if let inductor = part.inductor?.pointee {
             details = .inductor(InductorInfo(
                 pH: inductor.ph, tolerance: inductor.tolerance.map { String(cString: $0) },
@@ -1389,6 +1579,9 @@ nonisolated enum BackendCatalog {
                               let copy = choice.footprint.flatMap(footprint)
                         else { return nil }
                         return CatalogPart.FootprintChoice(package: string(choice.package), footprint: copy)
+                    },
+                    fits: (0..<part.fit_count).compactMap { k in
+                        part.fits?[k].flatMap(footprint)
                     })
     }
 
@@ -1619,8 +1812,9 @@ func symbol(for part: CatalogPart) -> PartSymbol {
     switch part.kind {
     case PART_SWITCH: return part.isTactileSwitch ? .tactileSwitch : .dipSwitch
     case PART_LED: return .diode
-    case PART_7SEG: return .sevenSegment
+    case PART_7SEG, PART_LCD: return .sevenSegment
     case PART_NIXIE: return .nixie
+    case PART_DEKATRON: return .dekatron
     case PART_CHARLCD: return .characterLCD
     case PART_OSCILLATOR: return .oscillator
     case PART_SUPPLY:
@@ -1628,8 +1822,11 @@ func symbol(for part: CatalogPart) -> PartSymbol {
         if pull { return level == 0 ? .pullDown : .pullUp }
         return level == 0 ? .ground : .vcc
     case PART_CONNECTOR:
-        // A USB connector is a plain block of its pins.
+        // A test point is a circle on a stub; a USB connector and a card slot are plain blocks of their pins.
+        if part.isTestPoint { return .testPoint }
         if case .connector(_, _, _, _, _?) = part.details { return .block }
+        if case .cardSlot = part.details { return .block }
+        if case .wireConnector = part.details { return .block }
         return .barrelJack
     case PART_HEADER: return .header
     case PART_DIODE:
@@ -1656,6 +1853,9 @@ func symbol(for part: CatalogPart) -> PartSymbol {
         return names == ["B", "C", "E"] || names == ["G", "D", "S"] ? .transistor : .block
     case PART_REGULATOR:
         // A regulator draws as a block, its pins named (plan-42-I).
+        return .block
+    case PART_POWERSWITCH:
+        // A power switch draws as a block, its pins named (plan-55-J).
         return .block
     case PART_CRYSTAL:
         // A crystal or resonator with its two terminals draws as the
@@ -1770,6 +1970,10 @@ final class PartCatalogStore {
     /// Listed parts (a non-empty drawer path).
     private var entries: [CatalogPart] = []
     private var partsByName: [String: CatalogPart] = [:]
+    /// The sockets by the id of each chip footprint they hold (plan-51-H),
+    /// built the first time `sockets(fitting:)` asks and dropped whenever
+    /// `partsByName` changes.
+    @ObservationIgnored private var socketIndex: [String: [CatalogPart]]?
     /// Registered custom parts (plan-32-A), by uuid, and the text each was
     /// registered with.
     private var partsByUUID: [String: CatalogPart] = [:]
@@ -2022,6 +2226,38 @@ final class PartCatalogStore {
     /// Any part by name, listed or not (VCC and GND are not listed). A rail
     /// of any voltage ("170V", "3V6") and its pull-up ("PULLUP-170V") exist
     /// as soon as they are asked for: see `customSupply`.
+    /// The sockets that hold a chip footprint (plan-51-H): the `PART_SOCKET`
+    /// parts whose `fits` name it, the generic one first, then by
+    /// manufacturer, then by part number in natural order. Bundled sockets
+    /// only (see the index).
+    func sockets(fitting footprint: Footprint) -> [CatalogPart] {
+        if socketIndex == nil {
+            var index: [String: [CatalogPart]] = [:]
+            // Bundled sockets only: a chip's file names its socket, and a file carries no
+            // custom part but a placed chip's own (`customParts`).
+            for part in partsByName.values where part.kind == PART_SOCKET && part.uuid == nil {
+                for fit in part.fits { index[fit.id, default: []].append(part) }
+            }
+            socketIndex = index.mapValues { list in
+                list.sorted { a, b in
+                    let (ga, gb) = (a.manufacturer == "Generic", b.manufacturer == "Generic")
+                    if ga != gb { return ga }
+                    if a.manufacturer != b.manufacturer {
+                        return a.manufacturer.localizedStandardCompare(b.manufacturer) == .orderedAscending
+                    }
+                    return a.name.localizedStandardCompare(b.name) == .orderedAscending
+                }
+            }
+        }
+        return socketIndex?[footprint.id] ?? []
+    }
+
+    /// The generic socket for a chip footprint: the first `Generic` entry of
+    /// `sockets(fitting:)`; nil when there is none.
+    func genericSocket(fitting footprint: Footprint) -> CatalogPart? {
+        sockets(fitting: footprint).first { $0.manufacturer == "Generic" }
+    }
+
     func part(named name: String) -> CatalogPart? {
         partsByName[name] ?? customSupplies[name] ?? customSupply(named: name)
     }
@@ -2145,6 +2381,7 @@ final class PartCatalogStore {
         let backendPart = BackendCatalog.catalogPart(loaded.pointee) { Footprint($0.pointee) }
         let part = backendPart.listed(in: listing.category ?? PartCategory.fileLibrary)
         partsByName[part.name] = part
+        socketIndex = nil
         partsByUUID[uuid] = part
         registeredTexts[uuid] = text
         listings[uuid] = listing
@@ -2322,6 +2559,7 @@ final class PartCatalogStore {
             .listed(in: PartCategory.userLibrary)
         if old.name != part.name { partsByName[old.name] = nil }
         partsByName[part.name] = part
+        socketIndex = nil
         partsByUUID[uuid] = part
         registeredTexts[uuid] = text
         if let index = entries.firstIndex(where: { $0.uuid == uuid }) {
@@ -2374,6 +2612,7 @@ final class PartCatalogStore {
         if let category = listing.category {
             let updated = current.listed(in: category)
             partsByName[updated.name] = updated
+            socketIndex = nil
             partsByUUID[uuid] = updated
             if let index = entries.firstIndex(where: { $0.uuid == uuid }) {
                 entries[index] = updated
@@ -2484,7 +2723,7 @@ final class PartCatalogStore {
                 let groupPath = path + [name]
                 let own = parts.filter { $0.drawer.count == groupPath.count }
                 let subgroups = Self.subgroups(parts, below: groupPath, rank: rank)
-                return listsPartsDirectly(own)
+                return listsPartsDirectly(own) || repeatsDrawerName(own, name)
                     ? SubcategoryGroup(subcategory: name, path: groupPath, subgroups: subgroups,
                                        functions: [], parts: byCountThenName(own, rank: rank))
                     : SubcategoryGroup(subcategory: name, path: groupPath, subgroups: subgroups,
@@ -2498,9 +2737,17 @@ final class PartCatalogStore {
     private static func listsPartsDirectly(_ parts: [CatalogPart]) -> Bool {
         parts.allSatisfy {
             ($0.kind == PART_SWITCH && !$0.isTactileSwitch) || $0.kind == PART_LED || $0.kind == PART_7SEG || $0.kind == PART_CHARLCD
-                || $0.kind == PART_NIXIE
+                || $0.kind == PART_NIXIE || $0.kind == PART_DEKATRON || $0.kind == PART_LCD
                 || $0.kind == PART_HEADER
         }
+    }
+
+    /// Card slots whose function is the drawer's own name (Card slot → SD →
+    /// SD): a function level would repeat the group's title, so they are
+    /// listed directly. A drawer that also holds other functions (SIM →
+    /// Micro SIM, Nano SIM, SIM) keeps its function level.
+    private static func repeatsDrawerName(_ parts: [CatalogPart], _ name: String) -> Bool {
+        !parts.isEmpty && parts.allSatisfy { $0.isCardSlot && $0.function.caseInsensitiveCompare(name) == .orderedSame }
     }
 
     /// Parts by count (positions, digits), then by name.
@@ -2554,6 +2801,9 @@ final class PartCatalogStore {
                             ? ($0.drawerValue ?? 0) < ($1.drawerValue ?? 0)
                             : rank[$0.name, default: 0] < rank[$1.name, default: 0]
                     }
+                    // The card slots of a leaf go by pin count then name (plan-54-O),
+                    // and so do a leaf's terminal blocks and JST headers (plan-45-H).
+                    : parts.allSatisfy({ $0.isCardSlot || $0.isWireConnector }) ? byCountThenName(parts, rank: rank)
                     : parts
                 return FunctionGroup(function: function, parts: ordered, bitGroups: bitGroups(parts))
             }
@@ -2579,6 +2829,7 @@ final class PartCatalogStore {
         do {
             let parts = try BackendCatalog.load(into: library)
             partsByName = Dictionary(parts.map { ($0.name, $0) }, uniquingKeysWith: { first, _ in first })
+            socketIndex = nil
             // The 80 header sizes are one generic header in the drawer
             // (`HeaderFamily`); `part(named:)` still finds every size.
             entries = parts.filter {

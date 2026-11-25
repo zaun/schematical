@@ -24,21 +24,21 @@
 ## Description
 
 This triple Schmitt-trigger inverter is designed for 1.65-V to 5.5-V
-V~CC~ operation.
+V~CC~ operation. [[1::1]]
 
 The SN74LVC3G14 contains three inverters and performs the Boolean
 function Y = !{A}. The device functions as three independent inverters
 but, because of Schmitt action, it may have different input threshold
-levels for positive-going (V~T+~) and negative-going (V~T–~) signals.
+levels for positive-going (V~T+~) and negative-going (V~T–~) signals. [[1::3]]
 
 NanoFree™ package technology is a major breakthrough in IC packaging
-concepts, using the die as the package.
+concepts, using the die as the package. [[1::4]]
 
 This device is fully specified for partial-power-down applications
 using I~off~. The I~off~ circuitry disables the outputs, preventing
-damaging current backflow through the device when it is powered down.
+damaging current backflow through the device when it is powered down. [[1::5]]
 
-Supports 5-V V~CC~ Operation. Inputs Accept Voltages to 5.5 V.
+Supports 5-V V~CC~ Operation. Inputs Accept Voltages to 5.5 V. [[1::2]]
 
 ## Pinout
 
@@ -58,6 +58,7 @@ Conversion note: the source has no pin table, and the descriptions are the conve
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -68,6 +69,7 @@ VCC: Supply voltage
 | H | L |
 | L | H |
 ```
+[[2::table #1]]
 
 Conversion note: the logic diagram (positive logic, p.2) shows three Schmitt-trigger inverters, 1A (pin 1) to 1Y (pin 7), 2A (pin 3) to 2Y (pin 5) and 3A (pin 6) to 3Y (pin 2).
 
@@ -94,10 +96,11 @@ Conversion note: the logic diagram (positive logic, p.2) shows three Schmitt-tri
 [3] The value of V~CC~ is provided in the recommended operating conditions table.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #2]]
 
 Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II. ESD
 Protection Exceeds JESD 22: 2000-V Human-Body Model (A114-A), 200-V
-Machine Model (A115-A), 1000-V Charged-Device Model (C101).
+Machine Model (A115-A), 1000-V Charged-Device Model (C101). [[1::2]]
 
 ## Recommended operating conditions
 
@@ -122,6 +125,7 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -164,6 +168,7 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 ```
+[[4::table #1]]
 
 ```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | V~CC~ = 5 V | Unit |
@@ -171,6 +176,7 @@ Machine Model (A115-A), 1000-V Charged-Device Model (C101).
 |---|---|---|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 17 | 18 | 19 | 22 | pF |
 ```
+[[5::table #1]]
 
 ## Switching characteristics
 
@@ -183,6 +189,7 @@ Conversion note: Figure 1 is in [parameter measurement information](#parameter-m
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | 3.9 | 9.2 | 1.9 | 5.7 | 2.3 | 5.4 | 1.5 | 4.3 | ns |
 ```
+[[4::table #2]]
 
 ```table id=sw-125 caption="Switching characteristics, –40°C to 125°C" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 1)"
 | Parameter | From (input) | To (output) | SN74LVC3G14, –40°C to 125°C | < | < | < | < | < | < | < | Unit |
@@ -191,6 +198,7 @@ Conversion note: Figure 1 is in [parameter measurement information](#parameter-m
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | 3.9 | 9.7 | 1.9 | 6.2 | 2.3 | 5.9 | 1.5 | 4.7 | ns |
 ```
+[[5::table #2]]
 
 ## Parameter measurement information
 
@@ -198,7 +206,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[6::1]]
 
 Conversion note: in the load circuit of Figure 1 one R~L~ goes from the output to ground and a second R~L~ from the output to switch S1, which goes to V~LOAD~, open or GND; the figure below draws the load with S1 open.
 
@@ -209,11 +217,13 @@ Conversion note: in the load circuit of Figure 1 one R~L~ goes from the output t
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[6::table #1]]
 
 ```figure ref=load-rl-cl caption="Figure 1, load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[6::Figure 1]]
 
 ```table id=pmi-load caption="Figure 1. Load values"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -224,10 +234,12 @@ CL: see table
 | 3.3 V ± 0.3 V | 3 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[6::table #2]]
 
 ```figure ref=waveforms-tpd caption="Figure 1, voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[6::Figure 1]]
 
 Conversion note: Figure 1 also shows pulse-duration, setup-and-hold and enable and disable waveforms with their notes B, E and F, which do not apply to this part.
 
@@ -250,6 +262,7 @@ SN74LVC3G14DCUT | Reel of 250 | -40 to 125 | C14J, C14Q, C14R, CR
 SN74LVC3G14DCUTG4 | Reel of 250 | -40 to 125 | C14R
 SN74LVC3G14YZPR | Reel of 3000 | -40 to 125 | CFN
 ```
+[[8::table #1]]
 
 ## Conversion notes
 

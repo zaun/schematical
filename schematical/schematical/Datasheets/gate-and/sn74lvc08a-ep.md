@@ -25,15 +25,15 @@
 
 The SN74LVC08A quadruple 2-input positive-AND gate is designed for 2.7-V
 to 3.6-V V~CC~ operation. The device performs the Boolean function
-Y = A • B or Y = !{!{A} + !{B}} in positive logic.
+Y = A • B or Y = !{!{A} + !{B}} in positive logic. [[1::4]] [[1::5]]
 
 Inputs can be driven from either 3.3 V or 5 V devices. This feature
 allows the use of this device as a translator in a mixed 3.3 V/5 V
-system environment.
+system environment. [[1::6]]
 
 Controlled baseline – one assembly – one test site – one fabrication
 site. Extended temperature performance of –40°C to 125°C and –55°C to
-125°C.
+125°C. [[1::1]]
 
 ## Pinout
 
@@ -49,6 +49,7 @@ site. Extended temperature performance of –40°C to 125°C and –55°C to
 GND: Ground
 VCC: Positive supply
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -62,6 +63,7 @@ Conversion note: the logic diagram, each gate (positive logic), is one 2-input A
 | L | X | L |
 | X | L | L |
 ```
+[[2::table #1]]
 
 ## Absolute maximum ratings
 
@@ -84,9 +86,10 @@ Conversion note: the logic diagram, each gate (positive logic), is one 2-input A
 [3] The value of V~CC~ is provided in the recommended operating conditions table.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #2]]
 
 ESD protection exceeds 2000 V per MIL-STD-883, Method 3015; exceeds
-200 V using machine model (C = 200 pF, R = 0).
+200 V using machine model (C = 200 pF, R = 0). [[1::3]]
 
 ## Recommended operating conditions
 
@@ -109,6 +112,7 @@ ESD protection exceeds 2000 V per MIL-STD-883, Method 3015; exceeds
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[1::table #2]] [[2::table #3]]
 
 ## Electrical characteristics
 
@@ -129,6 +133,7 @@ ESD protection exceeds 2000 V per MIL-STD-883, Method 3015; exceeds
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25 °C.
 ```
+[[4::table #1]]
 
 ```table id=operating caption="Operating characteristics, T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | V~CC~ = 2.5 V | V~CC~ = 3.3 V | Unit |
@@ -136,6 +141,7 @@ ESD protection exceeds 2000 V per MIL-STD-883, Method 3015; exceeds
 |---|---|---|--:|--:|---|
 | C~pd~ | Power dissipation capacitance per gate | f = 10 MHz | 9.8 | 10 | pF |
 ```
+[[4::table #2]]
 
 ## Switching characteristics
 
@@ -145,6 +151,7 @@ ESD protection exceeds 2000 V per MIL-STD-883, Method 3015; exceeds
 |---|---|---|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | | 4.8 | 1 | 4.1 | ns |
 ```
+[[4::table #3]]
 
 ## Parameter measurement information
 
@@ -152,7 +159,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied
 by generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[5::2]]
 
 Conversion note: for t~PLH~/t~PHL~ the switch S1 of the load circuit
 (Figure 1) is open, which leaves R~L~ and C~L~ from the output to ground.
@@ -164,15 +171,18 @@ Conversion note: for t~PLH~/t~PHL~ the switch S1 of the load circuit
 | 2.7 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 3.3 V ± 0.3 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 ```
+[[5::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit for t~pd~ (S1 open)"
 RL: 500 Ω
 CL: 50 pF
 ```
+[[5::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V
 ```
+[[5::figure #1]]
 
 ## Package
 
@@ -194,6 +204,7 @@ V62/04655-01YE | Reel of 2000 | -40 to 125 | LVC08AE
 V62/04655-02XE | Reel of 2500 | -55 to 125 | LVC08AM
 V62/04655-02YE | Reel of 2000 | -55 to 125 | LVC08AM
 ```
+[[6::table #1]]
 
 ## Conversion notes
 

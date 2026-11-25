@@ -105,6 +105,16 @@ struct PCBSidebarView: View {
                         .id(keepout.id)
                 }
             case .selection:
+                MultiPositionSection(document: document)
+                let footprints = document.boardSelection.items.compactMap { item -> UUID? in
+                    if case let .footprint(id) = item, document.chips.contains(where: { $0.id == id && $0.board != nil }) {
+                        return id
+                    }
+                    return nil
+                }
+                if !footprints.isEmpty {
+                    MarksSection(document: document, ids: footprints)
+                }
                 SelectionListSection(
                     rows: SelectionRows.board(document),
                     onSelect: { document.select($0) },
@@ -127,6 +137,94 @@ struct PCBSidebarView: View {
             BoardDetailsSheet(document: document, highlightedNet: highlightedNet, onRoute: onRoute,
                               onClose: { isDetailsOpen = false })
         }
+    }
+}
+
+// MARK: - Position of several items
+
+/// The Position section for a selection of several items: the Layer (Top or
+/// Bottom) of its footprints and board texts, and Lock Position for every
+/// item. A change applies to all of them as one undo step. When they
+/// disagree, the Layer shows no segment selected and Lock Position is off;
+/// turning it on locks them all.
+struct MultiPositionSection: View {
+    let document: SchematicDocument
+
+    var body: some View {
+        let items = Array(document.boardSelection.items)
+        let sides = Set(items.compactMap { side(of: $0) })
+        Section("Position") {
+            if !sides.isEmpty {
+                Picker("Layer", selection: Binding<BoardSide?>(
+                    get: { sides.count == 1 ? sides.first : nil },
+                    set: { if let side = $0 { document.setSide(of: items, side) } }
+                )) {
+                    ForEach(BoardSide.allCases, id: \.self) { side in
+                        Text(side.title).tag(Optional(side))
+                    }
+                }
+                .pickerStyle(.segmented)
+                .disabled(document.board.layers == 1)
+            }
+            Toggle("Lock Position", isOn: Binding(
+                get: { !items.isEmpty && items.allSatisfy { document.isLocked($0) } },
+                set: { document.setLocked(items, $0) }
+            ))
+            .help("A locked item can't be moved")
+        }
+    }
+
+    /// The side a footprint or board text is on; nil for any other item.
+    private func side(of item: BoardItem) -> BoardSide? {
+        switch item {
+        case let .footprint(id): document.chips.first { $0.id == id }?.board?.side
+        case let .text(id): document.texts.first { $0.id == id }?.side
+        default: nil
+        }
+    }
+}
+
+// MARK: - Marks
+
+/// The Marks section of one or more selected footprints: where the bounding
+/// box, pin 1 mark and reference are drawn. A change applies to every
+/// footprint in `ids` as one undo step. When they disagree, no segment is
+/// shown selected for that mark.
+struct MarksSection: View {
+    let document: SchematicDocument
+    let ids: [UUID]
+
+    private var placements: [BoardPlacement] {
+        document.chips.filter { ids.contains($0.id) }.compactMap(\.board)
+    }
+
+    var body: some View {
+        Section("Marks") {
+            markPicker("Bounding Box", \.outline) { document.setFootprintMarks(ids, outline: $0) }
+            markPicker("Pin 1", \.pin1) { document.setFootprintMarks(ids, pin1: $0) }
+            markPicker("Reference", \.reference) { document.setFootprintMarks(ids, reference: $0) }
+            if placements.contains(where: { $0.referenceOffset != .zero }) {
+                Button("Reset Reference Position") {
+                    document.recordEdit(.pcb, "Reset Reference") {
+                        for id in ids { document.resetReference(id) }
+                    }
+                }
+            }
+        }
+    }
+
+    private func markPicker(_ title: String, _ mark: KeyPath<BoardPlacement, MarkLayer>,
+                            set: @escaping (MarkLayer) -> Void) -> some View {
+        let layers = Set(placements.map { $0[keyPath: mark] })
+        return Picker(title, selection: Binding<MarkLayer?>(
+            get: { layers.count == 1 ? layers.first : nil },
+            set: { if let layer = $0 { set(layer) } }
+        )) {
+            ForEach(MarkLayer.allCases, id: \.self) { layer in
+                Text(layer.title).tag(Optional(layer))
+            }
+        }
+        .pickerStyle(.segmented)
     }
 }
 
@@ -932,17 +1030,32 @@ struct TracePanel: View {
     }
 }
 
-/// A selected trace's or via's net and that net's class, read-only.
+/// A selected trace's or via's net (read-only) and that net's class, which
+/// a menu sets. The class belongs to the net, so choosing one moves every
+/// trace, via and pad of the net into it, and the net's traces and vias take
+/// the class's width and via size.
 private struct NetAndClassRows: View {
     let document: SchematicDocument
     let net: (BoardConnectivity) -> Int?
 
     var body: some View {
         let copper = document.connectivity()
-        let names = document.netAndClassNames(ofNet: net(copper), in: copper)
+        let netID = net(copper)
+        let names = document.netAndClassNames(ofNet: netID, in: copper)
+        let key = netID.flatMap { copper.netKeys[$0] }
         LabeledContent("Net", value: names.net)
-        LabeledContent("Class", value: names.netClass)
-            .help("New copper on the net takes its class's width and via")
+        Picker("Class", selection: Binding<UUID?>(
+            get: { netID.flatMap { document.netClass(ofNet: $0, in: copper) }?.id },
+            set: { if let key { document.assignNet(key, to: $0) } }
+        )) {
+            Text("Default").tag(UUID?.none)
+            ForEach(document.board.netClasses) { netClass in
+                Text(netClass.name).tag(Optional(netClass.id))
+            }
+        }
+        .pickerStyle(.menu)
+        .disabled(key == nil)
+        .help("The net's class: its trace width, clearance and via. Every trace and via on the net changes to match.")
     }
 }
 
@@ -1021,23 +1134,7 @@ private struct FootprintPanel: View {
             LabeledContent("Rotation", value: "\(placement.rotation)°")
         }
 
-        Section("Marks") {
-            markPicker("Bounding Box", placement.outline) { document.setFootprintMarks(chip.id, outline: $0) }
-            markPicker("Pin 1", placement.pin1) { document.setFootprintMarks(chip.id, pin1: $0) }
-            markPicker("Reference", placement.reference) { document.setFootprintMarks(chip.id, reference: $0) }
-            if placement.referenceOffset != .zero {
-                Button("Reset Reference Position") { document.resetReference(chip.id) }
-            }
-        }
-    }
-
-    private func markPicker(_ title: String, _ layer: MarkLayer, set: @escaping (MarkLayer) -> Void) -> some View {
-        Picker(title, selection: Binding(get: { layer }, set: set)) {
-            ForEach(MarkLayer.allCases, id: \.self) { layer in
-                Text(layer.title).tag(layer)
-            }
-        }
-        .pickerStyle(.segmented)
+        MarksSection(document: document, ids: [chip.id])
     }
 
     /// Moves the origin point (snapped) and returns where it ended up.

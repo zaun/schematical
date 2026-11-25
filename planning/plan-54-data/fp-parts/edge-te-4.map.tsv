@@ -1,0 +1,9 @@
+stem	positions	footprint	note
+EDGE-TE-STANDARD-EDGE-II-E	64	EDGE-TE-STANDARD-EDGE-II-E-54	footprint has the datasheet's 54 pins (10 contacts omitted)
+EDGE-TE-STANDARD-EDGE-II-F	36	EDGE-TE-STANDARD-EDGE-II-F-28	footprint has the datasheet's 28 pins (5645384-6, 8 contacts omitted)
+EDGE-TE-STANDARD-EDGE-II-D	30	EDGE-TE-STANDARD-EDGE-II-G-30	5650118-1 (15 dual positions) is drawn on the 5650118 print (line II-G)
+EDGE-TE-STANDARD-EDGE-II-D	36	EDGE-TE-STANDARD-EDGE-II-F-36	5645384-1 (18 dual positions, no omitted pins) is drawn on the 5645384 print (line II-F)
+EDGE-TE-STANDARD-EDGE-II-L	50	EDGE-TE-STANDARD-EDGE-II-L-49	footprint has the datasheet's 49 pins (pin 44 omitted)
+EDGE-TE-STANDARD-EDGE-II-Q	60	EDGE-TE-STANDARD-EDGE-II-Q-52	footprint has the datasheet's 52 pins (positions 15-18 omitted in both rows)
+EDGE-TE-STANDARD-EDGE-II-P	50	EDGE-TE-STANDARD-EDGE-II-P-49	footprint has the datasheet's 49 pins (pin 44 omitted)
+EDGE-TE-STANDARD-EDGE-II-P	62	EDGE-TE-STANDARD-EDGE-II-P-61	footprint has the datasheet's 61 pins (pin 6 omitted); built by merge_te4.py (not expressible by rowgen: 30 + 31 pads)

@@ -31,5 +31,18 @@ python3 -I census/footprint-lines.py candidates.tsv > footprints-needed.txt
 
 The listing was gzipped after the run (`gzip -9 raw/*.jsonl`); `common.py` reads both forms.
 
-`list.sh` needs `DIGIKEY_CLIENT_ID` / `DIGIKEY_CLIENT_SECRET`
-(`eval "$(grep -E '^export DIGIKEY_CLIENT_(ID|SECRET)=' ~/.zshrc)"`).
+`list.sh`, `count.js`, `sample.js` and `list.js` need the DigiKey keys exported (`list.sh` does it itself:
+`eval "$(grep -E '^export DIGIKEY_CLIENT_(ID|SECRET)2?=' ~/.zshrc)"`). They take their login and requests from
+`census/dk.js` (`scripts/digikey.js`'s transport: Node first, Safari when Cloudflare challenges it) and use the
+**second key** (`DIGIKEY_CLIENT_ID2` / `_SECRET2`, its own daily quota) unless `DK_OPT2=0`.
+
+## Added by plan-45-A (2026-11-24)
+
+| Path | What |
+|---|---|
+| `census/dk.js` | the DigiKey login and request path of the three call scripts (second key, Safari fallback) |
+| `census/recheck.py`, `stock-check.tsv` | Phase 2: `census/list.sh /tmp/p45-raw2` (145 calls) then `python3 -I census/recheck.py /tmp/p45-raw2 candidates.tsv > stock-check.tsv`: one row per candidate (`mpn`, `found` 0/1, `stock`, `status`, `date`); `select.py raw candidates.tsv --urls url-check.tsv --stock stock-check.tsv` applies it |
+| `census/fetch.py` | Phase 3: downloads every candidate's datasheet into `/tmp/p45/pdf/<md5 of the url>.pdf` (Weidmuller, Wurth, JST by `urllib`; DigiKey's copies of the Phoenix files through `scripts/safari-digikey-pdf.sh`) |
+| `census/place.py` | copies them to `datasheets/connector-terminal/{phoenix,weidmuller,wurth}/` and `datasheets/connector-jst/`, writes each folder's `datasheets.tsv`, sets `pdf`; `--verify`, and for B `--prune` |
+| `census/textscan.py` | `hit` (the part number printed) and `dead` (an obsolescence word on a page that names it) per row |
+| `census/specs-skeleton.py`, `specs.tsv` | one row per (maker, variant, PDF); B fills `scheme`, `volts`, `amps`, `pinout`, `note` |

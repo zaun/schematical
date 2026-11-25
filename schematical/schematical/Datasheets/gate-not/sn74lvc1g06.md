@@ -25,19 +25,19 @@
 
 Supports 5V V~CC~ operation. Input and open-drain output accept voltages
 up to 5.5V. Latch-up performance exceeds 100mA per JESD 78, class II.
-Can be used for up or down translation.
+Can be used for up or down translation. [[1::3]]
 
 This single inverter buffer and driver is designed for 1.65V to 5.5V
-V~CC~ operation.
+V~CC~ operation. [[1::2]]
 
 The output of the SN74LVC1G06 device is open-drain and can be connected
 to other open-drain outputs to implement active-low wired-OR or
-active-high wired-AND functions. The maximum sink current is 32mA.
+active-high wired-AND functions. The maximum sink current is 32mA. [[1::5]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs when the device is
 powered down. This inhibits current backflow into the device which
-prevents damage to the device.
+prevents damage to the device. [[1::6]]
 
 ## Pinout
 
@@ -60,10 +60,11 @@ NC: Not connected
 VCC: Power pin
 Y: Output
 ```
+[[3::Table 4-1]]
 
-NC – No internal connection
+NC – No internal connection [[3::1]]
 
-See mechanical drawings for dimensions.
+See mechanical drawings for dimensions. [[3::1]]
 
 ## Functional description
 
@@ -71,7 +72,7 @@ The SN74LVC1G06 device contains one open-drain inverter with a maximum
 sink current of 32mA. This device is fully specified for
 partial-power-down applications using I~off~. The I~off~ circuitry
 disables the outputs when the device is powered down. This inhibits
-current backflow into the device which prevents damage to the device.
+current backflow into the device which prevents damage to the device. [[9::1]]
 
 Conversion note: the logic diagram (positive logic) shows one inverter with an open-drain output, A (pin 2) to Y (pin 4).
 
@@ -82,7 +83,7 @@ to source current from V~CC~. When the output is not actively pulling
 the line low, it will go into a high impedance state (tri-state). This
 allows the device to be used for a wide variety of applications,
 including up-translation and down-translation, as the output voltage can
-be determined by an external pullup.
+be determined by an external pullup. [[9::2]]
 
 Consider the drive capability of this device creates fast edges into
 light loads so routing and load conditions prevent ringing.
@@ -91,7 +92,7 @@ currents than the device can sustain without being damaged. It is
 important for the power output of the device to be limited to avoid
 thermal runaway and damage due to over-current. The electrical and
 thermal limits defined in the Absolute Maximum Ratings must be followed
-at all times.
+at all times. [[9::3]]
 
 ### Standard CMOS inputs
 
@@ -100,43 +101,44 @@ is modeled as a resistor in parallel with the input capacitance as shown
 in the Electrical Characteristics. The worst case resistance is
 calculated with the maximum input voltage, given in the Absolute Maximum
 Ratings, and the maximum input leakage current, given in the Electrical
-Characteristics, using ohm's law (R = V ÷ I).
+Characteristics, using ohm's law (R = V ÷ I). [[9::4]]
 
 Signals applied to the inputs need to have fast edge rates, as defined
 by Δt/Δv in the Recommended Operating Conditions to avoid excessive
 current consumption and oscillations. If a slow or noisy input signal is
 required, a device with a Schmitt-trigger input should be used to
-condition the input signal before the standard CMOS input.
+condition the input signal before the standard CMOS input. [[9::5]]
 
 ### Negative clamping diodes
 
 The inputs and outputs to this device have negative clamping diodes as
-depicted in Figure 6-2.
+depicted in Figure 6-2. [[10::1]]
 
 Voltages beyond the values specified in the Absolute Maximum Ratings
 table can cause damage to the device. The input negative-voltage and the
 output voltage ratings may be exceeded if the input and output
-clamp-current ratings are observed.
+clamp-current ratings are observed. [[10::2]]
 
 ```figure ref=clamp-diodes caption="Figure 6-2. Electrical placement of clamping diodes for each input and output"
 ```
+[[10::Figure 6-2]]
 
 ### Partial power down (I~off~)
 
 Each input and output enter a high impedance state when the supply
 voltage is 0V. The maximum leakage into or out of any input or output
 pin on the device is specified by I~off~ in the Electrical
-Characteristics.
+Characteristics. [[10::4]]
 
 ### Over-voltage tolerant inputs
 
 Input signals to this device can be driven above the supply voltage as
 long as the input signals remain below the maximum input voltage value
-specified in the Recommended Operating Conditions.
+specified in the Recommended Operating Conditions. [[10::5]]
 
 ### Device functional modes
 
-Table 6-1 lists the functional modes of the SN74LVC1G06.
+Table 6-1 lists the functional modes of the SN74LVC1G06. [[10::6]]
 
 ## Function tables
 
@@ -146,6 +148,7 @@ Table 6-1 lists the functional modes of the SN74LVC1G06.
 | L | Hi-Z |
 | H | L |
 ```
+[[10::Table 6-1]]
 
 ## Absolute maximum ratings
 
@@ -167,6 +170,7 @@ Table 6-1 lists the functional modes of the SN74LVC1G06.
 [2] The input and output negative-voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The value of V~CC~ is provided in the Recommended Operating Conditions table.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -178,6 +182,7 @@ Table 6-1 lists the functional modes of the SN74LVC1G06.
 [1] JEDEC document JEP155 states that 500V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -208,6 +213,7 @@ Table 6-1 lists the functional modes of the SN74LVC1G06.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to establish proper device operation. See Implications of Slow or Floating CMOS Inputs application report.
 ```
+[[5::table #1]]
 
 ## Thermal information
 
@@ -225,6 +231,7 @@ Table 6-1 lists the functional modes of the SN74LVC1G06.
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application note.
 [2] Source error: the table prints "5 PINS" under DRY; the package information (p.1) and the pin drawing (p.3) give the DRY package 6 pins. Kept as printed.
 ```
+[[5::table #2]]
 
 Conversion note: the source gives no thermal data for the DSF package.
 
@@ -249,6 +256,7 @@ Conversion note: the source gives no thermal data for the DSF package.
 [1] All typical values are at V~CC~ = 3.3V, T~A~ = 25°C.
 [2] Source error: V~OL~, with I~OL~ test conditions and maximum values, is the low-level output voltage; the source prints "High-level output voltage". Kept as printed.
 ```
+[[6::table #1]]
 
 ### Operating characteristics
 
@@ -260,6 +268,7 @@ Conversion note: the source gives no thermal data for the DSF package.
 | ^ | ^ | ^ | 3.3V | 4 | ^ |
 | ^ | ^ | ^ | 5V | 6 | ^ |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -273,6 +282,7 @@ Conversion note: Figure 6-1 is in [parameter measurement information](#parameter
 | ^ | ^ | ^ | ^ | 3.3V ± 0.3V | 1.2 | 4 | ^ |
 | ^ | ^ | ^ | ^ | 5V ± 0.5V | 1 | 3 | ^ |
 ```
+[[6::table #3]]
 
 ```table id=sw-125 caption="Switching characteristics: –40°C to +125°C" conditions="Over recommended operating free-air temperature range, T~A~ = –40°C to +125°C (unless otherwise noted) (see Figure 6-1)"
 | Symbol | Parameter | From (input) | To (output) | V~CC~ | Min | Max | Unit |
@@ -282,6 +292,7 @@ Conversion note: Figure 6-1 is in [parameter measurement information](#parameter
 | ^ | ^ | ^ | ^ | 3.3V ± 0.3V | 1.2 | 4.5 | ^ |
 | ^ | ^ | ^ | ^ | 5V ± 0.5V | 1 | 3.5 | ^ |
 ```
+[[6::table #4]]
 
 ## Typical characteristics
 
@@ -292,6 +303,7 @@ Conversion note: Figure 6-1 is in [parameter measurement information](#parameter
   {"label": "TPD", "points": [[-50, 1.5], [125, 2.0]]}
  ]}
 ```
+[[7::Figure 5-1]]
 
 ```curve id=tpd-vcc caption="Figure 5-2. TPD across V~CC~ at 25°C"
 {"x": {"label": "Vcc", "unit": "V", "range": [0, 6]},
@@ -300,6 +312,7 @@ Conversion note: Figure 6-1 is in [parameter measurement information](#parameter
   {"label": "TPD", "points": [[1.8, 5.5], [2.5, 3.05], [3.3, 1.7], [5.0, 2.05]]}
  ]}
 ```
+[[7::Figure 5-2]]
 
 ```curve id=icc-freq caption="Figure 7-2. I~CC~ vs frequency"
 {"x": {"label": "Frequency", "unit": "MHz", "range": [0, 80]},
@@ -311,6 +324,7 @@ Conversion note: Figure 6-1 is in [parameter measurement information](#parameter
   {"label": "Icc 5V", "points": [[0, 0], [20, 400], [35, 680], [45, 920], [50, 980], [60, 1200], [75, 1500]]}
  ]}
 ```
+[[12::Figure 7-2]]
 
 ## Parameter measurement information
 
@@ -320,7 +334,7 @@ Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. Since this device has open-drain outputs, t~PLZ~ and
 t~PZL~ are the same as t~pd~. t~PZL~ is measured at V~M~. t~PLZ~ is
 measured at V~OL~ + V~∆~. All parameters and waveforms are not
-applicable to all devices.
+applicable to all devices. [[8::1]]
 
 Conversion note: the load circuit of Figure 6-1 has C~L~ and one R~L~
 from the output under test to ground, and a second R~L~ from the output
@@ -333,6 +347,7 @@ to switch S1, which goes to V~LOAD~, open or GND.
 | t~PLZ~ (see Notes E and G) | V~LOAD~ |
 | t~PHZ~/t~PZH~ | V~LOAD~ |
 ```
+[[8::table #1]]
 
 ```table id=test-conditions caption="Figure 6-1. Load circuit and voltage waveforms (open drain)"
 | V~CC~ | Input | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~∆~ |
@@ -343,6 +358,7 @@ to switch S1, which goes to V~LOAD~, open or GND.
 | 3.3 V ± 0.3 V | 3 V | ≤ 2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤ 2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[8::table #2]]
 
 Conversion note: the enable and disable waveforms of Figure 6-1 show
 t~PZL~ from V~M~ of the input to V~M~ of the falling output and t~PLZ~
@@ -356,7 +372,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[11::1]]
 
 The SN74LVC1G06 is a high-drive CMOS device that can be used to
 implement a high output drive buffer, such as an LED application. It can
@@ -364,7 +380,7 @@ sink 32mA of current at 4.5V making it appropriate for high-drive
 applications. It is good for high-speed applications up to 100MHz. The
 inputs are 5.5V tolerant allowing it to translate up or down to V~CC~.
 Below shows a simple LED driver application for a single channel of the
-device.
+device. [[11::2]]
 
 Conversion note: in the typical application diagram (Figure 7-1) the
 input is driven from an MCU, and the output is connected to the cathode
@@ -376,37 +392,37 @@ This device uses CMOS technology and has balanced output drive. Take
 care to avoid bus contention because it can drive currents that would
 exceed maximum limits. The high drive will also create fast edges into
 light loads so routing and load conditions should be considered to
-prevent ringing.
+prevent ringing. [[11::3]]
 
 ### Detailed design procedure
 
-1. Recommended Input Conditions
+1. Recommended Input Conditions [[11::4]]
    - Rise time and fall time specs. See (Δt/ΔV) in the Recommended
-     Operating Conditions table.
+     Operating Conditions table. [[11::4]]
    - Specified high and low levels. See (V~IH~ and V~IL~) in the
-     Recommended Operating Conditions table.
+     Recommended Operating Conditions table. [[11::4]]
    - Inputs are overvoltage tolerant allowing them to go as high as
      (V~I~ max) in the Recommended Operating Conditions table at any
-     valid V~CC~.
-2. Recommended Output Conditions
+     valid V~CC~. [[11::4]]
+2. Recommended Output Conditions [[11::4]]
    - Load currents should not exceed (I~O~ max) per output and should
      not exceed (Continuous current through V~CC~ or GND) total current
      for the part. These limits are located in the Absolute Maximum
-     Ratings table.
-   - Outputs should not be pulled above 5.5V.
+     Ratings table. [[11::4]]
+   - Outputs should not be pulled above 5.5V. [[11::4]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the minimum and maximum
 supply voltage rating located in the Recommended Operating Conditions
-table.
+table. [[12::1]]
 
 The V~CC~ pin must have a good bypass capacitor to prevent power
 disturbance. A 0.1µF capacitor is recommended, and it is acceptable to
 parallel multiple bypass caps to reject different frequencies of noise.
 0.1µF and 1µF capacitors are commonly used in parallel. For the best
 results, install the bypass capacitor as close to the power pin as
-possible.
+possible. [[12::2]]
 
 ### Layout guidelines
 
@@ -420,7 +436,7 @@ especially the distributed capacitance and self–inductance of the trace
 which results in the reflection. Not all PCB traces can be straight and
 therefore some traces must turn corners. Figure 7-3 shows progressively
 better techniques of rounding corners. Only the last example (BEST)
-maintains constant trace width and minimizes reflections.
+maintains constant trace width and minimizes reflections. [[12::3]]
 
 An example layout is given in Figure 7-4 for the DPW (X2SON-5) package.
 This example layout includes a 0402 (metric) capacitor and uses the
@@ -428,7 +444,7 @@ measurements found in the example board layout appended to this end of
 this data sheet. A via of diameter 0.1mm (3.973mil) is placed directly
 in the center of the device. This via can be used to trace out the
 center pin connection through another board layer, or it can be left out
-of the layout.
+of the layout. [[12::4]]
 
 Conversion note: the layout figures (Figure 7-3 and Figure 7-4) are not
 drawn here.
@@ -466,6 +482,7 @@ SN74LVC1G06YZPR | Reel of 3000 | -40 to 85 | CTN
 SN74LVC1G06DRYR | Reel of 5000 | -40 to 125 | CT
 SN74LVC1G06DSFR | Reel of 5000 | -40 to 125 | CT
 ```
+[[16::table #1]] [[21::table #1]]
 
 ## Conversion notes
 

@@ -1,0 +1,2525 @@
+{
+ "kind": "lcddriver",
+ "newDevices": [
+  {
+   "id": "PCF85176",
+   "function": "40x4 driver",
+   "description": "40 x 4 I2C LCD driver for static and 1:2, 1:3, 1:4 multiplex glass (PCF8576D, PCF85176, PCA85176H), 1.8-5.5 V logic",
+   "drawer": [
+    "Displays & Indicators",
+    "LCD drivers"
+   ],
+   "note": "pcf85176.pdf p.2 ordering (PCF85176H TQFP64 SOT357-1, PCF85176T TSSOP56 SOT364-1), p.4-5 pinning and Table 3, p.5-8 commands (Tables 4-10), p.9 power-on reset, p.19 clock, timing and backplane outputs, p.20-26 RAM, data pointer, subaddress, banks, p.28 I2C address, p.31-33 characteristics (VDD 1.8-5.5 V, fclk(int) 1850 Hz typ, ffr 77 Hz typ). pcf8576d.pdf (PCF8576DT TSSOP56, same pinout and logic): p.2 ordering, p.4-6 pinning, p.7 power-on reset, p.16 ffr = fclk / 24 and backplane pairing, p.17-24 RAM, Figure 13 fills, data pointer, subaddress, banks and commands, p.27 address, p.31-32 characteristics. pca85176.pdf (PCA85176H TQFP64 automotive): p.2 ordering, p.4 pinning, p.6-9 the same commands, p.9 power-on reset, p.32-33 fclk(int) PCA85176H 1850 Hz typ, ffr 77 Hz typ. Power-on: mode 1:4, E = 0 (display disabled, outputs at VLCD -> released here), pointer, counter, banks, blink cleared. The frame is the model's half period (Tfr / 2, Tfr = 24 / fclk, Figure 11 p.15: one pass of the backplanes per polarity). Modeled: I2C write address 0111 00 SA0 (0x38 / 0x39); command bytes with the C continuation bit (mode-set C 10 - E B M1 M0, load-data-pointer C 0 P5-P0, device-select, bank-select C 11110 I O, blink-select C 1110 AB BF1 BF0), the display data bytes after the last command byte, stored in the 40 x 4 RAM by mode (static 1 row, 1:2 2 rows, 1:3 3 rows, 1:4 4 rows per column, most significant bit first, data pointer step 8 / 4 / 3 / 2, the pointer wraps past column 39 and increments the subaddress counter, bits past column 39 fall into the next device), storing only while the subaddress counter equals the hardware subaddress pins, the input and output RAM banks in static and 1:2, the display-enable bit E (E = 0 releases every BP and S pin), the backplane slots (static all four BP pins alike, 1:2 BP0 = BP2 and BP1 = BP3, 1:3 BP3 = BP1, 1:4 one each) and the frame time. Not modeled: LCD bias and VLCD (bias and blink-select bits are only stored), blinking, the CLK / SYNC / OSC cascade and clock pins (the frame always runs from the internal oscillator), the missing acknowledge of a data byte addressed to another subaddress, the refusal of a read address byte.",
+   "vcc": [
+    1.8,
+    5.5
+   ],
+   "analog": [
+    "VLCD"
+   ],
+   "bus": {
+    "style": "i2c",
+    "scl": "SCL",
+    "sda": "SDA",
+    "address": [
+     "SA0"
+    ],
+    "table": [
+     56,
+     57,
+     null,
+     null
+    ]
+   },
+   "registers": [
+    {
+     "name": "MODE",
+     "width": 4,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "M",
+       "bits": [
+        1,
+        0
+       ]
+      },
+      {
+       "name": "B",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "E",
+       "bits": [
+        3,
+        3
+       ]
+      }
+     ]
+    },
+    {
+     "name": "PTR",
+     "width": 6,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "P",
+       "bits": [
+        5,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SUB",
+     "width": 3,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "A",
+       "bits": [
+        2,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "BANK",
+     "width": 2,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "I",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "O",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "BLINK",
+     "width": 3,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "AB",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "BF",
+       "bits": [
+        1,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "HW",
+     "width": 3,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "A0",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "A1",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "A2",
+       "bits": [
+        2,
+        2
+       ]
+      }
+     ]
+    }
+   ],
+   "protocol": {
+    "frame": "stream",
+    "commands": [
+     {
+      "name": "mode-set (C=1)",
+      "in": "110xebmm",
+      "set": {
+       "MODE.E": "e",
+       "MODE.B": "b",
+       "MODE.M": "m"
+      }
+     },
+     {
+      "name": "load-data-pointer (C=1)",
+      "in": "10pppppp",
+      "set": {
+       "PTR.P": "p"
+      }
+     },
+     {
+      "name": "device-select (C=1)",
+      "in": "11100aaa",
+      "set": {
+       "SUB.A": "a"
+      }
+     },
+     {
+      "name": "bank-select (C=1)",
+      "in": "111110io",
+      "set": {
+       "BANK.I": "i",
+       "BANK.O": "o"
+      }
+     },
+     {
+      "name": "blink-select (C=1)",
+      "in": "11110aff",
+      "set": {
+       "BLINK.AB": "a",
+       "BLINK.BF": "f"
+      }
+     },
+     {
+      "name": "mode-set (C=0)",
+      "in": "010xebmm",
+      "set": {
+       "MODE.E": "e",
+       "MODE.B": "b",
+       "MODE.M": "m"
+      },
+      "action": "lcdload"
+     },
+     {
+      "name": "load-data-pointer (C=0)",
+      "in": "00pppppp",
+      "set": {
+       "PTR.P": "p"
+      },
+      "action": "lcdload"
+     },
+     {
+      "name": "device-select (C=0)",
+      "in": "01100aaa",
+      "set": {
+       "SUB.A": "a"
+      },
+      "action": "lcdload"
+     },
+     {
+      "name": "bank-select (C=0)",
+      "in": "011110io",
+      "set": {
+       "BANK.I": "i",
+       "BANK.O": "o"
+      },
+      "action": "lcdload"
+     },
+     {
+      "name": "blink-select (C=0)",
+      "in": "01110aff",
+      "set": {
+       "BLINK.AB": "a",
+       "BLINK.BF": "f"
+      },
+      "action": "lcdload"
+     }
+    ]
+   },
+   "pins": {
+    "levels": [
+     {
+      "pin": "A0",
+      "field": "HW.A0"
+     },
+     {
+      "pin": "A1",
+      "field": "HW.A1"
+     },
+     {
+      "pin": "A2",
+      "field": "HW.A2"
+     }
+    ]
+   },
+   "display": {
+    "driver": "lcd",
+    "mode": {
+     "field": "MODE.M",
+     "values": {
+      "0": "1:4",
+      "1": "static",
+      "2": "1:2",
+      "3": "1:3"
+     }
+    },
+    "backplanes": [
+     "BP0",
+     "BP1",
+     "BP2",
+     "BP3"
+    ],
+    "slots": {
+     "static": [
+      [
+       "BP0",
+       "BP1",
+       "BP2",
+       "BP3"
+      ]
+     ],
+     "1:2": [
+      [
+       "BP0",
+       "BP2"
+      ],
+      [
+       "BP1",
+       "BP3"
+      ]
+     ],
+     "1:3": [
+      [
+       "BP0"
+      ],
+      [
+       "BP1",
+       "BP3"
+      ],
+      [
+       "BP2"
+      ]
+     ],
+     "1:4": [
+      [
+       "BP0"
+      ],
+      [
+       "BP1"
+      ],
+      [
+       "BP2"
+      ],
+      [
+       "BP3"
+      ]
+     ]
+    },
+    "segmentPins": [
+     "S0",
+     "S1",
+     "S2",
+     "S3",
+     "S4",
+     "S5",
+     "S6",
+     "S7",
+     "S8",
+     "S9",
+     "S10",
+     "S11",
+     "S12",
+     "S13",
+     "S14",
+     "S15",
+     "S16",
+     "S17",
+     "S18",
+     "S19",
+     "S20",
+     "S21",
+     "S22",
+     "S23",
+     "S24",
+     "S25",
+     "S26",
+     "S27",
+     "S28",
+     "S29",
+     "S30",
+     "S31",
+     "S32",
+     "S33",
+     "S34",
+     "S35",
+     "S36",
+     "S37",
+     "S38",
+     "S39"
+    ],
+    "ram": {
+     "bytes": 20,
+     "address": 0
+    },
+    "frameUs": 6487,
+    "enable": "MODE.E=1",
+    "outputBank": "BANK.O",
+    "load": {
+     "pointer": "PTR.P",
+     "step": {
+      "static": 8,
+      "1:2": 4,
+      "1:3": 3,
+      "1:4": 2
+     },
+     "bank": "BANK.I",
+     "subaddress": "SUB.A",
+     "hardware": "HW",
+     "subaddresses": 8
+    }
+   },
+   "pinouts": {
+    "p56": [
+     {
+      "number": 1,
+      "name": "BP2",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "BP1",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "BP3",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "S0",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "S1",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "S2",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "S3",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "S4",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "S5",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "S6",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "S7",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "S8",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "S9",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "S10",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "S11",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "S12",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "S13",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "S14",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "S15",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "S16",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "S17",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "S18",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "S19",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "S20",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "S21",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "S22",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "S23",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "S24",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "S25",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "S26",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "S27",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "S28",
+      "role": "output"
+     },
+     {
+      "number": 33,
+      "name": "S29",
+      "role": "output"
+     },
+     {
+      "number": 34,
+      "name": "S30",
+      "role": "output"
+     },
+     {
+      "number": 35,
+      "name": "S31",
+      "role": "output"
+     },
+     {
+      "number": 36,
+      "name": "S32",
+      "role": "output"
+     },
+     {
+      "number": 37,
+      "name": "S33",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "S34",
+      "role": "output"
+     },
+     {
+      "number": 39,
+      "name": "S35",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "S36",
+      "role": "output"
+     },
+     {
+      "number": 41,
+      "name": "S37",
+      "role": "output"
+     },
+     {
+      "number": 42,
+      "name": "S38",
+      "role": "output"
+     },
+     {
+      "number": 43,
+      "name": "S39",
+      "role": "output"
+     },
+     {
+      "number": 44,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 45,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 46,
+      "name": "SYNC",
+      "role": "inout",
+      "activeLow": true
+     },
+     {
+      "number": 47,
+      "name": "CLK",
+      "role": "inout"
+     },
+     {
+      "number": 48,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 49,
+      "name": "OSC",
+      "role": "input"
+     },
+     {
+      "number": 50,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 51,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 52,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 53,
+      "name": "SA0",
+      "role": "input"
+     },
+     {
+      "number": 54,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 55,
+      "name": "VLCD",
+      "role": "power"
+     },
+     {
+      "number": 56,
+      "name": "BP0",
+      "role": "output"
+     }
+    ],
+    "p64": [
+     {
+      "number": 1,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 2,
+      "name": "S34",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "S35",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "S36",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "S37",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "S38",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "S39",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 9,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 10,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 11,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "SYNC",
+      "role": "inout",
+      "activeLow": true
+     },
+     {
+      "number": 13,
+      "name": "CLK",
+      "role": "inout"
+     },
+     {
+      "number": 14,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 15,
+      "name": "OSC",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 17,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 18,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "SA0",
+      "role": "input"
+     },
+     {
+      "number": 20,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 21,
+      "name": "VLCD",
+      "role": "power"
+     },
+     {
+      "number": 22,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 23,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 24,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 25,
+      "name": "BP0",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "BP2",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "BP1",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "BP3",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "S0",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "S1",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "S2",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "S3",
+      "role": "output"
+     },
+     {
+      "number": 33,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 34,
+      "name": "S4",
+      "role": "output"
+     },
+     {
+      "number": 35,
+      "name": "S5",
+      "role": "output"
+     },
+     {
+      "number": 36,
+      "name": "S6",
+      "role": "output"
+     },
+     {
+      "number": 37,
+      "name": "S7",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "S8",
+      "role": "output"
+     },
+     {
+      "number": 39,
+      "name": "S9",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "S10",
+      "role": "output"
+     },
+     {
+      "number": 41,
+      "name": "S11",
+      "role": "output"
+     },
+     {
+      "number": 42,
+      "name": "S12",
+      "role": "output"
+     },
+     {
+      "number": 43,
+      "name": "S13",
+      "role": "output"
+     },
+     {
+      "number": 44,
+      "name": "S14",
+      "role": "output"
+     },
+     {
+      "number": 45,
+      "name": "S15",
+      "role": "output"
+     },
+     {
+      "number": 46,
+      "name": "S16",
+      "role": "output"
+     },
+     {
+      "number": 47,
+      "name": "S17",
+      "role": "output"
+     },
+     {
+      "number": 48,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 49,
+      "name": "S18",
+      "role": "output"
+     },
+     {
+      "number": 50,
+      "name": "S19",
+      "role": "output"
+     },
+     {
+      "number": 51,
+      "name": "S20",
+      "role": "output"
+     },
+     {
+      "number": 52,
+      "name": "S21",
+      "role": "output"
+     },
+     {
+      "number": 53,
+      "name": "S22",
+      "role": "output"
+     },
+     {
+      "number": 54,
+      "name": "S23",
+      "role": "output"
+     },
+     {
+      "number": 55,
+      "name": "S24",
+      "role": "output"
+     },
+     {
+      "number": 56,
+      "name": "S25",
+      "role": "output"
+     },
+     {
+      "number": 57,
+      "name": "S26",
+      "role": "output"
+     },
+     {
+      "number": 58,
+      "name": "S27",
+      "role": "output"
+     },
+     {
+      "number": 59,
+      "name": "S28",
+      "role": "output"
+     },
+     {
+      "number": 60,
+      "name": "S29",
+      "role": "output"
+     },
+     {
+      "number": 61,
+      "name": "S30",
+      "role": "output"
+     },
+     {
+      "number": 62,
+      "name": "S31",
+      "role": "output"
+     },
+     {
+      "number": 63,
+      "name": "S32",
+      "role": "output"
+     },
+     {
+      "number": 64,
+      "name": "S33",
+      "role": "output"
+     }
+    ]
+   },
+   "parts": [
+    {
+     "name": "PCF8576DT/2,118",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "pcf8576d",
+     "package": "TSSOP",
+     "pinout": "p56",
+     "footprint": "TSSOP-56",
+     "flags": [
+      "obsolete"
+     ]
+    },
+    {
+     "name": "PCF8576DT/2,518",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "pcf8576d",
+     "package": "TSSOP",
+     "pinout": "p56",
+     "footprint": "TSSOP-56"
+    },
+    {
+     "name": "PCF8576DT/S400/2,1",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "pcf8576d",
+     "package": "TSSOP",
+     "pinout": "p56",
+     "footprint": "TSSOP-56",
+     "flags": [
+      "automotive",
+      "obsolete"
+     ]
+    },
+    {
+     "name": "PCF8576DT/S400/2Y",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "pcf8576d",
+     "package": "TSSOP",
+     "pinout": "p56",
+     "footprint": "TSSOP-56",
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "PCF85176H/1,518",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "pcf85176",
+     "package": "TQFP",
+     "pinout": "p64",
+     "footprint": "LQFP-64-10X10"
+    },
+    {
+     "name": "PCF85176T/1,118",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "pcf85176",
+     "package": "TSSOP",
+     "pinout": "p56",
+     "footprint": "TSSOP-56",
+     "flags": [
+      "obsolete"
+     ]
+    },
+    {
+     "name": "PCF85176T/1Y",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "pcf85176",
+     "package": "TSSOP",
+     "pinout": "p56",
+     "footprint": "TSSOP-56"
+    },
+    {
+     "name": "PCA85176H/Q900/1,5",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "pca85176",
+     "package": "TQFP",
+     "pinout": "p64",
+     "footprint": "LQFP-64-10X10",
+     "flags": [
+      "automotive",
+      "obsolete"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "PCA85176",
+   "function": "40x4 driver",
+   "description": "40 x 4 automotive I2C LCD driver, TSSOP56 (PCA85176T), 1.8-5.5 V logic, internal clock 2640 Hz typ",
+   "drawer": [
+    "Displays & Indicators",
+    "LCD drivers"
+   ],
+   "note": "pca85176.pdf p.2 ordering (PCA85176T TSSOP56 SOT364-1, AEC-Q100, 95 C), p.5 pinning and Table 3 (same pins as the PCF85176T), p.6-9 commands, p.9 power-on reset, p.27-28 address, p.30-33 characteristics: fclk(int) PCA85176T 1920 / 2640 / 3600 Hz, ffr 80 / 110 / 150 Hz (the PCA85176H TQFP64 runs 77 Hz and is a part of PCF85176). The same command set, RAM map and subaddressing as PCF85176; the frame is Tfr / 2 = 12 / 2640 Hz. Modeled: I2C write address 0111 00 SA0 (0x38 / 0x39); command bytes with the C continuation bit (mode-set C 10 - E B M1 M0, load-data-pointer C 0 P5-P0, device-select, bank-select C 11110 I O, blink-select C 1110 AB BF1 BF0), the display data bytes after the last command byte, stored in the 40 x 4 RAM by mode (static 1 row, 1:2 2 rows, 1:3 3 rows, 1:4 4 rows per column, most significant bit first, data pointer step 8 / 4 / 3 / 2, the pointer wraps past column 39 and increments the subaddress counter, bits past column 39 fall into the next device), storing only while the subaddress counter equals the hardware subaddress pins, the input and output RAM banks in static and 1:2, the display-enable bit E (E = 0 releases every BP and S pin), the backplane slots (static all four BP pins alike, 1:2 BP0 = BP2 and BP1 = BP3, 1:3 BP3 = BP1, 1:4 one each) and the frame time. Not modeled: LCD bias and VLCD (bias and blink-select bits are only stored), blinking, the CLK / SYNC / OSC cascade and clock pins (the frame always runs from the internal oscillator), the missing acknowledge of a data byte addressed to another subaddress, the refusal of a read address byte.",
+   "vcc": [
+    1.8,
+    5.5
+   ],
+   "analog": [
+    "VLCD"
+   ],
+   "bus": {
+    "style": "i2c",
+    "scl": "SCL",
+    "sda": "SDA",
+    "address": [
+     "SA0"
+    ],
+    "table": [
+     56,
+     57,
+     null,
+     null
+    ]
+   },
+   "registers": [
+    {
+     "name": "MODE",
+     "width": 4,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "M",
+       "bits": [
+        1,
+        0
+       ]
+      },
+      {
+       "name": "B",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "E",
+       "bits": [
+        3,
+        3
+       ]
+      }
+     ]
+    },
+    {
+     "name": "PTR",
+     "width": 6,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "P",
+       "bits": [
+        5,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SUB",
+     "width": 3,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "A",
+       "bits": [
+        2,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "BANK",
+     "width": 2,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "I",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "O",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "BLINK",
+     "width": 3,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "AB",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "BF",
+       "bits": [
+        1,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "HW",
+     "width": 3,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "A0",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "A1",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "A2",
+       "bits": [
+        2,
+        2
+       ]
+      }
+     ]
+    }
+   ],
+   "protocol": {
+    "frame": "stream",
+    "commands": [
+     {
+      "name": "mode-set (C=1)",
+      "in": "110xebmm",
+      "set": {
+       "MODE.E": "e",
+       "MODE.B": "b",
+       "MODE.M": "m"
+      }
+     },
+     {
+      "name": "load-data-pointer (C=1)",
+      "in": "10pppppp",
+      "set": {
+       "PTR.P": "p"
+      }
+     },
+     {
+      "name": "device-select (C=1)",
+      "in": "11100aaa",
+      "set": {
+       "SUB.A": "a"
+      }
+     },
+     {
+      "name": "bank-select (C=1)",
+      "in": "111110io",
+      "set": {
+       "BANK.I": "i",
+       "BANK.O": "o"
+      }
+     },
+     {
+      "name": "blink-select (C=1)",
+      "in": "11110aff",
+      "set": {
+       "BLINK.AB": "a",
+       "BLINK.BF": "f"
+      }
+     },
+     {
+      "name": "mode-set (C=0)",
+      "in": "010xebmm",
+      "set": {
+       "MODE.E": "e",
+       "MODE.B": "b",
+       "MODE.M": "m"
+      },
+      "action": "lcdload"
+     },
+     {
+      "name": "load-data-pointer (C=0)",
+      "in": "00pppppp",
+      "set": {
+       "PTR.P": "p"
+      },
+      "action": "lcdload"
+     },
+     {
+      "name": "device-select (C=0)",
+      "in": "01100aaa",
+      "set": {
+       "SUB.A": "a"
+      },
+      "action": "lcdload"
+     },
+     {
+      "name": "bank-select (C=0)",
+      "in": "011110io",
+      "set": {
+       "BANK.I": "i",
+       "BANK.O": "o"
+      },
+      "action": "lcdload"
+     },
+     {
+      "name": "blink-select (C=0)",
+      "in": "01110aff",
+      "set": {
+       "BLINK.AB": "a",
+       "BLINK.BF": "f"
+      },
+      "action": "lcdload"
+     }
+    ]
+   },
+   "pins": {
+    "levels": [
+     {
+      "pin": "A0",
+      "field": "HW.A0"
+     },
+     {
+      "pin": "A1",
+      "field": "HW.A1"
+     },
+     {
+      "pin": "A2",
+      "field": "HW.A2"
+     }
+    ]
+   },
+   "display": {
+    "driver": "lcd",
+    "mode": {
+     "field": "MODE.M",
+     "values": {
+      "0": "1:4",
+      "1": "static",
+      "2": "1:2",
+      "3": "1:3"
+     }
+    },
+    "backplanes": [
+     "BP0",
+     "BP1",
+     "BP2",
+     "BP3"
+    ],
+    "slots": {
+     "static": [
+      [
+       "BP0",
+       "BP1",
+       "BP2",
+       "BP3"
+      ]
+     ],
+     "1:2": [
+      [
+       "BP0",
+       "BP2"
+      ],
+      [
+       "BP1",
+       "BP3"
+      ]
+     ],
+     "1:3": [
+      [
+       "BP0"
+      ],
+      [
+       "BP1",
+       "BP3"
+      ],
+      [
+       "BP2"
+      ]
+     ],
+     "1:4": [
+      [
+       "BP0"
+      ],
+      [
+       "BP1"
+      ],
+      [
+       "BP2"
+      ],
+      [
+       "BP3"
+      ]
+     ]
+    },
+    "segmentPins": [
+     "S0",
+     "S1",
+     "S2",
+     "S3",
+     "S4",
+     "S5",
+     "S6",
+     "S7",
+     "S8",
+     "S9",
+     "S10",
+     "S11",
+     "S12",
+     "S13",
+     "S14",
+     "S15",
+     "S16",
+     "S17",
+     "S18",
+     "S19",
+     "S20",
+     "S21",
+     "S22",
+     "S23",
+     "S24",
+     "S25",
+     "S26",
+     "S27",
+     "S28",
+     "S29",
+     "S30",
+     "S31",
+     "S32",
+     "S33",
+     "S34",
+     "S35",
+     "S36",
+     "S37",
+     "S38",
+     "S39"
+    ],
+    "ram": {
+     "bytes": 20,
+     "address": 0
+    },
+    "frameUs": 4545,
+    "enable": "MODE.E=1",
+    "outputBank": "BANK.O",
+    "load": {
+     "pointer": "PTR.P",
+     "step": {
+      "static": 8,
+      "1:2": 4,
+      "1:3": 3,
+      "1:4": 2
+     },
+     "bank": "BANK.I",
+     "subaddress": "SUB.A",
+     "hardware": "HW",
+     "subaddresses": 8
+    }
+   },
+   "pinouts": {
+    "p56": [
+     {
+      "number": 1,
+      "name": "BP2",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "BP1",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "BP3",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "S0",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "S1",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "S2",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "S3",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "S4",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "S5",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "S6",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "S7",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "S8",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "S9",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "S10",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "S11",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "S12",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "S13",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "S14",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "S15",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "S16",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "S17",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "S18",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "S19",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "S20",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "S21",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "S22",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "S23",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "S24",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "S25",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "S26",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "S27",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "S28",
+      "role": "output"
+     },
+     {
+      "number": 33,
+      "name": "S29",
+      "role": "output"
+     },
+     {
+      "number": 34,
+      "name": "S30",
+      "role": "output"
+     },
+     {
+      "number": 35,
+      "name": "S31",
+      "role": "output"
+     },
+     {
+      "number": 36,
+      "name": "S32",
+      "role": "output"
+     },
+     {
+      "number": 37,
+      "name": "S33",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "S34",
+      "role": "output"
+     },
+     {
+      "number": 39,
+      "name": "S35",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "S36",
+      "role": "output"
+     },
+     {
+      "number": 41,
+      "name": "S37",
+      "role": "output"
+     },
+     {
+      "number": 42,
+      "name": "S38",
+      "role": "output"
+     },
+     {
+      "number": 43,
+      "name": "S39",
+      "role": "output"
+     },
+     {
+      "number": 44,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 45,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 46,
+      "name": "SYNC",
+      "role": "inout",
+      "activeLow": true
+     },
+     {
+      "number": 47,
+      "name": "CLK",
+      "role": "inout"
+     },
+     {
+      "number": 48,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 49,
+      "name": "OSC",
+      "role": "input"
+     },
+     {
+      "number": 50,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 51,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 52,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 53,
+      "name": "SA0",
+      "role": "input"
+     },
+     {
+      "number": 54,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 55,
+      "name": "VLCD",
+      "role": "power"
+     },
+     {
+      "number": 56,
+      "name": "BP0",
+      "role": "output"
+     }
+    ]
+   },
+   "parts": [
+    {
+     "name": "PCA85176T/Q900/1,1",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "pca85176",
+     "package": "TSSOP",
+     "pinout": "p56",
+     "footprint": "TSSOP-56",
+     "flags": [
+      "automotive",
+      "obsolete"
+     ]
+    },
+    {
+     "name": "PCA85176T/Q900/1Y",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "pca85176",
+     "package": "TSSOP",
+     "pinout": "p56",
+     "footprint": "TSSOP-56",
+     "flags": [
+      "automotive"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "PCA85276",
+   "function": "40x4 driver",
+   "description": "40 x 4 automotive I2C LCD driver with a 2-bit subaddress (A0, A1) and test pin T1, TSSOP56, 1.8-5.5 V logic",
+   "drawer": [
+    "Displays & Indicators",
+    "LCD drivers"
+   ],
+   "note": "pca85276.pdf p.2 ordering (PCA85276ATT TSSOP56 SOT364-1, AEC-Q100 grade 2, 105 C), p.4-5 pinning and Table 3 (pin 52 is T1, tied to VSS; only A0 and A1), p.5-8 commands (device-select 110 00 A1 A0), p.9-15 clock, RAM, data pointer, subaddress and banks, p.15-16 initialization (no power-on reset: the registers are undefined after power-up; the model starts with mode 1:4, display disabled, pointer, counter and banks 0), p.27 address, p.30-33 characteristics (fclk(int) 4800 Hz typ, ffr 200 Hz typ; frame = Tfr / 2 = 12 / 4800 Hz). Modeled: I2C write address 0111 00 SA0 (0x38 / 0x39); command bytes with the C continuation bit (mode-set C 10 - E B M1 M0, load-data-pointer C 0 P5-P0, device-select, bank-select C 11110 I O, blink-select C 1110 AB BF1 BF0), the display data bytes after the last command byte, stored in the 40 x 4 RAM by mode (static 1 row, 1:2 2 rows, 1:3 3 rows, 1:4 4 rows per column, most significant bit first, data pointer step 8 / 4 / 3 / 2, the pointer wraps past column 39 and increments the subaddress counter, bits past column 39 fall into the next device), storing only while the subaddress counter equals the hardware subaddress pins, the input and output RAM banks in static and 1:2, the display-enable bit E (E = 0 releases every BP and S pin), the backplane slots (static all four BP pins alike, 1:2 BP0 = BP2 and BP1 = BP3, 1:3 BP3 = BP1, 1:4 one each) and the frame time. Not modeled: LCD bias and VLCD (bias and blink-select bits are only stored), blinking, the CLK / SYNC / OSC cascade and clock pins (the frame always runs from the internal oscillator), the missing acknowledge of a data byte addressed to another subaddress, the refusal of a read address byte. Also not modeled: the dummy-byte bus initialization after power-up.",
+   "vcc": [
+    1.8,
+    5.5
+   ],
+   "analog": [
+    "VLCD"
+   ],
+   "bus": {
+    "style": "i2c",
+    "scl": "SCL",
+    "sda": "SDA",
+    "address": [
+     "SA0"
+    ],
+    "table": [
+     56,
+     57,
+     null,
+     null
+    ]
+   },
+   "registers": [
+    {
+     "name": "MODE",
+     "width": 4,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "M",
+       "bits": [
+        1,
+        0
+       ]
+      },
+      {
+       "name": "B",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "E",
+       "bits": [
+        3,
+        3
+       ]
+      }
+     ]
+    },
+    {
+     "name": "PTR",
+     "width": 6,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "P",
+       "bits": [
+        5,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SUB",
+     "width": 2,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "A",
+       "bits": [
+        1,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "BANK",
+     "width": 2,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "I",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "O",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "BLINK",
+     "width": 3,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "AB",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "BF",
+       "bits": [
+        1,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "HW",
+     "width": 2,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "A0",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "A1",
+       "bits": [
+        1,
+        1
+       ]
+      }
+     ]
+    }
+   ],
+   "protocol": {
+    "frame": "stream",
+    "commands": [
+     {
+      "name": "mode-set (C=1)",
+      "in": "110xebmm",
+      "set": {
+       "MODE.E": "e",
+       "MODE.B": "b",
+       "MODE.M": "m"
+      }
+     },
+     {
+      "name": "load-data-pointer (C=1)",
+      "in": "10pppppp",
+      "set": {
+       "PTR.P": "p"
+      }
+     },
+     {
+      "name": "device-select (C=1)",
+      "in": "111000aa",
+      "set": {
+       "SUB.A": "a"
+      }
+     },
+     {
+      "name": "bank-select (C=1)",
+      "in": "111110io",
+      "set": {
+       "BANK.I": "i",
+       "BANK.O": "o"
+      }
+     },
+     {
+      "name": "blink-select (C=1)",
+      "in": "11110aff",
+      "set": {
+       "BLINK.AB": "a",
+       "BLINK.BF": "f"
+      }
+     },
+     {
+      "name": "mode-set (C=0)",
+      "in": "010xebmm",
+      "set": {
+       "MODE.E": "e",
+       "MODE.B": "b",
+       "MODE.M": "m"
+      },
+      "action": "lcdload"
+     },
+     {
+      "name": "load-data-pointer (C=0)",
+      "in": "00pppppp",
+      "set": {
+       "PTR.P": "p"
+      },
+      "action": "lcdload"
+     },
+     {
+      "name": "device-select (C=0)",
+      "in": "011000aa",
+      "set": {
+       "SUB.A": "a"
+      },
+      "action": "lcdload"
+     },
+     {
+      "name": "bank-select (C=0)",
+      "in": "011110io",
+      "set": {
+       "BANK.I": "i",
+       "BANK.O": "o"
+      },
+      "action": "lcdload"
+     },
+     {
+      "name": "blink-select (C=0)",
+      "in": "01110aff",
+      "set": {
+       "BLINK.AB": "a",
+       "BLINK.BF": "f"
+      },
+      "action": "lcdload"
+     }
+    ]
+   },
+   "pins": {
+    "levels": [
+     {
+      "pin": "A0",
+      "field": "HW.A0"
+     },
+     {
+      "pin": "A1",
+      "field": "HW.A1"
+     }
+    ]
+   },
+   "display": {
+    "driver": "lcd",
+    "mode": {
+     "field": "MODE.M",
+     "values": {
+      "0": "1:4",
+      "1": "static",
+      "2": "1:2",
+      "3": "1:3"
+     }
+    },
+    "backplanes": [
+     "BP0",
+     "BP1",
+     "BP2",
+     "BP3"
+    ],
+    "slots": {
+     "static": [
+      [
+       "BP0",
+       "BP1",
+       "BP2",
+       "BP3"
+      ]
+     ],
+     "1:2": [
+      [
+       "BP0",
+       "BP2"
+      ],
+      [
+       "BP1",
+       "BP3"
+      ]
+     ],
+     "1:3": [
+      [
+       "BP0"
+      ],
+      [
+       "BP1",
+       "BP3"
+      ],
+      [
+       "BP2"
+      ]
+     ],
+     "1:4": [
+      [
+       "BP0"
+      ],
+      [
+       "BP1"
+      ],
+      [
+       "BP2"
+      ],
+      [
+       "BP3"
+      ]
+     ]
+    },
+    "segmentPins": [
+     "S0",
+     "S1",
+     "S2",
+     "S3",
+     "S4",
+     "S5",
+     "S6",
+     "S7",
+     "S8",
+     "S9",
+     "S10",
+     "S11",
+     "S12",
+     "S13",
+     "S14",
+     "S15",
+     "S16",
+     "S17",
+     "S18",
+     "S19",
+     "S20",
+     "S21",
+     "S22",
+     "S23",
+     "S24",
+     "S25",
+     "S26",
+     "S27",
+     "S28",
+     "S29",
+     "S30",
+     "S31",
+     "S32",
+     "S33",
+     "S34",
+     "S35",
+     "S36",
+     "S37",
+     "S38",
+     "S39"
+    ],
+    "ram": {
+     "bytes": 20,
+     "address": 0
+    },
+    "frameUs": 2500,
+    "enable": "MODE.E=1",
+    "outputBank": "BANK.O",
+    "load": {
+     "pointer": "PTR.P",
+     "step": {
+      "static": 8,
+      "1:2": 4,
+      "1:3": 3,
+      "1:4": 2
+     },
+     "bank": "BANK.I",
+     "subaddress": "SUB.A",
+     "hardware": "HW",
+     "subaddresses": 4
+    }
+   },
+   "pinouts": {
+    "p56": [
+     {
+      "number": 1,
+      "name": "BP2",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "BP1",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "BP3",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "S0",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "S1",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "S2",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "S3",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "S4",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "S5",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "S6",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "S7",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "S8",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "S9",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "S10",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "S11",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "S12",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "S13",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "S14",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "S15",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "S16",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "S17",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "S18",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "S19",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "S20",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "S21",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "S22",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "S23",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "S24",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "S25",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "S26",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "S27",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "S28",
+      "role": "output"
+     },
+     {
+      "number": 33,
+      "name": "S29",
+      "role": "output"
+     },
+     {
+      "number": 34,
+      "name": "S30",
+      "role": "output"
+     },
+     {
+      "number": 35,
+      "name": "S31",
+      "role": "output"
+     },
+     {
+      "number": 36,
+      "name": "S32",
+      "role": "output"
+     },
+     {
+      "number": 37,
+      "name": "S33",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "S34",
+      "role": "output"
+     },
+     {
+      "number": 39,
+      "name": "S35",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "S36",
+      "role": "output"
+     },
+     {
+      "number": 41,
+      "name": "S37",
+      "role": "output"
+     },
+     {
+      "number": 42,
+      "name": "S38",
+      "role": "output"
+     },
+     {
+      "number": 43,
+      "name": "S39",
+      "role": "output"
+     },
+     {
+      "number": 44,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 45,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 46,
+      "name": "SYNC",
+      "role": "inout",
+      "activeLow": true
+     },
+     {
+      "number": 47,
+      "name": "CLK",
+      "role": "inout"
+     },
+     {
+      "number": 48,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 49,
+      "name": "OSC",
+      "role": "input"
+     },
+     {
+      "number": 50,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 51,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 52,
+      "name": "T1",
+      "role": "input"
+     },
+     {
+      "number": 53,
+      "name": "SA0",
+      "role": "input"
+     },
+     {
+      "number": 54,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 55,
+      "name": "VLCD",
+      "role": "power"
+     },
+     {
+      "number": 56,
+      "name": "BP0",
+      "role": "output"
+     }
+    ]
+   },
+   "parts": [
+    {
+     "name": "PCA85276ATT/AJ",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "pca85276",
+     "package": "TSSOP",
+     "pinout": "p56",
+     "footprint": "TSSOP-56",
+     "flags": [
+      "automotive",
+      "obsolete"
+     ]
+    },
+    {
+     "name": "PCA85276ATT/AY",
+     "manufacturer": "NXP Semiconductors",
+     "datasheet": "pca85276",
+     "package": "TSSOP",
+     "pinout": "p56",
+     "footprint": "TSSOP-56",
+     "flags": [
+      "automotive"
+     ]
+    }
+   ]
+  }
+ ],
+ "datasheets": [
+  {
+   "id": "pcf8576d",
+   "url": "https://www.nxp.com/docs/en/data-sheet/PCF8576D.pdf"
+  },
+  {
+   "id": "pcf85176",
+   "url": "https://www.nxp.com/docs/en/data-sheet/PCF85176.pdf"
+  },
+  {
+   "id": "pca85176",
+   "url": "https://www.nxp.com/docs/en/data-sheet/PCA85176.pdf"
+  },
+  {
+   "id": "pca85276",
+   "url": "https://www.nxp.com/docs/en/data-sheet/PCA85276.pdf"
+  }
+ ],
+ "missingFootprints": [],
+ "skipped": [
+  {
+   "part": "PCF8576DU/DA/2,026",
+   "why": "wire-bond bare die (59 bonding pads, pcf8576d.pdf p.2, p.38, pad table p.40-42): no board package and no land pattern in the sheet; its pad table names SDA three times (pads 1, 58, 59) and SCL twice (2, 3), which the converter engine (one pin per bus name) cannot model as joined pads"
+  },
+  {
+   "part": "PCF8576DU/2DA/2,02",
+   "why": "bumped bare die, 59 bumps (pcf8576d.pdf p.2, p.39, table p.40-42): same reasons; DigiKey lists it in stock per the plan, so add it later only if a die footprint (bump centres are in the table, bump size 0.052 mm is the only dimension) and unique pad names for the joined SDA / SCL pads are wanted"
+  }
+ ],
+ "engineNeeds": [
+  {
+   "need": "lcd driver with a run-time mode, per-mode backplane slots, an output bank, and a data-pointer RAM load (action lcdload)",
+   "status": "implemented and tested in the scratch copy: backend/src patch scratchpad/g2/pcf8576-lcd-mode.patch (converter.c/h, converter_int.h, converter_load.c, display_out.c/h, docs/parts-format.md; applies cleanly to main on 2026-11-23). Bench scratchpad/g2/pcf8576_family_test.c (187 checks incl. 14 loader cases) passes with it; the whole suite passes with it except the listing/trace goldens (additions only: 12 parts). Without the patch neither PCF8576 nor its devices load (`mode` must be a string, no `slots`/`load` keys, no lcdload action). Conflict note: plan-56-D's max695x-display.patch also edits display_out.c / display_out.h; applied after (or before) pcf8576-lcd-mode.patch it rejects 2 hunks of display_out.c (slots_of, apply, disp_timer lines) and 1 of display_out.h (context after bp_major). scratchpad/g2/pcf8576-lcd-mode-after-max695x.patch is this change rebased onto main + max695x-display.patch (apply that one first, then this one): built, the bench and every other test pass (only the listing/trace goldens differ, by the 12 new parts). icm7245-ascii16.patch applies after pcf8576-lcd-mode.patch cleanly.",
+   "semantics": "display.mode may be {field, values: {fieldValue: static|1:2|1:3|1:4}}; display.slots: mode -> per slot the backplane pins driven (others Z); slot count = the mode's, frame time frameUs / slots; display.outputBank: field, nonzero + at most 2 slots -> slot k shows RAM row k+2; display.load: {pointer: field, step: {mode: columns}, bank: field (input bank), subaddress+hardware: fields (store only when equal, counter wraps modulo `subaddresses`), subaddresses: n}; protocol action lcdload: every following byte of the transfer is display data: bit j (MSB first) -> RAM column pointer + j / slots, row j % slots (+2 with the input bank in a mode of at most 2 slots), bits past the last column fall into the next device (counter+1) and are stored only if that is the hardware subaddress, pointer += step, wraps at the column count with counter+1. RAM stays 4 rows per column (ram stride = number of backplane pins).",
+   "needed by": "PCF8576D, PCF85176, PCA85176, PCA85276 (and likely PCF8553 / PCA8553, BU91795, BU9796 in the same plan letter)"
+  },
+  {
+   "need": "optional: write-only I2C slave",
+   "semantics": "a bus/protocol key (e.g. protocol.writeOnly) that makes the address byte with R/W = 1 not acknowledged; the PCF8576D family 'will not respond to a read access' (pcf8576d p.27). Today the engine acknowledges a read address byte and shifts zeros.",
+   "needed by": "PCF8576D family (host-visible only for a bus scan)"
+  },
+  {
+   "need": "optional: per-byte NACK for display data not addressed to this subaddress",
+   "semantics": "the chip acknowledges a data byte only while its subaddress counter equals its hardware subaddress (pcf8576d p.28, 'An acknowledgement after each byte is asserted only by the PCF8576Ds that are addressed via address lines A0, A1 and A2'); the engine acknowledges every byte.",
+   "needed by": "cascaded PCF8576D family chips"
+  },
+  {
+   "need": "optional: part-level frameUs",
+   "semantics": "parts of one device with different internal clocks (PCA85176H 77 Hz vs PCA85176T 110 Hz) would share a device; today a second device (PCA85176) carries the T's frame time and the PCA85176H part sits in the PCF85176 device.",
+   "needed by": "PCA85176"
+  }
+ ],
+ "notes": "Three devices in lcddriver.json: PCF85176 (8 parts: PCF8576D x4, PCF85176 x3, PCA85176H x1; pinouts p56 TSSOP56 and p64 TQFP64), PCA85176 (the T parts, 110 Hz frame), PCA85276 (T1 pin, 2-bit subaddress, 200 Hz frame); 12 parts, all footprints existing (TSSOP-56, LQFP-64-10X10). The PCA85276 has no POR: the model starts in the PCF reset state (assumption). Frame times: Tfr = 24 / fclk typical internal clock; model frame = Tfr / 2 (6487, 4545, 2500 us). Part PCF8576DT/S400/2,1 is spelled as in the ordering table p.2 (probably a truncated ',118'); PCA85176H/Q900/1,5 as the sheet (and the task) spell it. obsolete flags: the ',118' / ',1' non-dry-pack reels (discontinuation notice 202107021DN) and PCA85176H/Q900/1,5 (DigiKey, per the task); PCF8576DT/2,518 is 'not for new designs' on the sheet but unflagged (it is the drop-in replacement). datasheets.json: 4 entries, URLs verified (PDF, byte-identical to the local files; need a browser User-Agent via python urllib, curl gets a 404 page). Bench pcf8576_family_test.c: pinouts, address table, power-on, 1:4 / 1:3 / 1:2 / static fills against the GENERIC-LCD glass (cells = RAM bits), Table 6 / Table 7 fills, C-bit command chains, banks, E bit, waveforms and pairing, frame times, subaddress counter, overflow, spill into the next device, PCA85276 2-bit counter, 14 loader checks; add logic_test(pcf8576_family_test) after display_out_test in backend/CMakeLists.txt. Goldens: parts / traces additions only (12 parts); no footprint change. The spec is planning/plan-56-data/specs/pcf8576-family.md."
+}

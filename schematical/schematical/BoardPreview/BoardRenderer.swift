@@ -390,8 +390,10 @@ struct BoardRenderer {
         for finger in board.fingers where !finger.isThroughHole && finger.side == side {
             metal(Path(finger.rect), .gold, finger.rect)
         }
-        for chip in chips where chip.board?.side == side {
-            for pad in chip.boardPads where pad.drill == 0 {
+        for chip in chips {
+            guard let placed = chip.board?.side else { continue }
+            // A pad is on its layer's face: an opposite pad's is not its part's.
+            for pad in chip.boardPads where pad.drill == 0 && pad.layerSide(on: placed) == side {
                 metal(PCBCanvasView.outline(of: pad), .solder, pad.rect)
             }
         }

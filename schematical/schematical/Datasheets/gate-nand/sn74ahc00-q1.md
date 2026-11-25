@@ -24,10 +24,10 @@
 ## Description
 
 The SN74AHC00 device performs the Boolean function Y = !{A • B} or
-Y = !{A} + !{B} in positive logic.
+Y = !{A} + !{B} in positive logic. [[1::1]]
 
 Qualified for Automotive Applications. Operating Range 2-V to 5.5-V
-V~CC~. Latch-Up Performance Exceeds 250 mA Per JESD 17.
+V~CC~. Latch-Up Performance Exceeds 250 mA Per JESD 17. [[1::2]]
 
 ## Pinout
 
@@ -52,6 +52,7 @@ V~CC~. Latch-Up Performance Exceeds 250 mA Per JESD 17.
 GND: GND
 VCC: Power Pin
 ```
+[[3::table #1]]
 
 ## Functional description
 
@@ -67,6 +68,7 @@ Conversion note: the functional block diagram (Figure 7-1) is the logic diagram 
 | L | X | H |
 | X | L | H |
 ```
+[[8::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -86,6 +88,7 @@ Conversion note: the functional block diagram (Figure 7-1) is the logic diagram 
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] Source error: the source prints the marker 1 on V~I~ and V~O~ (p.4); note (2), on the input and output voltage ratings, has no other marker, so the marker is given as note 2.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -95,6 +98,7 @@ Conversion note: the functional block diagram (Figure 7-1) is the logic diagram 
 
 [1] Source error: the source prints the marker 1 on this row (p.4) and no note under the ESD ratings table.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -123,6 +127,7 @@ Conversion note: the functional block diagram (Figure 7-1) is the logic diagram 
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -133,6 +138,7 @@ Conversion note: the functional block diagram (Figure 7-1) is the logic diagram 
 
 [1] Source error: the source prints the marker 1 on THERMAL METRIC (p.5) and no note under the thermal information table.
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -156,6 +162,7 @@ Conversion note: the functional block diagram (Figure 7-1) is the logic diagram 
 
 [1] Source error: the text layer of the source has V~l~, with a lowercase L, for V~I~ in these test conditions (p.5); it is kept as printed.
 ```
+[[5::table #2]]
 
 ```table id=noise caption="Noise characteristics" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25°C [1]"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -168,12 +175,14 @@ Conversion note: the functional block diagram (Figure 7-1) is the logic diagram 
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[6::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 9.5 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -186,6 +195,7 @@ Conversion note: the functional block diagram (Figure 7-1) is the logic diagram 
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 8 | 11.4 | 1 | 13 | 1 | 13 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 8 | 11.4 | 1 | 13 | 1 | 13 | ^ |
 ```
+[[5::table #3]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ± 0.5 V (unless otherwise noted) (see Load Circuit and Voltage Waveforms)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25 °C | < | < | T~A~ = −40 °C to 125°C | < | T~A~ = −40 °C to 85°C | < | Unit |
@@ -196,6 +206,7 @@ Conversion note: the functional block diagram (Figure 7-1) is the logic diagram 
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 5.2 | 7.5 | 1 | 8.5 | 1 | 8.5 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 5.2 | 7.5 | 1 | 8.5 | 1 | 8.5 | ^ |
 ```
+[[5::table #4]]
 
 ## Parameter measurement information
 
@@ -203,15 +214,17 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. All parameters and
-waveforms are not applicable to all devices.
+waveforms are not applicable to all devices. [[7::Figure 6-1]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% VCC
 ```
+[[7::Figure 6-1]]
 
 Conversion note: the source figure (Figure 6-1) also shows the load
 circuit for 3-state and open-drain outputs with its S1 table, and the
@@ -238,6 +251,7 @@ SN74AHC00QPWRG4Q1 | Reel of 2000 | -40 to 125 | HA00Q
 SN74AHC00QPWRQ1 | Reel of 2000 | -40 to 125 | HA00Q
 SN74AHC00QWBQARQ1 | Reel of 3000 | -40 to 125 | AHC00Q
 ```
+[[11::table #1]]
 
 ## Conversion notes
 

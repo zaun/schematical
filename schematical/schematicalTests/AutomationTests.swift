@@ -257,6 +257,43 @@ final class AutomationTests: XCTestCase {
         XCTAssertTrue(result.isError)
     }
 
+    /// plan-51-H: `set_part` puts a chip in and out of a socket, and `read` says so.
+    func testSetPartSocketModes() async throws {
+        let (id, doc) = newWindow()
+        var result = await call("place_part", id, ["part": "SN74HC00N", "x": 400, "y": 300])
+        XCTAssertFalse(result.isError, result.text)
+        // A mode alone picks the generic socket.
+        result = await call("set_part", id, ["reference": "U1", "socket_mode": "ic+socket"])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(result.text, "U1: changed socket")
+        XCTAssertEqual(doc.chips[0].socket, ChipSocket(part: try TestSupport.part("GENERIC-SOCKET-DIP-14-300"), mode: .withSocket))
+        XCTAssertEqual(doc.chips[0].footprint?.id, "SKT-DIP14-300-TH-MM-110")
+        result = await call("get_design", id, [:])
+        XCTAssertTrue(result.text.contains("GENERIC-SOCKET-DIP-14-300 (ic+socket)"), result.text)
+        // The mode changes, the socket stays; a named socket replaces it.
+        result = await call("set_part", id, ["reference": "U1", "socket_mode": "socket-only"])
+        XCTAssertEqual(doc.chips[0].socket?.mode, .socketOnly)
+        XCTAssertEqual(doc.chips[0].socket?.part.name, "GENERIC-SOCKET-DIP-14-300")
+        result = await call("set_part", id, ["reference": "U1", "socket": "A 14-LC-TR"])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.chips[0].socket?.part.name, "A 14-LC-TR")
+        XCTAssertEqual(doc.chips[0].socket?.mode, .socketOnly, "a socket alone keeps the mode")
+        // Refusals say why and change nothing.
+        result = await call("set_part", id, ["reference": "U1", "socket": "GENERIC-SOCKET-DIP-8-300"])
+        XCTAssertTrue(result.isError)
+        XCTAssertTrue(result.text.contains("does not hold PDIP-14"), result.text)
+        result = await call("set_part", id, ["reference": "U1", "socket": "SN74HC00N"])
+        XCTAssertTrue(result.isError)
+        XCTAssertTrue(result.text.contains("is not an IC socket"), result.text)
+        result = await call("set_part", id, ["reference": "U1", "socket_mode": "bogus"])
+        XCTAssertTrue(result.isError)
+        XCTAssertEqual(doc.chips[0].socket?.part.name, "A 14-LC-TR")
+        result = await call("set_part", id, ["reference": "U1", "socket_mode": "ic"])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertNil(doc.chips[0].socket)
+        XCTAssertEqual(doc.chips[0].footprint?.id, "PDIP-14")
+    }
+
     func testDisconnectRemovesTheWire() async {
         let (id, doc) = newWindow()
         _ = await call("place_part", id, ["part": "GENERIC-LED", "x": 100, "y": 100])

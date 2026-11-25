@@ -24,13 +24,13 @@
 ## Description
 
 The SN74AC08 is a quadruple 2-input positive-AND gate. This device
-performs the Boolean function Y = A · B in positive logic.
+performs the Boolean function Y = A · B in positive logic. [[1::1]]
 
 2-V to 6-V V~CC~ operation. Inputs accept voltages to 6 V. Extended
 temperature performance of –55 °C to 125 °C. Controlled baseline: one
 assembly/test site, one fabrication site. Enhanced diminishing
 manufacturing sources (DMS) support. Enhanced product-change
-notification.
+notification. [[1::2]]
 
 ## Pinout
 
@@ -46,6 +46,7 @@ notification.
 GND: Ground
 VCC: Positive Supply
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
@@ -62,6 +63,7 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 | L | X | L |
 | X | L | L |
 ```
+[[7::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -81,6 +83,7 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] Source error: the source marks V~I~ and V~O~ with note 1 (stress ratings) and leaves note 2, on the input and output voltage ratings, without a marker, so they are marked here with note 2.
 ```
+[[4::table #1]]
 
 ## Recommended operating conditions
 
@@ -107,6 +110,7 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 
 [1] All unused inputs of the device must be held at V~CC~ or GND for proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[4::table #2]]
 
 ## Thermal information
 
@@ -117,6 +121,7 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics
 ```
+[[4::table #3]]
 
 ## Electrical characteristics
 
@@ -142,12 +147,14 @@ Conversion note: the logic diagram, each gate (positive logic), shows one
 
 [1] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
+[[5::table #1]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 1 MHz | 20 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -162,6 +169,7 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
+[[5::table #3]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ± 0.5 V (unless otherwise noted)"
 | Symbol | From (input) | To (output) | T~A~ = 25 °C | < | < | [1] | < | Unit |
@@ -172,13 +180,14 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] Conversion note: the source prints no temperature heading over this Min and Max column group.
 ```
+[[5::table #4]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 2.5 ns, t~f~ ≤ 2.5 ns. The outputs are measured one
-at a time with one input transition per measurement.
+at a time with one input transition per measurement. [[6::1]]
 
 Conversion note: the load circuit also has a 500 Ω resistor from the output
 to switch S1 (2 × V~CC~ or open), and S1 is open for t~PLH~/t~PHL~, which
@@ -188,10 +197,12 @@ leaves the load below.
 RL: 500 Ω
 CL: 50 pF
 ```
+[[6::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times"
 VM: 50 % V~CC~
 ```
+[[6::Figure 6-1]]
 
 ## Package
 
@@ -203,6 +214,7 @@ VM: 50 % V~CC~
 ```ordering
 SN74AC08MDREP | | -55 to 125 | SAC08MEP | Obsolete
 ```
+[[10::table #1]]
 
 ## Conversion notes
 

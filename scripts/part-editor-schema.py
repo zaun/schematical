@@ -29,10 +29,15 @@ KIND_FILES = {
     "register": ["register.c", "seq.c"],
     "resistor": ["resistor.c"], "capacitor": ["capacitor.c"], "transistor": ["transistor.c"],
     "mcu": ["mcu.c"],
+    "pld": ["pld.c"],
     "nixie": ["nixie.c"],
     "serialmem": ["serialmem.c"],
     "regulator": ["regulator.c"],
     "crystal": ["crystal.c"],
+    "dekatron": ["dekatron.c"],
+    "lcd": ["lcd.c"],
+    "powerswitch": ["powerswitch.c"],
+    "socket": ["socket.c"],
     # plan-47-K, L.
     "inductor": ["inductor.c"], "fuse": ["fuse.c"], "relay": ["relay.c"], "buzzer": ["buzzer.c"],
 }
@@ -44,7 +49,7 @@ NAMES = {
 
 GENERIC_DEVICE = {"id", "function", "description", "drawer", "note", "pinouts", "parts"}
 GENERIC_PART = {"name", "package", "pinout", "flags", "footprint", "manufacturer", "datasheet",
-                "connectorFootprint", "footprintChoices"}
+                "connectorFootprint", "footprintChoices", "fits"}
 
 CV_SHARED_DEVICE = {"vcc", "inputMax", "analog", "bus", "configBus", "timing", "registers", "protocol", "ready",
                     "pins"}
@@ -63,7 +68,7 @@ VOLT_KEYS = {"vcc", "vccB"}
 ENUMS = {"active": ["high", "low"], "edge": ["rising", "falling"], "when": ["async", "clock"],
          "output": ["push-pull", "open-drain"]}
 UNITS = {"inputMax": "V", "inputMaxB": "V", "volts": "V", "ratedVolts": "V", "ratedAmps": "A",
-         "minHz": "Hz", "maxHz": "Hz", "rise": "ns", "fall": "ns",
+         "minHz": "Hz", "maxHz": "Hz", "rise": "ns", "fall": "ns", "cardPitch": "mm", "pitch": "mm",
          # serialmem: SCK in MHz; the write and erase times in ns.
          "maxClock": "MHz", "writeCycle": "ns", "pageProgram": "ns", "byteProgram": "ns", "sectorErase": "ns",
          "blockErase32": "ns", "blockErase64": "ns", "chipErase": "ns", "pageErase": "ns", "writeStatus": "ns",
@@ -88,8 +93,14 @@ def strip_comments(text):
 
 
 # Loader functions a kind never calls (see PartKindKeysTests.notCalled).
-NOT_CALLED = {"converter": {"load_clock"},
-              "rtc": {"load_choice", "load_time", "load_conversion", "load_dac"}}
+# plan-56-G: the display section's loaders (converter_load.c) run only for the
+# leddriver and lcddriver kinds, which have no generated schema: their Drafts
+# are hand-written (the form edits `display` as one JSON field), so they are
+# not in KIND_FILES.
+DISPLAY_LOADERS = {"load_display_scan", "load_display_static", "load_display_ports", "load_display_lcd",
+                   "load_display_clock", "load_display_ccsi"}
+NOT_CALLED = {"converter": {"load_clock"} | DISPLAY_LOADERS,
+              "rtc": {"load_choice", "load_time", "load_conversion", "load_dac"} | DISPLAY_LOADERS}
 
 
 def source_keys(repo, kind, report=False):
@@ -162,7 +173,8 @@ def infer(key, items, known):
         distinct = sorted({v for v, _ in vals})
         if key in ENUMS and set(distinct) <= set(ENUMS[key]):
             return ("choice", ENUMS[key])
-        if len(distinct) <= 24 and all(len(v) <= 32 for v in distinct):
+        # A connector's `card` has 27 values since plan-54 (the editor offers them all).
+        if (len(distinct) <= 24 or key == "card") and all(len(v) <= 32 for v in distinct):
             return ("suggested", distinct)
         return ("text",)
     if cat == "num":

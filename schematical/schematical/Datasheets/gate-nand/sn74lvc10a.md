@@ -24,11 +24,11 @@
 ## Description
 
 This triple 3-input positive-NAND gate is designed for 1.65V to 3.6V
-V~CC~ operation.
+V~CC~ operation. [[1::1]]
 
 Operates from 1.65V to 3.6V. Specified from –40°C to 85°C and –40°C to
 125°C. Inputs accept voltages to 5.5V. Latch-up performance exceeds
-250 mA per JESD 17.
+250 mA per JESD 17. [[1::1]]
 
 ## Pinout
 
@@ -53,19 +53,20 @@ GND: Ground
 1C: Channel 1, Input C
 VCC: Positive Supply
 ```
+[[3::Table 3-1]]
 
 Thermal pad: Connect the GND pin to the exposed thermal pad for correct
 operation. Connect the thermal pad to any internal PCB ground plane
-using multiple vias for good thermal performance.
+using multiple vias for good thermal performance. [[3::1]]
 
 ## Functional description
 
 The SN74LVC10A performs the Boolean function Y = !{A • B • C} or
-Y = !{A} + !{B} + !{C} in positive logic.
+Y = !{A} + !{B} + !{C} in positive logic. [[8::1]]
 
 Inputs can be driven from either 3.3V or 5V devices. This feature allows
 the use of these devices as translators in a mixed 3.3V/5V system
-environment.
+environment. [[8::1]]
 
 Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 3-input NAND gate with inputs A, B and C and output Y.
@@ -81,6 +82,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 | X | L | X | H |
 | X | X | L | H |
 ```
+[[8::Table 6-1]]
 
 ## Absolute maximum ratings
 
@@ -102,6 +104,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 [3] For the D package: above 70°C, the value of P~tot~ derates linearly with 8 mW/K.
 [4] For the DB, NS, and PW packages: above 60°C, the value of P~tot~ derates linearly with 5.5 mW/K.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -110,6 +113,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -136,6 +140,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 | ^ | ^ | V~CC~ = 2.7V | | 12 | | 12 | | 12 | mA |
 | ^ | ^ | V~CC~ = 3V | | 24 | | 24 | | 24 | mA |
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -147,6 +152,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -170,6 +176,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 | ΔI~CC~ | One input at V~CC~ – 0.6 V, Other inputs at V~CC~ or GND | 2.7V to 3.6V | | | 500 | | 500 | | 5000 | μA |
 | C~i~ | V~I~ = V~CC~ or GND | 3.3V | | 5 | | | | | | pF |
 ```
+[[5::table #2]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -178,6 +185,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 | ^ | ^ | ^ | 2.5V | 10 | pF |
 | ^ | ^ | ^ | 3.3V | 11 | pF |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -191,6 +199,7 @@ Conversion note: the logic diagram, each gate (Figure 6-1), shows one
 | ^ | ^ | ^ | 3.3V ± 0.3V | 1 | 2.7 | 4.7 | 1 | 4.9 | 1 | 6 | ns |
 | t~sk(o)~ | | | 3.3V ± 0.3V | | | | | 1 | | 1.5 | ns |
 ```
+[[5::table #3]]
 
 ## Parameter measurement information
 
@@ -198,7 +207,7 @@ Phase relationships between waveforms were chosen arbitrarily for the
 examples listed in the following table. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1MHz,
 Z~O~ = 50Ω, t~t~ ≤ 2.5ns. The outputs are measured individually with one
-input transition per measurement.
+input transition per measurement. [[7::1]] [[7::2]]
 
 ```table id=test-conditions caption="Test conditions"
 | V~CC~ | V~t~ | R~L~ | C~L~ | ΔV |
@@ -208,18 +217,21 @@ input transition per measurement.
 | 2.7V | 1.5V | 500Ω | 50pF | 0.3V |
 | 3.3V ± 0.3V | 1.5V | 500Ω | 50pF | 0.3V |
 ```
+[[7::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit for push-pull outputs"
 RL: see table
 CL: see table
 ```
+[[7::Figure 5-1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delays, input and output transition times"
 VM: V~t~ (input), 50% (output)
 ```
+[[7::Figure 5-3]]
 
 C~L~ includes probe and test-fixture capacitance. The greater between
-t~PLH~ and t~PHL~ is the same as t~pd~. The greater between t~r~ and t~f~ is the same as t~t~.
+t~PLH~ and t~PHL~ is the same as t~pd~. The greater between t~r~ and t~f~ is the same as t~t~. [[7::3]] [[7::5]] [[7::7]]
 
 ## Application information
 
@@ -227,12 +239,12 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[9::1]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the minimum and maximum
-supply voltage rating in the Recommended Operating Conditions.
+supply voltage rating in the Recommended Operating Conditions. [[9::2]]
 
 Each V~CC~ pin must have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 µF is recommended; if
@@ -240,7 +252,7 @@ there are multiple V~CC~ pins, then 0.01 µF or 0.022 µF is recommended
 for each power pin. It is acceptable to parallel multiple bypass caps to
 reject different frequencies of noise. A 0.1 µF and a 1 µF are commonly
 used in parallel. The bypass capacitor must be installed as close to the
-power pin as possible for best results.
+power pin as possible for best results. [[9::3]]
 
 ### Layout guidelines
 
@@ -256,17 +268,17 @@ the input voltage specifications, to prevent them from floating. The
 logic level that must be applied to any particular unused input depends
 on the function of the device. Generally, the inputs are tied to GND or
 V~CC~, whichever makes more sense for the logic function or is more
-convenient.
+convenient. [[9::4]]
 
 Conversion note: the example layout for the SN74LVC10A (Figure 7-1) is
 given here by its labels.
 
-- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation
-- Bypass capacitor placed close to the device
-- 0.1 μF
-- Unused inputs tied to V~CC~
-- Unused output left floating
-- Avoid 90° corners for signal lines
+- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation [[9::5]]
+- Bypass capacitor placed close to the device [[9::6]]
+- 0.1 μF [[9::3]]
+- Unused inputs tied to V~CC~ [[9::4]]
+- Unused output left floating [[9::4]]
+- Avoid 90° corners for signal lines [[9::7]]
 
 ## Package
 
@@ -304,6 +316,7 @@ SN74LVC10APWRG4 | Reel of 2000 | -40 to 125 | LC10A
 SN74LVC10APWT | Reel of 250 | -40 to 125 | LC10A
 SN74LVC10ARGYR | Reel of 3000 | -40 to 125 | LC10A
 ```
+[[12::table #1]]
 
 ## Conversion notes
 

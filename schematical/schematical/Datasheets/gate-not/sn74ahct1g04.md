@@ -24,11 +24,11 @@
 ## Description
 
 The SN74AHCT1G04 contains one gate. The device performs the Boolean
-function Y = !{A}.
+function Y = !{A}. [[1::1]]
 
 Operating range 4.5V to 5.5V. Max t~pd~ of 7.5ns at 5V. Low power
 consumption, 10μA max I~CC~. ±8mA output drive at 5V. Inputs are
-TTL-voltage compatible. Latch-up performance exceeds 250mA per JESD 17.
+TTL-voltage compatible. Latch-up performance exceeds 250mA per JESD 17. [[1::2]]
 
 ## Pinout
 
@@ -44,21 +44,22 @@ GND: Ground Pin
 Y: Output Y
 VCC: Power Pin
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
 The SN74AHCT1G04 device contains one inverter. This device has TTL input
-levels that allow up translation from 3.3V to 5V.
+levels that allow up translation from 3.3V to 5V. [[8::1]]
 
 Conversion note: the logic diagram (Figure 7-1) shows one inverter, input A, output Y.
 
 ### Feature description
 
-- V~CC~ is optimized at 5V
-- Allows up voltage translation from 3.3V to 5V
-  - Inputs accept V~IH~ levels of 2V
-- Slow edge rates minimize output ringing
-- Inputs are TTL-Voltage compatible
+- V~CC~ is optimized at 5V [[8::2]]
+- Allows up voltage translation from 3.3V to 5V [[8::2]]
+  - Inputs accept V~IH~ levels of 2V [[8::2]]
+- Slow edge rates minimize output ringing [[8::2]]
+- Inputs are TTL-Voltage compatible [[1::2]]
 
 ## Function tables
 
@@ -72,6 +73,7 @@ Conversion note: the logic diagram (Figure 7-1) shows one inverter, input A, out
 [1] H = High Voltage Level, L = Low Voltage Level, X = Don’t Care
 [2] H = Driving High, L = Driving Low, Z = High Impedance State
 ```
+[[8::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -90,6 +92,7 @@ Conversion note: the logic diagram (Figure 7-1) shows one inverter, input A, out
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under [Section 5.3](#recommended-operating-conditions) is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -100,6 +103,7 @@ Conversion note: the logic diagram (Figure 7-1) shows one inverter, input A, out
 [1] JEDEC document JEP155 states that 500V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -118,6 +122,7 @@ Conversion note: the logic diagram (Figure 7-1) shows one inverter, input A, out
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs (SCBA004)
 ```
+[[4::table #3]]
 
 Conversion note: the source prints the marker of this note on the MIN heading as well as on the conditions line.
 
@@ -135,6 +140,7 @@ Conversion note: the source prints the marker of this note on the MIN heading as
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -153,12 +159,14 @@ Conversion note: the source prints the marker of this note on the MIN heading as
 
 [1] This is the increase in supply current for each input at one of the specified TTL voltage levels, rather than 0V or V~CC~.
 ```
+[[5::table #2]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1MHz | 14 | pF |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -173,6 +181,7 @@ Conversion note: the source prints the marker of this note on the MIN heading as
 
 [1] Source error: the source prints the input as "A or B" (p.5), kept as printed; the pin table (p.3) and the function table (p.8) give the device one input, A.
 ```
+[[5::table #3]]
 
 ## Typical characteristics
 
@@ -183,6 +192,7 @@ Conversion note: the source prints the marker of this note on the MIN heading as
   {"label": "TPD in ns", "points": [[-55, 4.4], [-40, 4.6], [0, 4.78], [25, 4.9], [50, 5.1], [85, 5.4], [125, 5.6]]}
  ]}
 ```
+[[6::Figure 5-1]]
 
 ## Parameter measurement information
 
@@ -190,17 +200,19 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1MHz, Z~O~ = 50Ω,
 t~r~ ≤ 3ns, t~f~ ≤ 3ns. The outputs are measured one at a time with one
 input transition per measurement. All parameters and waveforms are not
-applicable to all devices.
+applicable to all devices. [[7::1]]
 
 Conversion note: in Figure 6-1 the inputs swing 0 V to 3 V and are measured at 1.5 V, the outputs are measured at 50% V~CC~, and its table sets S1 to Open for t~PLH~/t~PHL~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V (input), 50% VCC (output)
 ```
+[[7::Figure 6-1]]
 
 Conversion note: the source figure (Figure 6-1) also shows the load
 circuit for 3-state and open-drain outputs (R~L~ = 1 kΩ) with its S1
@@ -213,7 +225,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[9::1]]
 
 SN74AHCT1G04 is a low-drive CMOS device that can be used for a multitude
 of inverting type applications where output ringing is a concern. The
@@ -221,7 +233,7 @@ low drive and slow edge rates will minimize overshoot and undershoot on
 the outputs. The input switching levels have been lowered to accommodate
 TTL inputs of 0.8V V~IL~ and 2V V~IH~. This feature makes it Ideal for
 translating up from 3.3V to 5V. Figure 8-2 shows this type of
-translation.
+translation. [[9::2]]
 
 Conversion note: the typical application schematic (Figure 8-1) shows the inverter between a block labelled 3.3-V accessory and a second block, supplied from a 5-V regulated rail with a 0.1 µF capacitor to ground.
 
@@ -231,25 +243,25 @@ This device uses CMOS technology and has balanced output drive. Care
 should be taken to avoid bus contention because it can drive currents
 that would exceed maximum limits. The high drive will also create fast
 edges into light loads, so routing and load conditions should be
-considered to prevent ringing.
+considered to prevent ringing. [[9::3]]
 
 Source conflict: Application Information (§ 8.1) and Feature Description (§ 7.3) say low drive and slow edge rates, Design Requirements (§ 8.2.1) says "the high drive will also create fast edges"; both are kept as printed.
 
 ### Detailed design procedure
 
-1. Recommended Input Conditions
+1. Recommended Input Conditions [[9::4]]
    - For rise time and fall time specifications, see Δt/ΔV in the
      [Recommended Operating Conditions](#recommended-operating-conditions)
-     table.
+     table. [[9::4]]
    - For specified High and low levels, see V~IH~ and V~IL~ in the
      [Recommended Operating Conditions](#recommended-operating-conditions)
-     table.
+     table. [[9::4]]
    - Inputs are overvoltage tolerant allowing them to go as high as 5.5V
-     at any valid V~CC~.
-2. Recommend Output Conditions
+     at any valid V~CC~. [[9::4]]
+2. Recommend Output Conditions [[9::4]]
    - Load currents should not exceed 25mA per output and 50mA total for
-     the part.
-   - Outputs should not be pulled above V~CC~.
+     the part. [[9::4]]
+   - Outputs should not be pulled above V~CC~. [[9::4]]
 
 Conversion note: the application curve (Figure 8-2, 3.3V to 5V Translation) is an oscilloscope picture of a falling input edge and the rising output edge, lettered "Translating from 3.3V to 5V"; it is not drawn here.
 
@@ -258,7 +270,7 @@ Conversion note: the application curve (Figure 8-2, 3.3V to 5V Translation) is a
 The power supply can be any voltage between the MIN and MAX supply
 voltage rating located in the
 [Recommended Operating Conditions](#recommended-operating-conditions)
-table.
+table. [[10::1]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1μF is recommended. If
@@ -266,7 +278,7 @@ there are multiple V~CC~ pins, 0.01μF or 0.022μF is recommended for each
 power pin. It is acceptable to parallel multiple bypass caps to reject
 different frequencies of noise. A 0.1μF and 1μF are commonly used in
 parallel. The bypass capacitor should be installed as close to the power
-pin as possible for best results.
+pin as possible for best results. [[10::2]]
 
 ### Layout example
 
@@ -278,24 +290,24 @@ Conversion note: Figure 8-7 (Example Damping Resistor Placement for Improved Sig
 
 ### Layout guidelines
 
-- Bypass capacitor placement
-  - Place near the positive supply terminal of the device
-  - Provide an electrically short ground return path
-  - Use wide traces to minimize impedance
+- Bypass capacitor placement [[11::2]]
+  - Place near the positive supply terminal of the device [[11::5]]
+  - Provide an electrically short ground return path [[11::5]]
+  - Use wide traces to minimize impedance [[11::5]]
   - Keep the device, capacitors, and traces on the same side of the
-    board whenever possible
-- Signal trace geometry
-  - 8mil to 12mil trace width
-  - Lengths less than 12cm to minimize transmission line effects
-  - Avoid 90° corners for signal traces
-  - Use an unbroken ground plane below signal traces
-  - Flood fill areas around signal traces with ground
+    board whenever possible [[11::5]]
+- Signal trace geometry [[11::5]]
+  - 8mil to 12mil trace width [[11::5]]
+  - Lengths less than 12cm to minimize transmission line effects [[11::5]]
+  - Avoid 90° corners for signal traces [[11::5]]
+  - Use an unbroken ground plane below signal traces [[11::5]]
+  - Flood fill areas around signal traces with ground [[11::5]]
   - Parallel traces must be separated by at least 3x dielectric
-    thickness
-  - For traces longer than 12cm
-    - Use impedance controlled traces
-    - Source-terminate using a series damping resistor near the output
-    - Avoid branches; buffer each signal that must branch separately
+    thickness [[11::5]]
+  - For traces longer than 12cm [[11::5]]
+    - Use impedance controlled traces [[11::5]]
+    - Source-terminate using a series damping resistor near the output [[11::5]]
+    - Avoid branches; buffer each signal that must branch separately [[11::5]]
 
 ## Package
 
@@ -312,6 +324,7 @@ SN74AHCT1G04DBVR | Reel of 3000 | -40 to 125 | 38VH, 3C7F, B043, B04G, B04J, B04
 SN74AHCT1G04DBVT | | -40 to 125 | B043, B04G, B04J, B04S | Obsolete
 SN74AHCT1G04DCKR | Reel of 3000 | -40 to 125 | 1QS, BC3, BCG, BCJ, BCL, BCS
 ```
+[[14::table #1]]
 
 ## Conversion notes
 

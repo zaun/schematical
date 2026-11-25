@@ -13,10 +13,11 @@ enum {
     CV_TM_CONV = 0x10000000u,
     CV_TM_READY = 0x20000000u,
     CV_TM_PAR = 0x30000000u,    /* converter_par.c */
-    CV_TM_RTC = 0x40000000u     /* rtc.c */
+    CV_TM_RTC = 0x40000000u,    /* rtc.c */
+    CV_TM_DISP = 0x50000000u    /* display_out.c */
 };
 
-enum { CV_PAY_NONE, CV_PAY_WREG, CV_PAY_POINTER };
+enum { CV_PAY_NONE, CV_PAY_WREG, CV_PAY_POINTER, CV_PAY_LCD };
 
 /* An output segment: a pattern being shifted out. */
 typedef struct {
@@ -120,6 +121,8 @@ typedef struct CvState {
     uint32_t clk_count;
     /* rtc (rtc.c) */
     void *rtc;
+    /* leddriver, lcddriver (display_out.c) */
+    void *disp;
 } CvState;
 
 size_t cv_pin(const CvState *s, int name);
@@ -162,6 +165,17 @@ void rtc_refresh(CvState *s);
 void rtc_free(CvState *s);
 /* The clock's counters now (plan-24-I); 0 when the part is not an RTC. */
 int rtc_snapshot(const CvState *s, struct RtcTime *out);
+
+/* display_out.c (plan-56-B): the output driver of a leddriver / lcddriver. disp_refresh
+   re-applies the current scan slot after any register or pin change. */
+void disp_start(CvState *s);
+void disp_timer(CvState *s, uint32_t id);
+void disp_refresh(CvState *s);
+void disp_pin(CvState *s, size_t pin);
+void disp_free(CvState *s);
+/* An lcd driver with a "load" section (plan-56-E): one display data byte arrived after an
+   `lcdload` command; it goes into the RAM per the current mode, pointer, bank and subaddress. */
+void disp_lcd_byte(CvState *s, uint8_t byte);
 
 /* converter_par.c (plan-24-E) */
 void cv_par_start(CvState *s);

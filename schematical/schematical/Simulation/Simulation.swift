@@ -62,7 +62,8 @@ enum NetlistBuilder {
     /// one node too, and so is every net label point of one name (case
     /// sensitive). A bus wire's pins join the net labels of the wire's name
     /// (case sensitive), so bus wires of one name on different buses meet
-    /// only through such a label. A No Connect joins nothing: a wire
+    /// only through such a label, or through a supply of that name: a bus
+    /// wire named like a supply (`5V`) is on that rail. A No Connect joins nothing: a wire
     /// ending on one joins nothing through it, so its pin stays on a net of
     /// its own. Union-find over the wire ends gives the nets.
     static func build(chips: [PlacedChip], wires: [Wire], buses: [Bus],
@@ -127,11 +128,24 @@ enum NetlistBuilder {
             }
         }
 
-        // A net label named like a supply (GND, 5V, 3V3, …: a power symbol's
-        // part number, case sensitive) is on that rail: it joins every wired
-        // pin of the supply symbols of that name. Pull-up and pull-down
-        // symbols are not supplies here. A bus wire of the name reaches the
-        // rail through the label, so it does too.
+        // A bus wire is on the net of the labels of its name (case and all):
+        // its wired port pins join them.
+        var busWireName: [UUID: String] = [:]
+        for bus in buses {
+            for wire in bus.wires { busWireName[wire.id] = wire.name }
+        }
+        for (wireID, group) in groups {
+            if let name = busWireName[wireID], let label = labelGroups[name]?.first {
+                union(group[0], label)
+            }
+        }
+
+        // A net label or a bus wire named like a supply (GND, 5V, 3V3, …: a
+        // power symbol's part number, case sensitive) is on that rail: it
+        // joins every wired pin of the supply symbols of that name. A bus
+        // wire is treated as a net label of its name here, with or without
+        // a label of that name. Pull-up and pull-down symbols are not
+        // supplies here.
         var supplyOfChip: [UUID: String] = [:]
         for chip in chips {
             if case .supply(_, _, false) = chip.part.details { supplyOfChip[chip.id] = chip.partNumber }
@@ -146,20 +160,12 @@ enum NetlistBuilder {
                 }
             }
             for (name, pins) in supplyPins {
-                guard let label = labelGroups[name]?.first else { continue }
-                for pin in pins { union(label, pin) }
-            }
-        }
-
-        // A bus wire is on the net of the labels of its name (case and all):
-        // its wired port pins join them.
-        var busWireName: [UUID: String] = [:]
-        for bus in buses {
-            for wire in bus.wires { busWireName[wire.id] = wire.name }
-        }
-        for (wireID, group) in groups {
-            if let name = busWireName[wireID], let label = labelGroups[name]?.first {
-                union(group[0], label)
+                var anchors: [WireEnd] = []
+                if let label = labelGroups[name]?.first { anchors.append(label) }
+                for (wireID, group) in groups where busWireName[wireID] == name { anchors.append(group[0]) }
+                for anchor in anchors {
+                    for pin in pins { union(anchor, pin) }
+                }
             }
         }
 
@@ -701,9 +707,9 @@ final class SimulationController {
         return engine.cpuState(part: part)
     }
 
-    // MARK: Converters and RTCs
+    // MARK: Converters, RTCs and display drivers
 
-    /// A converter's or RTC's registers (and an RTC's clock) in the running
+    /// A converter's, RTC's or display driver's registers (and an RTC's clock) in the running
     /// simulation, or nil when the part has none or the simulation is not
     /// running.
     func registerState(of chip: PlacedChip) -> RegisterSnapshot? {

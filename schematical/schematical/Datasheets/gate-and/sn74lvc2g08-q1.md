@@ -30,11 +30,11 @@ qualified with the following results: device temperature grade 1:
 –40°C to +125°C ambient operating temperature range (DCU package).
 Device temperature grade 3: –40°C to +85°C ambient operating temperature
 range (DCT package). Can be used as a down translator to translate input
-from a maximum of 5.5 V down to the V~CC~ level.
+from a maximum of 5.5 V down to the V~CC~ level. [[1::1]] [[1::2]] [[1::5]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[9::1]]
 
 ## Pinout
 
@@ -50,6 +50,7 @@ current backflow through the device when it is powered down.
 GND: Ground
 VCC: Power Supply
 ```
+[[3::table #1]]
 
 ## Functional description
 
@@ -65,9 +66,9 @@ damaged. It is important for the output power of the device to be
 limited to avoid damage due to overcurrent. The electrical and thermal
 limits defined in the
 [absolute maximum ratings](#absolute-maximum-ratings) must be followed
-at all times.
+at all times. [[9::2]]
 
-Unused push-pull CMOS outputs should be left disconnected.
+Unused push-pull CMOS outputs should be left disconnected. [[9::3]]
 
 ### Standard CMOS inputs
 
@@ -87,20 +88,21 @@ terminated at V~CC~ or GND. If a system will not be actively driving an
 input at all times, a pull-up or pull-down resistor can be added to
 provide a valid input voltage during these times. The resistor value
 will depend on multiple factors, however a 10-kΩ resistor is recommended
-and will typically meet all requirements.
+and will typically meet all requirements. [[9::4]] [[9::5]] [[9::6]]
 
 ### Clamp diode structure
 
 The inputs and outputs to this device have negative clamping diodes
-only.
+only. [[9::7]]
 
 Voltages beyond the values specified in the Absolute Maximum Ratings
 table can cause damage to the device. The input and output voltage
 ratings may be exceeded if the input and output clamp-current ratings
-are observed.
+are observed. [[9::8]]
 
 ```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output"
 ```
+[[10::Figure 9-1]]
 
 ### Partial power down (I~off~)
 
@@ -108,7 +110,7 @@ This device includes circuitry to disable all outputs when the supply
 pin is held at 0 V. When disabled, the outputs will neither source nor
 sink current, regardless of the input voltages applied. The amount of
 leakage current at each output is defined by the I~off~ specification in
-the Electrical Characteristics table.
+the Electrical Characteristics table. [[10::2]]
 
 ## Function tables
 
@@ -120,6 +122,7 @@ the Electrical Characteristics table.
 | L | X | L |
 | X | L | L |
 ```
+[[10::Table 9-1]]
 
 ## Absolute maximum ratings
 
@@ -140,6 +143,7 @@ the Electrical Characteristics table.
 [1] The input and output negative-voltage ratings may be exceeded if the input and output current ratings are observed.
 [2] The value of V~CC~ is provided in the Recommended Operating Conditions table.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -149,8 +153,9 @@ the Electrical Characteristics table.
 
 [1] AEC Q100-002 indicates HBM stressing is done in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
-Latch-up performance exceeds 100 mA per JESD 78, Class II.
+Latch-up performance exceeds 100 mA per JESD 78, Class II. [[1::2]]
 
 ## Recommended operating conditions
 
@@ -185,6 +190,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 | T~A~ | Operating free-air temperature | SN74LVC2G08DCU-Q1 | -40 | 125 | °C |
 | ^ | ^ | SN74LVC2G08DCT-Q1 | -40 | 85 | °C |
 ```
+[[5::table #1]]
 
 ## Thermal information
 
@@ -199,6 +205,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953.
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -225,6 +232,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25 °C.
 ```
+[[6::table #1]]
 
 ### Operating characteristics
 
@@ -234,6 +242,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 |---|---|---|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 17 | 17 | 17 | 20 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -251,6 +260,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | ^ | V~CC~ = 3.3 V ± 0.3 V | 1 | 5.3 | ns |
 | ^ | ^ | ^ | ^ | V~CC~ = 5 V ± 0.5 V | 1 | 4.8 | ns |
 ```
+[[6::table #3]]
 
 ## Typical characteristics
 
@@ -261,6 +271,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "TPD", "points": [[-55, 2.7], [-40, 2.9], [0, 3.0], [25, 3.1], [85, 3.7], [125, 5.0]]}
  ]}
 ```
+[[7::Figure 7-1]]
 
 ```curve id=tpd-vcc caption="t~PD~ across V~CC~ at 25 °C"
 {"x": {"label": "VCC", "unit": "V", "range": [0, 6]},
@@ -269,6 +280,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "TPD", "points": [[1.8, 7.0], [2.5, 4.0], [3.3, 3.0], [5.0, 2.5]]}
  ]}
 ```
+[[7::Figure 7-2]]
 
 ```curve id=icc-freq caption="I~CC~ vs frequency"
 {"x": {"label": "Frequency", "unit": "MHz", "range": [-20, 80]},
@@ -280,13 +292,14 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "ICC 5 V", "points": [[0, 0], [25, 2.9], [30, 3.9], [49, 6.0], [55, 6.9], [67, 8.1], [75, 9.3]]}
  ]}
 ```
+[[12::Figure 11-1]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
-per measurement.
+per measurement. [[8::1]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -301,11 +314,13 @@ setup-and-hold and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[8::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[8::Figure 8-1]]
 
 ```table id=test-conditions caption="Test conditions (Figure 8-1)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -316,10 +331,12 @@ CL: see table
 | 3.3 V ± 0.3 V | 3 V | ≤ 2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤ 2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[8::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times"
 VM: see table
 ```
+[[8::Figure 8-1]]
 
 ## Application information
 
@@ -327,7 +344,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes. Customers should validate and test
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[11::1]]
 
 The SN74LVC2G08-Q1 is a high-drive CMOS device that can be used for
 implementing AND logic with a high output drive, such as an LED
@@ -336,32 +353,32 @@ ideal for driving multiple outputs and good for high-speed applications
 up to 100 MHz. The inputs are 5.5-V tolerant allowing it to translate
 down to V~CC~. Conversion note: the source's examples (Figure 10-1) show a gate between
 microcontroller or logic signals, and a basic LED driver with the LED
-and a resistor from Y to ground.
+and a resistor from Y to ground. [[11::2]]
 
 This device uses CMOS technology and has balanced output drive. Take
 care to avoid bus contention because it can drive currents that would
 exceed maximum limits. The high drive will also create fast edges into
 light loads so routing and load conditions must be considered to prevent
-ringing.
+ringing. [[11::3]]
 
-Detailed design procedure:
+Detailed design procedure: [[11::3]]
 
-1. Recommended input conditions:
+1. Recommended input conditions: [[11::4]]
    - Rise time and fall time specs. See Δt/ΔV in the
      [recommended operating conditions](#recommended-operating-conditions)
-     table.
+     table. [[11::4]]
    - Specified high and low levels. See V~IH~ and V~IL~ in the recommended
-     operating conditions table.
+     operating conditions table. [[11::4]]
    - Inputs are overvoltage tolerant allowing them to go as high as
      V~I~ maximum in the recommended operating conditions table at any valid
-     V~CC~.
-2. Recommended output conditions:
+     V~CC~. [[11::4]]
+2. Recommended output conditions: [[11::4]]
    - Load currents must not exceed I~O~ maximum per output and must not exceed
      total current (continuous current through V~CC~ or GND) for the
      part. Source error: the source says these limits are located in the
      Recommended Operating Conditions table; they are in the
-     [absolute maximum ratings](#absolute-maximum-ratings) table (p.4).
-   - Outputs must not be pulled above V~CC~ in normal operating conditions.
+     [absolute maximum ratings](#absolute-maximum-ratings) table (p.4). [[11::4]]
+   - Outputs must not be pulled above V~CC~ in normal operating conditions. [[11::4]]
 
 Power: the power supply can be any voltage between the minimum and
 maximum supply voltage rating in the recommended operating conditions.
@@ -369,7 +386,7 @@ Each V~CC~ pin must have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, a 0.1-µF capacitor is
 recommended. 0.1-µF and 1-µF capacitors are commonly used in parallel.
 The bypass capacitor must be installed as close to the power pin as
-possible for best results.
+possible for best results. [[12::1]]
 
 When using multiple bit logic devices inputs must not ever float. In many
 cases, functions or parts of functions of digital logic devices are
@@ -382,7 +399,7 @@ digital logic devices must be connected to a high or low bias to prevent
 them from floating. The logic level that must be applied to any
 particular unused input depends on the function of the device.
 Generally they will be tied to GND or V~CC~ whichever
-make more sense or is more convenient.
+make more sense or is more convenient. [[12::2]]
 
 ## Package
 
@@ -398,6 +415,7 @@ make more sense or is more convenient.
 SN74LVC2G08IDCTRQ1 | Reel of 3000 | -40 to 85 | C08 Z
 SN74LVC2G08QDCURQ1 | Reel of 3000 | -40 to 125 | 1HLRQ
 ```
+[[14::table #1]]
 
 ## Conversion notes
 

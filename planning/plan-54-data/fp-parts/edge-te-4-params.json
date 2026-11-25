@@ -1,0 +1,878 @@
+{
+ "rows": [
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-050-I",
+   "positions": [
+    184
+   ],
+   "description": "TE Standard Edge .050 PCI 64-bit edge connector, 184 contacts, through hole (5145168)",
+   "note": "Drawing 5145168, datasheets/connector-card-edge/te/5145168.pdf, sheet 2 (hole pattern, connector side shown). 5145168 sheet 2: groups 11 | 49 | 32 pads per side; pegs F (1.91 after pad 11), G (64.77 after F), third 107.96 after F. Contacts: 4 hole rows, pitch 2.54 in a row, rows at y = -3.81, -1.27, +1.27, +3.81 (3.81 and 1.27 printed, 2 places each), side 0 (pins 1..92, upper pair of rows) alternates row y -3.81 / -1.27 pad by pad at 1.27 pitch, side 1 (pins 93..184, lower pair) alternates +1.27 / +3.81; odd pads sit 1.27 further right (x0+1.27). Key gaps are 3.81 between neighbouring pads (3.81 - 1.27 = 2.54 extra). Hole dia 1.02 printed (pad diameter not printed: assumed 1.35: the pads next to the 2.44 holes are 1.905 from them, so 1.35 is the largest that clears the hole boxes). Which pins are on which side is not printed: pins 1..92 are taken on the upper pair of rows (halves numbering, pin 1 at the left). Housing 128.02 x 8.89 (printed), centred on the pads (pad span 120.65 = 91 x 1.27 + 2 x 2.54; margin 3.685 each side). Locating holes are drawn as non-plated (the print gives the diameter only, not the plating).",
+   "numbering": "halves",
+   "pitch": 1.27,
+   "row_y": "-3.81,1.27",
+   "stagger": 2.54,
+   "pad_w": 1.35,
+   "pad_h": 1.35,
+   "shape": "round",
+   "drill": 1.02,
+   "gaps": {
+    "11": 2.54,
+    "60": 2.54
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2+14.605",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2+79.375",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "L0/2+1.905",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    }
+   ],
+   "body_w": 128.02,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-050-J",
+   "positions": [
+    184
+   ],
+   "description": "TE Standard Edge .050 PCI 64-bit edge connector, 184 contacts, through hole (5145169)",
+   "note": "Drawing 5145169, datasheets/connector-card-edge/te/5145169.pdf, sheet 2 (hole pattern, connector side shown). 5145169 sheet 2: groups 49 | 11 | 32 pads per side; holes G (1.91 before pad 1), F (64.77 after G), third 59.69 after F. Contacts: 4 hole rows, pitch 2.54 in a row, rows at y = -3.81, -1.27, +1.27, +3.81 (3.81 and 1.27 printed, 2 places each), side 0 (pins 1..92, upper pair of rows) alternates row y -3.81 / -1.27 pad by pad at 1.27 pitch, side 1 (pins 93..184, lower pair) alternates +1.27 / +3.81; odd pads sit 1.27 further right (x0+1.27). Key gaps are 3.81 between neighbouring pads (3.81 - 1.27 = 2.54 extra). Hole dia 1.02 printed (pad diameter not printed: assumed 1.35: the pads next to the 2.44 holes are 1.905 from them, so 1.35 is the largest that clears the hole boxes). Which pins are on which side is not printed: pins 1..92 are taken on the upper pair of rows (halves numbering, pin 1 at the left). Housing 128.02 x 8.89 (printed), centred on the pads (pad span 120.65 = 91 x 1.27 + 2 x 2.54; margin 3.685 each side). Locating holes are drawn as non-plated (the print gives the diameter only, not the plating).",
+   "numbering": "halves",
+   "pitch": 1.27,
+   "row_y": "-3.81,1.27",
+   "stagger": 2.54,
+   "pad_w": 1.35,
+   "pad_h": 1.35,
+   "shape": "round",
+   "drill": 1.02,
+   "gaps": {
+    "49": 2.54,
+    "60": 2.54
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2-1.905",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2+62.865",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "L0/2+1.905",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    }
+   ],
+   "body_w": 128.02,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-050-K",
+   "positions": [
+    60,
+    80,
+    112
+   ],
+   "description": "TE Standard Edge .050 dual edge connector, {N} contacts, through hole (hole pattern A)",
+   "note": "Drawing 5650090 (AMP 5650090 rev R), datasheets/connector-card-edge/te/5650090.pdf, sheets 1-2. N contacts = 2 x dual positions (23, 30, 40, 45, 56 per side). Hole rows y = -3.81, -1.27, +1.27, +3.81 (3.81 and 1.27 printed), hole pitch 2.54 per row, the two pads of a side alternate between its two rows at 1.27. Group 1 = 11 pads (Y = 10 spaces at 1.27), then one key gap with a peg F 1.91 after pad 11 and 1.91 before pad 12 (pad 11 to pad 12 = 3.81, extra 2.54), group 2 = the rest (X spaces at 1.27); peg G 1.91 after the last pad; F to G = V (17.78, 26.67, 39.37, 45.72, 59.69 for 23, 30, 40, 45, 56 dual positions = X x 1.27 + 3.81). Hole pattern A (A: pads 1, 3, .. on the outer rows when X is even; B: mirror image in y, X odd; both printed). Hole dia 1.02 printed, pad dia not printed (1.35 assumed (largest that clears the 2.44 holes at 1.905)). Housing T = pad span + 7.37 (checked against the table: T = 37.85, 59.44, ..., 79.76), depth 8.89 printed. Pin numbering (which side holds pin 1) is not printed: halves, pin 1 at the left of the upper side. Locating holes are drawn as non-plated (the print gives the diameter only, not the plating).",
+   "numbering": "halves",
+   "pitch": 1.27,
+   "row_y": "-3.81,1.27",
+   "stagger": 2.54,
+   "pad_w": 1.35,
+   "pad_h": 1.35,
+   "shape": "round",
+   "drill": 1.02,
+   "gaps": {
+    "11": 2.54
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2+14.605",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "L0/2+1.905",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    }
+   ],
+   "body_w": "L0+7.37",
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-050-K",
+   "positions": [
+    46,
+    90
+   ],
+   "description": "TE Standard Edge .050 dual edge connector, {N} contacts, through hole (hole pattern B)",
+   "note": "Drawing 5650090 (AMP 5650090 rev R), datasheets/connector-card-edge/te/5650090.pdf, sheets 1-2. N contacts = 2 x dual positions (23, 30, 40, 45, 56 per side). Hole rows y = -3.81, -1.27, +1.27, +3.81 (3.81 and 1.27 printed), hole pitch 2.54 per row, the two pads of a side alternate between its two rows at 1.27. Group 1 = 11 pads (Y = 10 spaces at 1.27), then one key gap with a peg F 1.91 after pad 11 and 1.91 before pad 12 (pad 11 to pad 12 = 3.81, extra 2.54), group 2 = the rest (X spaces at 1.27); peg G 1.91 after the last pad; F to G = V (17.78, 26.67, 39.37, 45.72, 59.69 for 23, 30, 40, 45, 56 dual positions = X x 1.27 + 3.81). Hole pattern B (A: pads 1, 3, .. on the outer rows when X is even; B: mirror image in y, X odd; both printed). Hole dia 1.02 printed, pad dia not printed (1.35 assumed (largest that clears the 2.44 holes at 1.905)). Housing T = pad span + 7.37 (checked against the table: T = 37.85, 59.44, ..., 79.76), depth 8.89 printed. Pin numbering (which side holds pin 1) is not printed: halves, pin 1 at the left of the upper side. Locating holes are drawn as non-plated (the print gives the diameter only, not the plating).",
+   "numbering": "halves",
+   "pitch": 1.27,
+   "row_y": "-1.27,3.81",
+   "stagger": -2.54,
+   "pad_w": 1.35,
+   "pad_h": 1.35,
+   "shape": "round",
+   "drill": 1.02,
+   "gaps": {
+    "11": 2.54
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2+14.605",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "L0/2+1.905",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    }
+   ],
+   "body_w": "L0+7.37",
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-050-L",
+   "positions": [
+    132
+   ],
+   "description": "TE Standard Edge .050 dual edge connector, 132 contacts (66 dual positions), through hole",
+   "note": "Drawing 5650091 (AMP), datasheets/connector-card-edge/te/5650091.pdf sheet 1 (inch print: .050 = 1.27, .075 = 1.905, .096 dia = 2.44, .040 dia = 1.02), recommended connector mounting hole pattern (connector side shown). Groups 11 | 45 | 10 pads per side (10, 44 and 9 spaces at 1.27); holes F and G in the two key gaps, each .075 (1.905) from the neighbouring pads; F to G 2.350 (59.69). Hole rows y = -3.81, -1.27, +1.27, +3.81 (.150 / .050), hole pitch 2.54 per row, pad 1 on the outer row (pattern A). Housing 3.74 in = 94.996 long x .350 = 8.89, centred on the pads (pad span 87.63 = 65 x 1.27 + 2 x 2.54, 87.63 + 7.37 = 95.0). Pad dia not printed (1.35 assumed (largest that clears the 2.44 holes at 1.905)); pin 1 side not printed (halves numbering assumed). Locating holes are drawn as non-plated (the print gives the diameter only, not the plating).",
+   "numbering": "halves",
+   "pitch": 1.27,
+   "row_y": "-3.81,1.27",
+   "stagger": 2.54,
+   "pad_w": 1.35,
+   "pad_h": 1.35,
+   "shape": "round",
+   "drill": 1.02,
+   "gaps": {
+    "11": 2.54,
+    "56": 2.54
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2+14.605",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2+74.295",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    }
+   ],
+   "body_w": 94.996,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-050-M",
+   "positions": [
+    182
+   ],
+   "description": "TE Standard Edge .050 dual edge connector, 182 contacts (91 dual positions), through hole",
+   "note": "Drawing 5650092 (AMP), datasheets/connector-card-edge/te/5650092.pdf (inch print: .050 = 1.27, .075 = 1.905), recommended connector mounting hole pattern (connector side shown). Groups 42 | 49 pads per side (41 and 48 spaces at 1.27); hole F .075 (1.905) after pad 42 and before pad 43, hole G .075 after the last pad; F to G 2.550 (64.77). Hole rows y = -3.81, -1.27, +1.27, +3.81 (.150 / .050), pitch 2.54 per row; pattern B as printed (the first pad of a side is on the inner row, mirror image of 5650090 pattern A). Housing 4.89 in = 124.206 x .350 = 8.89, centred (pad span 116.84 = 90 x 1.27 + 2.54; 116.84 + 7.37 = 124.21). Pad dia not printed (1.35 assumed (largest that clears the 2.44 holes at 1.905)); pin 1 side not printed (halves numbering assumed). Locating holes are drawn as non-plated (the print gives the diameter only, not the plating).",
+   "numbering": "halves",
+   "pitch": 1.27,
+   "row_y": "-1.27,3.81",
+   "stagger": -2.54,
+   "pad_w": 1.35,
+   "pad_h": 1.35,
+   "shape": "round",
+   "drill": 1.02,
+   "gaps": {
+    "42": 2.54
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2+53.975",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "L0/2+1.905",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    }
+   ],
+   "body_w": 124.206,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-050-N",
+   "positions": [
+    30
+   ],
+   "description": "TE Standard Edge .050 end keyed connector, 30 contacts (15 dual positions), through hole",
+   "note": "Drawing 5650712 (AMP), datasheets/connector-card-edge/te/5650712.pdf, recommended connector mounting hole pattern (connector side shown): 15 pads per side (14 spaces at 1.27), hole F dia 2.44 only at the left end, 1.91 before pad 1; hole rows y = -3.81, -1.27, +1.27, +3.81 (3.81 / 1.27 printed), pitch 2.54 per row, pattern B (first pad of a side on the inner row). Hole dia 1.02 printed; pad dia not printed (1.35 assumed (largest that clears the 2.44 holes at 1.905)). Housing 24.9 x 8.89 printed; the print puts the pads 3.44 from the left end and 3.68 from the right end (measured on the top view at 46.5 px/mm, not printed), so the pad centre is 0.12 mm left of the housing centre; the footprint centres the housing on the pads. Pin 1 side not printed (halves numbering assumed). Locating holes are drawn as non-plated (the print gives the diameter only, not the plating).",
+   "numbering": "halves",
+   "pitch": 1.27,
+   "row_y": "-1.27,3.81",
+   "stagger": -2.54,
+   "pad_w": 1.35,
+   "pad_h": 1.35,
+   "shape": "round",
+   "drill": 1.02,
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2-1.905",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    }
+   ],
+   "body_w": 24.9,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-II-H",
+   "positions": [
+    50
+   ],
+   "description": "TE Standard Edge II .050 end keyed connector, 50 contacts (25 dual positions), through hole",
+   "note": "Drawing 5650719 (AMP), datasheets/connector-card-edge/te/5650719.pdf (inch print: .050 = 1.27, .075 = 1.905), recommended connector mounting hole pattern (connector side shown): 25 pads per side (24 spaces at 1.27), holes F and G (.096 dia = 2.44) .075 before pad 1 and after pad 25, 1.350 apart (34.29 = 30.48 + 3.81). Hole rows y = -3.81, -1.27, +1.27, +3.81, pitch 2.54 per row, pattern B (first pad on the inner row). Hole dia .040 = 1.02; pad dia not printed (1.35 assumed (largest that clears the 2.44 holes at 1.905)). Housing 1.48 in = 37.592 x .350 = 8.89, centred on the pads (not dimensioned to the pads). Pin 1 side not printed (halves numbering assumed). Locating holes are drawn as non-plated (the print gives the diameter only, not the plating).",
+   "numbering": "halves",
+   "pitch": 1.27,
+   "row_y": "-1.27,3.81",
+   "stagger": -2.54,
+   "pad_w": 1.35,
+   "pad_h": 1.35,
+   "shape": "round",
+   "drill": 1.02,
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2-1.905",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "L0/2+1.905",
+     "y": 0,
+     "width": 2.44,
+     "height": 2.44,
+     "shape": "round",
+     "drill": 2.44,
+     "plated": false
+    }
+   ],
+   "body_w": 37.592,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-II",
+   "positions": [
+    26
+   ],
+   "description": "TE SEC II power card edge connector 1761500, 26 contacts (13 per face: 3 triple-post power + 10 single), straddle mount",
+   "note": "Drawing 1761500 (Tyco 108-2202), datasheets/connector-card-edge/te/1761500.pdf, sheet 2 'recommended PC board layout for connector mounting, typ both sides' and sheet 1. Straddle mount: the housing sits on the board edge, pads on BOTH faces (pins 1..13 on the part's own face, pins 14..26 on the opposite face, carrying opposite = true; edgeMount). Board edge: y = +6.225 (the housing is 15.49 deep, y -7.745..+7.745, and the board edge datum N is 13.97 from the card-entry face: -7.745 + 13.97); the board lies at +y of that edge, so pads run from the edge to 6.35 (printed 6.35 MIN) = centre y 9.4; the card-entry face is at -y. 19 pad positions per face at 2.54 (18 spaces = 45.72 printed), 1.27 wide (printed 1.27 +-0.05): 3 power contacts of 3 posts each (the 9 left posts, 7.62 between contact centres as printed: 2X 7.62) then 10 single contacts (9X 2.54 = 22.86 printed); every post of a contact is a pad with the contact's pin number. Pin numbering is NOT printed on the layout: only the mating card's pads 14..26 are named (pad 26 = leftmost wide pad, pad 14 = rightmost single). Assumed: the opposite face is numbered the same way, pad n directly across the board from pad n+13 (pins 1..13 own face, 14..26 opposite face), and numbering runs from the right end (single pads) to the wide pads on both faces. Ear holes 3.68 dia, 62.87 apart (+-31.435), 1.65 above the board edge (5.75 - 4.11 = 1.64 printed arithmetic): y = 6.225 - 1.65 = 4.575, drawn non-plated (plating not printed). Body 69.72 x 15.49 printed (overall incl. ears). The board edge is the line y = +6.225 across the pads; the housing straddles it.",
+   "numbering": "halves",
+   "pitch": 2.54,
+   "dir": "rtl,rtl",
+   "row_y": "9.4,9.4",
+   "row_layer": "same,opposite",
+   "edge_mount": 1,
+   "pad_w": 1.27,
+   "pad_h": 6.35,
+   "shape": "rect",
+   "gaps": {
+    "10": 5.08,
+    "11": 5.08,
+    "12": 5.08
+   },
+   "extras": [
+    {
+     "pin": 11,
+     "x": -5.08,
+     "y": 9.4,
+     "width": 1.27,
+     "height": 6.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -2.54,
+     "y": 9.4,
+     "width": 1.27,
+     "height": 6.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -12.7,
+     "y": 9.4,
+     "width": 1.27,
+     "height": 6.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -10.16,
+     "y": 9.4,
+     "width": 1.27,
+     "height": 6.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -20.32,
+     "y": 9.4,
+     "width": 1.27,
+     "height": 6.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -17.78,
+     "y": 9.4,
+     "width": 1.27,
+     "height": 6.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": -5.08,
+     "y": 9.4,
+     "width": 1.27,
+     "height": 6.35,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 24,
+     "x": -2.54,
+     "y": 9.4,
+     "width": 1.27,
+     "height": 6.35,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 25,
+     "x": -12.7,
+     "y": 9.4,
+     "width": 1.27,
+     "height": 6.35,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 25,
+     "x": -10.16,
+     "y": 9.4,
+     "width": 1.27,
+     "height": 6.35,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 26,
+     "x": -20.32,
+     "y": 9.4,
+     "width": 1.27,
+     "height": 6.35,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 26,
+     "x": -17.78,
+     "y": 9.4,
+     "width": 1.27,
+     "height": 6.35,
+     "shape": "rect",
+     "opposite": true
+    },
+    {
+     "pin": 0,
+     "x": -31.435,
+     "y": 4.575,
+     "width": 3.68,
+     "height": 3.68,
+     "shape": "round",
+     "drill": 3.68,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 31.435,
+     "y": 4.575,
+     "width": 3.68,
+     "height": 3.68,
+     "shape": "round",
+     "drill": 3.68,
+     "plated": false
+    }
+   ],
+   "body_w": 69.72,
+   "body_h": 15.49
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-II-C",
+   "positions": [
+    64
+   ],
+   "description": "TE Standard Edge II high current, 64 contacts (32 dual positions), right-angle through hole",
+   "note": "Drawing 1761468 (Tyco 108-9039), datasheets/connector-card-edge/te/1761468.pdf sheet 2 'recommended PC board hole layout': 2 rows of 32 holes, 31 spaces at 2.54, rows 3.81 apart, dia 1.02 +-0.08 (pad dia not printed: 1.52 assumed). Top row pads 64..33 left to right, bottom row pads 1..32 left to right (printed PAD labels); in this footprint the top row (pins 33..64) is the row nearer the card entry, as the layout is drawn - the print does not say which edge of the layout is the card entry and its section view suggests the upper contacts (pins 33..64) have the farther tails, so the two rows may be swapped. Right-angle through hole: card entry at -y (assumed; not shown on the hole layout), board plane = x/y. Row positions along the card-insertion axis follow the section/plan prints: the nearer row of tails is 15.80 behind the card-entry face (15.80 REF on 5645384; same housing family), the other 3.81 further (rows 3.81 printed); housing depth 15.49 (y -7.745..+7.745) so the rows are at y = 15.80 - 7.745 = +8.055 and +11.865 (measured on the plan view, not printed as a dimension). Housing 87.88 x 15.49 (printed), centred on the pads (87.88 - 78.74 = 4.57 each side; front view symmetric).",
+   "numbering": "halves",
+   "pitch": 2.54,
+   "dir": "ltr,rtl",
+   "row_y": "11.865,8.055",
+   "pad_w": 1.52,
+   "pad_h": 1.52,
+   "shape": "round",
+   "drill": 1.02,
+   "body_w": 87.88,
+   "body_h": 15.49
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-II-E",
+   "positions": [
+    54
+   ],
+   "description": "TE Standard Edge II high current compliant 2007209, 54 contacts (64 positions, 10 omitted), right-angle press-fit",
+   "note": "Drawing 2007209 (Tyco 108-2148), datasheets/connector-card-edge/te/2007209.pdf: same 2 x 32 grid as 1761468 (sheet 2 hole layout: 31 spaces at 2.54 = 78.74, rows 3.81 apart, dia 1.02 +-0.07, shown with all 64 holes); contacts omitted at positions 3, 6, 7, 8, 23, 42, 57, 58, 59, 62 (table on sheet 1), so the footprint has 54 pads (pads numbered 1..54 in the part's pin order; omitted slots left empty). Row assignment as for 1761468 (bottom row names 1..32 left to right, top row names 64..33 left to right: the sheet 1 front view prints PIN 64 / PIN 33 on the upper row and PIN 1 / PIN 32 on the lower row); the layout sheet carries no labels. Pad dia not printed (1.52). Right-angle through hole: card entry at -y (assumed; not shown on the hole layout), board plane = x/y. Row positions along the card-insertion axis follow the section/plan prints: the nearer row of tails is 15.80 behind the card-entry face (15.80 REF on 5645384; same housing family), the other 3.81 further (rows 3.81 printed); housing depth 15.49 (y -7.745..+7.745) so the rows are at y = 15.80 - 7.745 = +8.055 and +11.865 (measured on the plan view, not printed as a dimension). Housing 87.88 x 15.49, centred.",
+   "numbering": "halves",
+   "pitch": 2.54,
+   "dir": "ltr,rtl",
+   "row_y": "11.865,8.055",
+   "pad_w": 1.52,
+   "pad_h": 1.52,
+   "shape": "round",
+   "drill": 1.02,
+   "gaps": [
+    {
+     "2": 2.54,
+     "4": 7.62,
+     "18": 2.54
+    },
+    {
+     "9": 2.54,
+     "23": 7.62,
+     "25": 2.54
+    }
+   ],
+   "body_w": 87.88,
+   "body_h": 15.49
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-II-F",
+   "positions": [
+    28
+   ],
+   "description": "TE Standard Edge II 5645384-6, 28 contacts (36 positions, 8 omitted), right-angle through hole",
+   "note": "Drawing 5645384 (Tyco 108-9039), datasheets/connector-card-edge/te/5645384.pdf (one sheet: no PCB layout is printed). Derived from the elevation and the table: X spaces at 2.54 = D (17 spaces = 43.18 for 18 positions per row), rows J = 3.81, recommended finished hole dia 1.07 +-0.08 (note 7; pad dia not printed: 1.57 assumed). Front view labels: upper row PIN 1 .. PIN 18 left to right, lower row PIN 36 (left) .. PIN 19 (right); the upper row is drawn as the top (-y) row. Ears with 3.25 dia holes at F = 60.32 apart (+-30.16), centre 9.14 + 6.35 / 2 = 12.315 behind the card-entry face = y +4.57, drawn non-plated (plating not printed); overall width E = 67.18 (ears included). Right-angle through hole: card entry at -y (assumed; not shown on the hole layout), board plane = x/y. Row positions along the card-insertion axis follow the section/plan prints: the nearer row of tails is 15.80 behind the card-entry face (15.80 REF on 5645384; same housing family), the other 3.81 further (rows 3.81 printed); housing depth 15.49 (y -7.745..+7.745) so the rows are at y = 15.80 - 7.745 = +8.055 and +11.865 (measured on the plan view, not printed as a dimension). Omitted pins 5, 6, 9, 10, 27, 28, 31, 32 (table, 5645384-6): footprint has 28 pads numbered in the part's pin order.",
+   "numbering": "halves",
+   "pitch": 2.54,
+   "dir": "ltr,rtl",
+   "row_y": "8.055,11.865",
+   "pad_w": 1.57,
+   "pad_h": 1.57,
+   "shape": "round",
+   "drill": 1.07,
+   "gaps": [
+    {
+     "4": 5.08,
+     "6": 5.08
+    },
+    {
+     "8": 5.08,
+     "10": 5.08
+    }
+   ],
+   "extras": [
+    {
+     "pin": 0,
+     "x": -30.16,
+     "y": 4.57,
+     "width": 3.25,
+     "height": 3.25,
+     "shape": "round",
+     "drill": 3.25,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 30.16,
+     "y": 4.57,
+     "width": 3.25,
+     "height": 3.25,
+     "shape": "round",
+     "drill": 3.25,
+     "plated": false
+    }
+   ],
+   "body_w": 67.18,
+   "body_h": 15.49
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-II-F",
+   "positions": [
+    36
+   ],
+   "description": "TE Standard Edge II 5645384-1, 36 contacts (18 dual positions), right-angle through hole",
+   "note": "Drawing 5645384 (Tyco 108-9039), datasheets/connector-card-edge/te/5645384.pdf (one sheet: no PCB layout is printed). Derived from the elevation and the table: X spaces at 2.54 = D (17 spaces = 43.18 for 18 positions per row), rows J = 3.81, recommended finished hole dia 1.07 +-0.08 (note 7; pad dia not printed: 1.57 assumed). Front view labels: upper row PIN 1 .. PIN 18 left to right, lower row PIN 36 (left) .. PIN 19 (right); the upper row is drawn as the top (-y) row. Ears with 3.25 dia holes at F = 60.32 apart (+-30.16), centre 9.14 + 6.35 / 2 = 12.315 behind the card-entry face = y +4.57, drawn non-plated (plating not printed); overall width E = 67.18 (ears included). Right-angle through hole: card entry at -y (assumed; not shown on the hole layout), board plane = x/y. Row positions along the card-insertion axis follow the section/plan prints: the nearer row of tails is 15.80 behind the card-entry face (15.80 REF on 5645384; same housing family), the other 3.81 further (rows 3.81 printed); housing depth 15.49 (y -7.745..+7.745) so the rows are at y = 15.80 - 7.745 = +8.055 and +11.865 (measured on the plan view, not printed as a dimension). No pins omitted (5645384-1 / -3 table rows: 18 positions, X = 17).",
+   "numbering": "halves",
+   "pitch": 2.54,
+   "dir": "ltr,rtl",
+   "row_y": "8.055,11.865",
+   "pad_w": 1.57,
+   "pad_h": 1.57,
+   "shape": "round",
+   "drill": 1.07,
+   "extras": [
+    {
+     "pin": 0,
+     "x": -30.16,
+     "y": 4.57,
+     "width": 3.25,
+     "height": 3.25,
+     "shape": "round",
+     "drill": 3.25,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": 30.16,
+     "y": 4.57,
+     "width": 3.25,
+     "height": 3.25,
+     "shape": "round",
+     "drill": 3.25,
+     "plated": false
+    }
+   ],
+   "body_w": 67.18,
+   "body_h": 15.49
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-II-G",
+   "positions": [
+    12,
+    30
+   ],
+   "description": "TE Standard Edge II 5650118, {N} contacts, right-angle through hole",
+   "note": "Drawing 5650118 (Tyco 108-9039), datasheets/connector-card-edge/te/5650118.pdf (one sheet, no PCB layout printed): {N} contacts = 6 (5650118-3) or 15 (5650118-1) per row, X spaces at 2.54 = D (12.70 / 35.56), rows 3.81 (printed 3.81 between the tail rows), finished hole dia 1.07 +-0.08 (note 8; pad dia not printed: 1.57 assumed). Housing A = 21.84 / 44.70 = D + 9.14 (table), depth 15.49, no mounting ears. The print has no pin numbers: the numbering of 5645384 (same family) is assumed, pin 1 top-left, pins 1.. along the top row, the last pin bottom-left. Right-angle through hole: card entry at -y (assumed; not shown on the hole layout), board plane = x/y. Row positions along the card-insertion axis follow the section/plan prints: the nearer row of tails is 15.80 behind the card-entry face (15.80 REF on 5645384; same housing family), the other 3.81 further (rows 3.81 printed); housing depth 15.49 (y -7.745..+7.745) so the rows are at y = 15.80 - 7.745 = +8.055 and +11.865 (measured on the plan view, not printed as a dimension).",
+   "numbering": "halves",
+   "pitch": 2.54,
+   "dir": "ltr,rtl",
+   "row_y": "8.055,11.865",
+   "pad_w": 1.57,
+   "pad_h": 1.57,
+   "shape": "round",
+   "drill": 1.07,
+   "body_w": "L0+9.14",
+   "body_h": 15.49
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-II-I",
+   "positions": [
+    26
+   ],
+   "description": "TE Standard Edge II 5145274-1, 26 contacts (13 dual positions), vertical through hole",
+   "note": "Drawing 5145274 (TE 108-9039), datasheets/connector-card-edge/te/5145274.pdf (one sheet; no PCB layout printed). 13 positions per row, X = 12 spaces at 2.54 = D 30.48 (table), hole dia 1.02 +-0.08 (note 8), pad dia not printed (1.52 assumed). Housing A = 39.62 = D + 9.14 (table). Board-retention feature locations (pins 3, 4, 23, 24) are not drawn (no hole size printed). Pin numbering: odd pins on the +y row, even on the -y row, pin 1 at the left (printed on the 5645235 / 6489170 front views, assumed here). Vertical (straight tails): rows of tails 4.85 apart (printed between the tails in the section), +-2.425 about the slot centre; housing depth 9.35 (printed).",
+   "numbering": "odd-even",
+   "pitch": 2.54,
+   "row_y": "2.425,-2.425",
+   "pad_w": 1.52,
+   "pad_h": 1.52,
+   "shape": "round",
+   "drill": 1.02,
+   "body_w": "L0+9.14",
+   "body_h": 9.35
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-II-J",
+   "positions": [
+    36,
+    62,
+    100
+   ],
+   "description": "TE Standard Edge II 5645235, {N} contacts, vertical through hole",
+   "note": "Drawing 5645235 (Tyco 108-9039), datasheets/connector-card-edge/te/5645235.pdf (one sheet; no PCB layout printed). X spaces at 2.54 = D (17, 30, 49 spaces: 43.18, 76.20, 124.46), recommended hole dia 1.02 +-0.08 (note 4), pad dia not printed (1.52 assumed). Housing A = 52.32, 85.34, 133.60 = D + 9.14 (table). Front view labels PIN 2 (top-left) and PIN 1 (bottom-left). Pin numbering: odd pins on the +y row, even on the -y row, pin 1 at the left (printed on the 5645235 / 6489170 front views, assumed here). Vertical (straight tails): rows of tails 4.85 apart (printed between the tails in the section), +-2.425 about the slot centre; housing depth 9.35 (printed).",
+   "numbering": "odd-even",
+   "pitch": 2.54,
+   "row_y": "2.425,-2.425",
+   "pad_w": 1.52,
+   "pad_h": 1.52,
+   "shape": "round",
+   "drill": 1.02,
+   "body_w": "L0+9.14",
+   "body_h": 9.35
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-II-K",
+   "positions": [
+    12,
+    20,
+    24,
+    26,
+    36,
+    40,
+    50,
+    56,
+    60,
+    62,
+    70,
+    72,
+    80,
+    100
+   ],
+   "description": "TE Standard Edge II 5530843, {N} contacts, vertical solder posts",
+   "note": "Catalog 1773096 pp. 185-186 (datasheets/connector-card-edge/te/1773096_SEC03_CARD_EDGE.pdf): outline dimensions only (A = D + 9.14, D = X spaces at 2.54, row-to-row 4.85 .191 printed, post .064 sq; no PCB layout, hole size or pin numbering printed). Hole dia 1.02 and pad dia 1.52 are assumed from the TE drawings of the same family (5145274, 5645235: 1.02 +-0.08). 26 positions is not in the catalog table but follows the table's rule (13 positions: D = 30.48, A = 39.62, as drawn on 5145274). Pin numbering: odd pins on the +y row, even on the -y row, pin 1 at the left (printed on the 5645235 / 6489170 front views, assumed here). Vertical (straight tails): rows of tails 4.85 apart (printed between the tails in the section), +-2.425 about the slot centre; housing depth 9.35 (printed).",
+   "numbering": "odd-even",
+   "pitch": 2.54,
+   "row_y": "2.425,-2.425",
+   "pad_w": 1.52,
+   "pad_h": 1.52,
+   "shape": "round",
+   "drill": 1.02,
+   "body_w": "L0+9.14",
+   "body_h": 9.35
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-II-L",
+   "positions": [
+    49
+   ],
+   "description": "TE Standard Edge II 5145432-2, 49 contacts (50 positions, pin 44 omitted), vertical latch connector",
+   "note": "Drawing 5145432 (Tyco 108-9039), datasheets/connector-card-edge/te/5145432.pdf sheet 2 'recommended PC board hole layout': top row PIN 1 .. PIN H (= 25) left to right, bottom row PIN K (= 50) left to right down to PIN J (= 26); 24 spaces at 2.54 = 60.96, rows 4.85 apart, hole dia 1.02 +-0.08 (pad dia not printed: 1.52 assumed). Pin 44 omitted with its hole (table; it is the 7th hole of the bottom row). Housing taken as D = 74.78 (latch-to-latch body width in the table, = span + 13.82); latches and the 4.01 dia board holes of the mating-board drawing are not drawn. Vertical (straight tails): rows of tails 4.85 apart (printed between the tails in the section), +-2.425 about the slot centre; housing depth 9.35 (printed).",
+   "numbering": "halves",
+   "pitch": 2.54,
+   "row_y": "-2.425,2.425",
+   "pad_w": 1.52,
+   "pad_h": 1.52,
+   "shape": "round",
+   "drill": 1.02,
+   "body_w": "L0+13.82",
+   "body_h": 9.35,
+   "gaps": [
+    {},
+    {
+     "18": 2.54
+    }
+   ],
+   "dir": "ltr,rtl"
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-II-M",
+   "positions": [
+    98
+   ],
+   "description": "TE Standard Edge II 5176139, 98 contacts (49 dual positions), vertical through hole",
+   "note": "Drawing 5176139 (TE 108-1248), datasheets/connector-card-edge/te/5176139.pdf sheets 1-2: 49 positions per row in two groups, 17 spaces (18 pads) at 2.54 = 43.18, a 10.16 key gap (centre to centre of the neighbouring pads, = 2.54 + 7.62 extra), then 30 spaces (31 pads) = 76.20; rows 4.85 apart (sheet 2 hole layout), hole 0.94-1.09 (finished 1.02 +-0.08, note 10; pad dia not printed: 1.52 assumed). Pin numbers printed on the plan view: 1, 3, 5, 7 .. on the upper row and 2, 4, 6, 8 .. on the lower row (upper row = -y, odd pins). Housing 138.68 long (printed), centred on the pads (pad span 129.54, 4.57 each side; the breaks of the drawing prevent measuring it). Vertical (straight tails): rows of tails 4.85 apart (printed between the tails in the section), +-2.425 about the slot centre; housing depth 9.35 (printed).",
+   "numbering": "odd-even",
+   "pitch": 2.54,
+   "row_y": "-2.425,2.425",
+   "pad_w": 1.52,
+   "pad_h": 1.52,
+   "shape": "round",
+   "drill": 1.02,
+   "body_w": 138.68,
+   "body_h": 9.35,
+   "gaps": {
+    "18": 7.62
+   }
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-II-N",
+   "positions": [
+    30,
+    50,
+    60
+   ],
+   "description": "TE Standard Edge II 5530841, {N} contacts, vertical through hole with mounting ears",
+   "note": "Drawing 5530841 (Tyco 108-9039), datasheets/connector-card-edge/te/5530841.pdf (one sheet; no PCB layout printed): X spaces at 2.54 = D (14, 24, 29 spaces: 35.56, 60.96, 73.66), housing A = D + 9.14 (44.70, 70.10, 82.80), ears with 3.25 dia holes at F = D + 17.14 apart (52.70, 78.10, 90.80) on the housing centre line (y 0), drawn non-plated (plating not printed); hole dia 1.02 +-0.08 (note 4), pad dia not printed (1.52 assumed). The print has no pin numbers: Pin numbering: odd pins on the +y row, even on the -y row, pin 1 at the left (printed on the 5645235 / 6489170 front views, assumed here). Vertical (straight tails): rows of tails 4.85 apart (printed between the tails in the section), +-2.425 about the slot centre; housing depth 9.35 (printed).",
+   "numbering": "odd-even",
+   "pitch": 2.54,
+   "row_y": "2.425,-2.425",
+   "pad_w": 1.52,
+   "pad_h": 1.52,
+   "shape": "round",
+   "drill": 1.02,
+   "body_w": "L0+9.14",
+   "body_h": 9.35,
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2-8.57",
+     "y": 0,
+     "width": 3.25,
+     "height": 3.25,
+     "shape": "round",
+     "drill": 3.25,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "L0/2+8.57",
+     "y": 0,
+     "width": 3.25,
+     "height": 3.25,
+     "shape": "round",
+     "drill": 3.25,
+     "plated": false
+    }
+   ]
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-II-O",
+   "positions": [
+    98
+   ],
+   "description": "TE Standard Edge II 5645169, 98 contacts (49 dual positions), vertical through hole",
+   "note": "Drawing 5645169 (TE 108-9039), datasheets/connector-card-edge/te/5645169.pdf sheet 2 'recommended connector PC board hole pattern': two groups of 31 pads (30 spaces at 2.54) and 18 pads (17 spaces) 10.16 apart, rows 5.08 apart (printed on the hole pattern; the section on sheet 1 prints 4.85), hole 0.94-1.09 (finished 1.02 +-0.08, note 8; pad dia not printed: 1.52 assumed). The hole pattern has the 31-pad group at the left, while the sheet 1 front view and the sister drawing 5176139 have the 18-pad group at the left: the pattern is taken as seen from the solder side and mirrored here (18-pad group at the left, as in 5176139). The print has no pin numbers: odd pins on the upper row (-y), even on the lower row, pin 1 at the left (as 5176139, assumed). Housing 138.68 long (printed), centred. Vertical (straight tails): rows of tails 4.85 apart (printed between the tails in the section), +-2.425 about the slot centre; housing depth 9.35 (printed).",
+   "numbering": "odd-even",
+   "pitch": 2.54,
+   "row_y": "-2.54,2.54",
+   "pad_w": 1.52,
+   "pad_h": 1.52,
+   "shape": "round",
+   "drill": 1.02,
+   "body_w": 138.68,
+   "body_h": 9.35,
+   "gaps": {
+    "18": 7.62
+   }
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-II-Q",
+   "positions": [
+    52
+   ],
+   "description": "TE Standard Edge II 6489170-1, 52 contacts (60 positions, contacts 15-18 omitted), vertical through hole",
+   "note": "Drawing 6489170 (TE 108-9039), datasheets/connector-card-edge/te/6489170.pdf (one sheet; no PCB layout printed): 30 positions per row, 29 spaces at 2.54 = 73.66 REF, contacts omitted from positions 15, 16, 17 and 18 (note 9, 6489170-1; both rows, i.e. pins 29..36), hole dia 1.02 +-0.08 (note 8; pad dia not printed: 1.52 assumed). Housing 82.80 long (printed) x 9.35, centred (pad span 73.66). Pin numbering: odd pins on the +y row, even on the -y row, pin 1 at the left (printed on the 5645235 / 6489170 front views, assumed here). Vertical (straight tails): rows of tails 4.85 apart (printed between the tails in the section), +-2.425 about the slot centre; housing depth 9.35 (printed).",
+   "numbering": "odd-even",
+   "pitch": 2.54,
+   "row_y": "2.425,-2.425",
+   "pad_w": 1.52,
+   "pad_h": 1.52,
+   "shape": "round",
+   "drill": 1.02,
+   "body_w": 82.8,
+   "body_h": 9.35,
+   "gaps": {
+    "14": 10.16
+   }
+  },
+  {
+   "stem": "EDGE-TE-STANDARD-EDGE-II-P",
+   "positions": [
+    49
+   ],
+   "description": "TE Standard Edge II 6364666-2, 49 contacts (50 positions, pin 44 omitted), vertical latch connector",
+   "note": "Drawing 6364666 (Tyco 108-9039), datasheets/connector-card-edge/te/6364666.pdf sheet 2 hole layout (top row PIN 1 .. PIN J, bottom row PIN L .. PIN K, 4.85 between the rows, hole dia 1.02 +-0.08, omitted pin 44 / hole per the table): same pattern as 5145432-2 (see II-L): 25 per row at 2.54, pin 44 omitted from the bottom row. Pad dia not printed (1.52 assumed). Housing D = 74.78. Vertical (straight tails): rows of tails 4.85 apart (printed between the tails in the section), +-2.425 about the slot centre; housing depth 9.35 (printed).",
+   "numbering": "halves",
+   "pitch": 2.54,
+   "row_y": "-2.425,2.425",
+   "pad_w": 1.52,
+   "pad_h": 1.52,
+   "shape": "round",
+   "drill": 1.02,
+   "body_w": "L0+13.82",
+   "body_h": 9.35,
+   "gaps": [
+    {},
+    {
+     "18": 2.54
+    }
+   ],
+   "dir": "ltr,rtl"
+  }
+ ]
+}

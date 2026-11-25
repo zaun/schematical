@@ -73,6 +73,10 @@ extension PartKinds {
                      blurb: "Rows of D flip-flops on one clock, with clock enable or 3-state outputs: 74HC377, 74HC574, CD40174.",
                      examples: ["74HC377D,653", "SN74LS377DWR"], group: .logic),
 
+            KindInfo(kind: "pld", name: "Programmable Logic",
+                     blurb: "GALs and PLDs you program with your own logic equations: ATF16V8, ATF22V10, ATF750C. Symbol, footprint and facts only: they are not simulated yet.",
+                     examples: ["ATF16V8B-15PU", "ATF22V10C-15PU", "ATF750CL-15PU"], group: .logic, simulated: false),
+
             // Memory
             KindInfo(kind: "sram", name: "SRAM",
                      blurb: "Parallel static RAM, read and written through address and data pins: 6264, 62256.",
@@ -111,12 +115,24 @@ extension PartKinds {
             KindInfo(kind: "7seg", name: "7-Segment Display",
                      blurb: "LED digit displays, one to four digits, common anode or common cathode.",
                      examples: ["LTC-4727JR", "LTS-6960HR"], group: .displays),
+            KindInfo(kind: "lcd", name: "LCD Glass",
+                     blurb: "Segment LCD glass: cells between a segment pin and a backplane pin, static or multiplexed (1:2, 1:3, 1:4).",
+                     examples: ["LCD-S401C39TR", "GENERIC-LCD-8D-1:4"], group: .displays),
+            KindInfo(kind: "leddriver", name: "LED Display Driver",
+                     blurb: "Chips that scan digits or LEDs for you after a host writes them over SPI, I2C or a parallel bus: ICM7218, MAX6951, AS1115.",
+                     examples: ["ICM7218AIPI+", "MAX6951CEE+T"], group: .displays),
+            KindInfo(kind: "lcddriver", name: "LCD Display Driver",
+                     blurb: "Chips that drive segment LCD glass (backplanes and segments) from a display RAM a host writes: PCF8576, PCF85176, BU9796.",
+                     examples: ["PCF85176T/1Y", "BU9796AFS-E2"], group: .displays),
             KindInfo(kind: "charlcd", name: "Character LCD",
                      blurb: "Text LCD modules with an HD44780-style controller: 16x2, 20x4.",
                      examples: ["NHD-0216BZ-FL-YBW"], group: .displays),
             KindInfo(kind: "nixie", name: "Nixie Tube",
                      blurb: "Neon numeric indicator tubes with one anode and a cathode per numeral: IN-14, IN-12A, IN-18.",
                      examples: ["IN-14", "IN-18"], group: .displays),
+            KindInfo(kind: "dekatron", name: "Dekatron",
+                     blurb: "Cold-cathode decade counting tubes: a glow that steps round ten cathodes as the guides are pulsed (GC10B, OG-4, Z504S).",
+                     examples: ["GC10B", "Z504S"], group: .displays),
             KindInfo(kind: "buzzer", name: "Buzzer",
                      blurb: "A sounder that plays while its + pin is high and its − pin low: piezo and magnetic buzzers.",
                      examples: ["AI-1027-TWT-5V-R", "SMT-0825-S-4-R"], group: .displays),
@@ -145,6 +161,9 @@ extension PartKinds {
             KindInfo(kind: "connector", name: "Connector",
                      blurb: "Power jacks and USB sockets that bring power onto the board.",
                      examples: ["PJ-037A", "UJ2-AH-1-SMT-TR"], group: .connectors),
+            KindInfo(kind: "socket", name: "IC Socket",
+                     blurb: "A socket a DIP or PLCC chip plugs into: the socket's footprint replaces the chip's on the board.",
+                     examples: ["GENERIC-SOCKET-DIP-14-300", "GENERIC-SOCKET-PLCC-44"], group: .connectors),
             KindInfo(kind: "header", name: "Pin Header",
                      blurb: "Rows of pins or sockets, one or two rows, for jumper wires and ribbon cables.",
                      examples: ["GENERIC-HEADER-1X40", "GENERIC-HEADER-2X13"], group: .connectors),
@@ -168,6 +187,9 @@ extension PartKinds {
             KindInfo(kind: "regulator", name: "Voltage Regulator",
                      blurb: "Linear regulators and LDOs, fixed or adjustable, and switching regulators: a regulated output from a higher input.",
                      examples: ["GENERIC-REG-5V", "GENERIC-REG-ADJ"], group: .power),
+            KindInfo(kind: "powerswitch", name: "Power Switch",
+                     blurb: "Load switches, current-limited and USB power switches and integrated ideal diodes: an input passed to an output, gated by an enable pin.",
+                     examples: ["LM66200DRLR", "TPS22922YFPR"], group: .power),
 
             // Other
             KindInfo(kind: "generic", name: "Other part (no simulation)",
@@ -185,13 +207,13 @@ extension PartKinds {
     /// The order the kinds are listed in within their groups.
     private static let infoOrder = [
         "gate", "buffer", "dff", "jkff", "latch",
-        "mux", "decoder", "arith", "counter", "shift", "register",
+        "mux", "decoder", "arith", "counter", "shift", "register", "pld",
         "sram", "eeprom", "serialmem",
         "cpu", "mcu", "pio", "serial", "converter", "rtc",
-        "led", "buzzer", "7seg", "charlcd", "nixie",
+        "led", "buzzer", "7seg", "lcd", "leddriver", "lcddriver", "charlcd", "nixie", "dekatron",
         "resistor", "capacitor", "diode", "transistor", "inductor", "fuse",
-        "connector", "header", "switch", "relay",
-        "supply", "oscillator", "crystal", "regulator",
+        "connector", "header", "socket", "switch", "relay",
+        "supply", "oscillator", "crystal", "regulator", "powerswitch",
         "generic",
     ]
 }

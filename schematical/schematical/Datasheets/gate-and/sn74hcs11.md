@@ -25,9 +25,9 @@
 
 This device contains three independent 3-input AND gates with
 Schmitt-trigger inputs. Each gate performs the Boolean function
-Y = A · B · C in positive logic.
+Y = A · B · C in positive logic. [[1::2]]
 
-Schmitt-trigger inputs allow for slow or noisy input signals.
+Schmitt-trigger inputs allow for slow or noisy input signals. [[1::5]]
 
 ## Pinout
 
@@ -44,6 +44,7 @@ Schmitt-trigger inputs allow for slow or noisy input signals.
 GND: Ground
 VCC: Positive supply
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
@@ -60,7 +61,7 @@ driving larger currents than the device can sustain without being
 damaged. Limit the output power of the device to avoid damage due to
 over-current. The electrical and thermal limits defined in the
 [absolute maximum ratings](#absolute-maximum-ratings) must be followed
-at all times.
+at all times. [[8::2]]
 
 ### CMOS Schmitt-trigger inputs
 
@@ -75,7 +76,7 @@ input architecture provides hysteresis as defined by ΔV~T~, which makes
 this device extremely tolerant to slow or noisy inputs. While the inputs
 can be driven much slower than standard CMOS inputs, TI recommends
 properly terminating unused inputs. Driving the inputs slowly increases
-dynamic current consumption of the device.
+dynamic current consumption of the device. [[8::3]] [[8::4]]
 
 ### Clamp diode structure
 
@@ -84,10 +85,11 @@ clamping diodes. Voltages beyond the values specified in the
 [absolute maximum ratings](#absolute-maximum-ratings) table can cause
 damage to the device. The input negative-voltage and output voltage ratings
 can be exceeded if the input and output clamp-current ratings are
-observed.
+observed. [[8::5]] [[8::6]]
 
 ```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output"
 ```
+[[9::Figure 7-1]]
 
 ## Function tables
 
@@ -100,6 +102,7 @@ observed.
 | X | L | X | L |
 | X | X | L | L |
 ```
+[[9::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -117,6 +120,7 @@ observed.
 [1] Operation outside the Absolute Maximum Ratings may cause permanent device damage. Absolute maximum ratings do not imply functional operation of the device at these or any other conditions beyond those listed under Recommended Operating Conditions. If briefly operating outside the Recommended Operating Conditions but within the Absolute Maximum Ratings, the device may not sustain damage, but it may not be fully functional. Operating the device in this manner may affect device reliability, functionality, performance, and shorten the device lifetime.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -127,6 +131,7 @@ observed.
 [1] JEDEC document JEP155 states that 500V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -141,6 +146,7 @@ observed.
 
 [1] Max: Unlimited.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -157,6 +163,7 @@ observed.
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application note.
 [2] N/A
 ```
+[[4::table #4]]
 
 ## Electrical characteristics
 
@@ -185,6 +192,7 @@ observed.
 
 [1] Source conflict: the revision history says the ΔV~T~ limits at 2 V V~CC~ were changed to 0.55 V (min) and 0.67 V (max); this table prints 0.54 and 0.71.
 ```
+[[5::table #1]]
 
 ## Switching characteristics
 
@@ -200,6 +208,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | ^ | 4.5 V | | 5 | 8 | ns |
 | ^ | ^ | ^ | ^ | 6 V | | 4 | 7 | ns |
 ```
+[[5::table #2]]
 
 ## Typical characteristics
 
@@ -213,6 +222,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "VCC = 6 V", "points": [[0, 27.0], [5, 27.0], [10, 27.05], [15, 27.1], [20, 27.2], [25, 27.3]]}
  ]}
 ```
+[[6::Figure 5-1]]
 
 ```curve id=roh caption="Output driver resistance in high state, T~A~ = 25 °C"
 {"x": {"label": "Output source current", "unit": "mA", "range": [0, 25]},
@@ -224,6 +234,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "VCC = 6 V", "points": [[0, 31.2], [5, 31.3], [10, 31.45], [15, 31.6], [20, 31.8], [25, 31.95]]}
  ]}
 ```
+[[6::Figure 5-2]]
 
 Conversion note: the source also plots typical supply current against
 input voltage (V~CC~ = 2 V to 6 V).
@@ -235,15 +246,17 @@ pulses are supplied by generators having the following
 characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~t~ < 2.5 ns. The outputs
 are measured one at a time, with one input transition per measurement.
 C~L~ = 50 pF and includes probe and jig capacitance. The maximum
-between t~PLH~ and t~PHL~ is used for t~pd~.
+between t~PLH~ and t~PHL~ is used for t~pd~. [[7::1]] [[7::2]] [[7::4]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit"
 CL: 50 pF
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Propagation delays and transition times"
 VM: 50 %
 ```
+[[7::Figure 6-2]]
 
 ## Application information
 
@@ -251,12 +264,12 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 The three 3-input AND gates work independently, but can be combined to
 get up to a 7-input AND gate. Use the device with all three inputs
 active, or disable one input by directly connecting it to V~CC~ to turn
-the device into a 2-input AND gate.
+the device into a 2-input AND gate. [[10::2]]
 
 The SN74HCS11 is used to control the RESET pin of a motor
 controller. This system requires three input signals
@@ -265,7 +278,7 @@ disabled in the event that any one signal goes LOW. Many power good
 signals use open-drain outputs which can produce slow input transition
 rates during transition from LOW to Hi-Z mode. This device has
 Schmitt-trigger inputs that do not have input transition rate
-requirements.
+requirements. [[10::3]] [[10::4]]
 
 ```wavedrom id=app-timing caption="Application timing diagram"
 {"signal": [
@@ -275,6 +288,7 @@ requirements.
   {"name": "Reset#", "wave": "0..1.0..1."}
 ]}
 ```
+[[12::Figure 8-2]]
 
 Power: verify that the desired supply voltage is within the range
 specified in the [electrical characteristics](#electrical-characteristics).
@@ -289,7 +303,7 @@ prevent power disturbance. A 0.1 µF capacitor is recommended for this
 device. The
 0.1 µF and 1 µF capacitors are commonly used in parallel. The bypass
 capacitor must be installed as close to the power terminal as
-possible.
+possible. [[10::6]] [[10::7]] [[10::8]] [[11::5]] [[12::2]]
 
 Loads: the device can drive a load with a total capacitance less than
 or equal to 50 pF while still meeting all of the datasheet
@@ -301,7 +315,7 @@ current defined by V~OH~ and V~OL~; in the HIGH state, the output
 voltage is the difference between the measured output voltage and the
 supply voltage at the V~CC~ pin. Verify that the resistive load is
 larger than (V~CC~ / I~O(max)~) Ω. Never violate the maximum output
-current from the absolute maximum ratings.
+current from the absolute maximum ratings. [[11::1]] [[11::2]] [[12::1]]
 
 Inputs: input signals must cross V~T-~(min) to be considered a logic
 LOW, and V~T+~(max) to be considered a logic HIGH. Do not exceed the
@@ -312,14 +326,14 @@ connected with a pullup or pulldown resistor if the input is used
 sometimes, but not always. A 10 kΩ resistor value is often used. Noise with a large enough amplitude can still cause issues. To know how
 much noise is too much, see the ΔV~T~(min) in the electrical
 characteristics. This hysteresis value provides the peak-to-peak limit. Schmitt-trigger inputs can be held at
-any valid value without causing huge increases in power consumption.
+any valid value without causing huge increases in power consumption. [[11::6]] [[11::7]] [[11::9]] [[11::10]]
 
 Outputs: push-pull outputs that can be in opposite states, even for a
 very short time period, must never be connected directly together. Two
 channels within the same device with the same input signals can be
 connected in parallel for additional output drive strength. Unused
 outputs can be left floating. Do not connect outputs directly to
-V~CC~ or ground.
+V~CC~ or ground. [[11::13]] [[11::14]] [[11::15]]
 
 Layout: inputs must not ever be left floating. Such unused input pins
 must not be left unconnected because the undefined voltages at the
@@ -330,7 +344,7 @@ V~CC~, whichever makes more sense for the logic function or is more
 convenient. Conversion note: the source's layout example uses a GND flood fill, places
 the bypass capacitor close to the device, ties unused inputs to V~CC~,
 leaves the unused output floating, and avoids 90° corners for signal
-lines.
+lines. [[12::3]]
 
 ## Package
 
@@ -346,6 +360,7 @@ lines.
 SN74HCS11DR | Reel of 2500 | -40 to 125 | HCS11
 SN74HCS11PWR | Reel of 2000 | -40 to 125 | HCS11
 ```
+[[16::table #1]]
 
 ## Conversion notes
 

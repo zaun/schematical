@@ -24,13 +24,13 @@
 ## Description
 
 The 'ACT04 devices contain six independent inverters. The devices
-perform the Boolean function Y = !{A}.
+perform the Boolean function Y = !{A}. [[1::1]]
 
 Inputs are TTL-voltage compatible. Speed of Bipolar F, AS, and S, with
 significantly reduced power consumption. Balanced propagation delays.
 ± 24mA output drive current. Fanout to 15 F Devices.
 SCR-latchup-resistant CMOS process and circuit design. Exceeds 2kV ESD
-protection per MIL-STD-883, method 3015.
+protection per MIL-STD-883, method 3015. [[1::2]]
 
 ## Pinout
 
@@ -55,6 +55,7 @@ GND: Ground
 6A: Channel 6, Input A
 VCC: Positive Supply
 ```
+[[3::Table 3-1]]
 
 ## Functional description
 
@@ -70,6 +71,7 @@ shows one inverter with input A and output Y.
 | H | L |
 | L | H |
 ```
+[[7::Table 6-1]]
 
 ## Absolute maximum ratings
 
@@ -86,6 +88,7 @@ shows one inverter with input A and output Y.
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ## Recommended operating conditions
 
@@ -104,6 +107,7 @@ shows one inverter with input A and output Y.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[4::table #2]]
 
 ## Thermal information
 
@@ -115,6 +119,7 @@ shows one inverter with input A and output Y.
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 ```
+[[4::table #3]]
 
 Conversion note: the source gives thermal values for the CD74ACT04 N and D packages only, none for the CD54ACT04 J package.
 
@@ -139,21 +144,24 @@ Conversion note: the source gives thermal values for the CD74ACT04 N and D packa
 
 [1] Source error: the I~OH~ and I~OL~ conditions at 50 mA and 75 mA carry the marker (1) in the source (p.5), and the table prints no note (1); the only note (1) on the page is under the Act input load table.
 ```
+[[5::table #1]]
 
 ```table id=input-load caption="Act input load table" values=Value
 | Input | Unit load | Unit |
 |---|--:|---|
 | A | 0.18 | |
 ```
+[[5::Table 4-1]]
 
 Unit load is ΔI~CC~ limit specified in electrical characteristics table
-(e.g., 2.4 mA at 25°C).
+(e.g., 2.4 mA at 25°C). [[5::3]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Typ | Unit |
 |---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | 105 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -164,6 +172,7 @@ Unit load is ΔI~CC~ limit specified in electrical characteristics table
 | t~PLH~ | A | Y | 2.4 | 8.5 | 2.3 | 9.3 | ns |
 | t~PHL~ | A | Y | 2.4 | 8.5 | 2.3 | 9.3 | ns |
 ```
+[[5::table #3]]
 
 ## Parameter measurement information
 
@@ -172,7 +181,7 @@ by generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at
 a time, with one input transition per measurement. t~PHL~ and t~PLH~
 are the same as t~pd~. All parameters and waveforms are not applicable
-to all devices.
+to all devices. [[6::1]]
 
 Conversion note: the load circuit of Figure 5-1 also has R1 = 500 Ω
 from the output to switch S1 (2 × V~CC~, Open or GND), and S1 is Open
@@ -185,10 +194,12 @@ the voltage waveforms the input swings 0 V to 3 V and is measured at
 RL: 500 Ω (R2)
 CL: 50 pF
 ```
+[[6::Figure 5-1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delay and output transition times"
 VM: 1.5 V (input), 50% V~CC~ (outputs)
 ```
+[[6::Figure 5-1]]
 
 ## Application information
 
@@ -196,14 +207,14 @@ Information in the following applications sections is not part of the
 TI component specification, and TI does not warrant its accuracy or
 completeness. TI's customers are responsible for determining
 suitability of components for their purposes, as well as validating and
-testing their design implementation to confirm system functionality.
+testing their design implementation to confirm system functionality. [[8::1]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX supply
 voltage rating located in the
 [Recommended Operating Conditions](#recommended-operating-conditions)
-table.
+table. [[8::2]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 μF is recommended.
@@ -211,7 +222,7 @@ If there are multiple V~CC~ pins, 0.01 μF or 0.022 μF is recommended
 for each power pin. It is acceptable to parallel multiple bypass caps
 to reject different frequencies of noise. A 0.1 μF and 1 μF are
 commonly used in parallel. The bypass capacitor should be installed as
-close to the power pin as possible for best results.
+close to the power pin as possible for best results. [[8::3]]
 
 ### Layout guidelines
 
@@ -221,7 +232,7 @@ unused. Some examples are when only two inputs of a triple-input AND
 gate are used, or when only 3 of the 4-buffer gates are used. Such
 input pins should not be left unconnected because the undefined
 voltages at the outside connections result in undefined operational
-states.
+states. [[8::4]]
 
 Specified in Layout Example are rules that must be observed under all
 circumstances. All unused inputs of digital logic devices must be
@@ -229,7 +240,7 @@ connected to a high or low bias to prevent them from floating. The
 logic level that should be applied to any particular unused input
 depends on the function of the device. Generally they will be tied to
 GND or V~CC~, whichever makes more sense or is more convenient. It is
-acceptable to float outputs unless the part is a transceiver.
+acceptable to float outputs unless the part is a transceiver. [[8::5]]
 
 Conversion note: the layout diagram (Figure 7-1) shows a 0.1 µF bypass capacitor placed close to the device between V~CC~ and GND, a GND flood fill recommended for improved signal isolation, noise reduction, and thermal dissipation, unused inputs tied to V~CC~, an unused output left floating, and signal lines that avoid 90° corners.
 
@@ -243,6 +254,7 @@ Conversion note: the layout diagram (Figure 7-1) shows a 0.1 µF bypass capacito
 ```ordering
 CD54ACT04F3A | Tube of 25 | -55 to 125 | CD54ACT04F3A
 ```
+[[11::table #1]]
 
 ## Conversion notes
 

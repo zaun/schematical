@@ -69,6 +69,13 @@ struct SchematicCanvasView: View {
     var onPartPlaced: () -> Void = {}
 
     @State private var interaction: Interaction?
+    /// Zoom when the current pinch began, nil between pinches.
+    @State private var pinchStartZoom: CGFloat?
+    /// The press in progress as the system reported it, and how far the
+    /// canvas has scrolled under it since it began (plan: a scroll moves the
+    /// world, not the pointer). Both are cleared when the press ends.
+    @State private var rawPress: DragPress?
+    @State private var pressShift: CGSize = .zero
     /// What the current press did to the selection; a click finishes it.
     @State private var selectionPress: SelectionPress<SchematicItem>?
     @State private var isDropTargeted = false
@@ -144,6 +151,8 @@ struct SchematicCanvasView: View {
                 viewport.updateSize(newSize)
             }
             .gesture(canvasGesture)
+            .simultaneousGesture(pinchGesture)
+            .scrollPans(viewport) { scrolledMidPress(by: $0) }
             .onContinuousHover { phase in
                 switch phase {
                 case let .active(location):
@@ -186,7 +195,7 @@ struct SchematicCanvasView: View {
                         onOpenTerminal(chip.id)
                         return
                     }
-                    // A converter or RTC opens its register window.
+                    // A converter, RTC or display driver opens its register window.
                     if let chip = document.chip(at: point), chip.part.hasRegisters {
                         onOpenRegisters(chip.id)
                         return
@@ -476,13 +485,52 @@ struct SchematicCanvasView: View {
         }
     }
 
-    private var canvasGesture: some Gesture {
-        DragGesture(minimumDistance: 0)
-            .onChanged { value in handleChanged(value) }
-            .onEnded { value in handleEnded(value) }
+    /// Trackpad pinch: zooms about the point the fingers started on.
+    private var pinchGesture: some Gesture {
+        MagnifyGesture()
+            .onChanged { value in
+                let start = pinchStartZoom ?? viewport.zoom
+                pinchStartZoom = start
+                viewport.setZoom(start * value.magnification, around: value.startLocation)
+            }
+            .onEnded { _ in pinchStartZoom = nil }
     }
 
-    private func handleChanged(_ value: DragGesture.Value) {
+    private var canvasGesture: some Gesture {
+        DragGesture(minimumDistance: 0)
+            .onChanged { value in
+                let raw = DragPress(value)
+                rawPress = raw
+                handleChanged(raw.shifted(by: pressShift))
+            }
+            .onEnded { value in
+                handleEnded(DragPress(value).shifted(by: pressShift))
+                rawPress = nil
+                pressShift = .zero
+            }
+    }
+
+    /// The canvas scrolled by `shift` while a press is down: the press's start
+    /// moves with the content (so a drag, a wire or a box stays anchored to the
+    /// world it began on) and the drag's effect is worked out again for the
+    /// pointer's unchanged place.
+    private func scrolledMidPress(by shift: CGSize) {
+        guard let raw = rawPress, interaction != nil else { return }
+        switch interaction {
+        case let .pan(startOffset)?:
+            // A pan is the offset itself: its start moves with the scroll.
+            interaction = .pan(startOffset: CGSize(width: startOffset.width + shift.width,
+                                                   height: startOffset.height + shift.height))
+        case let .boxSelect(base, from, to)?:
+            interaction = .boxSelect(base: base, from: CGPoint(x: from.x + shift.width, y: from.y + shift.height), to: to)
+            pressShift = CGSize(width: pressShift.width + shift.width, height: pressShift.height + shift.height)
+        default:
+            pressShift = CGSize(width: pressShift.width + shift.width, height: pressShift.height + shift.height)
+        }
+        handleChanged(raw.shifted(by: pressShift))
+    }
+
+    private func handleChanged(_ value: DragPress) {
         // A press on the canvas ends any text field's editing (the parts
         // search, a sidebar field), as a click outside a field does in any
         // Mac app, so ⌘C / ⌘V / ⌘X / ⌘A then reach the Schematic. A new
@@ -755,7 +803,7 @@ struct SchematicCanvasView: View {
         }
     }
 
-    private func handleEnded(_ value: DragGesture.Value) {
+    private func handleEnded(_ value: DragPress) {
         switch interaction {
         case let .connecting(from, draft, _)?:
             let end = lineEnd(from: from, cursor: viewport.world(value.location))
@@ -803,7 +851,7 @@ struct SchematicCanvasView: View {
     }
 
     /// A press that ended about where it started, in screen points.
-    private func isClick(_ value: DragGesture.Value) -> Bool {
+    private func isClick(_ value: DragPress) -> Bool {
         hypot(value.translation.width, value.translation.height) < 3
     }
 
@@ -835,6 +883,37 @@ struct SchematicCanvasView: View {
               let position = chip.switchPosition(at: point),
               let isOn = document.toggleSwitch(chip.id, position: position) else { return }
         simulation.setSwitch(chip.id, position: position, on: isOn)
+    }
+}
+
+/// A press on the canvas: where it began and is now, and how far it moved
+/// (screen points). Differs from the system's drag value only by a scroll
+/// during the press (`shifted(by:)`).
+private struct DragPress {
+    var startLocation: CGPoint
+    var location: CGPoint
+    var translation: CGSize
+
+    init(_ value: DragGesture.Value) {
+        startLocation = value.startLocation
+        location = value.location
+        translation = value.translation
+    }
+
+    private init(startLocation: CGPoint, location: CGPoint, translation: CGSize) {
+        self.startLocation = startLocation
+        self.location = location
+        self.translation = translation
+    }
+
+    /// The same press with its start moved by `shift` (the canvas scrolled by
+    /// that much), the pointer staying where it is.
+    func shifted(by shift: CGSize) -> DragPress {
+        DragPress(
+            startLocation: CGPoint(x: startLocation.x + shift.width, y: startLocation.y + shift.height),
+            location: location,
+            translation: CGSize(width: translation.width - shift.width, height: translation.height - shift.height)
+        )
     }
 }
 
@@ -1066,6 +1145,12 @@ private struct SchematicPartsLayer: View {
                             isSelected: document.isSelected(.chip(chip.id)),
                             isHovered: chip.id == hoveredChipID
                         )
+                    case .testPoint:
+                        TestPointSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID
+                        )
                     case .diode:
                         DiodeSymbolView(
                             chip: chip,
@@ -1162,6 +1247,14 @@ private struct SchematicPartsLayer: View {
                         )
                     case .nixie:
                         NixieSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID,
+                            connectedPins: connectedPins[chip.id] ?? [],
+                            levels: simulation.lights[chip.id] ?? []
+                        )
+                    case .dekatron:
+                        DekatronSymbolView(
                             chip: chip,
                             isSelected: document.isSelected(.chip(chip.id)),
                             isHovered: chip.id == hoveredChipID,

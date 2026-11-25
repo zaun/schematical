@@ -24,9 +24,9 @@
 ## Description
 
 The SNx4AHC08 devices are quadruple 2-input positive-AND gates. These
-devices perform the Boolean function Y = A · B in positive logic.
+devices perform the Boolean function Y = A · B in positive logic. [[1::1]]
 
-2V to 5.5V operating range.
+2V to 5.5V operating range. [[1::2]]
 
 Conversion note: SN74AHC08 is specified from
 –40 °C to 125 °C and SN54AHC08 from –55 °C to 125 °C (recommended
@@ -50,13 +50,14 @@ GND: Ground
 VCC: Power
 NC: No connection
 ```
+[[4::Table 4-1]]
 
 ## Functional description
 
 The SNx4AHC08 devices are quadruple 2-input positive-AND gates with low
 drive that will produce slow rise and fall times. This slow transition
 reduces ringing on the output signal. The inputs are high impedance when
-V~CC~ = 0 V.
+V~CC~ = 0 V. [[12::1]]
 
 Source conflict: the Overview (p.12) says low drive with slow rise and
 fall times, while the Design Requirements (p.13) say balanced output
@@ -73,6 +74,7 @@ are kept.
 | L | X | L |
 | X | L | L |
 ```
+[[12::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -92,6 +94,7 @@ are kept.
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[5::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -102,6 +105,7 @@ are kept.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process. Manufacturing with less than 500-V HBM is possible with the necessary precautions.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process. Manufacturing with less than 250-V CDM is possible with the necessary precautions.
 ```
+[[5::table #2]]
 
 ## Recommended operating conditions
 
@@ -131,6 +135,7 @@ are kept.
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, SCBA004.
 [2] Unconfirmed: the source prints the unit mA for the V~CC~ = 2 V rows; the absolute maximum continuous output current is ±25 mA and the electrical characteristics test at I~OH~ = –50 µA and I~OL~ = 50 µA.
 ```
+[[2::table #1]] [[5::table #3]]
 
 ## Thermal information
 
@@ -141,6 +146,7 @@ are kept.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953. Conversion note: all packages are 14 pins.
 ```
+[[6::table #1]]
 
 ## Electrical characteristics
 
@@ -163,6 +169,7 @@ are kept.
 
 [1] Source error: printed as I~OH~ = 4 mA and I~OH~ = 8 mA in the V~OL~ rows of all three electrical tables; the rows give V~OL~, and the recommended operating conditions give I~OL~ = 4 mA and 8 mA, so the condition is I~OL~.
 ```
+[[6::table #2]]
 
 ```table id=ec-54 caption="Electrical characteristics, SN54AHC08, T~A~ = –55 °C to 125 °C" parts=SNJ54*,5962* conditions="Over operating free-air temperature range (unless otherwise noted)"
 | Parameter | Test conditions | V~CC~ | Min | Max | Unit |
@@ -184,6 +191,7 @@ are kept.
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested at V~CC~ = 0 V.
 [2] Source error: printed as I~OH~ = 4 mA and I~OH~ = 8 mA; the rows give V~OL~, and the recommended operating conditions give I~OL~ = 4 mA and 8 mA, so the condition is I~OL~.
 ```
+[[7::table #1]]
 
 ```table id=ec-74 caption="Electrical characteristics, SN74AHC08, T~A~ = –40 °C to 125 °C" parts=SN74* conditions="Over operating free-air temperature range (unless otherwise noted)"
 | Parameter | Test conditions | V~CC~ | T~A~ | Min | Max | Unit |
@@ -206,6 +214,7 @@ are kept.
 
 [1] Source error: printed as I~OH~ = 4 mA and I~OH~ = 8 mA; the rows give V~OL~, and the recommended operating conditions give I~OL~ = 4 mA and 8 mA, so the condition is I~OL~.
 ```
+[[7::table #2]]
 
 ```table id=noise caption="Noise characteristics, SN74AHC08 [1]" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25 °C"
 | Symbol | Parameter | Min | Max | Unit |
@@ -218,12 +227,14 @@ are kept.
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[9::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 18 | pF |
 ```
+[[9::table #2]]
 
 ## Switching characteristics
 
@@ -244,6 +255,7 @@ See [parameter measurement information](#parameter-measurement).
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 [2] Unconfirmed: the source prints this 1 under TYP and leaves MIN empty.
 ```
+[[8::table #1]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ | Min | Typ | Max | Unit |
@@ -260,6 +272,7 @@ See [parameter measurement information](#parameter-measurement).
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 [2] Unconfirmed: the source prints this 1 under TYP and leaves MIN empty.
 ```
+[[8::table #2]]
 
 ## Typical characteristics
 
@@ -271,6 +284,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "AHCT", "points": [[-55, 0], [-50, 0], [-45, 0.61], [-40, 1.27], [-35, 1.79], [-30, 2.27], [-25, 2.75], [-20, 3.21], [-15, 3.62], [-10, 4.06], [-5, 4.5], [0, 5.02]]}
  ]}
 ```
+[[10::Figure 5-1]]
 
 ```curve id=vol caption="AHC family V~OL~ vs I~OL~, T~A~ = 25 °C, V~CC~ = 5.5 V, all outputs switching"
 {"x": {"label": "I_OL", "unit": "mA", "range": [0, 40]},
@@ -280,6 +294,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "AHCT", "points": [[0, 0], [10, 0.21], [20, 0.44], [30, 0.72], [40, 1.0]]}
  ]}
 ```
+[[10::Figure 5-1]]
 
 Source conflict: Figure 5-1 is captioned "AHC Family V~OL~ vs I~OL~" but plots V~OH~ against I~OH~, and Figure 8-2 is captioned "AHC Family V~OH~ vs I~OH~" but plots V~OL~ against I~OL~. Conversion note: the captions above follow the plotted axes.
 
@@ -290,15 +305,17 @@ generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time with one input transition per measurement. Conversion note: C~L~ is
 15 pF or 50 pF, as given in the
-[switching characteristics](#switching-characteristics).
+[switching characteristics](#switching-characteristics). [[11::1]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
 ```
+[[11::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50 % V~CC~
 ```
+[[11::Figure 6-1]]
 
 Conversion note: the source figure also shows the 3-state and open-drain
 load circuit, pulse-duration, setup-and-hold and enable/disable
@@ -309,14 +326,14 @@ devices.
 
 Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
-completeness.
+completeness. [[13::1]]
 
 A common application for AND gates is the use in power sequencing. Using
 the SN74AHC08 to verify that the processor has turned on can protect it
 from harmful signals. Conversion note: in the typical application
 (Figure 8-1) input A is tied
 to V~CC~ = 5 V, the MCU (MSP43x) drives input B, Y drives the EN input of
-a temperature sensor, and the sensor's V~O~ returns to the MCU.
+a temperature sensor, and the sensor's V~O~ returns to the MCU. [[13::2]]
 
 #### Design requirements
 
@@ -324,19 +341,19 @@ This device uses CMOS technology and has balanced
 output drive. Take care to avoid bus contention because it can drive
 currents that would exceed maximum limits. The high drive will also
 create fast edges into light loads, so routing and load conditions must
-be considered to prevent ringing.
+be considered to prevent ringing. [[13::3]]
 
 #### Detailed design procedure
 
-1. Recommended input conditions
-   - Rise time and fall time specs: See (Δt/Δv) in the Section 5.3 table.
-   - Specified High and low levels: See (V~IH~ and V~IL~) in the Section 5.3 table.
+1. Recommended input conditions [[13::4]]
+   - Rise time and fall time specs: See (Δt/Δv) in the Section 5.3 table. [[13::4]]
+   - Specified High and low levels: See (V~IH~ and V~IL~) in the Section 5.3 table. [[13::4]]
    - Inputs are overvoltage tolerant allowing them to go as high as 5.5 V
-     at any valid V~CC~
-2. Recommend output conditions
+     at any valid V~CC~ [[13::4]]
+2. Recommend output conditions [[13::4]]
    - Load currents should not exceed 25 mA per output and 50 mA total for
-     the part
-   - Outputs should not be pulled above V~CC~
+     the part [[13::4]]
+   - Outputs should not be pulled above V~CC~ [[13::4]]
 
 Conversion note: Section 5.3 is the
 [recommended operating conditions](#recommended-operating-conditions).
@@ -350,11 +367,11 @@ recommended. If there are multiple V~CC~ pins, 0.01 µF or 0.022 µF is
 recommended for each power pin. It is acceptable to parallel multiple
 bypass caps to reject different frequencies of noise. A 0.1 µF and 1 µF are commonly used in
 parallel. The bypass capacitor should be installed as close to the power
-pin as possible for best results.
+pin as possible for best results. [[14::1]] [[14::2]]
 
 ### Layout guidelines
 
-When using multiple bit logic devices inputs should not ever float.
+When using multiple bit logic devices inputs should not ever float. [[15::1]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused, for example, when only two inputs of a triple-input AND gate
@@ -370,7 +387,7 @@ more sense or is more convenient. It is generally acceptable to float
 outputs unless the part is a transceiver. Conversion note: Figure 8-3,
 the layout example (p.15), recommends a GND flood fill, a 0.1 µF bypass
 capacitor placed close to the device, unused inputs tied to V~CC~, an
-unused output left floating, and no 90° corners for signal lines.
+unused output left floating, and no 90° corners for signal lines. [[15::2]]
 
 ## Package
 
@@ -419,6 +436,7 @@ SN74AHC08RGYRG4 | Reel of 3000 | -40 to 125 | HA08
 5962-9682001Q2A | Tube of 55 | -55 to 125 | 5962-9682001Q2A SNJ54AHC08FK
 SNJ54AHC08FK | Tube of 55 | -55 to 125 | 5962-9682001Q2A SNJ54AHC08FK
 ```
+[[18::table #1]]
 
 ## Conversion notes
 

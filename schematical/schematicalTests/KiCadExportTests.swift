@@ -60,6 +60,24 @@ final class KiCadExportTests: XCTestCase {
         }
     }
 
+    /// plan-57-B: a test point (one pin, a bare pad) exports as a schematic
+    /// symbol and a one-pad board footprint, both well formed.
+    func testATestPointExports() throws {
+        let doc = TestSupport.newDocument()
+        let tp = try TestSupport.place(doc, "GENERIC-TESTPOINT", at: CGPoint(x: 100, y: 100))
+        let other = try TestSupport.place(doc, "GENERIC-TESTPOINT", at: CGPoint(x: 300, y: 100))
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(tp, "TP")), .pin(try TestSupport.pin(other, "TP"))))
+        let files = KiCadExport.files(for: doc, base: "tp")
+        let schematic = try file(files, "kicad_sch")
+        let board = try file(files, "kicad_pcb")
+        XCTAssertTrue(balanced(schematic))
+        XCTAssertTrue(balanced(board))
+        XCTAssertTrue(schematic.contains("TP1"))
+        XCTAssertTrue(board.contains("TP1"))
+        XCTAssertEqual(count("(footprint ", in: board), 2)
+        XCTAssertEqual(count("(pad ", in: board), 2)
+    }
+
     func testSameDocumentGivesSameBytes() throws {
         let doc = try Fixture.open("AFU")
         XCTAssertEqual(KiCadExport.files(for: doc, base: "x"), KiCadExport.files(for: doc, base: "x"))
@@ -226,6 +244,31 @@ final class KiCadExportTests: XCTestCase {
             }
         }
         XCTAssertGreaterThan(checked, 100)
+    }
+
+    /// plan-54-G: a pad's `(layers …)` are its layer's, the footprint's side or
+    /// the other for an opposite pad, while its x is mirrored by the
+    /// footprint's side.
+    func testOppositePadsAreOnTheOtherCopperLayer() throws {
+        for side in [BoardSide.top, .bottom] {
+            let (doc, id) = try OppositePadTests.fixture(side: side)
+            let placed = try XCTUnwrap(doc.chips.first { $0.id == id })
+            let board = KiCadExport.files(for: doc, base: "t")[2].text
+            let start = try XCTUnwrap(board.range(of: "(uuid \"\(KiCad.uuid("pcb/t/fp/\(id)"))\")"))
+            let block = String(board[start.lowerBound...].prefix(upTo: board.range(of: "\n\t(footprint", range: start.upperBound..<board.endIndex)?.lowerBound ?? board.endIndex))
+            let pads = Array(block.components(separatedBy: "\n\t\t(pad ").dropFirst())
+            XCTAssertEqual(pads.count, 14)
+            let own = side == .top ? "(layers \"F.Cu\" \"F.Paste\" \"F.Mask\")" : "(layers \"B.Cu\" \"B.Paste\" \"B.Mask\")"
+            let far = side == .top ? "(layers \"B.Cu\" \"B.Paste\" \"B.Mask\")" : "(layers \"F.Cu\" \"F.Paste\" \"F.Mask\")"
+            for (text, pad) in zip(pads, placed.boardPads) {
+                let opposite = pad.designator == "2" || pad.designator == "3"
+                XCTAssertTrue(text.contains(opposite ? far : own), "\(side) part, pad \(pad.designator ?? "-")")
+                XCTAssertFalse(text.contains(opposite ? own : far), "\(side) part, pad \(pad.designator ?? "-")")
+            }
+            // Pad 1 is left of pad 3 on a Top part and right of it on a Bottom one (mirrored).
+            let x = try pads.map { try numbers(after: "(at ", in: $0)[0] }
+            XCTAssertEqual(x[0] < x[2], side == .top, "\(side) part: x mirrored by the footprint's side")
+        }
     }
 
     /// The numbers after the first `marker` in `text`.
@@ -395,6 +438,19 @@ final class KiCadExportTests: XCTestCase {
         for file in GerberExport.files(for: fourLayerBoard, base: "fourLayer") {
             print("GERBER_FILE fourLayer/\(file.name) \(file.data.base64EncodedString())")
         }
+        // plan-54-G: a Top and a Bottom part with opposite pads. APP_OPPOSITE_PAD lines give every pad's centre for the check.
+        let oppositeBoard = try ExportSamples.oppositePads()
+        for chip in oppositeBoard.chips {
+            for pad in chip.boardPads {
+                print("APP_OPPOSITE_PAD \(chip.reference) \(pad.designator ?? "-") \(pad.rect.midX) \(pad.rect.midY) \(pad.rect.width) \(pad.rect.height) \(chip.board?.side.rawValue ?? "-") \(pad.opposite)")
+            }
+        }
+        for file in KiCadExport.files(for: oppositeBoard, base: "opposite") where file.name.hasSuffix("kicad_pcb") {
+            print("KICAD_FILE opposite/\(file.name) \(file.data.base64EncodedString())")
+        }
+        for file in GerberExport.files(for: oppositeBoard, base: "opposite") {
+            print("GERBER_FILE opposite/\(file.name) \(file.data.base64EncodedString())")
+        }
     }
 }
 
@@ -445,6 +501,20 @@ enum ExportSamples {
         let text = doc.addText(at: CGPoint(x: 5, y: 5))
         _ = text
         _ = doc.addHole(at: CGPoint(x: 60, y: 40))
+        return doc
+    }
+
+    /// plan-54-G: the opposite-pad test part (`OppositePadTests.part`) once on Top and once on Bottom.
+    static func oppositePads() throws -> SchematicDocument {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(2)
+        let part = try OppositePadTests.part()
+        for (side, origin) in [(BoardSide.top, CGPoint(x: 30, y: 20)), (.bottom, CGPoint(x: 90, y: 50))] {
+            doc.placeChip(part: part, symbol: symbol(for: part), centeredAt: CGPoint(x: 100, y: 100))
+            let id = try XCTUnwrap(doc.chips.last).id
+            if side == .bottom { doc.setFootprintSide(id, .bottom) }
+            doc.moveFootprintOrigin(id, to: origin)
+        }
         return doc
     }
 

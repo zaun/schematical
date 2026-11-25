@@ -99,6 +99,9 @@ extension AutomationTools {
         if let farads = chip.farads { parts.append("farads=\(farads)") }
         if let gender = chip.gender { parts.append("gender=\(gender)") }
         if let footprint = chip.footprint { parts.append("footprint=\(footprint.id)") }
+        if let socket = chip.socket {
+            parts.append("socket=\(socket.part.name) (\(socket.mode == .withSocket ? "ic+socket" : "socket-only"))")
+        }
         if chip.isFlipped { parts.append("flipped") }
         if chip.rotation != 0 { parts.append("rotation=\(chip.rotation)") }
         if !chip.switchesOn.isEmpty {
@@ -253,6 +256,9 @@ extension AutomationTools {
             if let ohms = chip.ohms { part["ohms"] = ohms }
             if let farads = chip.farads { part["farads"] = farads }
             if let footprint = chip.footprint { part["footprint"] = footprint.id }
+            if let socket = chip.socket {
+                part["socket"] = "\(socket.part.name) (\(socket.mode == .withSocket ? "ic+socket" : "socket-only"))"
+            }
             return part
         }
         return [
@@ -336,7 +342,7 @@ extension AutomationTools {
             return """
                 categories: \(categories)
                 (pass query and/or category, package, min_pins, max_pins)
-                power symbols, placed by name: \(supplies) (or any voltage up to 300 V, such as 170V or 3V6), PULLDOWN, PULLUP-<voltage>
+                power symbols, placed by name: \(supplies) (or any voltage up to 500 V, such as 170V or 3V6), PULLDOWN, PULLUP-<voltage>
                 """
         }
         let limit = min(max(args.optInt("limit") ?? 15, 1), 60)

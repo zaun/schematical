@@ -25,15 +25,15 @@
 
 The ’ACT86 devices are quadruple 2-input exclusive-OR gates. The devices
 perform the Boolean functions Y = A ⊕ B or Y = !{A}B + A!{B} in positive
-logic.
+logic. [[1::1]]
 
 A common application is as a true/complement element. If one of the
 inputs is low, the other input is reproduced in true form at the
 output. If one of the inputs is high, the signal on the other input is
-reproduced inverted at the output.
+reproduced inverted at the output. [[1::3]]
 
 4.5V to 5.5V V~CC~ operation. Inputs accept voltages to 5.5V. Max
-t~pd~ of 10ns at 5V. Inputs are TTL-voltage compatible.
+t~pd~ of 10ns at 5V. Inputs are TTL-voltage compatible. [[1::2]]
 
 ## Pinout
 
@@ -62,10 +62,11 @@ GND: Ground
 VCC: Positive Supply
 NC: Not internally connected
 ```
+[[3::Table 3-1]]
 
 The thermal pad can be connected to GND or left floating. Do not
 connect to any other signal or supply. Conversion note: the source has
-this for the thermal pad, BQA package only.
+this for the thermal pad, BQA package only. [[4::1]]
 
 ## Functional description
 
@@ -73,7 +74,7 @@ An exclusive-OR gate has many applications, some of which can be
 represented better by alternative logic symbols. These five equivalent
 exclusive-OR symbols are valid for an ’ACT86 gate in positive logic;
 negation may be shown at any two ports. Conversion note: the five
-symbols of Figure 6-1 are not drawn here.
+symbols of Figure 6-1 are not drawn here. [[8::1]] [[8::2]]
 
 ## Function tables
 
@@ -86,6 +87,7 @@ symbols of Figure 6-1 are not drawn here.
 | H | L | H |
 | H | H | L |
 ```
+[[8::Table 6-1]]
 
 ## Absolute maximum ratings
 
@@ -104,6 +106,7 @@ symbols of Figure 6-1 are not drawn here.
 [1] Stresses beyond those listed under “absolute maximum ratings” may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under “recommended operating conditions” is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[5::table #1]]
 
 ## Recommended operating conditions
 
@@ -123,6 +126,7 @@ symbols of Figure 6-1 are not drawn here.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to verify proper device operation. Refer to Implications of Slow or Floating CMOS Inputs, application note.
 ```
+[[5::table #2]]
 
 ## Thermal information
 
@@ -138,6 +142,7 @@ symbols of Figure 6-1 are not drawn here.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application note.
 ```
+[[5::table #3]]
 
 ## Electrical characteristics
 
@@ -165,12 +170,14 @@ symbols of Figure 6-1 are not drawn here.
 [1] Not more than one output should be tested at a time, and the duration of the test should not exceed 10ms.
 [2] This is the increase in supply current for each input that is at one of the specified TTL voltage levels, rather than 0V or V~CC~.
 ```
+[[6::table #1]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | C~L~ = 50pF, f = 1MHz | 25 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -183,13 +190,14 @@ See [parameter measurement information](#parameter-measurement).
 | t~PLH~ | A or B | Y | 1.5 | 8.5 | 9.5 | 1 | 10 | 1 | 10 | ns |
 | t~PHL~ | ^ | ^ | 1.5 | 7 | 9.5 | 1 | 10.5 | 1 | 10.5 | ns |
 ```
+[[6::table #3]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1MHz,
 Z~O~ = 50Ω, t~r~ ≤ 2.5ns, t~f~ ≤ 2.5ns. The outputs are measured one
-at a time with one input transition per measurement.
+at a time with one input transition per measurement. [[7::1]]
 
 Conversion note: the load circuit also has a 500 Ω resistor from the output
 to switch S1 (2 × V~CC~ or open), and S1 is open for t~PLH~/t~PHL~, which
@@ -201,10 +209,12 @@ swings 0 V to 3 V and is measured at 1.5 V, and the outputs are measured at
 RL: 500 Ω
 CL: 50 pF
 ```
+[[7::Figure 5-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times"
 VM: 1.5 V (input), 50 % V~CC~ (outputs)
 ```
+[[7::Figure 5-1]]
 
 ## Application information
 
@@ -212,7 +222,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[9::1]]
 
 ### Power supply recommendations
 
@@ -223,7 +233,7 @@ disturbance. A 0.1-μF capacitor is recommended for this device. It is
 acceptable to parallel multiple bypass caps to reject different
 frequencies of noise. The 0.1-μF and 1-μF capacitors are commonly used in
 parallel. The bypass capacitor should be installed as close to the
-power terminal as possible for best results, as shown in Figure 7-1.
+power terminal as possible for best results, as shown in Figure 7-1. [[9::2]]
 
 ### Layout guidelines
 
@@ -242,7 +252,7 @@ sense for the logic function or is more convenient. Conversion note:
 Figure 7-1, the example layout (p.9), recommends a GND flood fill, a
 bypass capacitor placed close to the device, unused inputs tied to
 V~CC~, an unused output left floating, and no 90° corners for signal
-lines.
+lines. [[9::3]]
 
 ## Package
 
@@ -293,6 +303,7 @@ SNJ54ACT86FK | Tube of 55 | -55 to 125 | 5962-9068701Q2A SNJ54ACT86FK
 SNJ54ACT86J | Tube of 25 | -55 to 125 | 5962-9068701QCA SNJ54ACT86J
 SNJ54ACT86W | Tube of 25 | -55 to 125 | 5962-9068701QDA SNJ54ACT86W
 ```
+[[12::table #1]]
 
 ## Conversion notes
 

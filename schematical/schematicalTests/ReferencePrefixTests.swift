@@ -32,6 +32,7 @@ final class ReferencePrefixTests: XCTestCase {
         XCTAssertEqual(try category("GENERIC-HEADER-1X02", gender: "Male"), .maleConnector)
         XCTAssertEqual(try category("GENERIC-HEADER-1X02", gender: "Female"), .femaleConnector)
         XCTAssertEqual(try category("SN74HC00N"), .integratedCircuit)
+        XCTAssertEqual(try category("GENERIC-SOCKET-DIP-14-300"), .socket)
     }
 
     func testStandardPrefixes() {
@@ -42,6 +43,7 @@ final class ReferencePrefixTests: XCTestCase {
         XCTAssertEqual(ReferenceCategory.maleConnector.standardPrefix, "P")
         XCTAssertEqual(ReferenceCategory.switchPart.standardPrefix, "S")
         XCTAssertEqual(ReferenceCategory.processor.standardPrefix, "U")
+        XCTAssertEqual(ReferenceCategory.socket.standardPrefix, "XS")
         // Every standard prefix is one a reference can have.
         for category in ReferenceCategory.allCases {
             XCTAssertTrue(ReferencePrefixes.isValid(category.standardPrefix), category.title)

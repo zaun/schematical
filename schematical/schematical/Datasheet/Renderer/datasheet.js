@@ -10,6 +10,8 @@
 //              {description, body: {w, h}, round, pads: [{d, x, y, w, h, drill, slot, plated, shape}]}
 //              slot: a slotted hole's length (0 = round); plated false: a bare hole
 //   figures    shared figure and sidecar SVG text by ref / src
+//   showCitations  true only in the Verify Datasheet window: citations show as chips, and a click
+//              posts {page, ref, text} to the "cite" message handler
 //
 // markdown-it (markdown-it.min.js) renders the prose; WaveDrom
 // (wavedrom.min.js) draws the timing diagrams. Everything else is drawn here.
@@ -121,6 +123,30 @@
     state.pos = end + 1;
     return true;
   });
+  // Citations [[page::paragraph]], [[page::Table 6-3]] are the file's pointers into the source PDF:
+  // hidden (the space before one goes with it), except in the Verify Datasheet window
+  // (payload.showCitations), where each is a chip that asks the app to show that spot in the PDF.
+  md.inline.ruler.after("text", "ds_cite", function (state, silent) {
+    if (state.src.charCodeAt(state.pos) !== 0x5B || state.src.charCodeAt(state.pos + 1) !== 0x5B) return false;
+    const m = /^\[\[(\d+)::([^\[\]]+)\]\]/.exec(state.src.slice(state.pos));
+    if (!m) return false;
+    if (!silent) {
+      if (ctx && ctx.showCitations) {
+        const token = state.push("ds_cite", "", 0);
+        token.meta = { page: m[1], ref: m[2] };
+      } else {
+        state.pending = state.pending.replace(/\s+$/, "");
+      }
+    }
+    state.pos += m[0].length;
+    return true;
+  });
+  md.renderer.rules.ds_cite = (tokens, i) => {
+    const { page, ref } = tokens[i].meta;
+    const label = /^\d+$/.test(ref) ? "\u00B6" + ref : ref;
+    return ' <a class="cite" data-page="' + esc(page) + '" data-ref="' + esc(ref) + '" title="Show in the PDF: page ' +
+      esc(page) + ", " + esc(ref) + '">p' + esc(page) + " " + esc(label) + "</a>";
+  };
   md.renderer.rules.ds_sub = (tokens, i) => "<sub>" + esc(tokens[i].content) + "</sub>";
   md.renderer.rules.ds_sup = (tokens, i) => "<sup>" + esc(tokens[i].content) + "</sup>";
   md.renderer.rules.ds_ov = (tokens, i) => '<span class="ov">' + md.renderInline(tokens[i].content) + "</span>";
@@ -742,6 +768,18 @@
       ". Check critical values against the vendor's PDF.";
   }
 
+  // Who checked the conversion against the PDF, and when; "Unverified" when
+  // nobody has (front matter verifiedDate / verifiedBy, both optional).
+  function verifiedLine(front) {
+    if (!front.verifiedDate && !front.verifiedBy) {
+      return '<div class="verified unverified">Unverified</div>';
+    }
+    const bits = [];
+    if (front.verifiedDate) bits.push("on " + esc(front.verifiedDate));
+    if (front.verifiedBy) bits.push("by " + esc(front.verifiedBy));
+    return '<div class="verified">Verified ' + bits.join(" ") + "</div>";
+  }
+
   function outline(html) {
     const sections = [];
     const re = /<h2 id="([^"]+)">([\s\S]*?)<\/h2>/g;
@@ -749,6 +787,23 @@
     while ((m = re.exec(html)) !== null) sections.push([m[1], m[2]]);
     return '<nav class="outline">' + sections.map(([id, title]) =>
       '<a href="#' + id + '">' + title + "</a>").join("") + "</nav>";
+  }
+
+  // A citation chip was clicked: tell the app which page and reference, and the text of the
+  // paragraph it ends (the app finds that text on the PDF page).
+  function citeClick(event) {
+    const chip = event.target.closest && event.target.closest("a.cite");
+    if (!chip) return;
+    event.preventDefault();
+    const block = chip.closest("p, li");
+    let text = "";
+    if (block) {
+      const copy = block.cloneNode(true);
+      copy.querySelectorAll("a.cite").forEach((a) => a.remove());
+      text = copy.textContent.replace(/\s+/g, " ").trim();
+    }
+    const handler = window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.cite;
+    if (handler) handler.postMessage({ page: Number(chip.dataset.page), ref: chip.dataset.ref, text });
   }
 
   window.renderDatasheet = function (payload) {
@@ -761,15 +816,17 @@
         devices: payload.devices || [],
         footprints: payload.footprints || {},
         figures: payload.figures || {},
+        showCitations: !!payload.showCitations,
       };
       ctx.parts = claimedParts(front, ctx.devices);
       waveIndex = 0;
       tableIndex = 0;
       const html = md.render(body);
-      let head = '<div class="source">' + sourceLine(front) + "</div>";
+      let head = '<div class="source">' + sourceLine(front) + "</div>" + verifiedLine(front);
       if (ctx.part) head += '<div class="opened">Opened for ' + esc(ctx.part) + "</div>";
       page.innerHTML = outline(html) + '<article>' + head + html + "</article>";
       document.title = front.title || "";
+      if (ctx.showCitations) page.onclick = citeClick;
     } catch (e) {
       page.innerHTML = '<pre class="error">This datasheet could not be shown: ' + esc(String(e)) + "</pre>";
     }

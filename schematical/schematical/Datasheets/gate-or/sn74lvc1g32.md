@@ -25,10 +25,10 @@
 
 The SN74LVC1G32 device is a single 2-input positive OR gate. The
 SN74LVC1G32 device performs the Boolean function Y = A + B or
-Y = !{!{A} • !{B}} in positive logic.
+Y = !{!{A} • !{B}} in positive logic. [[1::1]]
 
 Supports 5V supply voltage (V~CC~) operation. Inputs accept voltages to
-5.5V. Supports down translation to V~CC~.
+5.5V. Supports down translation to V~CC~. [[1::2]]
 
 ## Pinout
 
@@ -55,6 +55,7 @@ Y: Output Y
 VCC: Power Pin
 NC: No internal connection
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
@@ -62,7 +63,7 @@ The SN74LVC1G32 device contains one two-input positive OR gate device
 and performs the Boolean function Y = A + B or Y = !{!{A} • !{B}}. This
 device is fully specified for partial-powerdown applications using
 I~OFF~. The I~OFF~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[11::1]]
 
 ### Balanced CMOS push-pull outputs
 
@@ -75,9 +76,9 @@ currents than the device can sustain without being damaged. Limit the
 output power of the device to avoid damage due to overcurrent. The
 electrical and thermal limits defined in the
 [Absolute Maximum Ratings](#absolute-maximum-ratings) must be followed at
-all times.
+all times. [[11::2]]
 
-Unused push-pull CMOS outputs must be left disconnected.
+Unused push-pull CMOS outputs must be left disconnected. [[11::3]]
 
 ### Partial power down (I~off~)
 
@@ -85,7 +86,7 @@ This device includes circuitry to disable all outputs when the supply
 pin is held at 0V. When disabled, the outputs neither source nor sink
 current, regardless of the input voltages. The amount of leakage current
 at each output is defined by the I~off~ specification in the Electrical
-Characteristics table.
+Characteristics table. [[11::4]]
 
 ### Standard CMOS inputs
 
@@ -94,33 +95,34 @@ impedance and are typically modeled as a resistor in parallel with the
 input capacitance given in the Electrical Characteristics. The worst
 case resistance is calculated with the maximum input voltage, given in
 the Absolute Maximum Ratings, and the maximum input leakage current,
-given in the Electrical Characteristics, using Ohm's law (R = V ÷ I).
+given in the Electrical Characteristics, using Ohm's law (R = V ÷ I). [[11::5]]
 
 Standard CMOS inputs require that input signals transition between valid
 logic states quickly, as defined by the input transition time or rate in
 the [Recommended Operating Conditions](#recommended-operating-conditions)
 table. Failing to meet this specification results in excessive power
-consumption and can cause oscillations.
+consumption and can cause oscillations. [[11::6]]
 
 Do not leave standard CMOS inputs floating at any time during operation.
 Terminate unused inputs at V~CC~ or GND. If a system does not always
 drive an input, consider adding a pull-up or pull-down resistor to
 provide a valid input voltage. The resistor value depends on multiple
 factors; a 10kΩ resistor, however, is recommended and typically meets
-all requirements.
+all requirements. [[11::7]]
 
 ### Clamp diode structure
 
 Figure 7-1 shows the inputs and outputs to this device have negative
-clamping diodes only.
+clamping diodes only. [[11::8]]
 
 Voltages beyond the values specified in the Absolute Maximum Ratings
 table can cause damage to the device. The input and output voltage
 ratings may be exceeded if the input and output clamp-current ratings
-are observed.
+are observed. [[11::9]]
 
 ```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output"
 ```
+[[12::Figure 7-1]]
 
 ### Over-voltage tolerant inputs
 
@@ -128,11 +130,11 @@ The SN74LVC1G32 includes over-voltage tolerant inputs. The input pins
 support high-state input voltages larger than the supply voltage by
 utilizing an input protection circuit that does not include a standard
 positive clamp diode. See Recommended Operating Conditions for the
-recommended input voltage.
+recommended input voltage. [[12::2]]
 
 Do not exceed the maximum input voltage range provided in Absolute
 Maximum Ratings. Exceeding the maximum input voltage range rating can
-cause immediate and permanent damage to the device.
+cause immediate and permanent damage to the device. [[12::3]]
 
 ## Function tables
 
@@ -147,6 +149,7 @@ cause immediate and permanent damage to the device.
 [1] H = High Voltage Level, L = Low Voltage Level, X = Don’t Care
 [2] H = Driving High, L = Driving Low, Z = High Impedance State
 ```
+[[3::Table 4-1]]
 
 ## Absolute maximum ratings
 
@@ -168,6 +171,7 @@ cause immediate and permanent damage to the device.
 [2] The input and output negative-voltage ratings can be exceeded if the input and output current ratings are observed.
 [3] The value of V~CC~ is provided in the Recommended Operating Conditions table.
 ```
+[[5::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Definition | Value | Unit |
@@ -178,6 +182,7 @@ cause immediate and permanent damage to the device.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[5::table #2]]
 
 ## Recommended operating conditions
 
@@ -214,6 +219,7 @@ cause immediate and permanent damage to the device.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[6::table #1]]
 
 ## Thermal information
 
@@ -230,6 +236,7 @@ cause immediate and permanent damage to the device.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application note.
 ```
+[[6::table #2]]
 
 Conversion note: the source gives no thermal data for the DSF package.
 
@@ -259,6 +266,7 @@ Conversion note: the source gives no thermal data for the DSF package.
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 ```
+[[7::table #1]]
 
 ### Operating characteristics
 
@@ -268,6 +276,7 @@ Conversion note: the source gives no thermal data for the DSF package.
 |---|---|---|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 20 | 20 | 21 | 22 | pF |
 ```
+[[8::table #1]]
 
 ## Switching characteristics
 
@@ -280,6 +289,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 1.9 | 7.2 | 0.8 | 4.4 | 0.9 | 3.6 | 0.8 | 3.4 | ns |
 ```
+[[7::table #2]]
 
 ```table id=sw-1v8-2v5 caption="Switching characteristics, 1.8 V and 2.5V" conditions="Over recommended operating free-air temperature range, C~L~ = 30 pF or 50 pF (unless otherwise noted) [1] (see Load Circuit and Voltage Waveforms)"
 | Symbol | From (input) | To (output) | –40°C to 85°C | < | –40°C to 125°C recommended | < | –40°C to 85°C | < | –40°C to 125°C recommended | < | Unit |
@@ -290,6 +300,7 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[7::table #3]]
 
 ```table id=sw-3v3-5v caption="Switching characteristics, 3.3 V and 5 V" conditions="Over recommended operating free-air temperature range, C~L~ = 30 pF or 50 pF (unless otherwise noted) [1] (see Load Circuit and Voltage Waveforms)"
 | Symbol | From (input) | To (output) | –40°C to 85°C | < | –40°C to 125°C recommended | < | –40°C to 85°C | < | –40°C to 125°C recommended | < | Unit |
@@ -300,6 +311,7 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested
 ```
+[[8::table #2]]
 
 Unconfirmed: at V~CC~ = 3.3 V the –40°C to 125°C maximum (4 ns) is below the –40°C to 85°C maximum (4.5 ns).
 
@@ -312,6 +324,7 @@ Unconfirmed: at V~CC~ = 3.3 V the –40°C to 125°C maximum (4 ns) is below the
   {"label": "Powerdown Timing", "points": [[-55, 2.7], [-40, 2.9], [25, 3.1], [85, 3.7], [125, 5.0]]}
  ]}
 ```
+[[8::Figure 5-1]]
 
 ```curve id=tpd-vcc caption="Powerdown timing vs supply voltage, T~A~ = 25°C"
 {"x": {"label": "Supply Voltage", "unit": "V", "range": [0, 6]},
@@ -320,15 +333,16 @@ Unconfirmed: at V~CC~ = 3.3 V the –40°C to 125°C maximum (4 ns) is below the
   {"label": "Powerdown Timing", "points": [[1.8, 6.9], [2.5, 4.0], [3.3, 3.0], [5.0, 2.5]]}
  ]}
 ```
+[[8::Figure 5-2]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
-per measurement. t~PLH~ and t~PHL~ are the same as t~pd~.
+per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. [[10::1]]
 
-All parameters and waveforms are not applicable to all devices.
+All parameters and waveforms are not applicable to all devices. [[10::1]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -343,11 +357,13 @@ setup-and-hold and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[9::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[9::Figure 6-1]]
 
 ```table id=test-conditions caption="Test conditions (Figure 6-1 and Figure 6-2)"
 | V~CC~ | Figure | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -362,10 +378,12 @@ CL: see table
 | 3.3 V ± 0.3 V | 6-2 | 3 V | ≤ 2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | 6-2 | V~CC~ | ≤ 2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[7::table #4]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[9::Figure 6-1]]
 
 ## Application information
 
@@ -373,16 +391,16 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[13::1]]
 
 In this application, three 2-input OR gates are combined to produce a
-4-input OR gate function as shown in Figure 8-1.
+4-input OR gate function as shown in Figure 8-1. [[13::2]]
 
 The SN74LVC1G32 device is used to directly control the enable pin of a
 fan driver. The fan driver requires only one input signal to be HIGH
 before being enabled, and should be disabled in the event that all
 signals go LOW. The 4-input OR gate function combines the four
-individual overheat signals into a single active-high enable signal.
+individual overheat signals into a single active-high enable signal. [[13::3]]
 
 Conversion note: in the typical application block diagram (Figure 8-1),
 Device 1 Overheat and Device 2 Overheat drive one OR gate, Device 3
@@ -398,7 +416,7 @@ the Electrical Characteristics. Source error: the supply voltage range
 is in the Recommended Operating Conditions (p.6), as Power Supply
 Recommendations (p.15) says. The supply voltage sets the device
 electrical characteristics, as described in the Electrical
-Characteristics section.
+Characteristics section. [[13::5]]
 
 The positive voltage supply must be capable of sourcing current equal to
 the total current to be sourced by all outputs of the SN74LVC1G32 plus
@@ -406,7 +424,7 @@ the maximum static supply current, I~CC~, listed in the Electrical
 Characteristics, and any transient current required for switching. The
 logic device can only source as much current that is provided by the
 positive supply source. Verify that the maximum total current through
-V~CC~ listed in the Absolute Maximum Ratings is not exceeded.
+V~CC~ listed in the Absolute Maximum Ratings is not exceeded. [[13::6]]
 
 The ground must be capable of sinking current equal to the total current
 to be sunk by all outputs of the SN74LVC1G32 plus the maximum supply
@@ -414,31 +432,31 @@ current, I~CC~, listed in the Electrical Characteristics, and any
 transient current required for switching. The logic device can only sink
 as much current that can be sunk into the ground connection. Verify that
 the maximum total current through GND listed in the Absolute Maximum
-Ratings is not exceeded.
+Ratings is not exceeded. [[13::7]]
 
 The SN74LVC1G32 can drive a load with a total capacitance less than or
 equal to 50pF while still meeting all of the data sheet specifications.
 Larger capacitive loads can be applied; however, TI recommends adding a
 series resistor between the output and capacitor to prevent excessive
-current.
+current. [[13::8]]
 
 The SN74LVC1G32 can drive a load with total resistance described by
 R~L~ ≥ V~O~ / I~O~, with the output voltage and current defined in the
 Electrical Characteristics table with V~OH~ and V~OL~. When outputting in
 the HIGH state, the output voltage in the equation is defined as the
 difference between the measured output voltage and the supply voltage at
-the V~CC~ pin.
+the V~CC~ pin. [[14::1]]
 
 The maximum junction temperature, T~J(max)~ listed in the Absolute
 Maximum Ratings, is an additional limitation to prevent damage to the
 device. Do not violate any values listed in the Absolute Maximum
-Ratings. These limits are provided to prevent damage to the device.
+Ratings. These limits are provided to prevent damage to the device. [[14::4]]
 
 #### Input considerations
 
 Input signals must cross V~IL(max)~ to be considered a logic LOW, and
 V~IH(min)~ to be considered a logic HIGH. Do not exceed the maximum input
-voltage range found in the Absolute Maximum Ratings.
+voltage range found in the Absolute Maximum Ratings. [[14::5]]
 
 Unused inputs must be terminated to either V~CC~ or ground. The unused
 inputs can be directly terminated if the input is completely unused, or
@@ -448,14 +466,14 @@ default state of HIGH, and a pulldown resistor is used for a default
 state of LOW. The drive current of the controller, leakage current into
 the SN74LVC1G32 (as specified in the Electrical Characteristics), and
 the desired input transition rate limits the resistor size. A 10kΩ
-resistor value is often used due to these factors.
+resistor value is often used due to these factors. [[14::6]]
 
 The SN74LVC1G32 has CMOS inputs and thus requires fast input transitions
 to operate correctly, as defined in the Electrical Characteristics
 table. Source error: the input transition rate is in the Recommended
 Operating Conditions (p.6), as Standard CMOS Inputs (p.11) says. Slow
 input transitions can cause oscillations, additional power consumption,
-and reduction in device reliability.
+and reduction in device reliability. [[14::7]]
 
 #### Output considerations
 
@@ -464,34 +482,34 @@ Drawing current from the output decreases the output voltage as
 specified by the V~OH~ specification in the Electrical Characteristics.
 The ground voltage is used to produce the output LOW voltage. Sinking
 current into the output increases the output voltage as specified by the
-V~OL~ specification in the Electrical Characteristics.
+V~OL~ specification in the Electrical Characteristics. [[14::9]]
 
 Push-pull outputs that can be in opposite states, even for a very short
 time period, must never be connected directly together. This can cause
-excessive current and damage to the device.
+excessive current and damage to the device. [[14::10]]
 
 Two channels within the same device with the same input signals can be
-connected in parallel for additional output drive strength.
+connected in parallel for additional output drive strength. [[14::11]]
 
 Unused outputs can be left floating. Do not connect outputs directly to
-V~CC~ or ground.
+V~CC~ or ground. [[14::12]]
 
 ### Detailed design procedure
 
 1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to
    be placed physically close to the device and electrically close to
-   both the V~CC~ and GND pins.
+   both the V~CC~ and GND pins. [[14::14]]
 2. Verify that the capacitive load at the output is ≤ 50pF. Low load
    capacitance can be accomplished by providing short, appropriately
-   sized traces from the SN74LVC1G32 to the receiving device.
+   sized traces from the SN74LVC1G32 to the receiving device. [[14::14]]
 3. Verify that the resistive load at the output is larger than
    (V~CC~ / I~O(max)~)Ω. Never violate the maximum output current from
    the Absolute Maximum Ratings. Most CMOS inputs have a resistive load
-   measured in MΩ; much larger than the minimum calculated previously.
+   measured in MΩ; much larger than the minimum calculated previously. [[14::14]]
 4. Thermal issues are rarely a concern for logic gates; however, the
    power consumption and thermal increase can be calculated using the
    steps provided in the CMOS Power Consumption and Cpd Calculation
-   application note.
+   application note. [[15::1]]
 
 Conversion note: the application timing diagram (Figure 8-2) shows EN
 high while any of Device 1 to Device 4 is high.
@@ -499,34 +517,34 @@ high while any of Device 1 to Device 4 is high.
 ### Power supply recommendations
 
 The power supply can be any voltage between the minimum and maximum
-supply voltage rating listed in the Recommended Operating Conditions.
+supply voltage rating listed in the Recommended Operating Conditions. [[15::2]]
 
 Verify that each V~CC~ terminal has a good bypass capacitor to prevent
 power disturbance. For the SN74LVC1G32, a 0.1μF bypass capacitor is
 recommended. To reject different frequencies of noise, use multiple
 bypass capacitors in parallel. Capacitors with values of 0.1μF and 1μF
-are commonly used in parallel.
+are commonly used in parallel. [[15::3]]
 
 ### Layout guidelines
 
-- Bypass capacitor placement
-  - Place near the positive supply terminal of the device
-  - Provide an electrically short ground return path
-  - Use wide traces to minimize impedance
+- Bypass capacitor placement [[15::4]]
+  - Place near the positive supply terminal of the device [[15::4]]
+  - Provide an electrically short ground return path [[15::4]]
+  - Use wide traces to minimize impedance [[15::4]]
   - Keep the device, capacitors, and traces on the same side of the
-    board whenever possible
-- Signal trace geometry
-  - 8mil to 12mil trace width
-  - Lengths less than 12cm to minimize transmission line effects
-  - Avoid 90° corners for signal traces
-  - Use an unbroken ground plane below signal traces
-  - Flood fill areas around signal traces with ground
+    board whenever possible [[15::4]]
+- Signal trace geometry [[15::4]]
+  - 8mil to 12mil trace width [[15::4]]
+  - Lengths less than 12cm to minimize transmission line effects [[15::4]]
+  - Avoid 90° corners for signal traces [[15::4]]
+  - Use an unbroken ground plane below signal traces [[15::4]]
+  - Flood fill areas around signal traces with ground [[15::4]]
   - Parallel traces must be separated by at least 3x dielectric
-    thickness
-  - For traces longer than 12cm
-    - Use impedance controlled traces
-    - Source-terminate using a series damping resistor near the output
-    - Avoid branches; buffer each signal that must branch separately
+    thickness [[15::4]]
+  - For traces longer than 12cm [[15::4]]
+    - Use impedance controlled traces [[15::4]]
+    - Source-terminate using a series damping resistor near the output [[15::4]]
+    - Avoid branches; buffer each signal that must branch separately [[15::4]]
 
 ## Package
 
@@ -575,6 +593,7 @@ SN74LVC1G32DSF2 | Reel of 5000 | -40 to 125 | CG
 SN74LVC1G32DSFR | Reel of 5000 | -40 to 125 | CG
 SN74LVC1G32YZPR | Reel of 3000 | -40 to 85 | CG, CG7
 ```
+[[20::table #1]] [[21::table #1]] [[22::table #1]]
 
 ## Conversion notes
 

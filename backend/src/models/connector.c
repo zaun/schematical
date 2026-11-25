@@ -1,14 +1,21 @@
-/* Barrel power connectors and USB connectors. They are passive terminals; a
+/* Barrel power connectors, USB connectors, card slots, terminal blocks and JST headers. They are passive terminals; a
  * three-terminal barrel jack additionally has a normally-closed sleeve
  * contact that opens when a plug is inserted. A USB connector ("usb": "A",
- * "B" or "C") has no centre pin and no contacts; its ratings are optional. */
+ * "B" or "C") has no centre pin and no contacts; its ratings are optional.
+ * A card slot ("card": what it takes, "cardPitch": the contact pitch in mm;
+ * memory / SIM sockets, memory-module sockets, card-edge sockets) has no
+ * centre pin, contacts, usb or ratings (plan-54-L).
+ * A PCB terminal block ("terminal": "screw", "spring", "push-in" or "pluggable", the board-side header of a
+ * plug-in block) and a JST board header ("jst": "XH", "PH", "EH", "ZH", "SH", "GH" or "VH") each name their
+ * "pitch" in mm and have no centre pin, contacts or other mode's key; their ratings are optional (plan-45). */
 
 #include <math.h>
 #include <string.h>
 
 #include "kind.h"
 
-static const char *const DEVICE_KEYS[] = {"centerPin", "ratedVolts", "ratedAmps", "contacts", "usb", NULL};
+static const char *const DEVICE_KEYS[] = {"centerPin", "ratedVolts", "ratedAmps", "contacts", "usb", "card", "cardPitch",
+                                          "testPoint", "terminal", "jst", "pitch", NULL};
 
 typedef struct {
     PartConnector info;
@@ -17,21 +24,10 @@ typedef struct {
 
 typedef struct { size_t count; size_t (*pins)[2]; } ConnectorPins;
 
-static int usb_load(KindContext *ctx, const cJSON *json, ConnectorDevice *device) {
-    const char *type;
+/* The optional ratings of a USB connector, a terminal block or a JST header. */
+static int optional_ratings_load(KindContext *ctx, const cJSON *json, ConnectorDevice *device) {
     double amps;
 
-    if (kind_string(ctx, json, "usb", &type) != 0) return -1;
-    if (strcmp(type, "A") != 0 && strcmp(type, "B") != 0 && strcmp(type, "C") != 0) {
-        return kind_error(ctx, "\"usb\" must be \"A\", \"B\" or \"C\"");
-    }
-    if (cJSON_GetObjectItemCaseSensitive(json, "centerPin") != NULL) {
-        return kind_error(ctx, "a USB connector has no \"centerPin\"");
-    }
-    if (cJSON_GetObjectItemCaseSensitive(json, "contacts") != NULL) {
-        return kind_error(ctx, "a USB connector has no \"contacts\"");
-    }
-    device->info.usb = type[0];
     if (cJSON_GetObjectItemCaseSensitive(json, "ratedVolts") != NULL) {
         if (kind_volts(ctx, json, "ratedVolts", 1000, &device->info.rated_mv) != 0) return -1;
         if (device->info.rated_mv == 0) return kind_error(ctx, "ratings must be above 0");
@@ -44,6 +40,102 @@ static int usb_load(KindContext *ctx, const cJSON *json, ConnectorDevice *device
     return 0;
 }
 
+static int usb_load(KindContext *ctx, const cJSON *json, ConnectorDevice *device) {
+    const char *type;
+
+    if (kind_string(ctx, json, "usb", &type) != 0) return -1;
+    if (strcmp(type, "A") != 0 && strcmp(type, "B") != 0 && strcmp(type, "C") != 0) {
+        return kind_error(ctx, "\"usb\" must be \"A\", \"B\" or \"C\"");
+    }
+    if (cJSON_GetObjectItemCaseSensitive(json, "centerPin") != NULL) {
+        return kind_error(ctx, "a USB connector has no \"centerPin\"");
+    }
+    if (cJSON_GetObjectItemCaseSensitive(json, "contacts") != NULL) {
+        return kind_error(ctx, "a USB connector has no \"contacts\"");
+    }
+    device->info.usb = type[0];
+    return optional_ratings_load(ctx, json, device);
+}
+
+/* A PCB terminal block ("terminal") or a JST board header ("jst"): a pitch, no centre pin or contacts, optional
+ * ratings (plan-45). The caller has seen exactly one of "usb", "terminal" and "jst". */
+static int terminal_load(KindContext *ctx, const cJSON *json, ConnectorDevice *device) {
+    static const struct { const char *name; char code; } CLAMPS[] = {
+        {"screw", 's'}, {"spring", 'c'}, {"push-in", 'p'}, {"pluggable", 'h'}, {NULL, 0}};
+    static const char *const SERIES[] = {"XH", "PH", "EH", "ZH", "SH", "GH", "VH", NULL};
+    const int is_terminal = cJSON_GetObjectItemCaseSensitive(json, "terminal") != NULL;
+    const char *what = is_terminal ? "a terminal block" : "a JST connector";
+    const char *value;
+    double pitch;
+    size_t i;
+
+    if (is_terminal) {
+        if (kind_string(ctx, json, "terminal", &value) != 0) return -1;
+        for (i = 0; CLAMPS[i].name != NULL && strcmp(value, CLAMPS[i].name) != 0; i++) {}
+        if (CLAMPS[i].name == NULL) {
+            return kind_error(ctx, "\"terminal\" must be \"screw\", \"spring\", \"push-in\" or \"pluggable\"");
+        }
+        device->info.terminal = CLAMPS[i].code;
+    } else {
+        if (kind_string(ctx, json, "jst", &value) != 0) return -1;
+        for (i = 0; SERIES[i] != NULL && strcmp(value, SERIES[i]) != 0; i++) {}
+        if (SERIES[i] == NULL) {
+            return kind_error(ctx, "\"jst\" must be \"XH\", \"PH\", \"EH\", \"ZH\", \"SH\", \"GH\" or \"VH\"");
+        }
+        device->info.jst = value[0];
+    }
+    if (cJSON_GetObjectItemCaseSensitive(json, "centerPin") != NULL) return kind_error(ctx, "%s has no \"centerPin\"", what);
+    if (cJSON_GetObjectItemCaseSensitive(json, "contacts") != NULL) return kind_error(ctx, "%s has no \"contacts\"", what);
+    if (cJSON_GetObjectItemCaseSensitive(json, "pitch") == NULL) return kind_error(ctx, "%s needs \"pitch\"", what);
+    if (kind_number(ctx, json, "pitch", &pitch) != 0) return -1;
+    if (!(pitch > 0) || pitch > 20) return kind_error(ctx, "\"pitch\" must be above 0 and at most 20 mm");
+    device->info.pitch_um = (uint32_t)llround(pitch * 1000);
+    return optional_ratings_load(ctx, json, device);
+}
+
+static int card_load(KindContext *ctx, const cJSON *json, ConnectorDevice *device) {
+    static const char *const FORBIDDEN[] = {"usb", "centerPin", "contacts", "ratedVolts", "ratedAmps", "terminal", "jst",
+                                            "pitch", NULL};
+    const cJSON *card = cJSON_GetObjectItemCaseSensitive(json, "card");
+    size_t i;
+    double pitch;
+
+    for (i = 0; FORBIDDEN[i] != NULL; i++) {
+        if (cJSON_GetObjectItemCaseSensitive(json, FORBIDDEN[i]) != NULL) {
+            return kind_error(ctx, "a card slot has no \"%s\"", FORBIDDEN[i]);
+        }
+    }
+    if (!cJSON_IsString(card) || card->valuestring[0] == '\0' || strlen(card->valuestring) > 40) {
+        return kind_error(ctx, "\"card\" must be a string of 1 to 40 characters");
+    }
+    device->info.card = kind_strdup(ctx, card->valuestring);
+    if (device->info.card == NULL) return -1;
+    if (cJSON_GetObjectItemCaseSensitive(json, "cardPitch") != NULL) {
+        if (kind_number(ctx, json, "cardPitch", &pitch) != 0) return -1;
+        if (!(pitch > 0) || pitch > 20) return kind_error(ctx, "\"cardPitch\" must be above 0 and at most 20 mm");
+        device->info.card_pitch_um = (uint32_t)llround(pitch * 1000);
+    }
+    return 0;
+}
+
+/* A test point (plan-57): one passive pin, no ratings, contacts or other mode's keys. */
+static int test_point_load(KindContext *ctx, const cJSON *json, ConnectorDevice *device) {
+    static const char *const FORBIDDEN[] = {"centerPin", "ratedVolts", "ratedAmps", "contacts", "usb", "card",
+                                            "cardPitch", "terminal", "jst", "pitch", NULL};
+    size_t i;
+
+    if (!cJSON_IsTrue(cJSON_GetObjectItemCaseSensitive(json, "testPoint"))) {
+        return kind_error(ctx, "\"testPoint\" must be true");
+    }
+    for (i = 0; FORBIDDEN[i] != NULL; i++) {
+        if (cJSON_GetObjectItemCaseSensitive(json, FORBIDDEN[i]) != NULL) {
+            return kind_error(ctx, "a test point has no \"%s\"", FORBIDDEN[i]);
+        }
+    }
+    device->info.test_point = 1;
+    return 0;
+}
+
 static void *connector_load_device(KindContext *ctx, const cJSON *json) {
     ConnectorDevice *device = kind_alloc(ctx, sizeof(*device));
     const cJSON *contacts;
@@ -52,8 +144,31 @@ static void *connector_load_device(KindContext *ctx, const cJSON *json) {
     size_t count = 0;
 
     if (device == NULL) return NULL;
-    if (cJSON_GetObjectItemCaseSensitive(json, "usb") != NULL) {
-        return usb_load(ctx, json, device) == 0 ? device : NULL;
+    if (cJSON_GetObjectItemCaseSensitive(json, "testPoint") != NULL) {
+        return test_point_load(ctx, json, device) == 0 ? device : NULL;
+    }
+    if (cJSON_GetObjectItemCaseSensitive(json, "card") != NULL) {
+        return card_load(ctx, json, device) == 0 ? device : NULL;
+    }
+    if (cJSON_GetObjectItemCaseSensitive(json, "cardPitch") != NULL) {
+        kind_error(ctx, "\"cardPitch\" is only for card slots");
+        return NULL;
+    }
+    {
+        const int has_usb = cJSON_GetObjectItemCaseSensitive(json, "usb") != NULL;
+        const int has_terminal = cJSON_GetObjectItemCaseSensitive(json, "terminal") != NULL;
+        const int has_jst = cJSON_GetObjectItemCaseSensitive(json, "jst") != NULL;
+
+        if (has_usb + has_terminal + has_jst > 1) {
+            kind_error(ctx, "a connector is one of \"usb\", \"terminal\" and \"jst\"");
+            return NULL;
+        }
+        if (!has_terminal && !has_jst && cJSON_GetObjectItemCaseSensitive(json, "pitch") != NULL) {
+            kind_error(ctx, "\"pitch\" is only for terminal blocks and JST connectors");
+            return NULL;
+        }
+        if (has_terminal || has_jst) return terminal_load(ctx, json, device) == 0 ? device : NULL;
+        if (has_usb) return usb_load(ctx, json, device) == 0 ? device : NULL;
     }
     if (kind_number(ctx, json, "centerPin", &center_pin) != 0 ||
         kind_volts(ctx, json, "ratedVolts", 1000, &device->info.rated_mv) != 0 ||
@@ -104,7 +219,12 @@ static void *connector_bind_pinout(KindContext *ctx, const void *raw, const Part
     ConnectorPins *bound = kind_alloc(ctx, sizeof(*bound));
     size_t i;
 
-    if (bound == NULL || pin_count < 2) {
+    if (bound != NULL && device->info.test_point) {
+        if (pin_count != 1) {
+            kind_error(ctx, "a test point has exactly one pin");
+            return NULL;
+        }
+    } else if (bound == NULL || pin_count < 2) {
         if (bound != NULL) kind_error(ctx, "a connector has at least two pins");
         return NULL;
     }

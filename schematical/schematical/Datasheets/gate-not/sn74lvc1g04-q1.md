@@ -25,15 +25,15 @@
 
 Qualified for automotive applications. Supports 5V V~CC~ operation.
 Inputs accept voltages to 5.5V. Latch-up performance exceeds 100mA per
-JESD 78, Class II.
+JESD 78, Class II. [[1::2]]
 
-This single inverter gate is designed for 1.65V to 5.5V V~CC~ operation.
+This single inverter gate is designed for 1.65V to 5.5V V~CC~ operation. [[1::1]]
 
-The SN74LVC1G04-Q1 performs the Boolean function Y = !{A}.
+The SN74LVC1G04-Q1 performs the Boolean function Y = !{A}. [[10::1]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when the device is powered down.
+current backflow through the device when the device is powered down. [[10::1]]
 
 ## Pinout
 
@@ -49,6 +49,7 @@ NC: No internal connection
 VCC: Supply voltage
 Y: Inverted logic output
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
@@ -56,13 +57,13 @@ The SN74LVC1G04-Q1 device contains inverter gate and performs the
 Boolean function Y = !{A}. This device is fully specified for
 partial-power-down applications using I~off~. The I~off~ circuitry
 disables the outputs, preventing damaging current backflow through the
-device when it is powered down.
+device when it is powered down. [[10::1]]
 
 Conversion note: the functional block diagram shows one inverter, A (pin 2) to Y (pin 4).
 
 Wide operating voltage range. Operates from 1.65 V to 5.5 V. Allows down
 voltage translation. Inputs accept voltages to 5.5 V. I~off~ feature
-allows voltages on the inputs and outputs, when V~CC~ is 0 V.
+allows voltages on the inputs and outputs, when V~CC~ is 0 V. [[10::3]]
 
 ## Function tables
 
@@ -73,6 +74,7 @@ allows voltages on the inputs and outputs, when V~CC~ is 0 V.
 | H | L |
 | L | H |
 ```
+[[3::Table 4-1]]
 
 ## Absolute maximum ratings
 
@@ -96,6 +98,7 @@ allows voltages on the inputs and outputs, when V~CC~ is 0 V.
 [3] The value of V~CC~ is provided in the recommended operating conditions table.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -110,6 +113,7 @@ allows voltages on the inputs and outputs, when V~CC~ is 0 V.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -146,6 +150,7 @@ allows voltages on the inputs and outputs, when V~CC~ is 0 V.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[5::table #1]]
 
 ## Thermal information
 
@@ -162,6 +167,7 @@ allows voltages on the inputs and outputs, when V~CC~ is 0 V.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC package thermal metrics application note.
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -188,6 +194,7 @@ allows voltages on the inputs and outputs, when V~CC~ is 0 V.
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 ```
+[[6::table #1]]
 
 ### Operating characteristics
 
@@ -197,6 +204,7 @@ allows voltages on the inputs and outputs, when V~CC~ is 0 V.
 |---|---|---|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 16 | 18 | 18 | 20 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -208,6 +216,7 @@ Conversion note: Figure 6-1 and Figure 7-1 are in [parameter measurement informa
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | 2 | 6.4 | 1 | 4.2 | 0.7 | 3.3 | 0.7 | 3.1 | ns |
 ```
+[[6::table #3]]
 
 ```table id=sw-50pf caption="Switching characteristics" conditions="Over recommended operating free-air temperature range, C~L~ = 30 pF or 50 pF (unless otherwise noted) (see Figure 7-1)"
 | Parameter | From (input) | To (output) | V~CC~ = 1.8 V ± 0.15 V | < | V~CC~ = 2.5 V ± 0.2 V | < | V~CC~ = 3.3 V ± 0.3 V | < | V~CC~ = 5 V ± 0.5 V | < | Unit |
@@ -215,6 +224,7 @@ Conversion note: Figure 6-1 and Figure 7-1 are in [parameter measurement informa
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | 3 | 7.5 | 1.4 | 5.2 | 1 | 4.2 | 1 | 3.7 | ns |
 ```
+[[6::table #4]]
 
 ## Typical characteristics
 
@@ -225,6 +235,7 @@ Conversion note: Figure 6-1 and Figure 7-1 are in [parameter measurement informa
   {"label": "TPD", "points": [[-55, 2.7], [-40, 2.9], [25, 3.1], [85, 3.7], [125, 5.0]]}
  ]}
 ```
+[[7::Figure 5-1]]
 
 ```curve id=tpd-vcc caption="TPD across V~CC~ at 25°C"
 {"x": {"label": "Vcc", "unit": "V", "range": [0, 6]},
@@ -233,6 +244,7 @@ Conversion note: Figure 6-1 and Figure 7-1 are in [parameter measurement informa
   {"label": "TPD", "points": [[1.8, 7.0], [2.5, 4.0], [3.3, 3.0], [5.0, 2.5]]}
  ]}
 ```
+[[7::Figure 5-2]]
 
 ```curve id=icc-freq caption="I~CC~ vs frequency"
 {"x": {"label": "Frequency", "unit": "MHz", "range": [0, 80]},
@@ -244,6 +256,7 @@ Conversion note: Figure 6-1 and Figure 7-1 are in [parameter measurement informa
   {"label": "Icc 5V", "points": [[0, 0], [20, 1.7], [35, 2.95], [40, 3.6], [45, 3.95], [50, 4.6], [55, 4.8], [60, 5.2], [65, 6.15], [70, 6.5], [75, 6.5]]}
  ]}
 ```
+[[12::Figure 8-1]]
 
 ## Parameter measurement information
 
@@ -251,7 +264,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[8::1]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND, and the figure below
@@ -266,11 +279,13 @@ setup-and-hold and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[8::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[8::figure #1]]
 
 ```table id=test-15pf caption="Figure 6-1. Load circuit and voltage waveforms, C~L~ = 15 pF"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -281,6 +296,7 @@ CL: see table
 | 3.3 V ± 0.3 V | 3 V | ≤ 2.5 ns | 1.5 V | 6 V | 15 pF | 1 MΩ | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤ 2.5 ns | V~CC~/2 | 2 × V~CC~ | 15 pF | 1 MΩ | 0.3 V |
 ```
+[[8::table #2]]
 
 ```table id=test-50pf caption="Figure 7-1. Load circuit and voltage waveforms, C~L~ = 30 pF"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -291,10 +307,12 @@ CL: see table
 | 3.3 V ± 0.3 V | 3 V | ≤ 2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤ 2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[9::table #1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[8::figure #2]]
 
 ## Application information
 
@@ -302,14 +320,14 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[11::1]]
 
 The SN74LVC1G04-Q1 is a high drive CMOS device that can be used for
 implementing inversion logic with a high output drive, such as an LED
 application. It can produce 24 mA of drive current at 3.3 V making it
 Ideal for driving multiple outputs and good for high speed applications
 up to 100 Mhz. The inputs are 5.5 V tolerant allowing it to translate
-down to V~CC~.
+down to V~CC~. [[11::2]]
 
 Conversion note: the typical application figure shows the LVC1G04-Q1 as
 an inverter logic function between µC or logic signals, and as a basic
@@ -321,30 +339,30 @@ This device uses CMOS technology and has balanced output drive. Care
 should be taken to avoid bus contention because it can drive currents
 that would exceed maximum limits. The high drive will also create fast
 edges into light loads so routing and load conditions should be
-considered to prevent ringing.
+considered to prevent ringing. [[11::3]]
 
 ### Detailed design procedure
 
-1. Recommended Input Conditions
+1. Recommended Input Conditions [[11::4]]
    - Rise time and fall time specs: See (Δt/ΔV) in the Recommended
-     Operating Conditions table.
+     Operating Conditions table. [[11::4]]
    - Specified high and low levels: See (V~IH~ and V~IL~) in the
-     Recommended Operating Conditions table.
+     Recommended Operating Conditions table. [[11::4]]
    - Inputs are overvoltage tolerant allowing them to go as high as
      (V~I~ maximum) in the Recommended Operating Conditions table at any
-     valid V~CC~.
-2. Recommend Output Conditions
+     valid V~CC~. [[11::4]]
+2. Recommend Output Conditions [[11::4]]
    - Load currents should not exceed (I~O~ maximum) per output and
      should not exceed total current (continuous current through V~CC~
      or GND) for the part. These limits are located in the Absolute
-     Maximum Ratings table.
-   - Outputs should not be pulled above V~CC~.
+     Maximum Ratings table. [[11::4]]
+   - Outputs should not be pulled above V~CC~. [[11::4]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the minimum and maximum
 supply voltage rating located in the Recommended Operating Conditions
-table.
+table. [[12::1]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, a 0.1 μF capacitor is
@@ -353,11 +371,11 @@ recommended. if there are multiple V~CC~ pins, then a 0.01 μF or
 parallel multiple bypass capacitors to reject different frequencies of
 noise. 0.1 μF and 1 μF capacitors are commonly used in parallel. The
 bypass capacitor should be installed as close to the power pin as
-possible for best results.
+possible for best results. [[12::2]]
 
 ### Layout guidelines
 
-When using multiple bit logic devices, inputs should never float.
+When using multiple bit logic devices, inputs should never float. [[12::3]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused; for example, when only two inputs of a triple-input AND gate
@@ -365,13 +383,13 @@ are used or only 3 of the 4 buffer gates are used. Such input pins
 should not be left unconnected because the undefined voltages at the
 outside connections result in undefined operational states. The rules
 that must be observed under all circumstances are specified in the next
-paragraph.
+paragraph. [[12::4]]
 
 All unused inputs of digital logic devices must be connected to a high
 or low bias to prevent them from floating. The logic level that should
 be applied to any particular unused input depends on the function of the
 device. Generally they will be tied to GND or V~CC~; whichever makes
-more sense or is more convenient.
+more sense or is more convenient. [[12::5]]
 
 ## Package
 
@@ -387,6 +405,7 @@ more sense or is more convenient.
 SN74LVC1G04QDBVRQ1 | Reel of 3000 | -40 to 125 | 34Z5, 3NRH, 3VGF, C04O
 SN74LVC1G04QDCKRQ1 | Reel of 3000 | -40 to 125 | CCJ, CCO
 ```
+[[15::table #1]]
 
 ## Conversion notes
 

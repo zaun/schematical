@@ -24,19 +24,19 @@
 ## Description
 
 This single inverter gate is designed for 1.65-V to 5.5-V V~CC~
-operation.
+operation. [[1::1]]
 
 The SN74LVC1GU04 device contains one inverter with an unbuffered output
-and performs the Boolean function Y = !{A}.
+and performs the Boolean function Y = !{A}. [[1::3]]
 
 NanoFree package technology is a major breakthrough in device packaging
-concepts, using the die as the package.
+concepts, using the die as the package. [[1::4]]
 
 Supports 5-V V~CC~ Operation. Inputs Accept Voltages to 5.5 V.
 Unbuffered Output. Maximum t~pd~ of 3.7 ns at 3.3 V. Low Power
 Consumption, 10-μA Maximum I~CC~. ±24-mA Output Drive at 3.3 V. I~off~
 Supports Live Insertion, Partial-Power-Down Mode, and Back-Drive
-Protection. Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II.
+Protection. Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II. [[1::2]]
 
 ## Pinout
 
@@ -61,13 +61,14 @@ DNU: Do not use
 VCC: Positive Supply
 Y: Output
 ```
+[[4::table #1]]
 
-NC – No internal connection
+NC – No internal connection [[3::1]]
 
 ## Functional description
 
 The SN74LVC1GU04 device contains one inverter with an unbuffered output
-with a maximum sink current of 32 mA.
+with a maximum sink current of 32 mA. [[9::1]]
 
 Conversion note: the logic diagram (Figure 3) shows one inverter, A (pin 2) to Y (pin 4).
 
@@ -81,7 +82,7 @@ larger currents than the device can sustain without being damaged. It is
 important for the power output of the device to be limited to avoid
 thermal runaway and damage due to overcurrent. The electrical and
 thermal limits defined in the Absolute Maximum Ratings must be followed
-at all times.
+at all times. [[9::2]]
 
 ### Standard CMOS inputs
 
@@ -90,25 +91,25 @@ resistor in parallel with the input capacitance given in the Electrical
 Characteristics. The worst-case resistance is calculated with the
 maximum input voltage, given in the Absolute Maximum Ratings, and the
 maximum input leakage current, given in the Electrical Characteristics,
-using ohm's law (R = V ÷ I).
+using ohm's law (R = V ÷ I). [[9::3]]
 
 Signals that are applied to the inputs need to have fast edge rates, as
 shown by Δt/Δv in the Recommended Operating Conditions, to avoid
 excessive current consumption and oscillations. If a slow or noisy input
 signal is required, a device with a Schmitt-trigger input should be used
-to condition the input signal prior to the standard CMOS input.
+to condition the input signal prior to the standard CMOS input. [[9::4]]
 
 Source conflict: § 8.3.2 (p.9) refers to Δt/Δv in the Recommended Operating Conditions; that table (p.5) has no Δt/Δv row.
 
 ### Negative clamping diodes
 
 The inputs and outputs to this device have negative clamping diodes as
-shown in Figure 4.
+shown in Figure 4. [[9::5]]
 
 Voltages beyond the values specified in the Absolute Maximum Ratings
 table can cause damage to the device. The input negative-voltage and
 output voltage ratings may be exceeded if the input and output
-clamp-current ratings are observed.
+clamp-current ratings are observed. [[9::6]]
 
 Conversion note: Figure 4 draws one clamp diode from the input to GND (-I~IK~) and one from the output to GND (-I~OK~), and none to V~CC~.
 
@@ -117,7 +118,7 @@ Conversion note: Figure 4 draws one clamp diode from the input to GND (-I~IK~) a
 The inputs and outputs for this device enter a high-impedance state when
 the supply voltage is 0 V. The maximum leakage into or out of any input
 or output pin on the device is specified by I~off~ in the Electrical
-Characteristics.
+Characteristics. [[10::1]]
 
 Source conflict: § 8.3.4 (p.10) says I~off~ is specified in the Electrical Characteristics; that table (p.6) has no I~off~ row.
 
@@ -125,7 +126,7 @@ Source conflict: § 8.3.4 (p.10) says I~off~ is specified in the Electrical Char
 
 Input signals to this device can be driven above the supply voltage so
 long as they remain below the maximum input voltage value specified in
-the Recommended Operating Conditions.
+the Recommended Operating Conditions. [[10::2]]
 
 ### Unbuffered logic
 
@@ -135,17 +136,17 @@ Some devices have multiple stages at the input or output for various
 reasons. An unbuffered CMOS logic function eliminates the extra input
 and output stages; the device only contains the required logic function
 which is directly driven from the inputs and directly drives the
-outputs.
+outputs. [[10::3]]
 
 The unbuffered inverter is commonly used in oscillator circuits because
 it is less sensitive to parameter changes in the oscillator circuit due
 to having lower total gain than a buffered equivalent. To learn more
 about how to use an unbuffered inverter in an oscillator circuit, see
-Use of the CMOS Unbuffered Inverter in Oscillator Circuits.
+Use of the CMOS Unbuffered Inverter in Oscillator Circuits. [[10::4]]
 
 ### Device functional modes
 
-Table 1 lists the functional modes of the SN74LVC1GU04.
+Table 1 lists the functional modes of the SN74LVC1GU04. [[10::5]]
 
 ## Function tables
 
@@ -156,6 +157,7 @@ Table 1 lists the functional modes of the SN74LVC1GU04.
 | H | L |
 | L | H |
 ```
+[[10::Table 1]]
 
 ## Absolute maximum ratings
 
@@ -176,6 +178,7 @@ Table 1 lists the functional modes of the SN74LVC1GU04.
 [2] The input and output negative-voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The value of V~CC~ is provided in Recommended Operating Conditions.
 ```
+[[5::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -183,6 +186,7 @@ Table 1 lists the functional modes of the SN74LVC1GU04.
 | V~(ESD)~ | Electrostatic discharge | Human-body model (HBM), per ANSI/ESDA/JEDEC JS-001 | ±2000 | V |
 | ^ | ^ | Charged-device model (CDM), per JEDEC specification JESD22-C101 | ±1000 | ^ |
 ```
+[[5::table #2]]
 
 ## Recommended operating conditions
 
@@ -208,6 +212,7 @@ Table 1 lists the functional modes of the SN74LVC1GU04.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. For more information, see the Implications of Slow or Floating CMOS Inputs application report.
 ```
+[[5::table #3]]
 
 ## Thermal information
 
@@ -225,6 +230,7 @@ Table 1 lists the functional modes of the SN74LVC1GU04.
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 [2] Source conflict: this table (p.6) heads the DRY and DSF columns "5 PINS"; the device information table (p.1) and the pin drawings (p.4) give both SON packages 6 pins. Kept as printed.
 ```
+[[6::table #1]]
 
 ## Electrical characteristics
 
@@ -249,6 +255,7 @@ Table 1 lists the functional modes of the SN74LVC1GU04.
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 ```
+[[6::table #2]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | < | Typ | Unit |
@@ -258,6 +265,7 @@ Table 1 lists the functional modes of the SN74LVC1GU04.
 | ^ | ^ | ^ | V~CC~ = 3.3 V | 13 | ^ |
 | ^ | ^ | ^ | V~CC~ = 5 V | 27 | ^ |
 ```
+[[7::table #1]]
 
 ## Switching characteristics
 
@@ -271,6 +279,7 @@ Conversion note: Figure 2 is in [parameter measurement information](#parameter-m
 | ^ | ^ | ^ | V~CC~ = 3.3 V ± 0.3 V | 1.1 | 3.7 | ^ |
 | ^ | ^ | ^ | V~CC~ = 5 V ± 0.5 V | 1 | 3 | ^ |
 ```
+[[7::table #2]]
 
 ```table id=sw-125 caption="Switching characteristics: T~A~ = –40°C to +125°C" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (See Figure 2)"
 | Symbol | Parameter | Test conditions | < | Min | Max | Unit |
@@ -280,6 +289,7 @@ Conversion note: Figure 2 is in [parameter measurement information](#parameter-m
 | ^ | ^ | ^ | V~CC~ = 3.3 V ± 0.3 V | 1.1 | 4.2 | ^ |
 | ^ | ^ | ^ | V~CC~ = 5 V ± 0.5 V | 1 | 3.5 | ^ |
 ```
+[[7::table #3]]
 
 ## Typical characteristics
 
@@ -291,6 +301,7 @@ Conversion note: Figure 2 is in [parameter measurement information](#parameter-m
   {"label": "tpd(MIN)", "points": [[1.8, 1.3], [2.5, 1], [3.3, 1.15], [5, 1]]}
  ]}
 ```
+[[7::figure #1]]
 
 ## Parameter measurement information
 
@@ -298,7 +309,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[8::1]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -313,11 +324,13 @@ setup-and-hold and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[8::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[8::Figure 2]]
 
 ```table id=test-conditions caption="Test conditions (Figure 2)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -328,10 +341,12 @@ CL: see table
 | 3.3 V ± 0.3 V | 3 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[8::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[8::Figure 2]]
 
 ## Application information
 
@@ -339,14 +354,14 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI's customers are responsible for determining suitability
 of components for their purposes. Customers should validate and test
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[11::1]]
 
 The unbuffered inverter is commonly used in oscillator circuits because
 it is less sensitive to parameter changes in the oscillator circuit due
 to having lower total gain than a buffered equivalent. An example
 application circuit is shown in Figure 5. To learn more about how to use
 an unbuffered inverter in an oscillator circuit, refer to the Use of the
-CMOS Unbuffered Inverter in Oscillator Circuits application report.
+CMOS Unbuffered Inverter in Oscillator Circuits application report. [[11::2]]
 
 Conversion note: the typical application diagram (Figure 5) shows a crystal oscillator built around the SN74LVC1GU04, with a feedback resistor R~F~, a series resistor R~S~, a crystal with load capacitance C~L~ and capacitors C~1~ and C~2~ to ground, whose output drives an SN74LVC1G14 into a capacitor C to ground.
 
@@ -356,25 +371,25 @@ This device uses CMOS technology and has balanced output drive. Take
 care to avoid bus contention because it can drive currents that would
 exceed maximum limits. The high drive also creates fast edges into light
 loads, so routing and load conditions should be considered to prevent
-ringing.
+ringing. [[11::3]]
 
 ### Detailed design procedure
 
 To learn more about how to use an unbuffered inverter in an oscillator
 circuit, refer to the Use of the CMOS Unbuffered Inverter in Oscillator
-Circuits application report.
+Circuits application report. [[11::2]]
 
-1. Recommended Input Conditions
+1. Recommended Input Conditions [[11::4]]
    - Specified high and low levels. See (V~IH~ and V~IL~) in
-     Recommended Operating Conditions.
+     Recommended Operating Conditions. [[11::4]]
    - Inputs are overvoltage tolerant allowing them to go as high as
-     (V~I~ max) in Recommended Operating Conditions at any valid V~CC~.
-2. Absolute Maximum Output Conditions
+     (V~I~ max) in Recommended Operating Conditions at any valid V~CC~. [[11::4]]
+2. Absolute Maximum Output Conditions [[11::4]]
    - Load currents must not exceed (I~O~ max) per output and must not
      exceed (Continuous current through V~CC~ or GND) total current for
-     the part. These limits are located in Absolute Maximum Ratings.
+     the part. These limits are located in Absolute Maximum Ratings. [[11::4]]
    - Outputs must not be pulled above the voltage rated in the Absolute
-     Maximum Ratings.
+     Maximum Ratings. [[11::4]]
 
 ### Application curve
 
@@ -388,19 +403,20 @@ Circuits application report.
   {"label": "Icc 5V", "points": [[0, 0], [20, 400], [40, 810], [60, 1200], [75, 1480]]}
  ]}
 ```
+[[12::Figure 6]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the minimum and maximum
 supply voltage rating located in the Recommended Operating Conditions
-table.
+table. [[12::1]]
 
 The V~CC~ pin must have a good bypass capacitor to prevent power
 disturbance. A 0.1-µF capacitor is recommended, and it is ok to parallel
 multiple bypass caps to reject different frequencies of noise. 0.1-µF
 and 1-µF capacitors are commonly used in parallel. The bypass capacitor
 must be installed as close to the power pin as possible for best
-results.
+results. [[12::2]]
 
 ### Layout guidelines
 
@@ -414,7 +430,7 @@ especially the distributed capacitance and self–inductance of the trace
 which results in the reflection. Not all PCB traces can be straight and
 therefore some traces must turn corners. Figure 7 shows progressively
 better techniques of rounding corners. Only the last example (BEST)
-maintains constant trace width and minimizes reflections.
+maintains constant trace width and minimizes reflections. [[13::1]]
 
 An example layout is given in Figure 8 for the DPW (X2SON-5) package.
 This example layout includes a 0402 (metric) capacitor and uses the
@@ -422,7 +438,7 @@ measurements found in the example board layout appended to this end of
 this datasheet. A via of diameter 0.1 mm (3.973 mil) is placed directly
 in the center of the device. This via can be used to trace out the
 center pin connection through another board layer, or it can be left out
-of the layout
+of the layout [[13::2]]
 
 Conversion note: Figure 7 shows trace corners rated worst, better and best, and Figure 8 the DPW land pattern with a 0402 bypass capacitor beside it.
 
@@ -464,6 +480,7 @@ SN74LVC1GU04DRY2 | Reel of 5000 | -40 to 125 | CD
 SN74LVC1GU04DRYR | Reel of 5000 | -40 to 125 | CD
 SN74LVC1GU04DSFR | Reel of 5000 | -40 to 125 | CD
 ```
+[[15::table #1]] [[19::table #1]]
 
 ## Conversion notes
 

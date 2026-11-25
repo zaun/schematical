@@ -2319,7 +2319,7 @@
       "function": "Latch",
       "description": "BCD-to-7-segment latch/decoder/driver",
       "drawer": ["Logic", "Flip-flops & latches"],
-      "note": "cd74hc4511; plan-10-data/latch-b.md § 74_4511",
+      "note": "cd74hc4511, 74hc_hct4511; plan-10-data/latch-b.md § 74_4511",
       "model": "bcd7seg",
       "pinouts": {
         "p16": [
@@ -2363,7 +2363,10 @@
         {"name":"CD74HC4511PWRE4","manufacturer":"Texas Instruments","datasheet":"cd74hc4511","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
         {"name":"CD74HC4511PWRG4","manufacturer":"Texas Instruments","datasheet":"cd74hc4511","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
         {"name":"CD74HC4511PWT","manufacturer":"Texas Instruments","datasheet":"cd74hc4511","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC","flags":["obsolete"]},
-        {"name":"CD74HCT4511E","manufacturer":"Texas Instruments","datasheet":"cd74hc4511","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"}
+        {"name":"CD74HCT4511E","manufacturer":"Texas Instruments","datasheet":"cd74hc4511","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"74HC4511D,652","manufacturer":"Nexperia","datasheet":"74hc_hct4511","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"74HC4511D,653","manufacturer":"Nexperia","datasheet":"74hc_hct4511","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"74HCT4511D,653","manufacturer":"Nexperia","datasheet":"74hc_hct4511","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"}
       ]
     },
     {
@@ -2487,6 +2490,94 @@
       "parts": [
         {"name":"SN7475N","manufacturer":"Texas Instruments","datasheet":"sn74ls75","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"},
         {"name":"K155TM7","manufacturer":"USSR (various makers)","package":"DIP","pinout":"p16","footprint":"DIP-16-2.5MM","family":"TTL"}
+      ]
+    },
+    {
+      "id": "4511B",
+      "function": "Latch",
+      "description": "BCD-to-7-segment latch/decoder/driver",
+      "drawer": ["Logic", "Flip-flops & latches"],
+      "note": "cd4511b p.1, p.3, p.4; mc14511b-d p.2, p.4",
+      "model": "bcd7seg",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"B","role":"input"},
+          {"number":2,"name":"C","role":"input"},
+          {"number":3,"name":"LT","role":"input","activeLow":true},
+          {"number":4,"name":"BL","role":"input","activeLow":true},
+          {"number":5,"name":"LE","role":"input"},
+          {"number":6,"name":"D","role":"input"},
+          {"number":7,"name":"A","role":"input"},
+          {"number":8,"name":"VSS","role":"ground"},
+          {"number":9,"name":"e","role":"output"},
+          {"number":10,"name":"d","role":"output"},
+          {"number":11,"name":"c","role":"output"},
+          {"number":12,"name":"b","role":"output"},
+          {"number":13,"name":"a","role":"output"},
+          {"number":14,"name":"g","role":"output"},
+          {"number":15,"name":"f","role":"output"},
+          {"number":16,"name":"VDD","role":"power"}
+        ]
+      },
+      "inputs": ["A","B","C","D"],
+      "latch": {"pin":"LE","active":"high"},
+      "lampTest": {"pin":"LT","active":"low"},
+      "blank": {"pin":"BL","active":"low"},
+      "segments": ["a","b","c","d","e","f","g"],
+      "glyphs": ["1111110","0110000","1101101","1111001","0110011","1011011","0011111","1110000","1111111","1110011","0000000","0000000","0000000","0000000","0000000","0000000"],
+      "timing": {
+        "C": {"rise":660,"fall":520,"vcc":[3,18],"note":"D to segment typ (tPLH 660, tPHL 520), VDD 5 V 50 pF; VCC 3-18 V (cd4511b p.3, p.1); onsemi typ 640/720 (mc14511b-d p.4)"}
+      },
+      "parts": [
+        {"name":"CD4511BE","manufacturer":"Texas Instruments","datasheet":"cd4511b","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD4511BNSR","manufacturer":"Texas Instruments","datasheet":"cd4511b","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
+        {"name":"CD4511BPWR","manufacturer":"Texas Instruments","datasheet":"cd4511b","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"},
+        {"name":"CD4511BD3","manufacturer":"Harris Corporation","datasheet":"cd4511b","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
+        {"name":"CD4511BK3","manufacturer":"Harris Corporation","datasheet":"cd4511b","package":"CFP","pinout":"p16","footprint":"CFP-16","family":"C","flags":["military","ceramic"]},
+        {"name":"MC14511BDG","manufacturer":"onsemi","datasheet":"mc14511b-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"MC14511BDR2G","manufacturer":"onsemi","datasheet":"mc14511b-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"MC14511BDWR2G","manufacturer":"onsemi","datasheet":"mc14511b-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16W","family":"C"},
+        {"name":"NLV14511BDWR2G","manufacturer":"onsemi","datasheet":"mc14511b-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16W","family":"C","flags":["automotive"]}
+      ]
+    },
+    {
+      "id": "4054B",
+      "function": "LCD driver",
+      "description": "Quad liquid-crystal driver: four strobed latches XORed with a common display-frequency input",
+      "drawer": ["Logic", "Flip-flops & latches"],
+      "note": "cd4054b p.1 (terminals, Fig.1), p.2 (truth table: OUT = IN xor DF while ST = 1, holds IN while ST = 0), p.4 (timing: 340 ns typ, 680 max at VDD 10 V VEE 0 V; VDD 3-18 V)",
+      "model": "transparent",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"STROBE4","role":"input"},
+          {"number":2,"name":"DF","role":"input"},
+          {"number":3,"name":"OUT4","role":"output"},
+          {"number":4,"name":"OUT3","role":"output"},
+          {"number":5,"name":"OUT2","role":"output"},
+          {"number":6,"name":"OUT1","role":"output"},
+          {"number":7,"name":"VEE","role":"ground"},
+          {"number":8,"name":"VSS","role":"ground"},
+          {"number":9,"name":"IN1","role":"input"},
+          {"number":10,"name":"STROBE1","role":"input"},
+          {"number":11,"name":"IN2","role":"input"},
+          {"number":12,"name":"STROBE2","role":"input"},
+          {"number":13,"name":"IN3","role":"input"},
+          {"number":14,"name":"STROBE3","role":"input"},
+          {"number":15,"name":"IN4","role":"input"},
+          {"number":16,"name":"VDD","role":"power"}
+        ]
+      },
+      "units": [{"d":"IN1","le":"STROBE1","q":"OUT1"},{"d":"IN2","le":"STROBE2","q":"OUT2"},{"d":"IN3","le":"STROBE3","q":"OUT3"},{"d":"IN4","le":"STROBE4","q":"OUT4"}],
+      "enableActive": "high",
+      "phase": "DF",
+      "timing": {
+        "C": {"rise":340,"fall":340,"vcc":[3,18],"note":"any input to any output typ, VDD 10 V VEE 0 V 50 pF (680 ns max); VDD 3-18 V (cd4054b p.4)"}
+      },
+      "parts": [
+        {"name":"CD4054BE","manufacturer":"Texas Instruments","datasheet":"cd4054b","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD4054BM","manufacturer":"Texas Instruments","datasheet":"cd4054b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["obsolete"]},
+        {"name":"CD4054BM96","manufacturer":"Texas Instruments","datasheet":"cd4054b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"CD4054BPW","manufacturer":"Texas Instruments","datasheet":"cd4054b","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"}
       ]
     }
   ]

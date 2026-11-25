@@ -1,0 +1,1370 @@
+{
+ "rows": [
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC6",
+   "positions": [
+    84
+   ],
+   "description": "Samtec HSEC6 right angle 0.6 mm edge card socket, {N} positions",
+   "note": "Samtec print HSEC6-XXX-XX-X-RA-X-WT-XR rev A, hsec6-xxx-xx-x-ra-x-wt-xr-mkt.pdf sheets 1-4 (Fig 1 -028, Fig 2 -042, Fig 3 -070, Table 1). The print has no recommended PCB layout; the pads are the solder tails of its bottom view (the view is from the board side, so x is mirrored here: pin A1 is at the left). Tail feet read from the print's vector drawing: 0.20 wide x 1.00 long (0.20 TYP is printed), pitch 0.60 (printed), tail row A (pins 1..42, the lower contact row) at 8.01..9.01 from the front face and tail row B at 10.55..11.55 (the 11.55 overall depth and 8.01 are printed; 10.55 = 11.55-1.00, 9.01 = 8.01+1.00; row-to-row 2.54). Origin: x = centre of the tail span, y = centre of the 11.00 housing depth (front face at -5.50; 11.00 and 11.55 measured on the print), card entry up. Row y = 8.51-5.50 = 3.01 (A) and 11.05-5.50 = 5.55 (B). Key gaps are the tail groups of the bottom view (Fig 2/3): centre-to-centre 4.01 and 4.91 between groups (D = 28.01 / 49.12 in Table 1 = 16.20 + 7.80 + 4.01 and 16.20 + 4.91 + 7.80 + 4.01 + 16.20; groups of 28 / 14 / 28 pads read from the vector drawing). Pegs: round 1.00 at 6.15 from the front face (y +0.65) 1.42 beyond the pin-1 end tail (1.42 printed), slotted 0.75 x 1.00 at 5.15 from the front (y -0.35) beyond the other end by C - D - 1.42 (C pegs distance Table 1: 30.545 / 51.965, D: 28.010 / 49.120 -> 1.115 / 1.425). Weld tabs 0.35 x 1.00 at 3.15 from the front face (y -2.35), 0.68 beyond the round peg and 1.05 beyond the slotted peg (Fig 1; Fig 2/3 say 'otherwise same as Fig 1'). Housing width A = 33.85 (-042) / 55.20 (-070) from Table 1, centred on the tails (assumption: the print gives no housing-to-tail offset); 11.00 deep. Assumption: row A (nearer the front) carries pins 1..42, row B the rest, pins in the same columns.",
+   "numbering": "halves",
+   "pitch": 0.6,
+   "dir": "ltr,ltr",
+   "row_y": "3.01,5.55",
+   "pad_w": 0.2,
+   "pad_h": 1.0,
+   "shape": "rect",
+   "gaps": {
+    "28": 3.41
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2-1.42",
+     "y": 0.65,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "round",
+     "drill": 1.0,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "L0/2+1.115",
+     "y": -0.35,
+     "width": 0.75,
+     "height": 1.0,
+     "shape": "round",
+     "drill": 0.75,
+     "slotLength": 1.0,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2-2.1",
+     "y": -2.35,
+     "width": 0.35,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": "L0/2+2.165",
+     "y": -2.35,
+     "width": 0.35,
+     "height": 1.0,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 33.85,
+   "body_h": 11.0
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC6",
+   "positions": [
+    140
+   ],
+   "description": "Samtec HSEC6 right angle 0.6 mm edge card socket, {N} positions",
+   "note": "Samtec print HSEC6-XXX-XX-X-RA-X-WT-XR rev A, hsec6-xxx-xx-x-ra-x-wt-xr-mkt.pdf sheets 1-4 (Fig 1 -028, Fig 2 -042, Fig 3 -070, Table 1). The print has no recommended PCB layout; the pads are the solder tails of its bottom view (the view is from the board side, so x is mirrored here: pin A1 is at the left). Tail feet read from the print's vector drawing: 0.20 wide x 1.00 long (0.20 TYP is printed), pitch 0.60 (printed), tail row A (pins 1..70, the lower contact row) at 8.01..9.01 from the front face and tail row B at 10.55..11.55 (the 11.55 overall depth and 8.01 are printed; 10.55 = 11.55-1.00, 9.01 = 8.01+1.00; row-to-row 2.54). Origin: x = centre of the tail span, y = centre of the 11.00 housing depth (front face at -5.50; 11.00 and 11.55 measured on the print), card entry up. Row y = 8.51-5.50 = 3.01 (A) and 11.05-5.50 = 5.55 (B). Key gaps are the tail groups of the bottom view (Fig 2/3): centre-to-centre 4.01 and 4.91 between groups (D = 28.01 / 49.12 in Table 1 = 16.20 + 7.80 + 4.01 and 16.20 + 4.91 + 7.80 + 4.01 + 16.20; groups of 28 / 14 / 28 pads read from the vector drawing). Pegs: round 1.00 at 6.15 from the front face (y +0.65) 1.42 beyond the pin-1 end tail (1.42 printed), slotted 0.75 x 1.00 at 5.15 from the front (y -0.35) beyond the other end by C - D - 1.42 (C pegs distance Table 1: 30.545 / 51.965, D: 28.010 / 49.120 -> 1.115 / 1.425). Weld tabs 0.35 x 1.00 at 3.15 from the front face (y -2.35), 0.68 beyond the round peg and 1.05 beyond the slotted peg (Fig 1; Fig 2/3 say 'otherwise same as Fig 1'). Housing width A = 33.85 (-042) / 55.20 (-070) from Table 1, centred on the tails (assumption: the print gives no housing-to-tail offset); 11.00 deep. Assumption: row A (nearer the front) carries pins 1..70, row B the rest, pins in the same columns.",
+   "numbering": "halves",
+   "pitch": 0.6,
+   "dir": "ltr,ltr",
+   "row_y": "3.01,5.55",
+   "pad_w": 0.2,
+   "pad_h": 1.0,
+   "shape": "rect",
+   "gaps": {
+    "28": 3.41,
+    "42": 4.31
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "-L0/2-1.42",
+     "y": 0.65,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "round",
+     "drill": 1.0,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "L0/2+1.425",
+     "y": -0.35,
+     "width": 0.75,
+     "height": 1.0,
+     "shape": "round",
+     "drill": 0.75,
+     "slotLength": 1.0,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2-2.1",
+     "y": -2.35,
+     "width": 0.35,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 0,
+     "x": "L0/2+2.475",
+     "y": -2.35,
+     "width": 0.35,
+     "height": 1.0,
+     "shape": "rect"
+    }
+   ],
+   "body_w": 55.2,
+   "body_h": 11.0
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC6-B",
+   "positions": [
+    56
+   ],
+   "description": "Samtec HSEC6 vertical 0.6 mm edge card socket, {N} positions",
+   "note": "Samtec flyer F-226 'HSEC6 vertical edge card socket', hsec6-dv.pdf page 2 (the -070 outline drawing and its table). The flyer has no land pattern: pads are the solder tails of the top-view outline, read from the PDF's vector drawing (scale from the printed tail-span dimensions 16.20 / 28.01 / 49.12, C column): tail 0.20 wide (0.9 pt at 4.538 pt/mm), pitch 0.60, in two rows 5.12 apart (measured: 23.23 pt / 4.538; not printed), the two rows in the same columns. The tail length is NOT printed: the drawing shows only the 0.24 mm the tail projects beyond the housing (1.08 pt), used here as the pad length - the real solder pad is longer, so treat the pad length as unknown. Tail groups read from the vector drawing for -070: 28 | 4.01 | 14 | 4.91 | 28 pads (centre to centre), -042: 28 | 4.01 | 14 (C = 28.01 = 16.20 + 7.80 + 4.01), -028: 28 (C = 16.20). Pin 1 (the triangle on the front view, which shares x with the top view) at the right; origin x = centre of the tail span (assumption: the print gives no tail-to-housing offset), y = centre of the two rows; the housing is 6.00 deep (printed) and A wide (A column: 23.88 / 35.60 / 57.02). Assumptions: pins 1..28 are the top row (-y); the print shows no peg, hole or weld-tab positions (the weld tabs and pegs are only in the front view), so none are drawn.",
+   "numbering": "halves",
+   "pitch": 0.6,
+   "dir": "rtl,rtl",
+   "row_y": "-2.56,2.56",
+   "pad_w": 0.2,
+   "pad_h": 0.24,
+   "shape": "rect",
+   "gaps": {},
+   "body_w": 23.88,
+   "body_h": 6.0
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC6-B",
+   "positions": [
+    84
+   ],
+   "description": "Samtec HSEC6 vertical 0.6 mm edge card socket, {N} positions",
+   "note": "Samtec flyer F-226 'HSEC6 vertical edge card socket', hsec6-dv.pdf page 2 (the -070 outline drawing and its table). The flyer has no land pattern: pads are the solder tails of the top-view outline, read from the PDF's vector drawing (scale from the printed tail-span dimensions 16.20 / 28.01 / 49.12, C column): tail 0.20 wide (0.9 pt at 4.538 pt/mm), pitch 0.60, in two rows 5.12 apart (measured: 23.23 pt / 4.538; not printed), the two rows in the same columns. The tail length is NOT printed: the drawing shows only the 0.24 mm the tail projects beyond the housing (1.08 pt), used here as the pad length - the real solder pad is longer, so treat the pad length as unknown. Tail groups read from the vector drawing for -070: 28 | 4.01 | 14 | 4.91 | 28 pads (centre to centre), -042: 28 | 4.01 | 14 (C = 28.01 = 16.20 + 7.80 + 4.01), -028: 28 (C = 16.20). Pin 1 (the triangle on the front view, which shares x with the top view) at the right; origin x = centre of the tail span (assumption: the print gives no tail-to-housing offset), y = centre of the two rows; the housing is 6.00 deep (printed) and A wide (A column: 23.88 / 35.60 / 57.02). Assumptions: pins 1..42 are the top row (-y); the print shows no peg, hole or weld-tab positions (the weld tabs and pegs are only in the front view), so none are drawn.",
+   "numbering": "halves",
+   "pitch": 0.6,
+   "dir": "rtl,rtl",
+   "row_y": "-2.56,2.56",
+   "pad_w": 0.2,
+   "pad_h": 0.24,
+   "shape": "rect",
+   "gaps": {
+    "28": 3.41
+   },
+   "body_w": 35.6,
+   "body_h": 6.0
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC6-B",
+   "positions": [
+    140
+   ],
+   "description": "Samtec HSEC6 vertical 0.6 mm edge card socket, {N} positions",
+   "note": "Samtec flyer F-226 'HSEC6 vertical edge card socket', hsec6-dv.pdf page 2 (the -070 outline drawing and its table). The flyer has no land pattern: pads are the solder tails of the top-view outline, read from the PDF's vector drawing (scale from the printed tail-span dimensions 16.20 / 28.01 / 49.12, C column): tail 0.20 wide (0.9 pt at 4.538 pt/mm), pitch 0.60, in two rows 5.12 apart (measured: 23.23 pt / 4.538; not printed), the two rows in the same columns. The tail length is NOT printed: the drawing shows only the 0.24 mm the tail projects beyond the housing (1.08 pt), used here as the pad length - the real solder pad is longer, so treat the pad length as unknown. Tail groups read from the vector drawing for -070: 28 | 4.01 | 14 | 4.91 | 28 pads (centre to centre), -042: 28 | 4.01 | 14 (C = 28.01 = 16.20 + 7.80 + 4.01), -028: 28 (C = 16.20). Pin 1 (the triangle on the front view, which shares x with the top view) at the right; origin x = centre of the tail span (assumption: the print gives no tail-to-housing offset), y = centre of the two rows; the housing is 6.00 deep (printed) and A wide (A column: 23.88 / 35.60 / 57.02). Assumptions: pins 1..70 are the top row (-y); the print shows no peg, hole or weld-tab positions (the weld tabs and pegs are only in the front view), so none are drawn.",
+   "numbering": "halves",
+   "pitch": 0.6,
+   "dir": "rtl,rtl",
+   "row_y": "-2.56,2.56",
+   "pad_w": 0.2,
+   "pad_h": 0.24,
+   "shape": "rect",
+   "gaps": {
+    "28": 3.41,
+    "42": 4.31
+   },
+   "body_w": 57.02,
+   "body_h": 6.0
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC8-B",
+   "positions": [
+    18
+   ],
+   "description": "Samtec HSEC8 right angle 0.8 mm edge card socket, {N} positions",
+   "note": "Samtec print HSEC8-1XX-XX-X-RA-XX-XX rev AQ, hsec8-1xx-xx-x-ra-xx-xx-mkt.pdf sheet 1 (Fig 1 bottom view, Table 2). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2.5:1 = 7.087 pt/mm, checked against E = 22.40 for -25): two tail rows, feet 0.23 wide x 0.90 long (1.63 pt x 6.37 pt), pitch 0.80 (printed), both rows in the same columns, odd pins in the row nearer the front face (centre 8.25 from it) and even pins in the row 1.85 behind (10.10; both measured, not printed; the odd = nearer-the-front row is an assumption from the front view where pin 01 is the lower contact row). Origin x = centre of the tail span (E = A column of Table 2: 7.20, 15.20, 23.20 one bank; 9.60, 12.80, 22.40, 34.40, 41.60, 42.40, 50.40 two banks), y = centre of the 12.05 housing depth (printed REF; front face at -6.025). Two-bank parts have a key gap of 4.00 centre to centre (A = (m-1)*0.8 + 3.2) after the first H+1 pads from pin 1 (H and J in Table 2: J = H*0.8 is the first bank's span: H = 3 / 5 / 5 / 21 / 26 / 26 / 31 for -09 / -13 / -25 / -40 / -49 / -50 / -60). The bottom view shares x with the front view (pin 01 at the left), so this top-view footprint is mirrored: pin 1 at the right. Pegs: round 1.32 (printed) and an oblong 1.10 x 1.32 (1.10 and 1.32 printed, the oblong is long in y), both 9.30 from the front face (printed) and 3.10 beyond the end tails (3.100 printed; F = E + 6.20 in Table 2), the round one at the pin-1-end side (print left, here right). Housing width K from Table 2 (11.50 .. 54.70), centred on the tails (assumption). The four 1.00 x 1.00 squares at the housing corners are not drawn (not named as pads).",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "rtl,rtl",
+   "row_y": "2.23,4.08",
+   "pad_w": 0.23,
+   "pad_h": 0.9,
+   "shape": "rect",
+   "gaps": {
+    "4": 3.2
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "L0/2+3.1",
+     "y": 3.275,
+     "width": 1.32,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.32,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2-3.1",
+     "y": 3.275,
+     "width": 1.1,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 1.32,
+     "plated": false
+    }
+   ],
+   "body_w": 13.9,
+   "body_h": 12.05
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC8-B",
+   "positions": [
+    20
+   ],
+   "description": "Samtec HSEC8 right angle 0.8 mm edge card socket, {N} positions",
+   "note": "Samtec print HSEC8-1XX-XX-X-RA-XX-XX rev AQ, hsec8-1xx-xx-x-ra-xx-xx-mkt.pdf sheet 1 (Fig 1 bottom view, Table 2). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2.5:1 = 7.087 pt/mm, checked against E = 22.40 for -25): two tail rows, feet 0.23 wide x 0.90 long (1.63 pt x 6.37 pt), pitch 0.80 (printed), both rows in the same columns, odd pins in the row nearer the front face (centre 8.25 from it) and even pins in the row 1.85 behind (10.10; both measured, not printed; the odd = nearer-the-front row is an assumption from the front view where pin 01 is the lower contact row). Origin x = centre of the tail span (E = A column of Table 2: 7.20, 15.20, 23.20 one bank; 9.60, 12.80, 22.40, 34.40, 41.60, 42.40, 50.40 two banks), y = centre of the 12.05 housing depth (printed REF; front face at -6.025). Two-bank parts have a key gap of 4.00 centre to centre (A = (m-1)*0.8 + 3.2) after the first H+1 pads from pin 1 (H and J in Table 2: J = H*0.8 is the first bank's span: H = 3 / 5 / 5 / 21 / 26 / 26 / 31 for -09 / -13 / -25 / -40 / -49 / -50 / -60). The bottom view shares x with the front view (pin 01 at the left), so this top-view footprint is mirrored: pin 1 at the right. Pegs: round 1.32 (printed) and an oblong 1.10 x 1.32 (1.10 and 1.32 printed, the oblong is long in y), both 9.30 from the front face (printed) and 3.10 beyond the end tails (3.100 printed; F = E + 6.20 in Table 2), the round one at the pin-1-end side (print left, here right). Housing width K from Table 2 (11.50 .. 54.70), centred on the tails (assumption). The four 1.00 x 1.00 squares at the housing corners are not drawn (not named as pads).",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "rtl,rtl",
+   "row_y": "2.23,4.08",
+   "pad_w": 0.23,
+   "pad_h": 0.9,
+   "shape": "rect",
+   "gaps": {},
+   "extras": [
+    {
+     "pin": 0,
+     "x": "L0/2+3.1",
+     "y": 3.275,
+     "width": 1.32,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.32,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2-3.1",
+     "y": 3.275,
+     "width": 1.1,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 1.32,
+     "plated": false
+    }
+   ],
+   "body_w": 11.5,
+   "body_h": 12.05
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC8-B",
+   "positions": [
+    40
+   ],
+   "description": "Samtec HSEC8 right angle 0.8 mm edge card socket, {N} positions",
+   "note": "Samtec print HSEC8-1XX-XX-X-RA-XX-XX rev AQ, hsec8-1xx-xx-x-ra-xx-xx-mkt.pdf sheet 1 (Fig 1 bottom view, Table 2). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2.5:1 = 7.087 pt/mm, checked against E = 22.40 for -25): two tail rows, feet 0.23 wide x 0.90 long (1.63 pt x 6.37 pt), pitch 0.80 (printed), both rows in the same columns, odd pins in the row nearer the front face (centre 8.25 from it) and even pins in the row 1.85 behind (10.10; both measured, not printed; the odd = nearer-the-front row is an assumption from the front view where pin 01 is the lower contact row). Origin x = centre of the tail span (E = A column of Table 2: 7.20, 15.20, 23.20 one bank; 9.60, 12.80, 22.40, 34.40, 41.60, 42.40, 50.40 two banks), y = centre of the 12.05 housing depth (printed REF; front face at -6.025). Two-bank parts have a key gap of 4.00 centre to centre (A = (m-1)*0.8 + 3.2) after the first H+1 pads from pin 1 (H and J in Table 2: J = H*0.8 is the first bank's span: H = 3 / 5 / 5 / 21 / 26 / 26 / 31 for -09 / -13 / -25 / -40 / -49 / -50 / -60). The bottom view shares x with the front view (pin 01 at the left), so this top-view footprint is mirrored: pin 1 at the right. Pegs: round 1.32 (printed) and an oblong 1.10 x 1.32 (1.10 and 1.32 printed, the oblong is long in y), both 9.30 from the front face (printed) and 3.10 beyond the end tails (3.100 printed; F = E + 6.20 in Table 2), the round one at the pin-1-end side (print left, here right). Housing width K from Table 2 (11.50 .. 54.70), centred on the tails (assumption). The four 1.00 x 1.00 squares at the housing corners are not drawn (not named as pads).",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "rtl,rtl",
+   "row_y": "2.23,4.08",
+   "pad_w": 0.23,
+   "pad_h": 0.9,
+   "shape": "rect",
+   "gaps": {},
+   "extras": [
+    {
+     "pin": 0,
+     "x": "L0/2+3.1",
+     "y": 3.275,
+     "width": 1.32,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.32,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2-3.1",
+     "y": 3.275,
+     "width": 1.1,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 1.32,
+     "plated": false
+    }
+   ],
+   "body_w": 19.5,
+   "body_h": 12.05
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC8-B",
+   "positions": [
+    60
+   ],
+   "description": "Samtec HSEC8 right angle 0.8 mm edge card socket, {N} positions",
+   "note": "Samtec print HSEC8-1XX-XX-X-RA-XX-XX rev AQ, hsec8-1xx-xx-x-ra-xx-xx-mkt.pdf sheet 1 (Fig 1 bottom view, Table 2). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2.5:1 = 7.087 pt/mm, checked against E = 22.40 for -25): two tail rows, feet 0.23 wide x 0.90 long (1.63 pt x 6.37 pt), pitch 0.80 (printed), both rows in the same columns, odd pins in the row nearer the front face (centre 8.25 from it) and even pins in the row 1.85 behind (10.10; both measured, not printed; the odd = nearer-the-front row is an assumption from the front view where pin 01 is the lower contact row). Origin x = centre of the tail span (E = A column of Table 2: 7.20, 15.20, 23.20 one bank; 9.60, 12.80, 22.40, 34.40, 41.60, 42.40, 50.40 two banks), y = centre of the 12.05 housing depth (printed REF; front face at -6.025). Two-bank parts have a key gap of 4.00 centre to centre (A = (m-1)*0.8 + 3.2) after the first H+1 pads from pin 1 (H and J in Table 2: J = H*0.8 is the first bank's span: H = 3 / 5 / 5 / 21 / 26 / 26 / 31 for -09 / -13 / -25 / -40 / -49 / -50 / -60). The bottom view shares x with the front view (pin 01 at the left), so this top-view footprint is mirrored: pin 1 at the right. Pegs: round 1.32 (printed) and an oblong 1.10 x 1.32 (1.10 and 1.32 printed, the oblong is long in y), both 9.30 from the front face (printed) and 3.10 beyond the end tails (3.100 printed; F = E + 6.20 in Table 2), the round one at the pin-1-end side (print left, here right). Housing width K from Table 2 (11.50 .. 54.70), centred on the tails (assumption). The four 1.00 x 1.00 squares at the housing corners are not drawn (not named as pads).",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "rtl,rtl",
+   "row_y": "2.23,4.08",
+   "pad_w": 0.23,
+   "pad_h": 0.9,
+   "shape": "rect",
+   "gaps": {},
+   "extras": [
+    {
+     "pin": 0,
+     "x": "L0/2+3.1",
+     "y": 3.275,
+     "width": 1.32,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.32,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2-3.1",
+     "y": 3.275,
+     "width": 1.1,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 1.32,
+     "plated": false
+    }
+   ],
+   "body_w": 27.5,
+   "body_h": 12.05
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC8-B",
+   "positions": [
+    26
+   ],
+   "description": "Samtec HSEC8 right angle 0.8 mm edge card socket, {N} positions",
+   "note": "Samtec print HSEC8-1XX-XX-X-RA-XX-XX rev AQ, hsec8-1xx-xx-x-ra-xx-xx-mkt.pdf sheet 1 (Fig 1 bottom view, Table 2). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2.5:1 = 7.087 pt/mm, checked against E = 22.40 for -25): two tail rows, feet 0.23 wide x 0.90 long (1.63 pt x 6.37 pt), pitch 0.80 (printed), both rows in the same columns, odd pins in the row nearer the front face (centre 8.25 from it) and even pins in the row 1.85 behind (10.10; both measured, not printed; the odd = nearer-the-front row is an assumption from the front view where pin 01 is the lower contact row). Origin x = centre of the tail span (E = A column of Table 2: 7.20, 15.20, 23.20 one bank; 9.60, 12.80, 22.40, 34.40, 41.60, 42.40, 50.40 two banks), y = centre of the 12.05 housing depth (printed REF; front face at -6.025). Two-bank parts have a key gap of 4.00 centre to centre (A = (m-1)*0.8 + 3.2) after the first H+1 pads from pin 1 (H and J in Table 2: J = H*0.8 is the first bank's span: H = 3 / 5 / 5 / 21 / 26 / 26 / 31 for -09 / -13 / -25 / -40 / -49 / -50 / -60). The bottom view shares x with the front view (pin 01 at the left), so this top-view footprint is mirrored: pin 1 at the right. Pegs: round 1.32 (printed) and an oblong 1.10 x 1.32 (1.10 and 1.32 printed, the oblong is long in y), both 9.30 from the front face (printed) and 3.10 beyond the end tails (3.100 printed; F = E + 6.20 in Table 2), the round one at the pin-1-end side (print left, here right). Housing width K from Table 2 (11.50 .. 54.70), centred on the tails (assumption). The four 1.00 x 1.00 squares at the housing corners are not drawn (not named as pads).",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "rtl,rtl",
+   "row_y": "2.23,4.08",
+   "pad_w": 0.23,
+   "pad_h": 0.9,
+   "shape": "rect",
+   "gaps": {
+    "6": 3.2
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "L0/2+3.1",
+     "y": 3.275,
+     "width": 1.32,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.32,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2-3.1",
+     "y": 3.275,
+     "width": 1.1,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 1.32,
+     "plated": false
+    }
+   ],
+   "body_w": 17.1,
+   "body_h": 12.05
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC8-B",
+   "positions": [
+    50
+   ],
+   "description": "Samtec HSEC8 right angle 0.8 mm edge card socket, {N} positions",
+   "note": "Samtec print HSEC8-1XX-XX-X-RA-XX-XX rev AQ, hsec8-1xx-xx-x-ra-xx-xx-mkt.pdf sheet 1 (Fig 1 bottom view, Table 2). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2.5:1 = 7.087 pt/mm, checked against E = 22.40 for -25): two tail rows, feet 0.23 wide x 0.90 long (1.63 pt x 6.37 pt), pitch 0.80 (printed), both rows in the same columns, odd pins in the row nearer the front face (centre 8.25 from it) and even pins in the row 1.85 behind (10.10; both measured, not printed; the odd = nearer-the-front row is an assumption from the front view where pin 01 is the lower contact row). Origin x = centre of the tail span (E = A column of Table 2: 7.20, 15.20, 23.20 one bank; 9.60, 12.80, 22.40, 34.40, 41.60, 42.40, 50.40 two banks), y = centre of the 12.05 housing depth (printed REF; front face at -6.025). Two-bank parts have a key gap of 4.00 centre to centre (A = (m-1)*0.8 + 3.2) after the first H+1 pads from pin 1 (H and J in Table 2: J = H*0.8 is the first bank's span: H = 3 / 5 / 5 / 21 / 26 / 26 / 31 for -09 / -13 / -25 / -40 / -49 / -50 / -60). The bottom view shares x with the front view (pin 01 at the left), so this top-view footprint is mirrored: pin 1 at the right. Pegs: round 1.32 (printed) and an oblong 1.10 x 1.32 (1.10 and 1.32 printed, the oblong is long in y), both 9.30 from the front face (printed) and 3.10 beyond the end tails (3.100 printed; F = E + 6.20 in Table 2), the round one at the pin-1-end side (print left, here right). Housing width K from Table 2 (11.50 .. 54.70), centred on the tails (assumption). The four 1.00 x 1.00 squares at the housing corners are not drawn (not named as pads).",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "rtl,rtl",
+   "row_y": "2.23,4.08",
+   "pad_w": 0.23,
+   "pad_h": 0.9,
+   "shape": "rect",
+   "gaps": {
+    "6": 3.2
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "L0/2+3.1",
+     "y": 3.275,
+     "width": 1.32,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.32,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2-3.1",
+     "y": 3.275,
+     "width": 1.1,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 1.32,
+     "plated": false
+    }
+   ],
+   "body_w": 26.7,
+   "body_h": 12.05
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC8-B",
+   "positions": [
+    80
+   ],
+   "description": "Samtec HSEC8 right angle 0.8 mm edge card socket, {N} positions",
+   "note": "Samtec print HSEC8-1XX-XX-X-RA-XX-XX rev AQ, hsec8-1xx-xx-x-ra-xx-xx-mkt.pdf sheet 1 (Fig 1 bottom view, Table 2). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2.5:1 = 7.087 pt/mm, checked against E = 22.40 for -25): two tail rows, feet 0.23 wide x 0.90 long (1.63 pt x 6.37 pt), pitch 0.80 (printed), both rows in the same columns, odd pins in the row nearer the front face (centre 8.25 from it) and even pins in the row 1.85 behind (10.10; both measured, not printed; the odd = nearer-the-front row is an assumption from the front view where pin 01 is the lower contact row). Origin x = centre of the tail span (E = A column of Table 2: 7.20, 15.20, 23.20 one bank; 9.60, 12.80, 22.40, 34.40, 41.60, 42.40, 50.40 two banks), y = centre of the 12.05 housing depth (printed REF; front face at -6.025). Two-bank parts have a key gap of 4.00 centre to centre (A = (m-1)*0.8 + 3.2) after the first H+1 pads from pin 1 (H and J in Table 2: J = H*0.8 is the first bank's span: H = 3 / 5 / 5 / 21 / 26 / 26 / 31 for -09 / -13 / -25 / -40 / -49 / -50 / -60). The bottom view shares x with the front view (pin 01 at the left), so this top-view footprint is mirrored: pin 1 at the right. Pegs: round 1.32 (printed) and an oblong 1.10 x 1.32 (1.10 and 1.32 printed, the oblong is long in y), both 9.30 from the front face (printed) and 3.10 beyond the end tails (3.100 printed; F = E + 6.20 in Table 2), the round one at the pin-1-end side (print left, here right). Housing width K from Table 2 (11.50 .. 54.70), centred on the tails (assumption). The four 1.00 x 1.00 squares at the housing corners are not drawn (not named as pads).",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "rtl,rtl",
+   "row_y": "2.23,4.08",
+   "pad_w": 0.23,
+   "pad_h": 0.9,
+   "shape": "rect",
+   "gaps": {
+    "22": 3.2
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "L0/2+3.1",
+     "y": 3.275,
+     "width": 1.32,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.32,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2-3.1",
+     "y": 3.275,
+     "width": 1.1,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 1.32,
+     "plated": false
+    }
+   ],
+   "body_w": 38.7,
+   "body_h": 12.05
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC8-B",
+   "positions": [
+    98
+   ],
+   "description": "Samtec HSEC8 right angle 0.8 mm edge card socket, {N} positions",
+   "note": "Samtec print HSEC8-1XX-XX-X-RA-XX-XX rev AQ, hsec8-1xx-xx-x-ra-xx-xx-mkt.pdf sheet 1 (Fig 1 bottom view, Table 2). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2.5:1 = 7.087 pt/mm, checked against E = 22.40 for -25): two tail rows, feet 0.23 wide x 0.90 long (1.63 pt x 6.37 pt), pitch 0.80 (printed), both rows in the same columns, odd pins in the row nearer the front face (centre 8.25 from it) and even pins in the row 1.85 behind (10.10; both measured, not printed; the odd = nearer-the-front row is an assumption from the front view where pin 01 is the lower contact row). Origin x = centre of the tail span (E = A column of Table 2: 7.20, 15.20, 23.20 one bank; 9.60, 12.80, 22.40, 34.40, 41.60, 42.40, 50.40 two banks), y = centre of the 12.05 housing depth (printed REF; front face at -6.025). Two-bank parts have a key gap of 4.00 centre to centre (A = (m-1)*0.8 + 3.2) after the first H+1 pads from pin 1 (H and J in Table 2: J = H*0.8 is the first bank's span: H = 3 / 5 / 5 / 21 / 26 / 26 / 31 for -09 / -13 / -25 / -40 / -49 / -50 / -60). The bottom view shares x with the front view (pin 01 at the left), so this top-view footprint is mirrored: pin 1 at the right. Pegs: round 1.32 (printed) and an oblong 1.10 x 1.32 (1.10 and 1.32 printed, the oblong is long in y), both 9.30 from the front face (printed) and 3.10 beyond the end tails (3.100 printed; F = E + 6.20 in Table 2), the round one at the pin-1-end side (print left, here right). Housing width K from Table 2 (11.50 .. 54.70), centred on the tails (assumption). The four 1.00 x 1.00 squares at the housing corners are not drawn (not named as pads).",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "rtl,rtl",
+   "row_y": "2.23,4.08",
+   "pad_w": 0.23,
+   "pad_h": 0.9,
+   "shape": "rect",
+   "gaps": {
+    "27": 3.2
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "L0/2+3.1",
+     "y": 3.275,
+     "width": 1.32,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.32,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2-3.1",
+     "y": 3.275,
+     "width": 1.1,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 1.32,
+     "plated": false
+    }
+   ],
+   "body_w": 45.9,
+   "body_h": 12.05
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC8-B",
+   "positions": [
+    100
+   ],
+   "description": "Samtec HSEC8 right angle 0.8 mm edge card socket, {N} positions",
+   "note": "Samtec print HSEC8-1XX-XX-X-RA-XX-XX rev AQ, hsec8-1xx-xx-x-ra-xx-xx-mkt.pdf sheet 1 (Fig 1 bottom view, Table 2). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2.5:1 = 7.087 pt/mm, checked against E = 22.40 for -25): two tail rows, feet 0.23 wide x 0.90 long (1.63 pt x 6.37 pt), pitch 0.80 (printed), both rows in the same columns, odd pins in the row nearer the front face (centre 8.25 from it) and even pins in the row 1.85 behind (10.10; both measured, not printed; the odd = nearer-the-front row is an assumption from the front view where pin 01 is the lower contact row). Origin x = centre of the tail span (E = A column of Table 2: 7.20, 15.20, 23.20 one bank; 9.60, 12.80, 22.40, 34.40, 41.60, 42.40, 50.40 two banks), y = centre of the 12.05 housing depth (printed REF; front face at -6.025). Two-bank parts have a key gap of 4.00 centre to centre (A = (m-1)*0.8 + 3.2) after the first H+1 pads from pin 1 (H and J in Table 2: J = H*0.8 is the first bank's span: H = 3 / 5 / 5 / 21 / 26 / 26 / 31 for -09 / -13 / -25 / -40 / -49 / -50 / -60). The bottom view shares x with the front view (pin 01 at the left), so this top-view footprint is mirrored: pin 1 at the right. Pegs: round 1.32 (printed) and an oblong 1.10 x 1.32 (1.10 and 1.32 printed, the oblong is long in y), both 9.30 from the front face (printed) and 3.10 beyond the end tails (3.100 printed; F = E + 6.20 in Table 2), the round one at the pin-1-end side (print left, here right). Housing width K from Table 2 (11.50 .. 54.70), centred on the tails (assumption). The four 1.00 x 1.00 squares at the housing corners are not drawn (not named as pads).",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "rtl,rtl",
+   "row_y": "2.23,4.08",
+   "pad_w": 0.23,
+   "pad_h": 0.9,
+   "shape": "rect",
+   "gaps": {
+    "27": 3.2
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "L0/2+3.1",
+     "y": 3.275,
+     "width": 1.32,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.32,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2-3.1",
+     "y": 3.275,
+     "width": 1.1,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 1.32,
+     "plated": false
+    }
+   ],
+   "body_w": 46.7,
+   "body_h": 12.05
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC8-B",
+   "positions": [
+    120
+   ],
+   "description": "Samtec HSEC8 right angle 0.8 mm edge card socket, {N} positions",
+   "note": "Samtec print HSEC8-1XX-XX-X-RA-XX-XX rev AQ, hsec8-1xx-xx-x-ra-xx-xx-mkt.pdf sheet 1 (Fig 1 bottom view, Table 2). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2.5:1 = 7.087 pt/mm, checked against E = 22.40 for -25): two tail rows, feet 0.23 wide x 0.90 long (1.63 pt x 6.37 pt), pitch 0.80 (printed), both rows in the same columns, odd pins in the row nearer the front face (centre 8.25 from it) and even pins in the row 1.85 behind (10.10; both measured, not printed; the odd = nearer-the-front row is an assumption from the front view where pin 01 is the lower contact row). Origin x = centre of the tail span (E = A column of Table 2: 7.20, 15.20, 23.20 one bank; 9.60, 12.80, 22.40, 34.40, 41.60, 42.40, 50.40 two banks), y = centre of the 12.05 housing depth (printed REF; front face at -6.025). Two-bank parts have a key gap of 4.00 centre to centre (A = (m-1)*0.8 + 3.2) after the first H+1 pads from pin 1 (H and J in Table 2: J = H*0.8 is the first bank's span: H = 3 / 5 / 5 / 21 / 26 / 26 / 31 for -09 / -13 / -25 / -40 / -49 / -50 / -60). The bottom view shares x with the front view (pin 01 at the left), so this top-view footprint is mirrored: pin 1 at the right. Pegs: round 1.32 (printed) and an oblong 1.10 x 1.32 (1.10 and 1.32 printed, the oblong is long in y), both 9.30 from the front face (printed) and 3.10 beyond the end tails (3.100 printed; F = E + 6.20 in Table 2), the round one at the pin-1-end side (print left, here right). Housing width K from Table 2 (11.50 .. 54.70), centred on the tails (assumption). The four 1.00 x 1.00 squares at the housing corners are not drawn (not named as pads).",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "rtl,rtl",
+   "row_y": "2.23,4.08",
+   "pad_w": 0.23,
+   "pad_h": 0.9,
+   "shape": "rect",
+   "gaps": {
+    "32": 3.2
+   },
+   "extras": [
+    {
+     "pin": 0,
+     "x": "L0/2+3.1",
+     "y": 3.275,
+     "width": 1.32,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.32,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2-3.1",
+     "y": 3.275,
+     "width": 1.1,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 1.32,
+     "plated": false
+    }
+   ],
+   "body_w": 54.7,
+   "body_h": 12.05
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC8",
+   "positions": [
+    20
+   ],
+   "description": "Samtec HSEC8 EM straddle-mount 0.8 mm edge card socket, {N} positions",
+   "note": "Samtec print HSEC8-1XX-XX-X-D-EMXX rev M, hsec8-1xx-xx-x-d-emxx-mkt.pdf sheets 1-2 (Fig 1 for -10/-20/-30, Fig 2 and Table 2 for -40/-50/-60). Straddle-mount (EM2 = 1.57 thick PCB) edge connector: the board edge is the housing's rear face, y = +3.90 here (the housing is 7.80 deep, REF, centred on y = 0, card entry up), the board lies at y > +3.90 and the tails run 2.31 onto it (2.31 REF and the 0.00+-0.13 edge datum in section B-B). Section A-A shows the two tail rows 1.60+-0.08 apart (one each side of the board), so odd pins (contact row 01) are pads on the part's face and even pins (row 02) the opposite face, in the same columns; which face is which is an assumption (the print does not say). Tail pads 0.36 wide (measured 18 px at 49.4 px/mm on a 500 dpi render, not printed) x 2.31 long (printed REF), pitch 0.80 (printed), first-to-last (N-1)*0.8 +- 0.08 printed; -40/-50/-60 have a key gap of 4.00 centre to centre (4.00 printed; C = 16.80/20.80/20.80/24.80 = (B)*0.8 with B = 21/26/26/31 spaces printed in Table 2), after pad B+1 counted from pin 01 (pin 01 at the left of the plan view; assumed to be the footprint's pin-1 side). Origin: x = centre of the tail span (assumption); housing width (No OF POS x 0.80) + 15.20 (Fig 1) or (No OF POS + 3) x 0.80 + 16.00 (Fig 2), as printed. The end weld tabs / lock wings are not drawn (no pad size printed).",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "ltr,ltr",
+   "row_y": "5.06,5.06",
+   "row_layer": "same,opposite",
+   "edge_mount": 1,
+   "pad_w": 0.36,
+   "pad_h": 2.31,
+   "shape": "rect",
+   "gaps": {},
+   "body_w": 23.2,
+   "body_h": 7.8
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC8",
+   "positions": [
+    40
+   ],
+   "description": "Samtec HSEC8 EM straddle-mount 0.8 mm edge card socket, {N} positions",
+   "note": "Samtec print HSEC8-1XX-XX-X-D-EMXX rev M, hsec8-1xx-xx-x-d-emxx-mkt.pdf sheets 1-2 (Fig 1 for -10/-20/-30, Fig 2 and Table 2 for -40/-50/-60). Straddle-mount (EM2 = 1.57 thick PCB) edge connector: the board edge is the housing's rear face, y = +3.90 here (the housing is 7.80 deep, REF, centred on y = 0, card entry up), the board lies at y > +3.90 and the tails run 2.31 onto it (2.31 REF and the 0.00+-0.13 edge datum in section B-B). Section A-A shows the two tail rows 1.60+-0.08 apart (one each side of the board), so odd pins (contact row 01) are pads on the part's face and even pins (row 02) the opposite face, in the same columns; which face is which is an assumption (the print does not say). Tail pads 0.36 wide (measured 18 px at 49.4 px/mm on a 500 dpi render, not printed) x 2.31 long (printed REF), pitch 0.80 (printed), first-to-last (N-1)*0.8 +- 0.08 printed; -40/-50/-60 have a key gap of 4.00 centre to centre (4.00 printed; C = 16.80/20.80/20.80/24.80 = (B)*0.8 with B = 21/26/26/31 spaces printed in Table 2), after pad B+1 counted from pin 01 (pin 01 at the left of the plan view; assumed to be the footprint's pin-1 side). Origin: x = centre of the tail span (assumption); housing width (No OF POS x 0.80) + 15.20 (Fig 1) or (No OF POS + 3) x 0.80 + 16.00 (Fig 2), as printed. The end weld tabs / lock wings are not drawn (no pad size printed).",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "ltr,ltr",
+   "row_y": "5.06,5.06",
+   "row_layer": "same,opposite",
+   "edge_mount": 1,
+   "pad_w": 0.36,
+   "pad_h": 2.31,
+   "shape": "rect",
+   "gaps": {},
+   "body_w": 31.2,
+   "body_h": 7.8
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC8",
+   "positions": [
+    60
+   ],
+   "description": "Samtec HSEC8 EM straddle-mount 0.8 mm edge card socket, {N} positions",
+   "note": "Samtec print HSEC8-1XX-XX-X-D-EMXX rev M, hsec8-1xx-xx-x-d-emxx-mkt.pdf sheets 1-2 (Fig 1 for -10/-20/-30, Fig 2 and Table 2 for -40/-50/-60). Straddle-mount (EM2 = 1.57 thick PCB) edge connector: the board edge is the housing's rear face, y = +3.90 here (the housing is 7.80 deep, REF, centred on y = 0, card entry up), the board lies at y > +3.90 and the tails run 2.31 onto it (2.31 REF and the 0.00+-0.13 edge datum in section B-B). Section A-A shows the two tail rows 1.60+-0.08 apart (one each side of the board), so odd pins (contact row 01) are pads on the part's face and even pins (row 02) the opposite face, in the same columns; which face is which is an assumption (the print does not say). Tail pads 0.36 wide (measured 18 px at 49.4 px/mm on a 500 dpi render, not printed) x 2.31 long (printed REF), pitch 0.80 (printed), first-to-last (N-1)*0.8 +- 0.08 printed; -40/-50/-60 have a key gap of 4.00 centre to centre (4.00 printed; C = 16.80/20.80/20.80/24.80 = (B)*0.8 with B = 21/26/26/31 spaces printed in Table 2), after pad B+1 counted from pin 01 (pin 01 at the left of the plan view; assumed to be the footprint's pin-1 side). Origin: x = centre of the tail span (assumption); housing width (No OF POS x 0.80) + 15.20 (Fig 1) or (No OF POS + 3) x 0.80 + 16.00 (Fig 2), as printed. The end weld tabs / lock wings are not drawn (no pad size printed).",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "ltr,ltr",
+   "row_y": "5.06,5.06",
+   "row_layer": "same,opposite",
+   "edge_mount": 1,
+   "pad_w": 0.36,
+   "pad_h": 2.31,
+   "shape": "rect",
+   "gaps": {},
+   "body_w": 39.2,
+   "body_h": 7.8
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC8",
+   "positions": [
+    80
+   ],
+   "description": "Samtec HSEC8 EM straddle-mount 0.8 mm edge card socket, {N} positions",
+   "note": "Samtec print HSEC8-1XX-XX-X-D-EMXX rev M, hsec8-1xx-xx-x-d-emxx-mkt.pdf sheets 1-2 (Fig 1 for -10/-20/-30, Fig 2 and Table 2 for -40/-50/-60). Straddle-mount (EM2 = 1.57 thick PCB) edge connector: the board edge is the housing's rear face, y = +3.90 here (the housing is 7.80 deep, REF, centred on y = 0, card entry up), the board lies at y > +3.90 and the tails run 2.31 onto it (2.31 REF and the 0.00+-0.13 edge datum in section B-B). Section A-A shows the two tail rows 1.60+-0.08 apart (one each side of the board), so odd pins (contact row 01) are pads on the part's face and even pins (row 02) the opposite face, in the same columns; which face is which is an assumption (the print does not say). Tail pads 0.36 wide (measured 18 px at 49.4 px/mm on a 500 dpi render, not printed) x 2.31 long (printed REF), pitch 0.80 (printed), first-to-last (N-1)*0.8 +- 0.08 printed; -40/-50/-60 have a key gap of 4.00 centre to centre (4.00 printed; C = 16.80/20.80/20.80/24.80 = (B)*0.8 with B = 21/26/26/31 spaces printed in Table 2), after pad B+1 counted from pin 01 (pin 01 at the left of the plan view; assumed to be the footprint's pin-1 side). Origin: x = centre of the tail span (assumption); housing width (No OF POS x 0.80) + 15.20 (Fig 1) or (No OF POS + 3) x 0.80 + 16.00 (Fig 2), as printed. The end weld tabs / lock wings are not drawn (no pad size printed).",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "ltr,ltr",
+   "row_y": "5.06,5.06",
+   "row_layer": "same,opposite",
+   "edge_mount": 1,
+   "pad_w": 0.36,
+   "pad_h": 2.31,
+   "shape": "rect",
+   "gaps": {
+    "22": 3.2
+   },
+   "body_w": 50.4,
+   "body_h": 7.8
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC8",
+   "positions": [
+    100
+   ],
+   "description": "Samtec HSEC8 EM straddle-mount 0.8 mm edge card socket, {N} positions",
+   "note": "Samtec print HSEC8-1XX-XX-X-D-EMXX rev M, hsec8-1xx-xx-x-d-emxx-mkt.pdf sheets 1-2 (Fig 1 for -10/-20/-30, Fig 2 and Table 2 for -40/-50/-60). Straddle-mount (EM2 = 1.57 thick PCB) edge connector: the board edge is the housing's rear face, y = +3.90 here (the housing is 7.80 deep, REF, centred on y = 0, card entry up), the board lies at y > +3.90 and the tails run 2.31 onto it (2.31 REF and the 0.00+-0.13 edge datum in section B-B). Section A-A shows the two tail rows 1.60+-0.08 apart (one each side of the board), so odd pins (contact row 01) are pads on the part's face and even pins (row 02) the opposite face, in the same columns; which face is which is an assumption (the print does not say). Tail pads 0.36 wide (measured 18 px at 49.4 px/mm on a 500 dpi render, not printed) x 2.31 long (printed REF), pitch 0.80 (printed), first-to-last (N-1)*0.8 +- 0.08 printed; -40/-50/-60 have a key gap of 4.00 centre to centre (4.00 printed; C = 16.80/20.80/20.80/24.80 = (B)*0.8 with B = 21/26/26/31 spaces printed in Table 2), after pad B+1 counted from pin 01 (pin 01 at the left of the plan view; assumed to be the footprint's pin-1 side). Origin: x = centre of the tail span (assumption); housing width (No OF POS x 0.80) + 15.20 (Fig 1) or (No OF POS + 3) x 0.80 + 16.00 (Fig 2), as printed. The end weld tabs / lock wings are not drawn (no pad size printed).",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "ltr,ltr",
+   "row_y": "5.06,5.06",
+   "row_layer": "same,opposite",
+   "edge_mount": 1,
+   "pad_w": 0.36,
+   "pad_h": 2.31,
+   "shape": "rect",
+   "gaps": {
+    "27": 3.2
+   },
+   "body_w": 58.4,
+   "body_h": 7.8
+  },
+  {
+   "stem": "EDGE-SAMTEC-EDGE-RATE-HSEC8",
+   "positions": [
+    120
+   ],
+   "description": "Samtec HSEC8 EM straddle-mount 0.8 mm edge card socket, {N} positions",
+   "note": "Samtec print HSEC8-1XX-XX-X-D-EMXX rev M, hsec8-1xx-xx-x-d-emxx-mkt.pdf sheets 1-2 (Fig 1 for -10/-20/-30, Fig 2 and Table 2 for -40/-50/-60). Straddle-mount (EM2 = 1.57 thick PCB) edge connector: the board edge is the housing's rear face, y = +3.90 here (the housing is 7.80 deep, REF, centred on y = 0, card entry up), the board lies at y > +3.90 and the tails run 2.31 onto it (2.31 REF and the 0.00+-0.13 edge datum in section B-B). Section A-A shows the two tail rows 1.60+-0.08 apart (one each side of the board), so odd pins (contact row 01) are pads on the part's face and even pins (row 02) the opposite face, in the same columns; which face is which is an assumption (the print does not say). Tail pads 0.36 wide (measured 18 px at 49.4 px/mm on a 500 dpi render, not printed) x 2.31 long (printed REF), pitch 0.80 (printed), first-to-last (N-1)*0.8 +- 0.08 printed; -40/-50/-60 have a key gap of 4.00 centre to centre (4.00 printed; C = 16.80/20.80/20.80/24.80 = (B)*0.8 with B = 21/26/26/31 spaces printed in Table 2), after pad B+1 counted from pin 01 (pin 01 at the left of the plan view; assumed to be the footprint's pin-1 side). Origin: x = centre of the tail span (assumption); housing width (No OF POS x 0.80) + 15.20 (Fig 1) or (No OF POS + 3) x 0.80 + 16.00 (Fig 2), as printed. The end weld tabs / lock wings are not drawn (no pad size printed).",
+   "numbering": "odd-even",
+   "pitch": 0.8,
+   "dir": "ltr,ltr",
+   "row_y": "5.06,5.06",
+   "row_layer": "same,opposite",
+   "edge_mount": 1,
+   "pad_w": 0.36,
+   "pad_h": 2.31,
+   "shape": "rect",
+   "gaps": {
+    "32": 3.2
+   },
+   "body_w": 66.4,
+   "body_h": 7.8
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1",
+   "positions": [
+    40
+   ],
+   "description": "Samtec MEC1 EM2 straddle-mount 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-EMX-XX-XX rev T, mec1-1xx-xx-xx-d-emx-xx-xx-mkt.pdf sheet 1 (top view, front view, Section A-A, Table 3). Straddle-mount edge connector for a 1.57 (.062) thick board (option EM2, the only one in the catalogue parts): the board edge is the housing's rear face, y = +4.445 here (housing 8.89 deep, .3500 [8.89] REF, centred on y = 0, card entry up); the tails run D = 4.95 [.195] onto the board (Table 3, EM2, D +-.020; the front view shows .1850 [4.70] REF, the EM1 value). Section A-A shows the two tail rows one each side of the board (B = 1.37 apart for EM2, Table 3), so odd pins (row 01) are pads on the part's face and even pins (row 02) the opposite face, in the same columns; which face is which is an assumption (the print does not say). Tail pads 0.36 wide (.0140 [0.36] REF printed at the tail) x 4.95 long, pitch 1.00 (printed: .03937 [1.000]), first-to-last (No OF POS - 1) x 1.0 (printed). No tail gap: the polarization ribs of Table 2 are card keys, every pin position carries a contact. Pin 01 at the left of the top view (assumption: footprint's pin 1 side). Origin: x = centre of the tail span (assumption), y = housing centre. Housing width (No OF POS + 2) x 1.0 + 12.45 (printed REF, top view). The end wings / weld tabs are not drawn (no pad size printed).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "6.92,6.92",
+   "row_layer": "same,opposite",
+   "edge_mount": 1,
+   "pad_w": 0.36,
+   "pad_h": 4.95,
+   "shape": "rect",
+   "body_w": 34.45,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1",
+   "positions": [
+    60
+   ],
+   "description": "Samtec MEC1 EM2 straddle-mount 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-EMX-XX-XX rev T, mec1-1xx-xx-xx-d-emx-xx-xx-mkt.pdf sheet 1 (top view, front view, Section A-A, Table 3). Straddle-mount edge connector for a 1.57 (.062) thick board (option EM2, the only one in the catalogue parts): the board edge is the housing's rear face, y = +4.445 here (housing 8.89 deep, .3500 [8.89] REF, centred on y = 0, card entry up); the tails run D = 4.95 [.195] onto the board (Table 3, EM2, D +-.020; the front view shows .1850 [4.70] REF, the EM1 value). Section A-A shows the two tail rows one each side of the board (B = 1.37 apart for EM2, Table 3), so odd pins (row 01) are pads on the part's face and even pins (row 02) the opposite face, in the same columns; which face is which is an assumption (the print does not say). Tail pads 0.36 wide (.0140 [0.36] REF printed at the tail) x 4.95 long, pitch 1.00 (printed: .03937 [1.000]), first-to-last (No OF POS - 1) x 1.0 (printed). No tail gap: the polarization ribs of Table 2 are card keys, every pin position carries a contact. Pin 01 at the left of the top view (assumption: footprint's pin 1 side). Origin: x = centre of the tail span (assumption), y = housing centre. Housing width (No OF POS + 2) x 1.0 + 12.45 (printed REF, top view). The end wings / weld tabs are not drawn (no pad size printed).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "6.92,6.92",
+   "row_layer": "same,opposite",
+   "edge_mount": 1,
+   "pad_w": 0.36,
+   "pad_h": 4.95,
+   "shape": "rect",
+   "body_w": 44.45,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1",
+   "positions": [
+    100
+   ],
+   "description": "Samtec MEC1 EM2 straddle-mount 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-EMX-XX-XX rev T, mec1-1xx-xx-xx-d-emx-xx-xx-mkt.pdf sheet 1 (top view, front view, Section A-A, Table 3). Straddle-mount edge connector for a 1.57 (.062) thick board (option EM2, the only one in the catalogue parts): the board edge is the housing's rear face, y = +4.445 here (housing 8.89 deep, .3500 [8.89] REF, centred on y = 0, card entry up); the tails run D = 4.95 [.195] onto the board (Table 3, EM2, D +-.020; the front view shows .1850 [4.70] REF, the EM1 value). Section A-A shows the two tail rows one each side of the board (B = 1.37 apart for EM2, Table 3), so odd pins (row 01) are pads on the part's face and even pins (row 02) the opposite face, in the same columns; which face is which is an assumption (the print does not say). Tail pads 0.36 wide (.0140 [0.36] REF printed at the tail) x 4.95 long, pitch 1.00 (printed: .03937 [1.000]), first-to-last (No OF POS - 1) x 1.0 (printed). No tail gap: the polarization ribs of Table 2 are card keys, every pin position carries a contact. Pin 01 at the left of the top view (assumption: footprint's pin 1 side). Origin: x = centre of the tail span (assumption), y = housing centre. Housing width (No OF POS + 2) x 1.0 + 12.45 (printed REF, top view). The end wings / weld tabs are not drawn (no pad size printed).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "6.92,6.92",
+   "row_layer": "same,opposite",
+   "edge_mount": 1,
+   "pad_w": 0.36,
+   "pad_h": 4.95,
+   "shape": "rect",
+   "body_w": 64.45,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1",
+   "positions": [
+    120
+   ],
+   "description": "Samtec MEC1 EM2 straddle-mount 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-EMX-XX-XX rev T, mec1-1xx-xx-xx-d-emx-xx-xx-mkt.pdf sheet 1 (top view, front view, Section A-A, Table 3). Straddle-mount edge connector for a 1.57 (.062) thick board (option EM2, the only one in the catalogue parts): the board edge is the housing's rear face, y = +4.445 here (housing 8.89 deep, .3500 [8.89] REF, centred on y = 0, card entry up); the tails run D = 4.95 [.195] onto the board (Table 3, EM2, D +-.020; the front view shows .1850 [4.70] REF, the EM1 value). Section A-A shows the two tail rows one each side of the board (B = 1.37 apart for EM2, Table 3), so odd pins (row 01) are pads on the part's face and even pins (row 02) the opposite face, in the same columns; which face is which is an assumption (the print does not say). Tail pads 0.36 wide (.0140 [0.36] REF printed at the tail) x 4.95 long, pitch 1.00 (printed: .03937 [1.000]), first-to-last (No OF POS - 1) x 1.0 (printed). No tail gap: the polarization ribs of Table 2 are card keys, every pin position carries a contact. Pin 01 at the left of the top view (assumption: footprint's pin 1 side). Origin: x = centre of the tail span (assumption), y = housing centre. Housing width (No OF POS + 2) x 1.0 + 12.45 (printed REF, top view). The end wings / weld tabs are not drawn (no pad size printed).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "6.92,6.92",
+   "row_layer": "same,opposite",
+   "edge_mount": 1,
+   "pad_w": 0.36,
+   "pad_h": 4.95,
+   "shape": "rect",
+   "body_w": 74.45,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1-C",
+   "positions": [
+    16
+   ],
+   "description": "Samtec MEC1 EM2 straddle-mount 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-EMX-XX-XX rev T, mec1-1xx-xx-xx-d-emx-xx-xx-mkt.pdf sheet 1 (top view, front view, Section A-A, Table 3). Straddle-mount edge connector for a 1.57 (.062) thick board (option EM2, the only one in the catalogue parts): the board edge is the housing's rear face, y = +4.445 here (housing 8.89 deep, .3500 [8.89] REF, centred on y = 0, card entry up); the tails run D = 4.95 [.195] onto the board (Table 3, EM2, D +-.020; the front view shows .1850 [4.70] REF, the EM1 value). Section A-A shows the two tail rows one each side of the board (B = 1.37 apart for EM2, Table 3), so odd pins (row 01) are pads on the part's face and even pins (row 02) the opposite face, in the same columns; which face is which is an assumption (the print does not say). Tail pads 0.36 wide (.0140 [0.36] REF printed at the tail) x 4.95 long, pitch 1.00 (printed: .03937 [1.000]), first-to-last (No OF POS - 1) x 1.0 (printed). No tail gap: the polarization ribs of Table 2 are card keys, every pin position carries a contact. Pin 01 at the left of the top view (assumption: footprint's pin 1 side). Origin: x = centre of the tail span (assumption), y = housing centre. Housing width (No OF POS + 2) x 1.0 + 12.45 (printed REF, top view). The end wings / weld tabs are not drawn (no pad size printed).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "6.92,6.92",
+   "row_layer": "same,opposite",
+   "edge_mount": 1,
+   "pad_w": 0.36,
+   "pad_h": 4.95,
+   "shape": "rect",
+   "body_w": 22.45,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1-B",
+   "positions": [
+    10
+   ],
+   "description": "Samtec MEC1 right angle 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-RAX-XX-SL-XX rev AM, mec1-1xx-xx-xx-d-rax-xx-sl-xx-mkt.pdf sheets 1-2 (Fig 1 bottom view, Section A-A, Table 3). The print has no recommended PCB layout; the pads are the solder feet of its bottom view, read from the PDF's vector drawing (scale 2:1 = 5.669 pt/mm, checked against E = 19.00 for the -20 shown and the 22.00 peg distance H): tails 0.36 wide (2.02 pt; .0140 [0.36] class value), 0.91 long (.036 [0.91] TYP printed), pitch 1.00 (printed), both rows in the same columns; first-to-last tail E = (No OF POS - 1) x 1.0 (Table 3: 4.00 .. 69.00). Foot toes from the housing's front face: bottom contact row 10.06 (.396 [10.06]) and top row 11.96 (.471 [11.96]), both printed in Section A-A, so the feet span 9.15..10.06 and 11.05..11.96 (centres 9.605 and 11.505; row-to-row 1.90). Odd pins (row 01, the lower contact row in the front view) are the row nearer the front: assumption. Origin: x = centre of the tail span (the pegs are symmetric about it), y = centre of the 11.68 housing depth (.460 [11.68] REF; front face at -5.84), so rows at y = 9.605 - 5.84 = 3.765 and 11.505 - 5.84 = 5.665. Pegs: H = (No OF POS + 2) apart (Table 3 H: 6.99 .. 72.01; 1.50 peg-to-first-tail printed as .059 [1.50] for the -20 shown), at 3.18 from the front face (.125 [3.18] REF, y = 3.18 - 5.84 = -2.66), non-plated round 1.78 (the diameter .070 [1.78] REF; the drawing also shows an inner 1.27 circle). The bottom view shares x with the front view, where pin 01 is at the left, so this top-view footprint is mirrored: pin 1 at the right. Housing width D = (No OF POS) + 4.54 (Table 3 D: 9.54 .. 74.54).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "rtl,rtl",
+   "row_y": "3.765,5.665",
+   "pad_w": 0.36,
+   "pad_h": 0.91,
+   "shape": "rect",
+   "extras": [
+    {
+     "pin": 0,
+     "x": 3.5,
+     "y": -2.66,
+     "width": 1.78,
+     "height": 1.78,
+     "shape": "round",
+     "drill": 1.78,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -3.5,
+     "y": -2.66,
+     "width": 1.78,
+     "height": 1.78,
+     "shape": "round",
+     "drill": 1.78,
+     "plated": false
+    }
+   ],
+   "body_w": 9.54,
+   "body_h": 11.68
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1-B",
+   "positions": [
+    16
+   ],
+   "description": "Samtec MEC1 right angle 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-RAX-XX-SL-XX rev AM, mec1-1xx-xx-xx-d-rax-xx-sl-xx-mkt.pdf sheets 1-2 (Fig 1 bottom view, Section A-A, Table 3). The print has no recommended PCB layout; the pads are the solder feet of its bottom view, read from the PDF's vector drawing (scale 2:1 = 5.669 pt/mm, checked against E = 19.00 for the -20 shown and the 22.00 peg distance H): tails 0.36 wide (2.02 pt; .0140 [0.36] class value), 0.91 long (.036 [0.91] TYP printed), pitch 1.00 (printed), both rows in the same columns; first-to-last tail E = (No OF POS - 1) x 1.0 (Table 3: 4.00 .. 69.00). Foot toes from the housing's front face: bottom contact row 10.06 (.396 [10.06]) and top row 11.96 (.471 [11.96]), both printed in Section A-A, so the feet span 9.15..10.06 and 11.05..11.96 (centres 9.605 and 11.505; row-to-row 1.90). Odd pins (row 01, the lower contact row in the front view) are the row nearer the front: assumption. Origin: x = centre of the tail span (the pegs are symmetric about it), y = centre of the 11.68 housing depth (.460 [11.68] REF; front face at -5.84), so rows at y = 9.605 - 5.84 = 3.765 and 11.505 - 5.84 = 5.665. Pegs: H = (No OF POS + 2) apart (Table 3 H: 6.99 .. 72.01; 1.50 peg-to-first-tail printed as .059 [1.50] for the -20 shown), at 3.18 from the front face (.125 [3.18] REF, y = 3.18 - 5.84 = -2.66), non-plated round 1.78 (the diameter .070 [1.78] REF; the drawing also shows an inner 1.27 circle). The bottom view shares x with the front view, where pin 01 is at the left, so this top-view footprint is mirrored: pin 1 at the right. Housing width D = (No OF POS) + 4.54 (Table 3 D: 9.54 .. 74.54).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "rtl,rtl",
+   "row_y": "3.765,5.665",
+   "pad_w": 0.36,
+   "pad_h": 0.91,
+   "shape": "rect",
+   "extras": [
+    {
+     "pin": 0,
+     "x": 5.0,
+     "y": -2.66,
+     "width": 1.78,
+     "height": 1.78,
+     "shape": "round",
+     "drill": 1.78,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -5.0,
+     "y": -2.66,
+     "width": 1.78,
+     "height": 1.78,
+     "shape": "round",
+     "drill": 1.78,
+     "plated": false
+    }
+   ],
+   "body_w": 12.54,
+   "body_h": 11.68
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1-B",
+   "positions": [
+    40
+   ],
+   "description": "Samtec MEC1 right angle 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-RAX-XX-SL-XX rev AM, mec1-1xx-xx-xx-d-rax-xx-sl-xx-mkt.pdf sheets 1-2 (Fig 1 bottom view, Section A-A, Table 3). The print has no recommended PCB layout; the pads are the solder feet of its bottom view, read from the PDF's vector drawing (scale 2:1 = 5.669 pt/mm, checked against E = 19.00 for the -20 shown and the 22.00 peg distance H): tails 0.36 wide (2.02 pt; .0140 [0.36] class value), 0.91 long (.036 [0.91] TYP printed), pitch 1.00 (printed), both rows in the same columns; first-to-last tail E = (No OF POS - 1) x 1.0 (Table 3: 4.00 .. 69.00). Foot toes from the housing's front face: bottom contact row 10.06 (.396 [10.06]) and top row 11.96 (.471 [11.96]), both printed in Section A-A, so the feet span 9.15..10.06 and 11.05..11.96 (centres 9.605 and 11.505; row-to-row 1.90). Odd pins (row 01, the lower contact row in the front view) are the row nearer the front: assumption. Origin: x = centre of the tail span (the pegs are symmetric about it), y = centre of the 11.68 housing depth (.460 [11.68] REF; front face at -5.84), so rows at y = 9.605 - 5.84 = 3.765 and 11.505 - 5.84 = 5.665. Pegs: H = (No OF POS + 2) apart (Table 3 H: 6.99 .. 72.01; 1.50 peg-to-first-tail printed as .059 [1.50] for the -20 shown), at 3.18 from the front face (.125 [3.18] REF, y = 3.18 - 5.84 = -2.66), non-plated round 1.78 (the diameter .070 [1.78] REF; the drawing also shows an inner 1.27 circle). The bottom view shares x with the front view, where pin 01 is at the left, so this top-view footprint is mirrored: pin 1 at the right. Housing width D = (No OF POS) + 4.54 (Table 3 D: 9.54 .. 74.54).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "rtl,rtl",
+   "row_y": "3.765,5.665",
+   "pad_w": 0.36,
+   "pad_h": 0.91,
+   "shape": "rect",
+   "extras": [
+    {
+     "pin": 0,
+     "x": 11.0,
+     "y": -2.66,
+     "width": 1.78,
+     "height": 1.78,
+     "shape": "round",
+     "drill": 1.78,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -11.0,
+     "y": -2.66,
+     "width": 1.78,
+     "height": 1.78,
+     "shape": "round",
+     "drill": 1.78,
+     "plated": false
+    }
+   ],
+   "body_w": 24.54,
+   "body_h": 11.68
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1-B",
+   "positions": [
+    60
+   ],
+   "description": "Samtec MEC1 right angle 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-RAX-XX-SL-XX rev AM, mec1-1xx-xx-xx-d-rax-xx-sl-xx-mkt.pdf sheets 1-2 (Fig 1 bottom view, Section A-A, Table 3). The print has no recommended PCB layout; the pads are the solder feet of its bottom view, read from the PDF's vector drawing (scale 2:1 = 5.669 pt/mm, checked against E = 19.00 for the -20 shown and the 22.00 peg distance H): tails 0.36 wide (2.02 pt; .0140 [0.36] class value), 0.91 long (.036 [0.91] TYP printed), pitch 1.00 (printed), both rows in the same columns; first-to-last tail E = (No OF POS - 1) x 1.0 (Table 3: 4.00 .. 69.00). Foot toes from the housing's front face: bottom contact row 10.06 (.396 [10.06]) and top row 11.96 (.471 [11.96]), both printed in Section A-A, so the feet span 9.15..10.06 and 11.05..11.96 (centres 9.605 and 11.505; row-to-row 1.90). Odd pins (row 01, the lower contact row in the front view) are the row nearer the front: assumption. Origin: x = centre of the tail span (the pegs are symmetric about it), y = centre of the 11.68 housing depth (.460 [11.68] REF; front face at -5.84), so rows at y = 9.605 - 5.84 = 3.765 and 11.505 - 5.84 = 5.665. Pegs: H = (No OF POS + 2) apart (Table 3 H: 6.99 .. 72.01; 1.50 peg-to-first-tail printed as .059 [1.50] for the -20 shown), at 3.18 from the front face (.125 [3.18] REF, y = 3.18 - 5.84 = -2.66), non-plated round 1.78 (the diameter .070 [1.78] REF; the drawing also shows an inner 1.27 circle). The bottom view shares x with the front view, where pin 01 is at the left, so this top-view footprint is mirrored: pin 1 at the right. Housing width D = (No OF POS) + 4.54 (Table 3 D: 9.54 .. 74.54).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "rtl,rtl",
+   "row_y": "3.765,5.665",
+   "pad_w": 0.36,
+   "pad_h": 0.91,
+   "shape": "rect",
+   "extras": [
+    {
+     "pin": 0,
+     "x": 16.0,
+     "y": -2.66,
+     "width": 1.78,
+     "height": 1.78,
+     "shape": "round",
+     "drill": 1.78,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -16.0,
+     "y": -2.66,
+     "width": 1.78,
+     "height": 1.78,
+     "shape": "round",
+     "drill": 1.78,
+     "plated": false
+    }
+   ],
+   "body_w": 34.54,
+   "body_h": 11.68
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1-B",
+   "positions": [
+    120
+   ],
+   "description": "Samtec MEC1 right angle 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-RAX-XX-SL-XX rev AM, mec1-1xx-xx-xx-d-rax-xx-sl-xx-mkt.pdf sheets 1-2 (Fig 1 bottom view, Section A-A, Table 3). The print has no recommended PCB layout; the pads are the solder feet of its bottom view, read from the PDF's vector drawing (scale 2:1 = 5.669 pt/mm, checked against E = 19.00 for the -20 shown and the 22.00 peg distance H): tails 0.36 wide (2.02 pt; .0140 [0.36] class value), 0.91 long (.036 [0.91] TYP printed), pitch 1.00 (printed), both rows in the same columns; first-to-last tail E = (No OF POS - 1) x 1.0 (Table 3: 4.00 .. 69.00). Foot toes from the housing's front face: bottom contact row 10.06 (.396 [10.06]) and top row 11.96 (.471 [11.96]), both printed in Section A-A, so the feet span 9.15..10.06 and 11.05..11.96 (centres 9.605 and 11.505; row-to-row 1.90). Odd pins (row 01, the lower contact row in the front view) are the row nearer the front: assumption. Origin: x = centre of the tail span (the pegs are symmetric about it), y = centre of the 11.68 housing depth (.460 [11.68] REF; front face at -5.84), so rows at y = 9.605 - 5.84 = 3.765 and 11.505 - 5.84 = 5.665. Pegs: H = (No OF POS + 2) apart (Table 3 H: 6.99 .. 72.01; 1.50 peg-to-first-tail printed as .059 [1.50] for the -20 shown), at 3.18 from the front face (.125 [3.18] REF, y = 3.18 - 5.84 = -2.66), non-plated round 1.78 (the diameter .070 [1.78] REF; the drawing also shows an inner 1.27 circle). The bottom view shares x with the front view, where pin 01 is at the left, so this top-view footprint is mirrored: pin 1 at the right. Housing width D = (No OF POS) + 4.54 (Table 3 D: 9.54 .. 74.54).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "rtl,rtl",
+   "row_y": "3.765,5.665",
+   "pad_w": 0.36,
+   "pad_h": 0.91,
+   "shape": "rect",
+   "extras": [
+    {
+     "pin": 0,
+     "x": 31.0,
+     "y": -2.66,
+     "width": 1.78,
+     "height": 1.78,
+     "shape": "round",
+     "drill": 1.78,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -31.0,
+     "y": -2.66,
+     "width": 1.78,
+     "height": 1.78,
+     "shape": "round",
+     "drill": 1.78,
+     "plated": false
+    }
+   ],
+   "body_w": 64.54,
+   "body_h": 11.68
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1-B",
+   "positions": [
+    140
+   ],
+   "description": "Samtec MEC1 right angle 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-RAX-XX-SL-XX rev AM, mec1-1xx-xx-xx-d-rax-xx-sl-xx-mkt.pdf sheets 1-2 (Fig 1 bottom view, Section A-A, Table 3). The print has no recommended PCB layout; the pads are the solder feet of its bottom view, read from the PDF's vector drawing (scale 2:1 = 5.669 pt/mm, checked against E = 19.00 for the -20 shown and the 22.00 peg distance H): tails 0.36 wide (2.02 pt; .0140 [0.36] class value), 0.91 long (.036 [0.91] TYP printed), pitch 1.00 (printed), both rows in the same columns; first-to-last tail E = (No OF POS - 1) x 1.0 (Table 3: 4.00 .. 69.00). Foot toes from the housing's front face: bottom contact row 10.06 (.396 [10.06]) and top row 11.96 (.471 [11.96]), both printed in Section A-A, so the feet span 9.15..10.06 and 11.05..11.96 (centres 9.605 and 11.505; row-to-row 1.90). Odd pins (row 01, the lower contact row in the front view) are the row nearer the front: assumption. Origin: x = centre of the tail span (the pegs are symmetric about it), y = centre of the 11.68 housing depth (.460 [11.68] REF; front face at -5.84), so rows at y = 9.605 - 5.84 = 3.765 and 11.505 - 5.84 = 5.665. Pegs: H = (No OF POS + 2) apart (Table 3 H: 6.99 .. 72.01; 1.50 peg-to-first-tail printed as .059 [1.50] for the -20 shown), at 3.18 from the front face (.125 [3.18] REF, y = 3.18 - 5.84 = -2.66), non-plated round 1.78 (the diameter .070 [1.78] REF; the drawing also shows an inner 1.27 circle). The bottom view shares x with the front view, where pin 01 is at the left, so this top-view footprint is mirrored: pin 1 at the right. Housing width D = (No OF POS) + 4.54 (Table 3 D: 9.54 .. 74.54).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "rtl,rtl",
+   "row_y": "3.765,5.665",
+   "pad_w": 0.36,
+   "pad_h": 0.91,
+   "shape": "rect",
+   "extras": [
+    {
+     "pin": 0,
+     "x": 36.0,
+     "y": -2.66,
+     "width": 1.78,
+     "height": 1.78,
+     "shape": "round",
+     "drill": 1.78,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": -36.0,
+     "y": -2.66,
+     "width": 1.78,
+     "height": 1.78,
+     "shape": "round",
+     "drill": 1.78,
+     "plated": false
+    }
+   ],
+   "body_w": 74.54,
+   "body_h": 11.68
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1-D",
+   "positions": [
+    10
+   ],
+   "description": "Samtec MEC1 vertical 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-XX-XX-X-XX rev AY, mec1-1xx-xx-xx-d-xx-xx-x-xx-mkt.pdf sheet 1 (Fig 1 top / bottom views, Table 1). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2:1 = 5.669 pt/mm, checked against (No OF POS - 1) x 1.00): tails 0.36 wide (2.02 pt) x 1.68 long (9.5 pt, measured from the toe to the end of the visible foot, not printed), pitch 1.00 (printed: .03937 [1.00]), the two rows in the same columns, toes 8.49 apart (.334 [8.49] printed on the contact C-113-02-XX drawing, matches the 48.1 pt toe-to-toe in the plan) so the rows are at y = +-(8.49 - 1.68)/2 = +-3.405. No tail gap: the polarization positions of Table 1 are card keys, every position carries a contact. Odd pins (position 01, the lower row of the top view) at +y, even pins (02) at -y, pin 1 at the left as in the top view (the top view looks down on the board, so no mirroring). Origin: x = centre of the tail span, y = centre of the housing (.350 [8.89] REF deep); housing width A of Table 1 (9.54, 12.54, 14.539, 24.54, .., 74.539 = No OF POS + 4.54).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "3.405,-3.405",
+   "pad_w": 0.36,
+   "pad_h": 1.68,
+   "shape": "rect",
+   "body_w": 9.54,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1-D",
+   "positions": [
+    16
+   ],
+   "description": "Samtec MEC1 vertical 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-XX-XX-X-XX rev AY, mec1-1xx-xx-xx-d-xx-xx-x-xx-mkt.pdf sheet 1 (Fig 1 top / bottom views, Table 1). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2:1 = 5.669 pt/mm, checked against (No OF POS - 1) x 1.00): tails 0.36 wide (2.02 pt) x 1.68 long (9.5 pt, measured from the toe to the end of the visible foot, not printed), pitch 1.00 (printed: .03937 [1.00]), the two rows in the same columns, toes 8.49 apart (.334 [8.49] printed on the contact C-113-02-XX drawing, matches the 48.1 pt toe-to-toe in the plan) so the rows are at y = +-(8.49 - 1.68)/2 = +-3.405. No tail gap: the polarization positions of Table 1 are card keys, every position carries a contact. Odd pins (position 01, the lower row of the top view) at +y, even pins (02) at -y, pin 1 at the left as in the top view (the top view looks down on the board, so no mirroring). Origin: x = centre of the tail span, y = centre of the housing (.350 [8.89] REF deep); housing width A of Table 1 (9.54, 12.54, 14.539, 24.54, .., 74.539 = No OF POS + 4.54).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "3.405,-3.405",
+   "pad_w": 0.36,
+   "pad_h": 1.68,
+   "shape": "rect",
+   "body_w": 12.54,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1-D",
+   "positions": [
+    20
+   ],
+   "description": "Samtec MEC1 vertical 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-XX-XX-X-XX rev AY, mec1-1xx-xx-xx-d-xx-xx-x-xx-mkt.pdf sheet 1 (Fig 1 top / bottom views, Table 1). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2:1 = 5.669 pt/mm, checked against (No OF POS - 1) x 1.00): tails 0.36 wide (2.02 pt) x 1.68 long (9.5 pt, measured from the toe to the end of the visible foot, not printed), pitch 1.00 (printed: .03937 [1.00]), the two rows in the same columns, toes 8.49 apart (.334 [8.49] printed on the contact C-113-02-XX drawing, matches the 48.1 pt toe-to-toe in the plan) so the rows are at y = +-(8.49 - 1.68)/2 = +-3.405. No tail gap: the polarization positions of Table 1 are card keys, every position carries a contact. Odd pins (position 01, the lower row of the top view) at +y, even pins (02) at -y, pin 1 at the left as in the top view (the top view looks down on the board, so no mirroring). Origin: x = centre of the tail span, y = centre of the housing (.350 [8.89] REF deep); housing width A of Table 1 (9.54, 12.54, 14.539, 24.54, .., 74.539 = No OF POS + 4.54).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "3.405,-3.405",
+   "pad_w": 0.36,
+   "pad_h": 1.68,
+   "shape": "rect",
+   "body_w": 14.54,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1-D",
+   "positions": [
+    40
+   ],
+   "description": "Samtec MEC1 vertical 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-XX-XX-X-XX rev AY, mec1-1xx-xx-xx-d-xx-xx-x-xx-mkt.pdf sheet 1 (Fig 1 top / bottom views, Table 1). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2:1 = 5.669 pt/mm, checked against (No OF POS - 1) x 1.00): tails 0.36 wide (2.02 pt) x 1.68 long (9.5 pt, measured from the toe to the end of the visible foot, not printed), pitch 1.00 (printed: .03937 [1.00]), the two rows in the same columns, toes 8.49 apart (.334 [8.49] printed on the contact C-113-02-XX drawing, matches the 48.1 pt toe-to-toe in the plan) so the rows are at y = +-(8.49 - 1.68)/2 = +-3.405. No tail gap: the polarization positions of Table 1 are card keys, every position carries a contact. Odd pins (position 01, the lower row of the top view) at +y, even pins (02) at -y, pin 1 at the left as in the top view (the top view looks down on the board, so no mirroring). Origin: x = centre of the tail span, y = centre of the housing (.350 [8.89] REF deep); housing width A of Table 1 (9.54, 12.54, 14.539, 24.54, .., 74.539 = No OF POS + 4.54).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "3.405,-3.405",
+   "pad_w": 0.36,
+   "pad_h": 1.68,
+   "shape": "rect",
+   "body_w": 24.54,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1-D",
+   "positions": [
+    60
+   ],
+   "description": "Samtec MEC1 vertical 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-XX-XX-X-XX rev AY, mec1-1xx-xx-xx-d-xx-xx-x-xx-mkt.pdf sheet 1 (Fig 1 top / bottom views, Table 1). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2:1 = 5.669 pt/mm, checked against (No OF POS - 1) x 1.00): tails 0.36 wide (2.02 pt) x 1.68 long (9.5 pt, measured from the toe to the end of the visible foot, not printed), pitch 1.00 (printed: .03937 [1.00]), the two rows in the same columns, toes 8.49 apart (.334 [8.49] printed on the contact C-113-02-XX drawing, matches the 48.1 pt toe-to-toe in the plan) so the rows are at y = +-(8.49 - 1.68)/2 = +-3.405. No tail gap: the polarization positions of Table 1 are card keys, every position carries a contact. Odd pins (position 01, the lower row of the top view) at +y, even pins (02) at -y, pin 1 at the left as in the top view (the top view looks down on the board, so no mirroring). Origin: x = centre of the tail span, y = centre of the housing (.350 [8.89] REF deep); housing width A of Table 1 (9.54, 12.54, 14.539, 24.54, .., 74.539 = No OF POS + 4.54).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "3.405,-3.405",
+   "pad_w": 0.36,
+   "pad_h": 1.68,
+   "shape": "rect",
+   "body_w": 34.54,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1-D",
+   "positions": [
+    80
+   ],
+   "description": "Samtec MEC1 vertical 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-XX-XX-X-XX rev AY, mec1-1xx-xx-xx-d-xx-xx-x-xx-mkt.pdf sheet 1 (Fig 1 top / bottom views, Table 1). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2:1 = 5.669 pt/mm, checked against (No OF POS - 1) x 1.00): tails 0.36 wide (2.02 pt) x 1.68 long (9.5 pt, measured from the toe to the end of the visible foot, not printed), pitch 1.00 (printed: .03937 [1.00]), the two rows in the same columns, toes 8.49 apart (.334 [8.49] printed on the contact C-113-02-XX drawing, matches the 48.1 pt toe-to-toe in the plan) so the rows are at y = +-(8.49 - 1.68)/2 = +-3.405. No tail gap: the polarization positions of Table 1 are card keys, every position carries a contact. Odd pins (position 01, the lower row of the top view) at +y, even pins (02) at -y, pin 1 at the left as in the top view (the top view looks down on the board, so no mirroring). Origin: x = centre of the tail span, y = centre of the housing (.350 [8.89] REF deep); housing width A of Table 1 (9.54, 12.54, 14.539, 24.54, .., 74.539 = No OF POS + 4.54).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "3.405,-3.405",
+   "pad_w": 0.36,
+   "pad_h": 1.68,
+   "shape": "rect",
+   "body_w": 44.54,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1-D",
+   "positions": [
+    100
+   ],
+   "description": "Samtec MEC1 vertical 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-XX-XX-X-XX rev AY, mec1-1xx-xx-xx-d-xx-xx-x-xx-mkt.pdf sheet 1 (Fig 1 top / bottom views, Table 1). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2:1 = 5.669 pt/mm, checked against (No OF POS - 1) x 1.00): tails 0.36 wide (2.02 pt) x 1.68 long (9.5 pt, measured from the toe to the end of the visible foot, not printed), pitch 1.00 (printed: .03937 [1.00]), the two rows in the same columns, toes 8.49 apart (.334 [8.49] printed on the contact C-113-02-XX drawing, matches the 48.1 pt toe-to-toe in the plan) so the rows are at y = +-(8.49 - 1.68)/2 = +-3.405. No tail gap: the polarization positions of Table 1 are card keys, every position carries a contact. Odd pins (position 01, the lower row of the top view) at +y, even pins (02) at -y, pin 1 at the left as in the top view (the top view looks down on the board, so no mirroring). Origin: x = centre of the tail span, y = centre of the housing (.350 [8.89] REF deep); housing width A of Table 1 (9.54, 12.54, 14.539, 24.54, .., 74.539 = No OF POS + 4.54).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "3.405,-3.405",
+   "pad_w": 0.36,
+   "pad_h": 1.68,
+   "shape": "rect",
+   "body_w": 54.54,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1-D",
+   "positions": [
+    120
+   ],
+   "description": "Samtec MEC1 vertical 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-XX-XX-X-XX rev AY, mec1-1xx-xx-xx-d-xx-xx-x-xx-mkt.pdf sheet 1 (Fig 1 top / bottom views, Table 1). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2:1 = 5.669 pt/mm, checked against (No OF POS - 1) x 1.00): tails 0.36 wide (2.02 pt) x 1.68 long (9.5 pt, measured from the toe to the end of the visible foot, not printed), pitch 1.00 (printed: .03937 [1.00]), the two rows in the same columns, toes 8.49 apart (.334 [8.49] printed on the contact C-113-02-XX drawing, matches the 48.1 pt toe-to-toe in the plan) so the rows are at y = +-(8.49 - 1.68)/2 = +-3.405. No tail gap: the polarization positions of Table 1 are card keys, every position carries a contact. Odd pins (position 01, the lower row of the top view) at +y, even pins (02) at -y, pin 1 at the left as in the top view (the top view looks down on the board, so no mirroring). Origin: x = centre of the tail span, y = centre of the housing (.350 [8.89] REF deep); housing width A of Table 1 (9.54, 12.54, 14.539, 24.54, .., 74.539 = No OF POS + 4.54).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "3.405,-3.405",
+   "pad_w": 0.36,
+   "pad_h": 1.68,
+   "shape": "rect",
+   "body_w": 64.54,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC1-D",
+   "positions": [
+    140
+   ],
+   "description": "Samtec MEC1 vertical 1.0 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC1-1XX-XX-XX-D-XX-XX-X-XX rev AY, mec1-1xx-xx-xx-d-xx-xx-x-xx-mkt.pdf sheet 1 (Fig 1 top / bottom views, Table 1). The print has no recommended PCB layout; the pads are the solder tails of its bottom view, read from the PDF's vector drawing (scale 2:1 = 5.669 pt/mm, checked against (No OF POS - 1) x 1.00): tails 0.36 wide (2.02 pt) x 1.68 long (9.5 pt, measured from the toe to the end of the visible foot, not printed), pitch 1.00 (printed: .03937 [1.00]), the two rows in the same columns, toes 8.49 apart (.334 [8.49] printed on the contact C-113-02-XX drawing, matches the 48.1 pt toe-to-toe in the plan) so the rows are at y = +-(8.49 - 1.68)/2 = +-3.405. No tail gap: the polarization positions of Table 1 are card keys, every position carries a contact. Odd pins (position 01, the lower row of the top view) at +y, even pins (02) at -y, pin 1 at the left as in the top view (the top view looks down on the board, so no mirroring). Origin: x = centre of the tail span, y = centre of the housing (.350 [8.89] REF deep); housing width A of Table 1 (9.54, 12.54, 14.539, 24.54, .., 74.539 = No OF POS + 4.54).",
+   "numbering": "odd-even",
+   "pitch": 1.0,
+   "dir": "ltr,ltr",
+   "row_y": "3.405,-3.405",
+   "pad_w": 0.36,
+   "pad_h": 1.68,
+   "shape": "rect",
+   "body_w": 74.54,
+   "body_h": 8.89
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC5-RA",
+   "positions": [
+    60
+   ],
+   "description": "Samtec MEC5 right angle 0.5 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC5-XXX-XX-X-RA-XX-XR rev E, mec5-xxx-xx-x-ra-xx-xr-mkt.pdf sheet 1 (Fig 1 bottom view, Table 1). The print has no recommended PCB layout; the pads are the solder feet of its bottom view, read from the PDF's vector drawing (scale 3:1 = 8.504 pt/mm, checked against E = 27.00 for the -050 shown): feet 0.23 wide (1.96 pt) x 0.90 long (7.6 / 7.7 pt), pitch 0.50 (printed: 0.500+-0.070), the two rows in the same columns and 3.10 apart centre to centre (26.35 pt, measured, not printed). Tail span E = (No OF POS - 1) x 0.5 (-030: 14.50, -040: 19.50) or, with the key gap, (No OF POS + 4) x 0.5 (-070: 37.00, -080: 42.00; Table 1). The key gap is 3.00 centre to centre (3.00+-0.10 printed) after the first D/0.5 + 1 tails from pin 01 (D = 18.50 for -070, 21.00 for -080; no gap for -030 / -040: 'polarization rib is not present on -030 & -040'). The bottom view shares x with the front view (pin 01 at the left), so this top-view footprint is mirrored: pin 1 at the right. Odd pins (row 01) are the row nearer the front (assumption), i.e. y = -1.55; even pins +1.55. The print does not locate the housing relative to the feet: the origin is the middle of the two foot rows (x centred on the tails), the housing is drawn A wide (Table 1: 23.38 / 28.38 / 45.88 / 50.88 = No OF POS x 0.5 + 8.38, +2.50 with the key gap) and 5.45 deep (5.45 REF), centred on that origin - an approximation. Weld tabs (W2) and pegs are not drawn.",
+   "numbering": "odd-even",
+   "pitch": 0.5,
+   "dir": "rtl,rtl",
+   "row_y": "-1.55,1.55",
+   "pad_w": 0.23,
+   "pad_h": 0.9,
+   "shape": "rect",
+   "gaps": {},
+   "body_w": 23.38,
+   "body_h": 5.45
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC5-RA",
+   "positions": [
+    80
+   ],
+   "description": "Samtec MEC5 right angle 0.5 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC5-XXX-XX-X-RA-XX-XR rev E, mec5-xxx-xx-x-ra-xx-xr-mkt.pdf sheet 1 (Fig 1 bottom view, Table 1). The print has no recommended PCB layout; the pads are the solder feet of its bottom view, read from the PDF's vector drawing (scale 3:1 = 8.504 pt/mm, checked against E = 27.00 for the -050 shown): feet 0.23 wide (1.96 pt) x 0.90 long (7.6 / 7.7 pt), pitch 0.50 (printed: 0.500+-0.070), the two rows in the same columns and 3.10 apart centre to centre (26.35 pt, measured, not printed). Tail span E = (No OF POS - 1) x 0.5 (-030: 14.50, -040: 19.50) or, with the key gap, (No OF POS + 4) x 0.5 (-070: 37.00, -080: 42.00; Table 1). The key gap is 3.00 centre to centre (3.00+-0.10 printed) after the first D/0.5 + 1 tails from pin 01 (D = 18.50 for -070, 21.00 for -080; no gap for -030 / -040: 'polarization rib is not present on -030 & -040'). The bottom view shares x with the front view (pin 01 at the left), so this top-view footprint is mirrored: pin 1 at the right. Odd pins (row 01) are the row nearer the front (assumption), i.e. y = -1.55; even pins +1.55. The print does not locate the housing relative to the feet: the origin is the middle of the two foot rows (x centred on the tails), the housing is drawn A wide (Table 1: 23.38 / 28.38 / 45.88 / 50.88 = No OF POS x 0.5 + 8.38, +2.50 with the key gap) and 5.45 deep (5.45 REF), centred on that origin - an approximation. Weld tabs (W2) and pegs are not drawn.",
+   "numbering": "odd-even",
+   "pitch": 0.5,
+   "dir": "rtl,rtl",
+   "row_y": "-1.55,1.55",
+   "pad_w": 0.23,
+   "pad_h": 0.9,
+   "shape": "rect",
+   "gaps": {},
+   "body_w": 28.38,
+   "body_h": 5.45
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC5-RA",
+   "positions": [
+    140
+   ],
+   "description": "Samtec MEC5 right angle 0.5 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC5-XXX-XX-X-RA-XX-XR rev E, mec5-xxx-xx-x-ra-xx-xr-mkt.pdf sheet 1 (Fig 1 bottom view, Table 1). The print has no recommended PCB layout; the pads are the solder feet of its bottom view, read from the PDF's vector drawing (scale 3:1 = 8.504 pt/mm, checked against E = 27.00 for the -050 shown): feet 0.23 wide (1.96 pt) x 0.90 long (7.6 / 7.7 pt), pitch 0.50 (printed: 0.500+-0.070), the two rows in the same columns and 3.10 apart centre to centre (26.35 pt, measured, not printed). Tail span E = (No OF POS - 1) x 0.5 (-030: 14.50, -040: 19.50) or, with the key gap, (No OF POS + 4) x 0.5 (-070: 37.00, -080: 42.00; Table 1). The key gap is 3.00 centre to centre (3.00+-0.10 printed) after the first D/0.5 + 1 tails from pin 01 (D = 18.50 for -070, 21.00 for -080; no gap for -030 / -040: 'polarization rib is not present on -030 & -040'). The bottom view shares x with the front view (pin 01 at the left), so this top-view footprint is mirrored: pin 1 at the right. Odd pins (row 01) are the row nearer the front (assumption), i.e. y = -1.55; even pins +1.55. The print does not locate the housing relative to the feet: the origin is the middle of the two foot rows (x centred on the tails), the housing is drawn A wide (Table 1: 23.38 / 28.38 / 45.88 / 50.88 = No OF POS x 0.5 + 8.38, +2.50 with the key gap) and 5.45 deep (5.45 REF), centred on that origin - an approximation. Weld tabs (W2) and pegs are not drawn.",
+   "numbering": "odd-even",
+   "pitch": 0.5,
+   "dir": "rtl,rtl",
+   "row_y": "-1.55,1.55",
+   "pad_w": 0.23,
+   "pad_h": 0.9,
+   "shape": "rect",
+   "gaps": {
+    "38": 2.5
+   },
+   "body_w": 45.88,
+   "body_h": 5.45
+  },
+  {
+   "stem": "EDGE-SAMTEC-MEC5-RA",
+   "positions": [
+    160
+   ],
+   "description": "Samtec MEC5 right angle 0.5 mm edge card socket, {N} positions",
+   "note": "Samtec print MEC5-XXX-XX-X-RA-XX-XR rev E, mec5-xxx-xx-x-ra-xx-xr-mkt.pdf sheet 1 (Fig 1 bottom view, Table 1). The print has no recommended PCB layout; the pads are the solder feet of its bottom view, read from the PDF's vector drawing (scale 3:1 = 8.504 pt/mm, checked against E = 27.00 for the -050 shown): feet 0.23 wide (1.96 pt) x 0.90 long (7.6 / 7.7 pt), pitch 0.50 (printed: 0.500+-0.070), the two rows in the same columns and 3.10 apart centre to centre (26.35 pt, measured, not printed). Tail span E = (No OF POS - 1) x 0.5 (-030: 14.50, -040: 19.50) or, with the key gap, (No OF POS + 4) x 0.5 (-070: 37.00, -080: 42.00; Table 1). The key gap is 3.00 centre to centre (3.00+-0.10 printed) after the first D/0.5 + 1 tails from pin 01 (D = 18.50 for -070, 21.00 for -080; no gap for -030 / -040: 'polarization rib is not present on -030 & -040'). The bottom view shares x with the front view (pin 01 at the left), so this top-view footprint is mirrored: pin 1 at the right. Odd pins (row 01) are the row nearer the front (assumption), i.e. y = -1.55; even pins +1.55. The print does not locate the housing relative to the feet: the origin is the middle of the two foot rows (x centred on the tails), the housing is drawn A wide (Table 1: 23.38 / 28.38 / 45.88 / 50.88 = No OF POS x 0.5 + 8.38, +2.50 with the key gap) and 5.45 deep (5.45 REF), centred on that origin - an approximation. Weld tabs (W2) and pegs are not drawn.",
+   "numbering": "odd-even",
+   "pitch": 0.5,
+   "dir": "rtl,rtl",
+   "row_y": "-1.55,1.55",
+   "pad_w": 0.23,
+   "pad_h": 0.9,
+   "shape": "rect",
+   "gaps": {
+    "43": 2.5
+   },
+   "body_w": 50.88,
+   "body_h": 5.45
+  },
+  {
+   "stem": "EDGE-SAMTEC-ER18-B",
+   "positions": [
+    38
+   ],
+   "description": "Samtec ERI8 right angle 0.8 mm edge card socket, {N} positions",
+   "note": "Samtec print ERI8-XXX-X-D-RA-X-XR rev F, eri8-xxx-x-d-ra-x-xr-mkt.pdf sheet 1 (Fig 1: front view, plan view, bottom view, Section A-A, Table 2). The print has no recommended PCB layout; the pads are the solder feet of its bottom view, read from the PDF's vector drawing (scale 2.5:1 = 7.087 pt/mm, checked against ø1.32 and A = 28.68): feet 0.30 wide (2.13 pt) x 0.89 long (6.3 pt) at y = +-5.27 (centres 74.75 pt = 10.55 apart; toe to toe 81.1 pt = 11.44, printed 11.43 [.450] REF), pitch 0.80 (printed), the two rows in the same columns, first-to-last (No OF POS - 1) x 0.8 (B = C = 14.40 / 24.00, Table 2); the connector's tails leave both the front and the rear side of the housing. Origin: the centre of the 8.40 [.331] REF deep, A wide housing outline (A = 19.08 / 28.68), which is also the centre of the tails. Pegs: a round ø1.32 (ø1.32 [.052] REF) and an oblong 1.10 x 1.32 (1.10 and 1.32 REF), both 1.25 off the housing centre (measured: 8.9 pt; 2.95 REF from the top edge is the printed distance of the same pegs) and (No OF POS - 1) x 0.4 + 1.44 from the centre (E = 17.28 / 26.88 = tail span + 2.88, Table 2). The bottom view shares x with the front view (pin 01 at the right), so this top-view footprint is mirrored: pin 1 at the left, the round peg at the right. Pins 1..19 (positions 01..19) are on the -y row and the rest on the +y row, and the pegs sit on the -y side of the centre: assumptions (the print does not say which row leaves which side).",
+   "numbering": "halves",
+   "pitch": 0.8,
+   "dir": "ltr,ltr",
+   "row_y": "-5.27,5.27",
+   "pad_w": 0.3,
+   "pad_h": 0.89,
+   "shape": "rect",
+   "extras": [
+    {
+     "pin": 0,
+     "x": "L0/2+1.44",
+     "y": -1.25,
+     "width": 1.32,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.32,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2-1.44",
+     "y": -1.25,
+     "width": 1.1,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 1.32,
+     "plated": false
+    }
+   ],
+   "body_w": 19.08,
+   "body_h": 8.4
+  },
+  {
+   "stem": "EDGE-SAMTEC-ER18-B",
+   "positions": [
+    62
+   ],
+   "description": "Samtec ERI8 right angle 0.8 mm edge card socket, {N} positions",
+   "note": "Samtec print ERI8-XXX-X-D-RA-X-XR rev F, eri8-xxx-x-d-ra-x-xr-mkt.pdf sheet 1 (Fig 1: front view, plan view, bottom view, Section A-A, Table 2). The print has no recommended PCB layout; the pads are the solder feet of its bottom view, read from the PDF's vector drawing (scale 2.5:1 = 7.087 pt/mm, checked against ø1.32 and A = 28.68): feet 0.30 wide (2.13 pt) x 0.89 long (6.3 pt) at y = +-5.27 (centres 74.75 pt = 10.55 apart; toe to toe 81.1 pt = 11.44, printed 11.43 [.450] REF), pitch 0.80 (printed), the two rows in the same columns, first-to-last (No OF POS - 1) x 0.8 (B = C = 14.40 / 24.00, Table 2); the connector's tails leave both the front and the rear side of the housing. Origin: the centre of the 8.40 [.331] REF deep, A wide housing outline (A = 19.08 / 28.68), which is also the centre of the tails. Pegs: a round ø1.32 (ø1.32 [.052] REF) and an oblong 1.10 x 1.32 (1.10 and 1.32 REF), both 1.25 off the housing centre (measured: 8.9 pt; 2.95 REF from the top edge is the printed distance of the same pegs) and (No OF POS - 1) x 0.4 + 1.44 from the centre (E = 17.28 / 26.88 = tail span + 2.88, Table 2). The bottom view shares x with the front view (pin 01 at the right), so this top-view footprint is mirrored: pin 1 at the left, the round peg at the right. Pins 1..31 (positions 01..31) are on the -y row and the rest on the +y row, and the pegs sit on the -y side of the centre: assumptions (the print does not say which row leaves which side).",
+   "numbering": "halves",
+   "pitch": 0.8,
+   "dir": "ltr,ltr",
+   "row_y": "-5.27,5.27",
+   "pad_w": 0.3,
+   "pad_h": 0.89,
+   "shape": "rect",
+   "extras": [
+    {
+     "pin": 0,
+     "x": "L0/2+1.44",
+     "y": -1.25,
+     "width": 1.32,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.32,
+     "plated": false
+    },
+    {
+     "pin": 0,
+     "x": "-L0/2-1.44",
+     "y": -1.25,
+     "width": 1.1,
+     "height": 1.32,
+     "shape": "round",
+     "drill": 1.1,
+     "slotLength": 1.32,
+     "plated": false
+    }
+   ],
+   "body_w": 28.68,
+   "body_h": 8.4
+  }
+ ]
+}

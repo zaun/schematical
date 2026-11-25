@@ -1,0 +1,13 @@
+stem	positions	footprint	note
+EDGE-TE-CROWN-EDGE-ELCON-D	4	EDGE-TE-CROWN-EDGE-ELCON-C-4	6651170-3 (short solder tail) is in the table of drawing C-6651170 (sheet 1) with the same recommended hole pattern (40X 1.02, 3.33 rows, 12.90 groups: sheet 4) and in catalog 1773096 p.177 (20 x 1.02, 22.90 span, 2.90 between groups, 3.33 between rows); compared by hand: same hole centres, same count, same 4 contacts
+EDGE-TE-CROWN-EDGE-ELCON-F	4	EDGE-TE-CROWN-EDGE-ELCON-C-4	6651170-1 is the standard solder tail of the same drawing C-6651170 (same sheet 4 layout and holes as -2 and -3): identical land pattern
+EDGE-TE-MINI-COOL-EDGE-IO	74	EDGE-TE-MINI-COOL-EDGE-0-60MM-74	same drawing C-2379397 (Mini Cool Edge IO integrated connector, 74P), the part 1-2379397-x is a table row of the same sheet 1: identical land pattern
+EDGE-TE-PCIE-GEN-5-C	98	EDGE-TE-DDECONTROLLER-658B37-98	drawing C-2384214 (1.5 solder tab and center post) sheet 3 has the same numbers as C-2384030 (E 52.20, F 37, G 39.45, 1.35 / 1.65, 0.53 x 2.00 pads, 3.60 rows, slots 1.10 x 2.30, dia 1.20 post): compared by hand
+EDGE-TE-PCIE-GEN-5-C	164	EDGE-TE-DDECONTROLLER-658B37-164	drawing C-2384214 sheet 3 has the same numbers as C-2384030 (E 85.20, F 70, G 72.45, same pads, slots and post): compared by hand
+EDGE-TE-PCIE-GEN-5-D	98	EDGE-TE-PCIE-GEN-5-98	same PDF and drawing C-2378762 (the 4-2378762-3 part is a table row of it)
+EDGE-TE-PCIE-GEN-5-D	164	EDGE-TE-PCIE-GEN-5-164	same PDF and drawing C-2378762 (the 4-2378762-3 part is a table row of it)
+EDGE-TE-MINI-CROWN-EDGE-ELCON-E	30	EDGE-TE-MINI-CROWN-EDGE-ELCON-C-30P-0	drawing C-1651929 sheet 4 has the same 54-hole pattern as C-1766436 sheet 4 (10.53, 36.07, 66.77, 2X 9.70, 9.70, 2.50 TYP, rows 3.33 / 5.08, 54 holes): compared by hand; the hole diameter (1.02) is printed on 1766436 only
+EDGE-TE-HD	48	EDGE-TE-HD-48P-0	the line's own footprint: 34 pins of the 48 positions, written as an all-pad row (N = 0 of the generator) because the pins P1-P14 / S1-S20 do not follow one of its numberings
+EDGE-TE-MINI-CROWN-EDGE-ELCON	30	EDGE-TE-MINI-CROWN-EDGE-ELCON-30P-0	the line's own footprint: an all-pad row (N = 0 of the generator) because power lands and signal lands of a row differ in size and row distance
+EDGE-TE-MINI-CROWN-EDGE-ELCON-C	30	EDGE-TE-MINI-CROWN-EDGE-ELCON-C-30P-0	the line's own footprint: an all-pad row (N = 0 of the generator), as above
+EDGE-TE-MINI-CROWN-EDGE-ELCON-D	38	EDGE-TE-MINI-CROWN-EDGE-ELCON-D-38P-0	the line's own footprint: an all-pad row (N = 0 of the generator), as above

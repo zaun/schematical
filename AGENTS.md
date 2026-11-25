@@ -25,6 +25,10 @@
   arguments for help). Never add made-to-order parts, or any part with no
   stock, even when the datasheet or ordering table lists it. This rule is
   for adding only: a part already in the catalog stays, in stock or not.
+- Look stock up in Safari, not with `scripts/digikey.js`: `scripts/safari-digikey.sh`
+  loads a DigiKey category page in a tab of the Safari window that has a DigiKey
+  page open and prints rows or a JavaScript result (`scripts/safari-digikey-pdf.sh`
+  fetches DigiKey-hosted PDFs). Both explain their setup in their header.
 - Before adding parts from a datasheet PDF, check whether its parts are still
   made. If **every** part the PDF covers is obsolete, do not add any of them:
   delete the PDF and record it in `datasheets/obsolete-not-included.md` (PDF

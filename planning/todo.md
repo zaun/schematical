@@ -63,7 +63,7 @@
 - [x] Add default power net classes for common voltages (5V and 3V3)
 - [x] Add default logic net classes for common voltages (5V and 3V3)
 - [ ] (plan-51 written, not built) For DIP and PLCC chips have a toggle to use a socket footprint. This means each of these needs a secondary part picker, when in socket mode then need a button to show a small dialog listing compatible sockets to choose from. A prereq for this is adding the socket parts to the part picker database.
-- [ ] (plan-54 written, not built) Add card edge sockets, and memory / SIM card sockets and DIMM / SO-DIMM module sockets: from the top three makers of each, Active parts only, no generics
+- [x] Add card edge sockets, and memory / SIM card sockets and DIMM / SO-DIMM module sockets: from the top three makers of each, Active parts only, no generics (plan-54: memory / SIM, module and card-edge sockets from Same Sky, Amphenol ICC, GCT, TE Connectivity, Molex and Samtec; Active parts only)
 
 ## Manufacturing (a board can't be ordered without these)
 
@@ -82,6 +82,10 @@
 - [x] Add voltage regulators: 78xx, AMS1117, LM317, LDOs, and common buck
       modules. (plan-42: TI, ADI, Microchip; AMS1117 and buck modules out of
       scope)
+- [x] Add power switches: integrated ideal diodes, load switches, current-limited
+      and USB switches (plan-55: top three makers per family, Active parts only;
+      power muxes, external-FET controllers, eFuses and hot-swap controllers out
+      of scope)
 - [x] Add hobby microcontrollers: ATmega328P, ATtiny, RP2040, ESP32
       modules. The bus-CPU kind only covers 6502/65816/Z80. These 
       microcontrollers need a `simulated` property set to false. When any
@@ -90,8 +94,11 @@
 - [x] Add crystals and resonators (oscillators exist, crystals don't). (plan-44:
       Abracon, ECS, Suntsu; SAW, overtone and thermistor parts out of scope)
 - [ ] Add inductors, fuses / polyfuses, relays and buzzers. (plan-47 written, not built)
-- [ ] Add screw terminals and JST-XH/PH connectors (check what the 222
-      existing connectors already cover first). (plan-45 written, not built)
+- [x] Add screw terminals and JST-XH/PH connectors (check what the 222
+      existing connectors already cover first). (plan-45: Phoenix Contact,
+      Weidmüller, Würth Elektronik terminal blocks; JST XH, PH, EH, ZH, SH,
+      GH, VH headers; Reliance North America and the XH/PH-style headers of
+      Pololu have no maker datasheet, so are out)
 - [x] Allow parts with a symbol, footprint and BOM data but no simulation
       model, so passives and analog parts don't each need a backend model.
       (`"simulated": false`, plan-36; docs/parts-format.md)
@@ -170,7 +177,7 @@ added. One item per family; 248 parts in all.
 
 - [ ] regulator: 45 parts (plan-42).
 - [ ] inductor: 26 parts.
-- [ ] connector (other than the two USB-C receptacles plan-43 added): 22 parts.
+- [ ] connector (other than the two USB-C receptacles plan-43 added): 15 parts.
 - [ ] protection: 18 parts.
 - [ ] bus-switch: 17 parts.
 - [ ] serial-memory: 16 parts.

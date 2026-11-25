@@ -24,15 +24,15 @@
 ## Description
 
 The SNx4AHC14 devices contain six independent inverters. These devices
-perform the boolean function Y = !{A}.
+perform the boolean function Y = !{A}. [[1::1]]
 
 Each circuit functions as an independent inverter, but, because of the
 Schmitt-Trigger action, the inverters have different input threshold
-levels for positive-going (V~T+~) and negative-going (V~T–~) signals.
+levels for positive-going (V~T+~) and negative-going (V~T–~) signals. [[1::3]]
 
 Operating range: 2V to 5.5V. ±8mA output drive at 5V. Schmitt-Trigger
 inputs enable input noise resistance. Low power consumption: 20µA
-maximum I~CC~. Latch-up performance exceeds 250mA per JESD 17.
+maximum I~CC~. Latch-up performance exceeds 250mA per JESD 17. [[1::2]]
 
 ## Pinout
 
@@ -57,29 +57,30 @@ maximum I~CC~. Latch-up performance exceeds 250mA per JESD 17.
 GND: Ground
 VCC: Power supply
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
 The SNx4AHC14 Schmitt-Trigger devices contain six independent
-inverters. They perform the Boolean function Y = !{A} in positive logic.
+inverters. They perform the Boolean function Y = !{A} in positive logic. [[10::1]]
 
 Schmitt-Trigger inputs are designed to provide a minimum separation
 between positive and negative switching thresholds. This allows for
 noisy or slow inputs that would cause problems such as oscillation or
-excessive current draw with normal CMOS inputs.
+excessive current draw with normal CMOS inputs. [[10::2]]
 
 Conversion note: the functional block diagram shows one inverter with a Schmitt-trigger symbol, input A and output Y.
 
 The wide operating range of the device allows it to be used in a
 variety of systems that use different logic levels. The outpus can
 drive up to 10 LSTTL loads each. The balanced drive outputs can source
-or sink 8 mA at 5-V V~CC~.
+or sink 8 mA at 5-V V~CC~. [[10::3]]
 
 Source error: "outpus" is the source's spelling of "outputs" (Feature Description, p.10); kept as printed.
 
 ## Function tables
 
-Table 7-1 lists the functional modes of the SNx4AHC14.
+Table 7-1 lists the functional modes of the SNx4AHC14. [[10::4]]
 
 ```table id=function caption="Function table"
 | Input A | Output Y |
@@ -87,6 +88,7 @@ Table 7-1 lists the functional modes of the SNx4AHC14.
 | H | L |
 | L | H |
 ```
+[[3::Table 4-1]]
 
 ## Absolute maximum ratings
 
@@ -106,6 +108,7 @@ Table 7-1 lists the functional modes of the SNx4AHC14.
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -116,6 +119,7 @@ Table 7-1 lists the functional modes of the SNx4AHC14.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -136,6 +140,7 @@ Table 7-1 lists the functional modes of the SNx4AHC14.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See TI application report, Implications of Slow or Floating CMOS Inputs (SCBA004).
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -152,6 +157,7 @@ Table 7-1 lists the functional modes of the SNx4AHC14.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -204,6 +210,7 @@ Table 7-1 lists the functional modes of the SNx4AHC14.
 [3] Source error: printed as I~OL~ = –8 mA; the row gives V~OH~, and the recommended operating conditions give I~OH~ = –8 mA at V~CC~ = 5 V ± 0.5 V, so the condition is I~OH~.
 [4] Source error: printed as I~OH~ = 50 µA and I~OH~ = 4 mA; the rows give V~OL~, and the recommended operating conditions give I~OL~ = 50 µA and 4 mA, so the condition is I~OL~.
 ```
+[[5::table #2]] [[6::table #1]]
 
 ## Switching characteristics
 
@@ -225,6 +232,7 @@ Table 7-1 lists the functional modes of the SNx4AHC14.
 
 [1] On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[7::table #1]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="V~CC~ = 5 V ± 0.5 V and over operating free-air temperature range (unless otherwise noted; see Parameter Measurement Information)"
 | Symbol | Test conditions | < | Min | Typ | Max | Unit |
@@ -242,12 +250,13 @@ Table 7-1 lists the functional modes of the SNx4AHC14.
 
 [1] Source conflict: the 5-V table (p.7) marks these values with (1) and prints no note under the table; the 3.3-V table (p.7) prints note (1): On products compliant to MIL-PRF-38535, this parameter is not production tested.
 ```
+[[7::table #2]]
 
 Unconfirmed: both switching tables print the T~A~ = 25°C values 8.3, 10.8, 5.5 and 7 in the MIN column and nothing under TYP, while the minimum over the temperature range is 1 ns.
 
 ## Typical characteristics
 
-C~L~ = 50 pF (unless otherwise noted)
+C~L~ = 50 pF (unless otherwise noted) [[7::3]]
 
 ```curve id=tpd-vcc caption="Propagation delay vs supply voltage"
 {"x": {"label": "Supply Voltage VCC", "unit": "V", "range": [3, 5]},
@@ -256,26 +265,29 @@ C~L~ = 50 pF (unless otherwise noted)
   {"label": "Propagation delay", "points": [[3, 13.1], [4, 10.9], [4.4, 10], [5, 8.7]]}
  ]}
 ```
+[[7::Figure 5-1]]
 
 ## Parameter measurement information
 
-C~L~ includes probe and jig capacitance.
+C~L~ includes probe and jig capacitance. [[9::1]]
 
 All input pulses are supplied by generators having the following
-characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns.
+characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. [[9::1]]
 
 The outputs are measured one at a time with one input transition per
-measurement.
+measurement. [[9::1]]
 
-All parameters and waveforms are not applicable to all devices.
+All parameters and waveforms are not applicable to all devices. [[9::1]]
 
 ```figure ref=load-cmos-50pf caption="Figure 6-1. Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[8::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Figure 6-5. Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% V~CC~
 ```
+[[8::Figure 6-5]]
 
 Conversion note: the source also shows the load circuit for 3-state and open-drain outputs (Figure 6-2, R~L~ = 1 kΩ) with its S1 table (Table 6-1), and the pulse-duration (Figure 6-3), setup-and-hold (Figure 6-4) and enable/disable (Figure 6-6) waveforms with their note B, which are not drawn here.
 
@@ -285,12 +297,12 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[11::1]]
 
 The SN74AHC14 device is a Schmitt-Trigger input CMOS device that can be
 used for a multitude of inverting buffer type functions. The application
 shown here takes advantage of the Schmitt-Trigger inputs to produce a
-delay for a logic input.
+delay for a logic input. [[11::2]]
 
 Conversion note: the simplified application schematic (Figure 8-1) shows INPUT on 1A, a resistor R~1~ from 1Y to 2A, a capacitor C~1~ from 2A to ground, and OUTPUT on 2Y.
 
@@ -299,13 +311,13 @@ Conversion note: the simplified application schematic (Figure 8-1) shows INPUT o
 This device uses CMOS technology. Take care to avoid bus contention
 because it can drive currents that would exceed maximum limits. Parallel
 output drive can create fast edges into light loads so consider routing
-and load conditions to prevent ringing.
+and load conditions to prevent ringing. [[11::3]]
 
 ### Detailed design procedure
 
 This circuit is designed around an RC network that produces a slow
 input to the second inverter. The RC time constant, τ, is calculated
-from: τ = RC.
+from: τ = RC. [[11::4]]
 
 The delay time for this circuit is from
 t~delay(min)~ = –ln |1 – V~T+(min)~ / V~CC~| τ to
@@ -314,10 +326,10 @@ the delay is consistent for each device, but because the switching
 threshold is only ensured between the minimum and maximum value, the
 output pulse length varies between devices. These values must be
 calculated by using the minimum and maximum V~T+~ values in the
-Electrical Characteristics.
+Electrical Characteristics. [[11::5]]
 
 The resistor value must be chosen such that the maximum current to and
-from the SN74AHC14 is 8 mA at 5-V V~CC~.
+from the SN74AHC14 is 8 mA at 5-V V~CC~. [[11::6]]
 
 Conversion note: the application curve (Figure 8-2, ideal capacitor voltage and output voltage with positive switching threshold) plots the capacitor voltage V~C~ rising toward V~CC~ and the output V~OUT~ switching between t~delay(min)~ and t~delay(max)~, where V~C~ crosses the band from V~T+(min)~ to V~T+(max)~.
 
@@ -328,7 +340,7 @@ supply voltage rating located in the Recommended Operating Conditions.
 The V~CC~ terminal must have a good bypass capacitor to prevent power
 disturbance. TI recommends using a 0.1-µF capacitor on the V~CC~
 terminal, and must be placed as close as possible to the pin for best
-results.
+results. [[12::2]]
 
 ### Layout guidelines
 
@@ -343,7 +355,7 @@ to prevent them from floating. The logic level that must be applied to
 any particular unused input depends on the function of the device.
 Generally they are tied to GND or V~CC~, whichever makes more sense or
 is more convenient. Floating outputs are generally acceptable, unless
-the part is a transceiver.
+the part is a transceiver. [[12::3]]
 
 Conversion note: the layout diagram (Figure 8-3) shows two gates, one with its unused input tied to V~CC~ and one with its unused input tied to ground.
 
@@ -387,6 +399,7 @@ SN74AHC14PWR | Reel of 2000 | -40 to 125 | HA14
 SN74AHC14PWRG3 | Reel of 2000 | -40 to 125 | HA14
 SN74AHC14RGYR | Reel of 3000 | -40 to 125 | HA14
 ```
+[[14::table #1]] [[18::table #1]]
 
 ## Conversion notes
 

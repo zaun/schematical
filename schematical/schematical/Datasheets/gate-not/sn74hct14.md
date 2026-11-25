@@ -24,10 +24,10 @@
 ## Description
 
 The SNx4HCT14 devices contain six independent inverters. The devices
-perform the Boolean function Y = !{A} in positive logic.
+perform the Boolean function Y = !{A} in positive logic. [[1::1]]
 
 Operating Voltage Range of 4.5 V to 5.5 V. Outputs Can Drive Up to 10
-LSTTL Loads. Inputs Are TTL-Voltage Compatible.
+LSTTL Loads. Inputs Are TTL-Voltage Compatible. [[1::2]]
 
 ## Pinout
 
@@ -52,30 +52,31 @@ LSTTL Loads. Inputs Are TTL-Voltage Compatible.
 GND: Ground
 VCC: Power supply
 ```
+[[3::table #1]]
 
 ## Functional description
 
 The SNx4HCT14 Schmitt-Trigger devices contain six independent
 inverters. They perform the Boolean function Y = !{A} in positive
-logic.
+logic. [[8::1]]
 
 Schmitt-Trigger inputs are designed to provide a minimum separation
 between positive and negative switching thresholds. This allows for
 noisy or slow inputs that would cause problems such as oscillation or
-excessive current draw with normal CMOS inputs.
+excessive current draw with normal CMOS inputs. [[8::2]]
 
 Conversion note: the functional block diagram (p.8), like the logic diagram (p.1), shows one inverter with a Schmitt-trigger symbol, input A and output Y.
 
 The wide operating range of these devices allow them to be used in a
 variety of systems that use different logic levels. The outputs can
 drive up to 10 LSTTL loads each. The balanced drive outputs can source
-or sink 8 mA at 5-V V~CC~. This device is also input TTL compatible.
+or sink 8 mA at 5-V V~CC~. This device is also input TTL compatible. [[8::3]]
 
 Source conflict: the feature description (p.8) and the detailed design procedure (p.9) give 8 mA at 5-V V~CC~; the features list (p.1) prints "±4-mA Output Drive at 5 V".
 
 ## Function tables
 
-Table 1 lists the functional modes of the SNx4HCT14.
+Table 1 lists the functional modes of the SNx4HCT14. [[8::4]]
 
 ```table id=function caption="Function table"
 | Input A | Output Y |
@@ -83,6 +84,7 @@ Table 1 lists the functional modes of the SNx4HCT14.
 | H | L |
 | L | H |
 ```
+[[8::Table 1]]
 
 ## Absolute maximum ratings
 
@@ -102,6 +104,7 @@ Table 1 lists the functional modes of the SNx4HCT14.
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -112,6 +115,7 @@ Table 1 lists the functional modes of the SNx4HCT14.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -126,6 +130,7 @@ Table 1 lists the functional modes of the SNx4HCT14.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See the TI application report, Implications of Slow or Floating CMOS Inputs (SCBA004).
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -141,6 +146,7 @@ Table 1 lists the functional modes of the SNx4HCT14.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[4::table #4]]
 
 ## Electrical characteristics
 
@@ -192,12 +198,14 @@ Table 1 lists the functional modes of the SNx4HCT14.
 
 [1] This is the increase in supply current for each input that is at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[5::table #1]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load | 10 | pF |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -217,6 +225,7 @@ Table 1 lists the functional modes of the SNx4HCT14.
 | ^ | ^ | ^ | ^ | ^ | SN54HCT14 | | | 20 | ns |
 | ^ | ^ | ^ | ^ | ^ | SN74HCT14 | | | 17 | ns |
 ```
+[[6::table #2]]
 
 ## Typical characteristics
 
@@ -226,24 +235,26 @@ Conversion note: Figures 3 and 4 (p.7) plot the output voltage against the input
 
 ## Parameter measurement information
 
-C~L~ includes probe and test-fixture capacitance.
+C~L~ includes probe and test-fixture capacitance. [[7::3]]
 
 Phase relationships between waveforms were chosen arbitrarily. All
 input pulses are supplied by generators having the following
-characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ = 6 ns, t~f~ = 6 ns.
+characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ = 6 ns, t~f~ = 6 ns. [[7::4]]
 
 The outputs are measured one at a time with one input transition per
-measurement.
+measurement. [[7::5]]
 
-t~PLH~ and t~PHL~ are the same as t~pd~.
+t~PLH~ and t~PHL~ are the same as t~pd~. [[7::5]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit"
 CL: 50 pF
 ```
+[[7::Figure 5]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delay and output rise and fall times"
 VM: 1.3 V
 ```
+[[7::Figure 3]]
 
 Conversion note: in the source's voltage waveforms (Figure 5, p.7) the input swings between 0 V and 3 V in the propagation delay waveforms and between 0 V and V~CC~ in the input rise and fall times waveform, and input and outputs are measured at 1.3 V, 10% and 90%.
 
@@ -253,12 +264,12 @@ Information in the following applications sections is not part of the
 TI component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining
 suitability of components for their purposes. Customers should validate
-and test their design implementation to confirm system functionality.
+and test their design implementation to confirm system functionality. [[9::1]]
 
 The SN74HCT14 device is a Schmitt-Trigger input CMOS device that can be
 used for a multitude of inverting buffer type functions. The
 application shown here takes advantage of the Schmitt-Trigger inputs to
-produce a delay for a logic input.
+produce a delay for a logic input. [[9::2]]
 
 Conversion note: Figure 6 (p.9), the simplified application schematic, shows INPUT driving inverter 1A to 1Y, resistor R~1~ from 1Y to the input 2A with capacitor C~1~ from 2A to ground, and 2Y as OUTPUT.
 
@@ -267,13 +278,13 @@ Conversion note: Figure 6 (p.9), the simplified application schematic, shows INP
 This device uses CMOS technology. Take care to avoid bus contention,
 because it can drive currents that would exceed maximum limits.
 Parallel output drive can create fast edges into light loads, so
-consider routing and load conditions to prevent ringing.
+consider routing and load conditions to prevent ringing. [[9::3]]
 
 ### Detailed design procedure
 
 This circuit is designed around an RC network that produces a slow
 input to the second inverter. The RC time constant, τ, is calculated
-from: τ = RC.
+from: τ = RC. [[9::4]]
 
 The delay time for this circuit is from
 t~delay(min)~ = –ln |1 – V~T+(min)~ / V~CC~| τ to
@@ -282,10 +293,10 @@ the delay is consistent for each device, but because the switching
 threshold is only ensured between the minimum and maximum value, the
 output pulse length varies between devices. These values must be
 calculated by using the minimum and maximum ensured V~T+~ values in the
-Electrical Characteristics.
+Electrical Characteristics. [[9::5]]
 
 The resistor value must be chosen such that the maximum current to and
-from the SN74HCT14 is 8 mA at 5-V V~CC~.
+from the SN74HCT14 is 8 mA at 5-V V~CC~. [[9::6]]
 
 Conversion note: Figure 7 (p.10), the application curve, shows the ideal capacitor voltage V~C~ rising toward V~CC~ over time and the output voltage V~OUT~ switching between t~delay(min)~ and t~delay(max)~, where V~C~ crosses V~T+(min)~ and V~T+(max)~.
 
@@ -296,7 +307,7 @@ supply voltage rating located in the Recommended Operating Conditions.
 The V~CC~ terminal must have a good bypass capacitor to prevent power
 disturbance. TI recommends using a 0.1-µF capacitor on the V~CC~
 terminal, and must be placed as close as possible to the pin for best
-results.
+results. [[10::2]]
 
 ### Layout guidelines
 
@@ -311,7 +322,7 @@ to prevent them from floating. The logic level that must be applied to
 any particular unused input depends on the function of the device.
 Generally they are tied to GND or V~CC~, whichever makes more sense or
 is more convenient. Floating outputs are generally acceptable, unless
-the part is a transceiver.
+the part is a transceiver. [[10::3]]
 
 Conversion note: Figure 8 (p.10), the layout diagram, shows a gate with its unused input tied to V~CC~ and a gate with its unused input tied to ground.
 
@@ -345,6 +356,7 @@ SN74HCT14N | Tube of 25 | -40 to 85 | SN74HCT14N
 SN74HCT14PWR | Reel of 2000 | -40 to 85 | HT14
 SN74HCT14PWT | | -40 to 85 | HT14 | Obsolete
 ```
+[[12::table #1]]
 
 ## Conversion notes
 

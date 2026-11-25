@@ -111,7 +111,7 @@ static void init_outputs(SeqOutput *outputs, const size_t *pins, size_t n) {
 
 static const char *const TRANSPARENT_KEYS[] = {
     "units", "enableActive", "polarity", "outputEnableActive", "presetActive", "clearActive",
-    "presetWins", "output", NULL
+    "presetWins", "output", "phase", NULL
 };
 
 typedef struct {
@@ -122,7 +122,7 @@ typedef struct {
     TlUnitNames units[LATCH_MAX_UNITS];
     size_t unit_count;
     int enable_high;
-    const char *polarity;
+    const char *polarity, *phase;
     int oe_high, pre_high, clr_high;
     int preset_wins;
     SeqOutputStyle style;
@@ -136,7 +136,7 @@ typedef struct {
 typedef struct {
     TlUnit units[LATCH_MAX_UNITS];
     size_t unit_count;
-    size_t polarity;
+    size_t polarity, phase;
     int preset_wins;
     SeqOutputStyle style;
 } TlBound;
@@ -205,6 +205,7 @@ static void *tl_load(KindContext *ctx, const cJSON *json, unsigned *units_out) {
         (any_pre && seq_active(ctx, json, "presetActive", &dev->pre_high) != 0) ||
         (any_clr && seq_active(ctx, json, "clearActive", &dev->clr_high) != 0) ||
         (any_both && kind_bool(ctx, json, "presetWins", &dev->preset_wins) != 0) ||
+        seq_optional_name(ctx, json, "phase", &dev->phase) != 0 ||
         seq_output_style(ctx, json, &dev->style) != 0) {
         return NULL;
     }
@@ -243,7 +244,8 @@ static void *tl_bind(KindContext *ctx, const void *raw, const PartPin *pins, siz
         }
         kind_pop(ctx);
     }
-    if (seq_bind(ctx, pins, count, dev->polarity, &b->polarity) != 0) {
+    if (seq_bind(ctx, pins, count, dev->polarity, &b->polarity) != 0 ||
+        seq_bind(ctx, pins, count, dev->phase, &b->phase) != 0) {
         return NULL;
     }
     b->unit_count = dev->unit_count;
@@ -295,6 +297,7 @@ static void tl_eval(Sim *sim, SimInstance *inst, LatchHeader *h, int at_start) {
         Merge m = {0, LOGIC_X};
         int p, c, e;
         int enable;
+        LogicValue shown;
 
         for (p = lo(pre); p <= hi(pre); p++) {
             for (c = lo(clr); c <= hi(clr); c++) {
@@ -313,8 +316,15 @@ static void tl_eval(Sim *sim, SimInstance *inst, LatchHeader *h, int at_start) {
         }
         s->stored[i] = merged(&m);
         enable = seq_enable(sim, inst, &u->oe);
-        seq_drive(sim, inst, &s->q[i], seq_gate(s->stored[i], enable), b->style, h->timing);
-        seq_drive(sim, inst, &s->qn[i], seq_gate(seq_not(s->stored[i]), enable), b->style,
+        shown = s->stored[i];
+        if (b->phase != SEQ_NO_PIN) {
+            int ph = seq_read(sim, inst, b->phase);
+
+            /* q = stored bit XOR phase (an LCD driver's display-frequency input) */
+            shown = ph < 0 ? LOGIC_X : ph ? seq_not(shown) : shown;
+        }
+        seq_drive(sim, inst, &s->q[i], seq_gate(shown, enable), b->style, h->timing);
+        seq_drive(sim, inst, &s->qn[i], seq_gate(seq_not(shown), enable), b->style,
                   h->timing);
     }
 }
@@ -986,7 +996,7 @@ static const LatchModel MODELS[] = {
 static const char *const DEVICE_KEYS[] = {
     "model", "timing",
     "units", "enableActive", "polarity", "outputEnableActive", "presetActive", "clearActive",
-    "presetWins", "output",
+    "presetWins", "output", "phase",
     "address", "data", "outputs", "enable", "clear", "invert",
     "inputsActive", "both", "outputEnable",
     "inputs", "latch", "lampTest", "blank", "segments", "glyphs",

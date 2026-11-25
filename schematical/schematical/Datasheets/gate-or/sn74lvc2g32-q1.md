@@ -25,14 +25,14 @@
 
 This dual two-input positive-OR gate is designed for 1.65-V to 5.5-V
 collector supply voltage operation. The SN74LVC2G32-Q1 performs the
-Boolean function Y = A + B or Y = !{!{A} • !{B}} in positive logic.
+Boolean function Y = A + B or Y = !{!{A} • !{B}} in positive logic. [[1::3]] [[1::4]]
 
-Qualified for automotive applications. Inputs accept voltages to 5.5 V.
+Qualified for automotive applications. Inputs accept voltages to 5.5 V. [[1::1]]
 
 This device is fully specified for partial-power-down applications using
 the off-state current. The off-state current circuitry disables the
 outputs, preventing damaging current backflow through the device when it
-is powered down.
+is powered down. [[1::6]]
 
 ## Pinout
 
@@ -48,6 +48,7 @@ is powered down.
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -59,6 +60,7 @@ VCC: Supply voltage
 | X | H | H |
 | L | L | L |
 ```
+[[2::table #1]]
 
 ## Absolute maximum ratings
 
@@ -81,6 +83,7 @@ VCC: Supply voltage
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output clamp-current ratings are observed.
 [3] The value of V~CC~ is provided in the recommended operating conditions table.
 ```
+[[2::table #2]]
 
 ## Recommended operating conditions
 
@@ -116,6 +119,7 @@ VCC: Supply voltage
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Thermal information
 
@@ -132,6 +136,7 @@ VCC: Supply voltage
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report, SPRA953.
 ```
+[[2::table #3]]
 
 ## Electrical characteristics
 
@@ -158,6 +163,7 @@ VCC: Supply voltage
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 ```
+[[4::table #1]]
 
 ```table id=opchar caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 1.8 V | V~CC~ = 2.5 V | V~CC~ = 3.3 V | V~CC~ = 5 V | Unit |
@@ -165,6 +171,7 @@ VCC: Supply voltage
 |---|---|---|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 17 | 17 | 17 | 19 | pF |
 ```
+[[4::table #2]]
 
 ## Switching characteristics
 
@@ -174,15 +181,16 @@ VCC: Supply voltage
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 2.4 | 11 | 1 | 7.5 | 1 | 5.8 | 1 | 4.7 | ns |
 ```
+[[4::table #3]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
-per measurement. t~PLH~ and t~PHL~ are the same as t~pd~.
+per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. [[5::1]]
 
-All parameters and waveforms are not applicable to all devices.
+All parameters and waveforms are not applicable to all devices. [[5::1]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -197,11 +205,13 @@ setup-and-hold and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[5::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[5::Figure 1]]
 
 ```table id=test-conditions caption="Test conditions (Figure 1)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -212,10 +222,12 @@ CL: see table
 | 3.3 V ± 0.3 V | 3 V | ≤ 2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤ 2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[5::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[5::Figure 1]]
 
 ## Package
 
@@ -227,6 +239,7 @@ VM: see table
 ```ordering
 SN74LVC2G32QDCURQ1 | Reel of 3000 | -40 to 125 | SUCQ
 ```
+[[1::table #2]]
 
 ## Conversion notes
 

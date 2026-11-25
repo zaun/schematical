@@ -1,0 +1,4453 @@
+{
+ "kind": "leddriver",
+ "newDevices": [
+  {
+   "id": "ICM7228A",
+   "function": "8-digit driver",
+   "description": "8-digit microprocessor-compatible LED display decoder driver, sequential or single-digit update, common anode",
+   "drawer": [
+    "Displays & Indicators",
+    "LED drivers"
+   ],
+   "note": "icm7228-intersil-2015.pdf p.3 pinout, p.5-6 electrical and switching specifications, p.7 write timing and digit multiplex, p.8-10 pin tables, p.11-12 data entry modes (control register, sequential 8-digit update, single digit update, Table 4 digit address), p.13 Tables 5-6 display formats and no-decode segments, p.14 shutdown and multiplexing (digit order D2 D5 D1 D7 D8 D6 D4 D3, 320 us per digit)",
+   "pinouts": {
+    "p28": [
+     {
+      "number": 1,
+      "name": "SEG c",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "SEG e",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "SEG b",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "DP",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "ID6 (HEXA/CODE B)",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "ID5 (DECODE)",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "ID7 (DATA COMING)",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "WRITE",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 9,
+      "name": "MODE",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "ID4 (SHUTDOWN)",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "ID1",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "ID0",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "ID2",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "ID3",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "DIGIT 1",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "DIGIT 2",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "DIGIT 5",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "DIGIT 8",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 20,
+      "name": "DIGIT 4",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "DIGIT 7",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "DIGIT 6",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "DIGIT 3",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "SEG f",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "SEG d",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "SEG g",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "SEG a",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "VSS",
+      "role": "ground"
+     }
+    ]
+   },
+   "vcc": [
+    4,
+    6
+   ],
+   "bus": {
+    "style": "parallel",
+    "data": [
+     "ID7 (DATA COMING)",
+     "ID6 (HEXA/CODE B)",
+     "ID5 (DECODE)",
+     "ID4 (SHUTDOWN)",
+     "ID3",
+     "ID2",
+     "ID1",
+     "ID0"
+    ],
+    "wr": {
+     "pin": "WRITE",
+     "active": 0
+    },
+    "address": [
+     "MODE"
+    ]
+   },
+   "registers": [
+    {
+     "name": "CTL",
+     "width": 12,
+     "reset": 0,
+     "note": "the control register: ID6 HEX, ID5 NODEC, ID4 RUN, ID3 BANK, ID2-0 ADDR as latched by a MODE-high write; BLK = display blanked by a sequential update; ST = data-entry state (0 single digit, 1-8 the digit the next sequential write fills, 9 sequential update finished)",
+     "fields": [
+      {
+       "name": "HEX",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "NODEC",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "RUN",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "BANK",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "ADDR",
+       "bits": [
+        6,
+        4
+       ]
+      },
+      {
+       "name": "BLK",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "ST",
+       "bits": [
+        11,
+        8
+       ]
+      }
+     ]
+    },
+    {
+     "name": "FLAGS",
+     "width": 8,
+     "reset": 0,
+     "note": "per digit: 1 = the digit was written while the control word said Decode (shown through the decoder), 0 = No Decode (raw segments)",
+     "fields": [
+      {
+       "name": "D1",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "D2",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "D3",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "D4",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "D5",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "D6",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "D7",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "D8",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG1",
+     "width": 8,
+     "reset": 0,
+     "note": "digit 1 RAM: bits 6-0 = ID6-ID0 as written, bit 7 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "SEG",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG2",
+     "width": 8,
+     "reset": 0,
+     "note": "digit 2 RAM: bits 6-0 = ID6-ID0 as written, bit 7 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "SEG",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG3",
+     "width": 8,
+     "reset": 0,
+     "note": "digit 3 RAM: bits 6-0 = ID6-ID0 as written, bit 7 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "SEG",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG4",
+     "width": 8,
+     "reset": 0,
+     "note": "digit 4 RAM: bits 6-0 = ID6-ID0 as written, bit 7 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "SEG",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG5",
+     "width": 8,
+     "reset": 0,
+     "note": "digit 5 RAM: bits 6-0 = ID6-ID0 as written, bit 7 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "SEG",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG6",
+     "width": 8,
+     "reset": 0,
+     "note": "digit 6 RAM: bits 6-0 = ID6-ID0 as written, bit 7 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "SEG",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG7",
+     "width": 8,
+     "reset": 0,
+     "note": "digit 7 RAM: bits 6-0 = ID6-ID0 as written, bit 7 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "SEG",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG8",
+     "width": 8,
+     "reset": 0,
+     "note": "digit 8 RAM: bits 6-0 = ID6-ID0 as written, bit 7 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "SEG",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "Control register (MODE high): ID7 data coming, ID6 hex, ID5 no decode, ID4 run, ID3 bank A, ID2-0 digit",
+      "in": "1 a b c d e fff",
+      "action": "nop",
+      "set": {
+       "CTL.ST": "a",
+       "CTL.BLK": "a",
+       "CTL.HEX": "b",
+       "CTL.NODEC": "c",
+       "CTL.RUN": "d",
+       "CTL.BANK": "e",
+       "CTL.ADDR": "f"
+      }
+     },
+     {
+      "name": "Sequential digit 1, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=1",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG1.SEG": "b",
+       "DIG1.DP": 0,
+       "FLAGS.D1": 1,
+       "CTL.ST": 2
+      }
+     },
+     {
+      "name": "Sequential digit 1, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=1",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG1.SEG": "b",
+       "DIG1.DP": 0,
+       "FLAGS.D1": 0,
+       "CTL.ST": 2
+      }
+     },
+     {
+      "name": "Sequential digit 1, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=1",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG1.SEG": "b",
+       "DIG1.DP": 1,
+       "FLAGS.D1": 1,
+       "CTL.ST": 2
+      }
+     },
+     {
+      "name": "Sequential digit 1, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=1",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG1.SEG": "b",
+       "DIG1.DP": 1,
+       "FLAGS.D1": 0,
+       "CTL.ST": 2
+      }
+     },
+     {
+      "name": "Sequential digit 2, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=2",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG2.SEG": "b",
+       "DIG2.DP": 0,
+       "FLAGS.D2": 1,
+       "CTL.ST": 3
+      }
+     },
+     {
+      "name": "Sequential digit 2, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=2",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG2.SEG": "b",
+       "DIG2.DP": 0,
+       "FLAGS.D2": 0,
+       "CTL.ST": 3
+      }
+     },
+     {
+      "name": "Sequential digit 2, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=2",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG2.SEG": "b",
+       "DIG2.DP": 1,
+       "FLAGS.D2": 1,
+       "CTL.ST": 3
+      }
+     },
+     {
+      "name": "Sequential digit 2, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=2",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG2.SEG": "b",
+       "DIG2.DP": 1,
+       "FLAGS.D2": 0,
+       "CTL.ST": 3
+      }
+     },
+     {
+      "name": "Sequential digit 3, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=3",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG3.SEG": "b",
+       "DIG3.DP": 0,
+       "FLAGS.D3": 1,
+       "CTL.ST": 4
+      }
+     },
+     {
+      "name": "Sequential digit 3, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=3",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG3.SEG": "b",
+       "DIG3.DP": 0,
+       "FLAGS.D3": 0,
+       "CTL.ST": 4
+      }
+     },
+     {
+      "name": "Sequential digit 3, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=3",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG3.SEG": "b",
+       "DIG3.DP": 1,
+       "FLAGS.D3": 1,
+       "CTL.ST": 4
+      }
+     },
+     {
+      "name": "Sequential digit 3, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=3",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG3.SEG": "b",
+       "DIG3.DP": 1,
+       "FLAGS.D3": 0,
+       "CTL.ST": 4
+      }
+     },
+     {
+      "name": "Sequential digit 4, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=4",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG4.SEG": "b",
+       "DIG4.DP": 0,
+       "FLAGS.D4": 1,
+       "CTL.ST": 5
+      }
+     },
+     {
+      "name": "Sequential digit 4, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=4",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG4.SEG": "b",
+       "DIG4.DP": 0,
+       "FLAGS.D4": 0,
+       "CTL.ST": 5
+      }
+     },
+     {
+      "name": "Sequential digit 4, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=4",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG4.SEG": "b",
+       "DIG4.DP": 1,
+       "FLAGS.D4": 1,
+       "CTL.ST": 5
+      }
+     },
+     {
+      "name": "Sequential digit 4, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=4",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG4.SEG": "b",
+       "DIG4.DP": 1,
+       "FLAGS.D4": 0,
+       "CTL.ST": 5
+      }
+     },
+     {
+      "name": "Sequential digit 5, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=5",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG5.SEG": "b",
+       "DIG5.DP": 0,
+       "FLAGS.D5": 1,
+       "CTL.ST": 6
+      }
+     },
+     {
+      "name": "Sequential digit 5, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=5",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG5.SEG": "b",
+       "DIG5.DP": 0,
+       "FLAGS.D5": 0,
+       "CTL.ST": 6
+      }
+     },
+     {
+      "name": "Sequential digit 5, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=5",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG5.SEG": "b",
+       "DIG5.DP": 1,
+       "FLAGS.D5": 1,
+       "CTL.ST": 6
+      }
+     },
+     {
+      "name": "Sequential digit 5, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=5",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG5.SEG": "b",
+       "DIG5.DP": 1,
+       "FLAGS.D5": 0,
+       "CTL.ST": 6
+      }
+     },
+     {
+      "name": "Sequential digit 6, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=6",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG6.SEG": "b",
+       "DIG6.DP": 0,
+       "FLAGS.D6": 1,
+       "CTL.ST": 7
+      }
+     },
+     {
+      "name": "Sequential digit 6, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=6",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG6.SEG": "b",
+       "DIG6.DP": 0,
+       "FLAGS.D6": 0,
+       "CTL.ST": 7
+      }
+     },
+     {
+      "name": "Sequential digit 6, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=6",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG6.SEG": "b",
+       "DIG6.DP": 1,
+       "FLAGS.D6": 1,
+       "CTL.ST": 7
+      }
+     },
+     {
+      "name": "Sequential digit 6, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=6",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG6.SEG": "b",
+       "DIG6.DP": 1,
+       "FLAGS.D6": 0,
+       "CTL.ST": 7
+      }
+     },
+     {
+      "name": "Sequential digit 7, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=7",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG7.SEG": "b",
+       "DIG7.DP": 0,
+       "FLAGS.D7": 1,
+       "CTL.ST": 8
+      }
+     },
+     {
+      "name": "Sequential digit 7, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=7",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG7.SEG": "b",
+       "DIG7.DP": 0,
+       "FLAGS.D7": 0,
+       "CTL.ST": 8
+      }
+     },
+     {
+      "name": "Sequential digit 7, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=7",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG7.SEG": "b",
+       "DIG7.DP": 1,
+       "FLAGS.D7": 1,
+       "CTL.ST": 8
+      }
+     },
+     {
+      "name": "Sequential digit 7, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=7",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG7.SEG": "b",
+       "DIG7.DP": 1,
+       "FLAGS.D7": 0,
+       "CTL.ST": 8
+      }
+     },
+     {
+      "name": "Sequential digit 8, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=8",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG8.SEG": "b",
+       "DIG8.DP": 0,
+       "FLAGS.D8": 1,
+       "CTL.ST": 9,
+       "CTL.BLK": 0
+      }
+     },
+     {
+      "name": "Sequential digit 8, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=8",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG8.SEG": "b",
+       "DIG8.DP": 0,
+       "FLAGS.D8": 0,
+       "CTL.ST": 9,
+       "CTL.BLK": 0
+      }
+     },
+     {
+      "name": "Sequential digit 8, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=8",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG8.SEG": "b",
+       "DIG8.DP": 1,
+       "FLAGS.D8": 1,
+       "CTL.ST": 9,
+       "CTL.BLK": 0
+      }
+     },
+     {
+      "name": "Sequential digit 8, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=8",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG8.SEG": "b",
+       "DIG8.DP": 1,
+       "FLAGS.D8": 0,
+       "CTL.ST": 9,
+       "CTL.BLK": 0
+      }
+     },
+     {
+      "name": "Single digit 1, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=0",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG1.SEG": "b",
+       "DIG1.DP": 0,
+       "FLAGS.D1": 1
+      }
+     },
+     {
+      "name": "Single digit 1, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=0",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG1.SEG": "b",
+       "DIG1.DP": 0,
+       "FLAGS.D1": 0
+      }
+     },
+     {
+      "name": "Single digit 1, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=0",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG1.SEG": "b",
+       "DIG1.DP": 1,
+       "FLAGS.D1": 1
+      }
+     },
+     {
+      "name": "Single digit 1, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=0",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG1.SEG": "b",
+       "DIG1.DP": 1,
+       "FLAGS.D1": 0
+      }
+     },
+     {
+      "name": "Single digit 2, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=1",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG2.SEG": "b",
+       "DIG2.DP": 0,
+       "FLAGS.D2": 1
+      }
+     },
+     {
+      "name": "Single digit 2, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=1",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG2.SEG": "b",
+       "DIG2.DP": 0,
+       "FLAGS.D2": 0
+      }
+     },
+     {
+      "name": "Single digit 2, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=1",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG2.SEG": "b",
+       "DIG2.DP": 1,
+       "FLAGS.D2": 1
+      }
+     },
+     {
+      "name": "Single digit 2, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=1",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG2.SEG": "b",
+       "DIG2.DP": 1,
+       "FLAGS.D2": 0
+      }
+     },
+     {
+      "name": "Single digit 3, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=2",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG3.SEG": "b",
+       "DIG3.DP": 0,
+       "FLAGS.D3": 1
+      }
+     },
+     {
+      "name": "Single digit 3, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=2",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG3.SEG": "b",
+       "DIG3.DP": 0,
+       "FLAGS.D3": 0
+      }
+     },
+     {
+      "name": "Single digit 3, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=2",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG3.SEG": "b",
+       "DIG3.DP": 1,
+       "FLAGS.D3": 1
+      }
+     },
+     {
+      "name": "Single digit 3, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=2",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG3.SEG": "b",
+       "DIG3.DP": 1,
+       "FLAGS.D3": 0
+      }
+     },
+     {
+      "name": "Single digit 4, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=3",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG4.SEG": "b",
+       "DIG4.DP": 0,
+       "FLAGS.D4": 1
+      }
+     },
+     {
+      "name": "Single digit 4, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=3",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG4.SEG": "b",
+       "DIG4.DP": 0,
+       "FLAGS.D4": 0
+      }
+     },
+     {
+      "name": "Single digit 4, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=3",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG4.SEG": "b",
+       "DIG4.DP": 1,
+       "FLAGS.D4": 1
+      }
+     },
+     {
+      "name": "Single digit 4, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=3",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG4.SEG": "b",
+       "DIG4.DP": 1,
+       "FLAGS.D4": 0
+      }
+     },
+     {
+      "name": "Single digit 5, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=4",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG5.SEG": "b",
+       "DIG5.DP": 0,
+       "FLAGS.D5": 1
+      }
+     },
+     {
+      "name": "Single digit 5, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=4",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG5.SEG": "b",
+       "DIG5.DP": 0,
+       "FLAGS.D5": 0
+      }
+     },
+     {
+      "name": "Single digit 5, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=4",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG5.SEG": "b",
+       "DIG5.DP": 1,
+       "FLAGS.D5": 1
+      }
+     },
+     {
+      "name": "Single digit 5, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=4",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG5.SEG": "b",
+       "DIG5.DP": 1,
+       "FLAGS.D5": 0
+      }
+     },
+     {
+      "name": "Single digit 6, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=5",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG6.SEG": "b",
+       "DIG6.DP": 0,
+       "FLAGS.D6": 1
+      }
+     },
+     {
+      "name": "Single digit 6, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=5",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG6.SEG": "b",
+       "DIG6.DP": 0,
+       "FLAGS.D6": 0
+      }
+     },
+     {
+      "name": "Single digit 6, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=5",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG6.SEG": "b",
+       "DIG6.DP": 1,
+       "FLAGS.D6": 1
+      }
+     },
+     {
+      "name": "Single digit 6, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=5",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG6.SEG": "b",
+       "DIG6.DP": 1,
+       "FLAGS.D6": 0
+      }
+     },
+     {
+      "name": "Single digit 7, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=6",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG7.SEG": "b",
+       "DIG7.DP": 0,
+       "FLAGS.D7": 1
+      }
+     },
+     {
+      "name": "Single digit 7, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=6",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG7.SEG": "b",
+       "DIG7.DP": 0,
+       "FLAGS.D7": 0
+      }
+     },
+     {
+      "name": "Single digit 7, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=6",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG7.SEG": "b",
+       "DIG7.DP": 1,
+       "FLAGS.D7": 1
+      }
+     },
+     {
+      "name": "Single digit 7, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=6",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG7.SEG": "b",
+       "DIG7.DP": 1,
+       "FLAGS.D7": 0
+      }
+     },
+     {
+      "name": "Single digit 8, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=7",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG8.SEG": "b",
+       "DIG8.DP": 0,
+       "FLAGS.D8": 1
+      }
+     },
+     {
+      "name": "Single digit 8, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=7",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG8.SEG": "b",
+       "DIG8.DP": 0,
+       "FLAGS.D8": 0
+      }
+     },
+     {
+      "name": "Single digit 8, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=7",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG8.SEG": "b",
+       "DIG8.DP": 1,
+       "FLAGS.D8": 1
+      }
+     },
+     {
+      "name": "Single digit 8, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=7",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG8.SEG": "b",
+       "DIG8.DP": 1,
+       "FLAGS.D8": 0
+      }
+     }
+    ]
+   },
+   "display": {
+    "driver": "digits",
+    "digits": 8,
+    "digitPins": [
+     "DIGIT 2",
+     "DIGIT 5",
+     "DIGIT 1",
+     "DIGIT 7",
+     "DIGIT 8",
+     "DIGIT 6",
+     "DIGIT 4",
+     "DIGIT 3"
+    ],
+    "digitActive": "high",
+    "segmentPins": [
+     "SEG a",
+     "SEG b",
+     "SEG c",
+     "SEG d",
+     "SEG e",
+     "SEG f",
+     "SEG g",
+     "DP"
+    ],
+    "segmentActive": "low",
+    "ram": [
+     "DIG2",
+     "DIG5",
+     "DIG1",
+     "DIG7",
+     "DIG8",
+     "DIG6",
+     "DIG4",
+     "DIG3"
+    ],
+    "decode": "hex",
+    "dpBit": 7,
+    "scan": {
+     "periodUs": 320
+    },
+    "segmentBits": [
+     6,
+     5,
+     4,
+     0,
+     3,
+     1,
+     2,
+     7
+    ],
+    "decodeField": [
+     "FLAGS.D2",
+     "FLAGS.D5",
+     "FLAGS.D1",
+     "FLAGS.D7",
+     "FLAGS.D8",
+     "FLAGS.D6",
+     "FLAGS.D4",
+     "FLAGS.D3"
+    ],
+    "blank": "CTL.BLK=1",
+    "shutdown": "CTL.RUN=0",
+    "note": "Table 6 (2015 p.13): ID6 a, ID5 b, ID4 c, ID3 e, ID2 g, ID1 f, ID0 d, ID7 point (low = lit); decoded digits use the hexadecimal font (Code B and the RAM banks are not modeled)"
+   },
+   "parts": [
+    {
+     "name": "ICM7228AIPI",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7228-intersil-2015",
+     "package": "DIP",
+     "pinout": "p28",
+     "footprint": "PDIP-28-RENESAS-E28.6",
+     "flags": [
+      "obsolete"
+     ]
+    },
+    {
+     "name": "ICM7228AIPIZ",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7228-intersil-2015",
+     "package": "DIP",
+     "pinout": "p28",
+     "footprint": "PDIP-28-RENESAS-E28.6",
+     "flags": [
+      "obsolete"
+     ]
+    },
+    {
+     "name": "ICM7228AIBI",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7228-intersil-2015",
+     "package": "SOIC",
+     "pinout": "p28",
+     "footprint": "SOIC-28W-RENESAS-M28.3",
+     "flags": [
+      "obsolete"
+     ]
+    },
+    {
+     "name": "ICM7228AIBIZ",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7228-intersil-2015",
+     "package": "SOIC",
+     "pinout": "p28",
+     "footprint": "SOIC-28W-RENESAS-M28.3"
+    },
+    {
+     "name": "ICM7228AIJI",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7228-intersil-2002",
+     "package": "DIP",
+     "pinout": "p28",
+     "footprint": "CDIP-28-RENESAS-F28.6",
+     "flags": [
+      "ceramic"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ICM7228B",
+   "function": "8-digit driver",
+   "description": "8-digit microprocessor-compatible LED display decoder driver, sequential or single-digit update, common cathode",
+   "drawer": [
+    "Displays & Indicators",
+    "LED drivers"
+   ],
+   "note": "icm7228-intersil-2015.pdf p.3 pinout, p.5-6 electrical and switching specifications, p.7 write timing and digit multiplex, p.8-10 pin tables, p.11-12 data entry modes (control register, sequential 8-digit update, single digit update, Table 4 digit address), p.13 Tables 5-6 display formats and no-decode segments, p.14 shutdown and multiplexing (digit order D2 D5 D1 D7 D8 D6 D4 D3, 320 us per digit)",
+   "pinouts": {
+    "p28": [
+     {
+      "number": 1,
+      "name": "DIGIT 4",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "DIGIT 6",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "DIGIT 3",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "DIGIT 1",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "ID6 (HEXA/CODE B)",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "ID5 (DECODE)",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "ID7 (DATA COMING)",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "WRITE",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 9,
+      "name": "MODE",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "ID4 (SHUTDOWN)",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "ID1",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "ID0",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "ID2",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "ID3",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "DP",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "SEG a",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "SEG b",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "SEG d",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 20,
+      "name": "SEG c",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "SEG e",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "SEG f",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "SEG g",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "DIGIT 8",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "DIGIT 2",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "DIGIT 5",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "DIGIT 7",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "VSS",
+      "role": "ground"
+     }
+    ]
+   },
+   "vcc": [
+    4,
+    6
+   ],
+   "bus": {
+    "style": "parallel",
+    "data": [
+     "ID7 (DATA COMING)",
+     "ID6 (HEXA/CODE B)",
+     "ID5 (DECODE)",
+     "ID4 (SHUTDOWN)",
+     "ID3",
+     "ID2",
+     "ID1",
+     "ID0"
+    ],
+    "wr": {
+     "pin": "WRITE",
+     "active": 0
+    },
+    "address": [
+     "MODE"
+    ]
+   },
+   "registers": [
+    {
+     "name": "CTL",
+     "width": 12,
+     "reset": 0,
+     "note": "the control register: ID6 HEX, ID5 NODEC, ID4 RUN, ID3 BANK, ID2-0 ADDR as latched by a MODE-high write; BLK = display blanked by a sequential update; ST = data-entry state (0 single digit, 1-8 the digit the next sequential write fills, 9 sequential update finished)",
+     "fields": [
+      {
+       "name": "HEX",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "NODEC",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "RUN",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "BANK",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "ADDR",
+       "bits": [
+        6,
+        4
+       ]
+      },
+      {
+       "name": "BLK",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "ST",
+       "bits": [
+        11,
+        8
+       ]
+      }
+     ]
+    },
+    {
+     "name": "FLAGS",
+     "width": 8,
+     "reset": 0,
+     "note": "per digit: 1 = the digit was written while the control word said Decode (shown through the decoder), 0 = No Decode (raw segments)",
+     "fields": [
+      {
+       "name": "D1",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "D2",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "D3",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "D4",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "D5",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "D6",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "D7",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "D8",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG1",
+     "width": 8,
+     "reset": 0,
+     "note": "digit 1 RAM: bits 6-0 = ID6-ID0 as written, bit 7 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "SEG",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG2",
+     "width": 8,
+     "reset": 0,
+     "note": "digit 2 RAM: bits 6-0 = ID6-ID0 as written, bit 7 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "SEG",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG3",
+     "width": 8,
+     "reset": 0,
+     "note": "digit 3 RAM: bits 6-0 = ID6-ID0 as written, bit 7 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "SEG",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG4",
+     "width": 8,
+     "reset": 0,
+     "note": "digit 4 RAM: bits 6-0 = ID6-ID0 as written, bit 7 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "SEG",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG5",
+     "width": 8,
+     "reset": 0,
+     "note": "digit 5 RAM: bits 6-0 = ID6-ID0 as written, bit 7 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "SEG",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG6",
+     "width": 8,
+     "reset": 0,
+     "note": "digit 6 RAM: bits 6-0 = ID6-ID0 as written, bit 7 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "SEG",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG7",
+     "width": 8,
+     "reset": 0,
+     "note": "digit 7 RAM: bits 6-0 = ID6-ID0 as written, bit 7 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "SEG",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG8",
+     "width": 8,
+     "reset": 0,
+     "note": "digit 8 RAM: bits 6-0 = ID6-ID0 as written, bit 7 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "SEG",
+       "bits": [
+        6,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        7,
+        7
+       ]
+      }
+     ]
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "Control register (MODE high): ID7 data coming, ID6 hex, ID5 no decode, ID4 run, ID3 bank A, ID2-0 digit",
+      "in": "1 a b c d e fff",
+      "action": "nop",
+      "set": {
+       "CTL.ST": "a",
+       "CTL.BLK": "a",
+       "CTL.HEX": "b",
+       "CTL.NODEC": "c",
+       "CTL.RUN": "d",
+       "CTL.BANK": "e",
+       "CTL.ADDR": "f"
+      }
+     },
+     {
+      "name": "Sequential digit 1, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=1",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG1.SEG": "b",
+       "DIG1.DP": 0,
+       "FLAGS.D1": 1,
+       "CTL.ST": 2
+      }
+     },
+     {
+      "name": "Sequential digit 1, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=1",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG1.SEG": "b",
+       "DIG1.DP": 0,
+       "FLAGS.D1": 0,
+       "CTL.ST": 2
+      }
+     },
+     {
+      "name": "Sequential digit 1, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=1",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG1.SEG": "b",
+       "DIG1.DP": 1,
+       "FLAGS.D1": 1,
+       "CTL.ST": 2
+      }
+     },
+     {
+      "name": "Sequential digit 1, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=1",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG1.SEG": "b",
+       "DIG1.DP": 1,
+       "FLAGS.D1": 0,
+       "CTL.ST": 2
+      }
+     },
+     {
+      "name": "Sequential digit 2, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=2",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG2.SEG": "b",
+       "DIG2.DP": 0,
+       "FLAGS.D2": 1,
+       "CTL.ST": 3
+      }
+     },
+     {
+      "name": "Sequential digit 2, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=2",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG2.SEG": "b",
+       "DIG2.DP": 0,
+       "FLAGS.D2": 0,
+       "CTL.ST": 3
+      }
+     },
+     {
+      "name": "Sequential digit 2, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=2",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG2.SEG": "b",
+       "DIG2.DP": 1,
+       "FLAGS.D2": 1,
+       "CTL.ST": 3
+      }
+     },
+     {
+      "name": "Sequential digit 2, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=2",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG2.SEG": "b",
+       "DIG2.DP": 1,
+       "FLAGS.D2": 0,
+       "CTL.ST": 3
+      }
+     },
+     {
+      "name": "Sequential digit 3, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=3",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG3.SEG": "b",
+       "DIG3.DP": 0,
+       "FLAGS.D3": 1,
+       "CTL.ST": 4
+      }
+     },
+     {
+      "name": "Sequential digit 3, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=3",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG3.SEG": "b",
+       "DIG3.DP": 0,
+       "FLAGS.D3": 0,
+       "CTL.ST": 4
+      }
+     },
+     {
+      "name": "Sequential digit 3, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=3",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG3.SEG": "b",
+       "DIG3.DP": 1,
+       "FLAGS.D3": 1,
+       "CTL.ST": 4
+      }
+     },
+     {
+      "name": "Sequential digit 3, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=3",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG3.SEG": "b",
+       "DIG3.DP": 1,
+       "FLAGS.D3": 0,
+       "CTL.ST": 4
+      }
+     },
+     {
+      "name": "Sequential digit 4, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=4",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG4.SEG": "b",
+       "DIG4.DP": 0,
+       "FLAGS.D4": 1,
+       "CTL.ST": 5
+      }
+     },
+     {
+      "name": "Sequential digit 4, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=4",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG4.SEG": "b",
+       "DIG4.DP": 0,
+       "FLAGS.D4": 0,
+       "CTL.ST": 5
+      }
+     },
+     {
+      "name": "Sequential digit 4, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=4",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG4.SEG": "b",
+       "DIG4.DP": 1,
+       "FLAGS.D4": 1,
+       "CTL.ST": 5
+      }
+     },
+     {
+      "name": "Sequential digit 4, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=4",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG4.SEG": "b",
+       "DIG4.DP": 1,
+       "FLAGS.D4": 0,
+       "CTL.ST": 5
+      }
+     },
+     {
+      "name": "Sequential digit 5, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=5",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG5.SEG": "b",
+       "DIG5.DP": 0,
+       "FLAGS.D5": 1,
+       "CTL.ST": 6
+      }
+     },
+     {
+      "name": "Sequential digit 5, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=5",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG5.SEG": "b",
+       "DIG5.DP": 0,
+       "FLAGS.D5": 0,
+       "CTL.ST": 6
+      }
+     },
+     {
+      "name": "Sequential digit 5, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=5",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG5.SEG": "b",
+       "DIG5.DP": 1,
+       "FLAGS.D5": 1,
+       "CTL.ST": 6
+      }
+     },
+     {
+      "name": "Sequential digit 5, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=5",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG5.SEG": "b",
+       "DIG5.DP": 1,
+       "FLAGS.D5": 0,
+       "CTL.ST": 6
+      }
+     },
+     {
+      "name": "Sequential digit 6, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=6",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG6.SEG": "b",
+       "DIG6.DP": 0,
+       "FLAGS.D6": 1,
+       "CTL.ST": 7
+      }
+     },
+     {
+      "name": "Sequential digit 6, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=6",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG6.SEG": "b",
+       "DIG6.DP": 0,
+       "FLAGS.D6": 0,
+       "CTL.ST": 7
+      }
+     },
+     {
+      "name": "Sequential digit 6, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=6",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG6.SEG": "b",
+       "DIG6.DP": 1,
+       "FLAGS.D6": 1,
+       "CTL.ST": 7
+      }
+     },
+     {
+      "name": "Sequential digit 6, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=6",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG6.SEG": "b",
+       "DIG6.DP": 1,
+       "FLAGS.D6": 0,
+       "CTL.ST": 7
+      }
+     },
+     {
+      "name": "Sequential digit 7, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=7",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG7.SEG": "b",
+       "DIG7.DP": 0,
+       "FLAGS.D7": 1,
+       "CTL.ST": 8
+      }
+     },
+     {
+      "name": "Sequential digit 7, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=7",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG7.SEG": "b",
+       "DIG7.DP": 0,
+       "FLAGS.D7": 0,
+       "CTL.ST": 8
+      }
+     },
+     {
+      "name": "Sequential digit 7, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=7",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG7.SEG": "b",
+       "DIG7.DP": 1,
+       "FLAGS.D7": 1,
+       "CTL.ST": 8
+      }
+     },
+     {
+      "name": "Sequential digit 7, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=7",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG7.SEG": "b",
+       "DIG7.DP": 1,
+       "FLAGS.D7": 0,
+       "CTL.ST": 8
+      }
+     },
+     {
+      "name": "Sequential digit 8, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=8",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG8.SEG": "b",
+       "DIG8.DP": 0,
+       "FLAGS.D8": 1,
+       "CTL.ST": 9,
+       "CTL.BLK": 0
+      }
+     },
+     {
+      "name": "Sequential digit 8, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=8",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG8.SEG": "b",
+       "DIG8.DP": 0,
+       "FLAGS.D8": 0,
+       "CTL.ST": 9,
+       "CTL.BLK": 0
+      }
+     },
+     {
+      "name": "Sequential digit 8, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=8",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG8.SEG": "b",
+       "DIG8.DP": 1,
+       "FLAGS.D8": 1,
+       "CTL.ST": 9,
+       "CTL.BLK": 0
+      }
+     },
+     {
+      "name": "Sequential digit 8, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=8",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG8.SEG": "b",
+       "DIG8.DP": 1,
+       "FLAGS.D8": 0,
+       "CTL.ST": 9,
+       "CTL.BLK": 0
+      }
+     },
+     {
+      "name": "Single digit 1, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=0",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG1.SEG": "b",
+       "DIG1.DP": 0,
+       "FLAGS.D1": 1
+      }
+     },
+     {
+      "name": "Single digit 1, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=0",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG1.SEG": "b",
+       "DIG1.DP": 0,
+       "FLAGS.D1": 0
+      }
+     },
+     {
+      "name": "Single digit 1, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=0",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG1.SEG": "b",
+       "DIG1.DP": 1,
+       "FLAGS.D1": 1
+      }
+     },
+     {
+      "name": "Single digit 1, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=0",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG1.SEG": "b",
+       "DIG1.DP": 1,
+       "FLAGS.D1": 0
+      }
+     },
+     {
+      "name": "Single digit 2, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=1",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG2.SEG": "b",
+       "DIG2.DP": 0,
+       "FLAGS.D2": 1
+      }
+     },
+     {
+      "name": "Single digit 2, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=1",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG2.SEG": "b",
+       "DIG2.DP": 0,
+       "FLAGS.D2": 0
+      }
+     },
+     {
+      "name": "Single digit 2, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=1",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG2.SEG": "b",
+       "DIG2.DP": 1,
+       "FLAGS.D2": 1
+      }
+     },
+     {
+      "name": "Single digit 2, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=1",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG2.SEG": "b",
+       "DIG2.DP": 1,
+       "FLAGS.D2": 0
+      }
+     },
+     {
+      "name": "Single digit 3, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=2",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG3.SEG": "b",
+       "DIG3.DP": 0,
+       "FLAGS.D3": 1
+      }
+     },
+     {
+      "name": "Single digit 3, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=2",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG3.SEG": "b",
+       "DIG3.DP": 0,
+       "FLAGS.D3": 0
+      }
+     },
+     {
+      "name": "Single digit 3, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=2",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG3.SEG": "b",
+       "DIG3.DP": 1,
+       "FLAGS.D3": 1
+      }
+     },
+     {
+      "name": "Single digit 3, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=2",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG3.SEG": "b",
+       "DIG3.DP": 1,
+       "FLAGS.D3": 0
+      }
+     },
+     {
+      "name": "Single digit 4, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=3",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG4.SEG": "b",
+       "DIG4.DP": 0,
+       "FLAGS.D4": 1
+      }
+     },
+     {
+      "name": "Single digit 4, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=3",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG4.SEG": "b",
+       "DIG4.DP": 0,
+       "FLAGS.D4": 0
+      }
+     },
+     {
+      "name": "Single digit 4, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=3",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG4.SEG": "b",
+       "DIG4.DP": 1,
+       "FLAGS.D4": 1
+      }
+     },
+     {
+      "name": "Single digit 4, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=3",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG4.SEG": "b",
+       "DIG4.DP": 1,
+       "FLAGS.D4": 0
+      }
+     },
+     {
+      "name": "Single digit 5, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=4",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG5.SEG": "b",
+       "DIG5.DP": 0,
+       "FLAGS.D5": 1
+      }
+     },
+     {
+      "name": "Single digit 5, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=4",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG5.SEG": "b",
+       "DIG5.DP": 0,
+       "FLAGS.D5": 0
+      }
+     },
+     {
+      "name": "Single digit 5, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=4",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG5.SEG": "b",
+       "DIG5.DP": 1,
+       "FLAGS.D5": 1
+      }
+     },
+     {
+      "name": "Single digit 5, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=4",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG5.SEG": "b",
+       "DIG5.DP": 1,
+       "FLAGS.D5": 0
+      }
+     },
+     {
+      "name": "Single digit 6, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=5",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG6.SEG": "b",
+       "DIG6.DP": 0,
+       "FLAGS.D6": 1
+      }
+     },
+     {
+      "name": "Single digit 6, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=5",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG6.SEG": "b",
+       "DIG6.DP": 0,
+       "FLAGS.D6": 0
+      }
+     },
+     {
+      "name": "Single digit 6, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=5",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG6.SEG": "b",
+       "DIG6.DP": 1,
+       "FLAGS.D6": 1
+      }
+     },
+     {
+      "name": "Single digit 6, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=5",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG6.SEG": "b",
+       "DIG6.DP": 1,
+       "FLAGS.D6": 0
+      }
+     },
+     {
+      "name": "Single digit 7, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=6",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG7.SEG": "b",
+       "DIG7.DP": 0,
+       "FLAGS.D7": 1
+      }
+     },
+     {
+      "name": "Single digit 7, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=6",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG7.SEG": "b",
+       "DIG7.DP": 0,
+       "FLAGS.D7": 0
+      }
+     },
+     {
+      "name": "Single digit 7, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=6",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG7.SEG": "b",
+       "DIG7.DP": 1,
+       "FLAGS.D7": 1
+      }
+     },
+     {
+      "name": "Single digit 7, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=6",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG7.SEG": "b",
+       "DIG7.DP": 1,
+       "FLAGS.D7": 0
+      }
+     },
+     {
+      "name": "Single digit 8, ID7 1, Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=7",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG8.SEG": "b",
+       "DIG8.DP": 0,
+       "FLAGS.D8": 1
+      }
+     },
+     {
+      "name": "Single digit 8, ID7 1, No Decode",
+      "in": "0 1 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=7",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG8.SEG": "b",
+       "DIG8.DP": 0,
+       "FLAGS.D8": 0
+      }
+     },
+     {
+      "name": "Single digit 8, ID7 0, Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=7",
+       "CTL.NODEC=0"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG8.SEG": "b",
+       "DIG8.DP": 1,
+       "FLAGS.D8": 1
+      }
+     },
+     {
+      "name": "Single digit 8, ID7 0, No Decode",
+      "in": "0 0 bbbbbbb",
+      "when": [
+       "CTL.ST=0",
+       "CTL.ADDR=7",
+       "CTL.NODEC=1"
+      ],
+      "action": "nop",
+      "set": {
+       "DIG8.SEG": "b",
+       "DIG8.DP": 1,
+       "FLAGS.D8": 0
+      }
+     }
+    ]
+   },
+   "display": {
+    "driver": "digits",
+    "digits": 8,
+    "digitPins": [
+     "DIGIT 2",
+     "DIGIT 5",
+     "DIGIT 1",
+     "DIGIT 7",
+     "DIGIT 8",
+     "DIGIT 6",
+     "DIGIT 4",
+     "DIGIT 3"
+    ],
+    "digitActive": "low",
+    "segmentPins": [
+     "SEG a",
+     "SEG b",
+     "SEG c",
+     "SEG d",
+     "SEG e",
+     "SEG f",
+     "SEG g",
+     "DP"
+    ],
+    "segmentActive": "high",
+    "ram": [
+     "DIG2",
+     "DIG5",
+     "DIG1",
+     "DIG7",
+     "DIG8",
+     "DIG6",
+     "DIG4",
+     "DIG3"
+    ],
+    "decode": "hex",
+    "dpBit": 7,
+    "scan": {
+     "periodUs": 320
+    },
+    "segmentBits": [
+     6,
+     5,
+     4,
+     0,
+     3,
+     1,
+     2,
+     7
+    ],
+    "decodeField": [
+     "FLAGS.D2",
+     "FLAGS.D5",
+     "FLAGS.D1",
+     "FLAGS.D7",
+     "FLAGS.D8",
+     "FLAGS.D6",
+     "FLAGS.D4",
+     "FLAGS.D3"
+    ],
+    "blank": "CTL.BLK=1",
+    "shutdown": "CTL.RUN=0",
+    "note": "Table 6 (2015 p.13): ID6 a, ID5 b, ID4 c, ID3 e, ID2 g, ID1 f, ID0 d, ID7 point (low = lit); decoded digits use the hexadecimal font (Code B and the RAM banks are not modeled)"
+   },
+   "parts": [
+    {
+     "name": "ICM7228BIPI",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7228-intersil-2015",
+     "package": "DIP",
+     "pinout": "p28",
+     "footprint": "PDIP-28-RENESAS-E28.6",
+     "flags": [
+      "obsolete"
+     ]
+    },
+    {
+     "name": "ICM7228BIPIZ",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7228-intersil-2015",
+     "package": "DIP",
+     "pinout": "p28",
+     "footprint": "PDIP-28-RENESAS-E28.6"
+    },
+    {
+     "name": "ICM7228BIBI",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7228-intersil-2015",
+     "package": "SOIC",
+     "pinout": "p28",
+     "footprint": "SOIC-28W-RENESAS-M28.3",
+     "flags": [
+      "obsolete"
+     ]
+    },
+    {
+     "name": "ICM7228BIBIZ",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7228-intersil-2015",
+     "package": "SOIC",
+     "pinout": "p28",
+     "footprint": "SOIC-28W-RENESAS-M28.3"
+    },
+    {
+     "name": "ICM7228BIJI",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7228-intersil-2002",
+     "package": "DIP",
+     "pinout": "p28",
+     "footprint": "CDIP-28-RENESAS-F28.6",
+     "flags": [
+      "ceramic"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ICM7228C",
+   "function": "8-digit driver",
+   "description": "8-digit microprocessor-compatible LED display decoder driver, parallel random-access write, common anode",
+   "drawer": [
+    "Displays & Indicators",
+    "LED drivers"
+   ],
+   "note": "icm7228-intersil-2002.pdf p.2 pinout, p.4-5 electrical and switching specifications, p.6 write timing and digit multiplex, p.9-11 pin tables, p.12-13 interfacing and display formats, p.14 shutdown and multiplexing (digit order D2 D5 D1 D7 D8 D6 D4 D3, 320 us per digit); the C is also on icm7228-intersil-2015.pdf p.3, p.10-13",
+   "pinouts": {
+    "p28": [
+     {
+      "number": 1,
+      "name": "SEG c",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "SEG e",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "SEG b",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "DP",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "DA0",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "DA1",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "ID7 (INPUT DP)",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "WRITE",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 9,
+      "name": "HEXA/CODE B/SHUTDOWN",
+      "role": "input",
+      "activeLow": [
+       "SHUTDOWN"
+      ]
+     },
+     {
+      "number": 10,
+      "name": "DA2",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "ID1",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "ID0",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "ID2",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "ID3",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "DIGIT 1",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "DIGIT 2",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "DIGIT 5",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "DIGIT 8",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 20,
+      "name": "DIGIT 4",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "DIGIT 7",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "DIGIT 6",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "DIGIT 3",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "SEG f",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "SEG d",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "SEG g",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "SEG a",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "VSS",
+      "role": "ground"
+     }
+    ]
+   },
+   "vcc": [
+    4,
+    6
+   ],
+   "bus": {
+    "style": "parallel",
+    "data": [
+     "ID7 (INPUT DP)",
+     "ID3",
+     "ID2",
+     "ID1",
+     "ID0"
+    ],
+    "wr": {
+     "pin": "WRITE",
+     "active": 0
+    },
+    "address": [
+     "DA2",
+     "DA1",
+     "DA0"
+    ]
+   },
+   "registers": [
+    {
+     "name": "DIG1",
+     "width": 5,
+     "reset": 0,
+     "note": "digit 1 RAM: bits 3-0 = ID3-ID0, bit 4 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "D",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG2",
+     "width": 5,
+     "reset": 0,
+     "note": "digit 2 RAM: bits 3-0 = ID3-ID0, bit 4 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "D",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG3",
+     "width": 5,
+     "reset": 0,
+     "note": "digit 3 RAM: bits 3-0 = ID3-ID0, bit 4 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "D",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG4",
+     "width": 5,
+     "reset": 0,
+     "note": "digit 4 RAM: bits 3-0 = ID3-ID0, bit 4 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "D",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG5",
+     "width": 5,
+     "reset": 0,
+     "note": "digit 5 RAM: bits 3-0 = ID3-ID0, bit 4 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "D",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG6",
+     "width": 5,
+     "reset": 0,
+     "note": "digit 6 RAM: bits 3-0 = ID3-ID0, bit 4 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "D",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG7",
+     "width": 5,
+     "reset": 0,
+     "note": "digit 7 RAM: bits 3-0 = ID3-ID0, bit 4 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "D",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG8",
+     "width": 5,
+     "reset": 0,
+     "note": "digit 8 RAM: bits 3-0 = ID3-ID0, bit 4 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "D",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "Digit 1 (DA2-0 = 000), ID7 1",
+      "in": "000 1 cccc",
+      "action": "nop",
+      "set": {
+       "DIG1.D": "c",
+       "DIG1.DP": 0
+      }
+     },
+     {
+      "name": "Digit 1 (DA2-0 = 000), ID7 0",
+      "in": "000 0 cccc",
+      "action": "nop",
+      "set": {
+       "DIG1.D": "c",
+       "DIG1.DP": 1
+      }
+     },
+     {
+      "name": "Digit 2 (DA2-0 = 001), ID7 1",
+      "in": "001 1 cccc",
+      "action": "nop",
+      "set": {
+       "DIG2.D": "c",
+       "DIG2.DP": 0
+      }
+     },
+     {
+      "name": "Digit 2 (DA2-0 = 001), ID7 0",
+      "in": "001 0 cccc",
+      "action": "nop",
+      "set": {
+       "DIG2.D": "c",
+       "DIG2.DP": 1
+      }
+     },
+     {
+      "name": "Digit 3 (DA2-0 = 010), ID7 1",
+      "in": "010 1 cccc",
+      "action": "nop",
+      "set": {
+       "DIG3.D": "c",
+       "DIG3.DP": 0
+      }
+     },
+     {
+      "name": "Digit 3 (DA2-0 = 010), ID7 0",
+      "in": "010 0 cccc",
+      "action": "nop",
+      "set": {
+       "DIG3.D": "c",
+       "DIG3.DP": 1
+      }
+     },
+     {
+      "name": "Digit 4 (DA2-0 = 011), ID7 1",
+      "in": "011 1 cccc",
+      "action": "nop",
+      "set": {
+       "DIG4.D": "c",
+       "DIG4.DP": 0
+      }
+     },
+     {
+      "name": "Digit 4 (DA2-0 = 011), ID7 0",
+      "in": "011 0 cccc",
+      "action": "nop",
+      "set": {
+       "DIG4.D": "c",
+       "DIG4.DP": 1
+      }
+     },
+     {
+      "name": "Digit 5 (DA2-0 = 100), ID7 1",
+      "in": "100 1 cccc",
+      "action": "nop",
+      "set": {
+       "DIG5.D": "c",
+       "DIG5.DP": 0
+      }
+     },
+     {
+      "name": "Digit 5 (DA2-0 = 100), ID7 0",
+      "in": "100 0 cccc",
+      "action": "nop",
+      "set": {
+       "DIG5.D": "c",
+       "DIG5.DP": 1
+      }
+     },
+     {
+      "name": "Digit 6 (DA2-0 = 101), ID7 1",
+      "in": "101 1 cccc",
+      "action": "nop",
+      "set": {
+       "DIG6.D": "c",
+       "DIG6.DP": 0
+      }
+     },
+     {
+      "name": "Digit 6 (DA2-0 = 101), ID7 0",
+      "in": "101 0 cccc",
+      "action": "nop",
+      "set": {
+       "DIG6.D": "c",
+       "DIG6.DP": 1
+      }
+     },
+     {
+      "name": "Digit 7 (DA2-0 = 110), ID7 1",
+      "in": "110 1 cccc",
+      "action": "nop",
+      "set": {
+       "DIG7.D": "c",
+       "DIG7.DP": 0
+      }
+     },
+     {
+      "name": "Digit 7 (DA2-0 = 110), ID7 0",
+      "in": "110 0 cccc",
+      "action": "nop",
+      "set": {
+       "DIG7.D": "c",
+       "DIG7.DP": 1
+      }
+     },
+     {
+      "name": "Digit 8 (DA2-0 = 111), ID7 1",
+      "in": "111 1 cccc",
+      "action": "nop",
+      "set": {
+       "DIG8.D": "c",
+       "DIG8.DP": 0
+      }
+     },
+     {
+      "name": "Digit 8 (DA2-0 = 111), ID7 0",
+      "in": "111 0 cccc",
+      "action": "nop",
+      "set": {
+       "DIG8.D": "c",
+       "DIG8.DP": 1
+      }
+     }
+    ]
+   },
+   "display": {
+    "driver": "digits",
+    "digits": 8,
+    "digitPins": [
+     "DIGIT 2",
+     "DIGIT 5",
+     "DIGIT 1",
+     "DIGIT 7",
+     "DIGIT 8",
+     "DIGIT 6",
+     "DIGIT 4",
+     "DIGIT 3"
+    ],
+    "digitActive": "high",
+    "segmentPins": [
+     "SEG a",
+     "SEG b",
+     "SEG c",
+     "SEG d",
+     "SEG e",
+     "SEG f",
+     "SEG g",
+     "DP"
+    ],
+    "segmentActive": "low",
+    "ram": [
+     "DIG2",
+     "DIG5",
+     "DIG1",
+     "DIG7",
+     "DIG8",
+     "DIG6",
+     "DIG4",
+     "DIG3"
+    ],
+    "decode": "hex",
+    "dpBit": 4,
+    "scan": {
+     "periodUs": 320
+    },
+    "note": "decoded always (hexadecimal font); the three-level pin 9 (Code B, shutdown) is not modeled"
+   },
+   "parts": [
+    {
+     "name": "ICM7228CIPI",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7228-intersil-2015",
+     "package": "DIP",
+     "pinout": "p28",
+     "footprint": "PDIP-28-RENESAS-E28.6",
+     "flags": [
+      "obsolete"
+     ]
+    },
+    {
+     "name": "ICM7228CIPIZ",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7228-intersil-2015",
+     "package": "DIP",
+     "pinout": "p28",
+     "footprint": "PDIP-28-RENESAS-E28.6"
+    },
+    {
+     "name": "ICM7228CIBI",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7228-intersil-2015",
+     "package": "SOIC",
+     "pinout": "p28",
+     "footprint": "SOIC-28W-RENESAS-M28.3",
+     "flags": [
+      "obsolete"
+     ]
+    },
+    {
+     "name": "ICM7228CIBIZ",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7228-intersil-2015",
+     "package": "SOIC",
+     "pinout": "p28",
+     "footprint": "SOIC-28W-RENESAS-M28.3"
+    },
+    {
+     "name": "ICM7228CIJI",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7228-intersil-2002",
+     "package": "DIP",
+     "pinout": "p28",
+     "footprint": "CDIP-28-RENESAS-F28.6",
+     "flags": [
+      "ceramic"
+     ]
+    },
+    {
+     "name": "ICM7228CMJI883B",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7228-intersil-2002",
+     "package": "DIP",
+     "pinout": "p28",
+     "footprint": "CDIP-28-RENESAS-F28.6",
+     "flags": [
+      "military",
+      "ceramic"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ICM7228D",
+   "function": "8-digit driver",
+   "description": "8-digit microprocessor-compatible LED display decoder driver, parallel random-access write, common cathode",
+   "drawer": [
+    "Displays & Indicators",
+    "LED drivers"
+   ],
+   "note": "icm7228-intersil-2002.pdf p.2 pinout, p.4-5 electrical and switching specifications, p.6 write timing and digit multiplex, p.9-11 pin tables, p.12-13 interfacing and display formats, p.14 shutdown and multiplexing (digit order D2 D5 D1 D7 D8 D6 D4 D3, 320 us per digit); the C is also on icm7228-intersil-2015.pdf p.3, p.10-13",
+   "pinouts": {
+    "p28": [
+     {
+      "number": 1,
+      "name": "DIGIT 4",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "DIGIT 6",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "DIGIT 3",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "DIGIT 1",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "DA0",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "DA1",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "ID7 (INPUT DP)",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "WRITE",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 9,
+      "name": "HEXA/CODE B/SHUTDOWN",
+      "role": "input",
+      "activeLow": [
+       "SHUTDOWN"
+      ]
+     },
+     {
+      "number": 10,
+      "name": "DA2",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "ID1",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "ID0",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "ID2",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "ID3",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "DP",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "SEG a",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "SEG b",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "SEG d",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 20,
+      "name": "SEG c",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "SEG e",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "SEG f",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "SEG g",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "DIGIT 8",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "DIGIT 2",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "DIGIT 5",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "DIGIT 7",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "VSS",
+      "role": "ground"
+     }
+    ]
+   },
+   "vcc": [
+    4,
+    6
+   ],
+   "bus": {
+    "style": "parallel",
+    "data": [
+     "ID7 (INPUT DP)",
+     "ID3",
+     "ID2",
+     "ID1",
+     "ID0"
+    ],
+    "wr": {
+     "pin": "WRITE",
+     "active": 0
+    },
+    "address": [
+     "DA2",
+     "DA1",
+     "DA0"
+    ]
+   },
+   "registers": [
+    {
+     "name": "DIG1",
+     "width": 5,
+     "reset": 0,
+     "note": "digit 1 RAM: bits 3-0 = ID3-ID0, bit 4 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "D",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG2",
+     "width": 5,
+     "reset": 0,
+     "note": "digit 2 RAM: bits 3-0 = ID3-ID0, bit 4 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "D",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG3",
+     "width": 5,
+     "reset": 0,
+     "note": "digit 3 RAM: bits 3-0 = ID3-ID0, bit 4 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "D",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG4",
+     "width": 5,
+     "reset": 0,
+     "note": "digit 4 RAM: bits 3-0 = ID3-ID0, bit 4 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "D",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG5",
+     "width": 5,
+     "reset": 0,
+     "note": "digit 5 RAM: bits 3-0 = ID3-ID0, bit 4 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "D",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG6",
+     "width": 5,
+     "reset": 0,
+     "note": "digit 6 RAM: bits 3-0 = ID3-ID0, bit 4 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "D",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG7",
+     "width": 5,
+     "reset": 0,
+     "note": "digit 7 RAM: bits 3-0 = ID3-ID0, bit 4 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "D",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DIG8",
+     "width": 5,
+     "reset": 0,
+     "note": "digit 8 RAM: bits 3-0 = ID3-ID0, bit 4 (DP) = 1 when the point is lit (ID7 low)",
+     "fields": [
+      {
+       "name": "D",
+       "bits": [
+        3,
+        0
+       ]
+      },
+      {
+       "name": "DP",
+       "bits": [
+        4,
+        4
+       ]
+      }
+     ]
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "Digit 1 (DA2-0 = 000), ID7 1",
+      "in": "000 1 cccc",
+      "action": "nop",
+      "set": {
+       "DIG1.D": "c",
+       "DIG1.DP": 0
+      }
+     },
+     {
+      "name": "Digit 1 (DA2-0 = 000), ID7 0",
+      "in": "000 0 cccc",
+      "action": "nop",
+      "set": {
+       "DIG1.D": "c",
+       "DIG1.DP": 1
+      }
+     },
+     {
+      "name": "Digit 2 (DA2-0 = 001), ID7 1",
+      "in": "001 1 cccc",
+      "action": "nop",
+      "set": {
+       "DIG2.D": "c",
+       "DIG2.DP": 0
+      }
+     },
+     {
+      "name": "Digit 2 (DA2-0 = 001), ID7 0",
+      "in": "001 0 cccc",
+      "action": "nop",
+      "set": {
+       "DIG2.D": "c",
+       "DIG2.DP": 1
+      }
+     },
+     {
+      "name": "Digit 3 (DA2-0 = 010), ID7 1",
+      "in": "010 1 cccc",
+      "action": "nop",
+      "set": {
+       "DIG3.D": "c",
+       "DIG3.DP": 0
+      }
+     },
+     {
+      "name": "Digit 3 (DA2-0 = 010), ID7 0",
+      "in": "010 0 cccc",
+      "action": "nop",
+      "set": {
+       "DIG3.D": "c",
+       "DIG3.DP": 1
+      }
+     },
+     {
+      "name": "Digit 4 (DA2-0 = 011), ID7 1",
+      "in": "011 1 cccc",
+      "action": "nop",
+      "set": {
+       "DIG4.D": "c",
+       "DIG4.DP": 0
+      }
+     },
+     {
+      "name": "Digit 4 (DA2-0 = 011), ID7 0",
+      "in": "011 0 cccc",
+      "action": "nop",
+      "set": {
+       "DIG4.D": "c",
+       "DIG4.DP": 1
+      }
+     },
+     {
+      "name": "Digit 5 (DA2-0 = 100), ID7 1",
+      "in": "100 1 cccc",
+      "action": "nop",
+      "set": {
+       "DIG5.D": "c",
+       "DIG5.DP": 0
+      }
+     },
+     {
+      "name": "Digit 5 (DA2-0 = 100), ID7 0",
+      "in": "100 0 cccc",
+      "action": "nop",
+      "set": {
+       "DIG5.D": "c",
+       "DIG5.DP": 1
+      }
+     },
+     {
+      "name": "Digit 6 (DA2-0 = 101), ID7 1",
+      "in": "101 1 cccc",
+      "action": "nop",
+      "set": {
+       "DIG6.D": "c",
+       "DIG6.DP": 0
+      }
+     },
+     {
+      "name": "Digit 6 (DA2-0 = 101), ID7 0",
+      "in": "101 0 cccc",
+      "action": "nop",
+      "set": {
+       "DIG6.D": "c",
+       "DIG6.DP": 1
+      }
+     },
+     {
+      "name": "Digit 7 (DA2-0 = 110), ID7 1",
+      "in": "110 1 cccc",
+      "action": "nop",
+      "set": {
+       "DIG7.D": "c",
+       "DIG7.DP": 0
+      }
+     },
+     {
+      "name": "Digit 7 (DA2-0 = 110), ID7 0",
+      "in": "110 0 cccc",
+      "action": "nop",
+      "set": {
+       "DIG7.D": "c",
+       "DIG7.DP": 1
+      }
+     },
+     {
+      "name": "Digit 8 (DA2-0 = 111), ID7 1",
+      "in": "111 1 cccc",
+      "action": "nop",
+      "set": {
+       "DIG8.D": "c",
+       "DIG8.DP": 0
+      }
+     },
+     {
+      "name": "Digit 8 (DA2-0 = 111), ID7 0",
+      "in": "111 0 cccc",
+      "action": "nop",
+      "set": {
+       "DIG8.D": "c",
+       "DIG8.DP": 1
+      }
+     }
+    ]
+   },
+   "display": {
+    "driver": "digits",
+    "digits": 8,
+    "digitPins": [
+     "DIGIT 2",
+     "DIGIT 5",
+     "DIGIT 1",
+     "DIGIT 7",
+     "DIGIT 8",
+     "DIGIT 6",
+     "DIGIT 4",
+     "DIGIT 3"
+    ],
+    "digitActive": "low",
+    "segmentPins": [
+     "SEG a",
+     "SEG b",
+     "SEG c",
+     "SEG d",
+     "SEG e",
+     "SEG f",
+     "SEG g",
+     "DP"
+    ],
+    "segmentActive": "high",
+    "ram": [
+     "DIG2",
+     "DIG5",
+     "DIG1",
+     "DIG7",
+     "DIG8",
+     "DIG6",
+     "DIG4",
+     "DIG3"
+    ],
+    "decode": "hex",
+    "dpBit": 4,
+    "scan": {
+     "periodUs": 320
+    },
+    "note": "decoded always (hexadecimal font); the three-level pin 9 (Code B, shutdown) is not modeled"
+   },
+   "parts": [
+    {
+     "name": "ICM7228DIPI",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7228-intersil-2002",
+     "package": "DIP",
+     "pinout": "p28",
+     "footprint": "PDIP-28-RENESAS-E28.6"
+    },
+    {
+     "name": "ICM7228DMJI",
+     "manufacturer": "Renesas Electronics",
+     "datasheet": "icm7228-intersil-2002",
+     "package": "DIP",
+     "pinout": "p28",
+     "footprint": "CDIP-28-RENESAS-F28.6",
+     "flags": [
+      "military",
+      "ceramic"
+     ]
+    }
+   ]
+  }
+ ],
+ "datasheets": [
+  {
+   "id": "icm7228-intersil-2015",
+   "url": "https://www.renesas.com/en/document/dst/icm7228-datasheet"
+  },
+  {
+   "id": "icm7228-intersil-2002",
+   "url": "https://www.renesas.com/en/document/dst/icm7228-datasheet"
+  },
+  {
+   "id": "icm7228-renesas",
+   "url": "https://www.renesas.com/en/document/dst/icm7228-datasheet"
+  }
+ ],
+ "missingFootprints": [
+  {
+   "id": "PDIP-28-RENESAS-E28.6",
+   "description": "28-pin 600 mil PDIP (E28.6), 13.53 x 37.40 mm body, 2.54 mm pitch",
+   "note": "Intersil/Renesas E28.6 (JEDEC MS-011-AB) 28 lead plastic DIP outline (R5, mid-values; lead B 0.457 mid (0.356-0.558), drill 0.457 + 0.25 = 0.707 -> 0.75, pad 0.75 + 0.7 = 1.45 -> 1.5; eA 15.24 BSC; body E1 13.525 mid (12.32-14.73) x D 37.40 mid (35.1-39.7)), datasheets/led-drivers/icm7228-intersil-2015.pdf p.18",
+   "style": "dual",
+   "pins": 28,
+   "body": {
+    "width": 13.53,
+    "height": 37.4
+   },
+   "pitch": 2.54,
+   "span": 15.24,
+   "pad": {
+    "width": 1.5,
+    "height": 1.5,
+    "shape": "round"
+   },
+   "drill": 0.75,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "CDIP-28-RENESAS-F28.6",
+   "description": "28-pin 600 mil CERDIP (F28.6), 14.10 x 37.85 mm body, 2.54 mm pitch",
+   "note": "Intersil/Renesas F28.6 (MIL-STD-1835 GDIP1-T28) 28 lead ceramic dual-in-line frit seal package outline (R5, mid-values; lead b 0.51 mid (0.36-0.66), drill 0.76 -> 0.8, pad 1.5; eA 15.24 BSC; body E 14.095 mid (12.70-15.49) x D 37.85 (max only)), renesas.com/en-us/package-image/pdf/outdrawing/f28.6.pdf p.1 (the CERDIP code F28.6 is named in icm7228-intersil-2002.pdf p.1)",
+   "style": "dual",
+   "pins": 28,
+   "body": {
+    "width": 14.1,
+    "height": 37.85
+   },
+   "pitch": 2.54,
+   "span": 15.24,
+   "pad": {
+    "width": 1.5,
+    "height": 1.5,
+    "shape": "round"
+   },
+   "drill": 0.8,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "SOIC-28W-RENESAS-M28.3",
+   "description": "28-pin wide SOIC (M28.3), 7.5 x 17.9 mm body, 1.27 mm pitch",
+   "note": "Intersil/Renesas M28.3 (JEDEC MS-013-AE) recommended land pattern (R1; pads 1.50 x 0.51, 1.27 pitch, 9.38 pad-centre span), datasheets/led-drivers/icm7228-intersil-2015.pdf p.19; body E 7.50 mid (7.40-7.60) x D 17.90 mid (17.70-18.10)",
+   "style": "dual",
+   "pins": 28,
+   "body": {
+    "width": 7.5,
+    "height": 17.9
+   },
+   "pitch": 1.27,
+   "span": 9.38,
+   "pad": {
+    "width": 1.5,
+    "height": 0.51,
+    "shape": "rect"
+   }
+  }
+ ],
+ "skipped": [
+  {
+   "part": "ICM7228DIBI",
+   "why": "named in the task but in no ordering table (the SOIC list has A, B, C only) and not sold; no part added"
+  },
+  {
+   "part": "ICM7228D (SOIC)",
+   "why": "no SOIC D exists on any sheet"
+  }
+ ],
+ "engineNeeds": [
+  {
+   "need": "run-time decode choice in the digits driver",
+   "semantics": "\"decode\": {\"field\": \"CTL.HEX\", \"values\": {\"1\": \"hex\", \"0\": \"codeB\"}}: the font follows the field's value; a value not listed uses the first entry. ICM7228A/B ID6 (CTL.HEX). The device now has decode hex only",
+   "needed by": "ICM7228A/B/C/D (and every chip with a selectable font)"
+  },
+  {
+   "need": "three-level input pin into a field",
+   "semantics": "pins.levels entry with \"tristate\": true: the field is 0 while the pin is driven low, 1 while it floats (Z), 2 while it is driven high. ICM7228C/D pin 9 HEXA/CODE B/SHUTDOWN: decode {\"field\": \"SEL.MODE\", \"values\": {\"2\": \"hex\", \"1\": \"codeB\", \"0\": \"codeB\"}} and shutdown \"SEL.MODE=0\". Pin 9 has no effect in the device now",
+   "needed by": "ICM7228C/D (and the ICM7218C/D)"
+  },
+  {
+   "need": "RAM bank select in the digits driver",
+   "semantics": "\"bank\": {\"field\": \"CTL.BANK\", \"ram\": {\"1\": [8 field names in scan order], \"0\": [8 field names]}}: the scan reads the array the field selects; the protocol writes each bank's registers with its own when CTL.BANK=v commands; the point and the No Decode byte are shared. ICM7228A/B ID3. The device now keeps one RAM; both banks alias it",
+   "needed by": "ICM7228A/B"
+  },
+  {
+   "need": "optional: point lit by a low bit (dpActive 0)",
+   "semantics": "\"dpActive\": 0 in digits: the decimal point pin (the 8th segment pin) is lit while its bit (dpBit decoded, segmentBits[7] raw) is 0. ICM7228 ID7 low lights the point. The device does it today by splitting every data write on ID7 (A/B 65 commands, C/D 16); with the key they would be 33 and 8",
+   "needed by": "ICM7228A/B/C/D, probably ICM7218"
+  }
+ ],
+ "notes": "Four devices (A, B, C, D), 18 parts. Bench: scratchpad/g2/icm7228_test.c (72 checks), add logic_test(icm7228_test) after display_out_test in backend/CMakeLists.txt; it loads the real library (parts ICM7228AIBIZ, BIBIZ, CIBIZ, DIPI). Goldens: parts.txt/traces.txt/footprints.txt need the 18 parts and 3 footprints added (listing_check, trace_check, footprint_check fail only with 'extra ... (not in the golden)'). The scratch copy's footprint ids PDIP-28-RENESAS-E28.6, CDIP-28-RENESAS-F28.6 and SOIC-28W-RENESAS-M28.3 may coincide with the ICM7218 agent's; keep one. All three datasheet ids point at the one Renesas URL (the sheet the maker still hosts is the 2015 text; it has no D). Not in any ordering table, taken from the task's DigiKey list: BIJI, CMJI883B, DMJI (package CERDIP and the military flag inferred from the suffix; BIJI = the B die in the A/C CERDIP). AIPIZ carries obsolete from DigiKey, not from the sheet. Assumptions: C/D digit address 000 = digit 1 (as A/B Table 4); repeated MODE-low writes after a single-digit control word go to the same digit; power-up state: A/B shut down until the first control word, C/D RAM 0.",
+ "bench": "scratchpad/g2/icm7228_test.c"
+}

@@ -25,7 +25,7 @@
 
 The SN74AHCT08 is a quadruple 2-input positive-AND gate. This device
 performs the Boolean function Y = A • B or Y = !{!{A} + !{B}} in positive
-logic. Inputs are TTL-voltage compatible.
+logic. Inputs are TTL-voltage compatible. [[1::1]] [[1::3]]
 
 Controlled baseline – one assembly/test site, one fabrication site.
 Extended temperature performance of –55 °C to 125 °C.
@@ -33,7 +33,7 @@ EPIC (Enhanced-Performance Implanted CMOS) process. Component qualification in a
 industry standards to ensure reliable operation over an extended
 temperature range. Such qualification testing should not be viewed as
 justifying use of this component beyond specified performance and
-environmental limits.
+environmental limits. [[1::1]] [[1::2]]
 
 ## Pinout
 
@@ -49,6 +49,7 @@ environmental limits.
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -60,6 +61,7 @@ VCC: Supply voltage
 | L | X | L |
 | X | L | L |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -81,10 +83,11 @@ VCC: Supply voltage
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 ESD protection exceeds 2000 V per MIL-STD-883, Method 3015; exceeds
 200 V using machine model (C = 200 pF, R = 0). Latch-up performance
-exceeds 250 mA per JESD 17.
+exceeds 250 mA per JESD 17. [[1::1]]
 
 ## Recommended operating conditions
 
@@ -103,6 +106,7 @@ exceeds 250 mA per JESD 17.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -121,6 +125,7 @@ exceeds 250 mA per JESD 17.
 
 [1] This is the increase in supply current for each input at one of the specified TTL voltage levels rather than 0 V or V~CC~.
 ```
+[[3::table #1]]
 
 ```table id=noise caption="Noise characteristics [1]" conditions="V~CC~ = 5 V, C~L~ = 50 pF, T~A~ = 25 °C"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -133,12 +138,14 @@ exceeds 250 mA per JESD 17.
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[3::table #2]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 18 | pF |
 ```
+[[3::table #3]]
 
 ## Switching characteristics
 
@@ -153,6 +160,7 @@ See [parameter measurement information](#parameter-measurement).
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 5.5 | 7.9 | 1 | 9 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 5.5 | 7.9 | 1 | 9 | ns |
 ```
+[[3::table #4]]
 
 ## Parameter measurement information
 
@@ -162,15 +170,17 @@ Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time with one input transition per measurement. Conversion note: C~L~ is
 15 pF or 50 pF, as given in the [switching characteristics](#sw), and
 in the source figure inputs swing 0 V to 3 V and are measured at 1.5 V,
-outputs at 50 % V~CC~.
+outputs at 50 % V~CC~. [[4::1]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V (input), 50 % VCC (output)
 ```
+[[4::Figure 1]]
 
 Conversion note: the source figure also shows the 3-state and open-drain load circuit,
 pulse-duration, setup-and-hold and enable/disable waveforms, which do
@@ -191,6 +201,7 @@ SN74AHCT08MDREP | Reel of 2500 | -55 to 125 | AHCT08MEP | NRND
 SN74AHCT08MPWREP | | -55 to 125 | AHT08EP | Obsolete
 V62/03654-01YE | Reel of 2500 | -55 to 125 | AHCT08MEP | NRND
 ```
+[[5::table #1]]
 
 ## Conversion notes
 

@@ -125,7 +125,7 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | Field        | Type    | Meaning                                                                 |
 |--------------|---------|-------------------------------------------------------------------------|
 | `id`         | UUID    | Unique within the file.                                                 |
-| `reference`  | string  | Label shown on the PCB and in memory window titles, such as `U1`: 1 to 8 letters then a number of 1 or more. A new part's prefix comes from its category in Settings ▸ Reference Defaults (standard defaults: `U` for ICs, memory and processors, `R` for pull resistors, `C` capacitors, `D` diodes, Zener diodes and LEDs, `DS` displays, `G` oscillators, `S` switches, `J` USB/barrel connectors and female headers, `P` male headers, `PWR` power symbols). Integrated Circuit parts take the first free number from `nextReference`; every other prefix takes the lowest number no part uses, without advancing `nextReference`. Parts in older files keep their saved reference. The PCB sidebar renames them (letters uppercased; a reference another part has is refused). |
+| `reference`  | string  | Label shown on the PCB and in memory window titles, such as `U1`: 1 to 8 letters then a number of 1 or more. A new part's prefix comes from its category in Settings ▸ Reference Defaults (standard defaults: `U` for ICs, memory and processors, `R` for pull resistors, `C` capacitors, `D` diodes, Zener diodes and LEDs, `DS` displays, `G` oscillators, `S` switches, `J` USB/barrel connectors, terminal blocks, JST headers and female headers, `P` male headers, `PWR` power symbols). Integrated Circuit parts take the first free number from `nextReference`; every other prefix takes the lowest number no part uses, without advancing `nextReference`. Parts in older files keep their saved reference. The PCB sidebar renames them (letters uppercased; a reference another part has is refused). |
 | `partNumber` | string  | A part name from the part library (`schematical/schematical/Parts/*.json`): a logic part, memory (SRAM, EEPROM), switch, LED, 7-segment display, character LCD module, oscillator, processor, capacitor (a ceramic, electrolytic or tantalum part, or `GENERIC-CAPACITOR`), generic pin header (one part per size, `GENERIC-HEADER-1X01` … `GENERIC-HEADER-2X40`: rows, then pins per row; the sidebar changes the size by changing this part number), or a supply: `5V`, `3V3`, `2V5`, `1V8`, `1V2`, `12V` or `GND`. `VCC` (a supply removed from the library) opens as `5V`, and is saved as `5V`. The 55 LED parts `LED-<COLOR>-<PACKAGE>` (such as `LED-GREEN-RADIAL`, `LED-AMBER-0603`) that `GENERIC-LED` replaced open as `GENERIC-LED` with that part's color and footprint, in a file of any version, and are saved as `GENERIC-LED` (see [Old LED part numbers](#old-led-part-numbers)). |
 | `x`, `y`     | number  | Top-left corner of the part body.                                       |
 | `flipped`    | boolean | Pins on the opposite sides. Ignored for the supplies.                   |
@@ -138,6 +138,7 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `farads`     | number  | `GENERIC-CAPACITOR` only: its capacitance in farads, at least 1e-13 (0.1 pF) and at most 1, such as `4.7e-9`. Shown on the symbol, in the Details sidebar and in the Bill of Materials; the simulation ignores it. Always written for it; missing means `1e-7` (0.1 µF). Ignored on other parts (a real capacitor's value is its part's). An optional field, so the version stays 4. |
 | `showReference` | boolean | Written only as `false`: the Schematic doesn't draw this part's reference (the sidebar's Display Reference is off). Missing means the reference is shown. An optional field, so the version stays 4. |
 | `gender`     | string  | Headers only (`GENERIC-HEADER-…`): one of the part's genders, `"Male"` or `"Female"`. The symbol draws pins or sockets; the footprint doesn't change. Always written for a header; missing means the part's default (`Male`). Ignored on other parts. An optional field, so the version stays 4 (a file with headers names parts an older build doesn't have, which it refuses anyway). |
+| `socket`     | object  | A DIP or PLCC chip in a socket mode only (plan-51): `{"part": "GENERIC-SOCKET-DIP-14-300", "mode": "withSocket"}`. `part` is the name of a bundled `socket` part whose `fits` hold the chip's footprint; `mode` is `"withSocket"` (the chip sits in the socket: the PCB carries the socket's footprint and the Bill of Materials lists the chip and the socket) or `"socketOnly"` (the socket is on the board, the chip is not inserted: the Bill of Materials lists the socket only). Run ignores the mode. Left out for a plain IC, so a file with no socket is byte for byte what it was. An optional field, so the version stays 4. |
 | `partUUID`   | string  | Version 5. Custom parts only: the part's `uuid`, one of the file's `customParts`. The placed part resolves by it, not by `partNumber`; `partNumber` is the name the part had when saved (with its suffix, such as `SN74HC00N.2`), so a reader that ignores custom parts still sees a name. Written exactly for custom parts. |
 | `memoryFile` | object  | EEPROMs only, optional: the file (raw binary, or Intel HEX for `.hex`/`.ihx`/`.ihex`) loaded into the chip at every start; without it the chip starts erased (every byte FF). `path` (string) is the file's path relative to the schematic's folder (`../roms/boot.bin`), or absolute for a schematic that had never been saved. `bookmark` (base64 string, optional) is an app-scoped security bookmark; on the Mac that wrote it, it is tried first, so the sandboxed app can read the file after a restart, and `path` is the fallback. Ignored on other parts. |
 
@@ -278,11 +279,11 @@ fills nothing. Pours fill in drawing order; a later pour of another net gives wa
 | `x`, `y`, `width`, `height` | number | The rectangle in mm, `x`, `y` its top-left corner; `width` and `height` each at least 0.5. |
 | `layer`    | string  | The copper layer: `"top"`, `"inner2"` to `"inner5"` or `"bottom"`. It must be on the board and not a Plane. |
 | `net`      | string  | The pour's net, as a Plane layer's (`"ground"`, `"power:<mV>"` or `"pin:<part UUID>/<designator>"`). Missing is none. A net the schematic no longer has joins nothing. |
-| `clearance` | number | The gap to copper on other nets, in mm, 0.05 to 10. Missing is the DRC's min clearance. |
+| `clearance` | number | The gap to copper on other nets, in mm, 0.05 to 10. Missing is the DRC's min clearance. (The first pour drawn on a board starts at 0.5, KiCad's zone default, and is saved with it.) |
 | `connection` | string | `"thermal"` (default) or `"solid"`: how the pour joins the pads of its net. Vias of its net always join solid. |
 | `thermalGap` | number | The ring cut round a pad in thermal mode, in mm, 0.1 to 5. Default 0.5. |
 | `spokeWidth` | number | The width of the four spokes, in mm, 0.1 to 5. Default 0.5. |
-| `minWidth` | number  | In mm, 0.05 to 2. Default 0.2. |
+| `minWidth` | number  | In mm, 0.05 to 2. Default 0.2 when missing; the first pour drawn on a board starts at 0.25, KiCad's. |
 | `locked`   | boolean | Lock Position. Default `false`. Written only when `true`. |
 
 ### Keep-outs
@@ -545,10 +546,11 @@ being drawn to each other (in the simulation, the voltage check and the
 PCB's unrouted lines). A bus wire of that exact name is on the
 same net: the wires on its port pins, on any bus, join the labels' net. So
 bus wires of one name on different (unlinked) buses meet only through a
-label of that name. A label named like a supply part (`5V`, `3V3`, `2V5`,
+label of that name. A label, or a bus wire, named like a supply part (`5V`, `3V3`, `2V5`,
 `1V8`, `1V2`, `12V` or `GND`, case sensitive) is on that rail: it joins the
 wired pins of every supply symbol of that name, so `GND` on a label and a GND
-symbol are one net (a label named for a rail with no such symbol on the
+symbol are one net, and a bus wire named `5V` is on the 5V rail with no label
+needed (a name for a rail with no such symbol on the
 schematic joins nothing but its own name). A pull-up or pull-down is not a
 supply here. A label is never simulated itself.
 
@@ -636,6 +638,9 @@ Opening fails, and the canvas is left unchanged, if:
   (`U3: "LED-9999" is not a footprint of GENERIC-LED`);
 - a header's `gender` is not one of its genders (`U4: "Neutral" is not a
   gender of GENERIC-HEADER-1X08`);
+- a chip's `socket` names a part that is not an IC socket (`U4: "SN74HC00N" is not an IC socket`), a
+  socket that does not hold the chip's footprint (`U4: "GENERIC-SOCKET-DIP-8-300" does not fit PDIP-14`)
+  or a `mode` other than `withSocket` and `socketOnly` (`U4: "ic" is not a socket mode`);
 - `GENERIC-CAPACITOR`'s `farads` is not at least 1e-13 and at most 1 (`C3 has capacitance 0 F; it must be more than 0 and at most 1 F.`);
 - a pull resistor's or `GENERIC-RESISTOR`'s `ohms` is not more than 0 and at most 1e9 (`R3 has
   resistance 0 Ω; it must be more than 0 and at most 1 GΩ.`);

@@ -48,7 +48,7 @@ enum WizardIssueLocator {
                 return step(page: .identity)
             case "datasheet":
                 return step(page: .datasheet)
-            case "footprint", "connectorFootprint", "footprintChoices":
+            case "footprint", "connectorFootprint", "footprintChoices", "fits":
                 return step(page: .footprint)
             case "vcc", "inputMax":
                 return step(page: .supply) ?? kindStep(named: word, steps: steps, draft: draft)

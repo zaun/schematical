@@ -24,19 +24,19 @@
 ## Description
 
 The hex Schmitt-trigger inverter is designed for 2.7-V to 3.6-V V~CC~
-operation.
+operation. [[1::1]]
 
 The device contains six independent inverters and performs the Boolean
-function Y = !{A}.
+function Y = !{A}. [[1::2]]
 
 Inputs can be driven from either 3.3-V or 5-V devices. This feature
 allows the use of this device as a translator in a mixed 3.3-V/5-V
-system environment.
+system environment. [[1::3]]
 
 Qualified for Automotive Applications. ESD Protection Exceeds 2000 V Per
 MIL-STD-883, Method 3015; Exceeds 200 V Using Machine Model (C = 200 pF,
 R = 0). Operates From 2 V to 3.6 V. Inputs Accept Voltages to 5.5 V.
-Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II.
+Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II. [[1::1]]
 
 ## Pinout
 
@@ -51,6 +51,7 @@ Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II.
 GND: Ground
 VCC: Positive supply
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -60,6 +61,7 @@ VCC: Positive supply
 | H | L |
 | L | H |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -82,6 +84,7 @@ VCC: Positive supply
 [3] The value of V~CC~ is provided in the recommended operating conditions table.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -100,6 +103,7 @@ VCC: Positive supply
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -129,6 +133,7 @@ VCC: Positive supply
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 ```
+[[3::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 2.5 V | V~CC~ = 3.3 V | Unit |
@@ -136,6 +141,7 @@ VCC: Positive supply
 |---|---|---|--:|--:|---|
 | C~pd~ | Power dissipation capacitance per inverter | f = 10 MHz | 12 | 15 | pF |
 ```
+[[3::table #2]]
 
 ## Switching characteristics
 
@@ -145,6 +151,7 @@ VCC: Positive supply
 |---|---|---|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | | 7.5 | 1 | 6.4 | ns |
 ```
+[[3::table #3]]
 
 ## Parameter measurement information
 
@@ -152,7 +159,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[4::2]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -167,11 +174,13 @@ enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[4::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[4::Figure 1]]
 
 ```table id=test-conditions caption="Test conditions (Figure 1)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -182,10 +191,12 @@ CL: see table
 | 2.7 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 3.3 V ± 0.3 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 ```
+[[4::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[4::Figure 1]]
 
 ## Package
 
@@ -202,6 +213,7 @@ SN74LVC14AQDRG4Q1 | Reel of 2500 | -40 to 125 | LVC14AQ
 SN74LVC14AQDRQ1 | Reel of 2500 | -40 to 125 | LVC14AQ
 SN74LVC14AQPWRG4Q1 | Reel of 2000 | -40 to 125 | LVC14AQ
 ```
+[[5::table #1]]
 
 ## Conversion notes
 

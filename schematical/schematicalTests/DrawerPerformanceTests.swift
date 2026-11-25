@@ -60,6 +60,16 @@ final class DrawerPerformanceTests: XCTestCase {
                     XCTAssertEqual(names, want, function.function)
                     continue
                 }
+                if function.parts.allSatisfy(\.isCardSlot) {
+                    // A card-slot leaf goes by pin count, then by name (plan-54-O).
+                    let want = function.parts.sorted {
+                        $0.pins.count != $1.pins.count
+                            ? $0.pins.count < $1.pins.count
+                            : $0.name.localizedStandardCompare($1.name) == .orderedAscending
+                    }.map(\.name)
+                    XCTAssertEqual(names, want, function.function)
+                    continue
+                }
                 XCTAssertEqual(names, names.sorted { $0.localizedStandardCompare($1) == .orderedAscending },
                                function.function)
             }
@@ -96,6 +106,30 @@ final class DrawerPerformanceTests: XCTestCase {
         host.layoutSubtreeIfNeeded()
         let seconds = CFAbsoluteTimeGetCurrent() - start
         print("PERF open Zener group, first layout (incl. 0.2 s run loop): \(seconds) s")
+        XCTAssertLessThan(seconds, 2.0)
+    }
+
+    /// plan-54-O: the Connector › Card slot branch, opened down to its biggest function group (the card slots
+    /// go by pin count, up to 694 pins each), builds in the same time class as the Zener group.
+    func testCardSlotGroupBuildsFast() throws {
+        let connector = try XCTUnwrap(catalog.groups(matching: everything()).first { $0.category == "Connector" })
+        let slot = try XCTUnwrap(connector.subcategories.first { $0.subcategory == "Card slot" })
+        let leaf = try XCTUnwrap(slot.subgroups.max { $0.allParts.count < $1.allParts.count })
+        let function = try XCTUnwrap(leaf.functions.max { $0.parts.count < $1.parts.count })
+        let groups: Set<String> = ["category:Connector", "subcategory:Connector/Card slot",
+                                   "subcategory:\(leaf.path.joined(separator: "/"))",
+                                   "function:\(leaf.path.joined(separator: "/"))/\(function.function)"]
+        let host = NSHostingView(rootView: ChipDrawerView(catalog: catalog, openGroups: groups))
+        host.frame = NSRect(x: 0, y: 0, width: 360, height: 800)
+        let window = NSWindow(contentRect: host.frame, styleMask: [.titled], backing: .buffered, defer: false)
+        window.contentView = host
+        let start = CFAbsoluteTimeGetCurrent()
+        host.layoutSubtreeIfNeeded()
+        host.displayIfNeeded()
+        RunLoop.current.run(until: Date().addingTimeInterval(0.2))
+        host.layoutSubtreeIfNeeded()
+        let seconds = CFAbsoluteTimeGetCurrent() - start
+        print("PERF open Card slot group \(function.function) (\(function.parts.count) parts), first layout (incl. 0.2 s run loop): \(seconds) s")
         XCTAssertLessThan(seconds, 2.0)
     }
 

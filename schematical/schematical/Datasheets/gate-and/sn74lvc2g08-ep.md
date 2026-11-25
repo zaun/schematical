@@ -26,11 +26,11 @@
 This dual 2-input positive-AND gate is designed for 1.65-V to 5.5-V
 V~CC~ operation. The SN74LVC2G08 performs the Boolean function
 Y = A • B or Y = !{!{A} + !{B}} in positive logic. Inputs accept
-voltages to 5.5 V.
+voltages to 5.5 V. [[1::1]] [[1::5]] [[1::6]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::7]]
 
 Qualification pedigree. Component qualification in accordance with
 JEDEC and industry standards to ensure reliable operation over an
@@ -39,7 +39,7 @@ Highly Accelerated Stress Test (HAST) or biased 85/85, temperature
 cycle, autoclave or unbiased HAST, electromigration, bond intermetallic
 life, and mold compound life. Such qualification testing should not be
 viewed as justifying use of this component beyond specified performance
-and environmental limits.
+and environmental limits. [[1::2]]
 
 ## Pinout
 
@@ -55,6 +55,7 @@ and environmental limits.
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -66,6 +67,7 @@ VCC: Supply voltage
 | L | X | L |
 | X | L | L |
 ```
+[[2::table #1]]
 
 ## Absolute maximum ratings
 
@@ -88,10 +90,11 @@ VCC: Supply voltage
 [3] The value of V~CC~ is provided in the recommended operating conditions table.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #2]]
 
 ESD protection exceeds JESD 22: 2000-V Human-Body Model (A114-A),
 1000-V Charged-Device Model (C101). Latch-up performance exceeds 100 mA
-per JESD 78, Class II.
+per JESD 78, Class II. [[1::3]]
 
 ## Recommended operating conditions
 
@@ -125,6 +128,7 @@ per JESD 78, Class II.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -149,10 +153,11 @@ per JESD 78, Class II.
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25 °C.
 ```
+[[4::table #1]]
 
 Typical V~OLP~ (output ground bounce) <0.8 V at V~CC~ = 3.3 V,
 T~A~ = 25°C. Typical V~OHV~ (output V~OH~ undershoot) >2 V at
-V~CC~ = 3.3 V, T~A~ = 25°C.
+V~CC~ = 3.3 V, T~A~ = 25°C. [[1::1]] [[1::3]]
 
 ### Operating characteristics
 
@@ -162,6 +167,7 @@ V~CC~ = 3.3 V, T~A~ = 25°C.
 |---|---|---|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 17 | 20 | pF |
 ```
+[[4::table #2]]
 
 ## Switching characteristics
 
@@ -174,15 +180,16 @@ note: the source specifies switching at V~CC~ = 3.3 V and 5 V only.
 |---|---|---|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 1 | 5.7 | 1 | 4.8 | ns |
 ```
+[[4::table #3]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
-per measurement. t~PLH~ and t~PHL~ are the same as t~pd~.
+per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. [[5::1]]
 
-All parameters and waveforms are not applicable to all devices.
+All parameters and waveforms are not applicable to all devices. [[5::1]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -197,11 +204,13 @@ setup-and-hold and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[5::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: 500 Ω
 CL: 50 pF
 ```
+[[5::Figure 1]]
 
 ```table id=test-conditions caption="Test conditions (Figure 1)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -210,10 +219,12 @@ CL: 50 pF
 | 3.3 V ± 0.3 V | 3 V | ≤ 2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤ 2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[5::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times"
 VM: see table
 ```
+[[5::Figure 1]]
 
 ## Package
 
@@ -226,6 +237,7 @@ VM: see table
 SN74LVC2G08MDCUREP | Reel of 3000 | -55 to 125 | SBNM
 V62/07631-01XE | Reel of 3000 | -55 to 125 | SBNM
 ```
+[[6::table #1]]
 
 ## Conversion notes
 

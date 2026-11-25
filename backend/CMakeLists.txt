@@ -23,6 +23,7 @@ add_library(logic STATIC
     src/models/diode.c
     src/models/capacitor.c
     src/models/mcu.c
+    src/models/pld.c
     src/models/resistor.c
     src/models/transistor.c
     src/models/generic.c
@@ -32,8 +33,11 @@ add_library(logic STATIC
     src/models/supply.c
     src/models/led.c
     src/models/nixie.c
+    src/models/dekatron.c
+    src/models/lcd.c
     src/models/regulator.c
     src/models/crystal.c
+    src/models/powerswitch.c
     src/models/terminals.c
     src/models/inductor.c
     src/models/fuse.c
@@ -76,6 +80,11 @@ add_library(logic STATIC
     src/models/converter_load.c
     src/models/converter_par.c
     src/models/rtc.c
+    src/models/display_out.c
+    src/models/display_clock.c
+    src/models/display_ccsi.c
+    src/models/leddriver.c
+    src/models/lcddriver.c
     src/models/ns16550_bridge.c
     src/models/ns16550_xr1280.c
     src/models/serial_max3100.c
@@ -90,6 +99,7 @@ add_library(logic STATIC
     src/models/serial_sc18is604.c
     src/models/connector.c
     src/models/header.c
+    src/models/socket.c
     src/models/pio.c
     src/models/bus65.c
     src/models/pio_pia6521.c
@@ -164,6 +174,7 @@ logic_test(decoder_test)
 logic_test(mux_test)
 logic_test(arith_test)
 logic_test(counter_test)
+logic_test(counter_sn74143_test)
 logic_test(shift_test)
 logic_test(memory_image_test)
 logic_test(voltage_test)
@@ -188,6 +199,20 @@ logic_test(usbuart_test)
 logic_test(pio_test)
 logic_test(converter_test)
 logic_test(rtc_test)
+logic_test(display_out_test)
+logic_test(pcf1179c_test)
+logic_test(tlc6983_test)
+logic_test(icm7218_test)
+logic_test(icm7228_test)
+logic_test(icm7211_test)
+logic_test(as1115_test)
+logic_test(max6950_test)
+logic_test(max6957_test)
+logic_test(max6954_max6955_test)
+logic_test(pcf8576_family_test)
+logic_test(lcd_spi_i2c_test)
+logic_test(icm7231_max7231_test)
+logic_test(cd22105_icm7224_test)
 logic_test(tactile_test)
 logic_test(diode_test)
 logic_test(resistor_test)
@@ -195,10 +220,15 @@ logic_test(transistor_test)
 logic_test(capacitor_test)
 logic_test(mcu_test)
 logic_test(generic_test)
+logic_test(pld_test)
+logic_test(socket_test)
 logic_test(serialmem_test)
 logic_test(nixie_test)
+logic_test(dekatron_test)
+logic_test(lcd_test)
 logic_test(regulator_test)
 logic_test(crystal_test)
+logic_test(powerswitch_test)
 logic_test(inductor_test)
 logic_test(fuse_test)
 logic_test(relay_test)

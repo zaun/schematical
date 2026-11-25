@@ -112,6 +112,16 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// Written only as `false`, when the Schematic hides the part's
         /// reference (Display Reference off); missing means shown.
         var showReference: Bool? = nil
+        /// A chip in a socket mode only (plan-51-H): the socket and the mode.
+        /// Left out for a plain IC. Optional like `gender`: the version stays 4.
+        var socket: SocketEntry? = nil
+    }
+
+    /// A chip's socket: the bundled socket part's name and the mode, `"withSocket"`
+    /// (the chip sits in the socket) or `"socketOnly"` (the socket without the chip).
+    struct SocketEntry: Codable, Equatable, Sendable {
+        var part: String
+        var mode: String
     }
 
     /// An EEPROM's load file: the path relative to the schematic's folder (or
@@ -779,7 +789,8 @@ extension SchematicFile {
                 ohms: chip.ohms,
                 partUUID: chip.part.uuid,
                 farads: chip.farads,
-                showReference: chip.showsReference ? nil : false
+                showReference: chip.showsReference ? nil : false,
+                socket: chip.socket.map { SocketEntry(part: $0.part.name, mode: $0.mode.rawValue) }
             )
         }
         junctions = document.junctions.map {
@@ -1015,6 +1026,24 @@ extension SchematicFile {
             if catalogPart.isGenericCapacitor, let farads = part.farads, !CapacitorValue.isValid(farads) {
                 throw SchematicFileError.badFarads(reference: part.reference, farads: farads)
             }
+            // The socket (plan-51-H): a bundled socket part that holds this chip's footprint, in a known mode.
+            var socket: ChipSocket?
+            if let entry = part.socket {
+                guard let mode = ChipSocket.Mode(rawValue: entry.mode) else {
+                    throw SchematicFileError.badPartOption(
+                        reference: part.reference, detail: "\"\(entry.mode)\" is not a socket mode")
+                }
+                guard let socketPart = catalog.part(named: entry.part), socketPart.kind == PART_SOCKET else {
+                    throw SchematicFileError.badPartOption(
+                        reference: part.reference, detail: "\"\(entry.part)\" is not an IC socket")
+                }
+                guard ChipSocket.fits(socketPart, catalogPart) else {
+                    throw SchematicFileError.badPartOption(
+                        reference: part.reference,
+                        detail: "\"\(entry.part)\" does not fit \(catalogPart.footprint?.id ?? catalogPart.name)")
+                }
+                socket = ChipSocket(part: socketPart, mode: mode)
+            }
             // A load file counts only on an EEPROM.
             var memoryFile: MemoryFile?
             if catalogPart.kind == PART_EEPROM, let entry = part.memoryFile {
@@ -1035,7 +1064,8 @@ extension SchematicFile {
                 footprintID: footprintID,
                 gender: part.gender,
                 ohms: catalogPart.hasOhmsField ? part.ohms : nil,
-                farads: catalogPart.isGenericCapacitor ? part.farads : nil
+                farads: catalogPart.isGenericCapacitor ? part.farads : nil,
+                socket: socket
             )
             chip.showsReference = part.showReference ?? true
             // A stored placement counts only for a part with a footprint.

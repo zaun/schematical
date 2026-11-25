@@ -27,18 +27,18 @@ The SN54LVC32A quadruple 2-input positive-OR gate is designed for 2.7V
 to 3.6V V~CC~ operation, and the SN74LVC32A quadruple 2-input
 positive-OR gate is designed for 1.65V to 3.6V V~CC~ operation.
 Source conflict: the overview and the SN54LVC32A recommended operating
-conditions give 2 V minimum.
+conditions give 2 V minimum. [[1::1]]
 
 The SNx4LVC32A devices perform the Boolean function Y = A + B or
-Y = !{!{A} • !{B}} in positive logic.
+Y = !{!{A} • !{B}} in positive logic. [[1::3]]
 
 Inputs can be driven from either 3.3V or 5V devices. This feature allows
 the use of these devices as translators in a mixed 3.3V/5V system
-environment.
+environment. [[1::4]]
 
 Specified from –40°C to +85°C, –40°C to +125°C, and –55°C to +125°C.
 Inputs accept voltages to 5.5V. Latch-up performance exceeds 250mA per
-JESD 17.
+JESD 17. [[1::2]]
 
 ## Pinout
 
@@ -63,23 +63,24 @@ GND: Ground Pin
 NC: No Connection
 VCC: Power Pin
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
 The SN54LVC32A quadruple 2-input positive-OR gate is designed for 2-V to
 3.6-V V~CC~ operation, and the SN74LVC32A quadruple 2-input positive-OR
-gate is designed for 1.65-V to 3.6-V V~CC~ operation.
+gate is designed for 1.65-V to 3.6-V V~CC~ operation. [[1::1]]
 
 Inputs can be driven from either 3.3-V or 5-V devices. This feature
 allows the use of these devices as down-translators in a mixed
-3.3-V/5-V system environment.
+3.3-V/5-V system environment. [[1::4]]
 
 ### Feature description
 
-- Wide operating voltage range
-  - Operates from 1.65 V to 3.6 V
-- Allows up or down voltage translation
-  - Inputs accept voltages to 5.5 V
+- Wide operating voltage range [[9::5]]
+  - Operates from 1.65 V to 3.6 V [[9::5]]
+- Allows up or down voltage translation [[9::5]]
+  - Inputs accept voltages to 5.5 V [[1::2]]
 
 ## Function tables
 
@@ -91,6 +92,7 @@ allows the use of these devices as down-translators in a mixed
 | X | H | H |
 | L | L | L |
 ```
+[[9::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -114,6 +116,7 @@ allows the use of these devices as down-translators in a mixed
 [4] For the D package: above 70°C, the value of P~tot~ derates linearly with 8 mW/K.
 [5] For the DB, DGV, NS, and PW packages: above 60°C, the value of P~tot~ derates linearly with 5.5 mW/K.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -124,6 +127,7 @@ allows the use of these devices as down-translators in a mixed
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -145,6 +149,7 @@ allows the use of these devices as down-translators in a mixed
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[5::table #1]]
 
 ```table id=roc-74 caption="Recommended operating conditions, SN74LVC32A" parts=SN74* conditions="Over operating free-air temperature range (unless otherwise noted) [1]"
 | Symbol | Parameter | Conditions | SN74LVC32A | < | < | < | < | < | Unit |
@@ -173,6 +178,7 @@ allows the use of these devices as down-translators in a mixed
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[5::table #2]]
 
 ## Thermal information
 
@@ -184,6 +190,7 @@ allows the use of these devices as down-translators in a mixed
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[6::table #1]]
 
 ## Electrical characteristics
 
@@ -202,6 +209,7 @@ allows the use of these devices as down-translators in a mixed
 | I~CC~ | V~I~ = V~CC~ or GND, I~O~ = 0 | 3.6 V | | 10 | µA |
 | ΔI~CC~ | One input at V~CC~ - 0.6 V, Other inputs at V~CC~ or GND | 2.7 V to 3.6 V | | 500 | µA |
 ```
+[[6::table #2]]
 
 ```table id=ec-74 caption="Electrical characteristics, SN74LVC32A" parts=SN74* conditions="Over operating free-air temperature range (unless otherwise noted)"
 | Symbol | Test conditions | V~CC~ | SN74LVC32A | < | < | < | < | < | < | Unit |
@@ -224,6 +232,7 @@ allows the use of these devices as down-translators in a mixed
 | ΔI~CC~ | One input at V~CC~ - 0.6 V, Other inputs at V~CC~ or GND | 2.7 V to 3.6 V | | | 500 | | 500 | | 5000 | µA |
 | C~i~ | V~I~ = V~CC~ or GND | 3.3 V | | 5 | | | | | | pF |
 ```
+[[6::table #3]]
 
 ### Operating characteristics
 
@@ -234,6 +243,7 @@ allows the use of these devices as down-translators in a mixed
 | ^ | ^ | ^ | 2.5V | 10.6 | pF |
 | ^ | ^ | ^ | 3.3V | 12.5 | pF |
 ```
+[[7::table #1]]
 
 ## Switching characteristics
 
@@ -244,6 +254,7 @@ allows the use of these devices as down-translators in a mixed
 | t~pd~ | A or B | Y | 2.7V | | 4.4 | ns |
 | ^ | ^ | ^ | 3.3V ± 0.3V | 1 | 3.8 | ns |
 ```
+[[7::table #2]]
 
 ```table id=sw-74 caption="Switching characteristics, SN74LVC32A" parts=SN74* conditions="Over operating free-air temperature range (unless otherwise noted) (see Load Circuit and Voltage Waveforms)"
 | Symbol | From (input) | To (output) | V~CC~ | SN74LVC32A | < | < | < | < | < | < | Unit |
@@ -256,6 +267,7 @@ allows the use of these devices as down-translators in a mixed
 | ^ | ^ | ^ | 3.3V ± 0.3V | 1 | 2.5 | 3.6 | 1 | 3.8 | 1 | 5 | ns |
 | t~sk(o)~ | | | 3.3V ± 0.3V | | | | | 1 | | 1.5 | ns |
 ```
+[[7::table #3]]
 
 ## Typical characteristics
 
@@ -266,15 +278,16 @@ allows the use of these devices as down-translators in a mixed
   {"label": "TPD", "points": [[1.8, 4.2], [2.0, 3.8], [2.3, 3.0], [2.5, 2.6], [2.55, 2.6], [2.7, 3.0], [3.0, 2.8], [3.3, 2.5]]}
  ]}
 ```
+[[7::Figure 5-1]]
 
 ## Parameter measurement information
 
 C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
-per measurement. t~PLH~ and t~PHL~ are the same as t~pd~.
+per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. [[8::2]]
 
-All parameters and waveforms are not applicable to all devices.
+All parameters and waveforms are not applicable to all devices. [[8::2]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -289,11 +302,13 @@ setup-and-hold and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[8::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[8::Figure 6-1]]
 
 ```table id=test-conditions caption="Test conditions (Figure 6-1)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -304,10 +319,12 @@ CL: see table
 | 2.7 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 3.3 V ± 0.3 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 ```
+[[8::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[8::Figure 6-1]]
 
 ## Application information
 
@@ -315,14 +332,14 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes. Customers should validate and test
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 SN74LVC32A device is a high-drive, CMOS device that can be used for a
 multitude of buffer-type functions. It can produce 24 mA of drive
 current at 3 V. Therefore, this device is ideal for driving multiple
 inputs and for high-speed applications up to 100 MHz. The inputs and
 outputs are 5.5-V tolerant allowing the device to translate down to
-V~CC~.
+V~CC~. [[10::2]]
 
 Source conflict: the absolute maximum ratings give an output voltage up
 to V~CC~ + 0.5 V, and the recommended operating conditions an output
@@ -336,21 +353,21 @@ This device uses CMOS technology and has balanced output drive. Care
 should be taken to avoid bus contention because it can drive currents
 that would exceed maximum limits. The high drive will also create fast
 edges into light loads; therefore, routing and load conditions should be
-considered to prevent ringing.
+considered to prevent ringing. [[10::4]]
 
 ### Detailed design procedure
 
-1. Recommended Input Conditions
+1. Recommended Input Conditions [[10::5]]
    - Rise time and fall time specs: See (Δt/ΔV) in the
-     Section 5.4 table.
+     Section 5.4 table. [[10::5]]
    - Specified high and low levels: See (V~IH~ and V~IL~) in the
-     Section 5.4 table.
+     Section 5.4 table. [[10::5]]
    - Inputs are overvoltage tolerant allowing them to go as high as
-     5.5 V at any valid V~CC~.
-2. Recommended Output Conditions
+     5.5 V at any valid V~CC~. [[10::5]]
+2. Recommended Output Conditions [[10::5]]
    - Load currents should not exceed 25 mA per output and 50 mA total
-     for the part.
-   - Outputs should not be pulled above 5.5 V.
+     for the part. [[10::5]]
+   - Outputs should not be pulled above 5.5 V. [[10::5]]
 
 Conversion note: Section 5.4 of the source is the
 [Recommended operating conditions, SN74LVC32A](#roc-74) table.
@@ -369,11 +386,12 @@ current of 24 mA maximum and an output voltage of V~CC~ maximum.
   {"label": "Vcc 3.3V", "points": [[0, 0], [10, 1.6], [20, 3.2], [30, 4.6], [35, 5.8], [40, 7.2], [50, 9.6], [60, 11.0], [70, 12.7], [75, 13.5]]}
  ]}
 ```
+[[11::Figure 8-2]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the MIN and MAX supply
-voltage rating located in the Section 5.4 table.
+voltage rating located in the Section 5.4 table. [[11::2]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 μF is recommended; if
@@ -381,11 +399,11 @@ there are multiple V~CC~ pins, then 0.01 μF or 0.022 μF is recommended
 for each power pin. It is acceptable to parallel multiple bypass caps to
 reject different frequencies of noise. A 0.1 μF and a 1 μF are commonly
 used in parallel. The bypass capacitor should be installed as close to
-the power pin as possible for best results.
+the power pin as possible for best results. [[11::3]]
 
 ### Layout guidelines
 
-When using multiple bit logic devices inputs should never float.
+When using multiple bit logic devices inputs should never float. [[11::4]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused, for example, when only two inputs of a triple-input AND gate
@@ -398,15 +416,15 @@ connected to a high or low bias to prevent them from floating. The logic
 level that should be applied to any particular unused input depends on
 the function of the device. Generally they will be tied to GND or
 V~CC~, whichever makes more sense or is more convenient. It is generally
-acceptable to float outputs, unless the part is a transceiver.
+acceptable to float outputs, unless the part is a transceiver. [[11::5]]
 
 Conversion note: the layout diagram (Figure 8-3) is given here by its labels.
 
-- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation
-- Bypass capacitor placed close to the device
-- Unused inputs tied to V~CC~
-- Unused output left floating
-- Avoid 90° corners for signal lines
+- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation [[11::6]]
+- Bypass capacitor placed close to the device [[11::8]]
+- Unused inputs tied to V~CC~ [[11::5]]
+- Unused output left floating [[11::5]]
+- Avoid 90° corners for signal lines [[11::7]]
 
 ## Package
 
@@ -465,6 +483,7 @@ SNJ54LVC32AFK | Tube of 55 | -55 to 125 | 5962-9761801Q2A SNJ54LVC32AFK
 SNJ54LVC32AJ | Tube of 25 | -55 to 125 | 5962-9761801QCA SNJ54LVC32AJ
 SNJ54LVC32AW | Tube of 25 | -55 to 125 | 5962-9761801QDA SNJ54LVC32AW
 ```
+[[14::table #1]] [[15::table #1]]
 
 ## Conversion notes
 

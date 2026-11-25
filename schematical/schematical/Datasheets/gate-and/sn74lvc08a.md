@@ -29,11 +29,11 @@ positive-AND gate is designed for 1.65 V to 3.6 V V~CC~ operation.
 SNx4LVC08A specified from –40 °C to +85 °C and –40 °C to +125 °C.
 SN54LVC08A specified from –55 °C to +125 °C. The
 devices perform the Boolean function Y = A · B or Y = !{!{A} + !{B}} in
-positive logic.
+positive logic. [[1::1]] [[1::2]] [[1::4]]
 
 Inputs can be driven from either 3.3 V or 5 V devices. This feature
 allows the use of these devices as translators in a mixed 3.3 V/5 V
-system environment.
+system environment. [[1::5]]
 
 ## Pinout
 
@@ -53,16 +53,17 @@ GND: Ground
 VCC: Positive supply
 NC: No internal connection
 ```
+[[3::table #1]]
 
 The thermal pad can be connected to GND or left
 floating. Do not connect to any other signal or supply. For BQA package
-only.
+only. [[4::1]]
 
 ## Functional description
 
 The SN74LVC08 device contains four 2-input positive AND gate device and
 performs the Boolean function Y = A × B. Conversion note: the logic
-diagram, each gate (positive logic), is one 2-input AND gate.
+diagram, each gate (positive logic), is one 2-input AND gate. [[11::1]]
 
 Balanced high-drive CMOS push-pull outputs: a balanced output allows the
 device to sink and source similar currents. The high drive capability
@@ -72,7 +73,7 @@ driving larger currents than the device can sustain without being
 damaged. It is important for the power output of the device to be
 limited to avoid thermal runaway and damage due to over-current. The electrical and thermal
 limits defined in the [absolute maximum ratings](#absolute-maximum-ratings)
-must be followed at all times.
+must be followed at all times. [[11::3]]
 
 Standard CMOS inputs are high impedance and are typically modelled as a
 resistor in parallel with the input capacitance given in the
@@ -83,20 +84,21 @@ the inputs need to have fast edge rates, as defined by Δt/Δv in the
 [recommended operating conditions](#recommended-operating-conditions), to
 avoid excessive currents and oscillations. If a slow or noisy input
 signal is required, a device with a Schmitt-trigger input should be
-utilized to condition the input signal.
+utilized to condition the input signal. [[11::4]] [[11::5]]
 
 Clamp diodes: the inputs have negative clamping diodes. The outputs have
 both positive and negative clamping diodes. Voltages beyond the absolute
 maximum ratings can cause damage to the device. The input
 negative-voltage and output voltage ratings may be exceeded if the input
-and output clamp-current ratings are observed.
+and output clamp-current ratings are observed. [[11::6]] [[11::7]]
 
 ```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output"
 ```
+[[11::Figure 7-2]]
 
 Over-voltage tolerant inputs: input signals can be driven above the
 supply voltage so long as they remain below the maximum input voltage
-value specified in the absolute maximum ratings.
+value specified in the absolute maximum ratings. [[12::1]]
 
 ## Function tables
 
@@ -109,6 +111,7 @@ value specified in the absolute maximum ratings.
 | H | L | L |
 | H | H | H |
 ```
+[[12::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -133,6 +136,7 @@ value specified in the absolute maximum ratings.
 [5] For the DB, NS, and PW packages: above 60 °C, the value of P~tot~ derates linearly with 5.5 mW/K.
 [6] Unconfirmed: the source gives a minimum of –65 °C for junction temperature, the same as storage temperature.
 ```
+[[5::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -144,6 +148,7 @@ value specified in the absolute maximum ratings.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[5::table #2]]
 
 ## Recommended operating conditions
 
@@ -164,6 +169,7 @@ value specified in the absolute maximum ratings.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[5::table #3]]
 
 ```table id=roc-74 caption="Recommended operating conditions, SN74LVC08A [1]" parts=SN74* conditions="Over operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Conditions | T~A~ = 25 °C | < | –40 °C to +85 °C | < | –40 °C to +125 °C | < | Unit |
@@ -191,6 +197,7 @@ value specified in the absolute maximum ratings.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[6::table #1]]
 
 ## Thermal information
 
@@ -207,6 +214,7 @@ value specified in the absolute maximum ratings.
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 [2] Source error: the thermal table labels the RGY package "LCCC"; the device information table and pin configuration give RGY as VQFN.
 ```
+[[6::table #2]]
 
 ## Electrical characteristics
 
@@ -228,6 +236,7 @@ value specified in the absolute maximum ratings.
 
 [1] T~A~ = 25 °C
 ```
+[[7::table #1]]
 
 ```table id=ec-74 caption="Electrical characteristics, SN74LVC08A" parts=SN74* conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | Test conditions | V~CC~ | T~A~ = 25 °C | < | < | –40 °C to +85 °C | < | –40 °C to +125 °C | < | Unit |
@@ -249,6 +258,7 @@ value specified in the absolute maximum ratings.
 | ΔI~CC~ | One input at V~CC~ - 0.6 V, other inputs at V~CC~ or GND | 2.7 V to 3.6 V | | | 500 | | 500 | | 5000 | µA |
 | C~i~ | V~I~ = V~CC~ or GND | 3.3 V | | 5 | | | | | | pF |
 ```
+[[7::table #2]]
 
 ```table id=operating caption="Operating characteristics, T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -257,11 +267,12 @@ value specified in the absolute maximum ratings.
 | ^ | ^ | ^ | 2.5 V | 9.8 | pF |
 | ^ | ^ | ^ | 3.3 V | 10 | pF |
 ```
+[[8::table #1]]
 
 ## Switching characteristics
 
 See [parameter measurement information](#parameter-measurement) for the
-load circuit and voltage waveforms.
+load circuit and voltage waveforms. [[10::1]]
 
 ```table id=sw-54 caption="Switching characteristics, SN54LVC08A" parts=SNJ54*,5962-* conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From (input) | To (output) | V~CC~ | –55 °C to +125 °C | < | Unit |
@@ -270,6 +281,7 @@ load circuit and voltage waveforms.
 | t~pd~ | A or B | Y | 2.7 V | | 4.8 | ns |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1 | 4.1 | ns |
 ```
+[[8::table #2]]
 
 ```table id=sw-74 caption="Switching characteristics, SN74LVC08A" parts=SN74* conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From (input) | To (output) | V~CC~ | T~A~ = 25 °C | < | < | –40 °C to +85 °C | < | –40 °C to +125 °C | < | Unit |
@@ -281,6 +293,7 @@ load circuit and voltage waveforms.
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1 | 2.6 | 3.9 | 1 | 4.1 | 1 | 5.5 | ns |
 | t~sk(o)~ | | | 3.3 V ± 0.3 V | | | | | 1 | | 1.5 | ns |
 ```
+[[8::table #3]]
 
 ## Parameter measurement information
 
@@ -288,7 +301,7 @@ C~L~ includes probe and jig capacitance. All input
 pulses are supplied by generators having the following characteristics:
 PRR ≤ 10 MHz, Z~O~ = 50 Ω. The outputs are measured one at a time, with
 one transition per measurement. t~PLH~ and t~PHL~ are the same as
-t~pd~. All parameters and waveforms are not applicable to all devices.
+t~pd~. All parameters and waveforms are not applicable to all devices. [[10::3]]
 
 Conversion note: for t~PLH~/t~PHL~ the switch S1 of the load circuit is
 open, which leaves R~L~ and C~L~ from the output to ground.
@@ -301,32 +314,35 @@ open, which leaves R~L~ and C~L~ from the output to ground.
 | 2.7 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 3.3 V ± 0.3 V | 2.7 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 ```
+[[10::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit for t~pd~ (S1 open)"
 RL: see table
 CL: see table
 ```
+[[10::figure #1]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[9::Figure 5-1]]
 
 ## Application information
 
 Information in the applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
-completeness.
+completeness. [[13::1]]
 
 The SN74LVC08A is used to drive CMOS devices and for implementing AND
 logic. The LVC family can support current drive of about 24 mA at 3-V
 V~CC~. The inputs are 5.5-V tolerant, allowing it to translate down to
-V~CC~.
+V~CC~. [[13::2]]
 
 Design requirements: this device uses CMOS technology and has balanced
 output drive. Take care to avoid bus contention because it can drive
 currents that would exceed maximum limits. The high drive will also
 create fast edges into light loads so routing and load conditions should
-be considered to prevent ringing.
+be considered to prevent ringing. [[13::4]]
 
 Detailed design procedure: SN74LVC08A contains four AND gates in one
 package which can be used for individual AND function or to implement
@@ -335,7 +351,7 @@ complex Boolean logic. Figure 8-1 shows an example of implementing
 another AND gate. Z = A × B × C. TI recommends to use a series
 resistance to limit the current. If V~CC~ is 3 V, and LED current should
 be 10 mA, and the forward-voltage of LED is 2.5 V, then R as shown in
-Figure 8-1 is calculated using Equation 1:
+Figure 8-1 is calculated using Equation 1: [[13::5]]
 
 ```equation
 R = (V~CC~ – V~LED~) / I
@@ -352,7 +368,7 @@ and maximum supply voltage rating in the
 The V~CC~ pin must have a good bypass capacitor to prevent power
 disturbance. TI recommends to use a 0.1-µF capacitor. 0.1-µF and 1-µF
 capacitors are commonly used in parallel. The bypass capacitor should be
-installed as close to the power pin as possible.
+installed as close to the power pin as possible. [[14::3]] [[14::4]]
 
 Layout: when using multiple bit logic devices, inputs should not float.
 Such input pins should not be left unconnected because the undefined
@@ -360,7 +376,7 @@ voltages at the outside connections result in undefined operational
 states. Specified in Figure 8-4 are rules that must be observed under
 all circumstances. All unused inputs of digital logic devices must be connected to
 a high or low bias to prevent them from floating. Generally they will be
-tied to GND or V~CC~, whichever makes more sense or is more convenient.
+tied to GND or V~CC~, whichever makes more sense or is more convenient. [[14::5]] [[14::6]]
 
 When a PCB trace turns a corner at a 90° angle, a reflection can occur.
 A reflection occurs primarily because of the change of width of the
@@ -370,15 +386,15 @@ especially the distributed capacitance and self–inductance of the trace
 which results in the reflection. Not all PCB traces can be straight and
 therefore some traces must turn corners. Figure 8-5 shows progressively better
 techniques of rounding corners. Only the last example (BEST) maintains
-constant trace width and minimizes reflections.
+constant trace width and minimizes reflections. [[14::7]]
 
 Conversion note: the example layout (Figure 8-4) is given here by its labels.
 
-- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation
-- Bypass capacitor placed close to the device (0.1 µF)
-- Unused inputs tied to V~CC~
-- Unused output left floating
-- Avoid 90° corners for signal lines
+- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation [[15::1]]
+- Bypass capacitor placed close to the device (0.1 µF) [[15::3]]
+- Unused inputs tied to V~CC~ [[14::6]]
+- Unused output left floating [[15::3]]
+- Avoid 90° corners for signal lines [[15::2]]
 
 ## Package
 
@@ -442,6 +458,7 @@ SNJ54LVC08AFK | Tube of 55 | -55 to 125 | 5962-9753401Q2A SNJ54LVC08AFK
 SNJ54LVC08AJ | Tube of 25 | -55 to 125 | 5962-9753401QCA SNJ54LVC08AJ
 SNJ54LVC08AW | Tube of 25 | -55 to 125 | 5962-9753401QDA SNJ54LVC08AW
 ```
+[[18::table #1]] [[19::table #1]]
 
 ## Conversion notes
 

@@ -503,7 +503,7 @@ nonisolated struct BoardVisibility: Equatable, Sendable {
             return true
         }
         if chip.pin1Mark != nil, showsMark(placement.pin1, side: placement.side) { return true }
-        return chip.boardPads.contains { showsPad(drill: $0.drill, side: placement.side) }
+        return chip.boardPads.contains { showsPad(drill: $0.drill, side: $0.layerSide(on: placement.side)) }
     }
 }
 

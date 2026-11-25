@@ -24,11 +24,11 @@
 ## Description
 
 The SN74AHC1G08 is a single 2-input positive-AND gate. The device
-performs the Boolean function Y = A • B in positive logic.
+performs the Boolean function Y = A • B in positive logic. [[1::1]]
 
 Qualified for automotive applications. Operating range of 2V to 5.5V.
 ±8mA output drive at 5V. Schmitt-trigger action at all inputs makes the
-circuit tolerant for slower input rise and fall time.
+circuit tolerant for slower input rise and fall time. [[1::2]]
 
 ## Pinout
 
@@ -44,6 +44,7 @@ Y: Output Y
 GND: Ground Pin
 VCC: Power Pin
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
@@ -54,7 +55,7 @@ Characteristics table from the input to ground. The worst case
 resistance is calculated with the maximum input voltage, given in the
 Absolute Maximum Ratings table, and the maximum input leakage current,
 given in the Electrical Characteristics table, using Ohm's law
-(R = V ÷ I).
+(R = V ÷ I). [[8::1]]
 
 The Schmitt-trigger input architecture provides hysteresis as defined by
 ΔV~T~ in the Electrical Characteristics table, which makes this device
@@ -62,7 +63,7 @@ extremely tolerant to slow or noisy inputs. While the inputs can be
 driven much slower than standard CMOS inputs, it is still recommended to
 properly terminate unused inputs. Driving the inputs with slow
 transitioning signals will increase dynamic current consumption of the
-device.
+device. [[8::2]]
 
 Source conflict: the Electrical Characteristics table (p.5) has no
 ΔV~T~ row; the source gives no hysteresis value.
@@ -79,6 +80,7 @@ Source conflict: the Electrical Characteristics table (p.5) has no
 
 [1] H = high voltage level, L = low voltage level, X = do not care, Z = high impedance
 ```
+[[8::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -97,6 +99,7 @@ Source conflict: the Electrical Characteristics table (p.5) has no
 [1] Stresses beyond those listed under "absolute maximum ratings" may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under "recommended operating conditions" is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -106,6 +109,7 @@ Source conflict: the Electrical Characteristics table (p.5) has no
 
 [1] AEC Q100-002 indicates that HBM stressing must be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -134,6 +138,7 @@ Source conflict: the Electrical Characteristics table (p.5) has no
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004. Source error: the table title carries marker 3; this is its only note.
 ```
+[[4::table #3]]
 
 Conversion note: the source prints two Min/Max column pairs without a
 heading over either; the I Suffix T~A~ limits are in the first pair and
@@ -148,6 +153,7 @@ the Q Suffix limits in the second.
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953). Conversion note: all packages are 5 pins.
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -172,12 +178,14 @@ the Q Suffix limits in the second.
 [1] Source conflict: printed as mA here; the recommended operating conditions give I~OH~ = –50 µA and I~OL~ = 50 µA at V~CC~ = 2 V, and the absolute maximum continuous output current is ±25 mA.
 [2] Unconfirmed: the source prints "V~I~ = V or GND" with no subscript on V.
 ```
+[[5::table #2]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 18 | pF |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -192,6 +200,7 @@ See [parameter measurement information](#parameter-measurement).
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 8.7 | 12.3 | 1 | 14 | | 16.5 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 8.7 | 12.3 | 1 | 14 | | 16.5 | ns |
 ```
+[[5::table #3]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From (input) | To (output) | Output capacitance | T~A~ = 25 °C | < | < | –40 °C to 85 °C | < | –40 °C to 125 °C | < | Unit |
@@ -202,6 +211,7 @@ See [parameter measurement information](#parameter-measurement).
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 5.8 | 7.9 | | 9 | | 11 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 5.8 | 7.9 | | 9 | | 11 | ns |
 ```
+[[6::table #2]]
 
 ## Parameter measurement information
 
@@ -210,15 +220,17 @@ generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time, with one input transition per measurement. Conversion note: C~L~
 is 15 pF or 50 pF, as given in the
-[switching characteristics](#switching-characteristics).
+[switching characteristics](#switching-characteristics). [[7::Figure 6-1]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50 % VCC
 ```
+[[7::Figure 6-1]]
 
 Conversion note: the source figure also shows the 3-state and open-drain
 load circuit, pulse-duration, setup-and-hold and enable/disable
@@ -229,7 +241,7 @@ devices.
 
 Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
-completeness.
+completeness. [[9::1]]
 
 Conversion note: in the typical application (Figure 8-1) one AND gate
 combines !{OC} (over current detection) with PG (power supply), a second
@@ -247,7 +259,7 @@ disturbance. A 0.1-µF capacitor is recommended for this device. It is
 acceptable to parallel multiple bypass capacitors to reject different
 frequencies of noise. The 0.1-µF and 1-µF capacitors are commonly used in parallel. The bypass
 capacitor should be installed as close to the power terminal as possible
-for best results.
+for best results. [[9::3]]
 
 ### Layout guidelines
 
@@ -259,7 +271,7 @@ devices must be connected to a logic high or logic low voltage, as
 defined by the input voltage specifications, to prevent them from
 floating. The logic level that must be applied to any particular unused
 input depends on the function of the device. Generally, the inputs are tied to GND or V~CC~, whichever makes
-more sense for the logic function or is more convenient.
+more sense for the logic function or is more convenient. [[9::4]]
 
 Conversion note: the layout example recommends a GND flood fill, a 0.1 µF bypass capacitor placed
 close to the device, and no 90° corners on signal lines.
@@ -282,6 +294,7 @@ SN74AHC1G08QDBVRQ1 | Reel of 3000 | -40 to 125 | 38FH, A08U
 SN74AHC1G08QDCKRQ1 | Reel of 3000 | -40 to 125 | AEU
 SN74AHC1G08WDTXRQ1 | Reel of 3000 | -40 to 125 | 2
 ```
+[[13::table #1]]
 
 ## Conversion notes
 

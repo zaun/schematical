@@ -27,20 +27,20 @@ The AUP family is TI's premier solution to the industry's low-power
 needs in battery-powered portable applications. This family ensures a
 very low static- and dynamic-power consumption across the entire V~CC~
 range of 0.8 V to 3.6 V, resulting in increased battery life. This
-product also maintains excellent signal integrity.
+product also maintains excellent signal integrity. [[1::4]]
 
 The SN74AUP2G04 performs the Boolean function Y = !{A} in positive
-logic.
+logic. [[1::6]]
 
 NanoStar™ package technology is a major breakthrough in IC packaging
-concepts, using the die as the package.
+concepts, using the die as the package. [[2::1]]
 
 This device is fully specified for partial-power-down applications
 using I~off~. The I~off~ circuitry disables the outputs, preventing
-damaging current backflow through the device when it is powered down.
+damaging current backflow through the device when it is powered down. [[2::2]]
 
 Optimized for 3.3-V Operation. 3.6-V I/O Tolerant to Support Mixed-Mode
-Signal Operation. Suitable for Point-to-Point Applications.
+Signal Operation. Suitable for Point-to-Point Applications. [[1::2]]
 
 ## Pinout
 
@@ -58,6 +58,7 @@ Signal Operation. Suitable for Point-to-Point Applications.
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -68,6 +69,7 @@ VCC: Supply voltage
 | H | L |
 | L | H |
 ```
+[[2::table #1]]
 
 Conversion note: the logic diagram (positive logic, p.2) shows two inverters, 1A on pin 1 to 1Y on pin 6 and 2A on pin 3 to 2Y on pin 4.
 
@@ -94,10 +96,11 @@ Conversion note: the logic diagram (positive logic, p.2) shows two inverters, 1A
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[3::table #1]]
 
 Latch-Up Performance Exceeds 100 mA Per JESD 78, Class II. ESD
 Performance Tested Per JESD 22: 2000-V Human-Body Model (A114-B, Class
-II), 1000-V Charged-Device Model (C101).
+II), 1000-V Charged-Device Model (C101). [[1::2]]
 
 ## Recommended operating conditions
 
@@ -132,6 +135,7 @@ II), 1000-V Charged-Device Model (C101).
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow of Floating CMOS Inputs, literature number SCBA004.
 ```
+[[4::table #1]]
 
 ## Electrical characteristics
 
@@ -167,6 +171,7 @@ II), 1000-V Charged-Device Model (C101).
 [1] Source error: the source prints "A or B input", kept as printed; each inverter has one input, A (function table, p.2).
 [2] One input at V~CC~ – 0.6 V, other input at V~CC~ or GND.
 ```
+[[5::table #1]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -178,6 +183,7 @@ II), 1000-V Charged-Device Model (C101).
 | ^ | ^ | ^ | 2.5 V ± 0.2 V | 4.1 | ^ |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 4.3 | ^ |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -194,6 +200,7 @@ II), 1000-V Charged-Device Model (C101).
 
 [1] Source error: the source prints "A or B" as the input, kept as printed; each inverter has one input, A (function table, p.2).
 ```
+[[5::table #2]]
 
 ```table id=sw-10pf caption="Switching characteristics, C~L~ = 10 pF" conditions="Over recommended operating free-air temperature range, C~L~ = 10 pF (unless otherwise noted) (see Figure 3 and Figure 4)"
 | Symbol | From (input) | To (output) | V~CC~ | T~A~ = 25°C | < | < | T~A~ = –40°C to 85°C | < | Unit |
@@ -208,6 +215,7 @@ II), 1000-V Charged-Device Model (C101).
 
 [1] Source error: the source prints "A or B" as the input, kept as printed; each inverter has one input, A (function table, p.2).
 ```
+[[6::table #2]]
 
 ```table id=sw-15pf caption="Switching characteristics, C~L~ = 15 pF" conditions="Over recommended operating free-air temperature range, C~L~ = 15 pF (unless otherwise noted) (see Figure 3 and Figure 4)"
 | Symbol | From (input) | To (output) | V~CC~ | T~A~ = 25°C | < | < | T~A~ = –40°C to 85°C | < | Unit |
@@ -222,6 +230,7 @@ II), 1000-V Charged-Device Model (C101).
 
 [1] Source error: the source prints "A or B" as the input, kept as printed; each inverter has one input, A (function table, p.2).
 ```
+[[6::table #3]]
 
 ```table id=sw-30pf caption="Switching characteristics, C~L~ = 30 pF" conditions="Over recommended operating free-air temperature range, C~L~ = 30 pF (unless otherwise noted) (see Figure 3 and Figure 4)"
 | Symbol | From (input) | To (output) | V~CC~ | T~A~ = 25°C | < | < | T~A~ = –40°C to 85°C | < | Unit |
@@ -236,6 +245,7 @@ II), 1000-V Charged-Device Model (C101).
 
 [1] Source error: the source prints "A or B" as the input, kept as printed; each inverter has one input, A (function table, p.2).
 ```
+[[6::table #4]]
 
 ## Parameter measurement information
 
@@ -245,7 +255,7 @@ Z~O~ = 50 Ω, for propagation delays t~r~/t~f~ = 3 ns, for setup and
 hold times and pulse width t~r~/t~f~ = 1.2 ns. The outputs are measured
 one at a time, with one transition per measurement. t~PLH~ and t~PHL~
 are the same as t~pd~. All parameters and waveforms are not applicable
-to all devices.
+to all devices. [[7::2]] [[7::4]] [[7::5]] [[7::6]]
 
 ```table id=pmi-conditions caption="Load circuit test conditions"
 | | V~CC~ = 0.8 V | V~CC~ = 1.2 V ± 0.1 V | V~CC~ = 1.5 V ± 0.1 V | V~CC~ = 1.8 V ± 0.15 V | V~CC~ = 2.5 V ± 0.2 V | V~CC~ = 3.3 V ± 0.3 V |
@@ -254,15 +264,18 @@ to all devices.
 | V~M~ | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 |
 | V~I~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ |
 ```
+[[1::table #2]]
 
 ```figure ref=load-rl-cl caption="Load circuit"
 RL: 1 MΩ
 CL: 5, 10, 15, 30 pF
 ```
+[[7::Figure 3]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: VCC/2
 ```
+[[7::Figure 3]]
 
 ## Package
 
@@ -286,6 +299,7 @@ SN74AUP2G04DRYR | Reel of 5000 | -40 to 85 | H4
 SN74AUP2G04DSFR | Reel of 5000 | -40 to 85 | H4
 SN74AUP2G04YFPR | Reel of 3000 | -40 to 85 | HCN
 ```
+[[2::table #2]]
 
 Conversion note: the markings above are from the package option addendum, and the table below is the source's ordering information table (p.2).
 
@@ -301,6 +315,7 @@ Conversion note: the markings above are from the package option addendum, and th
 [2] Package drawings, thermal data, and symbolization are available at www.ti.com/packaging.
 [3] DCK: The actual top-side marking has one additional character that designates the wafer fab/assembly site. YFP: The actual top-side marking has three preceding characters to denote year, month, and sequence code, and one following character to designate the wafer fab/assembly site. Pin 1 identifier indicates solder-bump composition (1 = SnPb, • = Pb-free).
 ```
+[[2::table #3]]
 
 ## Conversion notes
 

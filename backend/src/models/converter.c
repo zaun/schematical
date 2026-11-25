@@ -224,6 +224,9 @@ void cv_ready_refresh(CvState *s) {
     if (s->dev->rtc) {
         rtc_refresh(s);
     }
+    if (s->dev->disp != NULL) {
+        disp_refresh(s);
+    }
 }
 
 static void ready_clear(CvState *s, unsigned why) {
@@ -748,6 +751,11 @@ static void run_action(CvState *s, uint8_t action, const CvCommand *cmd, const u
     case CVA_CLEAR:
         dac_clear(s);
         break;
+    case CVA_LCDLOAD:
+        s->x.payload = CV_PAY_LCD;
+        s->x.pay_bits = 0;
+        s->x.pay_value = 0;
+        break;
     case CVA_SETBITS:
     case CVA_CLEARBITS: {
         uint32_t data = value_of(&cmd->data, caps);
@@ -915,6 +923,15 @@ static void payload_bit(CvState *s, uint8_t bit) {
                     x->done = 1;
                 }
             }
+        }
+        return;
+    }
+    if (x->payload == CV_PAY_LCD) {
+        x->pay_value = (x->pay_value << 1) | bit;
+        if (++x->pay_bits == 8) {
+            disp_lcd_byte(s, (uint8_t)x->pay_value);
+            x->pay_bits = 0;
+            x->pay_value = 0;
         }
         return;
     }
@@ -1588,6 +1605,7 @@ void cv_free_state(CvState *s) {
     free(s->alive_store);
     free(s->read_mark);
     rtc_free(s);
+    disp_free(s);
     free(s);
 }
 
@@ -1646,6 +1664,9 @@ static void cv_start(Sim *sim, SimInstance *instance, void *state) {
     cv_par_start(s);
     if (s->dev->rtc) {
         rtc_start(s);
+    }
+    if (s->dev->disp != NULL) {
+        disp_start(s);
     }
     cv_ready_refresh(s);
 }
@@ -1756,6 +1777,9 @@ static void cv_pin_changed(Sim *sim, SimInstance *instance, void *state, size_t 
     if (s->dev->rtc) {
         rtc_pin(s, pin);
     }
+    if (s->dev->disp != NULL) {
+        disp_pin(s, pin);
+    }
     if (s->in_reset || s->powered_down_bus) {
         return;
     }
@@ -1786,6 +1810,8 @@ static void cv_timer(Sim *sim, SimInstance *instance, void *state, uint32_t id) 
         }
     } else if ((id & CV_TM_KIND) == CV_TM_RTC) {
         rtc_timer(s, id);
+    } else if ((id & CV_TM_KIND) == CV_TM_DISP) {
+        disp_timer(s, id);
     } else {
         cv_par_timer(s, id);
     }
@@ -1827,16 +1853,16 @@ static const char *const DEVICE_KEYS[] = {
 static const char *const PART_KEYS[] = {"vcc", "inputMax", "i2cAddress", "i2c", "resets", NULL};
 
 static void *conv_load_device(KindContext *ctx, const cJSON *json) {
-    return cv_load_device(ctx, json, 0);
+    return cv_load_device(ctx, json, CV_MODE_CONVERTER);
 }
 
-static int cv_pin_open_drain(const Part *part, size_t pin) {
+int cv_pin_open_drain(const Part *part, size_t pin) {
     const CvBound *b = part_internal(part)->bound;
 
     return pin < b->pin_count && b->open_drain[pin];
 }
 
-static int cv_pin_analog(const Part *part, size_t pin) {
+int cv_pin_analog(const Part *part, size_t pin) {
     const CvBound *b = part_internal(part)->bound;
 
     return pin < b->pin_count && b->analog[pin];

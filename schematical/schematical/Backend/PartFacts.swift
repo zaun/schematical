@@ -15,8 +15,11 @@ nonisolated enum PartFacts {
         add("Kind", kindName(part))
         add("Function", part.function)
         add("Package", chip.footprintChoice?.package ?? part.package)
-        if let footprint = chip.footprintChoice?.footprint ?? part.footprint {
+        if let footprint = chip.socket?.part.footprint ?? chip.footprintChoice?.footprint ?? part.footprint {
             add("Footprint", "\(footprint.id) — \(footprint.description)")
+        }
+        if let socket = chip.socket {
+            add("Socket", "\(socket.part.name) (\(socket.mode == .withSocket ? "IC + Socket" : "Socket only"))")
         }
         if let connector = part.connectorFootprint {
             add("Connector", "\(connector.id) — \(connector.description)")
@@ -66,6 +69,10 @@ nonisolated enum PartFacts {
                 add("Type", "Vacuum fluorescent")
                 add("Phosphor", info.chip)
                 if info.vfMaxMV > 0 { add("Anode and grid voltage", volts) }
+            case "vfd-static":
+                add("Type", "Vacuum fluorescent, no grid")
+                add("Phosphor", info.chip)
+                if info.vfMaxMV > 0 { add("Anode voltage", volts) }
             default:
                 add("Type", info.commonAnode ? "Common anode" : "Common cathode")
                 add("LED chip", info.chip)
@@ -85,6 +92,18 @@ nonisolated enum PartFacts {
             add("Maintaining voltage", "\(VoltageCheck.volts(info.sustainMV)) V")
             add("Cathode current", info.currentMinUA == info.currentMaxUA
                 ? "\(milli(info.currentMaxUA)) mA" : "\(milli(info.currentMinUA))–\(milli(info.currentMaxUA)) mA")
+        case let .dekatron(info):
+            add("Type", info.twoGuide ? "Decade counting tube, two guides (counts both ways)"
+                                      : "Decade counting tube, single pulse (counts forward)")
+            add("Cathodes", "\(info.cathodePins.count) pins for ten positions")
+            add("Bulb", info.size)
+            add("Viewing", info.view == "end" ? "End view (through the top)" : "Side view")
+            add("Glow", info.color)
+            add("Minimum anode supply", "\(VoltageCheck.volts(info.strikeMV)) V")
+            add("Running voltage", "\(VoltageCheck.volts(info.sustainMV)) V")
+            add("Anode current", info.currentMinUA == info.currentMaxUA
+                ? "\(milli(info.currentMaxUA)) mA" : "\(milli(info.currentMinUA))–\(milli(info.currentMaxUA)) mA")
+            add("Counting rate", "up to \(hertz(UInt64(info.rateHz)))")
         case let .oscillator(family, minHz, maxHz, defaultHz, enablePin):
             add("Family", family)
             if let body = part.footprint?.body {
@@ -127,6 +146,18 @@ nonisolated enum PartFacts {
             add("Centre pin", String(format: "%.1f mm", Double(centerPinUM) / 1000))
             add("Rating", "\(VoltageCheck.volts(ratedMV)) V, \(String(format: "%.1f", Double(ratedMA) / 1000)) A")
             add("Sleeve contact", contacts > 0 ? "Normally closed when unplugged" : "None")
+        case let .wireConnector(kind, variant, pitchUM, ratedMV, ratedMA):
+            add("Type", kind == "jst" ? "JST header" : "Terminal block")
+            add("Pitch", String(format: "%.2f mm", Double(pitchUM) / 1000))
+            add(kind == "jst" ? "Series" : "Clamp", kind == "jst" ? variant : clampName(variant))
+            add("Positions", String(part.pins.filter { !$0.isHidden }.count))
+            if ratedMV > 0 { add("Rated voltage", "\(VoltageCheck.volts(ratedMV)) V") }
+            if ratedMA > 0 { add("Rated current", String(format: "%g A", Double(ratedMA) / 1000)) }
+        case let .cardSlot(card, pitchUM):
+            add("Card", card)
+            if pitchUM > 0 { add("Pitch", String(format: "%.2f mm", Double(pitchUM) / 1000)) }
+        case .testPoint:
+            break
         case let .header(rows, perRow, genders):
             add("Rows", String(rows))
             add("Pins per row", String(perRow))
@@ -134,7 +165,7 @@ nonisolated enum PartFacts {
         case let .converter(_, bits, channels):
             add("Bits", String(bits))
             add("Channels", String(channels))
-        case .rtc:
+        case .rtc, .displayDriver:
             break
         case let .serialmem(info):
             add("Type", serialMemoryType(info.type))
@@ -176,6 +207,9 @@ nonisolated enum PartFacts {
             add("RAM", bytes(ram))
             add("EEPROM", bytes(eeprom))
             add("PSRAM", bytes(psram))
+        case let .pld(macrocells, tpdPS):
+            add("Macrocells", String(macrocells))
+            add("Delay (tPD)", duration(tpdPS))
         case let .resistor(ohms, tolerancePercent, powerW, resistors):
             add("Resistance", ResistorValue.text(part.hasOhmsField ? chip.ohms ?? ohms : ohms))
             add("Tolerance", tolerancePercent.map { "±" + percentText($0) } ?? "")
@@ -210,6 +244,21 @@ nonisolated enum PartFacts {
             add("Stability", CrystalInfo.ppmText(info.stabilityPPM))
             if info.esrMOhm > 0 { add("ESR", milliohmsText(info.esrMOhm)) }
             if info.capacitors { add("Built-in capacitors", "Yes") }
+        case let .powerswitch(info):
+            add("Type", powerSwitchType(info))
+            if info.switches > 1 { add(info.type == "ideal-diode" ? "Inputs" : "Channels", String(info.switches)) }
+            if info.vinMaxMV > 0 {
+                add("Input", info.vinMinMV > 0 ? "\(milli(info.vinMinMV))–\(milli(info.vinMaxMV)) V"
+                                               : "up to \(milli(info.vinMaxMV)) V")
+            } else if info.vinMinMV > 0 {
+                add("Input", "from \(milli(info.vinMinMV)) V")
+            }
+            if info.ioutMA > 0 { add("Current", "\(milli(info.ioutMA)) A") }
+            if info.type == "limited", info.ilimitMA > 0 { add("Current limit", "\(milli(info.ilimitMA)) A") }
+            if info.ronMOhm > 0 { add("On-resistance", milliohmsText(UInt64(info.ronMOhm))) }
+            if info.iqUA > 0 {
+                add("Quiescent", info.iqUA >= 1000 ? "\(milli(info.iqUA)) mA" : "\(info.iqUA) µA")
+            }
         case let .inductor(info):
             add("Inductance", InductorValue.text(pH: info.pH))
             add("Tolerance", info.tolerance ?? "")
@@ -279,6 +328,12 @@ nonisolated enum PartFacts {
                 add("Quiescent", info.iqUA >= 1000 ? "\(milli(info.iqUA)) mA" : "\(info.iqUA) µA")
             }
             if info.fswHz > 0 { add("Switching", hertz(info.fswHz)) }
+        case let .socket(family, rowUM, mounting, finish):
+            // Pins is the overview row above; the row spacing is a DIP's, in inches (plan-51-F).
+            add("Family", family)
+            if rowUM > 0 { add("Row spacing", String(format: "%.1f in", Double(rowUM) / 25400)) }
+            add("Mounting", mounting)
+            add("Finish", finish ?? "")
         }
         if !part.isSimulated { add("Simulation", "Not simulated") }
 
@@ -323,17 +378,24 @@ nonisolated enum PartFacts {
         case PART_ARITH: return "Arithmetic"
         case PART_CONVERTER: return "Converter"
         case PART_RTC: return "RTC"
+        case PART_LEDDRIVER: return "LED driver"
+        case PART_LCDDRIVER: return "LCD driver"
         case PART_SERIALMEM: return "Serial memory"
         case PART_DIODE: return "Diode"
         case PART_CAPACITOR: return "Capacitor"
         case PART_REGISTER: return "Register"
         case PART_MCU: return "Microcontroller"
+        case PART_PLD: return "Programmable logic"
         case PART_RESISTOR: return "Resistor"
         case PART_TRANSISTOR: return "Transistor"
         case PART_GENERIC: return "Part"
         case PART_NIXIE: return "Nixie tube"
+        case PART_DEKATRON: return "Dekatron"
+        case PART_LCD: return "LCD glass"
         case PART_REGULATOR: return "Voltage regulator"
+        case PART_POWERSWITCH: return "Power switch"
         case PART_CRYSTAL: return "Crystal"
+        case PART_SOCKET: return "IC socket"
         case PART_INDUCTOR: return "Inductor"
         case PART_FUSE: return "Fuse"
         case PART_RELAY: return "Relay"
@@ -345,6 +407,40 @@ nonisolated enum PartFacts {
     /// A part's kind as shown: a tactile switch as "Tactile switch", a
     /// converter by its type ("ADC", "DAC"), other
     /// kinds as `kindName(_: PartKind)`.
+    /// A terminal block's clamp as the backend names it (`'s'`, `'c'`, `'p'`,
+    /// `'h'`): "screw", "spring", "push-in" or "pluggable" (plan-45).
+    static func clampWord(_ code: CChar) -> String {
+        switch UnicodeScalar(UInt8(bitPattern: code)) {
+        case "s": "screw"
+        case "c": "spring"
+        case "p": "push-in"
+        default: "pluggable"
+        }
+    }
+
+    /// The clamp word as the sidebar and the chip show it.
+    static func clampName(_ word: String) -> String {
+        switch word {
+        case "screw": "Screw"
+        case "spring": "Spring-cage"
+        case "push-in": "Push-in"
+        default: "Plug-in header"
+        }
+    }
+
+    /// A JST header's series from the backend's first letter (`'X'` …).
+    static func jstSeries(_ code: CChar) -> String {
+        switch UnicodeScalar(UInt8(bitPattern: code)) {
+        case "P": "PH"
+        case "E": "EH"
+        case "Z": "ZH"
+        case "S": "SH"
+        case "G": "GH"
+        case "V": "VH"
+        default: "XH"
+        }
+    }
+
     static func kindName(_ part: CatalogPart) -> String {
         if part.isTactileSwitch { return "Tactile switch" }
         if case let .resistor(_, _, _, resistors) = part.details, resistors > 1 { return "Resistor array" }
@@ -357,6 +453,7 @@ nonisolated enum PartFacts {
             default: break
             }
         }
+        if let info = part.powerswitch { return powerSwitchName(info) }
         if let info = part.crystal, info.type == "resonator" { return "Ceramic resonator" }
         if let info = part.fuse, info.isPTC { return "Resettable fuse" }
         if let info = part.relay {
@@ -367,6 +464,11 @@ nonisolated enum PartFacts {
             }
         }
         if case .connector(_, _, _, _, _?) = part.details { return "USB connector" }
+        if case let .wireConnector(kind, _, _, _, _) = part.details {
+            return kind == "jst" ? "JST connector" : "Terminal block"
+        }
+        if part.isCardSlot { return "Card slot" }
+        if part.isTestPoint { return "Test point" }
         if case let .converter(type, _, _) = part.details {
             switch type {
             case "adc": return "ADC"
@@ -474,6 +576,32 @@ nonisolated enum PartFacts {
         if info.darlington { return polarity + " Darlington" }
         if info.preBiased { return polarity + " pre-biased" }
         return polarity
+    }
+
+    /// A power switch's type as shown (plan-55-J): "Load switch",
+    /// "Current-limited switch", "Ideal diode".
+    static func powerSwitchType(_ info: PowerSwitchInfo) -> String {
+        switch info.type {
+        case "load": return "Load switch"
+        case "limited": return "Current-limited switch"
+        case "ideal-diode": return "Ideal diode"
+        default: return info.type.prefix(1).uppercased() + info.type.dropFirst()
+        }
+    }
+
+    /// A power switch's kind as shown (plan-55-J): the type's name, with
+    /// "Dual", "Triple" or "Quad" in front for 2 to 4 switches ("Dual load
+    /// switch", "Quad current-limited switch", "Dual ideal diode").
+    static func powerSwitchName(_ info: PowerSwitchInfo) -> String {
+        let type = powerSwitchType(info)
+        let count: String
+        switch info.switches {
+        case 2: count = "Dual"
+        case 3: count = "Triple"
+        case 4: count = "Quad"
+        default: return type
+        }
+        return count + " " + type.prefix(1).lowercased() + type.dropFirst()
     }
 
     /// A regulator's type as shown (plan-42-I): "Linear", "Buck", "Boost",

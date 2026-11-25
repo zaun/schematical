@@ -25,21 +25,21 @@
 
 These devices contain four independent 2-input Exclusive-OR gates. They
 perform the Boolean functions Y = A ⊕ B = !{A}B + A!{B} in positive
-logic.
+logic. [[1::2]]
 
 A common application is as a true/complement element. If one of the
 inputs is low, the other input will be reproduced in true form at the
 output. If one of the inputs is high, the signal on the other input
-will be reproduced inverted at the output.
+will be reproduced inverted at the output. [[1::3]]
 
 The SN5486, 54LS86A, and the SN54S86 are characterized for operation
 over the full military temperature range of –55°C to 125°C. The SN7486,
 SN74LS86A, and the SN74S86 are characterized for operation from 0°C to
-70°C.
+70°C. [[1::4]]
 
 Package Options Include Plastic "Small Outline" Packages, Ceramic Chip
 Carriers and Flat Packages, and Standard Plastic and Ceramic 300-mil
-DIPs.
+DIPs. [[1::1]]
 
 ```table id=types caption="Typical average propagation delay time and typical total power dissipation"
 | Type | Typical average propagation delay time | Typical total power dissipation |
@@ -48,6 +48,7 @@ DIPs.
 | 'LS86A | 10 ns | 30.5 mW |
 | 'S86 | 7 ns | 250 mW |
 ```
+[[1::table #1]]
 
 ## Pinout
 
@@ -67,16 +68,17 @@ GND: Ground
 VCC: Positive supply
 NC: No internal connection
 ```
+[[1::figure #1]] [[1::figure #2]]
 
 ## Functional description
 
 ### Exclusive-OR logic
 
 An exclusive-OR gate has many applications, some of which can be
-represented better by alternative logic symbols.
+represented better by alternative logic symbols. [[1::5]]
 
 These are five equivalent Exclusive-OR symbols valid for an '86 or
-'LS86A gate in positive logic; negation may be shown at any two ports.
+'LS86A gate in positive logic; negation may be shown at any two ports. [[1::6]]
 
 ```table id=elements caption="Alternative logic symbols"
 | Element | Output |
@@ -85,6 +87,7 @@ These are five equivalent Exclusive-OR symbols valid for an '86 or
 | Even-parity | The output is active (low) if an even number of inputs (i.e., 0 or 2) are active. |
 | Odd-parity element | The output is active (high) if an odd number of inputs (i.e., only 1 of the 2) are active. |
 ```
+[[1::table #2]]
 
 Conversion note: the source also shows the schematics of inputs and
 outputs (equivalent of each input, typical of all outputs) of the '86,
@@ -101,8 +104,9 @@ outputs (equivalent of each input, typical of all outputs) of the '86,
 | H | L | H |
 | H | H | L |
 ```
+[[2::table #1]]
 
-H = high level, L = low level
+H = high level, L = low level [[2::table #1]]
 
 ## Absolute maximum ratings
 
@@ -117,6 +121,7 @@ H = high level, L = low level
 
 [1] Voltage values are with respect to network ground terminal.
 ```
+[[3::table #1]]
 
 ```table id=abs-max-ls86a caption="Absolute maximum ratings, SN54LS86A and SN74LS86A" parts=*LS86A* conditions="Over operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Conditions | Min | Max | Unit |
@@ -129,6 +134,7 @@ H = high level, L = low level
 
 [1] Voltage values are with respect to network ground terminal.
 ```
+[[4::table #1]]
 
 ```table id=abs-max-s86 caption="Absolute maximum ratings, SN54S86 and SN74S86" parts=SN?4S86*,SNJ54S86* conditions="Over operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Conditions | Min | Max | Unit |
@@ -141,6 +147,7 @@ H = high level, L = low level
 
 [1] Voltage values are with respect to network ground terminal.
 ```
+[[5::table #1]]
 
 ## Recommended operating conditions
 
@@ -153,6 +160,7 @@ H = high level, L = low level
 | I~OL~ | Low-level output current | | | 16 | | | 16 | mA |
 | T~A~ | Operating free-air temperature | -55 | | 125 | 0 | | 70 | °C |
 ```
+[[3::table #2]]
 
 ```table id=roc-ls86a caption="Recommended operating conditions, SN54LS86A and SN74LS86A" parts=*LS86A*
 | Symbol | Parameter | SN54LS86A | < | < | SN74LS86A | < | < | Unit |
@@ -163,6 +171,7 @@ H = high level, L = low level
 | I~OL~ | Low-level output current | | | 4 | | | 8 | mA |
 | T~A~ | Operating free-air temperature | -55 | | 125 | 0 | | 70 | °C |
 ```
+[[4::table #2]]
 
 ```table id=roc-s86 caption="Recommended operating conditions, SN54S86 and SN74S86" parts=SN?4S86*,SNJ54S86*
 | Symbol | Parameter | SN54S86 | < | < | SN74S86 | < | < | Unit |
@@ -173,6 +182,7 @@ H = high level, L = low level
 | I~OL~ | Low-level output current | | | 20 | | | 20 | mA |
 | T~A~ | Operating free-air temperature | -55 | | 125 | 0 | | 70 | °C |
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -196,6 +206,7 @@ H = high level, L = low level
 [3] Not more than one output should be shorted at a time.
 [4] I~CC~ is measured with the inputs grounded and the outputs open.
 ```
+[[3::table #3]]
 
 ```table id=ec-ls86a caption="Electrical characteristics, SN54LS86A and SN74LS86A" parts=*LS86A* conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Test conditions [1] | < | SN54LS86A | < | < | SN74LS86A | < | < | Unit |
@@ -218,6 +229,7 @@ H = high level, L = low level
 [3] Not more than one output should be shorted at a time.
 [4] I~CC~ is measured with the inputs grounded and the outputs open.
 ```
+[[4::table #3]]
 
 ```table id=ec-s86 caption="Electrical characteristics, SN54S86 and SN74S86" parts=SN?4S86*,SNJ54S86* conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | Parameter | Test conditions [1] | < | SN54S86 | < | < | SN74S86 | < | < | Unit |
@@ -239,6 +251,7 @@ H = high level, L = low level
 [3] Not more than one output should be shorted at a time, and duration of the short-circuit should not exceed one second.
 [4] I~CC~ is measured with the inputs grounded and the outputs open.
 ```
+[[5::table #3]]
 
 ## Switching characteristics
 
@@ -256,6 +269,7 @@ part of this PDF.
 [1] t~PLH~ = propagation delay time, low-to-high-level output; t~PHL~ = propagation delay time, high-to-low-level output
 [2] Load circuits and voltage waveforms are shown in Section 1.
 ```
+[[3::table #4]]
 
 ```table id=sw-ls86a caption="Switching characteristics, SN54LS86A and SN74LS86A, V~CC~ = 5 V, T~A~ = 25°C" parts=*LS86A*
 | Symbol [1] | From (input) | Test conditions | < | Min | Typ | Max | Unit |
@@ -268,6 +282,7 @@ part of this PDF.
 [1] t~PLH~ = propagation delay time, low-to-high-level output; t~PHL~ = propagation delay time, high-to-low-level output
 [2] Load circuits and voltage waveforms are shown in Section 1.
 ```
+[[4::table #4]]
 
 ```table id=sw-s86 caption="Switching characteristics, SN54S86 and SN74S86, V~CC~ = 5 V, T~A~ = 25°C" parts=SN?4S86*,SNJ54S86*
 | Symbol [1] | From (input) | Test conditions | < | Min | Typ | Max | Unit |
@@ -280,6 +295,7 @@ part of this PDF.
 [1] t~PLH~ = propagation delay time, low-to-high-level output; t~PHL~ = propagation delay time, high-to-low-level output
 [2] Load circuits and voltage waveforms are shown in Section 1.
 ```
+[[5::table #4]]
 
 ## Package
 
@@ -317,6 +333,7 @@ SN54S86J | Tube of 25 | -55 to 125 | SN54S86J
 SNJ54S86J | Tube of 25 | -55 to 125 | SNJ54S86J
 SNJ54LS86AFK | Tube of 55 | -55 to 125 | SNJ54LS86AFK
 ```
+[[7::table #1]] [[8::table #1]] [[9::table #1]]
 
 ## Conversion notes
 

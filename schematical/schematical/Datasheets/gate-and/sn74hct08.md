@@ -24,10 +24,10 @@
 ## Description
 
 These devices contain four independent 2-input AND gates. They perform
-the Boolean function Y = A · B in positive logic.
+the Boolean function Y = A · B in positive logic. [[1::1]]
 
 Operating voltage range of 4.5V to 5.5V. Outputs can drive up to 10
-LSTTL loads. Inputs are TTL-voltage compatible.
+LSTTL loads. Inputs are TTL-voltage compatible. [[1::2]]
 
 ## Pinout
 
@@ -43,6 +43,7 @@ LSTTL loads. Inputs are TTL-voltage compatible.
 GND: Ground
 VCC: Positive supply
 ```
+[[3::Table 3-1]]
 
 ## Function tables
 
@@ -56,6 +57,7 @@ VCC: Positive supply
 
 [1] H = High Voltage Level, L = Low Voltage Level, X = Don't Care
 ```
+[[7::Table 6-1]]
 
 ## Absolute maximum ratings
 
@@ -73,6 +75,7 @@ VCC: Positive supply
 [1] Stresses beyond those listed under absolute maximum ratings may cause permanent damage to the device. These are stress ratings only and functional operation of the device at these or any other conditions beyond those indicated under recommended operating conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ## Recommended operating conditions
 
@@ -89,6 +92,7 @@ VCC: Positive supply
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report Implications of Slow or Floating SMOS Inputs, literature number SCBA004.
 ```
+[[4::table #2]]
 
 ## Thermal information
 
@@ -104,6 +108,7 @@ VCC: Positive supply
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC package thermal metrics application report.
 ```
+[[4::table #3]]
 
 ## Electrical characteristics
 
@@ -123,16 +128,18 @@ VCC: Positive supply
 [1] V~I~ = V~IH~ or V~IL~, unless otherwise noted.
 [2] This is the increase in supply current for each input that is at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[5::table #1]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance per gate | No load | 20 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
-C~L~ = 50 pF. See [Parameter Measurement Information](#parameter-measurement).
+C~L~ = 50 pF. See [Parameter Measurement Information](#parameter-measurement). [[5::1]]
 
 ```table id=sw caption="Switching characteristics" conditions="C~L~ = 50 pF"
 | Symbol | Parameter | From (input) | To (output) | V~CC~ (V) | T~A~ = 25 °C | < | < | SN74HCT08 | < | Unit |
@@ -143,6 +150,7 @@ C~L~ = 50 pF. See [Parameter Measurement Information](#parameter-measurement).
 | t~t~ | Transition time | | Y | 4.5 | | 9 | 15 | | 19 | ns |
 | ^ | ^ | ^ | ^ | 5.5 | | 8 | 14 | | 17 | ns |
 ```
+[[5::table #3]]
 
 ## Parameter measurement information
 
@@ -151,11 +159,12 @@ pulses are supplied by generators having the following characteristics:
 PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~t~ < 6 ns. The outputs are measured one at a
 time with one input transition per measurement. C~L~ includes probe and
 test-fixture capacitance. The greater between t~PLH~ and t~PHL~ is the
-same as t~pd~.
+same as t~pd~. [[6::1]] [[6::3]] [[6::4]] [[6::6]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for push-pull outputs"
 CL: 50 pF
 ```
+[[6::Figure 5-1]]
 
 Conversion note: in the source's voltage waveforms the input swings
 0 V to 3 V and is measured at 1.3 V; the outputs are measured at 50 %.
@@ -163,6 +172,7 @@ Conversion note: in the source's voltage waveforms the input swings
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delays for TTL-compatible inputs"
 VM: 1.3 V (input), 50 % (output)
 ```
+[[6::Figure 5-2]]
 
 ## Application information
 
@@ -170,7 +180,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[8::1]]
 
 ### Power supply recommendations
 
@@ -182,7 +192,7 @@ disturbance. A 0.1-µF capacitor is recommended for this device. It is
 acceptable to parallel multiple bypass caps to reject different
 frequencies of noise. The 0.1-µF and 1-µF capacitors are commonly used in parallel. The bypass
 capacitor should be installed as close to the power terminal as possible
-for best results.
+for best results. [[8::2]]
 
 ### Layout guidelines
 
@@ -196,7 +206,7 @@ digital logic devices must be connected to a logic high or logic low
 voltage, as defined by the input voltage specifications, to prevent them
 from floating. The logic level that must be applied to any particular
 unused input depends on the function of the device. Generally, the inputs are tied to GND or V~CC~, whichever
-makes more sense for the logic function or is more convenient.
+makes more sense for the logic function or is more convenient. [[8::3]]
 
 Conversion note: the source's layout example uses a GND flood fill,
 places the 0.1 µF bypass capacitor close to the device, ties unused
@@ -236,6 +246,7 @@ SN74HCT08PWR | Reel of 2000 | -40 to 85 | HT08
 SN74HCT08PWRG4 | Reel of 2000 | -40 to 85 | HT08
 SN74HCT08PWT | | -40 to 85 | HT08 | Obsolete
 ```
+[[11::table #1]]
 
 ## Conversion notes
 

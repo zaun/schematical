@@ -68,7 +68,9 @@ group: ` low`, or ` low=CS` (alternatives `;` separated).
 
 **Schematic** — `place_part`, `connect` (pin, net label, bus pin or point on
 a wire; `via` waypoints), `disconnect`, `move_part`, `move`, `flip_part`, `rotate_part` (LEDs, diodes, resistors, capacitors), `set_part`
-(rename, color, ohms, farads, footprint, gender), `add_net_label`,
+(rename, color, ohms, farads, footprint, gender; `socket_mode` `ic`, `ic+socket` or `socket-only` and `socket`,
+the socket's part name, for a DIP or PLCC chip a socket fits: a mode alone picks the generic socket, and `get_design` shows
+`socket=<name> (<mode>)` on the part), `add_net_label`,
 `add_note`, `set_net_label`, `set_note`, `set_wire_route`, `add_bus`, `set_bus`, `add_bus_port`, `set_bus_port`, `delete`, `select`.
 
 **PCB** — `set_board` (size, type, layers, grid, units, color), `set_layer`

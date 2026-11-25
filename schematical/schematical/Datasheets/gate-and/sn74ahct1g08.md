@@ -26,7 +26,7 @@
 The SN74AHCT1G08 device is a single 2-input positive-AND gate. The device
 performs the Boolean function Y = A × B in positive logic. Low I~CC~
 current allows this device to be used in power-sensitive or
-battery-powered applications.
+battery-powered applications. [[8::1]]
 
 Source error: the Description (p.1) and Overview (p.8) print the second form as Y = !{A + B} (a NOR); the function table (Table 7-1) gives Y = H only when A and B are both H. Kept out.
 
@@ -44,6 +44,7 @@ Y: Output
 GND: Ground Pin
 VCC: Supply Pin
 ```
+[[3::table #1]]
 
 ## Functional description
 
@@ -51,7 +52,7 @@ Robust inputs allow the device to up-translate with a propagation delay
 of 20 ns. The V~CC~ for the device is optimized at 5 V. Up voltage
 translation from 3.3 V to 5 V is allowed. The inputs accept V~IH~ levels
 of 2 V. Output ringing is minimized by slow edge rates. Inputs are
-TTL-Voltage compatible.
+TTL-Voltage compatible. [[8::1]] [[8::2]] [[8::3]] [[8::4]]
 
 Source conflict: the switching characteristics (p.6) give t~PLH~ and t~PHL~ of at most 10 ns.
 
@@ -68,6 +69,7 @@ Source conflict: the switching characteristics (p.6) give t~PLH~ and t~PHL~ of a
 [1] H = High Voltage Level, L = Low Voltage Level, X = Don’t Care
 [2] H = Driving High, L = Driving Low, Z = High Impedance State
 ```
+[[8::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -87,6 +89,7 @@ Source conflict: the switching characteristics (p.6) give t~PLH~ and t~PHL~ of a
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under [Section 5.3](#recommended-operating-conditions). Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -97,6 +100,7 @@ Source conflict: the switching characteristics (p.6) give t~PLH~ and t~PHL~ of a
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -115,6 +119,7 @@ Source conflict: the switching characteristics (p.6) give t~PLH~ and t~PHL~ of a
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See TI application report, Implications of Slow or Floating CMOS Inputs (SCBA004).
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -130,6 +135,7 @@ Source conflict: the switching characteristics (p.6) give t~PLH~ and t~PHL~ of a
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953.
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -153,12 +159,14 @@ Source conflict: the switching characteristics (p.6) give t~PLH~ and t~PHL~ of a
 
 [1] This is the increase in supply current for each input at one of the specified TTL voltage levels, rather than 0 V or V~CC~.
 ```
+[[5::table #2]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 18 | pF |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -182,6 +190,7 @@ See [parameter measurement information](#parameter-measurement).
 
 [1] Source error: this condition cell is printed "Propagation delay, high to low transition"; the row sits between the 25 °C and –40 °C to 125 °C rows, and the matching t~PHL~ row and both 15 pF groups give T~A~ = –40 °C to 85 °C there.
 ```
+[[6::table #2]]
 
 ## Typical characteristics
 
@@ -192,6 +201,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "Tpd vs. Temp", "points": [[0, 5.89], [15, 6.07], [35, 6.36], [55, 6.67], [75, 6.96], [95, 7.21], [115, 7.38], [125, 7.51]]}
  ]}
 ```
+[[6::Figure 5-1]]
 
 ## Parameter measurement information
 
@@ -199,17 +209,19 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time with one input transition per measurement. All parameters and
-waveforms are not applicable to all devices.
+waveforms are not applicable to all devices. [[7::1]]
 
 Conversion note: C~L~ is 15 pF or 50 pF, as given in the [switching characteristics](#sw); in the figure the inputs swing 0 V to 3 V and are measured at 1.5 V, and the outputs are measured at 50 % V~CC~.
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 1.5 V (input), 50 % VCC (output)
 ```
+[[7::Figure 6-1]]
 
 Conversion note: the source figure also shows the 3-state and open-drain load circuit and the pulse-duration, setup-and-hold and enable/disable waveforms.
 
@@ -217,13 +229,13 @@ Conversion note: the source figure also shows the 3-state and open-drain load ci
 
 Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
-completeness.
+completeness. [[9::1]]
 
 The SN74AHCT1G08 device is a single AND gate, which is often used for
 many common functions like power sequencing or an on LED indicator.
 Because the device is configured to output LOW unless all inputs are
 HIGH, an LED tied to the output of the device will only turn HIGH when
-all systems connected are sending a HIGH, or ready signal.
+all systems connected are sending a HIGH, or ready signal. [[9::2]]
 
 Conversion note: the typical application diagram (Figure 8-1) shows two uses, an AND logic function where A and B come from a µC or logic and Y drives a µC or logic, and a basic LED driver where Y drives an LED with a series resistor to ground.
 
@@ -233,16 +245,16 @@ This device uses CMOS technology and has balanced
 output drive. Take care to avoid bus contention because it can drive
 currents that would exceed maximum limits. The high drive also creates
 fast edges into light loads, so routing and load conditions must be
-considered to prevent ringing.
+considered to prevent ringing. [[9::3]]
 
 - For rise time and fall time specifications, see Δt/ΔV in
-  [Section 5.3](#recommended-operating-conditions).
-- For specified high and low levels, see V~IH~ and V~IL~ in Section 5.3.
+  [Section 5.3](#recommended-operating-conditions). [[9::4]]
+- For specified high and low levels, see V~IH~ and V~IL~ in Section 5.3. [[9::4]]
 - Inputs are overvoltage tolerant allowing them to go as high as 5.5 V at
-  any valid V~CC~.
+  any valid V~CC~. [[9::4]]
 - Load currents must not exceed 25 mA per output and 50 mA total for the
-  part.
-- Outputs must not be pulled above V~CC~.
+  part. [[9::4]]
+- Outputs must not be pulled above V~CC~. [[9::4]]
 
 ### Power supply recommendations
 
@@ -251,7 +263,7 @@ rating located in Recommended Operating Conditions. Each V~CC~ pin must
 have a good bypass capacitor to prevent power disturbance. TI recommends
 a 0.1-µF capacitor for devices with a single supply. 0.1-µF and 1-µF
 capacitors are commonly used in parallel. The bypass capacitor must be
-installed as close to the power pin as possible for best results.
+installed as close to the power pin as possible for best results. [[10::1]] [[10::2]]
 
 ### Layout guidelines
 
@@ -261,13 +273,13 @@ unused; for example, when only two inputs of a triple-input AND gate are
 used or only 3 of the 4 buffer gates are used. Such input pins must not
 be left unconnected because the undefined voltages at the outside
 connections result in undefined operational states. Observe the
-following rules under all circumstances.
+following rules under all circumstances. [[10::3]]
 
 All unused inputs of digital logic devices must be connected to a high or
 low bias to prevent them from floating. The logic level that must be
 applied to any particular unused input depends on the function of the
 device. Generally they will be tied to GND or V~CC~, whichever make more
-sense or is more convenient.
+sense or is more convenient. [[10::4]]
 
 Conversion note: the layout example (Figure 8-3) recommends a GND flood fill, a 0.1 µF bypass capacitor placed close to the device, and avoiding 90° corners for signal lines.
 
@@ -297,6 +309,7 @@ SN74AHCT1G08DCKR | Reel of 3000 | -40 to 125 | 1PJ, BE3, BEG, BEJ, BEL, BES
 SN74AHCT1G08DCKT | | -40 to 125 | BE3, BEG, BES | Obsolete
 SN74AHCT1G08DRLR | Reel of 4000 | -40 to 125 | BEB, BES
 ```
+[[13::table #1]] [[14::table #1]]
 
 ## Conversion notes
 

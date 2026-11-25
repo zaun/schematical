@@ -76,7 +76,7 @@ final class WizardKindStepsTests: XCTestCase {
     }
 
     func testTheBusConditionTableCoversTheBusKeys() throws {
-        for kind in ["converter", "rtc"] {
+        for kind in ["converter", "rtc", "leddriver", "lcddriver"] {
             let keys = try busKeys(kind).map(\.key)
             XCTAssertEqual(keys.count, 25, kind)
             let table = try XCTUnwrap(PartKinds.conditions[kind])
@@ -89,7 +89,7 @@ final class WizardKindStepsTests: XCTestCase {
             let unconditioned = Set(keys).subtracting(conditioned).subtracting(["style"])
             XCTAssertEqual(unconditioned, ["ale", "i2c", "selectPin", "selectSampled", "spi", "spiLevel"], kind)
         }
-        XCTAssertEqual(Set(PartKinds.conditions.keys), ["converter", "rtc"])
+        XCTAssertEqual(Set(PartKinds.conditions.keys), ["converter", "rtc", "leddriver", "lcddriver"])
     }
 
     func testAnSPIBusShowsTheSPIKeys() throws {

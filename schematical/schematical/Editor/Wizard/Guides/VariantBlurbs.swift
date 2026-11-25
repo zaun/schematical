@@ -39,10 +39,6 @@ extension PartKinds {
             "divn": "A divider whose ratio is set on its pins, like the CD4059.",
             "rate": "A rate multiplier: passes a chosen fraction of its clock pulses, like the 7497 and CD4089.",
         ],
-        "crystal": [
-            "crystal": "A quartz crystal: a precise two-terminal clock reference, with its load capacitors outside.",
-            "resonator": "A ceramic resonator: a cheaper, less precise clock reference, some with the load capacitors built in.",
-        ],
         "decoder": [
             "binary": "Turns a binary address into one active output, like the 74HC138, 74HC139 and 74HC154.",
             "priority": "Reports the number of the highest active input, like the 74HC148 and 74HC147.",
@@ -78,6 +74,15 @@ extension PartKinds {
         ],
         "register": [
             "parallel": "A row of D flip-flops loaded together on a clock edge, like the 74HC273, 74HC374 and 74HC574.",
+        ],
+        "crystal": [
+            "crystal": "A quartz crystal: two terminals that give a clock input its frequency, like an HC-49 crystal.",
+            "resonator": "A ceramic resonator with built-in load capacitors and a third, common pin.",
+        ],
+        "powerswitch": [
+            "load": "A load switch that connects its input to its output while enabled, like the TPS22918.",
+            "limited": "A current-limited power switch, like a USB power switch.",
+            "ideal-diode": "An integrated ideal diode that passes its input to the output, like the LM66100.",
         ],
         "serial": [
             "ns16550": "The 16450 / 16550 UART family and the I2C and SPI bridges built on it: the PC's serial port chip.",

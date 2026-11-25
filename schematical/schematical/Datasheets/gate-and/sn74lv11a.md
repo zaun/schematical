@@ -25,12 +25,12 @@
 
 These triple 3-input positive-AND gates are designed for 2-V to 5.5-V
 V~CC~ operation. The SN74LV11A devices perform the Boolean function
-Y = A • B • C in positive logic.
+Y = A • B • C in positive logic. [[8::1]] [[8::2]]
 
 These devices are fully specified for partial-power-down applications
 using I~off~. The I~off~ circuitry disables the outputs, preventing
 damaging current backflow through the devices when they are powered
-down.
+down. [[8::3]]
 
 ## Pinout
 
@@ -47,6 +47,7 @@ down.
 GND: Ground pin
 VCC: Power pin
 ```
+[[3::table #1]]
 
 ## Function tables
 
@@ -62,6 +63,7 @@ VCC: Power pin
 [1] H = High Voltage Level, L = Low Voltage Level, X = Don't Care
 [2] H = Driving High, L = Driving Low
 ```
+[[8::Table 6-1]]
 
 ## Absolute maximum ratings
 
@@ -82,6 +84,7 @@ VCC: Power pin
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] This value is limited to 5.5 V maximum.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -92,8 +95,9 @@ VCC: Power pin
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
-Latch-up performance exceeds 100 mA per JESD 78, Class II.
+Latch-up performance exceeds 100 mA per JESD 78, Class II. [[1::2]]
 
 ## Recommended operating conditions
 
@@ -126,6 +130,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[4::table #3]] [[5::table #1]]
 
 ## Thermal information
 
@@ -136,6 +141,7 @@ Latch-up performance exceeds 100 mA per JESD 78, Class II.
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -154,6 +160,7 @@ characteristics below.
 
 [1] Characteristics are for surface-mount packages only.
 ```
+[[5::table #3]] [[6::table #1]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25 °C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -161,6 +168,7 @@ characteristics below.
 | C~pd~ | Power dissipation capacitance | C~L~ = 50 pF, f = 10 MHz | 3.3 V | 13.9 | pF |
 | ^ | ^ | ^ | 5 V | 15.4 | pF |
 ```
+[[6::table #2]]
 
 ## Switching characteristics
 
@@ -175,6 +183,7 @@ temperature range.
 | t~pd~ | A, B, or C | Y | C~L~ = 15 pF | | 6.9 | 13.8 | 1 | 16 | ns |
 | t~pd~ | A, B, or C | Y | C~L~ = 50 pF | | 9.9 | 17.5 | 1 | 21 | ns |
 ```
+[[5::table #4]]
 
 ```table id=sw-3v3 caption="Switching characteristics, V~CC~ = 3.3 V ± 0.3 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | Load capacitance | T~A~ = 25 °C | < | < | SN74LV11A | < | Unit |
@@ -183,6 +192,7 @@ temperature range.
 | t~pd~ | A, B, or C | Y | C~L~ = 15 pF | | 5.2 | 8.8 | 1 | 10.5 | ns |
 | t~pd~ | A, B, or C | Y | C~L~ = 50 pF | | 7.2 | 12.3 | 1 | 14 | ns |
 ```
+[[5::table #5]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | From | To | Load capacitance | T~A~ = 25 °C | < | < | SN74LV11A | < | Unit |
@@ -191,6 +201,7 @@ temperature range.
 | t~pd~ | A, B, or C | Y | C~L~ = 15 pF | | 3.9 | 5.9 | 1 | 7 | ns |
 | t~pd~ | A, B, or C | Y | C~L~ = 50 pF | | 5.4 | 7.9 | 1 | 9 | ns |
 ```
+[[5::table #6]]
 
 ## Parameter measurement information
 
@@ -199,7 +210,7 @@ input pulses are supplied by generators having the following
 characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The
 outputs are measured one at a time, with one input transition per
 measurement. t~PHL~ and t~PLH~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[7::2]]
 
 Conversion note: C~L~ is 15 pF or 50 pF as given in the
 [switching characteristics](#switching-characteristics).
@@ -207,10 +218,12 @@ Conversion note: C~L~ is 15 pF or 50 pF as given in the
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: 15 pF or 50 pF
 ```
+[[7::Figure 5-1]]
 
 ```figure ref=waveforms-tpd caption="Propagation delay times, inverting and noninverting outputs"
 VM: 50 % V~CC~
 ```
+[[7::Figure 5-1]]
 
 Conversion note: Figure 5-1 also shows the load circuit for 3-state and
 open-drain outputs (R~L~ = 1 kΩ) and the voltage waveforms for pulse
@@ -222,7 +235,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[9::1]]
 
 ### Power supply recommendations
 
@@ -233,7 +246,7 @@ prevent power disturbance. A 0.1-µF capacitor is recommended for this
 device. It is acceptable to parallel multiple bypass caps to reject
 different frequencies of noise. The 0.1-µF and 1-µF capacitors are
 commonly used in parallel. The bypass capacitor should be installed as
-close to the power terminal as possible for best results.
+close to the power terminal as possible for best results. [[9::2]]
 
 ### Layout guidelines
 
@@ -246,17 +259,17 @@ defined by the input voltage specifications, to prevent them from
 floating. The logic level that must be applied to any particular unused
 input depends on the function of the device. Generally, the inputs are
 tied to GND or V~CC~, whichever makes more sense for the logic function
-or is more convenient.
+or is more convenient. [[9::3]]
 
 Conversion note: the example layout for the SN74LV11A (Figure 7-1) is given here by its labels.
 
-- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation
-- Unused inputs tied to GND
-- Bypass capacitor placed close to the device
-- 0.1 µF
-- Unused input tied to V~CC~
-- Unused output left floating
-- Avoid 90° corners for signal lines
+- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation [[9::4]]
+- Unused inputs tied to GND [[9::3]]
+- Bypass capacitor placed close to the device [[9::6]]
+- 0.1 µF [[9::2]]
+- Unused input tied to V~CC~ [[9::3]]
+- Unused output left floating [[9::3]]
+- Avoid 90° corners for signal lines [[9::5]]
 
 ## Package
 
@@ -286,6 +299,7 @@ SN74LV11ANSR | Reel of 2000 | -40 to 85 | 74LV11A
 SN74LV11APW | | -40 to 85 | LV11A | Obsolete
 SN74LV11APWR | Reel of 2000 | -40 to 85 | LV11A
 ```
+[[11::table #1]]
 
 ## Conversion notes
 

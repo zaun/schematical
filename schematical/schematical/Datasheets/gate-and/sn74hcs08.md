@@ -25,10 +25,10 @@
 
 This device contains four independent 2-input AND gates with
 Schmitt-trigger inputs. Each gate performs the Boolean function
-Y = A · B in positive logic.
+Y = A · B in positive logic. [[1::3]]
 
 Schmitt-trigger inputs allow for slow or noisy input signals. This
-device includes balanced CMOS push-pull outputs.
+device includes balanced CMOS push-pull outputs. [[1::5]] [[8::2]]
 
 ## Pinout
 
@@ -36,7 +36,7 @@ device includes balanced CMOS push-pull outputs.
 ```
 
 The thermal pad can be connected to GND or left floating. Do not connect
-to any other signal or supply. BQA Package only.
+to any other signal or supply. BQA Package only. [[3::1]]
 
 ## Pin functions
 
@@ -47,6 +47,7 @@ to any other signal or supply. BQA Package only.
 GND: Ground
 VCC: Positive supply
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
@@ -58,7 +59,7 @@ driving larger currents than the device can sustain without being
 damaged. Limit the output power of the device to avoid damage due to
 overcurrent. The electrical and thermal limits defined in the
 [absolute maximum ratings](#absolute-maximum-ratings) must be followed
-at all times. Unused push-pull CMOS outputs must be left disconnected.
+at all times. Unused push-pull CMOS outputs must be left disconnected. [[8::2]] [[8::3]]
 
 CMOS Schmitt-trigger inputs: these inputs are high impedance and are
 typically modeled as a resistor in parallel with the input capacitance
@@ -73,16 +74,17 @@ Characteristics table, which makes this device extremely tolerant to
 slow or noisy inputs. While the inputs can be driven much slower than
 standard CMOS inputs, properly terminating unused inputs is still
 recommended. Driving the inputs with slow transitioning signals
-increases dynamic current consumption of the device.
+increases dynamic current consumption of the device. [[8::4]] [[8::5]]
 
 Clamp diodes: the inputs and outputs have both positive and negative
 clamping diodes. Voltages beyond the values specified in the absolute
 maximum ratings can cause damage to the device. The input and output
 voltage ratings can be exceeded if the input and output clamp-current
-ratings are observed.
+ratings are observed. [[8::6]] [[8::7]]
 
 ```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output"
 ```
+[[9::Figure 7-1]]
 
 ## Function tables
 
@@ -96,6 +98,7 @@ ratings are observed.
 
 [1] H = High Voltage Level, L = Low Voltage Level, X = Don't Care
 ```
+[[9::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -114,6 +117,7 @@ ratings are observed.
 [2] The input and output voltage ratings can be exceeded if the input and output current ratings are observed. Do not exceed the absolute maximum voltage supply rating.
 [3] Verified by design.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -124,6 +128,7 @@ ratings are observed.
 [1] JEDEC document JEP155 states that 500V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250V CDM allows safe manufacturing with a standard ESD control process. Source error: the source marks the CDM row (3), but prints no note (3); its note (2), the CDM note, has no marker.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -139,6 +144,7 @@ ratings are observed.
 [1] Max: Unlimited.
 [2] Source conflict: this table gives –55 °C; the features list gives an ambient temperature range of –40 °C to +125 °C, and the package option addendum gives an operating temperature of -40 to 125 for every orderable.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -154,6 +160,7 @@ ratings are observed.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application note.
 ```
+[[4::table #4]] [[5::table #1]]
 
 ## Electrical characteristics
 
@@ -179,6 +186,7 @@ ratings are observed.
 | I~CC~ | Supply current | V~I~ = V~CC~ or 0, I~O~ = 0 | < | 6 V | | 0.1 | 2 | µA |
 | C~i~ | Input capacitance | | < | 2 V to 6 V | | | 5 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -194,6 +202,7 @@ See [parameter measurement information](#parameter-measurement).
 | ^ | ^ | ^ | ^ | 4.5 V | | 5 | 8 | ns |
 | ^ | ^ | ^ | ^ | 6 V | | 4 | 7 | ns |
 ```
+[[6::table #1]]
 
 ## Typical characteristics
 
@@ -207,6 +216,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "VCC = 6 V", "points": [[0, 27.0], [5, 27.0], [10, 27.05], [15, 27.15], [20, 27.25], [25, 27.3]]}
  ]}
 ```
+[[6::Figure 5-1]]
 
 ```curve id=roh caption="Output driver resistance in HIGH state, T~A~ = 25 °C"
 {"x": {"label": "Output source current", "unit": "mA", "range": [0, 25]},
@@ -218,6 +228,7 @@ See [parameter measurement information](#parameter-measurement).
   {"label": "VCC = 6 V", "points": [[0, 31.2], [5, 31.35], [10, 31.5], [15, 31.6], [20, 31.8], [25, 31.95]]}
  ]}
 ```
+[[6::Figure 5-2]]
 
 Conversion note: the source also plots supply current against input
 voltage (V~CC~ = 2 V to 6 V): the typical additional current caused by
@@ -231,15 +242,17 @@ characteristics: PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~t~ < 2.5 ns. The outputs
 are measured one at a time with one input transition per measurement.
 C~L~ includes probe and test-fixture capacitance. The greater between
 t~PLH~ and t~PHL~ is the same as t~pd~. The greater between t~r~ and
-t~f~ is the same as t~t~.
+t~f~ is the same as t~t~. [[7::1]] [[7::3]] [[7::4]] [[7::6]] [[7::8]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for push-pull outputs"
 CL: not given
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Propagation delays and input and output transition times"
 VM: 50 %
 ```
+[[7::Figure 6-3]]
 
 ## Application information
 
@@ -247,7 +260,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 In this application, three 2-input AND gates are combined to produce a
 4-input AND gate function. The fourth gate can be used for another
@@ -262,7 +275,7 @@ produce slow input transition rates when they transition from LOW to
 Hi-Z mode. This makes the SN74HCS08 an excellent choice for the
 application because it has Schmitt-trigger inputs that do not have input
 transition rate requirements.
-Conversion note: Figure 8-1 (p.10) names the four signals !{OC}, PG, ON/!{OFF} and !{OT}, from blocks labelled Over Current Detection, Power Supply, On/Off Switch and Over Temp Detection, and the output !{RESET}.
+Conversion note: Figure 8-1 (p.10) names the four signals !{OC}, PG, ON/!{OFF} and !{OT}, from blocks labelled Over Current Detection, Power Supply, On/Off Switch and Over Temp Detection, and the output !{RESET}. [[10::2]] [[10::3]] [[10::4]]
 
 ```wavedrom id=app-timing caption="Application timing diagram"
 {"signal": [
@@ -273,6 +286,7 @@ Conversion note: Figure 8-1 (p.10) names the four signals !{OC}, PG, ON/!{OFF} a
   {"name": "RESET#", "wave": "10......"}
 ]}
 ```
+[[12::Figure 8-2]]
 
 Power: verify that the desired supply voltage is within the range
 specified in the [Electrical Characteristics](#electrical-characteristics).
@@ -293,7 +307,7 @@ terminal must have a good bypass capacitor to prevent power disturbance.
 A 0.1 µF capacitor is recommended for this device. The
 0.1 µF and 1 µF capacitors are commonly used in parallel. The bypass
 capacitor must be installed as close to the power terminal as
-possible.
+possible. [[10::6]] [[10::7]] [[10::8]] [[11::5]] [[12::2]]
 
 Loads: the SN74HCS08 can drive a load with a total capacitance less
 than or equal to 50 pF while still meeting all of the datasheet
@@ -307,7 +321,7 @@ equation is defined as the difference between the measured output
 voltage and the supply voltage at the V~CC~ pin. Verify that the
 resistive load at the output is larger than (V~CC~ / I~O(max)~) Ω.
 Never violate the maximum output
-current from the absolute maximum ratings.
+current from the absolute maximum ratings. [[11::1]] [[11::2]] [[12::1]]
 
 Inputs: input signals must cross V~T-~(min) to be considered a logic
 LOW, and V~T+~(max) to be considered a logic HIGH. Do not exceed the
@@ -321,14 +335,14 @@ To know how much noise is too much, see the ΔV~T~(min) in the Electrical
 Characteristics. This hysteresis value provides the peak-to-peak limit.
 Schmitt-trigger inputs can
 be held at any valid value without causing huge increases in power
-consumption.
+consumption. [[11::6]] [[11::7]] [[11::9]] [[11::10]]
 
 Outputs: push-pull outputs that can be in opposite states, even for a
 very short time period, must never be connected directly together. Two
 channels within the same device with the same input signals can be
 connected in parallel for additional output drive strength. Unused
 outputs can be left floating. Do not connect outputs directly to
-V~CC~ or ground.
+V~CC~ or ground. [[11::13]] [[11::14]] [[11::15]]
 
 Layout: inputs must never be left floating. Such unused input pins must
 not be left unconnected because the undefined voltages at the outside
@@ -339,7 +353,7 @@ whichever makes more sense for the logic function or is more
 convenient. Conversion note: the source's layout example uses a GND flood fill, places
 the bypass capacitor close to the device, ties unused inputs to V~CC~,
 leaves the unused output floating, and avoids 90° corners for signal
-lines.
+lines. [[12::3]]
 
 ## Package
 
@@ -361,6 +375,7 @@ SN74HCS08DR | Reel of 2500 | -40 to 125 | HCS08
 SN74HCS08PWR | Reel of 2000 | -40 to 125 | HCS08
 SN74HCS08PWRG4 | Reel of 2000 | -40 to 125 | HCS08
 ```
+[[16::table #1]]
 
 ## Conversion notes
 

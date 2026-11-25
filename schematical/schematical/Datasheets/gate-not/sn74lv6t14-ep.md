@@ -26,17 +26,17 @@
 The SN74LV6T14-EP device contains six independent Inverter with
 Schmitt-trigger inputs. Each gate performs the Boolean function
 Y = !{A} in positive logic. The output level is referenced to the supply
-voltage (V~CC~) and supports 1.8-V, 2.5V, 3.3V, and 5V CMOS levels.
+voltage (V~CC~) and supports 1.8-V, 2.5V, 3.3V, and 5V CMOS levels. [[1::2]]
 
 The input is designed with a lower threshold circuit to support up
 translation for lower voltage CMOS inputs (for example, 1.2V input to
 1.8V output or 1.8V input to 3.3V output). In addition, the 5V tolerant
-input pins enable down translation (for example, 3.3V to 2.5V output).
+input pins enable down translation (for example, 3.3V to 2.5V output). [[1::4]]
 
-Wide operating range of 1.8V to 5.5V.
+Wide operating range of 1.8V to 5.5V. [[1::3]]
 
 5.5V tolerant input pins. Up to 150Mbps with 5V or 3.3V V~CC~. Latch-up
-performance exceeds 250mA per JESD 17.
+performance exceeds 250mA per JESD 17. [[1::3]]
 
 ## Pinout
 
@@ -61,13 +61,14 @@ GND: Ground
 6A: Channel 6, Input A
 VCC: Positive Supply
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
 The SN74LV6T14-EP device contains six independent Inverter with
 Schmitt-trigger inputs. Each gate performs the Boolean function
 Y = !{A} in positive logic. The output level is referenced to the supply
-voltage (V~CC~) and supports 1.8-V, 2.5V, 3.3V, and 5V CMOS levels.
+voltage (V~CC~) and supports 1.8-V, 2.5V, 3.3V, and 5V CMOS levels. [[1::2]]
 
 Conversion note: the functional block diagram shows one of six channels,
 from input xA through a Schmitt-trigger buffer and an inverter to output
@@ -83,9 +84,9 @@ Additionally, the outputs of this device are capable of driving larger
 currents than the device can sustain without being damaged. It is
 important to limit the output power of the device to avoid damage due to
 overcurrent. The electrical and thermal limits defined in the Absolute
-Maximum Ratings must be followed at all times.
+Maximum Ratings must be followed at all times. [[11::2]]
 
-Unused push-pull CMOS outputs should be left disconnected.
+Unused push-pull CMOS outputs should be left disconnected. [[11::3]]
 
 ### Clamp diode structure
 
@@ -93,12 +94,12 @@ The outputs to this device have both positive and negative clamping
 diodes, and the inputs to this device have negative clamping diodes
 only as shown in Figure 7-1. Conversion note: Figure 7-1 draws the
 output diodes to V~CC~ (+I~OK~) and to GND (-I~OK~), and the input diode
-to GND (-I~IK~).
+to GND (-I~IK~). [[11::4]]
 
 Voltages beyond the values specified in the Absolute Maximum Ratings
 table can cause damage to the device. The input and output voltage
 ratings may be exceeded if the input and output clamp-current ratings
-are observed.
+are observed. [[11::5]]
 
 ### CMOS Schmitt-trigger inputs
 
@@ -109,7 +110,7 @@ Characteristics table from the input to ground. The worst case
 resistance is calculated with the maximum input voltage, given in the
 Absolute Maximum Ratings table, and the maximum input leakage current,
 given in the Electrical Characteristics table, using Ohm's law
-(R = V ÷ I).
+(R = V ÷ I). [[11::7]]
 
 The Schmitt-trigger input architecture provides hysteresis as defined by
 ΔV~T~ in the Electrical Characteristics table, which makes this device
@@ -118,7 +119,7 @@ driven much slower than standard CMOS inputs, it is still recommended to
 properly terminate unused inputs. Driving the inputs with slow
 transitioning signals will increase dynamic current consumption of the
 device. For additional information regarding Schmitt-trigger inputs,
-please see Understanding Schmitt Triggers.
+please see Understanding Schmitt Triggers. [[12::1]]
 
 ### LVxT enhanced input voltage
 
@@ -136,51 +137,51 @@ input state; its Up Translation section ("above V~IH(MIN)~") shows it
 is at or above. Corrected. Figure 7-2 shows the typical V~IH~ and
 V~IL~ levels for the LVxT family of devices, as well as the voltage
 levels for standard CMOS devices for comparison. Conversion note:
-Figure 7-2 is not drawn here.
+Figure 7-2 is not drawn here. [[12::2]]
 
 The inputs are high impedance and are typically modeled as a resistor
 in parallel with the input capacitance given in the Electrical
 Characteristics. The worst case resistance is calculated with the
 maximum input voltage, given in the Absolute Maximum Ratings, and the
 maximum input leakage current, given in the Electrical Characteristics,
-using Ohm's law (R = V ÷ I).
+using Ohm's law (R = V ÷ I). [[11::7]]
 
 The inputs require that input signals transition between valid logic
 states quickly, as defined by the input transition time or rate in the
 Recommended Operating Conditions table. Failing to meet this
 specification will result in excessive power consumption and could
 cause oscillations. More details can be found in the Implications of
-Slow or Floating CMOS Inputs application report.
+Slow or Floating CMOS Inputs application report. [[12::4]]
 
 Do not leave inputs floating at any time during operation. Unused
 inputs must be terminated at V~CC~ or GND. If a system will not be
 actively driving an input at all times, then a pull-up or pull-down
 resistor can be added to provide a valid input voltage during these
 times. The resistor value will depend on multiple factors; however, a
-10-kΩ resistor is recommended and will typically meet all requirements.
+10-kΩ resistor is recommended and will typically meet all requirements. [[12::5]]
 
 #### Down translation
 
 Signals can be translated down using the SN74LV6T14-EP. The voltage
 applied at the V~CC~ will determine the output voltage and the input
 thresholds as described in the Recommended Operating Conditions and
-Electrical Characteristics tables.
+Electrical Characteristics tables. [[12::2]] [[12::7]]
 
 When connected to a high-impedance input, the output voltage will be
 approximately V~CC~ in the HIGH state, and 0V in the LOW state. As
 shown in Figure 7-2, ensure that the input signals in the HIGH state
 are between V~IH(MIN)~ and 5.5V, and input signals in the LOW state are
-lower than V~IL(MAX)~.
+lower than V~IL(MAX)~. [[13::1]]
 
 As shown in Figure 7-3 for example, the standard CMOS inputs for
 devices operating at 5.0V, 3.3V or 2.5V can be down-translated to match
-1.8V CMOS signals when operating from 1.8-V V~CC~.
+1.8V CMOS signals when operating from 1.8-V V~CC~. [[13::2]]
 
-Down Translation Combinations are as follows:
+Down Translation Combinations are as follows: [[13::3]]
 
-- 1.8-V V~CC~ – Inputs from 2.5V, 3.3V, and 5.0V
-- 2.5V V~CC~ – Inputs from 3.3V and 5.0V
-- 3.3V V~CC~ – Inputs from 5.0V
+- 1.8-V V~CC~ – Inputs from 2.5V, 3.3V, and 5.0V [[13::2]]
+- 2.5V V~CC~ – Inputs from 3.3V and 5.0V [[13::2]]
+- 3.3V V~CC~ – Inputs from 5.0V [[13::2]]
 
 #### Up translation
 
@@ -189,32 +190,32 @@ applied at V~CC~ will determine the output voltage and the input
 thresholds as described in the Recommended Operating Conditions and
 Electrical Characteristics tables. When connected to a high-impedance
 input, the output voltage will be approximately V~CC~ in the HIGH
-state, and 0V in the LOW state.
+state, and 0V in the LOW state. [[13::1]] [[13::4]]
 
 The inputs have reduced thresholds that allow for input HIGH state
 levels which are much lower than standard values. For example, standard
 CMOS inputs for a device operating at a 5V supply will have a
 V~IH(MIN)~ of 3.5V. For the SN74LV6T14-EP, V~IH(MIN)~ with a 5V supply
 is only 2V, which would allow for up-translation from a typical 2.5V to
-5V signals.
+5V signals. [[13::5]]
 
 As shown in Figure 7-3, ensure that the input signals in the HIGH state
 are above V~IH(MIN)~ and input signals in the LOW state are lower than
-V~IL(MAX)~.
+V~IL(MAX)~. [[13::6]]
 
-Up Translation Combinations are as follows:
+Up Translation Combinations are as follows: [[13::3]]
 
-- 1.8-V V~CC~ – Inputs from 1.2V
-- 2.5V V~CC~ – Inputs from 1.8V
-- 3.3V V~CC~ – Inputs from 1.8V and 2.5V
-- 5.0V V~CC~ – Inputs from 2.5V and 3.3V
+- 1.8-V V~CC~ – Inputs from 1.2V [[13::7]]
+- 2.5V V~CC~ – Inputs from 1.8V [[13::2]]
+- 3.3V V~CC~ – Inputs from 1.8V and 2.5V [[13::2]]
+- 5.0V V~CC~ – Inputs from 2.5V and 3.3V [[13::2]]
 
 Conversion note: Figure 7-3, the LVxT up and down translation example,
 is not drawn here.
 
 ## Function tables
 
-Table 7-1 lists the functional modes of the SN74LV6T14-EP.
+Table 7-1 lists the functional modes of the SN74LV6T14-EP. [[13::9]]
 
 ```table id=function caption="Function table"
 | Inputs [1] | Output |
@@ -225,6 +226,7 @@ Table 7-1 lists the functional modes of the SN74LV6T14-EP.
 
 [1] H = high voltage level, L = low voltage level, X = do not care, Z = high impedance
 ```
+[[3::Table 4-1]]
 
 ## Absolute maximum ratings
 
@@ -244,6 +246,7 @@ Table 7-1 lists the functional modes of the SN74LV6T14-EP.
 [1] Operation outside the Absolute Maximum Ratings may cause permanent device damage. Absolute maximum ratings do not imply functional operation of the device at these or any other conditions beyond those listed under Recommended Operating Conditions. If briefly operating outside the Recommended Operating Conditions but within the Absolute Maximum Ratings, the device may not sustain damage, but it may not be fully functional. Operating the device in this manner may affect device reliability, functionality, performance, and shorten the device lifetime.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -254,6 +257,7 @@ Table 7-1 lists the functional modes of the SN74LV6T14-EP.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -269,6 +273,7 @@ Table 7-1 lists the functional modes of the SN74LV6T14-EP.
 | Δt/Δv | Input transition rise or fall rate | V~CC~ = 1.6V to 5.0V | | 20 | ns/V |
 | T~A~ | Operating free-air temperature | | -55 | 125 | °C |
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -285,6 +290,7 @@ Table 7-1 lists the functional modes of the SN74LV6T14-EP.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[4::table #4]] [[5::table #1]]
 
 ## Electrical characteristics
 
@@ -324,6 +330,7 @@ Table 7-1 lists the functional modes of the SN74LV6T14-EP.
 
 [1] Typical value at nearest nominal voltage (1.8V, 2.5V, 3.3V, and 5V)
 ```
+[[5::table #2]]
 
 ```table id=noise caption="Noise characteristics" conditions="V~CC~ = 5V, C~L~ = 50pF, T~A~ = 25°C"
 | Symbol | Parameter | Min | Typ | Max | Unit |
@@ -334,6 +341,7 @@ Table 7-1 lists the functional modes of the SN74LV6T14-EP.
 | V~IH(D)~ | High-level dynamic input voltage | 2.1 | | | V |
 | V~IL(D)~ | Low-level dynamic input voltage | | | 0.5 | V |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -357,29 +365,32 @@ Table 7-1 lists the functional modes of the SN74LV6T14-EP.
 | t~PHL~ | A | Y | C~L~ = 50pF | 5V | | 7.1 | 12.5 | ns |
 | t~PLH~ | A | Y | C~L~ = 50pF | 5V | | 5.8 | 11.5 | ns |
 ```
+[[6::table #2]]
 
 ## Parameter measurement information
 
 Phase relationships between waveforms were chosen arbitrarily. All
 input pulses are supplied by generators having the following
-characteristics: PRR ≤ 1MHz, Z~O~ = 50Ω.
+characteristics: PRR ≤ 1MHz, Z~O~ = 50Ω. [[10::1]]
 
-For clock inputs, f~max~ is measured when the input duty cycle is 50%.
+For clock inputs, f~max~ is measured when the input duty cycle is 50%. [[10::2]]
 
 The outputs are measured one at a time with one input transition per
-measurement.
+measurement. [[10::3]]
 
 C~L~ includes probe and test-fixture capacitance. The greater between
 t~PLH~ and t~PHL~ is the same as t~pd~. The greater between t~r~ and
-t~f~ is the same as t~t~.
+t~f~ is the same as t~t~. [[10::4]] [[10::6]] [[10::8]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for push-pull outputs"
 CL: see table
 ```
+[[10::Figure 6-1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delays and input and output transition times"
 VM: 50%
 ```
+[[10::Figure 6-3]]
 
 ## Application information
 
@@ -387,7 +398,7 @@ Information in the following applications sections is not part of the
 TI component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining
 suitability of components for their purposes, as well as validating and
-testing their design implementation to confirm system functionality.
+testing their design implementation to confirm system functionality. [[14::1]]
 
 The SN74LV6T14-EP can be used to add an additional stage to a counter
 with an external flip-flop. Because counters use a negative edge
@@ -398,7 +409,7 @@ which could lead to incorrect frequency division. This function only
 requires one of the six available inverters in the SN74LV6T14-EP device,
 so the remaining channels can be used for other applications needing an
 inverted signal or improved signal integrity. Unused inputs must be
-terminated at V~CC~ or GND. Unused outputs can be left floating.
+terminated at V~CC~ or GND. Unused outputs can be left floating. [[14::2]]
 
 Conversion note: the typical application block diagram (Figure 8-1)
 shows a counter with outputs 2^0^ to 2^3^ whose 2^3^ output goes through
@@ -413,7 +424,7 @@ goes to the CLR inputs of both.
 Ensure the desired supply voltage is within the range specified in the
 Recommended Operating Conditions. The supply voltage sets the electrical
 characteristics of the device as described in the Electrical
-Characteristics section.
+Characteristics section. [[14::4]]
 
 The positive voltage supply must be capable of sourcing current equal to
 the total current to be sourced by all outputs of the SN74LV6T14-EP plus
@@ -421,7 +432,7 @@ the maximum static supply current, I~CC~, listed in the Electrical
 Characteristics, and any transient current required for switching. The
 logic device can only source as much current that is provided by the
 positive supply source. Be sure to not exceed the maximum total current
-through V~CC~ listed in the Absolute Maximum Ratings.
+through V~CC~ listed in the Absolute Maximum Ratings. [[14::5]]
 
 The ground must be capable of sinking current equal to the total current
 to be sunk by all outputs of the SN74LV6T14-EP plus the maximum supply
@@ -429,37 +440,37 @@ current, I~CC~, listed in the Electrical Characteristics, and any
 transient current required for switching. The logic device can only sink
 as much current that can be sunk into its ground connection. Be sure to
 not exceed the maximum total current through GND listed in the Absolute
-Maximum Ratings.
+Maximum Ratings. [[14::6]]
 
 The SN74LV6T14-EP can drive a load with a total capacitance less than or
 equal to 50pF while still meeting all of the data sheet specifications.
 Larger capacitive loads can be applied; however, it is not recommended
-to exceed 50pF.
+to exceed 50pF. [[14::7]]
 
 The SN74LV6T14-EP can drive a load with total resistance described by
 R~L~ ≥ V~O~ / I~O~, with the output voltage and current defined in the
 Electrical Characteristics table with V~OH~ and V~OL~. When outputting
 in the HIGH state, the output voltage in the equation is defined as the
 difference between the measured output voltage and the supply voltage at
-the V~CC~ pin.
+the V~CC~ pin. [[15::1]]
 
 Total power consumption can be calculated using the information provided
-in the CMOS Power Consumption and Cpd Calculation application note.
+in the CMOS Power Consumption and Cpd Calculation application note. [[15::2]]
 
 Thermal increase can be calculated using the information provided in the
 Thermal Characteristics of Standard Linear and Logic (SLL) Packages and
-Devices application note.
+Devices application note. [[15::3]]
 
 The maximum junction temperature, T~J(max)~ listed in the Absolute
 Maximum Ratings, is an additional limitation to prevent damage to the
 device. Do not violate any values listed in the Absolute Maximum
-Ratings. These limits are provided to prevent damage to the device.
+Ratings. These limits are provided to prevent damage to the device. [[15::4]]
 
 #### Input considerations
 
 Input signals must cross V~t-(min)~ to be considered a logic LOW, and
 V~t+(max)~ to be considered a logic HIGH. Do not exceed the maximum
-input voltage range found in the Absolute Maximum Ratings.
+input voltage range found in the Absolute Maximum Ratings. [[15::5]]
 
 Unused inputs must be terminated to either V~CC~ or ground. The unused
 inputs can be directly terminated if the input is completely unused, or
@@ -469,25 +480,25 @@ default state of HIGH, and a pull-down resistor is used for a default
 state of LOW. The drive current of the controller, leakage current into
 the SN74LV6T14-EP (as specified in the Electrical Characteristics), and
 the desired input transition rate limits the resistor size. A 10-kΩ
-resistor value is often used due to these factors.
+resistor value is often used due to these factors. [[15::6]]
 
 The SN74LV6T14-EP has no input signal transition rate requirements
-because it has Schmitt-trigger inputs.
+because it has Schmitt-trigger inputs. [[15::7]]
 
 Another benefit to having Schmitt-trigger inputs is the ability to
 reject noise. Noise with a large enough amplitude can still cause
 issues. To know how much noise is too much, please refer to the
 ΔV~T(min)~ in the Electrical Characteristics. This hysteresis value will
-provide the peak-to-peak limit.
+provide the peak-to-peak limit. [[15::8]]
 
 Unlike what happens with standard CMOS inputs, Schmitt-trigger inputs
 can be held at any valid value without causing huge increases in power
 consumption. The typical additional current caused by holding an input
 at a value other than V~CC~ or ground is plotted in the Typical
-Characteristics.
+Characteristics. [[15::9]]
 
 Refer to the Feature Description section for additional information
-regarding the inputs for this device.
+regarding the inputs for this device. [[15::10]]
 
 #### Output considerations
 
@@ -496,27 +507,27 @@ Drawing current from the output will decrease the output voltage as
 specified by the V~OH~ specification in the Electrical Characteristics.
 The ground voltage is used to produce the output LOW voltage. Sinking
 current into the output will increase the output voltage as specified by
-the V~OL~ specification in the Electrical Characteristics.
+the V~OL~ specification in the Electrical Characteristics. [[15::11]]
 
 Push-pull outputs that could be in opposite states, even for a very
 short time period, should never be connected directly together. This can
-cause excessive current and damage to the device.
+cause excessive current and damage to the device. [[15::12]]
 
 Two channels within the same device with the same input signals can be
-connected in parallel for additional output drive strength.
+connected in parallel for additional output drive strength. [[15::13]]
 
 Unused outputs can be left floating. Do not connect outputs directly to
-V~CC~ or ground.
+V~CC~ or ground. [[15::14]]
 
 Refer to the Feature Description section for additional information
-regarding the outputs for this device.
+regarding the outputs for this device. [[15::15]]
 
 ### Detailed design procedure
 
-1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to be placed physically close to the device and electrically close to both the V~CC~ and GND pins. An example layout is shown in the Layout section.
-2. Ensure the capacitive load at the output is ≤ 50pF. This is not a hard limit; it will, however, optimize performance. This can be accomplished by providing short, appropriately sized traces from the SN74LV6T14-EP to one or more of the receiving devices.
-3. Ensure the resistive load at the output is larger than (V~CC~ / I~O(max)~) Ω, so that the maximum output current from the Absolute Maximum Ratings is not violated. Most CMOS inputs have a resistive load measured in MΩ; much larger than the minimum calculated previously.
-4. Thermal issues are rarely a concern for logic gates; the power consumption and thermal increase, however, can be calculated using the steps provided in the application report, CMOS Power Consumption and Cpd Calculation.
+1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to be placed physically close to the device and electrically close to both the V~CC~ and GND pins. An example layout is shown in the Layout section. [[16::1]]
+2. Ensure the capacitive load at the output is ≤ 50pF. This is not a hard limit; it will, however, optimize performance. This can be accomplished by providing short, appropriately sized traces from the SN74LV6T14-EP to one or more of the receiving devices. [[16::1]]
+3. Ensure the resistive load at the output is larger than (V~CC~ / I~O(max)~) Ω, so that the maximum output current from the Absolute Maximum Ratings is not violated. Most CMOS inputs have a resistive load measured in MΩ; much larger than the minimum calculated previously. [[16::1]]
+4. Thermal issues are rarely a concern for logic gates; the power consumption and thermal increase, however, can be calculated using the steps provided in the application report, CMOS Power Consumption and Cpd Calculation. [[16::1]]
 
 Conversion note: the application timing diagram (Figure 8-2) shows the
 counter output 2^3^, its inverse and the flip-flop output 2^4^, with the
@@ -532,7 +543,7 @@ acceptable to parallel multiple bypass capacitors to reject different
 frequencies of noise. The 0.1μF and 1μF capacitors are commonly used in
 parallel. The bypass capacitor should be installed as close to the power
 terminal as possible for best results, as shown in the following layout
-example.
+example. [[16::2]]
 
 ### Layout guidelines
 
@@ -548,18 +559,18 @@ the input voltage specifications, to prevent them from floating. The
 logic level that must be applied to any particular unused input depends
 on the function of the device. Generally, the inputs are tied to GND or
 V~CC~, whichever makes more sense for the logic function or is more
-convenient.
+convenient. [[16::3]]
 
 Conversion note: the example layout for the SN74LV6T14-EP (Figure 8-3)
 is given here by its labels.
 
-- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation
-- Bypass capacitor placed close to the device
-- 0.1 µF
-- Unused input tied to GND
-- Unused input tied to V~CC~
-- Unused output left floating
-- Avoid 90° corners for signal lines
+- Recommend GND flood fill for improved signal isolation, noise reduction, and thermal dissipation [[17::1]]
+- Bypass capacitor placed close to the device [[17::2]]
+- 0.1 µF [[16::2]]
+- Unused input tied to GND [[16::3]]
+- Unused input tied to V~CC~ [[16::3]]
+- Unused output left floating [[17::3]]
+- Avoid 90° corners for signal lines [[17::3]]
 
 ## Package
 
@@ -571,6 +582,7 @@ is given here by its labels.
 ```ordering
 SN74LV6T14PWREP | Reel of 3000 | -55 to 125 | LV614EP
 ```
+[[19::table #1]]
 
 ## Conversion notes
 

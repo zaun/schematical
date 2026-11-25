@@ -24,14 +24,14 @@
 ## Description
 
 This dual 2-input positive-NOR gate is designed for 1.65-V to 5.5-V
-V~CC~ operation.
+V~CC~ operation. [[1::5]]
 
 The SN74LVC2G02 performs the Boolean function Y = !{A + B} or
-Y = !{A} • !{B} in positive logic.
+Y = !{A} • !{B} in positive logic. [[1::6]]
 
 This device is fully specified for partial-power-down applications using
 I~off~. The I~off~ circuitry disables the outputs, preventing damaging
-current backflow through the device when it is powered down.
+current backflow through the device when it is powered down. [[1::7]]
 
 Controlled Baseline. One Assembly Site. One Test Site. One Fabrication
 Site. Extended Temperature Performance of –55°C to 125°C. Enhanced
@@ -42,7 +42,7 @@ Consumption, 10 µA Max I~CC~. ±24 mA Output Drive at 3.3 V. Typical
 V~OLP~ (Output Ground Bounce) <0.8 V at V~CC~ = 3.3 V, T~A~ = 25°C.
 Typical V~OHV~ (Output V~OH~ Undershoot) >2 V at V~CC~ = 3.3 V,
 T~A~ = 25°C. I~off~ Supports Partial-Power-Down Mode Operation. Latch-Up
-Performance Exceeds 100 mA Per JESD 78, Class II.
+Performance Exceeds 100 mA Per JESD 78, Class II. [[1::1]] [[1::2]]
 
 Component qualification in accordance with JEDEC and industry standards
 to ensure reliable operation over an extended temperature range. This
@@ -50,7 +50,7 @@ includes, but is not limited to, Highly Accelerated Stress Test (HAST)
 or biased 85/85, temperature cycle, autoclave or unbiased HAST,
 electromigration, bond intermetallic life, and mold compound life. Such
 qualification testing should not be viewed as justifying use of this
-component beyond specified performance and environmental limits.
+component beyond specified performance and environmental limits. [[1::3]]
 
 ## Pinout
 
@@ -66,6 +66,7 @@ component beyond specified performance and environmental limits.
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -77,6 +78,7 @@ VCC: Supply voltage
 | X | H | L |
 | L | L | H |
 ```
+[[2::table #1]]
 
 Conversion note: the logic diagram (positive logic) shows two 2-input
 NOR gates, 1A (pin 1) and 1B (pin 2) to 1Y (pin 7), and 2A (pin 5) and
@@ -103,12 +105,13 @@ NOR gates, 1A (pin 1) and 1B (pin 2) to 1Y (pin 7), and 2A (pin 5) and
 [3] The value of V~CC~ is provided in the recommended operating conditions table.
 [4] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #2]]
 
 Unconfirmed: the source prints no unit for the package thermal impedance
 θ~JA~.
 
 ESD Protection Exceeds JESD 22: 2000-V Human-Body Model (A114-A),
-1000-V Charged-Device Model (C101).
+1000-V Charged-Device Model (C101). [[1::2]]
 
 ## Recommended operating conditions
 
@@ -142,6 +145,7 @@ ESD Protection Exceeds JESD 22: 2000-V Human-Body Model (A114-A),
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #1]]
 
 ## Electrical characteristics
 
@@ -166,6 +170,7 @@ ESD Protection Exceeds JESD 22: 2000-V Human-Body Model (A114-A),
 
 [1] All typical values are at V~CC~ = 3.3 V, T~A~ = 25°C.
 ```
+[[4::table #1]]
 
 ### Operating characteristics
 
@@ -175,6 +180,7 @@ ESD Protection Exceeds JESD 22: 2000-V Human-Body Model (A114-A),
 |---|---|---|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10 MHz | 19 | 22 | pF |
 ```
+[[4::table #2]]
 
 ## Switching characteristics
 
@@ -186,6 +192,7 @@ See [parameter measurement information](#parameter-measurement).
 |---|---|---|--:|--:|--:|--:|---|
 | t~pd~ | A or B | Y | 1 | 5.9 | 1 | 5.4 | ns |
 ```
+[[4::table #3]]
 
 ## Parameter measurement information
 
@@ -193,7 +200,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[5::1]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -208,11 +215,13 @@ setup-and-hold and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[5::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[5::Figure 1]]
 
 ```table id=test-conditions caption="Test conditions (Figure 1)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -221,10 +230,12 @@ CL: see table
 | 3.3 V ± 0.3 V | 3 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[5::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[5::Figure 1]]
 
 ## Package
 
@@ -237,6 +248,7 @@ VM: see table
 SN74LVC2G02MDCUREP | Reel of 3000 | -55 to 125 | SBMM
 V62/07637-01XE | Reel of 3000 | -55 to 125 | SBMM
 ```
+[[6::table #1]]
 
 ```table id=ordering-table caption="Ordering information [1]"
 | T~A~ | Package [2] | < | Orderable part number | Top-side marking |
@@ -246,6 +258,7 @@ V62/07637-01XE | Reel of 3000 | -55 to 125 | SBMM
 [1] For the most current package and ordering information, see the Package Option Addendum at the end of this document, or see the TI website at www.ti.com.
 [2] Package drawings, thermal data, and symbolization are available at www.ti.com/packaging.
 ```
+[[1::table #2]]
 
 ## Conversion notes
 

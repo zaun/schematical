@@ -19,9 +19,10 @@
 #include "kind.h"
 #include "lights.h"
 
-#define D7_MAX_LEDS 64
+#define D7_MAX_DIGITS 14
+#define D7_MAX_LEDS 128
 #define D7_MAX_COMMONS 2
-#define D7_EXTRAS 9u   /* the colon/dot group (L1-L3); "extras" / digit 0 in JSON */
+#define D7_EXTRAS 15u  /* the colon/dot group (L1-L3); "extras" / digit 0 in JSON */
 
 static const char *const DEVICE_KEYS[] = {
     "digits", "commonAnode", "colonAfter", "dotAfter", "color", "size", "chip", "leds",
@@ -31,11 +32,22 @@ static const char *const DEVICE_KEYS[] = {
 /* "type": what the segments are. "led" (the default); "numitron" (incandescent
    filaments: simulated as LEDs with the polarity "commonAnode" gives); "vfd"
    (vacuum fluorescent: a segment glows while its anode and its digit's grid
-   both read 1). */
-static const char *const TYPES[] = {"led", "numitron", "vfd", NULL};
+   both read 1); "vfd-static" (a vacuum fluorescent tube with no grid, the IV-25:
+   a segment glows while its anode reads 1 and the filament cathode, the
+   common, reads 0, as an LED does). */
+static const char *const TYPES[] = {"led", "numitron", "vfd", "vfd-static", NULL};
 
+/* A-G, DP: the 7 segments and the right decimal point; LDP: the left one (a
+   comma on the IV-17); HJ: the vertical bar that makes G a plus sign; L1-L3:
+   colon and raised dot. 16-segment characters add A1/A2 (top, left/right),
+   D1/D2 (bottom), G1/G2 (middle), and the diagonals and centre bars: H upper
+   left diagonal, J upper vertical, K upper right diagonal, N lower left
+   diagonal, M lower vertical, L lower right diagonal (B, C, E, F are the four
+   outer verticals as on a 7-segment digit). P1-P7: a row of dots, left to right. */
 static const char *const SEGMENTS[] = {
-    "A", "B", "C", "D", "E", "F", "G", "DP", "LDP", "HJ", "L1", "L2", "L3", NULL
+    "A", "B", "C", "D", "E", "F", "G", "DP", "LDP", "HJ", "L1", "L2", "L3",
+    "A1", "A2", "D1", "D2", "G1", "G2", "H", "J", "K", "L", "M", "N",
+    "P1", "P2", "P3", "P4", "P5", "P6", "P7", NULL
 };
 
 typedef struct {
@@ -79,7 +91,7 @@ typedef struct {
     PartDisplay display;
     LedPins leds[D7_MAX_LEDS];
     size_t led_count;
-    size_t contacts[D7_EXTRAS][2];   /* digit groups 1..9 with two commons */
+    size_t contacts[D7_EXTRAS][2];   /* digit groups 1..D7_EXTRAS with two commons */
     size_t contact_count;
     int common_anode;
     int vfd;
@@ -241,10 +253,10 @@ static void *display_load_device(KindContext *ctx, const cJSON *json) {
         return NULL;
     }
     d = &device->display_template;
-    if (load_uint(ctx, json, "digits", 8, &d->digits) != 0 ||
+    if (load_uint(ctx, json, "digits", D7_MAX_DIGITS, &d->digits) != 0 ||
         kind_bool(ctx, json, "commonAnode", &d->common_anode) != 0 ||
-        load_uint(ctx, json, "colonAfter", 8, &d->colon_after) != 0 ||
-        load_uint(ctx, json, "dotAfter", 8, &d->dot_after) != 0 ||
+        load_uint(ctx, json, "colonAfter", D7_MAX_DIGITS, &d->colon_after) != 0 ||
+        load_uint(ctx, json, "dotAfter", D7_MAX_DIGITS, &d->dot_after) != 0 ||
         kind_string(ctx, json, "color", &d->color) != 0 ||
         kind_string(ctx, json, "size", &d->size) != 0 ||
         kind_string(ctx, json, "chip", &d->chip) != 0 ||
@@ -265,13 +277,13 @@ static void *display_load_device(KindContext *ctx, const cJSON *json) {
         for (i = 0; TYPES[i] != NULL && strcmp(TYPES[i], type) != 0; i++) {
         }
         if (TYPES[i] == NULL) {
-            kind_error(ctx, "\"type\" must be \"led\", \"numitron\" or \"vfd\"");
+            kind_error(ctx, "\"type\" must be \"led\", \"numitron\", \"vfd\" or \"vfd-static\"");
             return NULL;
         }
         d->type = TYPES[i];
     }
-    if (strcmp(d->type, "vfd") == 0 && d->common_anode) {
-        kind_error(ctx, "a \"vfd\" has \"commonAnode\": false (its commons are grids)");
+    if ((strcmp(d->type, "vfd") == 0 || strcmp(d->type, "vfd-static") == 0) && d->common_anode) {
+        kind_error(ctx, "a \"vfd\" has \"commonAnode\": false (its commons are grids or the filament cathode)");
         return NULL;
     }
     /* vf: segment forward voltage [min, max] (an LED: at most 10 V; a numitron's

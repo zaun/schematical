@@ -27,14 +27,14 @@ The CD74HCU04 unbuffered hex inverter utilizes silicon-gate CMOS
 technology to achieve operation speeds similar to LSTTL gates, with the
 low power consumption of standard CMOS integrated circuits. These
 devices especially are useful in crystal oscillator and analog
-applications.
+applications. [[1::3]]
 
 Typical Propagation Delay: 6ns at V~CC~ = 5V, C~L~ = 15pF, T~A~ = 25°C,
 Fastest Part in QMOS Line. Wide Operating Temperature Range . . . -55°C
 to 125°C. Balanced Propagation Delay and Transition Times. Significant
 Power Reduction Compared to LSTTL Logic ICs. 2-V to 6-V Operation. High
 Noise Immunity: N~IL~ = 20%, N~IH~ = 30% of V~CC~ at V~CC~ = 5V. CMOS
-Input Compatibility, I~l~ ≤ 1µA at V~OL~, V~OH~.
+Input Compatibility, I~l~ ≤ 1µA at V~OL~, V~OH~. [[1::2]] [[1::3]] [[1::4]] [[1::5]]
 
 Source conflict: the features (p.1) give the typical propagation delay at V~CC~ = 5V, C~L~ = 15pF as 6ns; the switching specifications (p.4) give 5 ns.
 
@@ -51,6 +51,7 @@ Source conflict: the features (p.1) give the typical propagation delay at V~CC~ 
 GND: Ground
 VCC: Supply voltage
 ```
+[[1::table #1]]
 
 ## Functional description
 
@@ -76,6 +77,7 @@ Conversion note: the source prints no function table; its logic symbol (p.2) is 
 [1] CAUTION: Stresses above those listed in “Absolute Maximum Ratings” may cause permanent damage to the device. This is a stress only rating, and operation of the device at these or any other conditions above those indicated in the operational sections of this specification is not implied.
 [2] Unconfirmed: the source gives this condition as printed, "For V~O~ > -0.5V or V~O~ < V~CC~ + 0.5V", which every output voltage meets.
 ```
+[[3::table #1]]
 
 ## Recommended operating conditions
 
@@ -86,6 +88,7 @@ Conversion note: the source prints no function table; its logic symbol (p.2) is 
 | V~CC~ | Supply Voltage Range | 2 | 6 | V |
 | V~I~, V~O~ | DC Input or Output Voltage | 0 | V~CC~ | V |
 ```
+[[3::table #2]]
 
 ## Thermal information
 
@@ -102,6 +105,7 @@ Conversion note: the source prints no function table; its logic symbol (p.2) is 
 
 [1] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[3::table #3]]
 
 ## Electrical characteristics
 
@@ -128,6 +132,7 @@ Conversion note: the source prints no function table; its logic symbol (p.2) is 
 | I~I~ | Input Leakage Current | V~CC~ or GND | | 6 | | ±0.1 | | ±1 | | ±1 | µA |
 | I~CC~ | Quiescent Device Current | V~CC~ or GND | 0 | 6 | | 2 | | 20 | | 40 | µA |
 ```
+[[3::table #4]]
 
 ```table id=cap caption="Capacitances (from the switching specifications)"
 | Symbol | Parameter | Test conditions | V~CC~ (V) | 25°C | < | < | -40°C to 85°C | < | -55°C to 125°C | < | Unit |
@@ -139,6 +144,7 @@ Conversion note: the source prints no function table; its logic symbol (p.2) is 
 [1] C~PD~ is used to determine the dynamic power consumption, per inverter.
 [2] P~D~ = V~CC~^2^ f~i~ (C~PD~ + C~L~) where f~i~ = input frequency, C~L~ = output load capacitance, V~CC~ = supply voltage.
 ```
+[[4::table #1]]
 
 Conversion note: the source prints these two rows as the last rows of its switching specifications table (p.4), with "See Figure 3" across the value columns of the input capacitance row.
 
@@ -158,6 +164,7 @@ Conversion note: the source prints these two rows as the last rows of its switch
 
 [1] Unconfirmed: the source prints 18 in the Min column of -55°C to 125°C on the 2-V transition-times row; no other row of the table has a minimum.
 ```
+[[4::table #2]]
 
 ## Typical characteristics
 
@@ -170,6 +177,7 @@ Conversion note: the source prints these two rows as the last rows of its switch
   {"label": "VCC = 2V", "points": [[0.4, 0], [1, 0.6], [1.4, 0.1]]}
  ]}
 ```
+[[4::figure #1]]
 
 ```curve id=ci caption="Input capacitance as a function of input voltage, T~A~ = 25°C, input pin 5 conditions"
 {"x": {"label": "V_IN", "unit": "V", "range": [0, 6]},
@@ -182,12 +190,14 @@ Conversion note: the source prints these two rows as the last rows of its switch
   {"label": "VDD = 6V, VI 0-6V", "points": [[0, 7], [2.5, 11.5], [2.85, 17], [3, 33], [3.15, 14], [3.4, 10], [6, 6]]}
  ]}
 ```
+[[5::figure #1]]
 
 ## Parameter measurement information
 
 ```figure ref=waveforms-cmos-tpd-tt caption="HC and HCU transition times and propagation delay times, combination logic"
 VM: 50%
 ```
+[[4::figure #1]]
 
 Conversion note: Figure 1 (p.4) draws the input between GND and V~CC~ with t~r~ = 6ns and t~f~ = 6ns, the inverting output only, and the 10%, 50% and 90% points on both.
 
@@ -210,9 +220,10 @@ CD74HCU04M | | -55 to 125 | HCU04M | Obsolete
 CD74HCU04M96 | Reel of 2500 | -55 to 125 | HCU04M
 CD74HCU04PWR | Reel of 2000 | -55 to 125 | HJU04
 ```
+[[1::table #2]]
 
 When ordering, use the entire part number. The suffixes 96 and R denote
-tape and reel. The suffix T denotes a small-quantity reel of 250.
+tape and reel. The suffix T denotes a small-quantity reel of 250. [[1::6]]
 
 ## Conversion notes
 

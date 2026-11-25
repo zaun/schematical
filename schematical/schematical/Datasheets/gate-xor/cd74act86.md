@@ -25,18 +25,18 @@
 
 The 'ACT86 devices are quadruple 2-input exclusive-OR gates. These
 devices perform the Boolean function Y = A ⊕ B or Y = !{A}B + A!{B} in
-positive logic.
+positive logic. [[1::2]]
 
 A common application is as a true/complement element. If one of the
 inputs is low, the other input is reproduced in true form at the
 output. If one of the inputs is high, the signal on the other input is
-reproduced inverted at the output.
+reproduced inverted at the output. [[1::3]]
 
 Inputs Are TTL-Voltage Compatible. Speed of Bipolar F, AS, and S, With
 Significantly Reduced Power Consumption. Balanced Propagation Delays. ±24-mA Output
 Drive Current. Fanout to 15 F Devices. SCR-Latchup-Resistant CMOS
 Process and Circuit Design. Exceeds 2-kV ESD Protection Per
-MIL-STD-883, Method 3015.
+MIL-STD-883, Method 3015. [[1::1]]
 
 ## Pinout
 
@@ -52,6 +52,7 @@ MIL-STD-883, Method 3015.
 GND: Ground
 VCC: Positive supply
 ```
+[[1::table #1]]
 
 ## Functional description
 
@@ -62,19 +63,19 @@ represented better by alternative logic symbols. These are five
 equivalent exclusive-OR symbols valid for an CD74AC86 gate in positive
 logic; negation may be shown at any two ports. Source error: this
 sentence of the CD54ACT86, CD74ACT86 data sheet names the CD74AC86;
-kept as printed. Conversion note: the five symbols are not drawn here.
+kept as printed. Conversion note: the five symbols are not drawn here. [[2::1]] [[2::2]]
 
 The output is active (low) if all inputs stand at the same logic level
 (i.e., A = B). Conversion note: this is the logic-identity element
-(symbol =).
+(symbol =). [[2::3]]
 
 The output is active (low) if an even number of inputs (i.e., 0 or 2)
 are active. Conversion note: this is the even-parity element (symbol
-2k).
+2k). [[2::4]]
 
 The output is active (high) if an odd number of inputs (i.e., only 1 of
 the 2) are active. Conversion note: this is the odd-parity element
-(symbol 2k + 1).
+(symbol 2k + 1). [[2::5]]
 
 ## Function tables
 
@@ -87,6 +88,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 | H | L | H |
 | H | H | L |
 ```
+[[1::table #2]]
 
 ## Absolute maximum ratings
 
@@ -106,6 +108,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The package thermal impedance is calculated in accordance with JESD 51-7.
 ```
+[[2::table #1]]
 
 ## Recommended operating conditions
 
@@ -124,6 +127,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[2::table #2]]
 
 ## Electrical characteristics
 
@@ -147,6 +151,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 [1] Test one output at a time, not exceeding 1-second duration. Measurement is made by forcing indicated current and measuring voltage to minimize power dissipation. Test verifies a minimum 50-Ω transmission-line drive capability at 85°C and 75-Ω transmission-line drive capability at 125°C.
 [2] Additional quiescent supply current per input pin, TTL inputs high, 1 unit load
 ```
+[[3::table #1]]
 
 ```table id=input-load caption="ACT input load table [1]" values=Value
 | Input | Unit load | Unit |
@@ -155,12 +160,14 @@ the 2) are active. Conversion note: this is the odd-parity element
 
 [1] Unit Load is ΔI~CC~ limit specified in electrical characteristics table (e.g., 2.4 mA at 25°C).
 ```
+[[3::table #2]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Typ | Unit |
 |---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | 57 | pF |
 ```
+[[3::table #3]]
 
 ## Switching characteristics
 
@@ -171,6 +178,7 @@ the 2) are active. Conversion note: this is the odd-parity element
 | t~PLH~ | A or B | Y | 3.7 | 14.6 | 3.8 | 13.3 | ns |
 | t~PHL~ | A or B | Y | 3.7 | 14.6 | 3.8 | 13.3 | ns |
 ```
+[[3::table #4]]
 
 ## Parameter measurement information
 
@@ -180,7 +188,7 @@ PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ = 3 ns, t~f~ = 3 ns. Phase relationships
 between waveforms are arbitrary. The outputs are measured one at a time
 with one input transition per measurement. t~PLH~ and t~PHL~ are the
 same as t~pd~. All parameters and waveforms are not applicable to all
-devices.
+devices. [[4::1]]
 
 Conversion note: the load circuit of Figure 1 also has R1 = 500 Ω from
 the output to switch S1 (2 × V~CC~, Open or GND), and S1 is Open for
@@ -193,10 +201,12 @@ and the outputs are measured at 50% V~CC~ (transition times at 10% and
 RL: 500 Ω (R2)
 CL: 50 pF
 ```
+[[4::Figure 1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delay and output transition times"
 VM: 1.5 V (input), 50% V~CC~ (outputs)
 ```
+[[4::Figure 1]]
 
 ## Package
 
@@ -217,6 +227,7 @@ CD74ACT86E | Tube of 25 | -55 to 125 | CD74ACT86E
 CD74ACT86M | | -55 to 125 | ACT86M | Obsolete
 CD74ACT86M96 | Reel of 2500 | -55 to 125 | ACT86M | NRND
 ```
+[[1::table #3]]
 
 ## Conversion notes
 

@@ -1,8 +1,29 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "circuit.h"
 #include "parts.h"
 #include "read_file.h"
+
+/* A real library part (WHAT names it in the log: a card slot of planning/plan-54-data/examples.tsv, a generic terminal
+ * block or JST header of plan-45): its pins A and B on two nets driven from 5V and GND join nothing. */
+static int part_joins_nothing(PartLibrary *library, const char *name, const char *a, const char *b, const char *what) {
+    Circuit *circuit = circuit_create(library);
+    size_t vcc, gnd, part, na, nb;
+
+    if (circuit == NULL || circuit_add_part(circuit, "5V", &vcc) != 0 || circuit_add_part(circuit, "GND", &gnd) != 0 ||
+        circuit_add_part(circuit, name, &part) != 0 || circuit_add_net(circuit, &na) != 0 ||
+        circuit_add_net(circuit, &nb) != 0 || circuit_connect(circuit, vcc, "1", na) != 0 ||
+        circuit_connect(circuit, part, a, na) != 0 || circuit_connect(circuit, gnd, "1", nb) != 0 ||
+        circuit_connect(circuit, part, b, nb) != 0 || circuit_start(circuit) != 0 ||
+        (circuit_advance(circuit, 1), circuit_shorted_net(circuit, &na))) {
+        fprintf(stderr, "%s: %s\n", name, circuit != NULL ? circuit_error(circuit) : "no circuit");
+        return -1;
+    }
+    circuit_destroy(circuit);
+    printf("PASS: %s (%s) joins nothing\n", name, what);
+    return 0;
+}
 
 int main(void) {
     PartLibrary *library = part_library_create();
@@ -64,6 +85,152 @@ int main(void) {
         }
         circuit_destroy(circuit);
         puts("PASS: a USB connector loads and joins nothing");
+    }
+
+    /* A terminal block and a JST header are passive too (plan-45): pins 1 and 2 on two driven nets join nothing. */
+    {
+        static const char TERMINAL[] =
+            "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"connector\",\"devices\":["
+            "{\"id\":\"tb-test\",\"function\":\"Screw, vertical\",\"description\":\"d\","
+            "\"drawer\":[\"Connector\",\"Terminal block\",\"5.08 mm\"],\"terminal\":\"screw\",\"pitch\":5.08,"
+            "\"ratedVolts\":300,\"ratedAmps\":15,"
+            "\"pinouts\":{\"p\":[{\"number\":1,\"name\":\"1\",\"role\":\"inout\"},"
+            "{\"number\":2,\"name\":\"2\",\"role\":\"inout\"},{\"number\":3,\"name\":\"3\",\"role\":\"inout\"},"
+            "{\"number\":4,\"name\":\"4\",\"role\":\"inout\"}]},"
+            "\"parts\":[{\"name\":\"TB-TEST\",\"package\":\"x\",\"pinout\":\"p\",\"footprint\":\"LED-DIP4\"}]}]}";
+        static const char JST[] =
+            "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"connector\",\"devices\":["
+            "{\"id\":\"jst-test\",\"function\":\"Top entry\",\"description\":\"d\","
+            "\"drawer\":[\"Connector\",\"JST\",\"XH\"],\"jst\":\"XH\",\"pitch\":2.5,"
+            "\"pinouts\":{\"p\":[{\"number\":1,\"name\":\"1\",\"role\":\"inout\"},"
+            "{\"number\":2,\"name\":\"2\",\"role\":\"inout\"}]},"
+            "\"parts\":[{\"name\":\"JST-TEST\",\"package\":\"x\",\"pinout\":\"p\",\"footprint\":\"LED-0402\"}]}]}";
+        char *error = NULL;
+        size_t part_index, a, b;
+        const Part *part;
+
+        if (load_parts(library, TERMINAL, "tb-test.json", &error) != 0 ||
+            load_parts(library, JST, "jst-test.json", &error) != 0) {
+            fprintf(stderr, "terminal / JST fixture: %s\n", error != NULL ? error : "?");
+            return 1;
+        }
+        part = part_library_find(library, "TB-TEST");
+        if (part == NULL || part->connector == NULL || part->connector->terminal != 's' ||
+            part->connector->jst != 0 || part->connector->pitch_um != 5080 || part->connector->rated_mv != 300000 ||
+            part->connector->rated_ma != 15000) {
+            fprintf(stderr, "terminal block: loaded wrongly\n");
+            return 1;
+        }
+        part = part_library_find(library, "JST-TEST");
+        if (part == NULL || part->connector == NULL || part->connector->jst != 'X' ||
+            part->connector->terminal != 0 || part->connector->pitch_um != 2500 || part->connector->rated_ma != 0) {
+            fprintf(stderr, "JST header: loaded wrongly\n");
+            return 1;
+        }
+        {
+            static const char *const NAMES[] = {"TB-TEST", "JST-TEST"};
+            size_t k;
+            for (k = 0; k < 2; k++) {
+                circuit = circuit_create(library);
+                if (circuit == NULL || circuit_add_part(circuit, "5V", &vcc) != 0 ||
+                    circuit_add_part(circuit, "GND", &gnd) != 0 || circuit_add_part(circuit, NAMES[k], &part_index) != 0 ||
+                    circuit_add_net(circuit, &a) != 0 || circuit_add_net(circuit, &b) != 0 ||
+                    circuit_connect(circuit, vcc, "1", a) != 0 || circuit_connect(circuit, part_index, "1", a) != 0 ||
+                    circuit_connect(circuit, gnd, "1", b) != 0 || circuit_connect(circuit, part_index, "2", b) != 0 ||
+                    circuit_start(circuit) != 0 || (circuit_advance(circuit, 1), circuit_shorted_net(circuit, &a))) {
+                    fprintf(stderr, "%s: %s\n", NAMES[k], circuit != NULL ? circuit_error(circuit) : "no circuit");
+                    return 1;
+                }
+                circuit_destroy(circuit);
+            }
+        }
+        puts("PASS: a terminal block and a JST header load with their pitch and join nothing");
+    }
+
+    /* A card slot is passive too: two of its contacts on two driven nets join nothing. */
+    {
+        static const char CARD[] =
+            "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"connector\",\"devices\":["
+            "{\"id\":\"card-test\",\"function\":\"PCI Express\",\"description\":\"d\","
+            "\"drawer\":[\"Connector\",\"Card slot\",\"Card edge\"],\"card\":\"PCI Express\",\"cardPitch\":1.0,"
+            "\"pinouts\":{\"p\":[{\"number\":1,\"name\":\"A1\",\"role\":\"inout\"},"
+            "{\"number\":2,\"name\":\"A2\",\"role\":\"inout\"},{\"number\":3,\"name\":\"A3\",\"role\":\"inout\"},{\"number\":4,\"name\":\"SHIELD\",\"role\":\"inout\"}]},"
+            "\"parts\":[{\"name\":\"CARD-TEST\",\"package\":\"x\",\"pinout\":\"p\",\"footprint\":\"LED-DIP4\"}]}]}";
+        char *error = NULL;
+        size_t card, a, b;
+        const Part *part;
+
+        if (load_parts(library, CARD, "card-test.json", &error) != 0) {
+            fprintf(stderr, "card fixture: %s\n", error != NULL ? error : "?");
+            return 1;
+        }
+        part = part_library_find(library, "CARD-TEST");
+        circuit = circuit_create(library);
+        if (part == NULL || part->connector == NULL || part->connector->card == NULL ||
+            strcmp(part->connector->card, "PCI Express") != 0 || part->connector->card_pitch_um != 1000 ||
+            circuit == NULL ||
+            circuit_add_part(circuit, "5V", &vcc) != 0 || circuit_add_part(circuit, "GND", &gnd) != 0 ||
+            circuit_add_part(circuit, "CARD-TEST", &card) != 0 ||
+            circuit_add_net(circuit, &a) != 0 || circuit_add_net(circuit, &b) != 0 ||
+            circuit_connect(circuit, vcc, "1", a) != 0 || circuit_connect(circuit, card, "1", a) != 0 ||
+            circuit_connect(circuit, gnd, "1", b) != 0 || circuit_connect(circuit, card, "2", b) != 0 ||
+            circuit_start(circuit) != 0 || (circuit_advance(circuit, 1), circuit_shorted_net(circuit, &a))) {
+            fprintf(stderr, "card slot: %s\n", circuit != NULL ? circuit_error(circuit) : "no part");
+            return 1;
+        }
+        circuit_destroy(circuit);
+        puts("PASS: a card slot loads and joins nothing");
+    }
+    /* The most-stocked `add` part of each family and of the straddle-mount kind (examples.tsv). */
+    if (part_joins_nothing(library, "MSD-1-A", "1", "2", "a library card slot") != 0 ||
+        part_joins_nothing(library, "2309413-1", "1", "2", "a library card slot") != 0 ||
+        part_joins_nothing(library, "7-1734774-7", "1", "2", "a library card slot") != 0 ||
+        part_joins_nothing(library, "2387405-2", "1", "2", "a library card slot") != 0) {   /* a card-edge socket; a straddle-mount one */
+        return 1;
+    }
+    /* plan-45: the generic terminal block and JST header (pins 1 and 3, and 1 and 2) join nothing; each has its pitch. */
+    {
+        const Part *tb = part_library_find(library, "GENERIC-TERMINAL-5.08-03");
+        const Part *jst = part_library_find(library, "GENERIC-JST-XH-04");
+
+        if (tb == NULL || tb->kind != PART_CONNECTOR || tb->connector->terminal != 's' || tb->connector->pitch_um != 5080 ||
+            tb->pin_count != 3 || tb->footprint == NULL || tb->footprint->pad_count != 3 ||
+            jst == NULL || jst->kind != PART_CONNECTOR || jst->connector->jst != 'X' || jst->connector->pitch_um != 2500 ||
+            jst->pin_count != 4 || jst->footprint == NULL || jst->footprint->pad_count != 4) {
+            fprintf(stderr, "GENERIC-TERMINAL-5.08-03 / GENERIC-JST-XH-04: missing or loaded wrongly\n");
+            return 1;
+        }
+        if (part_joins_nothing(library, "GENERIC-TERMINAL-5.08-03", "1", "3", "a generic terminal block") != 0 ||
+            part_joins_nothing(library, "GENERIC-JST-XH-04", "1", "2", "a generic JST header") != 0) return 1;
+    }
+    /* plan-57: the library's test point is one passive pin, with its ten footprints, and joins nothing. */
+    {
+        const Part *part = part_library_find(library, "GENERIC-TESTPOINT");
+        size_t tp1, tp2, a;
+
+        if (part == NULL || part->kind != PART_CONNECTOR || part->connector == NULL || part->connector->test_point != 1 ||
+            part->pin_count != 1 || part->footprint_choice_count != 10 || part->footprint == NULL) {
+            fprintf(stderr, "GENERIC-TESTPOINT: missing, not a test point, or not ten footprint choices\n");
+            return 1;
+        }
+        for (size_t i = 0; i < part->footprint_choice_count; i++) {
+            if (part->footprint_choices[i].footprint == NULL || part->footprint_choices[i].footprint->pad_count != 1) {
+                fprintf(stderr, "GENERIC-TESTPOINT: choice %zu has no one-pad footprint\n", i);
+                return 1;
+            }
+        }
+        circuit = circuit_create(library);
+        if (circuit == NULL || circuit_add_part(circuit, "5V", &vcc) != 0 ||
+            circuit_add_part(circuit, "GENERIC-TESTPOINT", &tp1) != 0 ||
+            circuit_add_part(circuit, "GENERIC-TESTPOINT", &tp2) != 0 || circuit_add_net(circuit, &a) != 0 ||
+            circuit_connect(circuit, vcc, "1", a) != 0 || circuit_connect(circuit, tp1, "1", a) != 0 ||
+            circuit_connect(circuit, tp2, "1", a) != 0 || circuit_start(circuit) != 0 ||
+            (circuit_advance(circuit, 1), circuit_shorted_net(circuit, &a))) {
+            fprintf(stderr, "test point: %s\n", circuit != NULL ? circuit_error(circuit) : "no part");
+            return 1;
+        }
+        circuit_destroy(circuit);
+        puts("PASS: a test point loads with ten footprints and joins nothing");
     }
     part_library_destroy(library);
     return 0;

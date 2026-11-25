@@ -15,6 +15,7 @@
 #include "kind.h"
 #include "model_pins.h"
 #include "parts.h"
+#include "read_file.h"
 #include "sim.h"
 
 #define NS(value) ((SimTime)((value) * 1000ull))
@@ -907,6 +908,79 @@ static void check_4056(void) {
     bench_destroy(b);
 }
 
+/* ---- Real parts: the LCD / LED BCD decoders (this plan's data) ------------ */
+
+static PartLibrary *real_library;
+
+static Bench *open_real(const char *name) {
+    const Part *part = part_library_find(real_library, name);
+
+    if (part == NULL || part->kind != PART_DECODER) {
+        fprintf(stderr, "no decoder part %s\n", name);
+        exit(1);
+    }
+    return bench_create(part);
+}
+
+static void check_real(void) {
+    static const char *const ABCD[] = {"A", "B", "C", "D"};
+    Bench *b;
+    int ok;
+
+    /* CD4055B: a segment is XORed with DF, and DF OUT follows DF */
+    b = open_real("CD4055BE");
+    set(b, "DF", L0);
+    set_pins(b, ABCD, 4, 2);
+    bench_run(b, NS(2000));
+    ok = glyph_is(b, "1101101", L1, L0) && is(b, "DF OUT", L0);
+    set(b, "DF", L1);
+    bench_run(b, NS(2000));
+    expect(ok && glyph_is(b, "1101101", L0, L1) && is(b, "DF OUT", L1),
+           "26 CD4055BE: DF high inverts every segment and DF OUT follows DF");
+    bench_destroy(b);
+
+    /* CD4543B: LD low holds, BI high blanks (and wins), PH inverts (blank state too) */
+    b = open_real("CD4543BE");
+    set(b, "LD", L1);
+    set(b, "BI", L0);
+    set(b, "PH", L0);
+    set_pins(b, ABCD, 4, 6);
+    bench_run(b, NS(3000));
+    ok = glyph_is(b, "1011111", L1, L0);
+    set(b, "LD", L0);
+    set_pins(b, ABCD, 4, 1);
+    bench_run(b, NS(3000));
+    ok &= glyph_is(b, "1011111", L1, L0);
+    set(b, "BI", L1);
+    bench_run(b, NS(3000));
+    ok &= glyph_is(b, "0000000", L1, L0);
+    set(b, "PH", L1);
+    bench_run(b, NS(3000));
+    expect(ok && glyph_is(b, "1111111", L1, L0),
+           "27 CD4543BE: LD low holds 6; BI high blanks; PH high inverts the blank state");
+    bench_destroy(b);
+
+    /* SN74LS247: 6 and 9 differ from the LS47 */
+    b = open_real("SN74LS247N");
+    set(b, "LT", L1);
+    set(b, "RBI", L1);
+    set_pins(b, ABCD, 4, 6);
+    bench_run(b, NS(2000));
+    ok = glyph_is(b, "1011111", L0, LZ);
+    set_pins(b, ABCD, 4, 9);
+    bench_run(b, NS(2000));
+    expect(ok && glyph_is(b, "1111011", L0, LZ), "28 SN74LS247N: 6 has its top segment, 9 its bottom");
+    bench_destroy(b);
+
+    b = open_real("SN74LS47N");
+    set(b, "LT", L1);
+    set(b, "RBI", L1);
+    set_pins(b, ABCD, 4, 9);
+    bench_run(b, NS(2000));
+    expect(glyph_is(b, "1110011", L0, LZ), "29 SN74LS47N: 9 has no bottom segment");
+    bench_destroy(b);
+}
+
 int main(void) {
     char *error;
 
@@ -935,6 +1009,13 @@ int main(void) {
     check_4532();
     check_47();
     check_4056();
+    real_library = part_library_create();
+    if (real_library == NULL || load_parts_dir(real_library, PARTS_DIR) != 0) {
+        printf("FAIL: cannot load the part library\n");
+        return 1;
+    }
+    check_real();
+    part_library_destroy(real_library);
     part_library_destroy(library);
     if (failures > 0) {
         printf("FAIL: %d\n", failures);

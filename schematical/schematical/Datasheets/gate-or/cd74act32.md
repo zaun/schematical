@@ -27,13 +27,13 @@ The 'ACT32 devices are quadruple 2-input positive-OR gates. These
 devices perform the Boolean function Y = !{!{A} • !{B}} or Y = A + B in
 positive logic. Source error: the source prints one bar over the whole
 product, Y = !{A • B}, which is the NAND function; the bars over A and
-over B are added, as Y = A + B and the function table require.
+over B are added, as Y = A + B and the function table require. [[1::1]]
 
 Inputs are TTL-voltage compatible. Buffered inputs. Speed of bipolar F,
 AS, and S, with significantly reduced power consumption. Balanced
 propagation delays. ±24mA output drive current. Fanout to 15 F devices.
 SCR-latchup-resistant CMOS process and circuit design. Exceeds 2k V ESD
-protection per MIL-STD-883, method 3015.
+protection per MIL-STD-883, method 3015. [[1::2]]
 
 ## Pinout
 
@@ -58,11 +58,12 @@ protection per MIL-STD-883, method 3015.
 GND: Ground Pin
 VCC: Power Pin
 ```
+[[3::Table 3-1]]
 
 ## Functional description
 
 Logic Diagram (Positive Logic). Conversion note: the diagram shows one
-2-input OR gate, inputs A and B, output Y.
+2-input OR gate, inputs A and B, output Y. [[8::1]]
 
 ## Function tables
 
@@ -74,6 +75,7 @@ Logic Diagram (Positive Logic). Conversion note: the diagram shows one
 | X | H | H |
 | L | L | L |
 ```
+[[8::Table 6-1]]
 
 ## Absolute maximum ratings
 
@@ -90,6 +92,7 @@ Logic Diagram (Positive Logic). Conversion note: the diagram shows one
 [1] Stresses beyond those listed under "absolute maximum ratings" may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under "recommended operating conditions" is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -98,6 +101,7 @@ Logic Diagram (Positive Logic). Conversion note: the diagram shows one
 
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process. Manufacturing with less than 500-V HBM is possible with the necessary precautions.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -116,6 +120,7 @@ Logic Diagram (Positive Logic). Conversion note: the diagram shows one
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -126,6 +131,7 @@ Logic Diagram (Positive Logic). Conversion note: the diagram shows one
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953.
 ```
+[[4::table #4]]
 
 ## Electrical characteristics
 
@@ -149,18 +155,21 @@ Logic Diagram (Positive Logic). Conversion note: the diagram shows one
 [1] Test one output at a time, not exceeding 1-second duration. Measurement is made by forcing indicated current and measuring voltage to minimize power dissipation. Test verifies a minimum 50-Ω transmission-line drive capability at 85°C and 75-Ω transmission-line drive capability at 125°C.
 [2] Additional quiescent supply current per input pin, TTL inputs high, 1 unit load
 ```
+[[5::table #1]]
 
 ```table id=input-load caption="Act input load table"
 | Input | Value | Unit |
 |---|--:|---|
 | All | 0.42 | unit load |
 ```
+[[5::Table 4-1]]
 
 ```table id=opchar caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Typ | Unit |
 |---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | 47 | pF |
 ```
+[[5::table #2]]
 
 ## Switching characteristics
 
@@ -171,6 +180,7 @@ Logic Diagram (Positive Logic). Conversion note: the diagram shows one
 | t~PLH~ | A or B | Y | 3 | 12.1 | 3.1 | 11 | ns |
 | t~PHL~ | A or B | Y | 3 | 12.1 | 3.1 | 11 | ns |
 ```
+[[5::table #3]]
 
 ## Parameter measurement information
 
@@ -180,7 +190,7 @@ PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~r~ = 3 ns, t~f~ = 3 ns. Phase relationships
 between waveforms are arbitrary. The outputs are measured one at a time
 with one input transition per measurement. t~PLH~ and t~PHL~ are the
 same as t~pd~. All parameters and waveforms are not applicable to all
-devices.
+devices. [[6::1]]
 
 Conversion note: the load circuit of Figure 5-1 also has R1 = 500 Ω
 from the output to switch S1 (2 × V~CC~, Open or GND), and S1 is Open
@@ -193,15 +203,17 @@ the voltage waveforms the input swings 0 V to 3 V and is measured at
 RL: 500 Ω (R2)
 CL: 50 pF
 ```
+[[6::Figure 5-1]]
 
 ```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delay and output transition times"
 VM: 1.5 V (input), 50 % V~CC~ (outputs)
 ```
+[[6::Figure 5-1]]
 
 ## Application information
 
 Information in the following applications sections is not part of the
-TI component specification.
+TI component specification. [[9::1]]
 
 ### Power supply recommendations
 
@@ -209,7 +221,7 @@ The power supply can be any voltage between the minimum and maximum
 supply voltage rating located in the Section 4.1 table. Source
 conflict: Section 4.1 is the
 [absolute maximum ratings](#absolute-maximum-ratings) table; see
-Conversion notes.
+Conversion notes. [[9::2]]
 
 Each V~CC~ pin should have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, 0.1 μF is recommended.
@@ -217,11 +229,11 @@ If there are multiple V~CC~ pins, 0.01 μF or 0.022 μF is recommended
 for each power pin. It is acceptable to parallel multiple bypass caps
 to reject different frequencies of noise. A 0.1 μF and 1 μF are
 commonly used in parallel. The bypass capacitor should be installed as
-close to the power pin as possible for best results.
+close to the power pin as possible for best results. [[9::3]]
 
 ### Layout guidelines
 
-When using multiple bit logic devices inputs should not ever float.
+When using multiple bit logic devices inputs should not ever float. [[9::4]]
 
 In many cases, functions or parts of functions of digital logic devices
 are unused, for example, when only two inputs of a triple-input AND
@@ -237,7 +249,7 @@ GND or V~CC~; whichever makes more sense or is more convenient. It is
 generally acceptable to float outputs unless the part is a transceiver.
 If the transceiver has an output enable pin, it will disable the
 outputs section of the part when asserted. This will not disable the
-input section of the IOs, so they cannot float when disabled.
+input section of the IOs, so they cannot float when disabled. [[9::5]]
 
 ## Package
 
@@ -259,6 +271,7 @@ CD74ACT32M | | -55 to 125 | ACT32M | Obsolete
 CD74ACT32M96 | Reel of 2500 | -55 to 125 | ACT32M
 CD74ACT32M96G4 | Reel of 2500 | -55 to 125 | ACT32M
 ```
+[[11::table #1]]
 
 ## Conversion notes
 

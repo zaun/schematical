@@ -24,12 +24,12 @@
 ## Description
 
 The SN74AHC1G32-Q1 is a single 2-input positive-OR gate. The device
-performs the Boolean function Y = A + B in positive logic.
+performs the Boolean function Y = A + B in positive logic. [[1::1]]
 
 Qualified for automotive applications. Operating range of 2V to 5.5V.
 Maximum t~pd~ of 6.5ns at 5V. Low power consumption, 10μA maximum
 I~CC~. ±8mA output drive at 5V. Latch-up performance exceeds 250mA per
-JESD 17.
+JESD 17. [[1::2]] [[1::3]]
 
 ## Pinout
 
@@ -45,13 +45,14 @@ GND: Ground Pin
 Y: Output Y
 VCC: Power Pin
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
 This device contains a 2-input OR Gate. The gate performs the Boolean
 function Y = A + B in positive logic. The output level is referenced to
 the supply voltage (V~CC~) and supports 2.0-V, 3.0-V, and 5-V CMOS
-levels.
+levels. [[7::1]]
 
 Conversion note: the logic diagram (Figure 7-1) shows one 2-input OR gate.
 
@@ -62,14 +63,14 @@ impedance and are typically modeled as a resistor in parallel with the
 input capacitance given in the Electrical Characteristics. The worst
 case resistance is calculated with the maximum input voltage, given in
 the Absolute Maximum Ratings, and the maximum input leakage current,
-given in the Electrical Characteristics, using Ohm's law (R = V ÷ I).
+given in the Electrical Characteristics, using Ohm's law (R = V ÷ I). [[7::2]]
 
 Standard CMOS inputs require that input signals transition between valid
 logic states quickly, as defined by the input transition time or rate in
 the Recommended Operating Conditions table. Failing to meet this
 specification will result in excessive power consumption and could cause
 oscillations. More details can be found in Implications of Slow or
-Floating CMOS Inputs.
+Floating CMOS Inputs. [[7::3]]
 
 Do not leave standard CMOS inputs floating at any time during operation.
 Unused inputs must be terminated at V~CC~ or GND. If a system will not
@@ -77,7 +78,7 @@ be actively driving an input at all times, then a pull-up or pull-down
 resistor can be added to provide a valid input voltage during these
 times. The resistor value will depend on multiple factors; a 10-kΩ
 resistor, however, is recommended and will typically meet all
-requirements.
+requirements. [[7::4]]
 
 ### Balanced CMOS push-pull outputs
 
@@ -89,20 +90,20 @@ Additionally, the outputs of this device are capable of driving larger
 currents than the device can sustain without being damaged. It is
 important to limit the output power of the device to avoid damage due to
 overcurrent. The electrical and thermal limits defined in the Absolute
-Maximum Ratings must be followed at all times.
+Maximum Ratings must be followed at all times. [[7::5]]
 
-Unused push-pull CMOS outputs must be left disconnected.
+Unused push-pull CMOS outputs must be left disconnected. [[7::6]]
 
 ### Clamp diode structure
 
 The outputs to this device have both positive and negative clamping
 diodes, and the inputs to this device have negative clamping diodes only
-as shown in Figure 7-2.
+as shown in Figure 7-2. [[8::1]]
 
 Voltages beyond the values specified in the Absolute Maximum Ratings
 table can cause damage to the device. The input and output voltage
 ratings may be exceeded if the input and output clamp-current ratings
-are observed.
+are observed. [[8::2]]
 
 Conversion note: Figure 7-2 (electrical placement of clamping diodes for each input and output) shows a diode from GND to the input, and diodes from GND to the output and from the output to V~CC~.
 
@@ -118,6 +119,7 @@ Conversion note: Figure 7-2 (electrical placement of clamping diodes for each in
 
 [1] H = high voltage level, L = low voltage level, X = do not care
 ```
+[[8::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -136,6 +138,7 @@ Conversion note: Figure 7-2 (electrical placement of clamping diodes for each in
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -144,6 +147,7 @@ Conversion note: Figure 7-2 (electrical placement of clamping diodes for each in
 
 [1] AEC Q100-002 indicates that HBM stressing must be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -172,6 +176,7 @@ Conversion note: Figure 7-2 (electrical placement of clamping diodes for each in
 
 [1] All unused inputs of the device must be held at V~CC~ or GND for proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -182,6 +187,7 @@ Conversion note: Figure 7-2 (electrical placement of clamping diodes for each in
 
 [1] For more information about traditional and new thermal metrics, see the IC Package Thermal Metrics application report (SPRA953).
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -203,6 +209,7 @@ Conversion note: Figure 7-2 (electrical placement of clamping diodes for each in
 | I~CC~ | | V~I~ = V~CC~ or GND, I~O~ = 0 | 5.5 V | | | 1 | | 10 | μA |
 | C~i~ | | V~I~ = V~CC~ or GND | 5 V | | 2 | 10 | | 10 | pF |
 ```
+[[5::table #2]]
 
 Conversion note: the source prints no heading over the second Min and Max columns of this table and of the switching characteristics tables.
 
@@ -211,6 +218,7 @@ Conversion note: the source prints no heading over the second Min and Max column
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 14 | pF |
 ```
+[[5::table #3]]
 
 ## Switching characteristics
 
@@ -223,6 +231,7 @@ See [parameter measurement information](#parameter-measurement).
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 8 | 11.4 | 1 | 13 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 8 | 11.4 | 1 | 13 | ns |
 ```
+[[5::table #4]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range, V~CC~ = 5 V ± 0.5 V (unless otherwise noted) (see Load Circuit and Voltage Waveforms)"
 | Symbol | From (input) | To (output) | Load capacitance | T~A~ = 25°C | < | < | | | Unit |
@@ -231,6 +240,7 @@ See [parameter measurement information](#parameter-measurement).
 | t~PLH~ | A or B | Y | C~L~ = 50 pF | | 5.3 | 7.5 | 1 | 8.5 | ns |
 | t~PHL~ | ^ | ^ | ^ | | 5.3 | 7.5 | 1 | 8.5 | ns |
 ```
+[[5::table #5]]
 
 ## Parameter measurement information
 
@@ -238,15 +248,17 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time with one input transition per measurement. All parameters and
-waveforms are not applicable to all devices.
+waveforms are not applicable to all devices. [[6::1]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[6::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% VCC
 ```
+[[6::Figure 6-1]]
 
 Conversion note: the source figure (Figure 6-1) also shows the load
 circuit for 3-state and open-drain outputs with its S1 table, and the
@@ -259,23 +271,23 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[9::1]]
 
 In this application, three 2-input OR gates are combined to produce a
 4-input OR gate function as shown in Typical Application Block Diagram.
 The fourth gate can be used for another application in the system, or
-the inputs can be grounded and the channel left unused.
+the inputs can be grounded and the channel left unused. [[9::2]]
 
 The SN74AHC1G32-Q1 device is used to directly control the enable pin of
 a fan driver. The fan driver requires only one input signal to be HIGH
 before being enabled, and should be disabled in the event that all
 signals go LOW. The 4-input OR gate function combines the four
-individual overheat signals into a single active-high enable signal.
+individual overheat signals into a single active-high enable signal. [[9::3]]
 
 Temperature sensors can often be spread throughout a system rather than
 being in a centralized location. This would mean longer length traces or
 wires to pass signals through leading to slower edge transitions. This
-makes the SN74AHC1G32-Q1 useful for combining the incoming signals.
+makes the SN74AHC1G32-Q1 useful for combining the incoming signals. [[9::4]]
 
 Conversion note: the typical application block diagram (Figure 8-1) shows two OR gates, one fed by the Device 1 and Device 2 Overheat signals and one by the Device 3 and Device 4 Overheat signals, and a third OR gate that combines their outputs into the EN input of the fan driver.
 
@@ -284,20 +296,20 @@ Conversion note: the typical application block diagram (Figure 8-1) shows two OR
 1. Add a decoupling capacitor from V~CC~ to GND. The capacitor needs to
    be placed physically close to the device and electrically close to
    both the V~CC~ and GND pins. An example layout is shown in the Layout
-   section.
+   section. [[9::7]]
 2. Ensure the capacitive load at the output is ≤ 50 pF. This is not a
    hard limit; by design, however, it will optimize performance. This
    can be accomplished by providing short, appropriately sized traces
-   from the SN74AHC1G32-Q1 to one or more of the receiving devices.
+   from the SN74AHC1G32-Q1 to one or more of the receiving devices. [[9::7]]
 3. Ensure the resistive load at the output is larger than
    (V~CC~ / I~O(max)~) Ω. Doing this will prevent the maximum output
    current from the Absolute Maximum Ratings from being violated. Most
    CMOS inputs have a resistive load measured in MΩ; much larger than
-   the minimum calculated previously.
+   the minimum calculated previously. [[9::7]]
 4. Thermal issues are rarely a concern for logic gates; the power
    consumption and thermal increase, however, can be calculated using
    the steps provided in the application report, CMOS Power Consumption
-   and Cpd Calculation.
+   and Cpd Calculation. [[9::7]]
 
 Conversion note: the application timing diagram (Figure 8-2) shows EN high whenever any of the Device 1 to Device 4 signals is high.
 
@@ -311,7 +323,7 @@ acceptable to parallel multiple bypass capacitors to reject different
 frequencies of noise. The 0.1-μF and 1-μF capacitors are commonly used
 in parallel. The bypass capacitor should be installed as close to the
 power terminal as possible for best results, as shown in the following
-layout example.
+layout example. [[10::1]]
 
 ### Layout guidelines
 
@@ -327,7 +339,7 @@ the input voltage specifications, to prevent them from floating. The
 logic level that must be applied to any particular unused input depends
 on the function of the device. Generally, the inputs are tied to GND or
 V~CC~, whichever makes more sense for the logic function or is more
-convenient.
+convenient. [[10::2]]
 
 Conversion note: the example layout (Figure 8-3) recommends a GND flood fill, a bypass capacitor placed close to the device, and no 90° corners for signal lines.
 
@@ -351,6 +363,7 @@ SN74AHC1G32TDBVRQ1 | Reel of 3000 | -40 to 105 | 39GH, A32U
 SN74AHC1G32TDCKRQ1 | Reel of 3000 | -40 to 105 | AGU
 SN74AHC1G32WDTXRQ1 | Reel of 3000 | -40 to 125 | 3
 ```
+[[12::table #1]]
 
 ## Conversion notes
 

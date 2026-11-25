@@ -27,7 +27,7 @@ enum PickAndPlaceExport {
     nonisolated static func rows(for chips: [PlacedChip], top: Double) -> [Row] {
         chips.filter(\.isSurfaceMount).compactMap { chip in
             guard let placement = chip.board else { return nil }
-            return Row(designator: chip.reference, x: Double(placement.centre.x),
+            return Row(designator: chip.fabricationReference, x: Double(placement.centre.x),
                        y: top - Double(placement.centre.y), bottom: placement.side == .bottom,
                        rotation: (360 - placement.rotation) % 360)
         }
@@ -64,6 +64,14 @@ nonisolated enum CSV {
 }
 
 extension PlacedChip {
+    /// The reference a fab sees (the placement file's designator, the Bill of
+    /// Materials' socket line): the chip's, or `X` plus it for a chip in a socket
+    /// mode, where the part on the board is the socket (`U1` becomes `XU1`;
+    /// plan-51-H).
+    nonisolated var fabricationReference: String {
+        socket == nil ? reference : "X" + reference
+    }
+
     /// Whether the part is placed on the board as a surface-mount part: it has a footprint with at least
     /// one pad and none of them drilled. A fab's machines place only these; through-hole parts are
     /// soldered by hand or not assembled.

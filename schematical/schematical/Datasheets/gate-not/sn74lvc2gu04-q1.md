@@ -23,10 +23,10 @@
 
 ## Description
 
-This dual inverter is designed for 1.65V to 5.5V V~CC~ operation.
+This dual inverter is designed for 1.65V to 5.5V V~CC~ operation. [[1::3]]
 
 The SN74LVC2GU04-Q1 device contains two inverters with unbuffered
-outputs and performs the Boolean function Y = !{A}.
+outputs and performs the Boolean function Y = !{A}. [[1::4]]
 
 AEC-Q100 Qualified for automotive applications: Device temperature
 grade 1: –40°C to +125°C, T~A~. Supports 5V V~CC~ operation. Inputs
@@ -35,7 +35,7 @@ consumption, 10µA max I~CC~. ±24mA Output drive at 3.3V. Typical
 V~OLP~ (output ground bounce) <0.8V at V~CC~ = 3.3V, T~A~ = 25°C.
 Typical V~OHV~ (output V~OH~ undershoot) >2V at V~CC~ = 3.3V,
 T~A~ = 25°C. Can be used as a down translator to translate inputs from
-a max of 5.5V down to the V~CC~ level. Unbuffered outputs.
+a max of 5.5V down to the V~CC~ level. Unbuffered outputs. [[1::1]]
 
 ## Pinout
 
@@ -54,13 +54,14 @@ Conversion note: DRY and DCK share one pin order.
 VCC: Positive Supply
 GND: Ground
 ```
+[[3::Table 4-1]]
 
-See Package drawing at the end of the data sheet for dimensions
+See Package drawing at the end of the data sheet for dimensions [[3::1]]
 
 ## Functional description
 
 The SN74LVC2GU04Q1 device contains two inverters with unbuffered
-outputs with a maximum sink current of 32mA.
+outputs with a maximum sink current of 32mA. [[8::1]]
 
 Conversion note: the logic diagram (positive logic) shows two inverters, 1A (pin 1) to 1Y (pin 6) and 2A (pin 3) to 2Y (pin 4).
 
@@ -74,7 +75,7 @@ of driving larger currents than the device can sustain without being
 damaged. It is important for the power output of the device to be
 limited to avoid thermal runaway and damage due to overcurrent. The
 electrical and thermal limits defined in the Absolute Maximum Ratings
-must be followed at all times.
+must be followed at all times. [[8::2]]
 
 ### Standard CMOS inputs
 
@@ -83,23 +84,23 @@ resistor in parallel with the input capacitance given in the Electrical
 Characteristics. The worst-case resistance is calculated with the
 maximum input voltage, given in the Absolute Maximum Ratings, and the
 maximum input leakage current, given in the Electrical Characteristics,
-using Ohm's law (R = V ÷ I).
+using Ohm's law (R = V ÷ I). [[8::3]]
 
 Signals that are applied to the inputs need to have fast edge rates, as
 shown by Δt/Δv in the Recommended Operating Conditions, to avoid
 excessive current consumption and oscillations. If a slow or noisy
 input signal is required, a device with a Schmitt-trigger input should
-be used to condition the input signal prior to the standard CMOS input.
+be used to condition the input signal prior to the standard CMOS input. [[8::4]]
 
 ### Negative clamping diodes
 
 The inputs and outputs to this device have negative clamping diodes as
-shown in Figure 7-1.
+shown in Figure 7-1. [[9::1]]
 
 Voltages beyond the values specified in the Absolute Maximum Ratings
 table can cause damage to the device. The input negative-voltage and
 output voltage ratings may be exceeded if the input and output
-clamp-current ratings are observed.
+clamp-current ratings are observed. [[9::2]]
 
 Conversion note: Figure 7-1 (electrical placement of clamping diodes for
 each input and output) shows a diode from GND to the input, carrying
@@ -109,7 +110,7 @@ each input and output) shows a diode from GND to the input, carrying
 
 Input signals to this device can be driven above the supply voltage so
 long as they remain below the maximum input voltage value specified in
-the Recommended Operating Conditions.
+the Recommended Operating Conditions. [[9::4]]
 
 ### Unbuffered logic
 
@@ -119,13 +120,13 @@ inverter. Some devices have multiple stages at the input or output for
 various reasons. An unbuffered CMOS logic function eliminates the extra
 input and output stages; the device only contains the required logic
 function which is directly driven from the inputs and directly drives
-the outputs.
+the outputs. [[9::5]]
 
 The unbuffered inverter is commonly used in oscillator circuits because
 it is less sensitive to parameter changes in the oscillator circuit due
 to having lower total gain than a buffered equivalent. To learn more
 about how to use an unbuffered inverter in an oscillator circuit, see
-Use of the CMOS Unbuffered Inverter in Oscillator Circuits.
+Use of the CMOS Unbuffered Inverter in Oscillator Circuits. [[10::2]]
 
 ## Function tables
 
@@ -136,6 +137,7 @@ Use of the CMOS Unbuffered Inverter in Oscillator Circuits.
 | H | L |
 | L | H |
 ```
+[[9::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -157,6 +159,7 @@ Use of the CMOS Unbuffered Inverter in Oscillator Circuits.
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output current ratings are observed.
 [3] The value of V~CC~ is provided in the Recommended Operating Conditions table.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Max | Unit |
@@ -166,6 +169,7 @@ Use of the CMOS Unbuffered Inverter in Oscillator Circuits.
 
 [1] AEC Q100-002 indicates that HBM stressing shall be in accordance with the ANSI/ESDA/JEDEC JS-001 specification.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -190,6 +194,7 @@ Use of the CMOS Unbuffered Inverter in Oscillator Circuits.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -205,6 +210,7 @@ Use of the CMOS Unbuffered Inverter in Oscillator Circuits.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC package thermal metrics application note.
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -230,6 +236,7 @@ Use of the CMOS Unbuffered Inverter in Oscillator Circuits.
 
 [1] All typical values are at V~CC~ = 3.3V, T~A~ = 25°C.
 ```
+[[5::table #2]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ = 1.8V | V~CC~ = 2.5V | V~CC~ = 3.3V | V~CC~ = 5V | Unit |
@@ -237,6 +244,7 @@ Use of the CMOS Unbuffered Inverter in Oscillator Circuits.
 |---|---|---|--:|--:|--:|--:|---|
 | C~pd~ | Power dissipation capacitance | f = 10MHz | 7 | 7 | 8 | 23 | pF |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -247,6 +255,7 @@ Use of the CMOS Unbuffered Inverter in Oscillator Circuits.
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | 1.2 | 5.5 | 1 | 4 | 1.1 | 3.7 | 1 | 3 | ns |
 ```
+[[6::table #2]]
 
 ```table id=sw-125 caption="Switching characteristics – -40°C to 125°C" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Parameter Measurement Information)"
 | Parameter | From (input) | To (output) | –40°C to 125°C | < | < | < | < | < | < | < | Unit |
@@ -255,6 +264,7 @@ Use of the CMOS Unbuffered Inverter in Oscillator Circuits.
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|--:|---|
 | t~pd~ | A | Y | 1.2 | 6.3 | 1 | 4.5 | 1.1 | 4.2 | 1 | 3.5 | ns |
 ```
+[[6::table #3]]
 
 ## Typical characteristics
 
@@ -266,6 +276,7 @@ Use of the CMOS Unbuffered Inverter in Oscillator Circuits.
   {"label": "tpd(MIN)", "points": [[1.8, 1.3], [2.5, 1.0], [3.3, 1.15], [5, 1.0]]}
  ]}
 ```
+[[6::figure #1]]
 
 ## Parameter measurement information
 
@@ -273,7 +284,7 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 10 MHz,
 Z~O~ = 50 Ω. The outputs are measured one at a time, with one transition
 per measurement. t~PLH~ and t~PHL~ are the same as t~pd~. All parameters
-and waveforms are not applicable to all devices.
+and waveforms are not applicable to all devices. [[7::1]]
 
 Conversion note: the load circuit also has a second R~L~, from the output
 to switch S1, which goes to V~LOAD~, open or GND; the figure below draws
@@ -288,11 +299,13 @@ setup-and-hold and enable/disable waveforms, which are not drawn here.
 | t~PLZ~/t~PZL~ | V~LOAD~ |
 | t~PHZ~/t~PZH~ | GND |
 ```
+[[7::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit (S1 open)"
 RL: see table
 CL: see table
 ```
+[[7::Figure 6-1]]
 
 ```table id=test-conditions caption="Test conditions (Figure 6-1)"
 | V~CC~ | Inputs | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -303,10 +316,12 @@ CL: see table
 | 3.3 V ± 0.3 V | 3 V | ≤2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 5 V ± 0.5 V | V~CC~ | ≤2.5 ns | V~CC~/2 | 2 × V~CC~ | 50 pF | 500 Ω | 0.3 V |
 ```
+[[7::table #2]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: see table
 ```
+[[7::Figure 6-1]]
 
 ## Application information
 
@@ -314,7 +329,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[10::1]]
 
 The unbuffered inverter is commonly used in oscillator circuits because
 it is less sensitive to parameter changes in the oscillator circuit due
@@ -322,7 +337,7 @@ to having lower total gain than a buffered equivalent. An example
 application circuit is shown in Figure 8-1. To learn more about how to
 use an unbuffered inverter in an oscillator circuit, refer to the Use
 of the CMOS Unbuffered Inverter in Oscillator Circuits application
-report.
+report. [[10::2]]
 
 Conversion note: the typical application diagram (Figure 8-1) shows a
 crystal oscillator, with the inverter U and a feedback resistor R~F~
@@ -336,25 +351,25 @@ This device uses CMOS technology and has balanced output drive. Take
 care to avoid bus contention because it can drive currents that would
 exceed maximum limits. The high drive also creates fast edges into light
 loads, so routing and load conditions should be considered to prevent
-ringing.
+ringing. [[10::3]]
 
 ### Detailed design procedure
 
 To learn more about how to use an unbuffered inverter in an oscillator
 circuit, refer to the Use of the CMOS Unbuffered Inverter in Oscillator
-Circuits application report.
+Circuits application report. [[10::2]]
 
-1. Recommended Input Conditions
+1. Recommended Input Conditions [[10::4]]
    - Specified high and low levels. See (V~IH~ and V~IL~) in
-     Recommended Operating Conditions.
+     Recommended Operating Conditions. [[10::4]]
    - Inputs are overvoltage tolerant allowing them to go as high as
-     (V~I~ max) in Recommended Operating Conditions at any valid V~CC~.
-2. Absolute Maximum Output Conditions
+     (V~I~ max) in Recommended Operating Conditions at any valid V~CC~. [[10::4]]
+2. Absolute Maximum Output Conditions [[10::4]]
    - Load currents must not exceed (I~O~ max) per output and must not
      exceed (Continuous current through V~CC~ or GND) total current for
-     the part. These limits are located in Absolute Maximum Ratings.
+     the part. These limits are located in Absolute Maximum Ratings. [[10::4]]
    - Outputs must not be pulled above the voltage rated in the Absolute
-     Maximum Ratings.
+     Maximum Ratings. [[10::4]]
 
 ### Application curve
 
@@ -368,19 +383,20 @@ Circuits application report.
   {"label": "Icc 5V", "points": [[0, 0], [20, 400], [35, 700], [45, 930], [60, 1200], [75, 1500]]}
  ]}
 ```
+[[11::Figure 8-2]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the minimum and maximum
 supply voltage rating located in the Recommended Operating Conditions
-table.
+table. [[11::1]]
 
 The V~CC~ pin must have a good bypass capacitor to prevent power
 disturbance. A 0.1µF capacitor is recommended, and it is ok to parallel
 multiple bypass caps to reject different frequencies of noise. 0.1µF
 and 1µF capacitors are commonly used in parallel. The bypass capacitor
 must be installed as close to the power pin as possible for best
-results.
+results. [[11::2]]
 
 ### Layout guidelines
 
@@ -392,7 +408,7 @@ trace. At the apex of the turn, the trace width increases to 1.414
 times the width. This increase upsets the transmission-line
 characteristics, especially the distributed capacitance and
 self–inductance of the trace which results in the reflection. Not all
-PCB traces can be straight and therefore some traces must turn corners.
+PCB traces can be straight and therefore some traces must turn corners. [[11::3]]
 
 An example layout is given in Figure 8-3 for the DRY (SON) package.
 This example layout includes a 0402 (metric) capacitor and uses the
@@ -400,7 +416,7 @@ measurements found in the example board layout appended to this end of
 this datasheet. A via of diameter 0.1mm (3.973 mil) is placed directly
 in the center of the device. This via can be used to trace out the
 center pin connection through another board layer, or it can be left
-out of the layout
+out of the layout [[11::4]]
 
 Conversion note: the layout example for the DRY package (Figure 8-3)
 shows a 0402 bypass capacitor placed close to the device between V~CC~
@@ -417,6 +433,7 @@ and GND, the six pads with a via in the center, signal lines without
 ```ordering
 1P2GU04QDRYRQ1 | Reel of 5000 | -40 to 125 | FZ
 ```
+[[14::table #1]]
 
 ## Conversion notes
 

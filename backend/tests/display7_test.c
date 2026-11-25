@@ -3,7 +3,7 @@
  * led7_check.c check_model and check_persistence). Parts come from the JSON
  * files; lights are read through the model's lights hook. The catalog
  * checks are covered by listing_check. Also the two tube types: a
- * numitron (IV-9) and VFDs (IV-11, IV-18).
+ * numitron (IV-9) and VFDs (IV-11, IV-18; IV-8, IV-17, IV-22, IV-25, IV-27).
  */
 
 #include <stdio.h>
@@ -35,7 +35,7 @@ static SimInstance *add(Sim *sim, const char *name) {
 /* The lights of an instance as '0'/'1' characters, lit since `since`. */
 static void glow(const Sim *sim, const SimInstance *instance, SimTime since, char *out, size_t cap) {
     const SimComponentType *type = sim_instance_type(instance);
-    unsigned char values[64];
+    unsigned char values[128];
     size_t count = type->lights(sim, instance, sim_instance_state(instance), since, values,
                                 sizeof values);
     size_t i;
@@ -73,7 +73,7 @@ static int glow_of(const char *display, const unsigned (*wires)[2], size_t wire_
 }
 
 static void check_model(void) {
-    char lights[64];
+    char lights[128];
 
     /* LTS-4301JR, common cathode: GND on pin 3, VCC on segment A (pin 10). */
     {
@@ -143,6 +143,53 @@ static void check_model(void) {
         expect(glow_of("IV-18", W, 3, 1, lights, sizeof lights) &&
                    strncmp(lights, "10000000" "00000000", 16) == 0 && lights[56] == '0',
                "multiplexed VFD: only the digit whose grid is high shows segment A");
+    }
+    /* IV-8: grid lead 7, A lead 10, DP lead 6. */
+    {
+        static const unsigned W[][2] = {{7, 0}, {10, 0}, {6, 0}};
+        expect(glow_of("IV-8", W, 3, 1, lights, sizeof lights) && strcmp(lights, "10000001") == 0,
+               "IV-8: segments A and DP light with the grid high");
+    }
+    /* IV-22: grid lead 6, A lead 7, DP lead 1. */
+    {
+        static const unsigned W[][2] = {{6, 0}, {7, 0}, {1, 0}};
+        expect(glow_of("IV-22", W, 3, 1, lights, sizeof lights) && strcmp(lights, "10000001") == 0,
+               "IV-22: segments A and DP light with the grid high");
+    }
+    /* IV-17, 16 segments and two commas: grid 12, A1 lead 20, N lead 5, left comma lead 2. */
+    {
+        static const unsigned W[][2] = {{12, 0}, {20, 0}, {5, 0}, {2, 0}};
+        expect(glow_of("IV-17", W, 4, 1, lights, sizeof lights) &&
+                   strcmp(lights, "1000000000000001" "10") == 0,
+               "IV-17: A1, N and the left comma light with the grid high");
+    }
+    {
+        static const unsigned W[][2] = {{20, 0}, {5, 0}};
+        expect(glow_of("IV-17", W, 2, 1, lights, sizeof lights) &&
+                   strcmp(lights, "000000000000000000") == 0,
+               "IV-17: a low grid blanks the character");
+    }
+    /* IV-25, no grid: a dot glows while its anode is high against the filament cathode (lead 6) at ground. */
+    {
+        static const unsigned W[][2] = {{3, 0}, {8, 0}, {6, 1}};
+        expect(glow_of("IV-25", W, 3, 1, lights, sizeof lights) && strcmp(lights, "1000001") == 0,
+               "IV-25: dots 1 and 7 light against the grounded filament cathode");
+    }
+    {
+        static const unsigned W[][2] = {{3, 0}};
+        expect(glow_of("IV-25", W, 1, 0, lights, sizeof lights) && strcmp(lights, "0000000") == 0,
+               "IV-25: with the filament cathode floating nothing lights");
+    }
+    /* IV-27, 14 digits: grid of digit 14 on lead 5, anode A on lead 23 (the second stem's lead 1). */
+    {
+        static const unsigned W[][2] = {{5, 0}, {23, 0}};
+        char want[113];
+
+        memset(want, '0', 112);
+        want[104] = '1';
+        want[112] = '\0';
+        expect(glow_of("IV-27", W, 2, 1, lights, sizeof lights) && strcmp(lights, want) == 0,
+               "IV-27: segment A of digit 14 lights, no other digit does");
     }
 }
 

@@ -8,7 +8,7 @@ import XCTest
 final class KindInfoTests: XCTestCase {
     func testEveryKindHasAnEntry() {
         XCTAssertEqual(Set(PartKinds.info.keys), Set(PartKinds.all))
-        XCTAssertEqual(PartKinds.info.count, 40)
+        XCTAssertEqual(PartKinds.info.count, 47)
         for (kind, info) in PartKinds.info {
             XCTAssertEqual(info.kind, kind)
             XCTAssertFalse(info.name.isEmpty, kind)
@@ -38,7 +38,7 @@ final class KindInfoTests: XCTestCase {
 
     func testUnsimulatedKinds() {
         let unsimulated = PartKinds.info.values.filter { !$0.simulated }.map(\.kind).sorted()
-        XCTAssertEqual(unsimulated, ["generic", "mcu"])
+        XCTAssertEqual(unsimulated, ["generic", "mcu", "pld"])
     }
 
     func testEveryGroupHasAKindAndEveryKindIsListedOnce() {

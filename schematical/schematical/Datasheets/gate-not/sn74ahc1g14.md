@@ -24,11 +24,11 @@
 ## Description
 
 The SN74AHC1G14 device is a single inverter gate. The device performs
-the Boolean function Y = !{A}.
+the Boolean function Y = !{A}. [[1::1]]
 
 Operating range 2 V to 5.5 V. Maximum t~pd~ of 10 ns at 5 V. Low power
 consumption, 10-μA max I~CC~. ±8-mA output drive at 5 V. Latch-up
-performance exceeds 250 mA per JESD 17.
+performance exceeds 250 mA per JESD 17. [[1::2]]
 
 ## Pinout
 
@@ -44,15 +44,16 @@ GND: Ground
 Y: Data Output
 VCC: Power
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
 The SN74AHC1G14 device is a single inverter gate. The device performs
-the Boolean function Y = !{A}.
+the Boolean function Y = !{A}. [[1::1]]
 
 The device functions as an independent inverter gate, but because of the
 Schmitt action, gates may have different input threshold levels for
-positive- (V~T+~) and negative-going (V~T−~) signals.
+positive- (V~T+~) and negative-going (V~T−~) signals. [[8::2]]
 
 Conversion note: the logic diagram (Figure 7-1) shows one Schmitt-trigger inverter, input A (pin 2), output Y (pin 4).
 
@@ -62,7 +63,7 @@ The SN74AHC1G14 device has a wide operating V~CC~ range of 2 V to 5.5 V,
 which allows it to be used in a broad range of systems. The low
 propagation delay allows fast switching and higher speeds of operation.
 In addition, the low-power consumption makes this device a good choice
-for portable and battery power-sensitive applications.
+for portable and battery power-sensitive applications. [[8::3]]
 
 ## Function tables
 
@@ -76,6 +77,7 @@ for portable and battery power-sensitive applications.
 [1] H = High Voltage Level, L = Low Voltage Level, X = Don’t Care
 [2] H = Driving High, L = Driving Low, Z = High Impedance State
 ```
+[[8::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -95,6 +97,7 @@ for portable and battery power-sensitive applications.
 [1] Stresses beyond those listed under Absolute Maximum Ratings may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Conditions is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -105,6 +108,7 @@ for portable and battery power-sensitive applications.
 [1] JEDEC document JEP155 states that 500-V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250-V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -124,6 +128,7 @@ for portable and battery power-sensitive applications.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, SCBA004.
 ```
+[[4::table #3]]
 
 ## Thermal information
 
@@ -139,6 +144,7 @@ for portable and battery power-sensitive applications.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report, SPRA953.
 ```
+[[5::table #1]]
 
 ## Electrical characteristics
 
@@ -173,12 +179,14 @@ for portable and battery power-sensitive applications.
 [2] Source error: printed as I~OL~ = –8 mA; the row gives V~OH~, and the recommended operating conditions give –8 mA as I~OH~, so the condition is I~OH~.
 [3] Source error: printed as I~OH~ = 50 µA and I~OH~ = 4 mA; the rows give V~OL~, and the recommended operating conditions give 50 µA and 4 mA as I~OL~, so the condition is I~OL~.
 ```
+[[5::table #2]]
 
 ```table id=operating caption="Operating characteristics" conditions="V~CC~ = 5 V, T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | Typ | Unit |
 |---|---|---|--:|---|
 | C~pd~ | Power dissipation capacitance | No load, f = 1 MHz | 9 | pF |
 ```
+[[6::table #1]]
 
 ## Switching characteristics
 
@@ -191,6 +199,7 @@ for portable and battery power-sensitive applications.
 | t~PLH~ | A | Y | C~L~ = 50 pF | 10.8 | 16.3 | 1 | 18.5 | 1 | 19.5 | ns |
 | t~PHL~ | ^ | ^ | ^ | 10.8 | 16.3 | 1 | 18.5 | 1 | 19.5 | ns |
 ```
+[[6::table #2]]
 
 ```table id=sw-5v caption="Switching characteristics, V~CC~ = 5 V ± 0.5 V" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Load Circuit and Voltage Waveforms)"
 | Symbol | From (input) | To (output) | Output capacitance | T~A~ = 25°C | < | T~A~ = –40°C to 85°C | < | Recommended T~A~ = –40°C to 125°C | < | Unit |
@@ -204,6 +213,7 @@ for portable and battery power-sensitive applications.
 [1] Source error: the source prints "A or B" as the input in this table, kept as printed; the device has one input, A (pin functions, p.3), and the V~CC~ = 3.3 V table prints A.
 [2] Unconfirmed: the source prints a maximum of 11 ns for –40°C to 125°C at C~L~ = 50 pF, below the 12 ns maximum it prints for –40°C to 85°C on the same rows.
 ```
+[[6::table #3]]
 
 ## Typical characteristics
 
@@ -215,15 +225,17 @@ C~L~ includes probe and jig capacitance. All input pulses are supplied by
 generators having the following characteristics: PRR ≤ 1 MHz,
 Z~O~ = 50 Ω, t~r~ ≤ 3 ns, t~f~ ≤ 3 ns. The outputs are measured one at a
 time with one input transition per measurement. All parameters and
-waveforms are not applicable to all devices.
+waveforms are not applicable to all devices. [[7::1]]
 
 ```figure ref=load-cmos-50pf caption="Load circuit for totem-pole outputs"
 CL: see table
 ```
+[[7::Figure 6-1]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: 50% VCC
 ```
+[[6::Figure 5-1]]
 
 Conversion note: the source figure (Figure 6-1) also shows the load
 circuit for 3-state and open-drain outputs with its S1 table, and the
@@ -236,7 +248,7 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[9::1]]
 
 Physically interactive interface elements like push buttons or rotary
 knobs offer simple and easy ways to interact with an electronic system.
@@ -254,7 +266,7 @@ case, the SN74AHC1G14 uses this memory to debounce the signal of the
 physical element, or filter the faulty transient signals and pass only
 the valid signal each time the element is used. In this example, we show
 a push-button signal passed through an SN74AHC1G14 that is debounced and
-inverted to the microprocessor for push detection.
+inverted to the microprocessor for push detection. [[9::2]]
 
 Conversion note: the switch debouncer (Figure 8-1) shows a physical push button to ground with a resistor to V~CC~, driving the SN74AHC1G14, whose output goes to a microprocessor.
 
@@ -265,28 +277,28 @@ drive. Take care to avoid bus contention because it can drive currents
 that would exceed maximum limits. The SN74AHC1G14 allows for performing
 logical Boolean functions with hysteresis using digital signals. All
 input signals must remain as close as possible to either 0 V or V~CC~
-for optimal operation.
+for optimal operation. [[9::3]]
 
 ### Detailed design procedure
 
-1. Recommended input conditions:
+1. Recommended input conditions: [[10::1]]
    - For rise time and fall time specifications, see Δt/Δv in the
      [Recommended Operating Conditions](#recommended-operating-conditions)
-     table.
+     table. [[10::1]]
    - For specified high and low levels, see V~IH~ and V~IL~ in the
      [Recommended Operating Conditions](#recommended-operating-conditions)
-     table.
+     table. [[10::1]]
    - Inputs and outputs are overvoltage tolerant and can therefore go as
-     high as 5.5 V at any valid V~CC~.
-2. Recommended output conditions:
-   - Load currents must not exceed ±50 mA.
-3. Frequency selection criterion:
+     high as 5.5 V at any valid V~CC~. [[10::1]]
+2. Recommended output conditions: [[10::1]]
+   - Load currents must not exceed ±50 mA. [[10::1]]
+3. Frequency selection criterion: [[10::1]]
    - The effects of frequency upon the power consumption of the device
      can be studied in CMOS Power Consumption and CPD Calculation,
-     SCAA035.
+     SCAA035. [[10::1]]
    - Added trace resistance and capacitance can reduce maximum frequency
      capability; follow the layout practices listed in the
-     [Layout Guidelines](#layout-guidelines) section.
+     [Layout Guidelines](#layout-guidelines) section. [[10::1]]
 
 Source conflict: the Recommended Operating Conditions table (p.4) has no Δt/Δv, V~IH~ or V~IL~ row; the input thresholds are V~T+~ and V~T–~ in the Electrical Characteristics (p.5).
 
@@ -303,6 +315,7 @@ Source conflict: "load currents must not exceed ±50 mA" (p.10) vs the absolute 
   {"label": "AHC", "points": [[-55, 1.8], [-45, 3.1], [-35, 3.8], [-25, 4.35], [-15, 4.8], [-5, 5.25], [0, 5.5]]}
  ]}
 ```
+[[10::Figure 8-2]]
 
 ```curve id=vol-iol caption="AHC Family V~OL~ vs I~OL~, T~A~ = 25°C, V~CC~ = 5.5 V, All Outputs Switching"
 {"x": {"label": "I_OL", "unit": "mA", "range": [0, 40]},
@@ -311,13 +324,14 @@ Source conflict: "load currents must not exceed ±50 mA" (p.10) vs the absolute 
   {"label": "AHC", "points": [[0, 0], [10, 0.3], [20, 0.65], [30, 1.05], [40, 1.65]]}
  ]}
 ```
+[[10::Figure 8-2]]
 
 ### Power supply recommendations
 
 The power supply can be any voltage between the minimum and maximum
 supply voltage rating listed in the
 [Recommended Operating Conditions](#recommended-operating-conditions)
-table.
+table. [[10::2]]
 
 Each V~CC~ terminal must have a good bypass capacitor to prevent power
 disturbance. For devices with a single supply, a 0.1-μF bypass capacitor
@@ -329,7 +343,7 @@ bypass capacitor is recommended for each supply pin. To reject different
 frequencies of noise, use multiple bypass capacitors in parallel.
 Capacitors with values of 0.1 μF and 1 μF are commonly used in parallel.
 The bypass capacitor must be installed as close as possible to the power
-terminal for best results.
+terminal for best results. [[10::3]]
 
 ### Layout guidelines
 
@@ -343,7 +357,7 @@ especially the distributed capacitance and self-inductance of the trace,
 which results in the reflection. Not all PCB traces can be straight;
 therefore some traces must turn corners. Figure 8-4 shows progressively
 better techniques of rounding corners. Only the last example (BEST)
-maintains constant trace width and minimizes reflections.
+maintains constant trace width and minimizes reflections. [[10::4]] [[11::1]]
 
 Conversion note: Figure 8-4 (trace example: WORST, BETTER, BEST corners) is not drawn.
 
@@ -368,6 +382,7 @@ SN74AHC1G14DCKRG4 | Reel of 3000 | -40 to 125 | AF3
 SN74AHC1G14DCKT | | -40 to 125 | AF3, AFG, AFJ, AFS | Obsolete
 SN74AHC1G14DRLR | Reel of 4000 | -40 to 125 | AFS
 ```
+[[13::table #1]]
 
 ## Conversion notes
 

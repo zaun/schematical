@@ -226,14 +226,15 @@ struct KiCadBoardWriter {
     }
 
     /// A pad of a catalog footprint, its x mirrored when the footprint is on
-    /// Bottom.
+    /// Bottom. The pad's own layer is its footprint's side, or the other for
+    /// an opposite pad (plan-54-E).
     private func kpad(_ pad: Footprint.Pad, side: BoardSide) -> KPad {
         let bottom = side == .bottom
         return KPad(designator: pad.designator ?? "",
                     centre: CGPoint(x: bottom ? -pad.centre.x : pad.centre.x, y: pad.centre.y),
                     size: pad.size, drill: pad.drill, slotLength: pad.slotLength, shape: pad.shape,
                     radius: pad.radius, chamfer: pad.chamfer, corners: pad.corners.mirrored(bottom),
-                    plated: pad.plated, side: side)
+                    plated: pad.plated, side: pad.opposite ? (bottom ? .top : .bottom) : side)
     }
 
     /// A pad already on the board (a card finger, a hole), for a footprint

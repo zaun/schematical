@@ -27,23 +27,23 @@ The AUP family is TI's premier solution to the industry's low-power
 needs in battery-powered portable applications. This family ensures a
 very low static- and dynamic-power consumption across the entire V~CC~
 range of 0.8V to 3.6V, resulting in increased battery life. This
-product also maintains excellent signal integrity.
+product also maintains excellent signal integrity. [[1::3]]
 
 The SN74AUP2G14 contains two inverters and performs the Boolean
 function Y = !{A}. The device functions as two independent inverters,
 but because of Schmitt action, it may have different input threshold
-levels for positive-going (V~T+~) and negative-going (V~T–~) signals.
+levels for positive-going (V~T+~) and negative-going (V~T–~) signals. [[1::4]]
 
 NanoStar™ package technology is a major breakthrough in IC packaging
-concepts, using the die as the package.
+concepts, using the die as the package. [[1::5]]
 
 This device is fully specified for partial-power-down applications
 using I~off~. The I~off~ circuitry disables the outputs, preventing
-damaging current backflow through the device when it is powered down.
+damaging current backflow through the device when it is powered down. [[1::6]]
 
 Optimized for 3.3V operation. 3.6V I/O tolerant to support mixed-mode
 signal Operation. Suitable for point-to-point applications. Latch-up
-performance exceeds 100mA Per JESD 78, Class II.
+performance exceeds 100mA Per JESD 78, Class II. [[1::1]]
 
 ## Pinout
 
@@ -63,19 +63,20 @@ GND: Ground
 VCC: Supply/Power Pin
 2Y: Gate 2 inverted signal
 ```
+[[3::Table 4-1]]
 
 ## Functional description
 
 The SN74AUP2G14 contains two inverters and performs the Boolean
 function Y = !{A}. The device functions as two independent inverters,
 but because of Schmitt action, it may have different input threshold
-levels for positivegoing (V~T+~) and negative-going (V~T–~) signals.
+levels for positivegoing (V~T+~) and negative-going (V~T–~) signals. [[1::4]]
 
 Source error: the overview (p.13) prints the function as Y = A, without the overbar that p.1 and p.14 print, and "positivegoing" as one word (kept as printed).
 
 This device is fully specified for partial-power-down applications
 using I~off~. The I~off~ circuitry disables the outputs, preventing
-damaging current backflow through the device when it is powered down.
+damaging current backflow through the device when it is powered down. [[1::6]]
 
 Conversion note: the logic diagram (Figure 7-1) shows two Schmitt-trigger inverters, 1A on pin 1 to 1Y on pin 6 and 2A on pin 3 to 2Y on pin 4.
 
@@ -84,13 +85,13 @@ Conversion note: the logic diagram (Figure 7-1) shows two Schmitt-trigger invert
 As the inputs are 5.5V tolerant, the device can be used as a down
 translator. When the input voltage exceeds V~T+~ (Max), the output will
 follow V~CC~, performing down-translation if the input voltage exceeds
-V~CC~.
+V~CC~. [[13::3]]
 
 Source conflict: "the inputs are 5.5V tolerant" (p.13) vs the absolute maximum input voltage of 4.6 V and the recommended maximum of 3.6 V (p.4–5); both are kept as printed.
 
 ### Device functional modes
 
-Table 7-1 lists the functional modes of SN74AUP2G14.
+Table 7-1 lists the functional modes of SN74AUP2G14. [[13::4]]
 
 ## Function tables
 
@@ -101,6 +102,7 @@ Table 7-1 lists the functional modes of SN74AUP2G14.
 | H | L |
 | L | H |
 ```
+[[13::Table 7-1]]
 
 ## Absolute maximum ratings
 
@@ -120,6 +122,7 @@ Table 7-1 lists the functional modes of SN74AUP2G14.
 [1] Stresses beyond those listed under "absolute maximum ratings" may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under "recommended operating conditions" is not implied. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
 [2] The input negative-voltage and output voltage ratings may be exceeded if the input and output current ratings are observed.
 ```
+[[4::table #1]]
 
 ```table id=esd caption="ESD ratings"
 | Symbol | Parameter | Conditions | Value | Unit |
@@ -130,6 +133,7 @@ Table 7-1 lists the functional modes of SN74AUP2G14.
 [1] JEDEC document JEP155 states that 500V HBM allows safe manufacturing with a standard ESD control process.
 [2] JEDEC document JEP157 states that 250V CDM allows safe manufacturing with a standard ESD control process.
 ```
+[[4::table #2]]
 
 ## Recommended operating conditions
 
@@ -155,6 +159,7 @@ Table 7-1 lists the functional modes of SN74AUP2G14.
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. See Implications of Slow or Floating CMOS Inputs.
 ```
+[[5::table #1]]
 
 ## Thermal information
 
@@ -165,6 +170,7 @@ Table 7-1 lists the functional modes of SN74AUP2G14.
 
 [1] For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
 ```
+[[5::table #2]]
 
 ## Electrical characteristics
 
@@ -218,6 +224,7 @@ Table 7-1 lists the functional modes of SN74AUP2G14.
 [1] Source error: the source prints "A or B input", kept as printed; each inverter has one input, A (pin functions, p.3).
 [2] One input at V~CC~ – 0.6V, other input at V~CC~ or GND.
 ```
+[[6::table #1]]
 
 ```table id=op caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -229,6 +236,7 @@ Table 7-1 lists the functional modes of SN74AUP2G14.
 | ^ | ^ | ^ | 2.5V ± 0.2V | 4.1 | ^ |
 | ^ | ^ | ^ | 3.3V ± 0.3V | 4.3 | ^ |
 ```
+[[8::table #1]]
 
 ## Switching characteristics
 
@@ -243,6 +251,7 @@ Table 7-1 lists the functional modes of SN74AUP2G14.
 | ^ | ^ | ^ | 2.5V ± 0.2V | 1 | 3 | 4.4 | 0.5 | 5.5 | ^ |
 | ^ | ^ | ^ | 3.3V ± 0.3V | 1 | 2.4 | 3.5 | 0.5 | 4.3 | ^ |
 ```
+[[7::table #1]]
 
 ```table id=sw-10pf caption="Switching characteristics, C~L~ = 10pF" conditions="Over recommended operating free-air temperature range, C~L~ = 10pF (unless otherwise noted) (see Figure 6-3 and Figure 6-4)"
 | Symbol | From (input) | To (output) | V~CC~ | T~A~ = 25°C | < | < | T~A~ = –40°C to 85°C | < | Unit |
@@ -257,6 +266,7 @@ Table 7-1 lists the functional modes of SN74AUP2G14.
 
 [1] Unconfirmed: the source prints a –40°C to 85°C minimum of 1.3 ns at 1.2V, below the minimums it prints on the rows under it.
 ```
+[[7::table #2]]
 
 ```table id=sw-15pf caption="Switching characteristics, C~L~ = 15pF" conditions="Over recommended operating free-air temperature range, C~L~ = 15pF (unless otherwise noted) (see Figure 6-3 and Figure 6-4)"
 | Symbol | From (input) | To (output) | V~CC~ | T~A~ = 25°C | < | < | T~A~ = –40°C to 85°C | < | Unit |
@@ -269,6 +279,7 @@ Table 7-1 lists the functional modes of SN74AUP2G14.
 | ^ | ^ | ^ | 2.5V ± 0.2V | 1 | 4.3 | 5.9 | 0.5 | 7.3 | ^ |
 | ^ | ^ | ^ | 3.3V ± 0.3V | 1 | 3.4 | 4.8 | 0.5 | 5.9 | ^ |
 ```
+[[7::table #3]]
 
 ```table id=sw-30pf caption="Switching characteristics, C~L~ = 30pF" conditions="Over recommended operating free-air temperature range, C~L~ = 30pF (unless otherwise noted) (see Figure 6-3 and Figure 6-4)"
 | Symbol | From (input) | To (output) | V~CC~ | T~A~ = 25°C | < | < | T~A~ = –40°C to 85°C | < | Unit |
@@ -281,6 +292,7 @@ Table 7-1 lists the functional modes of SN74AUP2G14.
 | ^ | ^ | ^ | 2.5V ± 0.2V | 1.8 | 5.7 | 7.6 | 1.3 | 9.4 | ^ |
 | ^ | ^ | ^ | 3.3V ± 0.3V | 1.5 | 4.7 | 6.2 | 1 | 7.5 | ^ |
 ```
+[[8::table #2]]
 
 ## Typical characteristics
 
@@ -294,7 +306,7 @@ Z~O~ = 50 Ω, for propagation delays t~r~/t~f~ = 3 ns, for setup and
 hold times and pulse width t~r~/t~f~ = 1.2 ns. The outputs are measured
 one at a time, with one transition per measurement. t~PLH~ and t~PHL~
 are the same as t~pd~. All parameters and waveforms are not applicable
-to all devices.
+to all devices. [[11::2]]
 
 ```table id=pmi-conditions caption="Load circuit test conditions"
 | | V~CC~ = 0.8 V | V~CC~ = 1.2 V ± 0.1 V | V~CC~ = 1.5 V ± 0.1 V | V~CC~ = 1.8 V ± 0.15 V | V~CC~ = 2.5 V ± 0.2 V | V~CC~ = 3.3 V ± 0.3 V |
@@ -303,15 +315,18 @@ to all devices.
 | V~M~ | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 | V~CC~/2 |
 | V~I~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ | V~CC~ |
 ```
+[[1::table #1]]
 
 ```figure ref=load-rl-cl caption="Load circuit"
 RL: 1 MΩ
 CL: 5, 10, 15, 30 pF
 ```
+[[11::Figure 6-3]]
 
 ```figure ref=waveforms-tpd caption="Voltage waveforms, propagation delay times, inverting and noninverting outputs"
 VM: VCC/2
 ```
+[[11::Figure 6-3]]
 
 ## Application information
 
@@ -319,12 +334,12 @@ Information in the following applications sections is not part of the TI
 component specification, and TI does not warrant its accuracy or
 completeness. TI’s customers are responsible for determining suitability
 of components for their purposes, as well as validating and testing
-their design implementation to confirm system functionality.
+their design implementation to confirm system functionality. [[14::1]]
 
 The SN74AUP2G14 contains two inverters and performs the Boolean
 function Y = !{A}. The device functions as two independent inverters,
 but because of Schmitt action, it may have different input threshold
-levels for positive-going (V~T+~) and negative-going (V~T–~) signals.
+levels for positive-going (V~T+~) and negative-going (V~T–~) signals. [[1::4]]
 
 Conversion note: the typical application schematic (Figure 8-1) is not drawn.
 
@@ -334,27 +349,27 @@ This device uses CMOS technology and has balanced output drive. Care
 should be taken to avoid bus contention because it can drive currents
 that would exceed maximum limits. The high drive will also create fast
 edges into light loads so routing and load conditions should be
-considered to prevent ringing.
+considered to prevent ringing. [[14::3]]
 
 ### Detailed design procedure
 
-1. Recommended Input Conditions
+1. Recommended Input Conditions [[14::4]]
    - Rise time and fall time specs. See (Δt/ΔV) in the
      [Recommended Operating Conditions](#recommended-operating-conditions)
-     table.
+     table. [[14::4]]
    - Specified high and low levels. See (V~IH~ and V~IL~) in the
      [Recommended Operating Conditions](#recommended-operating-conditions)
-     table.
+     table. [[14::4]]
    - Inputs are overvoltage tolerant allowing them to go as high as
      (V~I~ max) in the
      [Recommended Operating Conditions](#recommended-operating-conditions)
-     table at any valid V~CC~.
-2. Recommend Output Conditions
+     table at any valid V~CC~. [[14::4]]
+2. Recommend Output Conditions [[14::4]]
    - Load currents should not exceed (I~O~ max) per output and should
      not exceed (continuous current through V~CC~ or GND) total current
      for the part. These limits are located in the
-     [Absolute Maximum Ratings](#absolute-maximum-ratings) table.
-   - Outputs should not be pulled above V~CC~.
+     [Absolute Maximum Ratings](#absolute-maximum-ratings) table. [[14::4]]
+   - Outputs should not be pulled above V~CC~. [[14::4]]
 
 Source conflict: the Recommended Operating Conditions table (p.5) has no Δt/ΔV, V~IH~ or V~IL~ row; the input thresholds are V~T+~ and V~T–~ in the Electrical Characteristics (p.6).
 
@@ -368,28 +383,28 @@ V~CC~ pins, then TI recommends a 0.01μF or 0.022μF capacitor for each
 power pin. It is ok to parallel multiple bypass capacitors to reject
 different frequencies of noise. 0.1μF and 1μF capacitors are commonly
 used in parallel. The bypass capacitor should be installed as close to
-the power pin as possible for best results.
+the power pin as possible for best results. [[15::1]]
 
 ### Layout guidelines
 
-- Bypass capacitor placement
-  - Place near the positive supply terminal of the device
-  - Provide an electrically short ground return path
-  - Use wide traces to minimize impedance
+- Bypass capacitor placement [[16::2]]
+  - Place near the positive supply terminal of the device [[15::2]]
+  - Provide an electrically short ground return path [[15::2]]
+  - Use wide traces to minimize impedance [[15::2]]
   - Keep the device, capacitors, and traces on the same side of the
-    board whenever possible
-- Signal trace geometry
-  - 8mil to 12mil trace width
-  - Lengths less than 12cm to minimize transmission line effects
-  - Avoid 90° corners for signal traces
-  - Use an unbroken ground plane below signal traces
-  - Flood fill areas around signal traces with ground
+    board whenever possible [[15::2]]
+- Signal trace geometry [[15::2]]
+  - 8mil to 12mil trace width [[15::2]]
+  - Lengths less than 12cm to minimize transmission line effects [[15::2]]
+  - Avoid 90° corners for signal traces [[15::2]]
+  - Use an unbroken ground plane below signal traces [[15::2]]
+  - Flood fill areas around signal traces with ground [[15::2]]
   - Parallel traces must be separated by at least 3x dielectric
-    thickness
-  - For traces longer than 12cm
-    - Use impedance controlled traces
-    - Source-terminate using a series damping resistor near the output
-    - Avoid branches; buffer each signal that must branch separately
+    thickness [[15::2]]
+  - For traces longer than 12cm [[15::2]]
+    - Use impedance controlled traces [[15::2]]
+    - Source-terminate using a series damping resistor near the output [[15::2]]
+    - Avoid branches; buffer each signal that must branch separately [[15::2]]
 
 Conversion note: the layout examples (Figures 8-2 to 8-6: trace corners, bypass capacitor placement for three package styles, and damping resistor placement) are not drawn.
 
@@ -416,6 +431,7 @@ SN74AUP2G14DSF2 | Reel of 5000 | -40 to 85 | H6
 SN74AUP2G14DSFR | Reel of 5000 | -40 to 85 | H6
 SN74AUP2G14YFPR | Reel of 3000 | -40 to 85 | HFN
 ```
+[[19::table #1]]
 
 ## Conversion notes
 

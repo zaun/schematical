@@ -24,23 +24,23 @@
 ## Description
 
 These hex inverter buffers/drivers are designed for 1.65-V to 3.6-V
-V~CC~ operation.
+V~CC~ operation. [[1::3]]
 
 The outputs of the 'LVC06A devices are open drain and can be connected
 to other open-drain outputs to implement active-low wired-OR or
-active-high wired-AND functions. The maximum sink current is 24 mA.
+active-high wired-AND functions. The maximum sink current is 24 mA. [[1::4]]
 
 Inputs can be driven from either 3.3-V or 5-V devices. This feature
 allows the use of these devices as translators in a mixed 3.3-V/5-V
-system environment.
+system environment. [[1::5]]
 
 These devices are fully specified for partial-power-down applications
 using I~off~. The I~off~ circuitry disables the outputs, preventing
-damaging current backflow through the device when it is powered down.
+damaging current backflow through the device when it is powered down. [[2::1]]
 
 Operate From 1.65 V to 3.6 V. Specified From –40°C to 85°C, –40°C to
 125°C, and –55°C to 125°C. Inputs and Open-Drain Outputs Accept Voltages
-up to 5.5 V. Latch-Up Performance Exceeds 250 mA Per JESD 17.
+up to 5.5 V. Latch-Up Performance Exceeds 250 mA Per JESD 17. [[1::1]] [[1::2]]
 
 ## Pinout
 
@@ -55,6 +55,7 @@ up to 5.5 V. Latch-Up Performance Exceeds 250 mA Per JESD 17.
 GND: Ground
 VCC: Positive supply
 ```
+[[1::table #1]]
 
 ## Function tables
 
@@ -65,6 +66,7 @@ VCC: Positive supply
 | H | L |
 | L | H |
 ```
+[[2::table #1]]
 
 ## Absolute maximum ratings
 
@@ -94,6 +96,7 @@ VCC: Positive supply
 [5] For the D package: above 70°C the value of P~tot~ derates linearly with 8 mW/K.
 [6] For the DB, DGV, NS, and PW packages: above 60°C the value of P~tot~ derates linearly with 5.5 mW/K.
 ```
+[[2::table #2]]
 
 ## Recommended operating conditions
 
@@ -120,6 +123,7 @@ VCC: Positive supply
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 [2] Product preview
 ```
+[[3::table #1]]
 
 ```table id=roc-74 caption="Recommended operating conditions [1], SN74LVC06A"
 | Symbol | Parameter | Conditions | SN74LVC06A | < | < | < | < | < | Unit |
@@ -143,6 +147,7 @@ VCC: Positive supply
 
 [1] All unused inputs of the device must be held at V~CC~ or GND to ensure proper device operation. Refer to the TI application report, Implications of Slow or Floating CMOS Inputs, literature number SCBA004.
 ```
+[[3::table #2]]
 
 ## Electrical characteristics
 
@@ -164,6 +169,7 @@ VCC: Positive supply
 [1] Product preview
 [2] T~A~ = 25°C
 ```
+[[4::table #1]]
 
 ```table id=ec-74 caption="Electrical characteristics, SN74LVC06A" conditions="Over recommended operating free-air temperature range (unless otherwise noted)"
 | Symbol | Test conditions | V~CC~ | SN74LVC06A | < | < | < | < | < | < | Unit |
@@ -181,6 +187,7 @@ VCC: Positive supply
 | ΔI~CC~ | One input at V~CC~ – 0.6 V, Other inputs at V~CC~ or GND | 2.7 V to 3.6 V | | | 500 | | 500 | | 5000 | µA |
 | C~i~ | V~I~ = V~CC~ or GND | 3.3 V | | 5 | | | | | | pF |
 ```
+[[4::table #2]]
 
 ```table id=operating caption="Operating characteristics" conditions="T~A~ = 25°C"
 | Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
@@ -189,6 +196,7 @@ VCC: Positive supply
 | ^ | ^ | ^ | 2.5 V | 2.3 | pF |
 | ^ | ^ | ^ | 3.3 V | 2.5 | pF |
 ```
+[[5::table #1]]
 
 ## Switching characteristics
 
@@ -204,6 +212,7 @@ VCC: Positive supply
 
 [1] Product preview
 ```
+[[4::table #3]]
 
 ```table id=sw-74 caption="Switching characteristics, SN74LVC06A" conditions="Over recommended operating free-air temperature range (unless otherwise noted) (see Figure 1)"
 | Symbol | From (input) | To (output) | V~CC~ | SN74LVC06A | < | < | < | < | < | < | Unit |
@@ -215,6 +224,7 @@ VCC: Positive supply
 | ^ | ^ | ^ | 2.7 V | 1 | 2.4 | 3.7 | 1 | 3.9 | 1 | 5 | ns |
 | ^ | ^ | ^ | 3.3 V ± 0.3 V | 1 | 2.2 | 3.5 | 1 | 3.7 | 1 | 5 | ns |
 ```
+[[5::table #2]]
 
 ## Parameter measurement information
 
@@ -228,7 +238,7 @@ outputs are measured one at a time, with one transition per measurement.
 Since this device has open-drain outputs, t~PLZ~ and t~PZL~ are the same
 as t~pd~. t~PZL~ is measured at V~M~. t~PLZ~ is measured at
 V~OL~ + V~Δ~. All parameters and waveforms are not applicable to all
-devices.
+devices. [[6::1]]
 
 Conversion note: the load circuit of Figure 1 (open drain) connects the output under test to C~L~ and one R~L~ to GND and through a second R~L~ to switch S1, which has the positions V~LOAD~, Open and GND.
 
@@ -239,6 +249,7 @@ Conversion note: the load circuit of Figure 1 (open drain) connects the output u
 | t~PLZ~ (see Notes E and G) | V~LOAD~ |
 | t~PHZ~/t~PZH~ | V~LOAD~ |
 ```
+[[6::table #1]]
 
 ```table id=pmi-load caption="Figure 1. Load values"
 | V~CC~ | Input | < | V~M~ | V~LOAD~ | C~L~ | R~L~ | V~Δ~ |
@@ -249,6 +260,7 @@ Conversion note: the load circuit of Figure 1 (open drain) connects the output u
 | 2.7 V | 2.7 V | ≤ 2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 | 3.3 V ± 0.3 V | 2.7 V | ≤ 2.5 ns | 1.5 V | 6 V | 50 pF | 500 Ω | 0.3 V |
 ```
+[[6::table #2]]
 
 Conversion note: the voltage waveforms of Figure 1 draw the input and the output control from 0 V to V~I~ with the propagation delay times and the enable and disable times measured at V~M~, and output waveform 1 (S1 at V~LOAD~) falling from V~LOAD~/2 to V~OL~, with t~PLZ~ ending at V~OL~ + V~Δ~.
 
@@ -286,6 +298,7 @@ SN74LVC06APWR | Reel of 2000 | -40 to 125 | LC06A
 SN74LVC06APWT | Reel of 250 | -40 to 125 | LC06A
 SN74LVC06ARGYR | Reel of 3000 | -40 to 125 | LC06A
 ```
+[[1::table #2]]
 
 ## Conversion notes
 

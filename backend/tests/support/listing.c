@@ -42,6 +42,13 @@ const char *listing_kind_name(PartKind kind) {
         case PART_NIXIE: return "nixie";
         case PART_REGULATOR: return "regulator";
         case PART_CRYSTAL: return "crystal";
+        case PART_DEKATRON: return "dekatron";
+        case PART_LCD: return "lcd";
+        case PART_LEDDRIVER: return "leddriver";
+        case PART_LCDDRIVER: return "lcddriver";
+        case PART_POWERSWITCH: return "powerswitch";
+        case PART_PLD: return "pld";
+        case PART_SOCKET: return "socket";
         case PART_INDUCTOR: return "inductor";
         case PART_FUSE: return "fuse";
         case PART_RELAY: return "relay";
@@ -138,6 +145,10 @@ static void print_details(FILE *out, const Part *part) {
         case PART_RTC:
             fputs("clock", out);
             break;
+        case PART_LEDDRIVER:
+        case PART_LCDDRIVER:
+            fputs("display", out);
+            break;
         case PART_DIODE:
             fprintf(out, "type=%s diodes=%zu", part->diode->type, part->diode->diode_count);
             if (part->diode->vz_mv > 0) {
@@ -231,6 +242,41 @@ static void print_details(FILE *out, const Part *part) {
                     (unsigned long long)r->fsw_hz);
             break;
         }
+        case PART_DEKATRON: {
+            const PartDekatron *d = part->dekatron;
+            size_t i;
+
+            fprintf(out, "drive=%s color=%s size=%s view=%s strike=%u sustain=%u current=%u-%u rate=%u anode=%s cathodes=",
+                    d->two_guide ? "double" : "single", d->color, d->size, d->view,
+                    (unsigned)d->strike_mv, (unsigned)d->sustain_mv, (unsigned)d->current_min_ua,
+                    (unsigned)d->current_max_ua, (unsigned)d->rate_hz,
+                    part->pins[d->anode_pin].designator);
+            for (i = 0; i < 10; i++) {
+                fprintf(out, "%s%zu:%s", i > 0 ? "," : "", i, part->pins[d->position_pin[i]].designator);
+            }
+            fputs(" guides=", out);
+            for (i = 0; i < d->guide_count; i++) {
+                fprintf(out, "%s%s", i > 0 ? "," : "", part->pins[d->guide_pins[i]].designator);
+            }
+            break;
+        }
+        case PART_POWERSWITCH: {
+            const PartPowerSwitch *w = part->powerswitch;
+
+            fprintf(out, "switches=%zu type=%s vinMin=%u vinMax=%u iout=%u ilimit=%u ron=%u iq=%u", w->switch_count,
+                    w->type, (unsigned)w->vin_min_mv, (unsigned)w->vin_max_mv, (unsigned)w->iout_ma,
+                    (unsigned)w->ilimit_ma, (unsigned)w->ron_mohm, (unsigned)w->iq_ua);
+            break;
+        }
+        case PART_PLD:
+            fprintf(out, "macrocells=%u tpd=%llu", (unsigned)part->pld->macrocells,
+                    (unsigned long long)part->pld->tpd_ps);
+            break;
+        case PART_SOCKET:
+            fprintf(out, "family=%s row=%u mounting=%s finish=%s fits=%zu", part->socket->family,
+                    (unsigned)part->socket->row_um, part->socket->mounting,
+                    part->socket->finish != NULL ? part->socket->finish : "-", part->fit_count);
+            break;
         case PART_CRYSTAL:
             fprintf(out, "type=%s hz=%llu load=%llu tol=%u stab=%u esr=%llu cap=%d",
                     part->crystal->type, (unsigned long long)part->crystal->hz,
@@ -308,6 +354,7 @@ static void print_details(FILE *out, const Part *part) {
             }
             break;
         }
+        case PART_LCD:
         case PART_7SEG: {
             const PartDisplay *d = part->display;
             size_t i;
@@ -385,9 +432,31 @@ static void print_details(FILE *out, const Part *part) {
                     part->serial->channels, part->serial->grade);
             break;
         case PART_CONNECTOR:
+            if (part->connector->test_point) {
+                fprintf(out, "testpoint=1");
+                break;
+            }
+            if (part->connector->card != NULL) {
+                fprintf(out, "card=%s pitch_um=%u", part->connector->card, (unsigned)part->connector->card_pitch_um);
+                break;
+            }
             if (part->connector->usb != 0) {
                 fprintf(out, "usb=%c rated=%uV/%umA", part->connector->usb,
                         (unsigned)(part->connector->rated_mv / 1000), (unsigned)part->connector->rated_ma);
+                break;
+            }
+            if (part->connector->terminal != 0) {   /* a PCB terminal block (plan-45) */
+                const char terminal = part->connector->terminal;
+                fprintf(out, "terminal=%s pitch_um=%u rated=%uV/%umA",
+                        terminal == 's' ? "screw" : terminal == 'c' ? "spring" : terminal == 'p' ? "push-in" : "pluggable",
+                        (unsigned)part->connector->pitch_um, (unsigned)(part->connector->rated_mv / 1000),
+                        (unsigned)part->connector->rated_ma);
+                break;
+            }
+            if (part->connector->jst != 0) {         /* a JST board header (plan-45): the series' first letter + "H" */
+                fprintf(out, "jst=%cH pitch_um=%u rated=%uV/%umA", part->connector->jst,
+                        (unsigned)part->connector->pitch_um, (unsigned)(part->connector->rated_mv / 1000),
+                        (unsigned)part->connector->rated_ma);
                 break;
             }
             fprintf(out, "center_um=%u rated=%uV/%umA contacts=%u",

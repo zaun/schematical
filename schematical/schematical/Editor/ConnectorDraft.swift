@@ -6,16 +6,22 @@ import Foundation
 /// The connector kind's keys (plan-32-F … J): one field per device and part key, nested
 /// keys included, each with its control.
 enum ConnectorDraft {
-    static let f1: Field = Field(key: "centerPin", label: "Center Pin", type: .number(unit: ""))
-    static let f2: Field = Field(key: "contacts", label: "Contacts", type: .listOf(.pins))
-    static let f3: Field = Field(key: "ratedAmps", label: "Rated Amps", type: .number(unit: "A"))
-    static let f4: Field = Field(key: "ratedVolts", label: "Rated Volts", type: .number(unit: "V"))
-    static let f5: Field = Field(key: "usb", label: "Usb", type: .suggested(["A", "B", "C"]))
+    static let f1: Field = Field(key: "card", label: "Card", type: .suggested(["DDR / DDR2 / DDR3 SODIMM", "DDR / DDR2 SODIMM", "DDR2 SODIMM", "DDR3 DIMM", "DDR3 SODIMM", "DDR4 DIMM", "DDR4 MiniDIMM", "DDR4 SODIMM", "DDR5 DIMM", "Dual edge", "LPDDR5 CAMM2", "M.2", "Micro SIM", "Mini PCI Express", "Nano SIM", "PCI", "PCI 3.3V 64 bit", "PCI 5V 64 bit", "PCI Express", "SD", "SIM", "SIMM", "SODIMM", "Single edge", "Smart card", "VRM", "microSD"]))
+    static let f2: Field = Field(key: "cardPitch", label: "Card Pitch", type: .number(unit: "mm"))
+    static let f3: Field = Field(key: "centerPin", label: "Center Pin", type: .number(unit: ""))
+    static let f4: Field = Field(key: "contacts", label: "Contacts", type: .listOf(.pins))
+    static let f5: Field = Field(key: "jst", label: "Jst", type: .suggested(["EH", "GH", "PH", "SH", "VH", "XH", "ZH"]))
+    static let f6: Field = Field(key: "pitch", label: "Pitch", type: .number(unit: "mm"))
+    static let f7: Field = Field(key: "ratedAmps", label: "Rated Amps", type: .number(unit: "A"))
+    static let f8: Field = Field(key: "ratedVolts", label: "Rated Volts", type: .number(unit: "V"))
+    static let f9: Field = Field(key: "terminal", label: "Terminal", type: .suggested(["pluggable", "push-in", "screw", "spring"]))
+    static let f10: Field = Field(key: "testPoint", label: "Test Point", type: .bool)
+    static let f11: Field = Field(key: "usb", label: "Usb", type: .suggested(["A", "B", "C"]))
 
     static let schema = KindSchema(
         kind: "connector",
         variantKey: nil,
-        device: [f1, f2, f3, f4, f5],
+        device: [f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11],
         part: []
     )
 }
