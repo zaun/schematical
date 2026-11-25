@@ -114,7 +114,7 @@ Acceptance: KiCad accepts the board with no edge violation and sees every loop; 
   Check: `XB -only-testing:schematicalTests/CutoutExportTests -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/EasyEDAProExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min), and the real-tool commands above print the numbers they name (est. 3 min).
   Observed: the seven export classes (CutoutExportTests 7, KiCadExportTests, EasyEDAProExportTests, GerberExportTests, GerberJobTests, PourExportTests, PrintExportTests), 0 failures, TEST SUCCEEDED.
   Real tools (KICAD_OUT, `plan-65-G` run 2026-11-25): `kicad-cli pcb drc` on the cutouts board: the same copper_edge_clearance ×3 and silk_edge_clearance ×2 as the board without cutouts (the sample's own), nothing new; `kicad-cli pcb export dxf -l Edge.Cuts`: 73 LINE (the board without cutouts: 4), and the .kicad_pcb has 73 `gr_line`; KiCad's EasyEDA Pro importer (`PCB_IO_MGR.EASYEDAPRO`) on the .epro: 73 Edge.Cuts segments.
-Commit: —
+Commit: bdd465d2
 
 ## Validation Plan
 
