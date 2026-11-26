@@ -6,18 +6,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* Reads gate.json from the app's part files and loads it into a library. */
-static PartLibrary *load_gates(void) {
-    const char *path = PARTS_DIR "/gate.json";
-    PartLibrary *library = part_library_create();
-    FILE *file = fopen(path, "rb");
+typedef int (*Loader)(PartLibrary *, const char *, const char *, char **);
+
+/* Reads PARTS_DIR/<name> and loads it into `library` with `load`. */
+static int load_file(PartLibrary *library, const char *name, Loader load) {
+    char path[4096];
+    FILE *file;
     char *text = NULL;
     char *error = NULL;
     long length;
+    int result = -1;
 
-    if (library == NULL || file == NULL) {
+    snprintf(path, sizeof path, "%s/%s", PARTS_DIR, name);
+    file = fopen(path, "rb");
+    if (file == NULL) {
         fprintf(stderr, "Could not open %s\n", path);
-        goto fail;
+        return -1;
     }
     fseek(file, 0, SEEK_END);
     length = ftell(file);
@@ -25,26 +29,34 @@ static PartLibrary *load_gates(void) {
     text = malloc((size_t)length + 1);
     if (text == NULL || fread(text, 1, (size_t)length, file) != (size_t)length) {
         fprintf(stderr, "Could not read %s\n", path);
-        goto fail;
+    } else {
+        text[length] = '\0';
+        if (load(library, text, name, &error) != 0) {
+            fprintf(stderr, "%s\n", error);
+            free(error);
+        } else {
+            result = 0;
+        }
     }
-    text[length] = '\0';
     fclose(file);
-    file = NULL;
-    if (load_parts(library, text, "gate.json", &error) != 0) {
-        fprintf(stderr, "%s\n", error);
-        free(error);
-        goto fail;
-    }
     free(text);
-    return library;
+    return result;
+}
 
-fail:
-    if (file != NULL) {
-        fclose(file);
+/*
+ * The gates from the app's part files. Datasheets and footprints load first:
+ * gate.json names both.
+ */
+static PartLibrary *load_gates(void) {
+    PartLibrary *library = part_library_create();
+
+    if (library == NULL || load_file(library, "datasheets.json", load_datasheets) != 0 ||
+        load_file(library, "footprints.json", load_footprints) != 0 ||
+        load_file(library, "gate.json", load_parts) != 0) {
+        part_library_destroy(library);
+        return NULL;
     }
-    free(text);
-    part_library_destroy(library);
-    return NULL;
+    return library;
 }
 
 static size_t source_pin_count(const void *config) {

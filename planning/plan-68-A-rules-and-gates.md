@@ -426,7 +426,7 @@ own code is fully covered.
   tests, all pass (est. 1 min).
   Observed: `SZ` exit 0; `source-size.js | 100.00` lines (9 tests pass);
   `100% tests passed, 0 tests failed out of 78`.
-Commit: —
+Commit: 9506ba24
 
 ### Phase 3 — the coverage tool
 
@@ -457,13 +457,14 @@ Commit: —
 
 ### Phase 4 — basicsim
 
-- [ ] `basicsim/main.c`: load `datasheets.json` first (§ 5).
-- [ ] `basicsim/CMakeLists.txt`: `enable_testing()` + the `basicsim` test.
+- [x] `basicsim/main.c`: load `datasheets.json` first (§ 5).
+- [x] `basicsim/CMakeLists.txt`: `enable_testing()` + the `basicsim` test.
 
 Acceptance: basicsim runs to its end and is a test.
   Check: `cmake -S basicsim -B /tmp/p68-basicsim && cmake --build
   /tmp/p68-basicsim -j8 && ctest --test-dir /tmp/p68-basicsim -R basicsim` →
   `1/1 … Passed` (est. 30 s).
+  Observed: `1/79 Test #1: basicsim … Passed 0.19 sec` (the full ctest of the basicsim build: `100% tests passed, 0 tests failed out of 79`). The fix also loads `footprints.json` (gate.json names footprints too). The test passes on the last line, `55 ns: AND = 0, NAND = 1`.
 Commit: —
 
 ## Validation Plan
