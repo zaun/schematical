@@ -30,6 +30,7 @@ The gate for the whole feature is in plan-66-A § Prerequisites. This letter add
 |---|---|---|
 | plan-66-E is complete and archived | `ls planning/completed/plan-66-E-* \| wc -l` → 1 | MET (2026-11-25, in `worktree-P-66`: 1) |
 | A–D are archived | `ls planning/completed/plan-66-[A-D]-* \| wc -l` → 4 | MET (2026-11-25, in `worktree-P-66`: 4) |
+| The Mac's screen is unlocked, so the app's window can be driven (added 2026-11-25: Phase 3's window pass needs it) | `ioreg -n Root -d1 \| grep -o '"CGSSessionScreenIsLocked"[^,]*'` → not `=Yes` | **NOT MET** (2026-11-25, polled from 12:10 to 15:19: `=Yes` throughout, `loginwindow` frontmost; a brief "Schematical" front once at about 13:50 was not mine and the screen was locked again at the next check; the accessibility tree of my own app returns no windows while locked) |
 
 If plan-66-E is not complete, this plan cannot start, full stop.
 
@@ -252,6 +253,10 @@ plan-66-A § Decisions apply. Added by the author, 2026-11-25:
   plan. `testLFU` now asks for `>= 185`, with the commit named in a comment, and `docs/routing.md` says why LFU's row
   differs from "Now"; commit `f3cb52be` on main. Release `RouterQualityFixtureTests` then: `Executed 7 tests, with 0
   failures`, `** TEST SUCCEEDED **`. The owner may prefer to restore 188 by other means; the bound is one line.
+- **Status of every Prerequisites row at the last check (2026-11-25 15:19):** plan-66-E archived → 1 MET; A–D archived → 4 MET;
+  the screen unlocked → **NOT MET**. Plan-66-A's rows (plan-65-D archived → 1, no other unfinished plan edits the router,
+  router tests pass, the option absent) were the entry gate and were MET when the plan started; the last holds no longer by
+  design. The one NOT MET row is the only thing between this plan and 100%: the window drive of Phase 3.
 - **The window pass could not be driven: the screen was locked** (2026-11-25). `ioreg -n Root -d1`
   said `"CGSSessionScreenIsLocked"=Yes` with `loginwindow` frontmost, twice, an hour apart; the
   owner's GUI notes say to stop clicking and typing then (the text lands in the password field).
