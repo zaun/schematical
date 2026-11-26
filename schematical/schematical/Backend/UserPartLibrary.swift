@@ -63,7 +63,10 @@ nonisolated final class UserPartLibrary: Sendable {
         var problems: [UserPartLibraryProblem] = []
         let sorted = urls.filter { $0.pathExtension == PartFileType.fileExtension }
             .sorted { $0.lastPathComponent < $1.lastPathComponent }
-        for url in sorted {
+        for found in sorted {
+            // The folder as given, not as the listing resolved it (/var vs
+            // /private/var), so a file's URL here is the one url(forUUID:) gives.
+            let url = directory.appendingPathComponent(found.lastPathComponent)
             guard let data = try? Data(contentsOf: url) else {
                 problems.append(UserPartLibraryProblem(url: url, reason: "The file could not be read."))
                 continue

@@ -6,7 +6,7 @@ import XCTest
 final class AcknowledgementsTests: XCTestCase {
     func testNamesTheThirdPartyCode() {
         XCTAssertEqual(Acknowledgement.all.map(\.name),
-                       ["cJSON", "floooh/chips", "jsmooch", "markdown-it", "WaveDrom"])
+                       ["cJSON", "floooh/chips", "jsmooch", "avr8js", "markdown-it", "WaveDrom"])
     }
 
     func testEveryLicenceIsInTheBundle() {
@@ -14,6 +14,7 @@ final class AcknowledgementsTests: XCTestCase {
             "cJSON": "Copyright (c) 2009-2017 Dave Gamble and cJSON contributors",
             "floooh/chips": "Copyright (c) 2018 Andre Weissflog",
             "jsmooch": "Copyright (c) 2024 raddad772",
+            "avr8js": "Copyright (c) 2019-2025 Uri Shaked",
             "markdown-it": "Copyright (c) 2014 Vitaly Puzrin, Alex Kocharin.",
             "WaveDrom": "Aliaksei Chapyzhenka",
         ]
@@ -35,6 +36,7 @@ final class AcknowledgementsTests: XCTestCase {
             "Copyright (c) 2009-2017 Dave Gamble and cJSON contributors",
             "Copyright (c) 2018 Andre Weissflog",
             "Copyright (c) 2024 raddad772",
+            "Copyright (c) 2019-2025 Uri Shaked",
             "The above copyright notice and this permission notice shall be included in "
                 + "all copies or substantial portions of the Software.",
             "3. This notice may not be removed or altered from any source distribution.",

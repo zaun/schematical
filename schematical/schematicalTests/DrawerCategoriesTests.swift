@@ -41,8 +41,11 @@ final class DrawerCategoriesTests: XCTestCase {
         let parallel = try XCTUnwrap(interface.subcategories.first { $0.subcategory == "Parallel I/O" })
         XCTAssertEqual(Set(parallel.functions.map(\.function)), ["PIA", "VIA"])
 
-        XCTAssertEqual(paths(under: "Analog"), ["Analog > Data converters"])
-        let converters = try XCTUnwrap(try category("Analog").subcategories.first)
+        // plan-48 added the op-amps and timers beside the data converters.
+        XCTAssertEqual(paths(under: "Analog"),
+                       ["Analog > Data converters", "Analog > Op-amps", "Analog > Op-amps > Single",
+                        "Analog > Op-amps > Dual", "Analog > Op-amps > Quad", "Analog > Timers"])
+        let converters = try XCTUnwrap(try category("Analog").subcategories.first { $0.subcategory == "Data converters" })
         XCTAssertEqual(Set(converters.functions.map(\.function)), ["ADC", "DAC"])
 
         let clocks = try category("Clocks")

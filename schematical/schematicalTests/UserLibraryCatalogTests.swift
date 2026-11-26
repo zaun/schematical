@@ -34,7 +34,9 @@ final class UserLibraryCatalogTests: XCTestCase {
     }
 
     private func files() -> [URL] {
+        // Under the folder as given (the listing resolves /var to /private/var), as the library names them.
         ((try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)) ?? [])
+            .map { directory.appendingPathComponent($0.lastPathComponent) }
             .sorted { $0.lastPathComponent < $1.lastPathComponent }
     }
 
