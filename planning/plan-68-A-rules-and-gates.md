@@ -402,28 +402,30 @@ Acceptance: both rules are in `AGENTS.md` and the doc names every command.
   Check: `grep -c '1000 lines of code\|100% line coverage' AGENTS.md` → 2, and
   `grep -c 'source-size.js\|coverage.js' docs/testing.md` → at least 2 (est. 1 s).
   Observed: `2` and `2`.
-Commit: —
+Commit: 693e0c87
 
 ### Phase 2 — the size checker and its ctest
 
-- [ ] `scripts/source-size.js` (§ 4), from `planning/plan-68-data/loc.js`.
-- [ ] `scripts/source-size.test.js`: `countCode` on one fixture string per
+- [x] `scripts/source-size.js` (§ 4), from `planning/plan-68-data/loc.js`.
+- [x] `scripts/source-size.test.js`: `countCode` on one fixture string per
   language and construct (nested Swift comment, `"""` with `//` inside, raw
   string with `#`, C `'/'` char, JS template literal with `/*`, Python `#`
   line, blank and comment-only lines); `inScope` on each § 3.2 exclusion and a
   kept `run.js`; `--check` in a temporary git repo for each of over / grew /
   stale / pass; `--all` output; argument errors.
-- [ ] Re-run the census on the post-plan-48 tree and write
+- [x] Re-run the census on the post-plan-48 tree and write
   `scripts/source-size-ratchet.tsv` from `node scripts/source-size.js` (36
   rows expected; a different count is recorded under Corrections with the
-  file names).
-- [ ] `backend/CMakeLists.txt`: `source_size_check` (§ 4).
+  file names). Observed: 36 rows; `--all` equals `census-in-scope.tsv` exactly (`diff` → no output).
+- [x] `backend/CMakeLists.txt`: `source_size_check` (§ 4).
 
 Acceptance: the checker passes on the tree, fails on each violation, and its
 own code is fully covered.
   Check: `SZ` → exit 0; `node --test --experimental-test-coverage
   scripts/source-size.test.js` → `source-size.js | 100.00` lines; `CT` → 78
   tests, all pass (est. 1 min).
+  Observed: `SZ` exit 0; `source-size.js | 100.00` lines (9 tests pass);
+  `100% tests passed, 0 tests failed out of 78`.
 Commit: —
 
 ### Phase 3 — the coverage tool

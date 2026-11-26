@@ -217,6 +217,9 @@ if(LOGIC_NODE)
         JSMOOCH_GEN="${CMAKE_CURRENT_SOURCE_DIR}/tools/jsmooch-gen/run.js"
         JSMOOCH_C="${CMAKE_CURRENT_SOURCE_DIR}/src/third_party/jsmooch/wdc65816_generated_opcodes.c"
         JSMOOCH_TMP="${CMAKE_CURRENT_BINARY_DIR}")
+    # plan-68-A: no in-scope source file over 1000 lines of code (docs/testing.md).
+    add_test(NAME source_size_check COMMAND ${LOGIC_NODE}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../scripts/source-size.js --check --root ${CMAKE_CURRENT_SOURCE_DIR}/..)
 endif()
 logic_test(cpu_test)
 # plan-62: the AVR core (a C port of avr8js) against avr8js itself. With node,
