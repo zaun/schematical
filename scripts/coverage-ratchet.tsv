@@ -70,9 +70,6 @@
 24	schematical/schematical/Document/SchematicFile+Board.swift
 22	schematical/schematical/Document/SchematicFile+Document.swift
 12	schematical/schematical/DocumentInfo/DocumentInfoWindow.swift
-362	schematical/schematical/Drawer/BusPanels.swift
-150	schematical/schematical/Drawer/ChipDrawerView.swift
-7	schematical/schematical/Drawer/NetLabelPanel.swift
 417	schematical/schematical/Editor/FieldEditors.swift
 77	schematical/schematical/Editor/FootprintPreviewView.swift
 1	schematical/schematical/Editor/KindSchema.swift
@@ -106,7 +103,6 @@
 2	schematical/schematical/Help/Acknowledgements.swift
 34	schematical/schematical/Memory/MemoryFileAccess.swift
 103	schematical/schematical/Memory/MemoryWindow.swift
-84	schematical/schematical/Preferences/ReferencePrefixes.swift
 13	schematical/schematical/Routing/AutorouteModel.swift
 56	schematical/schematical/Routing/AutorouteSheet.swift
 2	schematical/schematical/Routing/MovableChains.swift

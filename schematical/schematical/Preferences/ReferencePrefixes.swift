@@ -131,6 +131,22 @@ nonisolated enum ReferencePrefixes {
         prefix(for: ReferenceCategory.of(part, gender: gender), defaults: defaults)
     }
 
+    /// `data` with `typed` stored as `category`'s prefix; the standard prefix
+    /// is not stored, so a later change of standard reaches it.
+    static func setting(_ typed: String, for category: ReferenceCategory, in data: Data) -> Data {
+        var prefixes = stored(data)
+        prefixes[category.rawValue] = typed == category.standardPrefix ? nil : typed
+        return encoded(prefixes)
+    }
+
+    /// A prefix field's text `text` on commit, with `current` the prefix it
+    /// showed: the prefix to store (nil when it isn't 1 to 8 letters) and
+    /// the text the field shows after.
+    static func committed(_ text: String, current: String) -> (prefix: String?, text: String) {
+        let typed = text.trimmingCharacters(in: .whitespaces).uppercased()
+        return isValid(typed) ? (typed, typed) : (nil, current)
+    }
+
     /// 1 to 8 ASCII letters, as `ReferenceParts.validate` allows.
     static func isValid(_ prefix: String) -> Bool {
         (1...8).contains(prefix.count) && prefix.allSatisfy { $0.isASCII && $0.isLetter }
@@ -146,15 +162,7 @@ struct ReferencePreferencesView: View {
             Section {
                 ForEach(ReferenceCategory.allCases) { category in
                     LabeledContent(category.title) {
-                        PrefixField(prefix: ReferencePrefixes.prefix(for: category, in: data)) { typed in
-                            var prefixes = ReferencePrefixes.stored(data)
-                            if typed == category.standardPrefix {
-                                prefixes[category.rawValue] = nil
-                            } else {
-                                prefixes[category.rawValue] = typed
-                            }
-                            data = ReferencePrefixes.encoded(prefixes)
-                        }
+                        PrefixField(prefix: ReferencePrefixes.prefix(for: category, in: data)) { data = ReferencePrefixes.setting($0, for: category, in: data) }
                         .frame(width: 80)
                     }
                 }
@@ -180,8 +188,14 @@ struct ReferencePreferencesView: View {
 private struct PrefixField: View {
     let prefix: String
     let commit: (String) -> Void
-    @State private var text = ""
+    @State private var text: String
     @FocusState private var focused: Bool
+
+    init(prefix: String, commit: @escaping (String) -> Void) {
+        self.prefix = prefix
+        self.commit = commit
+        _text = State(initialValue: "")
+    }
 
     var body: some View {
         TextField("Prefix", text: $text)
@@ -191,16 +205,12 @@ private struct PrefixField: View {
             .onAppear { text = prefix }
             .onChange(of: prefix) { _, new in text = new }
             .onSubmit(apply)
-            .onChange(of: focused) { _, isFocused in if !isFocused { apply() } }
+            .onChange(of: focused) { if !$1 { apply() } }
     }
 
     private func apply() {
-        let typed = text.trimmingCharacters(in: .whitespaces).uppercased()
-        if ReferencePrefixes.isValid(typed) {
-            commit(typed)
-            text = typed
-        } else {
-            text = prefix
-        }
+        let result = ReferencePrefixes.committed(text, current: prefix)
+        if let typed = result.prefix { commit(typed) }
+        text = result.text
     }
 }

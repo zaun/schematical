@@ -1,6 +1,6 @@
 # plan-68-AB: App coverage — Preferences, Drawer
 
-Last updated: 2026-11-25
+Last updated: 2026-11-26
 Effort: large (3h–1d)
 Depends on: plan-68-AA
 
@@ -73,7 +73,24 @@ controller tests both run in the phase gate.
 
 ### Phase 1 — `ReferencePrefixes.swift`, `BusPanels.swift`
 
-- [ ] Close every uncovered line of these files per § 3; ratchet rows removed.
+- [x] Close every uncovered line of these files per § 3. `BusPanels.swift`'s
+  logic moved to `Drawer/BusPanelModel.swift` (`BusPanelModel`,
+  `BusPanelModelTests` 16 tests; `BusPortPanelModel`); the views are
+  render-tested by `BusPanelViewTests` (9 tests: fields typed and committed,
+  the link confirmation sheet answered, Import/Export through an injected
+  `ExportPresenter`, a wire row's context menu built and chosen without
+  showing it). `ReferencePrefixes.setting`/`committed` took the view's commit
+  logic (`ReferencePrefixTests` +4 tests; `ReferencePreferencesViewTests`).
+  Check (run 2026-11-26 in a scratch copy of the tree, see Corrections):
+  `LOGIC_COV_WORK=/private/tmp/logic-cov-AB2 node scripts/coverage.js --app --tests BusPanelModelTests,BusPanelViewTests,DrawerLayoutTests,DrawerPartMenuTests,ChipDrawerViewTests,NetLabelPanelTests,ReferencePrefixTests,ReferencePreferencesViewTests --only schematical/schematical/Drawer` → 62 tests pass (`xcresulttool` summary: passed 62, failed 0);
+  uncovered lines from the same bundle's `xccov view --archive`:
+  `BusPanels.swift` 0/209, `BusPanelModel.swift` 0/200,
+  `Preferences/ReferencePrefixes.swift` 0/158.
+- [x] ratchet rows: parent (`ReferencePrefixes.swift`, `BusPanels.swift` at 0;
+  new `BusPanelModel.swift` at 0).
+  Ratchet rows: removed by the parent in this letter's commit (4 rows). Re-measured in the
+  shared tree by the parent with this letter's classes: no `path:line` for any of its files,
+  no failed test.
 
 Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
@@ -83,7 +100,25 @@ Commit: —
 
 ### Phase 2 — `ChipDrawerView.swift`, `NetLabelPanel.swift`
 
-- [ ] As Phase 1, for these files.
+- [x] As Phase 1, for these files. `ChipDrawerView.swift` split: its row
+  list, layout, scroll window, memo and open-group state to
+  `Drawer/DrawerLayout.swift` (`DrawerOpenGroups` new, holding what the
+  view's `openCategory`/`toggled` `@State` held), its header-menu choice,
+  part context menu and status texts to `Drawer/ChipDrawerMenus.swift`
+  (`DrawerHeaderMenu`, `DrawerPartMenu`, `DrawerStatus`). Tests:
+  `DrawerLayoutTests` (11), `DrawerPartMenuTests` (4, a User Library folder
+  the test made, alerts answered through `DrawerPartMenu.presenter`),
+  `ChipDrawerViewTests` (8 render tests). `NetLabelPanel`'s field rules moved
+  to `NetLabelEditing` beside it (`NetLabelPanelTests`, 4). Check: the
+  Phase 1 run → `ChipDrawerView.swift` 0/269, `DrawerLayout.swift` 0/207,
+  `ChipDrawerMenus.swift` 0/91, `NetLabelPanel.swift` 0/61 uncovered;
+  `DrawerPerformanceTests`, `SchematicSidebarViewTests`, `BusTypeTests` →
+  33 tests pass; `node scripts/source-size.js --check` → exit 0.
+- [x] ratchet rows: parent (`ChipDrawerView.swift`, `NetLabelPanel.swift` at
+  0; new `DrawerLayout.swift`, `ChipDrawerMenus.swift` at 0).
+  Ratchet rows: removed by the parent in this letter's commit (4 rows). Re-measured in the
+  shared tree by the parent with this letter's classes: no `path:line` for any of its files,
+  no failed test.
 
 Acceptance: as Phase 1.
   Check: as Phase 1; `SZ` → exit 0 (est. 10 min).
@@ -105,7 +140,43 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- (2026-11-26) The checks ran in a scratch copy of the worktree
+  (`/private/tmp/logic-cov-AB-tree`, rsync of the tree without datasheets),
+  not in the shared tree: the shared test target did not compile for over an
+  hour because of other letters' test files being written
+  (`PreferencesViewTests.swift`, `FileMenuItemsTests.swift`,
+  `BillOfMaterialsWindowTests.swift`: missing imports). In the copy only,
+  `PreferencesViewTests.swift` got `import Network` and the test files that
+  did not compile were deleted; no shared file was touched. `coverage.js`
+  run in the copy reports "no Swift coverage" (the bundle's paths are under
+  `/tmp`, the script's root under `/private/tmp`), so the uncovered lines were
+  read from that run's bundle with `xccov view --archive --json` by the
+  script's own rule (an executable line with count 0). The parent should
+  re-run the Phase 1 command in the shared tree once it compiles.
+- Unreachable code deleted: the drawer's two open-state subscripts' getters
+  (no caller reads them; assignment through a subscript calls only `set`):
+  now `setDrawerOpen(_:_:)` functions. `BusWireNameRow`'s context menu's
+  `ForEach` was unrolled into its four fixed items (a `ForEach` inside a
+  menu is built only when the menu opens).
+- `@State` initial values in a struct with a memberwise init count as
+  uncovered under `xccov`; `BusWireNameRow`, `NetLabelPanel`, `PrefixField`
+  and `DrawerScrollList` got explicit inits setting them.
+- A SwiftUI `Menu` (the drawer headers' filter pull-downs) fills its items
+  only when it pops up, so no test can build them without a menu on the
+  screen: the headers' render tests assert the menus' labels ("All
+  families", "All counts", "All colors", "All sizes", "All actuators",
+  "All channels"), and each item row is one line built with its `ForEach`.
+- The drawer takes an optional `editor` (nil in the app = SwiftUI's
+  `openWindow`, as plan-68-AC's `UserLibraryActions.edit`): a test that let
+  Copy to Editor… open a real Part Editor window crashed the test host
+  (abort) on one run.
+- No bug found; no user-visible change except the drawer's search clear
+  button getting the accessibility label "Clear search" (its tooltip text).
+  The drawer's footer now gives every status line `lineLimit(2)` (it was on
+  the failure line only; the others are one line).
+- New test classes that open windows set
+  `AppDelegate.quitsAfterLastWindowCloses = false` (as the other render
+  tests do): without it the host quit when a test closed its last window.
 
 ## Summary
 

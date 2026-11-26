@@ -84,4 +84,59 @@ final class ReferencePrefixTests: XCTestCase {
         XCTAssertTrue(doc.pasteSchematic(copy, offset: CGSize(width: 0, height: 300)))
         XCTAssertEqual(Set(doc.chips.map(\.reference)), ["D1", "D2", "D3", "D4"])
     }
+
+    /// Every kind of part has its category (plan-68-AB).
+    func testEveryKindHasItsCategory() throws {
+        let parts = TestSupport.catalog.allParts
+        func first(_ kind: PartKind, where test: (CatalogPart) -> Bool = { _ in true }) throws -> CatalogPart {
+            try XCTUnwrap(parts.first { $0.kind == kind && !$0.isPullResistor && test($0) }, "\(kind)")
+        }
+        let expected: [(PartKind, ReferenceCategory)] = [
+            (PART_CAPACITOR, .capacitor), (PART_RESISTOR, .resistor), (PART_TRANSISTOR, .transistor),
+            (PART_LED, .led), (PART_7SEG, .display), (PART_CHARLCD, .display), (PART_NIXIE, .display),
+            (PART_DEKATRON, .display), (PART_LCD, .display), (PART_OSCILLATOR, .oscillator), (PART_CRYSTAL, .crystal),
+            (PART_INDUCTOR, .inductor), (PART_FUSE, .fuse), (PART_RELAY, .relay), (PART_BUZZER, .speaker),
+            (PART_SWITCH, .switchPart), (PART_EEPROM, .memory), (PART_SERIALMEM, .memory), (PART_SRAM, .memory),
+        ]
+        for (kind, category) in expected {
+            XCTAssertEqual(ReferenceCategory.of(try first(kind)), category, "\(kind)")
+        }
+        XCTAssertEqual(ReferenceCategory.of(try first(PART_DIODE) { part in
+            if case let .diode(type, _, _, _, _, _) = part.details { return type != "zener" }
+            return true
+        }), .diode)
+        XCTAssertEqual(ReferenceCategory.of(try first(PART_CONNECTOR) { $0.isTestPoint }), .testPoint)
+        XCTAssertEqual(ReferenceCategory.of(try first(PART_CONNECTOR) { !$0.isTestPoint }), .femaleConnector)
+        let header = try TestSupport.part("GENERIC-HEADER-1X02")
+        XCTAssertEqual(ReferenceCategory.of(header), header.genders.first == "Female" ? .femaleConnector : .maleConnector)
+        let supply = try XCTUnwrap(TestSupport.catalog.part(named: "GND"))
+        XCTAssertEqual(ReferenceCategory.of(supply), .powerSymbol)
+    }
+
+    func testTitlesAreDistinct() {
+        let titles = ReferenceCategory.allCases.map(\.title)
+        XCTAssertEqual(Set(titles).count, titles.count)
+        XCTAssertEqual(ReferenceCategory.speaker.title, "Speaker / Buzzer")
+        XCTAssertEqual(ReferenceCategory.socket.title, "IC Socket")
+        XCTAssertEqual(ReferenceCategory.led.id, "led")
+    }
+
+    func testSettingAndCommittingAPrefix() {
+        let data = ReferencePrefixes.setting("LED", for: .led, in: Data())
+        XCTAssertEqual(ReferencePrefixes.stored(data), ["led": "LED"])
+        XCTAssertEqual(ReferencePrefixes.stored(ReferencePrefixes.setting("D", for: .led, in: data)), [:],
+                       "the standard prefix is not stored")
+        XCTAssertEqual(ReferencePrefixes.stored(Data("not json".utf8)), [:])
+        XCTAssertTrue(ReferencePrefixes.committed(" led ", current: "D") == ("LED", "LED"))
+        XCTAssertTrue(ReferencePrefixes.committed("D1", current: "D") == (nil, "D"))
+        XCTAssertTrue(ReferencePrefixes.committed("", current: "D") == (nil, "D"))
+        XCTAssertFalse(ReferencePrefixes.isValid("ABCDEFGHI"))
+    }
+
+    func testPrefixOfAPartReadsTheDefaults() throws {
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: "ReferencePrefixTests-\(UUID())"))
+        defaults.set(ReferencePrefixes.encoded(["led": "LD"]), forKey: PreferenceKey.referencePrefixes)
+        XCTAssertEqual(ReferencePrefixes.prefix(for: try TestSupport.part("GENERIC-LED"), defaults: defaults), "LD")
+        XCTAssertEqual(ReferencePrefixes.prefix(for: .capacitor, defaults: defaults), "C")
+    }
 }

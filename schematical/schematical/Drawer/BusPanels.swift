@@ -15,35 +15,26 @@ import UniformTypeIdentifiers
 /// this bus takes the other's type and wires, and from then on they are
 /// one bus electrically and edits to either change both.
 struct BusPanel: View {
-    let document: SchematicDocument
-    let busID: UUID
-
-    @State private var countText = ""
-    @State private var countError: String?
+    @State private var model: BusPanelModel
     @FocusState private var countFocused: Bool
-    @State private var nameText = ""
-    @State private var nameError: String?
     @FocusState private var nameFocused: Bool
-    @State private var typeError: String?
-    @State private var wireOrderError: String?
-    /// The bus a name being committed would link with, while asking.
-    @State private var linkTarget: Bus?
 
-    private var bus: Bus? { document.bus(busID) }
+    init(document: SchematicDocument, busID: UUID) {
+        _model = State(initialValue: BusPanelModel(document: document, busID: busID))
+    }
 
     var body: some View {
-        if let bus {
-            let inUse = document.edgeBusID == busID
-            let locked = !bus.card.isCustom || inUse
+        @Bindable var model = model
+        if let bus = model.bus {
             Form {
                 Section {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(bus.name.isEmpty ? "Bus" : bus.name)
+                        Text(model.title)
                             .font(.title2.bold())
-                        Text("\(bus.lines.count) \(bus.lines.count == 1 ? "line" : "lines")")
+                        Text(model.lineCountText)
                             .font(.callout)
                             .foregroundStyle(.secondary)
-                        if inUse {
+                        if model.isInUse {
                             Label("In use as card edge", systemImage: "info.circle")
                                 .font(.callout)
                                 .foregroundStyle(.secondary)
@@ -52,217 +43,102 @@ struct BusPanel: View {
                     }
                 }
                 Section("Details") {
-                    TextField("Name", text: $nameText)
+                    TextField("Name", text: $model.nameText)
                         .focused($nameFocused)
-                        .onSubmit(commitName)
-                        .onChange(of: nameFocused) { old, new in
-                            if old, !new { commitName() }
-                        }
-                    if let nameError {
-                        Text(nameError)
-                            .font(.caption)
-                            .foregroundStyle(.red)
-                    }
-                    Picker("Type", selection: Binding(get: { bus.card.type }, set: { type in
-                        var card = bus.card
-                        card.type = type
-                        setCard(card)
-                    })) {
+                        .onSubmit(model.commitName)
+                        .onChange(of: nameFocused) { model.nameFocusChanged(from: $0, to: $1) }
+                    ErrorText(model.nameError)
+                    Picker("Type", selection: $model.type) {
                         BoardTypeMenuItems()
                     }
                     .pickerStyle(.menu)
                     .help("Custom wires are free; a card type sets the wires to the card's pins")
                     if bus.card.type == .customCard {
                         LabeledContent("Pads per side") {
-                            Stepper("\(bus.card.customCard.pads)", value: Binding(
-                                get: { bus.card.customCard.pads },
-                                set: { pads in
-                                    var card = bus.card
-                                    card.customCard.pads = pads
-                                    card.customCard = card.customCard.clamped()
-                                    setCard(card)
-                                }
-                            ), in: CustomCard.padRange)
+                            Stepper("\(model.pads)", value: $model.pads, in: CustomCard.padRange)
                         }
-                        Toggle("Both sides", isOn: Binding(get: { bus.card.customCard.bothSides }, set: { on in
-                            var card = bus.card
-                            card.customCard.bothSides = on
-                            setCard(card)
-                        }))
+                        Toggle("Both sides", isOn: $model.bothSides)
                     }
-                    if let typeError {
-                        Text(typeError)
-                            .font(.caption)
-                            .foregroundStyle(.red)
-                    }
+                    ErrorText(model.typeError)
                     LabeledContent("Wires") {
                         HStack {
-                            TextField("Wires", value: countBinding, format: .number)
+                            TextField("Wires", value: $model.countValue, format: .number)
                                 .labelsHidden()
                                 .frame(width: 60)
                                 .multilineTextAlignment(.trailing)
                                 .focused($countFocused)
-                                .onSubmit(commitCount)
-                            Stepper("Wires", value: stepperBinding, in: Bus.wireCountRange)
+                                .onSubmit(model.commitCount)
+                            Stepper("Wires", value: $model.stepperValue, in: Bus.wireCountRange)
                                 .labelsHidden()
                         }
                     }
-                    .disabled(locked)
-                    .help(inUse ? "Locked: in use as the card edge" : locked ? "Set by the bus type" : "")
-                    .onChange(of: countFocused) { old, new in
-                        if old, !new { commitCount() }
-                    }
-                    if let countError {
-                        Text(countError)
-                            .font(.caption)
-                            .foregroundStyle(.red)
-                    }
+                    .disabled(model.isCountLocked)
+                    .help(model.countHelp)
+                    .onChange(of: countFocused) { model.countFocusChanged(from: $0, to: $1) }
+                    ErrorText(model.countError)
                 }
                 if bus.card.type.hasBusOptions {
-                    CardOptionsSection(type: bus.card.type, bus: true, options: { document.bus(busID)?.card.cardOptions ?? CardOptions() },
-                                       set: { options in
-                                           guard var card = document.bus(busID)?.card else { return }
-                                           card.cardOptions = options
-                                           setCard(card)
-                                       })
+                    CardOptionsSection(type: bus.card.type, bus: true, options: { model.cardOptions },
+                                       set: model.setCardOptions)
                 }
                 Section {
-                    let uses = bus.wires.reduce(into: [String: Int]()) { $0[$1.name, default: 0] += 1 }
+                    let uses = model.wireUses
                     LazyVStack(alignment: .leading, spacing: 6) {
                         ForEach(Array(bus.wires.enumerated()), id: \.element.id) { index, wire in
-                            BusWireNameRow(document: document, busID: busID, index: index, count: bus.wires.count,
-                                           wire: wire, uses: uses[wire.name] ?? 1, message: $wireOrderError)
+                            BusWireNameRow(model: model, index: index, count: bus.wires.count,
+                                           wire: wire, uses: uses[wire.name] ?? 1)
                                 .disabled(!bus.card.isCustom)
-                                .help(bus.card.isCustom ? "" : "Set by the bus type; set Type to Custom to change it")
+                                .help(model.wireHelp)
                         }
                     }
                 } header: {
                     HStack {
                         Text("Wire Names")
                         Spacer()
-                        Button("Import…") { importWires() }
+                        Button("Import…") { Task { await model.importWires() } }
                             .disabled(!bus.card.isCustom)
-                            .help(bus.card.isCustom ? "Load the wire names from a CSV or text file" : "Set by the bus type; set Type to Custom to change it")
-                        Button("Export…") { exportWires(bus) }
+                            .help(model.importHelp)
+                        Button("Export…") { Task { await model.exportWires() } }
                             .help("Save the wire names as a CSV file")
                     }
                 } footer: {
-                    if let wireOrderError {
-                        Text(wireOrderError)
+                    if let footer = model.wireFooter {
+                        Text(footer.text)
                             .font(.caption)
-                            .foregroundStyle(.red)
-                    } else if bus.card.isCustom {
-                        Text("Drag a wire by its handle to reorder; a wire keeps its net and port pins.")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(footer.isError ? .red : .secondary)
                     }
                 }
             }
             .formStyle(.grouped)
-            .onAppear {
-                resetCount()
-                nameText = bus.name
-            }
-            .confirmationDialog(linkTarget.map { "Link with \($0.name)?" } ?? "", isPresented: Binding(
-                get: { linkTarget != nil },
-                set: { if !$0 { cancelLink() } }
-            ), presenting: linkTarget) { target in
-                Button("Rename and Link") { link(to: target) }
-                Button("Cancel", role: .cancel) { cancelLink() }
+            .onAppear(perform: model.appear)
+            .confirmationDialog(model.linkTitle, isPresented: $model.isAskingToLink,
+                                presenting: model.linkTarget) { target in
+                Button("Rename and Link") { model.link(to: target) }
+                Button("Cancel", role: .cancel, action: model.cancelLink)
             } message: { target in
-                Text("A bus named \(target.name) already exists. Renaming this bus will change its settings (type, wire count and wire names) to match \(target.name)'s, and the two buses will be linked: each wire is one net on both, and changing either bus's settings changes both.")
+                Text(BusPanelModel.linkMessage(target))
             }
-            .onChange(of: bus.wires.count) { _, _ in resetCount() }
+            .onChange(of: bus.wires.count) { model.resetCount() }
             // Undo, redo and other edits change the name from outside the field.
-            .onChange(of: bus.name) { _, new in nameText = new }
+            .onChange(of: bus.name) { model.busNameChanged($1) }
         }
     }
+}
 
-    private func commitName() {
-        guard linkTarget == nil else { return }
-        if let target = document.busLinkTarget(busID, named: nameText) {
-            nameError = nil
-            linkTarget = target
-            return
+/// A refusal's reason, in red under the field it refused; nothing when nil.
+private struct ErrorText: View {
+    let message: String?
+
+    init(_ message: String?) {
+        self.message = message
+    }
+
+    var body: some View {
+        if let message {
+            Text(message)
+                .font(.caption)
+                .foregroundStyle(.red)
         }
-        nameError = document.setBusName(busID, nameText)
-        nameText = document.bus(busID)?.name ?? nameText
-    }
-
-    private func link(to target: Bus) {
-        linkTarget = nil
-        nameError = document.setBusName(busID, target.name, link: true)
-        nameText = document.bus(busID)?.name ?? nameText
-    }
-
-    private func cancelLink() {
-        linkTarget = nil
-        nameText = document.bus(busID)?.name ?? nameText
-    }
-
-    /// Saves the bus's wire names (see `BusWireList`).
-    private func exportWires(_ bus: Bus) {
-        let panel = NSSavePanel()
-        panel.allowedContentTypes = [.commaSeparatedText]
-        panel.nameFieldStringValue = "\(bus.name.isEmpty ? "Bus" : bus.name) wires.csv"
-        guard panel.runModal() == .OK, let url = panel.url else { return }
-        do {
-            try BusWireList.text(bus.wires.map(\.name)).write(to: url, atomically: true, encoding: .utf8)
-            wireOrderError = nil
-        } catch {
-            NSAlert(error: error).runModal()
-        }
-    }
-
-    /// Loads wire names from a file onto this bus (see `BusWireList`).
-    private func importWires() {
-        let panel = NSOpenPanel()
-        panel.allowedContentTypes = [.commaSeparatedText, .plainText]
-        panel.allowsMultipleSelection = false
-        guard panel.runModal() == .OK, let url = panel.url else { return }
-        do {
-            let text = try String(contentsOf: url, encoding: .utf8)
-            switch BusWireList.names(in: text) {
-            case let .success(names): wireOrderError = document.setBusWireNames(busID, names)
-            case let .failure(error): wireOrderError = error.message
-            }
-        } catch {
-            NSAlert(error: error).runModal()
-        }
-    }
-
-    private func setCard(_ card: BusCard) {
-        typeError = document.setBusCard(busID, card)
-    }
-
-    /// The count field edits `countText`; it is read back on commit.
-    private var countBinding: Binding<Int?> {
-        Binding(
-            get: { Int(countText) },
-            set: { countText = $0.map(String.init) ?? "" }
-        )
-    }
-
-    /// The stepper sets the count straight away.
-    private var stepperBinding: Binding<Int> {
-        Binding(
-            get: { bus?.wires.count ?? Bus.defaultWireCount },
-            set: { value in
-                countError = document.setBusWireCount(busID, value)
-                resetCount()
-            }
-        )
-    }
-
-    private func commitCount() {
-        if let value = Int(countText.trimmingCharacters(in: .whitespaces)) {
-            countError = document.setBusWireCount(busID, value)
-        }
-        resetCount()
-    }
-
-    private func resetCount() {
-        countText = String(bus?.wires.count ?? 0)
     }
 }
 
@@ -270,20 +146,23 @@ struct BusPanel: View {
 /// another row (dropped on a row, it takes that row's place); the context
 /// menu moves it one place or to an end.
 private struct BusWireNameRow: View {
-    let document: SchematicDocument
-    let busID: UUID
+    let model: BusPanelModel
     let index: Int
     let count: Int
     let wire: BusWire
     /// How many wires of the bus have this wire's name; more than 1 warns.
     let uses: Int
-    /// The panel's reorder message: why a move was refused.
-    @Binding var message: String?
 
-    @State private var name = ""
+    @State private var name: String
     @State private var error: String?
-    @State private var targeted = false
+    @State private var targeted: Bool
     @FocusState private var focused: Bool
+
+    init(model: BusPanelModel, index: Int, count: Int, wire: BusWire, uses: Int) {
+        (self.model, self.index, self.count, self.wire, self.uses) = (model, index, count, wire, uses)
+        _name = State(initialValue: "")
+        _targeted = State(initialValue: false)
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
@@ -292,17 +171,14 @@ private struct BusWireNameRow: View {
                     .foregroundStyle(.secondary)
                     .frame(width: 16)
                     .contentShape(Rectangle())
-                    .draggable(BusWireDragItem(bus: busID, wire: wire.id)) {
-                        Text(wire.name)
-                            .padding(4)
-                    }
+                    .draggable(BusWireDragItem(bus: model.busID, wire: wire.id)) { Text(wire.name).padding(4) }
                     .help("Drag to reorder")
                 // A name shared with other wires of the bus: allowed, but warned.
                 Image(systemName: "exclamationmark.triangle.fill")
                     .foregroundStyle(.yellow)
                     .frame(width: 16)
                     .opacity(uses > 1 ? 1 : 0)
-                    .help(uses > 1 ? "\(wire.name) is used \(uses) times in this bus. Each wire is still its own net." : "")
+                    .help(BusPanelModel.sharedNameHelp(wire.name, uses: uses))
                     .accessibilityHidden(uses <= 1)
                 Text("\(index)")
                     .monospacedDigit()
@@ -313,53 +189,33 @@ private struct BusWireNameRow: View {
                     .focused($focused)
                     .onSubmit(commit)
                     // Uppercased as typed while Settings says uppercase only.
-                    .onChange(of: name) { _, value in
-                        let typed = NamePreferences.typed(value)
-                        if typed != value { name = typed }
-                    }
+                    .onChange(of: name) { name = NamePreferences.typed($1) }
             }
-            if let error {
-                Text(error)
-                    .font(.caption)
-                    .foregroundStyle(.red)
-            }
+            ErrorText(error)
         }
         // The row a dragged wire would take the place of.
-        .background(
-            RoundedRectangle(cornerRadius: 4)
-                .fill(Color.accentColor.opacity(targeted ? 0.2 : 0))
-                .padding(-2)
-        )
-        .dropDestination(for: BusWireDragItem.self) { items, _ in
-            guard let item = items.first, item.bus == busID, item.wire != wire.id else { return false }
-            move(item.wire, to: index)
-            return true
-        } isTargeted: { targeted = $0 }
+        .background(RoundedRectangle(cornerRadius: 4).fill(Color.accentColor.opacity(targeted ? 0.2 : 0)).padding(-2))
+        .dropDestination(for: BusWireDragItem.self) { items, _ in model.drop(items, on: wire.id, at: index) } isTargeted: { targeted = $0 }
         .contextMenu {
-            Button("Move Up") { move(wire.id, to: index - 1) }
-                .disabled(index == 0)
-            Button("Move Down") { move(wire.id, to: index + 1) }
-                .disabled(index == count - 1)
+            let moves = BusPanelModel.moves(index: index, count: count)
+            moveButton(moves[0])
+            moveButton(moves[1])
             Divider()
-            Button("Move to Top") { move(wire.id, to: 0) }
-                .disabled(index == 0)
-            Button("Move to Bottom") { move(wire.id, to: count - 1) }
-                .disabled(index == count - 1)
+            moveButton(moves[2])
+            moveButton(moves[3])
         }
         .onAppear { name = wire.name }
-        .onChange(of: wire.name) { _, new in name = new }
-        .onChange(of: focused) { old, new in
-            if old, !new { commit() }
-        }
+        .onChange(of: wire.name) { name = $1 }
+        .onChange(of: focused) { if $0, !$1 { commit() } }
     }
 
-    private func move(_ id: UUID, to place: Int) {
-        message = document.moveBusWire(bus: busID, wire: id, to: place)
+    private func moveButton(_ move: BusPanelModel.WireMove) -> some View {
+        Button(move.title) { model.moveWire(wire.id, to: move.place) }
+            .disabled(!move.isEnabled)
     }
 
     private func commit() {
-        error = document.renameBusWire(bus: busID, wire: wire.id, to: name)
-        name = document.bus(busID)?.wires.first { $0.id == wire.id }?.name ?? wire.name
+        (error, name) = model.renameWire(wire, to: name)
     }
 }
 
@@ -376,75 +232,44 @@ nonisolated struct BusWireDragItem: Codable, Hashable, Sendable, Transferable {
 /// The inspector for a selected bus port: which side its pins come out of,
 /// and a checkbox per bus wire (ticked wires are pins, in bus order).
 struct BusPortPanel: View {
-    let document: SchematicDocument
-    let portID: UUID
+    @State private var model: BusPortPanelModel
 
-    @State private var message: String?
+    init(document: SchematicDocument, portID: UUID) {
+        _model = State(initialValue: BusPortPanelModel(document: document, portID: portID))
+    }
 
     var body: some View {
-        if let found = document.port(portID), let line = found.bus.line(found.port.line) {
+        @Bindable var model = model
+        if let found = model.document.port(model.portID), let line = found.bus.line(found.port.line) {
             let bus = found.bus
-            let port = found.port
             Form {
                 Section {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Bus Port")
                             .font(.title2.bold())
-                        Text("\(port.wireIDs.count) of \(bus.wires.count) wires")
+                        Text("\(found.port.wireIDs.count) of \(bus.wires.count) wires")
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     }
                 }
                 Section("Pins") {
-                    Picker("Side", selection: sideBinding(port.side)) {
-                        ForEach(BusPort.sides(for: line), id: \.self) { side in
-                            Text(Self.title(side)).tag(side)
-                        }
+                    Picker("Side", selection: $model.side) {
+                        ForEach(BusPort.sides(for: line), id: \.self) { Text(BusPortPanelModel.title($0)).tag($0) }
                     }
                     HStack {
-                        Button("Select All") { set(Set(bus.wires.map(\.id))) }
-                        Button("Deselect All") { set([]) }
+                        Button("Select All", action: model.selectAll)
+                        Button("Deselect All", action: model.deselectAll)
                     }
-                    if let message {
-                        Text(message)
-                            .font(.caption)
-                            .foregroundStyle(.red)
-                    }
+                    ErrorText(model.message)
                     LazyVStack(alignment: .leading, spacing: 4) {
                         ForEach(bus.wires) { wire in
-                            Toggle(wire.name, isOn: Binding(
-                                get: { port.wireIDs.contains(wire.id) },
-                                set: { on in
-                                    var ids = port.wireIDs
-                                    if on { ids.insert(wire.id) } else { ids.remove(wire.id) }
-                                    set(ids)
-                                }
-                            ))
-                            .toggleStyle(.checkbox)
+                            Toggle(wire.name, isOn: Binding { model.isPin(wire.id) } set: { model.setPin(wire.id, $0) })
+                                .toggleStyle(.checkbox)
                         }
                     }
                 }
             }
             .formStyle(.grouped)
-        }
-    }
-
-    private func sideBinding(_ side: ChipLayout.Side) -> Binding<ChipLayout.Side> {
-        Binding(get: { side }, set: { message = document.setPortSide(portID, $0) })
-    }
-
-    /// Stores the ticked wires; a refusal shows its message. Unticking a pin
-    /// with wires on it asks first (the window's confirm dialog).
-    private func set(_ ids: Set<UUID>) {
-        message = document.requestPortWires(portID, ids)
-    }
-
-    private static func title(_ side: ChipLayout.Side) -> String {
-        switch side {
-        case .top: "Top"
-        case .bottom: "Bottom"
-        case .left: "Left"
-        case .right: "Right"
         }
     }
 }
