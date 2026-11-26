@@ -94,7 +94,7 @@ Acceptance: behavior and coverage identical.
   `source_size_check` naming the eleven stale rows this commit removes;
   `git status --short backend/tests/golden` → no output; `COV --backend` →
   7,090 uncovered before and after.
-Commit: —
+Commit: a6ed6700
 
 ### Phase 2 — counter.c, counter_div.c, shift.c, pio_via6522.c
 
@@ -102,7 +102,7 @@ Commit: —
 
 Acceptance: as Phase 1.
   Check: as Phase 1 (est. 2 min).
-Commit: —
+Commit: a6ed6700
 
 ### Phase 3 — sim.c, charlcd.c, eeprom.c
 
@@ -117,7 +117,7 @@ Acceptance: as Phase 1, and nothing in `backend/` over 800.
   Observed: `node scripts/clash_check.sh`-style `nm` check → no name defined
   twice; every new piece ≤ 800 (Corrections: the check as written also
   lists sixteen untouched files); the app build → `** BUILD SUCCEEDED **`.
-Commit: —
+Commit: a6ed6700
 
 ## Validation Plan
 
