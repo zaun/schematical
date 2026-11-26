@@ -113,7 +113,7 @@ Acceptance: the part logic is in `PartList`, tested alone.
   -only-testing:schematicalTests/SchematicUndoTests` → all pass (est. 5 min).
   Observed: `node scripts/coverage.js --app --only schematical/schematical/Model/Parts/
   --tests` with those six classes → 0 failed cases, `322 lines, 0 uncovered`.
-Commit: COMMIT_F1
+Commit: aab65057
 
 ### Phase 2 — file the document; delete `SchematicModel.swift`
 
@@ -134,7 +134,7 @@ Acceptance: no document file over 800; the document behaves as before.
   in `UserLibraryEndToEndTests`/`UserLibraryUpdateTests` (a library part
   edited in place was no longer written back: Corrections), fixed, then
   `-only-testing` those two classes and `PartListTests` → 0 failures.
-Commit: COMMIT_F2
+Commit: d304069f
 
 ## Validation Plan
 
