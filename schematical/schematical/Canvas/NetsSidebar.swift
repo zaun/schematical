@@ -14,12 +14,28 @@ struct NetsSection: View {
     let rows: [NetRow]
     let hasBuilt: Bool
     let highlightedNet: Binding<PlaneNet?>
-    var onRoute: (RoutingOptions.Scope) -> Void = { _ in }
+    var onRoute: (RoutingOptions.Scope) -> Void
 
-    @State private var filter = ""
+    @State private var filter: String
+
+    init(document: SchematicDocument, rows: [NetRow], hasBuilt: Bool, highlightedNet: Binding<PlaneNet?>,
+         onRoute: @escaping (RoutingOptions.Scope) -> Void = { _ in }) {
+        self.document = document
+        self.rows = rows
+        self.hasBuilt = hasBuilt
+        self.highlightedNet = highlightedNet
+        self.onRoute = onRoute
+        _filter = State(initialValue: "")
+    }
 
     /// What a row's Route Net routes.
     static func routeScope(for row: NetRow) -> RoutingOptions.Scope { .nets([row.key]) }
+
+    /// A click on a net's name (or its menu's Highlight): highlights `key`,
+    /// or clears it when it is the one highlighted.
+    static func toggleHighlight(_ highlighted: Binding<PlaneNet?>, _ key: PlaneNet) {
+        highlighted.wrappedValue = highlighted.wrappedValue == key ? nil : key
+    }
 
     var body: some View {
         Section("Nets") {
@@ -43,15 +59,25 @@ struct NetsSection: View {
             }
             ForEach(shown) { row in
                 NetRowView(document: document, row: row, highlightedNet: highlightedNet)
-                    .contextMenu {
-                        Button("Route Net") { onRoute(Self.routeScope(for: row)) }
-                            .disabled(row.unrouted == 0 || document.isPlaying)
-                        Button("Unroute Net") { document.unroute(nets: [row.net], onlyAuto: false) }
-                        Button(highlightedNet.wrappedValue == row.key ? "Stop Highlighting" : "Highlight") {
-                            highlightedNet.wrappedValue = highlightedNet.wrappedValue == row.key ? nil : row.key
-                        }
-                    }
+                    .contextMenu { NetRowMenu(document: document, row: row, highlightedNet: highlightedNet, onRoute: onRoute) }
             }
+        }
+    }
+}
+
+/// A net row's context menu: Route Net, Unroute Net, Highlight.
+struct NetRowMenu: View {
+    let document: SchematicDocument
+    let row: NetRow
+    let highlightedNet: Binding<PlaneNet?>
+    let onRoute: (RoutingOptions.Scope) -> Void
+
+    var body: some View {
+        Button("Route Net") { onRoute(NetsSection.routeScope(for: row)) }
+            .disabled(row.unrouted == 0 || document.isPlaying)
+        Button("Unroute Net") { document.unroute(nets: [row.net], onlyAuto: false) }
+        Button(highlightedNet.wrappedValue == row.key ? "Stop Highlighting" : "Highlight") {
+            NetsSection.toggleHighlight(highlightedNet, row.key)
         }
     }
 }
@@ -80,7 +106,7 @@ struct NetRowView: View {
         let key = row.key
         HStack(spacing: Self.spacing) {
             Button {
-                highlightedNet.wrappedValue = isHighlighted ? nil : key
+                NetsSection.toggleHighlight(highlightedNet, key)
             } label: {
                 Text(row.name)
                     .lineLimit(1)
@@ -103,9 +129,7 @@ struct NetRowView: View {
                 .frame(width: Self.classWidth, alignment: .leading)
             NetLayerRuleMenu(rule: document.board.netOverrides.first { $0.net == key }?.layerRule,
                              layers: document.board.traceLayers,
-                             help: "The net's own layer rule, before its class's: Only on some layers, or Prefer them") {
-                document.setNetLayerRule(key, $0)
-            }
+                             help: "The net's own layer rule, before its class's: Only on some layers, or Prefer them") { document.setNetLayerRule(key, $0) }
             .frame(width: Self.layersWidth, alignment: .leading)
         }
     }
@@ -159,22 +183,36 @@ struct NetLayerRuleMenu: View {
     }
 
     var body: some View {
-        Menu(Self.title(rule)) {
-            Button("Any Layer") { set(nil) }
-            ForEach([LayerRuleMode.only, .prefer], id: \.self) { mode in
-                Section(mode.title) {
-                    ForEach(layers, id: \.self) { layer in
-                        Toggle(layer.title, isOn: Binding(
-                            get: { rule?.mode == mode && rule?.layers.contains(layer) == true },
-                            set: { _ in set(Self.toggled(rule, layer, mode: mode)) }
-                        ))
-                    }
+        Menu(Self.title(rule)) { NetLayerRuleItems(rule: rule, layers: layers, set: set) }
+            .menuStyle(.borderlessButton)
+            .fixedSize()
+            .help(help)
+    }
+}
+
+/// `NetLayerRuleMenu`'s items: Any Layer, then a toggle per layer under
+/// Only and under Prefer.
+struct NetLayerRuleItems: View {
+    let rule: LayerRule?
+    let layers: [CopperLayer]
+    let set: (LayerRule?) -> Void
+
+    var body: some View {
+        Button("Any Layer") { set(nil) }
+        ForEach([LayerRuleMode.only, .prefer], id: \.self) { mode in
+            Section(mode.title) {
+                ForEach(layers, id: \.self) { layer in
+                    Toggle(layer.title, isOn: isOn(layer, mode))
                 }
             }
         }
-        .menuStyle(.borderlessButton)
-        .fixedSize()
-        .help(help)
+    }
+
+    /// Whether `layer` is in the rule in `mode`; switching it sets the
+    /// toggled rule.
+    private func isOn(_ layer: CopperLayer, _ mode: LayerRuleMode) -> Binding<Bool> {
+        Binding(get: { rule?.mode == mode && rule?.layers.contains(layer) == true },
+                set: { _ in set(NetLayerRuleMenu.toggled(rule, layer, mode: mode)) })
     }
 }
 
@@ -187,6 +225,11 @@ struct NetLayerRuleMenu: View {
 struct NetClassesSection: View {
     let document: SchematicDocument
     let rows: [NetRow]
+
+    /// **+**: a new class named after how many there are.
+    static func addClass(_ document: SchematicDocument) {
+        _ = document.addNetClass(named: "Class \(document.board.netClasses.count + 1)")
+    }
 
     var body: some View {
         Section {
@@ -205,13 +248,9 @@ struct NetClassesSection: View {
             HStack {
                 Text("Net Classes")
                 Spacer()
-                Button {
-                    document.addNetClass(named: "Class \(document.board.netClasses.count + 1)")
-                } label: {
-                    Image(systemName: "plus")
-                }
-                .buttonStyle(.borderless)
-                .help("Add a net class")
+                Button { NetClassesSection.addClass(document) } label: { Image(systemName: "plus") }
+                    .buttonStyle(.borderless)
+                    .help("Add a net class")
             }
         }
     }
@@ -225,9 +264,20 @@ private struct NetClassEditor: View {
     let count: Int
     let rows: [NetRow]
 
-    @State private var name = ""
-    @State private var isOpen = false
-    @State private var calculating = false
+    @State private var name: String
+    @State private var isOpen: Bool
+    @State private var calculating: Bool
+
+    init(document: SchematicDocument, netClass: NetClass, index: Int, count: Int, rows: [NetRow]) {
+        self.document = document
+        self.netClass = netClass
+        self.index = index
+        self.count = count
+        self.rows = rows
+        _name = State(initialValue: "")
+        _isOpen = State(initialValue: false)
+        _calculating = State(initialValue: false)
+    }
 
     /// The layer the class's estimates are for: the first its layer rule allows, else the board's first trace layer.
     private var estimateLayer: CopperLayer {
@@ -256,10 +306,7 @@ private struct NetClassEditor: View {
             }
             Button("Calculate Width…") { calculating = true }
                 .help("The width that gives a target impedance or carries a current")
-                .sheet(isPresented: $calculating) {
-                    WidthCalculatorSheet(document: document, layers: document.board.traceLayers, layer: estimateLayer,
-                                         gapMM: NetGroup.defaultGap) { document.setNetClassWidth(id, $0) }
-                }
+                .sheet(isPresented: $calculating) { calculator(id) }
             Toggle("DRC Min Clearance", isOn: Binding(
                 get: { netClass.clearance == nil },
                 set: { document.setNetClassClearance(id, $0 ? nil : rules.minClearance) }
@@ -282,9 +329,7 @@ private struct NetClassEditor: View {
             }
             LabeledContent("Layers") {
                 NetLayerRuleMenu(rule: netClass.layerRule, layers: document.board.traceLayers,
-                                 help: "The class's layer rule; a net's own rule comes first") {
-                    document.setNetClassLayerRule(id, $0)
-                }
+                                 help: "The class's layer rule; a net's own rule comes first") { document.setNetClassLayerRule(id, $0) }
             }
             NetMembersMenu(members: netClass.members, rows: rows) { document.assignNet($0, to: nil) }
             HStack {
@@ -312,6 +357,12 @@ private struct NetClassEditor: View {
     private var current: NetClass {
         document.board.netClasses.first { $0.id == netClass.id } ?? netClass
     }
+
+    /// Calculate Width's sheet; its width becomes the class's.
+    private func calculator(_ id: UUID) -> some View {
+        WidthCalculatorSheet(document: document, layers: document.board.traceLayers, layer: estimateLayer,
+                             gapMM: NetGroup.defaultGap) { document.setNetClassWidth(id, $0) }
+    }
 }
 
 /// "Nets: N", a menu of the members by name; choosing one takes it out.
@@ -325,15 +376,24 @@ private struct NetMembersMenu: View {
             if members.isEmpty {
                 Text("None").foregroundStyle(.secondary)
             } else {
-                Menu("\(members.count)") {
-                    Section("Choose to remove") {
-                        ForEach(members, id: \.self) { member in
-                            Button(rows.first { $0.key == member }?.name ?? "Missing net") { remove(member) }
-                        }
-                    }
-                }
-                .menuStyle(.borderlessButton)
-                .fixedSize()
+                Menu("\(members.count)") { NetMemberItems(members: members, rows: rows, remove: remove) }
+                    .menuStyle(.borderlessButton)
+                    .fixedSize()
+            }
+        }
+    }
+}
+
+/// `NetMembersMenu`'s items: each member by name; choosing one takes it out.
+struct NetMemberItems: View {
+    let members: [PlaneNet]
+    let rows: [NetRow]
+    let remove: (PlaneNet) -> Void
+
+    var body: some View {
+        Section("Choose to remove") {
+            ForEach(members, id: \.self) { member in
+                Button(rows.first { $0.key == member }?.name ?? "Missing net") { remove(member) }
             }
         }
     }
@@ -363,20 +423,40 @@ struct NetGroupsSection: View {
             HStack {
                 Text("Net Groups")
                 Spacer()
-                Menu {
-                    Button("Length Match") {
-                        document.addNetGroup(named: "Group \(document.board.netGroups.count + 1)", mode: .lengthMatch)
-                    }
-                    Button("Differential Pair") {
-                        document.addNetGroup(named: "Pair \(document.board.netGroups.count + 1)", mode: .diffPair)
-                    }
-                } label: {
-                    Image(systemName: "plus")
-                }
-                .menuStyle(.borderlessButton)
-                .fixedSize()
-                .help("Add a net group")
+                Menu { NetGroupAddItems(document: document) } label: { Image(systemName: "plus") }
+                    .menuStyle(.borderlessButton)
+                    .fixedSize()
+                    .help("Add a net group")
             }
+        }
+    }
+}
+
+/// The net groups' **+** menu: a length-match group or a differential pair,
+/// named after how many groups there are.
+struct NetGroupAddItems: View {
+    let document: SchematicDocument
+
+    static func add(_ document: SchematicDocument, _ mode: NetGroupMode) {
+        let name = mode == .diffPair ? "Pair" : "Group"
+        _ = document.addNetGroup(named: "\(name) \(document.board.netGroups.count + 1)", mode: mode)
+    }
+
+    var body: some View {
+        Button("Length Match") { Self.add(document, .lengthMatch) }
+        Button("Differential Pair") { Self.add(document, .diffPair) }
+    }
+}
+
+/// A group's Add Net menu: each free net (marked when multi-drop).
+struct NetGroupFreeItems: View {
+    let document: SchematicDocument
+    let free: [NetRow]
+    let group: UUID
+
+    var body: some View {
+        ForEach(free) { row in
+            Button(row.pads > 2 ? "\(row.name) (multi-drop)" : row.name) { _ = document.assignNet(row.key, toGroup: group) }
         }
     }
 }
@@ -387,8 +467,16 @@ private struct NetGroupEditor: View {
     let group: NetGroup
     let rows: [NetRow]
 
-    @State private var name = ""
-    @State private var isOpen = false
+    @State private var name: String
+    @State private var isOpen: Bool
+
+    init(document: SchematicDocument, group: NetGroup, rows: [NetRow]) {
+        self.document = document
+        self.group = group
+        self.rows = rows
+        _name = State(initialValue: "")
+        _isOpen = State(initialValue: false)
+    }
 
     var body: some View {
         let id = group.id
@@ -396,7 +484,7 @@ private struct NetGroupEditor: View {
         DisclosureGroup(isExpanded: $isOpen) {
             TextField("Name", text: $name)
                 .onSubmit { document.renameNetGroup(id, to: name); name = current.name }
-            Picker("Mode", selection: Binding(get: { group.mode }, set: { document.setNetGroupMode(id, $0) })) {
+            Picker("Mode", selection: Binding(get: { group.mode }, set: { _ = document.setNetGroupMode(id, $0) })) {
                 ForEach(NetGroupMode.allCases, id: \.self) { mode in
                     Text(mode.title).tag(mode)
                 }
@@ -434,25 +522,15 @@ private struct NetGroupEditor: View {
                     }
                     Spacer()
                     NetLengthLabel(length: row?.length, longest: longest, tolerance: group.tolerance, units: units)
-                    Button {
-                        document.unassignNet(member)
-                    } label: {
-                        Image(systemName: "minus.circle")
-                    }
-                    .buttonStyle(.borderless)
-                    .help("Take the net out of the group")
+                    Button { document.unassignNet(member) } label: { Image(systemName: "minus.circle") }
+                        .buttonStyle(.borderless)
+                        .help("Take the net out of the group")
                 }
             }
             let free = rows.filter { $0.groupID == nil && !group.members.contains($0.key) }
             let isFull = group.mode == .diffPair && group.members.count >= NetGroup.pairSize
             HStack {
-                Menu("Add Net") {
-                    ForEach(free) { row in
-                        Button(row.pads > 2 ? "\(row.name) (multi-drop)" : row.name) {
-                            document.assignNet(row.key, toGroup: id)
-                        }
-                    }
-                }
+                Menu("Add Net") { NetGroupFreeItems(document: document, free: free, group: id) }
                 .disabled(isFull || free.isEmpty)
                 .help(isFull ? "A pair has its 2 nets" : "Add a net that is in no other group")
                 Spacer()

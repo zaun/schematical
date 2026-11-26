@@ -9,11 +9,7 @@
 1	schematical/schematical/Boards/BoardCard.swift
 31	schematical/schematical/Boards/BoardCatalog.swift
 3	schematical/schematical/Boards/BoardExpression.swift
-361	schematical/schematical/Canvas/NetsSidebar.swift
-117	schematical/schematical/Canvas/NixieSymbolView.swift
 63	schematical/schematical/Canvas/PartInfoViews.swift
-453	schematical/schematical/Canvas/PCBCanvasView.swift
-33	schematical/schematical/Canvas/PCBCanvasTypes.swift
 4	schematical/schematical/Canvas/PourConnectivity.swift
 129	schematical/schematical/Canvas/PourSection.swift
 10	schematical/schematical/Canvas/ReferenceLabel.swift
