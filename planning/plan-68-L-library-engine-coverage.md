@@ -140,7 +140,7 @@ Commit: —
 
 Acceptance: as Phase 1, for these files.
   Check: as Phase 1; `SZ` → exit 0 (est. 2 min per run).
-Commit: COMMIT_L
+Commit: 16d39f16
 
 ### Phase 3 — the chunked arena over every kind's loader
 
