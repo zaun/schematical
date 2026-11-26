@@ -1,4 +1,5 @@
 #include "serial_max310x_int.h"
+#include "logic_alloc.h"
 const char *const m31x_TIMING[] = {"tdo", "tft", "tready", NULL};
 
 const char *const m31x_KEYS[] = {
@@ -520,7 +521,7 @@ extern const SerialModel MAX310X_MODEL;
 
 void *m31x_mx_create(const Part *part, const void *data, const void *pins,
                        const SerialGrade *grade, const void *options) {
-    MxState *s = calloc(1, sizeof *s);
+    MxState *s = logic_calloc(1, sizeof *s);
     size_t i;
     unsigned u;
 
@@ -533,9 +534,9 @@ void *m31x_mx_create(const Part *part, const void *data, const void *pins,
     s->pins = pins;
     s->grade = grade;
     s->pin_count = part->pin_count;
-    s->out = malloc(part->pin_count * sizeof *s->out);
+    s->out = logic_malloc(part->pin_count * sizeof *s->out);
     if (s->out == NULL) {
-        free(s);
+        logic_free(s);
         return NULL;
     }
     for (i = 0; i < part->pin_count; i++) {
@@ -579,8 +580,8 @@ void m31x_mx_destroy(void *raw) {
     for (u = 0; u < s->dev->v->uarts; u++) {
         serial_line_free(&s->ch[u].line);
     }
-    free(s->out);
-    free(s);
+    logic_free(s->out);
+    logic_free(s);
 }
 
 int m31x_mx_open_drain(const void *data, const void *pins, const void *options, size_t pin) {

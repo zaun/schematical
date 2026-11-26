@@ -28,6 +28,7 @@
 
 #include "kind.h"
 #include "timer.h"
+#include "logic_alloc.h"
 
 static const char *const DEVICE_KEYS[] = {"process", "timers", "maxHz", "tpd", "vcc", "inputMax", NULL};
 static const char *const PART_KEYS[] = {"vcc", "inputMax", NULL};
@@ -285,7 +286,7 @@ static size_t timer_pin_count(const void *config) {
 static void *timer_create(const void *config) {
     const Part *part = config;
     const TimerBound *bound = part_internal(part)->bound;
-    TimerModel *model = calloc(1, sizeof(*model));
+    TimerModel *model = logic_calloc(1, sizeof(*model));
     size_t k;
 
     if (model == NULL) {
@@ -303,7 +304,7 @@ static void *timer_create(const void *config) {
 }
 
 static void timer_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 void timer_model_set(void *state, unsigned section, const TimerState *timing) {

@@ -28,6 +28,7 @@
 #include <string.h>
 
 #include "serial_util.h"
+#include "logic_alloc.h"
 
 enum { T_RD, T_DF, T_CLR, T_DTX, T_WC };
 static const char *const TIMING[] = {"trd", "tdf", "tclr", "tdtx", "twc", NULL};
@@ -868,7 +869,7 @@ static int i8_async(const void *raw, unsigned channel) {
 
 static void *i8_create(const Part *part, const void *data, const void *pins,
                        const SerialGrade *grade, const void *options) {
-    I8State *s = calloc(1, sizeof *s);
+    I8State *s = logic_calloc(1, sizeof *s);
     size_t i;
 
     (void)options;
@@ -880,9 +881,9 @@ static void *i8_create(const Part *part, const void *data, const void *pins,
     s->pins = pins;
     s->grade = grade;
     s->o.count = part->pin_count;
-    s->o.out = malloc(part->pin_count * sizeof *s->o.out);
+    s->o.out = logic_malloc(part->pin_count * sizeof *s->o.out);
     if (s->o.out == NULL) {
-        free(s);
+        logic_free(s);
         return NULL;
     }
     for (i = 0; i < part->pin_count; i++) {
@@ -913,8 +914,8 @@ static void i8_destroy(void *raw) {
     I8State *s = raw;
 
     serial_line_free(&s->line);
-    free(s->o.out);
-    free(s);
+    logic_free(s->o.out);
+    logic_free(s);
 }
 
 /* ---- Loader -------------------------------------------------------------------------------------- */

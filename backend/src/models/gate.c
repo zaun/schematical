@@ -25,6 +25,7 @@
 
 #include "kind.h"
 #include "model_pins.h"
+#include "logic_alloc.h"
 
 #define GATE_MAX_INPUTS 13
 
@@ -439,7 +440,7 @@ static size_t gate_pin_count(const void *config) {
 
 static void *gate_create(const void *config) {
     const PartInternal *internal = part_internal(config);
-    GateState *state = malloc(sizeof(*state));
+    GateState *state = logic_malloc(sizeof(*state));
 
     if (state != NULL) {
         state->bound = internal->bound;
@@ -450,7 +451,7 @@ static void *gate_create(const void *config) {
 }
 
 static void gate_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static LogicValue gate_value(const GatePins *gate, const LogicValue *in) {

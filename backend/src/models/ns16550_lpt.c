@@ -14,6 +14,7 @@
 #include <string.h>
 
 #include "ns16550_int.h"
+#include "logic_alloc.h"
 
 struct NsLpt {
     uint8_t data;          /* the output latch */
@@ -37,7 +38,7 @@ static void drive_weak(NsState *s, size_t pin, LogicValue value) {
 }
 
 struct NsLpt *ns_lpt_create(const NsState *s) {
-    struct NsLpt *lpt = calloc(1, sizeof *lpt);
+    struct NsLpt *lpt = logic_calloc(1, sizeof *lpt);
 
     (void)s;
     if (lpt != NULL) {
@@ -48,7 +49,7 @@ struct NsLpt *ns_lpt_create(const NsState *s) {
 }
 
 void ns_lpt_destroy(struct NsLpt *lpt) {
-    free(lpt);
+    logic_free(lpt);
 }
 
 void ns_lpt_reset(NsState *s) {

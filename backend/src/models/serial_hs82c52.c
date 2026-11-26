@@ -29,6 +29,7 @@
 #include <string.h>
 
 #include "serial_util.h"
+#include "logic_alloc.h"
 
 enum { T_RLDV, T_RHDZ, T_CO, T_BRG, T_SDO, T_INTR, T_FLAG };
 static const char *const TIMING[] = {"trldv", "trhdz", "tco", "tbrg", "tsdo", "tintr", "tflag", NULL};
@@ -820,7 +821,7 @@ static int hs_async(const void *raw, unsigned channel) {
 
 static void *hs_create(const Part *part, const void *data, const void *pins,
                        const SerialGrade *grade, const void *options) {
-    HsState *s = calloc(1, sizeof *s);
+    HsState *s = logic_calloc(1, sizeof *s);
     size_t i;
 
     (void)options;
@@ -832,9 +833,9 @@ static void *hs_create(const Part *part, const void *data, const void *pins,
     s->pins = pins;
     s->grade = grade;
     s->o.count = part->pin_count;
-    s->o.out = malloc(part->pin_count * sizeof *s->o.out);
+    s->o.out = logic_malloc(part->pin_count * sizeof *s->o.out);
     if (s->o.out == NULL) {
-        free(s);
+        logic_free(s);
         return NULL;
     }
     for (i = 0; i < part->pin_count; i++) {
@@ -869,8 +870,8 @@ static void hs_destroy(void *raw) {
     HsState *s = raw;
 
     serial_line_free(&s->line);
-    free(s->o.out);
-    free(s);
+    logic_free(s->o.out);
+    logic_free(s);
 }
 
 static void *hs_load_device(KindContext *ctx, const cJSON *json, unsigned *channels) {

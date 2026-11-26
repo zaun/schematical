@@ -1,4 +1,5 @@
 #include "shift_int.h"
+#include "logic_alloc.h"
 
 /* ---- Shared pieces ------------------------------------------------------------ */
 
@@ -661,7 +662,7 @@ static void *shift_create(const void *config) {
 }
 
 static void shift_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static void shift_start(Sim *sim, SimInstance *instance, void *state) {

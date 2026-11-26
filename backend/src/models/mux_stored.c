@@ -19,6 +19,7 @@
 #include "model_pins.h"
 #include "mux.h"
 #include "seq.h"
+#include "logic_alloc.h"
 
 #define RF_MAX_FILES 2
 #define RF_MAX_ADDRESS 4
@@ -171,7 +172,7 @@ static void *st_bind(KindContext *ctx, const void *raw, const PartPin *pins, siz
 
 static MuxHeader *st_create(const void *bound) {
     const StBound *b = bound;
-    StState *s = calloc(1, sizeof(*s));
+    StState *s = logic_calloc(1, sizeof(*s));
     size_t i, j;
 
     if (s == NULL) {
@@ -377,7 +378,7 @@ static void *rf_bind(KindContext *ctx, const void *raw, const PartPin *pins, siz
 
 static MuxHeader *rf_create(const void *bound) {
     const RfBound *b = bound;
-    RfState *s = calloc(1, sizeof(*s));
+    RfState *s = logic_calloc(1, sizeof(*s));
     size_t i, w, j;
 
     if (s == NULL) {

@@ -1,5 +1,6 @@
 /* models/ns16550_bridge_kind.c: part of the model in models/ns16550_bridge.c (split by plan-68-I/J). */
 #include "ns16550_bridge_int.h"
+#include "logic_alloc.h"
 /* ---- Loader ------------------------------------------------------------------------ */
 
 static int load_optional_name(KindContext *ctx, const cJSON *json, const char *key,
@@ -235,7 +236,7 @@ int ns_bridge_open_drain(const NsDevice *d, const NsPins *p, size_t pin) {
 
 int ns_bridge_create(NsState *s) {
     const NsBridgeDevice *b = s->dev->bridge;
-    NsBridge *br = calloc(1, sizeof *br);
+    NsBridge *br = logic_calloc(1, sizeof *br);
     unsigned i;
     size_t g;
 
@@ -286,7 +287,7 @@ int ns_bridge_create(NsState *s) {
 }
 
 void ns_bridge_destroy(NsState *s) {
-    free(s->bridge);
+    logic_free(s->bridge);
     s->bridge = NULL;
 }
 

@@ -1,5 +1,6 @@
 /* models/counter_sync_load.c: part of the model in models/counter.c (split by plan-68-I/J). */
 #include "counter_int.h"
+#include "logic_alloc.h"
 /* ---- sync: loading -------------------------------------------------------- */
 
 static int sync_names_n(KindContext *ctx, const cJSON *json, const char *key, size_t n,
@@ -610,7 +611,7 @@ void *cnt_sync_bind(KindContext *ctx, const void *raw, const PartPin *pins, size
 
 CounterHeader *cnt_sync_create(const void *dev_raw, const void *bound) {
     const SyncBound *b = bound;
-    SyncState *s = calloc(1, sizeof(*s));
+    SyncState *s = logic_calloc(1, sizeof(*s));
     size_t i;
 
     (void)dev_raw;

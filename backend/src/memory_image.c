@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "logic_alloc.h"
 
 MemoryImageFormat memory_image_format_for(const char *file_name) {
     static const char *const HEX[] = {"hex", "ihx", "ihex"};
@@ -45,7 +46,7 @@ static int failure(char **error, const char *format, ...) {
     va_start(args, format);
     length = vsnprintf(NULL, 0, format, args);
     va_end(args);
-    *error = malloc((size_t)length + 1);
+    *error = logic_alloc_disown(logic_malloc((size_t)length + 1));
     if (*error != NULL) {
         va_start(args, format);
         vsnprintf(*error, (size_t)length + 1, format, args);
@@ -219,7 +220,7 @@ int memory_image_parse(const unsigned char *data, size_t size, MemoryImageFormat
     if (bits != 8) {
         return failure(error, "only 8-bit memories can be loaded from a file");
     }
-    image = malloc((words > 0 ? words : 1) * sizeof *image);
+    image = logic_malloc((words > 0 ? words : 1) * sizeof *image);
     if (image == NULL) {
         return failure(error, "out of memory");
     }
@@ -231,6 +232,6 @@ int memory_image_parse(const unsigned char *data, size_t size, MemoryImageFormat
     if (result == 0) {
         memcpy(values, image, (size_t)words * sizeof *image);
     }
-    free(image);
+    logic_free(image);
     return result;
 }

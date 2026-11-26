@@ -17,6 +17,7 @@
 #include "kind.h"
 #include "seq.h"
 #include "shift.h"
+#include "logic_alloc.h"
 
 static int lo(int level) {
     return level < 0 ? 0 : level;
@@ -174,7 +175,7 @@ static void *ls673_bind(KindContext *ctx, const void *raw, const PartPin *pins, 
 
 static ShiftHeader *ls673_create(const void *dev, const void *bound) {
     const Ls673Bound *b = bound;
-    Ls673State *s = calloc(1, sizeof(*s));
+    Ls673State *s = logic_calloc(1, sizeof(*s));
 
     (void)dev;
     if (s == NULL) {
@@ -364,7 +365,7 @@ static void *tap64_bind(KindContext *ctx, const void *raw, const PartPin *pins, 
 
 static ShiftHeader *tap64_create(const void *dev, const void *bound) {
     const Tap64Bound *b = bound;
-    Tap64State *s = calloc(1, sizeof(*s));
+    Tap64State *s = logic_calloc(1, sizeof(*s));
     size_t i;
 
     (void)dev;
@@ -490,7 +491,7 @@ static void *busreg_bind(KindContext *ctx, const void *raw, const PartPin *pins,
 }
 
 static ShiftHeader *busreg_create(const void *dev, const void *bound) {
-    BusRegState *s = calloc(1, sizeof(*s));
+    BusRegState *s = logic_calloc(1, sizeof(*s));
     const BusRegBound *b = bound;
 
     (void)dev;
@@ -651,7 +652,7 @@ static void *fifo_bind(KindContext *ctx, const void *raw, const PartPin *pins, s
 
 static ShiftHeader *fifo_create(const void *dev, const void *bound) {
     const FifoBound *b = bound;
-    FifoState *s = calloc(1, sizeof(*s));
+    FifoState *s = logic_calloc(1, sizeof(*s));
     int i;
 
     (void)dev;
@@ -877,7 +878,7 @@ static void *serin_bind(KindContext *ctx, const void *raw, const PartPin *pins, 
 
 static ShiftHeader *serin_create(const void *dev, const void *bound) {
     const SerInBound *b = bound;
-    SerInState *s = calloc(1, sizeof(*s));
+    SerInState *s = logic_calloc(1, sizeof(*s));
 
     (void)dev;
     if (s == NULL) {

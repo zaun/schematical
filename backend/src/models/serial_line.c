@@ -6,6 +6,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include "logic_alloc.h"
 
 SerialFormat serial_format_default(void) {
     SerialFormat format;
@@ -435,8 +436,8 @@ void serial_line_init(SerialLine *line, size_t rx_pin) {
 }
 
 void serial_line_free(SerialLine *line) {
-    free(line->log);
-    free(line->sender.bytes);
+    logic_free(line->log);
+    logic_free(line->sender.bytes);
     line->log = NULL;
     line->sender.bytes = NULL;
 }
@@ -444,7 +445,7 @@ void serial_line_free(SerialLine *line) {
 void serial_line_log(SerialLine *line, uint16_t data) {
     if (line->log_count == line->log_capacity) {
         size_t capacity = line->log_capacity == 0 ? 64 : line->log_capacity * 2;
-        uint16_t *bigger = realloc(line->log, capacity * sizeof *bigger);
+        uint16_t *bigger = logic_realloc(line->log, capacity * sizeof *bigger);
 
         if (bigger == NULL) {
             return;
@@ -476,14 +477,14 @@ int serial_line_queue(SerialLine *line, const uint8_t *bytes, size_t count) {
         while (capacity < s->count + count) {
             capacity *= 2;
         }
-        bigger = malloc(capacity);
+        bigger = logic_malloc(capacity);
         if (bigger == NULL) {
             return -1;
         }
         for (i = 0; i < s->count; i++) {
             bigger[i] = s->bytes[(s->head + i) % s->capacity];
         }
-        free(s->bytes);
+        logic_free(s->bytes);
         s->bytes = bigger;
         s->capacity = capacity;
         s->head = 0;

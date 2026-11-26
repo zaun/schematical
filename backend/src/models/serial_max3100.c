@@ -51,6 +51,7 @@
 
 #include "serial.h"
 #include "serial_target.h"
+#include "logic_alloc.h"
 
 enum {
     T_DV, T_TR, T_DO,
@@ -923,8 +924,8 @@ static void m3_destroy(void *raw) {
     M3State *s = raw;
 
     serial_line_free(&s->line);
-    free(s->out);
-    free(s);
+    logic_free(s->out);
+    logic_free(s);
 }
 
 static int m3_open_drain(const void *data, const void *pins, const void *options, size_t pin) {
@@ -1062,7 +1063,7 @@ const SerialModel MAX3100_MODEL = {
 
 static void *m3_create(const Part *part, const void *data, const void *pins,
                        const SerialGrade *grade, const void *options) {
-    M3State *s = calloc(1, sizeof *s);
+    M3State *s = logic_calloc(1, sizeof *s);
     size_t i;
 
     (void)options;
@@ -1074,9 +1075,9 @@ static void *m3_create(const Part *part, const void *data, const void *pins,
     s->pins = pins;
     s->grade = grade;
     s->pin_count = part->pin_count;
-    s->out = malloc(part->pin_count * sizeof *s->out);
+    s->out = logic_malloc(part->pin_count * sizeof *s->out);
     if (s->out == NULL) {
-        free(s);
+        logic_free(s);
         return NULL;
     }
     for (i = 0; i < part->pin_count; i++) {

@@ -21,6 +21,7 @@
 
 #include "converter_int.h"
 #include "converter_state.h"
+#include "logic_alloc.h"
 
 enum {
     RT_TICK = 0, RT_UIP = 1, RT_PERIODIC = 2, RT_WATCHDOG = 3, RT_PULSE = 4,
@@ -613,7 +614,7 @@ void rtc_pin(CvState *s, size_t pin) {
 }
 
 void rtc_start(CvState *s) {
-    RtcState *r = calloc(1, sizeof *r);
+    RtcState *r = logic_calloc(1, sizeof *r);
     const RtcClock *c = clk(s);
     size_t i;
 
@@ -644,7 +645,7 @@ void rtc_start(CvState *s) {
 }
 
 void rtc_free(CvState *s) {
-    free(s->rtc);
+    logic_free(s->rtc);
     s->rtc = NULL;
 }
 

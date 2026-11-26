@@ -25,6 +25,7 @@
 #include <string.h>
 
 #include "serial.h"
+#include "logic_alloc.h"
 
 enum { UB_MAX_CHANNELS = SERIAL_MAX_CHANNELS };
 
@@ -348,7 +349,7 @@ static int ub_configure(Sim *sim, SimInstance *instance, void *raw, unsigned cha
 
 static void *ub_create(const Part *part, const void *data, const void *pins,
                        const SerialGrade *grade, const void *options) {
-    UbState *s = calloc(1, sizeof *s);
+    UbState *s = logic_calloc(1, sizeof *s);
     size_t i;
     unsigned c;
 
@@ -361,9 +362,9 @@ static void *ub_create(const Part *part, const void *data, const void *pins,
     s->dev = data;
     s->pins = pins;
     s->pin_count = part->pin_count;
-    s->out = malloc(part->pin_count * sizeof *s->out);
+    s->out = logic_malloc(part->pin_count * sizeof *s->out);
     if (s->out == NULL) {
-        free(s);
+        logic_free(s);
         return NULL;
     }
     for (i = 0; i < part->pin_count; i++) {
@@ -387,8 +388,8 @@ static void ub_destroy(void *raw) {
     for (c = 0; c < s->dev->channels; c++) {
         serial_line_free(&s->ch[c].line);
     }
-    free(s->out);
-    free(s);
+    logic_free(s->out);
+    logic_free(s);
 }
 
 /* ---- Loader --------------------------------------------------------------------------------- */

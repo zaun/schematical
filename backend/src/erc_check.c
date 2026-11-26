@@ -7,6 +7,7 @@
 #include "erc.h"
 
 #include <stdlib.h>
+#include "logic_alloc.h"
 
 /* The default pin map of KiCad 10.0.8 (its stock templates' "pin_map"), rows and
    columns in ErcPinType order. */
@@ -34,7 +35,7 @@ typedef struct {
 static void found_add(Found *found, ErcProblemKind kind, size_t pin, size_t other, size_t net, int level) {
     if (found->count == found->capacity) {
         size_t capacity = found->capacity ? found->capacity * 2 : 64;
-        ErcProblem *grown = realloc(found->items, capacity * sizeof(*grown));
+        ErcProblem *grown = logic_realloc(found->items, capacity * sizeof(*grown));
 
         if (grown == NULL) {
             return;
@@ -176,13 +177,13 @@ size_t erc_check(const ErcPin *pins, size_t pin_count, size_t net_count, const E
                  const uint8_t pin_map[ERC_PIN_TYPE_COUNT][ERC_PIN_TYPE_COUNT],
                  ErcProblem *out, size_t cap) {
     Found found = {NULL, 0, 0};
-    Slot *slots = malloc((pin_count ? pin_count : 1) * sizeof(*slots));
-    size_t *group = malloc((pin_count ? pin_count : 1) * sizeof(*group));
+    Slot *slots = logic_malloc((pin_count ? pin_count : 1) * sizeof(*slots));
+    size_t *group = logic_malloc((pin_count ? pin_count : 1) * sizeof(*group));
     size_t i, start, wired = 0, total;
 
     if (slots == NULL || group == NULL) {
-        free(slots);
-        free(group);
+        logic_free(slots);
+        logic_free(group);
         return 0;
     }
     for (i = 0; i < pin_count; i++) {
@@ -209,8 +210,8 @@ size_t erc_check(const ErcPin *pins, size_t pin_count, size_t net_count, const E
                   pin_map);
         start = end;
     }
-    free(slots);
-    free(group);
+    logic_free(slots);
+    logic_free(group);
     if (found.count > 1) {
         qsort(found.items, found.count, sizeof(*found.items), compare_problems);
     }
@@ -218,6 +219,6 @@ size_t erc_check(const ErcPin *pins, size_t pin_count, size_t net_count, const E
     for (i = 0; i < total && i < cap && out != NULL; i++) {
         out[i] = found.items[i];
     }
-    free(found.items);
+    logic_free(found.items);
     return total;
 }

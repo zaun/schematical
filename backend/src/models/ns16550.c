@@ -1,4 +1,5 @@
 #include "ns16550_core_int.h"
+#include "logic_alloc.h"
 
 const char *const nsc_TIMING[] = {
     "trvd", "thz", "trdd", "tbld", "trint", "thr", "tmdo", "tsim", "trim", "twxi", "twrr", "tir",
@@ -748,7 +749,7 @@ static int d_needs_select(const NsDevice *d) {
 
 void *nsc_ns_create(const Part *part, const void *data, const void *pins,
                        const SerialGrade *grade, const void *options) {
-    NsState *s = calloc(1, sizeof *s);
+    NsState *s = logic_calloc(1, sizeof *s);
     unsigned i;
 
     if (s == NULL) {
@@ -761,9 +762,9 @@ void *nsc_ns_create(const Part *part, const void *data, const void *pins,
     s->pins = pins;
     s->grade = grade;
     s->pin_count = part->pin_count;
-    s->out = malloc(part->pin_count * sizeof *s->out);
+    s->out = logic_malloc(part->pin_count * sizeof *s->out);
     if (s->out == NULL) {
-        free(s);
+        logic_free(s);
         return NULL;
     }
     for (i = 0; i < part->pin_count; i++) {
@@ -801,8 +802,8 @@ void *nsc_ns_create(const Part *part, const void *data, const void *pins,
     s->receive_level = LOGIC_X;
     if (s->dev->bridge != NULL && ns_bridge_create(s) != 0) {
         ns_lpt_destroy(s->lpt);
-        free(s->out);
-        free(s);
+        logic_free(s->out);
+        logic_free(s);
         return NULL;
     }
     return s;
@@ -819,7 +820,7 @@ void nsc_ns_destroy(void *raw) {
     if (s->bridge != NULL) {
         ns_bridge_destroy(s);
     }
-    free(s->out);
-    free(s);
+    logic_free(s->out);
+    logic_free(s);
 }
 

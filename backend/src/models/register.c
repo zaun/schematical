@@ -27,6 +27,7 @@
 #include "kind.h"
 #include "model_pins.h"
 #include "seq.h"
+#include "logic_alloc.h"
 
 #define REG_MAX_GROUPS 4
 #define REG_MAX_BITS 40     /* per group */
@@ -433,7 +434,7 @@ static size_t register_pin_count(const void *config) {
 
 static void *register_create(const void *config) {
     const PartInternal *internal = part_internal(config);
-    RegState *s = calloc(1, sizeof(*s));
+    RegState *s = logic_calloc(1, sizeof(*s));
     size_t gi, k, i;
 
     if (s == NULL) {
@@ -459,7 +460,7 @@ static void *register_create(const void *config) {
 }
 
 static void register_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static void register_start(Sim *sim, SimInstance *inst, void *state) {

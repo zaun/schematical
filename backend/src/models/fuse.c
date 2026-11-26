@@ -19,6 +19,7 @@
 #include "kind.h"
 #include "model_pins.h"
 #include "terminals.h"
+#include "logic_alloc.h"
 
 static const char *const DEVICE_KEYS[] = {"type", "terminals", NULL};
 static const char *const PART_KEYS[] = {"amps", "speed", "voltsAc", "voltsDc", "breaking",
@@ -174,7 +175,7 @@ static size_t fuse_pin_count(const void *config) {
 }
 
 static void *fuse_create(const void *config) {
-    FuseState *state = malloc(sizeof(*state));
+    FuseState *state = logic_malloc(sizeof(*state));
 
     if (state == NULL) {
         return NULL;
@@ -185,7 +186,7 @@ static void *fuse_create(const void *config) {
 }
 
 static void fuse_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static void fuse_start(Sim *sim, SimInstance *instance, void *raw) {

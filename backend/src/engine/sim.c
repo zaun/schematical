@@ -1,4 +1,5 @@
 #include "sim_int.h"
+#include "logic_alloc.h"
 
 void simc_set_error(Sim *sim, const char *message) {
     if (sim != NULL && sim->error == NULL) {
@@ -15,7 +16,7 @@ static char *copy_string(const char *text) {
     }
 
     length = strlen(text) + 1;
-    copy = malloc(length);
+    copy = logic_malloc(length);
 
     if (copy != NULL) {
         memcpy(copy, text, length);
@@ -35,7 +36,7 @@ void *simc_grow_array(void *array, size_t *capacity, size_t element_size) {
         return NULL;
     }
 
-    new_array = realloc(array, new_capacity * element_size);
+    new_array = logic_realloc(array, new_capacity * element_size);
     if (new_array == NULL) {
         return NULL;
     }
@@ -45,7 +46,7 @@ void *simc_grow_array(void *array, size_t *capacity, size_t element_size) {
 }
 
 Sim *sim_create(void) {
-    return calloc(1, sizeof(Sim));
+    return logic_calloc(1, sizeof(Sim));
 }
 
 void sim_destroy(Sim *sim) {
@@ -62,38 +63,38 @@ void sim_destroy(Sim *sim) {
             instance->type->destroy(instance->state);
         }
 
-        free(instance->pins);
-        free(instance->name);
-        free(instance);
+        logic_free(instance->pins);
+        logic_free(instance->name);
+        logic_free(instance);
     }
 
     for (i = 0; i < sim->net_count; i++) {
         net_destroy(sim->nets[i]);
     }
 
-    free(sim->contacts);
-    free(sim->diodes);
-    free(sim->cluster_parent);
-    free(sim->cluster_root);
-    free(sim->cluster_head);
-    free(sim->cluster_next);
-    free(sim->link_head);
-    free(sim->link_next);
-    free(sim->node_strong);
-    free(sim->node_weak);
-    free(sim->events);
-    free(sim->batch);
-    free(sim->dirty);
-    free(sim->is_dirty);
-    free(sim->old_values);
-    free(sim->group_parent);
-    free(sim->group_root);
-    free(sim->group_head);
-    free(sim->group_next);
-    free(sim->group_nets);
-    free(sim->nets);
-    free(sim->instances);
-    free(sim);
+    logic_free(sim->contacts);
+    logic_free(sim->diodes);
+    logic_free(sim->cluster_parent);
+    logic_free(sim->cluster_root);
+    logic_free(sim->cluster_head);
+    logic_free(sim->cluster_next);
+    logic_free(sim->link_head);
+    logic_free(sim->link_next);
+    logic_free(sim->node_strong);
+    logic_free(sim->node_weak);
+    logic_free(sim->events);
+    logic_free(sim->batch);
+    logic_free(sim->dirty);
+    logic_free(sim->is_dirty);
+    logic_free(sim->old_values);
+    logic_free(sim->group_parent);
+    logic_free(sim->group_root);
+    logic_free(sim->group_head);
+    logic_free(sim->group_next);
+    logic_free(sim->group_nets);
+    logic_free(sim->nets);
+    logic_free(sim->instances);
+    logic_free(sim);
 }
 
 const char *sim_error(const Sim *sim) {
@@ -143,7 +144,7 @@ SimInstance *sim_add_instance(
         sim->instances = new_instances;
     }
 
-    instance = calloc(1, sizeof(*instance));
+    instance = logic_calloc(1, sizeof(*instance));
     if (instance == NULL) {
         simc_set_error(sim, "out of memory");
         return NULL;
@@ -155,14 +156,14 @@ SimInstance *sim_add_instance(
     instance->name = copy_string(name);
 
     if (pin_count > 0) {
-        instance->pins = calloc(pin_count, sizeof(*instance->pins));
+        instance->pins = logic_calloc(pin_count, sizeof(*instance->pins));
     }
 
     if (instance->name == NULL ||
         (pin_count > 0 && instance->pins == NULL)) {
-        free(instance->pins);
-        free(instance->name);
-        free(instance);
+        logic_free(instance->pins);
+        logic_free(instance->name);
+        logic_free(instance);
         simc_set_error(sim, "out of memory");
         return NULL;
     }
@@ -171,9 +172,9 @@ SimInstance *sim_add_instance(
         instance->state = type->create(config);
 
         if (instance->state == NULL) {
-            free(instance->pins);
-            free(instance->name);
-            free(instance);
+            logic_free(instance->pins);
+            logic_free(instance->name);
+            logic_free(instance);
             simc_set_error(sim, "component state creation failed");
             return NULL;
         }

@@ -20,6 +20,7 @@
 
 #include "converter_int.h"
 #include "display_ccsi.h"
+#include "logic_alloc.h"
 
 enum { LINES = 16, PIXELS = 16, MAX_FRAME = 2048, TX_MAX = 128 };
 
@@ -63,14 +64,14 @@ static void reset_registers(CcsiState *c) {
 }
 
 CcsiState *ccsi_new(void) {
-    CcsiState *c = calloc(1, sizeof *c);
+    CcsiState *c = logic_calloc(1, sizeof *c);
 
     if (c == NULL) {
         return NULL;
     }
-    c->sram = calloc((size_t)2 * 32 * PIXELS, sizeof *c->sram);
+    c->sram = logic_calloc((size_t)2 * 32 * PIXELS, sizeof *c->sram);
     if (c->sram == NULL) {
-        free(c);
+        logic_free(c);
         return NULL;
     }
     reset_registers(c);
@@ -80,8 +81,8 @@ CcsiState *ccsi_new(void) {
 
 void ccsi_free(CcsiState *c) {
     if (c != NULL) {
-        free(c->sram);
-        free(c);
+        logic_free(c->sram);
+        logic_free(c);
     }
 }
 

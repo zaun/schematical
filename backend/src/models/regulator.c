@@ -21,6 +21,7 @@
 
 #include "kind.h"
 #include "model_pins.h"
+#include "logic_alloc.h"
 
 #define REGULATOR_DELAY_PS 1000u
 
@@ -577,7 +578,7 @@ static size_t regulator_pin_count(const void *config) {
 
 static void *regulator_create(const void *config) {
     const RegulatorPins *pins = part_internal(config)->bound;
-    RegulatorState *state = calloc(1, sizeof(*state) + pins->count + 1);
+    RegulatorState *state = logic_calloc(1, sizeof(*state) + pins->count + 1);
 
     if (state != NULL) {
         state->pins = pins;
@@ -586,7 +587,7 @@ static void *regulator_create(const void *config) {
 }
 
 static void regulator_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static void regulator_start(Sim *sim, SimInstance *instance, void *raw) {

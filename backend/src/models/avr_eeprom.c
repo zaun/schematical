@@ -8,6 +8,7 @@
 #include <string.h>
 
 #include "avr.h"
+#include "logic_alloc.h"
 
 enum {
     EERE = 1 << 0, EEPE = 1 << 1, EEMPE = 1 << 2, EERIE = 1 << 3, EEPM0 = 1 << 4, EEPM1 = 1 << 5,
@@ -104,7 +105,7 @@ int avr_eeprom_init(AvrEeprom *eeprom, AvrCpu *cpu, uint32_t size, const AvrEepr
     eeprom->cpu = cpu;
     eeprom->config = *config;
     eeprom->size = size;
-    eeprom->memory = malloc(size > 0 ? size : 1);
+    eeprom->memory = logic_malloc(size > 0 ? size : 1);
     if (eeprom->memory == NULL) {
         return -1;
     }
@@ -124,6 +125,6 @@ int avr_eeprom_init(AvrEeprom *eeprom, AvrCpu *cpu, uint32_t size, const AvrEepr
 }
 
 void avr_eeprom_free(AvrEeprom *eeprom) {
-    free(eeprom->memory);
+    logic_free(eeprom->memory);
     eeprom->memory = NULL;
 }

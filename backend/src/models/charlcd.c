@@ -1,4 +1,5 @@
 #include "charlcd_int.h"
+#include "logic_alloc.h"
 
 static const char *const DEVICE_KEYS[] = {
     "columns", "rows", "controller", "rom", "panel", "bus", "contrast", "backlight", "timing",
@@ -542,7 +543,7 @@ static size_t charlcd_pin_count(const void *config) {
 
 static void *charlcd_create(const void *config) {
     const CharLcdPins *pins = part_internal(config)->bound;
-    CharLcdState *st = calloc(1, sizeof(*st));
+    CharLcdState *st = logic_calloc(1, sizeof(*st));
 
     if (st != NULL) {
         unsigned i;
@@ -558,7 +559,7 @@ static void *charlcd_create(const void *config) {
 }
 
 static void charlcd_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static void charlcd_start(Sim *sim, SimInstance *instance, void *raw) {

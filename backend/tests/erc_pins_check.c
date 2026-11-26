@@ -50,8 +50,18 @@ static char *line_of(const Part *part) {
     return line;
 }
 
+static int check(PartLibrary *library, int argc, char **argv);
+
+/* The library outlives every line (they point at part names), so it goes last. */
 int main(int argc, char **argv) {
     PartLibrary *library = part_library_create();
+    int result = check(library, argc, argv);
+
+    part_library_destroy(library);
+    return result;
+}
+
+static int check(PartLibrary *library, int argc, char **argv) {
     size_t count, i, differences = 0, golden_lines = 0;
     Line *lines;
     char path[1024];

@@ -13,6 +13,7 @@
 #include "model_pins.h"
 #include "timer.h"
 #include "timer_rc.h"
+#include "logic_alloc.h"
 
 #define NONE SIZE_MAX
 /* The far end of a pull part: the rail it ties its pin to. */
@@ -97,7 +98,7 @@ static uint64_t resistor_value(const Ctx *x, size_t part) {
 static int add_link(Ctx *x, size_t *cap, size_t a, size_t b, uint64_t value) {
     if (x->link_count == *cap) {
         size_t n = *cap == 0 ? 16 : *cap * 2;
-        Link *grown = realloc(x->links, n * sizeof(*grown));
+        Link *grown = logic_realloc(x->links, n * sizeof(*grown));
 
         if (grown == NULL) {
             return -1;
@@ -116,7 +117,7 @@ static int add_link(Ctx *x, size_t *cap, size_t a, size_t b, uint64_t value) {
 static int build(Ctx *x) {
     size_t total = 0, i, part, diode_cap = 0, cap_cap = 0;
 
-    x->offset = malloc((x->part_count + 1) * sizeof(*x->offset));
+    x->offset = logic_malloc((x->part_count + 1) * sizeof(*x->offset));
     if (x->offset == NULL) {
         return -1;
     }
@@ -124,7 +125,7 @@ static int build(Ctx *x) {
         x->offset[part] = total;
         total += x->parts[part]->pin_count;
     }
-    x->pin_net = malloc((total + 1) * sizeof(*x->pin_net));
+    x->pin_net = logic_malloc((total + 1) * sizeof(*x->pin_net));
     if (x->pin_net == NULL) {
         return -1;
     }
@@ -142,7 +143,7 @@ static int build(Ctx *x) {
             for (k = 0; diode_pair(p, k, &a, &b); k++) {
                 if (x->diode_count == diode_cap) {
                     size_t n = diode_cap == 0 ? 8 : diode_cap * 2;
-                    DiodeLink *grown = realloc(x->diodes, n * sizeof(*grown));
+                    DiodeLink *grown = logic_realloc(x->diodes, n * sizeof(*grown));
 
                     if (grown == NULL) {
                         return -1;
@@ -157,7 +158,7 @@ static int build(Ctx *x) {
         } else if (p->kind == PART_CAPACITOR && p->pin_count >= 2) {
             if (x->cap_count == cap_cap) {
                 size_t n = cap_cap == 0 ? 8 : cap_cap * 2;
-                CapLink *grown = realloc(x->caps, n * sizeof(*grown));
+                CapLink *grown = logic_realloc(x->caps, n * sizeof(*grown));
 
                 if (grown == NULL) {
                     return -1;
@@ -179,7 +180,7 @@ static int build(Ctx *x) {
 static int build_links(Ctx *x) {
     size_t part, cap = 0;
 
-    free(x->links);
+    logic_free(x->links);
     x->links = NULL;
     x->link_count = 0;
     for (part = 0; part < x->part_count; part++) {
@@ -205,11 +206,11 @@ static int build_links(Ctx *x) {
 }
 
 static void release(Ctx *x) {
-    free(x->pin_net);
-    free(x->offset);
-    free(x->links);
-    free(x->diodes);
-    free(x->caps);
+    logic_free(x->pin_net);
+    logic_free(x->offset);
+    logic_free(x->links);
+    logic_free(x->diodes);
+    logic_free(x->caps);
 }
 
 /* ---- Queries ---------------------------------------------------------------- */

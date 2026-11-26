@@ -10,6 +10,7 @@
 #include <string.h>
 
 #include "avr_chip.h"
+#include "logic_alloc.h"
 
 /* ---- Vector numbers of the ATmega48/88/168/328 (ATmega328P.atdf) ----------- */
 
@@ -391,7 +392,7 @@ void avr_chip_set_base_hz(AvrChip *chip, uint32_t hz) {
 
 AvrChip *avr_chip_create(const AvrLayout *layout, uint32_t flash_bytes, uint32_t sram_bytes,
                          uint32_t eeprom_bytes, uint32_t base_hz, uint8_t clkpr_reset) {
-    AvrChip *chip = calloc(1, sizeof(*chip));
+    AvrChip *chip = logic_calloc(1, sizeof(*chip));
     size_t i;
 
     if (chip == NULL) {
@@ -401,7 +402,7 @@ AvrChip *avr_chip_create(const AvrLayout *layout, uint32_t flash_bytes, uint32_t
     chip->base_hz = base_hz;
     chip->cpu = avr_cpu_create_data(flash_bytes, sram_bytes + chip->layout.sram_start);
     if (chip->cpu == NULL) {
-        free(chip);
+        logic_free(chip);
         return NULL;
     }
     /* One order on both sides (oracle.js run builds avr8js's objects in
@@ -441,7 +442,7 @@ AvrChip *avr_chip_create(const AvrLayout *layout, uint32_t flash_bytes, uint32_t
     chip->layout.eeprom.write_cycles = avr_eeprom_cycles(base_hz);
     if (avr_eeprom_init(&chip->eeprom, chip->cpu, eeprom_bytes, &chip->layout.eeprom) != 0) {
         avr_cpu_destroy(chip->cpu);
-        free(chip);
+        logic_free(chip);
         return NULL;
     }
     avr_watchdog_init(&chip->watchdog, chip->cpu, &chip->layout.watchdog, &chip->clock);
@@ -456,7 +457,7 @@ void avr_chip_destroy(AvrChip *chip) {
     }
     avr_eeprom_free(&chip->eeprom);
     avr_cpu_destroy(chip->cpu);
-    free(chip);
+    logic_free(chip);
 }
 
 AvrPort *avr_chip_port(AvrChip *chip, char letter) {

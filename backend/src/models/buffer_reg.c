@@ -25,6 +25,7 @@
 #include "buffer.h"
 #include "kind.h"
 #include "seq.h"
+#include "logic_alloc.h"
 
 static const char *const REGISTERED_KEYS[] = {"units", "invert", "output", NULL};
 
@@ -227,7 +228,7 @@ static void *reg_bind(KindContext *ctx, const void *raw, const PartPin *pins, si
 
 static BufHeader *reg_create(const void *raw, const void *bound) {
     const RegDevice *dev = raw;
-    RegState *s = calloc(1, sizeof(*s));
+    RegState *s = logic_calloc(1, sizeof(*s));
     size_t i, j;
 
     if (s == NULL) {

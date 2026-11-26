@@ -37,6 +37,7 @@
 #include "kind.h"
 #include "lights.h"
 #include "model_pins.h"
+#include "logic_alloc.h"
 
 #define DK_POSITIONS 10
 #define DK_MAX_GUIDES 4
@@ -332,7 +333,7 @@ static size_t dekatron_pin_count(const void *config) {
 }
 
 static void *dekatron_create(const void *config) {
-    DekatronState *state = calloc(1, sizeof(*state));
+    DekatronState *state = logic_calloc(1, sizeof(*state));
 
     if (state != NULL) {
         state->pins = part_internal(config)->bound;
@@ -342,7 +343,7 @@ static void *dekatron_create(const void *config) {
 }
 
 static void dekatron_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 /* The electrodes round the ring: a two-guide tube has 3 per position (cathode,

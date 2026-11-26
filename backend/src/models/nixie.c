@@ -21,6 +21,7 @@
 #include "kind.h"
 #include "lights.h"
 #include "model_pins.h"
+#include "logic_alloc.h"
 
 #define NIXIE_MAX_CATHODES 16
 #define NIXIE_MAX_ANODES 2
@@ -259,7 +260,7 @@ static size_t nixie_pin_count(const void *config) {
 }
 
 static void *nixie_create(const void *config) {
-    NixieState *state = calloc(1, sizeof(*state));
+    NixieState *state = logic_calloc(1, sizeof(*state));
 
     if (state != NULL) {
         state->pins = part_internal(config)->bound;
@@ -268,7 +269,7 @@ static void *nixie_create(const void *config) {
 }
 
 static void nixie_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static void nixie_update(Sim *sim, SimInstance *instance, NixieState *state) {

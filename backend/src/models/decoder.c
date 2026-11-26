@@ -20,6 +20,7 @@
 #include "kind.h"
 #include "model_pins.h"
 #include "seq.h"
+#include "logic_alloc.h"
 
 #define DEC_MAX_UNITS 4
 #define DEC_MAX_ADDRESS 4
@@ -330,7 +331,7 @@ static void *bin_bind(KindContext *ctx, const void *raw, const PartPin *pins, si
 
 static DecoderHeader *bin_create(const void *bound) {
     const BinBound *b = bound;
-    BinState *s = calloc(1, sizeof(*s));
+    BinState *s = logic_calloc(1, sizeof(*s));
     size_t i, j;
 
     if (s == NULL) {
@@ -561,7 +562,7 @@ static void *pri_bind(KindContext *ctx, const void *raw, const PartPin *pins, si
 
 static DecoderHeader *pri_create(const void *bound) {
     const PriBound *b = bound;
-    PriState *s = calloc(1, sizeof(*s));
+    PriState *s = logic_calloc(1, sizeof(*s));
 
     if (s == NULL) {
         return NULL;
@@ -762,7 +763,7 @@ static void *seg_bind(KindContext *ctx, const void *raw, const PartPin *pins, si
 
 static DecoderHeader *seg_create(const void *bound) {
     const SegBound *b = bound;
-    SegState *s = calloc(1, sizeof(*s));
+    SegState *s = logic_calloc(1, sizeof(*s));
     size_t i;
 
     if (s == NULL) {
@@ -987,7 +988,7 @@ static void *decoder_create(const void *config) {
 }
 
 static void decoder_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static void decoder_start(Sim *sim, SimInstance *instance, void *state) {

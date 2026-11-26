@@ -1,9 +1,10 @@
 /* library/library_load.c: part of the model in library/library.c (split by plan-68-I/J). */
 #include "library_load_int.h"
+#include "logic_alloc.h"
 static int file_add_part(FileParts *file, const Part *part) {
     if (file->count == file->capacity) {
         size_t capacity = file->capacity == 0 ? 256 : file->capacity * 2;
-        const Part **parts = realloc(file->parts, capacity * sizeof(*parts));
+        const Part **parts = logic_realloc(file->parts, capacity * sizeof(*parts));
 
         if (parts == NULL) {
             return -1;

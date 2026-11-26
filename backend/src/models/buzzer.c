@@ -16,6 +16,7 @@
 
 #include "kind.h"
 #include "lights.h"
+#include "logic_alloc.h"
 
 static const char *const DEVICE_KEYS[] = {"driver", "technology", "positive", "negative", NULL};
 static const char *const PART_KEYS[] = {"hz", "volts", "voltsMin", "voltsMax", "ma", "db", NULL};
@@ -164,7 +165,7 @@ static size_t buzzer_pin_count(const void *config) {
 }
 
 static void *buzzer_create(const void *config) {
-    BuzzerState *state = calloc(1, sizeof(*state));
+    BuzzerState *state = logic_calloc(1, sizeof(*state));
 
     if (state != NULL) {
         state->pins = *(const BuzzerPins *)part_internal(config)->bound;
@@ -173,7 +174,7 @@ static void *buzzer_create(const void *config) {
 }
 
 static void buzzer_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static void buzzer_update(Sim *sim, SimInstance *instance, BuzzerState *state) {

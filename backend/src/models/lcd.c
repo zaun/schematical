@@ -20,6 +20,7 @@
 
 #include "kind.h"
 #include "lights.h"
+#include "logic_alloc.h"
 
 #define LCD_MAX_DIGITS 14
 #define LCD_MAX_CELLS 160
@@ -323,7 +324,7 @@ static size_t lcd_pin_count(const void *config) {
 }
 
 static void *lcd_create(const void *config) {
-    LcdState *state = calloc(1, sizeof(*state));
+    LcdState *state = logic_calloc(1, sizeof(*state));
 
     if (state != NULL) {
         state->pins = part_internal(config)->bound;
@@ -332,7 +333,7 @@ static void *lcd_create(const void *config) {
 }
 
 static void lcd_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static void update_cells(Sim *sim, SimInstance *instance, LcdState *state) {

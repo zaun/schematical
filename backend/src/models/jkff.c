@@ -13,6 +13,7 @@
 #include <string.h>
 
 #include "kind.h"
+#include "logic_alloc.h"
 
 #define FF_NO_PIN ((size_t)-1)
 #define FF_MAX_UNITS 2
@@ -241,7 +242,7 @@ static size_t jk_pin_count(const void *config) {
 static void *jk_create(const void *config) {
     const PartInternal *internal = part_internal(config);
     const JkTiming *timing = internal->data;
-    FfState *state = malloc(sizeof(*state));
+    FfState *state = logic_malloc(sizeof(*state));
     size_t i;
 
     if (state == NULL) {
@@ -259,7 +260,7 @@ static void *jk_create(const void *config) {
 }
 
 static void jk_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static int asserted(LogicValue value, int active_high) {

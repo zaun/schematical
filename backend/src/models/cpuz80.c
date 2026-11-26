@@ -33,6 +33,7 @@
 
 #include "../third_party/chips/z80.h"
 #include "../third_party/chips/z80dasm.h"
+#include "logic_alloc.h"
 
 /* The floooh disassembler as the tracker's CpuDasm. */
 static size_t dasm_z80(uint32_t pc, const uint8_t *bytes, size_t count, void *user, char *out,
@@ -828,7 +829,7 @@ static void z80_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t p
 /* ---- Model --------------------------------------------------------------- */
 
 static void *z80_create(const Part *part, const CpuPins *pins, const CpuGrade *grade) {
-    Z80 *s = calloc(1, sizeof(*s));
+    Z80 *s = logic_calloc(1, sizeof(*s));
     size_t i;
 
     (void)part;
@@ -862,7 +863,7 @@ static void *z80_create(const Part *part, const CpuPins *pins, const CpuGrade *g
 }
 
 static void z80_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 /* Power-up: LOST, every output X. */

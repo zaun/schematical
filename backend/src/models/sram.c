@@ -25,6 +25,7 @@
 #include <string.h>
 
 #include "kind.h"
+#include "logic_alloc.h"
 
 #define SRAM_NO_PIN ((size_t)-1)
 #define SRAM_MAX_ADDRESS_BITS 24
@@ -144,7 +145,7 @@ static void store(SramState *state, uint32_t address, uint32_t mask, uint32_t va
         if ((known & mask) == 0) {
             return; /* storing X in a page that is still all X */
         }
-        page = calloc(1, sizeof(*page));
+        page = logic_calloc(1, sizeof(*page));
         if (page == NULL) {
             return; /* out of memory: the word stays X */
         }
@@ -945,7 +946,7 @@ static void *sram_create(const void *config) {
     SramState *state;
     size_t i;
 
-    state = calloc(1, sizeof(*state));
+    state = logic_calloc(1, sizeof(*state));
     if (state == NULL) {
         return NULL;
     }
@@ -985,9 +986,9 @@ static void *sram_create(const void *config) {
     }
 
     state->page_count = (state->word_count + SRAM_PAGE_WORDS - 1) / SRAM_PAGE_WORDS;
-    state->pages = calloc(state->page_count, sizeof(*state->pages));
+    state->pages = logic_calloc(state->page_count, sizeof(*state->pages));
     if (state->pages == NULL) {
-        free(state);
+        logic_free(state);
         return NULL;
     }
     return state;
@@ -1001,10 +1002,10 @@ static void sram_destroy(void *raw) {
         return;
     }
     for (i = 0; i < state->page_count; i++) {
-        free(state->pages[i]);
+        logic_free(state->pages[i]);
     }
-    free(state->pages);
-    free(state);
+    logic_free(state->pages);
+    logic_free(state);
 }
 
 static const SimComponentType SRAM_MODEL = {

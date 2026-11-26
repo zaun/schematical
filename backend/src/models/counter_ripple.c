@@ -1,5 +1,6 @@
 /* models/counter_ripple.c: part of the model in models/counter.c (split by plan-68-I/J). */
 #include "counter_int.h"
+#include "logic_alloc.h"
 
 static const char *const RIPPLE_KEYS[] = {"units", "sections", NULL};
 static const CounterExtraKey RIPPLE_EXTRA[] = {{"stage", 1}, {NULL, 0}};
@@ -174,7 +175,7 @@ static void *ripple_bind(KindContext *ctx, const void *raw, const PartPin *pins,
 
 static CounterHeader *ripple_create(const void *dev, const void *bound) {
     const RippleBound *b = bound;
-    RippleState *s = calloc(1, sizeof(*s));
+    RippleState *s = logic_calloc(1, sizeof(*s));
     size_t i;
 
     (void)dev;

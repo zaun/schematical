@@ -13,6 +13,7 @@
 #include <string.h>
 
 #include "library_internal.h"
+#include "logic_alloc.h"
 
 #define MAX_PINS 1000u
 
@@ -1014,7 +1015,7 @@ static int load_footprint(KindContext *ctx, const cJSON *json, const PartLibrary
 static int list_add(FootprintList *list, const PartFootprint *fp) {
     if (list->count == list->capacity) {
         size_t capacity = list->capacity == 0 ? 64 : list->capacity * 2;
-        const PartFootprint **items = realloc(list->items, capacity * sizeof(*items));
+        const PartFootprint **items = logic_realloc(list->items, capacity * sizeof(*items));
 
         if (items == NULL) {
             return -1;

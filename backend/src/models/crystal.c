@@ -15,6 +15,7 @@
 #include <string.h>
 
 #include "kind.h"
+#include "logic_alloc.h"
 
 static const char *const DEVICE_KEYS[] = {"type", "terminals", NULL};
 static const char *const PART_KEYS[] = {"hz", "loadPf", "tolerancePpm", "stabilityPpm",
@@ -166,7 +167,7 @@ static void *crystal_create(const void *config) {
     if (hz == 0) {
         return NULL;
     }
-    state = malloc(sizeof(*state));
+    state = logic_malloc(sizeof(*state));
     if (state == NULL) {
         return NULL;
     }
@@ -178,7 +179,7 @@ static void *crystal_create(const void *config) {
 }
 
 static void crystal_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static void drive_terminals(Sim *sim, SimInstance *instance, const CrystalState *state) {

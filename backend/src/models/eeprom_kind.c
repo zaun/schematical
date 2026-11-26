@@ -1,5 +1,6 @@
 /* models/eeprom_kind.c: part of the model in models/eeprom.c (split by plan-68-I/J). */
 #include "eeprom_int.h"
+#include "logic_alloc.h"
 /* ---- Kind: devices, pinouts, parts --------------------------------------- */
 
 static const char *const DEVICE_KEYS[] = {
@@ -261,7 +262,7 @@ static void *eeprom_create(const void *config) {
     const EepromPins *pins = internal->bound;
     const EepromDevice *device = pins->device;
     const EepromGrade *grade = internal->data;
-    EepromState *state = calloc(1, sizeof(*state));
+    EepromState *state = logic_calloc(1, sizeof(*state));
     size_t i;
 
     if (state == NULL) {
@@ -284,11 +285,11 @@ static void *eeprom_create(const void *config) {
     state->oe_pin = pins->oe;
     state->we_pin = pins->we;
 
-    state->value = malloc(state->word_count);
-    state->known = malloc(state->word_count);
-    state->buf_value = calloc(state->page_size, 1);
-    state->buf_known = calloc(state->page_size, 1);
-    state->buf_loaded = calloc(state->page_size, 1);
+    state->value = logic_malloc(state->word_count);
+    state->known = logic_malloc(state->word_count);
+    state->buf_value = logic_calloc(state->page_size, 1);
+    state->buf_known = logic_calloc(state->page_size, 1);
+    state->buf_loaded = logic_calloc(state->page_size, 1);
     if (state->value == NULL || state->known == NULL || state->buf_value == NULL ||
         state->buf_known == NULL || state->buf_loaded == NULL) {
         eeprom_destroy(state);
@@ -306,12 +307,12 @@ static void eeprom_destroy(void *raw) {
     if (state == NULL) {
         return;
     }
-    free(state->value);
-    free(state->known);
-    free(state->buf_value);
-    free(state->buf_known);
-    free(state->buf_loaded);
-    free(state);
+    logic_free(state->value);
+    logic_free(state->known);
+    logic_free(state->buf_value);
+    logic_free(state->buf_known);
+    logic_free(state->buf_loaded);
+    logic_free(state);
 }
 
 static const SimComponentType EEPROM_MODEL = {

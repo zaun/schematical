@@ -10,6 +10,7 @@ add_library(logic STATIC
     src/engine/sim_contacts.c
     src/engine/net.c
     src/circuit.c
+    src/logic_alloc.c
     src/timer_rc.c
     src/memory_image.c
     src/voltage.c
@@ -192,6 +193,7 @@ add_library(logic_test_support STATIC
     tests/support/io_board.c
 )
 target_include_directories(logic_test_support PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/support
     ${CMAKE_CURRENT_SOURCE_DIR}/src/library
     ${CMAKE_CURRENT_SOURCE_DIR}/src/models
@@ -200,7 +202,8 @@ target_include_directories(logic_test_support PUBLIC
 target_link_libraries(logic_test_support PUBLIC logic)
 
 function(logic_test NAME)
-    add_executable(${NAME} tests/${NAME}.c)
+    # alloc_check.c: the program fails if it leaves backend memory (plan-68-K).
+    add_executable(${NAME} tests/${NAME}.c tests/support/alloc_check.c)
     target_link_libraries(${NAME} PRIVATE logic_test_support)
     target_compile_definitions(${NAME} PRIVATE
         PARTS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/../schematical/schematical/Parts"
@@ -245,6 +248,10 @@ logic_test(counter_sn74143_test)
 logic_bench_test(shift_test shift_bench)
 logic_bench_test(shift_special_test shift_bench)
 logic_test(memory_image_test)
+# plan-68-K: the wrapper itself (without alloc_check.c: it frees foreign memory on purpose).
+add_executable(logic_alloc_test tests/logic_alloc_test.c)
+target_link_libraries(logic_alloc_test PRIVATE logic_test_support)
+add_test(NAME logic_alloc_test COMMAND logic_alloc_test)
 logic_test(voltage_test)
 logic_test(erc_pins_test)
 logic_test(erc_pins_check)

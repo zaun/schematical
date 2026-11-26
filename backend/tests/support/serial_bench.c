@@ -483,7 +483,7 @@ int load_new_footprints(void) {
         fprintf(stderr, "fixture footprints: %s\n", error != NULL ? error : "(no message)");
     }
     free(error);
-    free(out);
+    cJSON_free(out);
     return result;
 }
 

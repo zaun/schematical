@@ -18,6 +18,7 @@
 
 #include "kind.h"
 #include "lights.h"
+#include "logic_alloc.h"
 
 #define D7_MAX_DIGITS 14
 #define D7_MAX_LEDS 128
@@ -469,7 +470,7 @@ static size_t display_pin_count(const void *config) {
 }
 
 static void *display_create(const void *config) {
-    DisplayState *state = calloc(1, sizeof(*state));
+    DisplayState *state = logic_calloc(1, sizeof(*state));
 
     if (state != NULL) {
         state->pins = part_internal(config)->bound;
@@ -478,7 +479,7 @@ static void *display_create(const void *config) {
 }
 
 static void display_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static LogicValue common_value(const Sim *sim, const SimInstance *instance, const LedPins *led) {

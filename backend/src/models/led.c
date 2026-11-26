@@ -9,6 +9,7 @@
 #include "kind.h"
 #include "lights.h"
 #include "model_pins.h"
+#include "logic_alloc.h"
 
 static const char *const DEVICE_KEYS[] = {"colors", "anode", "cathode", NULL};
 
@@ -89,7 +90,7 @@ static size_t led_pin_count(const void *config) {
 }
 
 static void *led_create(const void *config) {
-    LedState *state = calloc(1, sizeof(*state));
+    LedState *state = logic_calloc(1, sizeof(*state));
 
     if (state != NULL) {
         state->pins = *(const LedPins *)part_internal(config)->bound;
@@ -98,7 +99,7 @@ static void *led_create(const void *config) {
 }
 
 static void led_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static void led_update(Sim *sim, SimInstance *instance, LedState *state) {

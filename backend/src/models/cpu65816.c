@@ -38,6 +38,7 @@
 
 #include "../third_party/jsmooch/wdc65816.h"
 #include "../third_party/jsmooch/wdc65816_disassembler.h"
+#include "logic_alloc.h"
 
 /* Control order (cpu.c CONTROLS_65816). */
 enum { K_CLOCK, K_RW, K_IRQ, K_NMI, K_RESET, K_RDY, K_ABORT, K_VDA, K_VPA, K_VPB, K_MLB, K_E,
@@ -560,7 +561,7 @@ static void c816_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t 
 /* ---- Model ------------------------------------------------------------------ */
 
 static void *c816_create(const Part *part, const CpuPins *pins, const CpuGrade *grade) {
-    Cpu816 *s = calloc(1, sizeof(*s));
+    Cpu816 *s = logic_calloc(1, sizeof(*s));
     size_t i;
 
     (void)part;
@@ -597,7 +598,7 @@ static void c816_destroy(void *state) {
     Cpu816 *s = state;
 
     WDC65816_delete(&s->core);
-    free(s);
+    logic_free(s);
 }
 
 /* Power-up: LOST, every output X. */

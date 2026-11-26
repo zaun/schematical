@@ -36,6 +36,7 @@
 #include <string.h>
 
 #include "serial_util.h"
+#include "logic_alloc.h"
 
 enum { T_CDR, T_HR, T_DD, T_DLY, T_IRQ };
 static const char *const TIMING[] = {"tcdr", "thr", "tdd", "tdly", "tirq", NULL};
@@ -749,7 +750,7 @@ static int ac_async(const void *raw, unsigned channel) {
 
 static void *ac_create(const Part *part, const void *data, const void *pins,
                        const SerialGrade *grade, const void *options) {
-    AcState *s = calloc(1, sizeof *s);
+    AcState *s = logic_calloc(1, sizeof *s);
     const AcOptions *opt = options;
     size_t i;
 
@@ -762,9 +763,9 @@ static void *ac_create(const Part *part, const void *data, const void *pins,
     s->grade = grade;
     s->cts_a = opt != NULL && opt->cts_a;
     s->o.count = part->pin_count;
-    s->o.out = malloc(part->pin_count * sizeof *s->o.out);
+    s->o.out = logic_malloc(part->pin_count * sizeof *s->o.out);
     if (s->o.out == NULL) {
-        free(s);
+        logic_free(s);
         return NULL;
     }
     for (i = 0; i < part->pin_count; i++) {
@@ -783,8 +784,8 @@ static void ac_destroy(void *raw) {
     AcState *s = raw;
 
     serial_line_free(&s->line);
-    free(s->o.out);
-    free(s);
+    logic_free(s->o.out);
+    logic_free(s);
 }
 
 static void *ac_load_device(KindContext *ctx, const cJSON *json, unsigned *channels) {

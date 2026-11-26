@@ -13,6 +13,7 @@
 #include "timer.h"
 #include "timer_rc.h"
 #include "voltage.h"
+#include "logic_alloc.h"
 
 int connector_contact_pins(const Part *part, unsigned position, size_t *a, size_t *b);
 static int record_contact(Circuit *circuit, size_t part, unsigned position, int on);
@@ -78,7 +79,7 @@ static int grow(void **array, size_t *capacity, size_t count, size_t size) {
         return 0;
     }
     new_capacity = *capacity == 0 ? 16 : *capacity * 2;
-    bigger = realloc(*array, new_capacity * size);
+    bigger = logic_realloc(*array, new_capacity * size);
     if (bigger == NULL) {
         return -1;
     }
@@ -88,7 +89,10 @@ static int grow(void **array, size_t *capacity, size_t count, size_t size) {
 }
 
 Circuit *circuit_create(const PartLibrary *library) {
-    Circuit *circuit = calloc(1, sizeof(*circuit));
+    Circuit *circuit;
+
+    logic_alloc_init();
+    circuit = logic_calloc(1, sizeof(*circuit));
 
     if (circuit == NULL) {
         return NULL;
@@ -96,7 +100,7 @@ Circuit *circuit_create(const PartLibrary *library) {
     circuit->library = library;
     circuit->sim = sim_create();
     if (circuit->sim == NULL) {
-        free(circuit);
+        logic_free(circuit);
         return NULL;
     }
     return circuit;
@@ -107,14 +111,14 @@ void circuit_destroy(Circuit *circuit) {
         return;
     }
     sim_destroy(circuit->sim);
-    free(circuit->parts);
-    free(circuit->instances);
-    free(circuit->milliohms);
-    free(circuit->values);
-    free(circuit->nets);
-    free(circuit->connections);
-    free(circuit->closed);
-    free(circuit);
+    logic_free(circuit->parts);
+    logic_free(circuit->instances);
+    logic_free(circuit->milliohms);
+    logic_free(circuit->values);
+    logic_free(circuit->nets);
+    logic_free(circuit->connections);
+    logic_free(circuit->closed);
+    logic_free(circuit);
 }
 
 const char *circuit_error(const Circuit *circuit) {
@@ -511,7 +515,7 @@ static int analyze_timers(Circuit *circuit) {
     if (part == circuit->part_count) {
         return 0;
     }
-    values = malloc((circuit->part_count + 1) * sizeof(*values));
+    values = logic_malloc((circuit->part_count + 1) * sizeof(*values));
     if (values == NULL) {
         return fail(circuit, "out of memory");
     }
@@ -532,7 +536,7 @@ static int analyze_timers(Circuit *circuit) {
             timer_model_set(sim_instance_state(circuit->instances[part]), section, &timing);
         }
     }
-    free(values);
+    logic_free(values);
     return 0;
 }
 

@@ -27,6 +27,7 @@
 #include "lights.h"
 #include "model_pins.h"
 #include "terminals.h"
+#include "logic_alloc.h"
 
 #define RELAY_DELAY_PS 1000000000ULL   /* 1 ms, every relay, both ways */
 #define MAX_COILS 8
@@ -464,7 +465,7 @@ static size_t relay_pin_count(const void *config) {
 }
 
 static void *relay_create(const void *config) {
-    RelayState *state = calloc(1, sizeof(*state));
+    RelayState *state = logic_calloc(1, sizeof(*state));
 
     if (state != NULL) {
         state->part = config;
@@ -474,7 +475,7 @@ static void *relay_create(const void *config) {
 }
 
 static void relay_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 /* Moves every pole of a channel to the position: the open contacts first. */

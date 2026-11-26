@@ -34,6 +34,7 @@
 #include <string.h>
 
 #include "pio.h"
+#include "logic_alloc.h"
 
 enum {
     T_TCYC, T_TC, T_TACR, T_TCAR, T_TPCR, T_TCDR, T_THR, T_TACW, T_TCAW, T_TDCW, T_THW, T_TCPW,
@@ -461,7 +462,7 @@ static void control_edge(Pia *s, int side, int which, LogicValue old_v, LogicVal
 
 static void *pia_create(const Part *part, const void *data, const void *pins,
                         const PioGrade *grade) {
-    Pia *s = calloc(1, sizeof(*s));
+    Pia *s = logic_calloc(1, sizeof(*s));
     Bus65Timing timing;
 
     (void)part;
@@ -489,7 +490,7 @@ static void *pia_create(const Part *part, const void *data, const void *pins,
 }
 
 static void pia_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static LogicValue reset_level(const Pia *s) {

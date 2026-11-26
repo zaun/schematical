@@ -42,6 +42,7 @@
 #include <string.h>
 
 #include "mcu.h"
+#include "logic_alloc.h"
 
 #define AVR_STARTUP_PS 1000000000ull    /* 1 ms */
 #define AVR_RC_CYCLE_PS 125000ull       /* the internal oscillator: 8 MHz */
@@ -530,7 +531,7 @@ int mcu_avr_cpu_state(const McuAvr *mcu, CpuState *out) {
 /* ---- Creation ---------------------------------------------------------------------- */
 
 McuAvr *mcu_avr_create(const Part *part, const McuAvrPins *pins) {
-    McuAvr *mcu = calloc(1, sizeof(*mcu));
+    McuAvr *mcu = logic_calloc(1, sizeof(*mcu));
     const AvrLayout *layout = pins->layout;
     size_t port, pin;
     int bit, channel;
@@ -542,9 +543,9 @@ McuAvr *mcu_avr_create(const Part *part, const McuAvrPins *pins) {
     mcu->pins = pins;
     mcu->chip = avr_chip_create(layout, part->mcu->flash, part->mcu->ram, part->mcu->eeprom,
                                 AVR_RC_HZ, 3);
-    mcu->pin_map = calloc(part->pin_count > 0 ? part->pin_count : 1, sizeof(*mcu->pin_map));
-    mcu->driven = calloc(part->pin_count > 0 ? part->pin_count : 1, sizeof(*mcu->driven));
-    mcu->override = calloc(part->pin_count > 0 ? part->pin_count : 1, 1);
+    mcu->pin_map = logic_calloc(part->pin_count > 0 ? part->pin_count : 1, sizeof(*mcu->pin_map));
+    mcu->driven = logic_calloc(part->pin_count > 0 ? part->pin_count : 1, sizeof(*mcu->driven));
+    mcu->override = logic_calloc(part->pin_count > 0 ? part->pin_count : 1, 1);
     if (mcu->chip == NULL || mcu->pin_map == NULL || mcu->driven == NULL || mcu->override == NULL) {
         mcu_avr_destroy(mcu);
         return NULL;
@@ -611,8 +612,8 @@ void mcu_avr_destroy(McuAvr *mcu) {
         return;
     }
     avr_chip_destroy(mcu->chip);
-    free(mcu->pin_map);
-    free(mcu->driven);
-    free(mcu->override);
-    free(mcu);
+    logic_free(mcu->pin_map);
+    logic_free(mcu->driven);
+    logic_free(mcu->override);
+    logic_free(mcu);
 }

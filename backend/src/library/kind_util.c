@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "library_internal.h"
+#include "logic_alloc.h"
 
 #define ARENA_CHUNK (64 * 1024)
 
@@ -21,7 +22,7 @@ void *kind_alloc(KindContext *ctx, size_t size) {
         size_t chunk_size = size > ARENA_CHUNK ? size : ARENA_CHUNK;
         size_t header = (sizeof(ArenaChunk) + 15u) & ~(size_t)15u;
 
-        chunk = malloc(header + chunk_size);
+        chunk = logic_malloc(header + chunk_size);
         if (chunk == NULL) {
             ctx->out_of_memory = 1;
             kind_error(ctx, "out of memory");
@@ -66,7 +67,7 @@ int kind_error(KindContext *ctx, const char *format, ...) {
     for (i = 0; i < ctx->depth; i++) {
         length += strlen(ctx->path[i]) + 2;
     }
-    full = malloc(length);
+    full = logic_malloc(length);
     if (full == NULL) {
         ctx->out_of_memory = 1;
         return -1;

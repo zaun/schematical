@@ -26,6 +26,7 @@
 #include "kind.h"
 #include "model_pins.h"
 #include "seq.h"
+#include "logic_alloc.h"
 
 #define BUF_TIMER 1
 
@@ -272,7 +273,7 @@ static void *tri_bind(KindContext *ctx, const void *raw, const PartPin *pins, si
 
 static BufHeader *tri_create(const void *raw, const void *bound) {
     const TriDevice *dev = raw;
-    TriState *s = calloc(1, sizeof(*s));
+    TriState *s = logic_calloc(1, sizeof(*s));
     size_t i;
 
     if (s == NULL) {
@@ -483,7 +484,7 @@ static void *xcvr_bind(KindContext *ctx, const void *raw, const PartPin *pins, s
 
 static BufHeader *xcvr_create(const void *raw, const void *bound) {
     const XcvrDevice *dev = raw;
-    XcvrState *s = calloc(1, sizeof(*s));
+    XcvrState *s = logic_calloc(1, sizeof(*s));
     size_t i, j;
 
     if (s == NULL) {
@@ -966,9 +967,9 @@ static void *buffer_create(const void *config) {
     if (h == NULL) {
         return NULL;
     }
-    h->own_until = calloc(part->pin_count ? part->pin_count : 1, sizeof(*h->own_until));
+    h->own_until = logic_calloc(part->pin_count ? part->pin_count : 1, sizeof(*h->own_until));
     if (h->own_until == NULL) {
-        free(h);
+        logic_free(h);
         return NULL;
     }
     h->model = dev->model;
@@ -982,9 +983,9 @@ static void buffer_destroy(void *state) {
     BufHeader *h = state;
 
     if (h != NULL) {
-        free(h->own_until);
+        logic_free(h->own_until);
     }
-    free(state);
+    logic_free(state);
 }
 
 static void buffer_start(Sim *sim, SimInstance *instance, void *state) {

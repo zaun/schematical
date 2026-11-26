@@ -141,14 +141,14 @@ to each test's ending, through `tests/support`).
 
 ### Phase 1 — the wrapper
 
-- [ ] `backend/src/logic_alloc.{c,h}` (§ 3); in CMake.
-- [ ] Replace the 194 calls, and the `free(` calls on what they return (256
+- [x] `backend/src/logic_alloc.{c,h}` (§ 3); in CMake.
+- [x] Replace the 194 calls, and the `free(` calls on what they return (256
   `free(` calls in `backend/src` outside `third_party`: `grep -rnoE '\bfree\('
   backend/src --include='*.c' | grep -v third_party | wc -l`), file by file;
   the cJSON hooks.
-- [ ] `tests/support`: every test program's ending asserts `logic_alloc_live()
+- [x] `tests/support`: every test program's ending asserts `logic_alloc_live()
   == 0` after its last destroy.
-- [ ] `tests/logic_alloc_test.c`: the counters, `fail_at`, the negative-live
+- [x] `tests/logic_alloc_test.c`: the counters, `fail_at`, the negative-live
   guard.
 
 Acceptance: nothing allocates around the wrapper, nothing changed behavior,
@@ -156,6 +156,10 @@ nothing leaks in the existing tests.
   Check: `grep -rnE '\b(malloc|calloc|realloc|strdup)\(' backend/src
   --include='*.c' | grep -v -e third_party -e logic_alloc.c` → no output; `CT`
   → all pass, goldens unchanged (est. 2 min).
+  Observed: the grep → no output (0 lines); `CT` → `100% tests passed, 0
+  tests failed out of 106` (with `logic_alloc_test`); `git status --short
+  backend/tests/golden` → no output. Every test program now also fails if it
+  leaves backend memory: three did (Corrections), and were fixed.
 Commit: —
 
 ### Phase 2 — the sweep
@@ -189,7 +193,28 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- **Memory the backend hands to its caller is disowned, not counted.** The
+  `char **error` messages of `load_*` and `memory_image` are freed by the
+  caller with plain `free` (the public headers say so), which the wrapper
+  cannot see; `logic_alloc_disown(p)` takes them out of the live count where
+  they leave (`lib_report`, the four `lib_copy_message` assignments,
+  `memory_image.c`). The public API is unchanged.
+- **The live check is an `atexit` hook in every test program**
+  (`tests/support/alloc_check.c`, added to `logic_test`'s sources), not a
+  line in each `main`: it covers the programs whose `main` returns early.
+  `logic_alloc_test` builds without it, since it frees foreign memory on
+  purpose. The negative-live guard counts such frees (`logic_alloc_unmatched`)
+  instead of aborting, and the hook fails the program when it is not 0.
+- **The check found three test-side leaks**, none in the backend:
+  `erc_pins_check` never destroyed its library (1,164 allocations; `main`
+  now destroys it after the check), `library_logic_check` freed an internal
+  `KindContext.error` with `free` (now `logic_free`), and `serial_bench.c`
+  freed `cJSON_PrintUnformatted`'s text with `free` (now `cJSON_free`).
+  Found with `planning/plan-68-data/trace_leak.sh`, which prints the live
+  count after each call in a test's `main`.
+- **There are no `strdup` calls** in the backend (the 194 were 117 `calloc`,
+  66 `malloc`, 11 `realloc`); `logic_strdup` exists for the tests and the
+  sweep's own use.
 
 ## Summary
 

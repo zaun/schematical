@@ -18,6 +18,7 @@
 
 #include "kind.h"
 #include "model_pins.h"
+#include "logic_alloc.h"
 
 #define FF_NO_PIN ((size_t)-1)
 #define FF_MAX_UNITS 8
@@ -277,7 +278,7 @@ static size_t dff_pin_count(const void *config) {
 static void *dff_create(const void *config) {
     const PartInternal *internal = part_internal(config);
     const DffTiming *timing = internal->data;
-    FfState *state = malloc(sizeof(*state));
+    FfState *state = logic_malloc(sizeof(*state));
     size_t i;
 
     if (state == NULL) {
@@ -296,7 +297,7 @@ static void *dff_create(const void *config) {
 }
 
 static void dff_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 /* 1 when asserted, 0 when not, -1 when the level is unknown. Z is not asserted. */

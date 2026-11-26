@@ -21,6 +21,7 @@
 
 #include "kind.h"
 #include "model_pins.h"
+#include "logic_alloc.h"
 
 #define TRANSISTOR_DELAY_PS 1000u
 
@@ -419,7 +420,7 @@ static size_t transistor_pin_count(const void *config) {
 
 static void *transistor_create(const void *config) {
     const TransistorPins *pins = part_internal(config)->bound;
-    TransistorState *state = calloc(1, sizeof(*state) + pins->count + 1);
+    TransistorState *state = logic_calloc(1, sizeof(*state) + pins->count + 1);
 
     if (state != NULL) {
         state->pins = pins;
@@ -428,7 +429,7 @@ static void *transistor_create(const void *config) {
 }
 
 static void transistor_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static void transistor_start(Sim *sim, SimInstance *instance, void *raw) {

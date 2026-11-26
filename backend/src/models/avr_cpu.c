@@ -9,26 +9,27 @@
 #include <string.h>
 
 #include "avr.h"
+#include "logic_alloc.h"
 
 AvrCpu *avr_cpu_create(uint32_t flash_bytes, uint32_t sram_bytes) {
     return avr_cpu_create_data(flash_bytes, sram_bytes + AVR_REGISTER_SPACE);
 }
 
 AvrCpu *avr_cpu_create_data(uint32_t flash_bytes, uint32_t data_size) {
-    AvrCpu *cpu = calloc(1, sizeof(*cpu));
+    AvrCpu *cpu = logic_calloc(1, sizeof(*cpu));
 
     if (cpu == NULL || data_size <= AVR_SREG) {
-        free(cpu);
+        logic_free(cpu);
         return NULL;
     }
     cpu->data_size = data_size;
     cpu->flash_bytes = flash_bytes;
     cpu->flash_words = flash_bytes / 2;
     cpu->pc22 = flash_bytes > 0x20000;
-    cpu->data = calloc(cpu->data_size, 1);
-    cpu->flash = malloc(flash_bytes > 0 ? flash_bytes : 1);
-    cpu->read_hooks = calloc(cpu->data_size, sizeof(*cpu->read_hooks));
-    cpu->write_hooks = calloc(cpu->data_size, sizeof(*cpu->write_hooks));
+    cpu->data = logic_calloc(cpu->data_size, 1);
+    cpu->flash = logic_malloc(flash_bytes > 0 ? flash_bytes : 1);
+    cpu->read_hooks = logic_calloc(cpu->data_size, sizeof(*cpu->read_hooks));
+    cpu->write_hooks = logic_calloc(cpu->data_size, sizeof(*cpu->write_hooks));
     if (cpu->data == NULL || cpu->flash == NULL || cpu->read_hooks == NULL ||
         cpu->write_hooks == NULL) {
         avr_cpu_destroy(cpu);
@@ -43,7 +44,7 @@ static void free_list(AvrClockEvent *event) {
     while (event != NULL) {
         AvrClockEvent *next = event->next;
 
-        free(event);
+        logic_free(event);
         event = next;
     }
 }
@@ -89,16 +90,16 @@ void avr_cpu_destroy(AvrCpu *cpu) {
                     cpu->event_pool[j] = NULL;
                 }
             }
-            free(event);
+            logic_free(event);
         }
     }
     free_list(cpu->next_event);
     free_list(cpu->spare_events);
-    free(cpu->data);
-    free(cpu->flash);
-    free(cpu->read_hooks);
-    free(cpu->write_hooks);
-    free(cpu);
+    logic_free(cpu->data);
+    logic_free(cpu->flash);
+    logic_free(cpu->read_hooks);
+    logic_free(cpu->write_hooks);
+    logic_free(cpu);
 }
 
 /*
@@ -271,7 +272,7 @@ void avr_add_clock_event(AvrCpu *cpu, AvrEventFn fn, void *ctx, double cycles) {
         cpu->spare_events = entry->next;
         entry->next = NULL;
     } else {
-        entry = calloc(1, sizeof(*entry));
+        entry = logic_calloc(1, sizeof(*entry));
         if (entry == NULL) {
             return;
         }

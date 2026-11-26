@@ -1,5 +1,6 @@
 /* library/library_load_device.c: part of the model in library/library.c (split by plan-68-I/J). */
 #include "library_load_int.h"
+#include "logic_alloc.h"
 int lib_load_device(KindContext *ctx, PartLibrary *library, FileParts *file,
                        const PartKindOps *ops, const cJSON *device_json) {
     Part common = {0};
@@ -182,7 +183,7 @@ static int load_file(KindContext *ctx, PartLibrary *library, FileParts *file, co
 }
 
 char *lib_copy_message(const char *text) {
-    char *copy = malloc(strlen(text) + 1);
+    char *copy = logic_malloc(strlen(text) + 1);
 
     if (copy != NULL) {
         strcpy(copy, text);
@@ -210,9 +211,9 @@ static void adopt_arena(PartLibrary *library, KindContext *ctx) {
 /* Sets *error (or frees the message) the way load_parts and load_footprints report. */
 void lib_report(KindContext *ctx, int result, char **error) {
     if (result != 0 && error != NULL) {
-        *error = ctx->error != NULL ? ctx->error : lib_copy_message("out of memory");
+        *error = logic_alloc_disown(ctx->error != NULL ? ctx->error : lib_copy_message("out of memory"));
     } else {
-        free(ctx->error);
+        logic_free(ctx->error);
     }
 }
 
@@ -223,13 +224,13 @@ static int footprint_table_build(const PartLibrary *library, const FootprintList
     int ok;
 
     memset(out, 0, sizeof *out);
-    out->all = malloc((needed > 0 ? needed : 1) * sizeof(*out->all));
+    out->all = logic_malloc((needed > 0 ? needed : 1) * sizeof(*out->all));
     ok = out->all != NULL && lib_name_set_merge(&out->ids, &library->footprint_ids) == 0;
     for (i = 0; ok && i < extra->count; i++) {
         ok = lib_name_set_add(&out->ids, extra->items[i]->id, extra->items[i]) == 0;
     }
     if (!ok) {
-        free(out->all);
+        logic_free(out->all);
         lib_name_set_free(&out->ids);
         memset(out, 0, sizeof *out);
         return -1;
@@ -245,7 +246,7 @@ static int footprint_table_build(const PartLibrary *library, const FootprintList
 }
 
 static void footprint_table_adopt(PartLibrary *library, FootprintTable *table) {
-    free(library->footprints);
+    logic_free(library->footprints);
     lib_name_set_free(&library->footprint_ids);
     library->footprints = table->all;
     library->footprint_count = table->count;
@@ -280,7 +281,7 @@ int lib_commit_parts(KindContext *ctx, PartLibrary *library, const FileParts *fi
             capacity *= 2;
         }
         /* Growing the array alone changes nothing the library reports. */
-        parts = realloc(library->parts, capacity * sizeof(*parts));
+        parts = logic_realloc(library->parts, capacity * sizeof(*parts));
         if (parts == NULL) {
             return kind_error(ctx, "out of memory");
         }
@@ -297,7 +298,7 @@ int lib_commit_parts(KindContext *ctx, PartLibrary *library, const FileParts *fi
           footprint_table_build(library, footprints, &table) == 0);
     if (ok && sheet_count > 0) {
         /* The grown datasheet table, built on the side like the others. */
-        sheets = malloc((library->datasheet_count + sheet_count) * sizeof(*sheets));
+        sheets = logic_malloc((library->datasheet_count + sheet_count) * sizeof(*sheets));
         ok = sheets != NULL && lib_name_set_merge(&sheet_ids, &library->datasheet_ids) == 0;
         for (i = 0; ok && i < sheet_count; i++) {
             ok = lib_name_set_add(&sheet_ids, datasheets->items[i]->id, datasheets->items[i]) == 0;
@@ -308,8 +309,8 @@ int lib_commit_parts(KindContext *ctx, PartLibrary *library, const FileParts *fi
         lib_name_set_free(&devices);
         lib_name_set_free(&uuids);
         lib_name_set_free(&sheet_ids);
-        free(sheets);
-        free(table.all);
+        logic_free(sheets);
+        logic_free(table.all);
         lib_name_set_free(&table.ids);
         return kind_error(ctx, "out of memory");
     }
@@ -328,7 +329,7 @@ int lib_commit_parts(KindContext *ctx, PartLibrary *library, const FileParts *fi
         }
         memcpy(sheets + library->datasheet_count, datasheets->items,
                sheet_count * sizeof(*sheets));
-        free(library->datasheets);
+        logic_free(library->datasheets);
         lib_name_set_free(&library->datasheet_ids);
         library->datasheets = sheets;
         library->datasheet_count += sheet_count;
@@ -351,7 +352,7 @@ int load_footprints(PartLibrary *library, const char *json, const char *source, 
     }
     if (library == NULL || json == NULL) {
         if (error != NULL) {
-            *error = lib_copy_message("load_footprints: no library or text");
+            *error = logic_alloc_disown(lib_copy_message("load_footprints: no library or text"));
         }
         return -1;
     }
@@ -376,7 +377,7 @@ int load_footprints(PartLibrary *library, const char *json, const char *source, 
     }
 
     cJSON_Delete(root);
-    free(file.items);
+    logic_free(file.items);
     lib_free_chunks(ctx.arena);
     lib_report(&ctx, result, error);
     return result;
@@ -496,7 +497,7 @@ int load_datasheets(PartLibrary *library, const char *json, const char *source, 
     }
     if (library == NULL || json == NULL) {
         if (error != NULL) {
-            *error = lib_copy_message("load_datasheets: no library or text");
+            *error = logic_alloc_disown(lib_copy_message("load_datasheets: no library or text"));
         }
         return -1;
     }
@@ -511,12 +512,12 @@ int load_datasheets(PartLibrary *library, const char *json, const char *source, 
     } else if (read_datasheets(&ctx, root, library, &items, &count, &ids) == 0 &&
                !kind_failed(&ctx)) {
         size_t needed = library->datasheet_count + count;
-        const PartDatasheet **all = malloc((needed > 0 ? needed : 1) * sizeof(*all));
+        const PartDatasheet **all = logic_malloc((needed > 0 ? needed : 1) * sizeof(*all));
         NameSet merged = {0};
 
         if (all == NULL || lib_name_set_merge(&merged, &library->datasheet_ids) != 0 ||
             lib_name_set_merge(&merged, &ids) != 0) {
-            free(all);
+            logic_free(all);
             lib_name_set_free(&merged);
             kind_error(&ctx, "out of memory");
         } else {
@@ -526,7 +527,7 @@ int load_datasheets(PartLibrary *library, const char *json, const char *source, 
             if (count > 0) {
                 memcpy(all + library->datasheet_count, items, count * sizeof(*all));
             }
-            free(library->datasheets);
+            logic_free(library->datasheets);
             lib_name_set_free(&library->datasheet_ids);
             library->datasheets = all;
             library->datasheet_count = needed;
@@ -554,7 +555,7 @@ int load_parts(PartLibrary *library, const char *json, const char *source, char 
     }
     if (library == NULL || json == NULL) {
         if (error != NULL) {
-            *error = lib_copy_message("load_parts: no library or text");
+            *error = logic_alloc_disown(lib_copy_message("load_parts: no library or text"));
         }
         return -1;
     }
@@ -573,7 +574,7 @@ int load_parts(PartLibrary *library, const char *json, const char *source, char 
     }
 
     cJSON_Delete(root);
-    free(file.parts);
+    logic_free(file.parts);
     lib_name_set_free(&file.names);
     lib_name_set_free(&file.devices);
     lib_free_chunks(ctx.arena);

@@ -31,6 +31,7 @@
 #include "converter_int.h"
 #include "display_ccsi.h"
 #include "display_clock.h"
+#include "logic_alloc.h"
 
 typedef struct {
     unsigned slot;
@@ -451,17 +452,17 @@ static void apply(CvState *s) {
 
 void disp_start(CvState *s) {
     const DispCfg *c = s->dev->disp;
-    DispState *st = calloc(1, sizeof *st);
+    DispState *st = logic_calloc(1, sizeof *st);
 
     if (st == NULL) {
         return;
     }
-    st->port_value = calloc(c->port_count + 1, sizeof *st->port_value);
-    st->port_weak = calloc(c->port_count + 1, 1);
+    st->port_value = logic_calloc(c->port_count + 1, sizeof *st->port_value);
+    st->port_weak = logic_calloc(c->port_count + 1, 1);
     if (st->port_value == NULL || st->port_weak == NULL) {
-        free(st->port_value);
-        free(st->port_weak);
-        free(st);
+        logic_free(st->port_value);
+        logic_free(st->port_weak);
+        logic_free(st);
         return;
     }
     {
@@ -476,9 +477,9 @@ void disp_start(CvState *s) {
         st->clk = clock_new(s, c->clock);
         if (st->clk == NULL) {
             s->disp = NULL;
-            free(st->port_value);
-            free(st->port_weak);
-            free(st);
+            logic_free(st->port_value);
+            logic_free(st->port_weak);
+            logic_free(st);
             return;
         }
     }
@@ -486,9 +487,9 @@ void disp_start(CvState *s) {
         st->ccsi = ccsi_new();
         if (st->ccsi == NULL) {
             s->disp = NULL;
-            free(st->port_value);
-            free(st->port_weak);
-            free(st);
+            logic_free(st->port_value);
+            logic_free(st->port_weak);
+            logic_free(st);
             return;
         }
     }
@@ -543,10 +544,10 @@ void disp_free(CvState *s) {
     if (st != NULL) {
         clock_free(st->clk);
         ccsi_free(st->ccsi);
-        free(st->port_value);
-        free(st->port_weak);
+        logic_free(st->port_value);
+        logic_free(st->port_weak);
     }
-    free(s->disp);
+    logic_free(s->disp);
     s->disp = NULL;
 }
 

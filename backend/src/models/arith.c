@@ -22,6 +22,7 @@
 #include "kind.h"
 #include "model_pins.h"
 #include "seq.h"
+#include "logic_alloc.h"
 
 typedef struct {
     const ArithModel *model;
@@ -416,7 +417,7 @@ static void *cmp_bind(KindContext *ctx, const void *raw, const PartPin *pins, si
 
 static ArithHeader *cmp_create(const void *bound) {
     const CmpBound *b = bound;
-    CmpState *s = calloc(1, sizeof(*s));
+    CmpState *s = logic_calloc(1, sizeof(*s));
     size_t i;
 
     if (s == NULL) {
@@ -696,7 +697,7 @@ static void *par_bind(KindContext *ctx, const void *raw, const PartPin *pins, si
 
 static ArithHeader *par_create(const void *bound) {
     const ParBound *b = bound;
-    ParState *s = calloc(1, sizeof(*s));
+    ParState *s = logic_calloc(1, sizeof(*s));
 
     if (s == NULL) {
         return NULL;
@@ -861,7 +862,7 @@ static void *arith_create(const void *config) {
 }
 
 static void arith_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static void arith_start(Sim *sim, SimInstance *instance, void *state) {

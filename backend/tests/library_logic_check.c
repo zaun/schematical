@@ -4,6 +4,7 @@
  */
 
 #include "library_check_bench.h"
+#include "logic_alloc.h"
 
 /* ---- plan-18-A: LED "colors" and the "footprintChoices" part key -------- */
 
@@ -645,7 +646,7 @@ static void check_logic_family(void) {
     CHECK(kind_logic_family(&ctx, "HX") == NULL && ctx.error != NULL &&
           strstr(ctx.error, "unknown family \"HX\"") != NULL);
     printf("ok   kind_logic_family: %s\n", ctx.error != NULL ? ctx.error : "(none)");
-    free(ctx.error);
+    logic_free(ctx.error);
 }
 
 int main(void) {

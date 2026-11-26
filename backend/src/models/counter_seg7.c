@@ -1,5 +1,6 @@
 /* models/counter_seg7.c: part of the model in models/counter_div.c (split by plan-68-I/J). */
 #include "counter_div_int.h"
+#include "logic_alloc.h"
 /* ---- seg7 -------------------------------------------------------------------- */
 
 static const char *const SEG7_KEYS[] = {
@@ -204,7 +205,7 @@ static void *seg7_bind(KindContext *ctx, const void *raw, const PartPin *pins, s
 
 static CounterHeader *seg7_create(const void *dev, const void *bound) {
     const Seg7Bound *b = bound;
-    Seg7State *s = calloc(1, sizeof(*s));
+    Seg7State *s = logic_calloc(1, sizeof(*s));
 
     (void)dev;
     if (s == NULL) {

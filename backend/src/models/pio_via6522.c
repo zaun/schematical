@@ -1,4 +1,5 @@
 #include "pio_via6522_int.h"
+#include "logic_alloc.h"
 
 static const char *const TIMING[] = {
     "tcyc", "tpwh", "tpwl", "tacr", "tcar", "tcdr", "thr", "tpcr", "tacw", "tcaw", "tdcw", "thw",
@@ -397,7 +398,7 @@ static void c2_edge(Via *s, int side, LogicValue old_v, LogicValue new_v) {
 
 static void *via_create(const Part *part, const void *data, const void *pins,
                         const PioGrade *grade) {
-    Via *s = calloc(1, sizeof(*s));
+    Via *s = logic_calloc(1, sizeof(*s));
     Bus65Timing timing;
     size_t i;
 
@@ -428,7 +429,7 @@ static void *via_create(const Part *part, const void *data, const void *pins,
 }
 
 static void via_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static LogicValue reset_value(const Via *s, LogicValue v) {

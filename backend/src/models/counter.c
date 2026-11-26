@@ -1,4 +1,5 @@
 #include "counter_int.h"
+#include "logic_alloc.h"
 
 /* ---- Shared pieces --------------------------------------------------------- */
 
@@ -240,7 +241,7 @@ static void counter_destroy(void *state) {
     if (h != NULL && h->model->destroy != NULL) {
         h->model->destroy(h);
     } else {
-        free(state);
+        logic_free(state);
     }
 }
 

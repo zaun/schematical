@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include "logic_alloc.h"
 
 static char *copy_string(const char *text) {
     size_t length;
@@ -12,7 +13,7 @@ static char *copy_string(const char *text) {
     }
 
     length = strlen(text) + 1;
-    copy = malloc(length);
+    copy = logic_malloc(length);
 
     if (copy != NULL) {
         memcpy(copy, text, length);
@@ -22,7 +23,7 @@ static char *copy_string(const char *text) {
 }
 
 SimNet *net_create(Sim *owner, const char *name) {
-    SimNet *net = calloc(1, sizeof(*net));
+    SimNet *net = logic_calloc(1, sizeof(*net));
 
     if (net == NULL) {
         return NULL;
@@ -30,7 +31,7 @@ SimNet *net_create(Sim *owner, const char *name) {
 
     net->name = copy_string(name);
     if (net->name == NULL) {
-        free(net);
+        logic_free(net);
         return NULL;
     }
 
@@ -44,9 +45,9 @@ void net_destroy(SimNet *net) {
         return;
     }
 
-    free(net->pins);
-    free(net->name);
-    free(net);
+    logic_free(net->pins);
+    logic_free(net->name);
+    logic_free(net);
 }
 
 int net_attach(SimNet *net, SimInstance *instance, size_t pin) {
@@ -61,7 +62,7 @@ int net_attach(SimNet *net, SimInstance *instance, size_t pin) {
             return 0;
         }
 
-        new_pins = realloc(net->pins, capacity * sizeof(*new_pins));
+        new_pins = logic_realloc(net->pins, capacity * sizeof(*new_pins));
         if (new_pins == NULL) {
             return 0;
         }

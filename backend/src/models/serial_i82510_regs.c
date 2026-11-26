@@ -1,5 +1,6 @@
 /* models/serial_i82510_regs.c: part of the model in models/serial_i82510.c (split by plan-68-I/J). */
 #include "serial_i82510_int.h"
+#include "logic_alloc.h"
 /* ---- Registers -------------------------------------------------------------------------- */
 
 static int dlab(const I5State *s) {
@@ -468,7 +469,7 @@ static int i5_async(const void *raw, unsigned channel) {
 
 static void *i5_create(const Part *part, const void *data, const void *pins,
                        const SerialGrade *grade, const void *options) {
-    I5State *s = calloc(1, sizeof *s);
+    I5State *s = logic_calloc(1, sizeof *s);
     size_t i;
 
     (void)options;
@@ -480,9 +481,9 @@ static void *i5_create(const Part *part, const void *data, const void *pins,
     s->pins = pins;
     s->grade = grade;
     s->o.count = part->pin_count;
-    s->o.out = malloc(part->pin_count * sizeof *s->o.out);
+    s->o.out = logic_malloc(part->pin_count * sizeof *s->o.out);
     if (s->o.out == NULL) {
-        free(s);
+        logic_free(s);
         return NULL;
     }
     for (i = 0; i < part->pin_count; i++) {
@@ -511,8 +512,8 @@ static void i5_destroy(void *raw) {
     I5State *s = raw;
 
     serial_line_free(&s->line);
-    free(s->o.out);
-    free(s);
+    logic_free(s->o.out);
+    logic_free(s);
 }
 
 static void *i5_load_device(KindContext *ctx, const cJSON *json, unsigned *channels) {

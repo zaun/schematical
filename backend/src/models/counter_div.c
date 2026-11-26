@@ -1,4 +1,5 @@
 #include "counter_div_int.h"
+#include "logic_alloc.h"
 
 static int lo(int level) {
     return level < 0 ? 0 : level;
@@ -141,7 +142,7 @@ static void *johnson_bind(KindContext *ctx, const void *raw, const PartPin *pins
 
 static CounterHeader *johnson_create(const void *dev, const void *bound) {
     const JohnsonBound *b = bound;
-    JohnsonState *s = calloc(1, sizeof(*s));
+    JohnsonState *s = logic_calloc(1, sizeof(*s));
 
     (void)dev;
     if (s == NULL) {
@@ -278,7 +279,7 @@ static void *divn_bind(KindContext *ctx, const void *raw, const PartPin *pins, s
 
 static CounterHeader *divn_create(const void *dev, const void *bound) {
     const DivnBound *b = bound;
-    DivnState *s = calloc(1, sizeof(*s));
+    DivnState *s = logic_calloc(1, sizeof(*s));
 
     (void)dev;
     if (s == NULL) {
@@ -497,7 +498,7 @@ static void *rate_bind(KindContext *ctx, const void *raw, const PartPin *pins, s
 
 static CounterHeader *rate_create(const void *dev, const void *bound) {
     const RateBound *b = bound;
-    RateState *s = calloc(1, sizeof(*s));
+    RateState *s = logic_calloc(1, sizeof(*s));
 
     (void)dev;
     if (s == NULL) {

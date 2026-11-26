@@ -1,5 +1,6 @@
 /* models/shift_load.c: part of the model in models/shift.c (split by plan-68-I/J). */
 #include "shift_int.h"
+#include "logic_alloc.h"
 /* ---- loading ---- */
 
 static int names_n(KindContext *ctx, const cJSON *json, const char *key, size_t n,
@@ -438,7 +439,7 @@ void *shf_sh_bind(KindContext *ctx, const void *raw, const PartPin *pins, size_t
 
 ShiftHeader *shf_sh_create(const void *dev, const void *bound) {
     const ShBound *b = bound;
-    ShState *s = calloc(1, sizeof(*s));
+    ShState *s = logic_calloc(1, sizeof(*s));
     size_t i;
 
     (void)dev;

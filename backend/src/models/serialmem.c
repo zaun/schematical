@@ -1,4 +1,5 @@
 #include "serialmem_int.h"
+#include "logic_alloc.h"
 
 int smem_t_not(int a) { return a == TX ? TX : !a; }
 int smem_t_and(int a, int b) {
@@ -461,13 +462,13 @@ static void sm_destroy(void *raw) {
     if (s == NULL) {
         return;
     }
-    free(s->value);
-    free(s->known);
-    free(s->sprot);
-    free(s->buf_value);
-    free(s->buf_known);
-    free(s->buf_loaded);
-    free(s);
+    logic_free(s->value);
+    logic_free(s->known);
+    logic_free(s->sprot);
+    logic_free(s->buf_value);
+    logic_free(s->buf_known);
+    logic_free(s->buf_loaded);
+    logic_free(s);
 }
 
 static void power_up(SmState *s) {
@@ -491,7 +492,7 @@ static void *sm_create(const void *config) {
     const PartInternal *internal = part_internal(part);
     const SerialmemPins *pins = internal->bound;
     const SerialmemDevice *d = pins->device;
-    SmState *s = calloc(1, sizeof *s);
+    SmState *s = logic_calloc(1, sizeof *s);
 
     if (s == NULL) {
         return NULL;
@@ -503,14 +504,14 @@ static void *sm_create(const void *config) {
         return s;
     }
     s->mask = d->size - 1;
-    s->value = calloc(d->size, 1);
-    s->known = calloc(d->size, 1);
-    s->buf_value = calloc(d->page_size, 1);
-    s->buf_known = calloc(d->page_size, 1);
-    s->buf_loaded = calloc(d->page_size, 1);
+    s->value = logic_calloc(d->size, 1);
+    s->known = logic_calloc(d->size, 1);
+    s->buf_value = logic_calloc(d->page_size, 1);
+    s->buf_known = logic_calloc(d->page_size, 1);
+    s->buf_loaded = logic_calloc(d->page_size, 1);
     if (d->prot == PROT_SECTOR) {
         s->sprot_count = d->size / d->protect_size;
-        s->sprot = calloc(s->sprot_count, 1);
+        s->sprot = logic_calloc(s->sprot_count, 1);
     }
     if (s->value == NULL || s->known == NULL || s->buf_value == NULL || s->buf_known == NULL ||
         s->buf_loaded == NULL || (d->prot == PROT_SECTOR && s->sprot == NULL)) {

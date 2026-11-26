@@ -1,5 +1,6 @@
 /* models/converter_model.c: part of the model in models/converter.c (split by plan-68-I/J). */
 #include "converter_core_int.h"
+#include "logic_alloc.h"
 /* ---- The model -------------------------------------------------------------------------------- */
 
 static size_t cv_pin_count(const void *config) {
@@ -9,7 +10,7 @@ static size_t cv_pin_count(const void *config) {
 static void *cv_create(const void *config) {
     const Part *part = config;
     const PartInternal *in = part_internal(part);
-    CvState *s = calloc(1, sizeof *s);
+    CvState *s = logic_calloc(1, sizeof *s);
     size_t i;
 
     if (s == NULL) {
@@ -19,12 +20,12 @@ static void *cv_create(const void *config) {
     s->dev = in->device;
     s->b = in->bound;
     s->pd = in->data;
-    s->regs = calloc(s->dev->reg_count ? s->dev->reg_count : 1, sizeof(*s->regs));
-    s->drv = malloc(part->pin_count * sizeof(*s->drv));
-    s->ready_on = calloc(s->dev->ready_count ? s->dev->ready_count : 1, 1);
-    s->ready_gen = calloc(s->dev->ready_count ? s->dev->ready_count : 1, sizeof(*s->ready_gen));
-    s->x.alive = calloc(s->dev->protocol.command_count ? s->dev->protocol.command_count : 1, 1);
-    s->read_mark = calloc(s->dev->reg_count ? s->dev->reg_count : 1, 1);
+    s->regs = logic_calloc(s->dev->reg_count ? s->dev->reg_count : 1, sizeof(*s->regs));
+    s->drv = logic_malloc(part->pin_count * sizeof(*s->drv));
+    s->ready_on = logic_calloc(s->dev->ready_count ? s->dev->ready_count : 1, 1);
+    s->ready_gen = logic_calloc(s->dev->ready_count ? s->dev->ready_count : 1, sizeof(*s->ready_gen));
+    s->x.alive = logic_calloc(s->dev->protocol.command_count ? s->dev->protocol.command_count : 1, 1);
+    s->read_mark = logic_calloc(s->dev->reg_count ? s->dev->reg_count : 1, 1);
     if (s->regs == NULL || s->drv == NULL || s->ready_on == NULL || s->ready_gen == NULL ||
         s->x.alive == NULL || s->read_mark == NULL) {
         cv_free_state(s);
@@ -72,15 +73,15 @@ void cv_free_state(CvState *s) {
     if (s == NULL) {
         return;
     }
-    free(s->regs);
-    free(s->drv);
-    free(s->ready_on);
-    free(s->ready_gen);
-    free(s->alive_store);
-    free(s->read_mark);
+    logic_free(s->regs);
+    logic_free(s->drv);
+    logic_free(s->ready_on);
+    logic_free(s->ready_gen);
+    logic_free(s->alive_store);
+    logic_free(s->read_mark);
     rtc_free(s);
     disp_free(s);
-    free(s);
+    logic_free(s);
 }
 
 static void cv_destroy(void *state) {

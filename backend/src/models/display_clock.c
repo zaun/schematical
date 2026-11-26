@@ -15,6 +15,7 @@
 #include "display_clock.h"
 #include "converter_int.h"
 #include "display_out.h"
+#include "logic_alloc.h"
 
 enum {
     CK_TICK = 1, CK_DEBOUNCE = 2, CK_REPEAT = 3
@@ -78,7 +79,7 @@ static void schedule_tick(CvState *s, ClockState *c) {
 }
 
 ClockState *clock_new(CvState *s, const ClockCfg *k) {
-    ClockState *c = calloc(1, sizeof *c);
+    ClockState *c = logic_calloc(1, sizeof *c);
 
     if (c != NULL) {
         power_on(s, k, c, 0);
@@ -88,7 +89,7 @@ ClockState *clock_new(CvState *s, const ClockCfg *k) {
 }
 
 void clock_free(ClockState *c) {
-    free(c);
+    logic_free(c);
 }
 
 static int enabled(const CvState *s, const ClockCfg *k) {

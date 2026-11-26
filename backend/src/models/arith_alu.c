@@ -10,6 +10,7 @@
 #include "arith.h"
 #include "kind.h"
 #include "seq.h"
+#include "logic_alloc.h"
 
 /* ---- adder ----------------------------------------------------------------- */
 
@@ -80,7 +81,7 @@ static void *add_bind(KindContext *ctx, const void *raw, const PartPin *pins, si
 
 static ArithHeader *add_create(const void *bound) {
     const AddBound *b = bound;
-    AddState *s = calloc(1, sizeof(*s));
+    AddState *s = logic_calloc(1, sizeof(*s));
 
     if (s == NULL) {
         return NULL;
@@ -197,7 +198,7 @@ static void *alu_bind(KindContext *ctx, const void *raw, const PartPin *pins, si
 
 static ArithHeader *alu_create(const void *bound) {
     const AluBound *b = bound;
-    AluState *s = calloc(1, sizeof(*s));
+    AluState *s = logic_calloc(1, sizeof(*s));
 
     if (s == NULL) {
         return NULL;
@@ -441,7 +442,7 @@ static void *wal_bind(KindContext *ctx, const void *raw, const PartPin *pins, si
 
 static ArithHeader *wal_create(const void *bound) {
     const WalBound *b = bound;
-    WalState *s = calloc(1, sizeof(*s));
+    WalState *s = logic_calloc(1, sizeof(*s));
 
     if (s == NULL) {
         return NULL;

@@ -1,4 +1,5 @@
 #include "library_load_int.h"
+#include "logic_alloc.h"
 
 static uint64_t hash_name(const char *text) {
     uint64_t hash = 0xcbf29ce484222325ull;
@@ -41,11 +42,11 @@ int lib_name_set_add(NameSet *set, const char *key, const void *value) {
         size_t i;
 
         bigger.capacity = set->capacity == 0 ? 64 : set->capacity * 2;
-        bigger.keys = calloc(bigger.capacity, sizeof(*bigger.keys));
-        bigger.values = calloc(bigger.capacity, sizeof(*bigger.values));
+        bigger.keys = logic_calloc(bigger.capacity, sizeof(*bigger.keys));
+        bigger.values = logic_calloc(bigger.capacity, sizeof(*bigger.values));
         if (bigger.keys == NULL || bigger.values == NULL) {
-            free(bigger.keys);
-            free(bigger.values);
+            logic_free(bigger.keys);
+            logic_free(bigger.values);
             return -1;
         }
         for (i = 0; i < set->capacity; i++) {
@@ -57,8 +58,8 @@ int lib_name_set_add(NameSet *set, const char *key, const void *value) {
                 bigger.count++;
             }
         }
-        free(set->keys);
-        free(set->values);
+        logic_free(set->keys);
+        logic_free(set->values);
         *set = bigger;
     }
     {
@@ -86,20 +87,21 @@ int lib_name_set_merge(NameSet *to, const NameSet *from) {
 }
 
 void lib_name_set_free(NameSet *set) {
-    free(set->keys);
-    free(set->values);
+    logic_free(set->keys);
+    logic_free(set->values);
     memset(set, 0, sizeof(*set));
 }
 
 PartLibrary *part_library_create(void) {
-    return calloc(1, sizeof(PartLibrary));
+    logic_alloc_init();
+    return logic_calloc(1, sizeof(PartLibrary));
 }
 
 void lib_free_chunks(ArenaChunk *chunk) {
     while (chunk != NULL) {
         ArenaChunk *next = chunk->next;
 
-        free(chunk);
+        logic_free(chunk);
         chunk = next;
     }
 }
@@ -108,16 +110,16 @@ void part_library_destroy(PartLibrary *library) {
     if (library == NULL) {
         return;
     }
-    free(library->parts);
-    free(library->footprints);
+    logic_free(library->parts);
+    logic_free(library->footprints);
     lib_name_set_free(&library->footprint_ids);
-    free(library->datasheets);
+    logic_free(library->datasheets);
     lib_name_set_free(&library->datasheet_ids);
     lib_name_set_free(&library->names);
     lib_name_set_free(&library->devices);
     lib_name_set_free(&library->uuids);
     lib_free_chunks(library->arenas);
-    free(library);
+    logic_free(library);
 }
 
 size_t part_library_count(const PartLibrary *library) {
@@ -405,7 +407,7 @@ int load_part_file(PartLibrary *library, const char *json, const char *source, c
     }
     if (library == NULL || json == NULL) {
         if (error != NULL) {
-            *error = lib_copy_message("load_part_file: no library or text");
+            *error = logic_alloc_disown(lib_copy_message("load_part_file: no library or text"));
         }
         return -1;
     }
@@ -438,8 +440,8 @@ int load_part_file(PartLibrary *library, const char *json, const char *source, c
     library->staged_footprints = NULL;
     library->staged_datasheets = NULL;
     cJSON_Delete(root);
-    free(file.parts);
-    free(footprints.items);
+    logic_free(file.parts);
+    logic_free(footprints.items);
     lib_name_set_free(&file.names);
     lib_name_set_free(&file.devices);
     lib_free_chunks(ctx.arena);
@@ -581,7 +583,7 @@ int part_library_unload_last_part_file(PartLibrary *library) {
     while (library->arenas != library->last_arenas) {
         ArenaChunk *next = library->arenas->next;
 
-        free(library->arenas);
+        logic_free(library->arenas);
         library->arenas = next;
     }
     library->last_part_file = 0;

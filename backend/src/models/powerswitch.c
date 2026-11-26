@@ -26,6 +26,7 @@
 
 #include "kind.h"
 #include "model_pins.h"
+#include "logic_alloc.h"
 
 #define POWERSWITCH_DELAY_PS 1000u
 
@@ -459,7 +460,7 @@ static size_t powerswitch_pin_count(const void *config) {
 
 static void *powerswitch_create(const void *config) {
     const PowerSwitchPins *pins = part_internal(config)->bound;
-    PowerSwitchState *state = calloc(1, sizeof(*state) + pins->count + 1);
+    PowerSwitchState *state = logic_calloc(1, sizeof(*state) + pins->count + 1);
 
     if (state != NULL) {
         state->pins = pins;
@@ -468,7 +469,7 @@ static void *powerswitch_create(const void *config) {
 }
 
 static void powerswitch_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static void powerswitch_start(Sim *sim, SimInstance *instance, void *raw) {

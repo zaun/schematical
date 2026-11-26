@@ -33,6 +33,7 @@
 #include "../third_party/chips/m6502dasm.h"
 #include "../third_party/chips/w65c02.h"
 #include "../third_party/chips/w65c02dasm.h"
+#include "logic_alloc.h"
 
 /* The floooh disassemblers as the tracker's CpuDasm. */
 static size_t dasm_m6502(uint32_t pc, const uint8_t *bytes, size_t count, void *user, char *out,
@@ -585,7 +586,7 @@ static void c65_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t p
 /* ---- Model ------------------------------------------------------------------ */
 
 static void *c65_create(const Part *part, const CpuPins *pins, const CpuGrade *grade) {
-    Cpu65 *s = calloc(1, sizeof(*s));
+    Cpu65 *s = logic_calloc(1, sizeof(*s));
     size_t i;
 
     if (s == NULL) {
@@ -618,7 +619,7 @@ static void *c65_create(const Part *part, const CpuPins *pins, const CpuGrade *g
 }
 
 static void c65_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 /* Power-up: LOST, every bus output X. */

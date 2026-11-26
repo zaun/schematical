@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include "kind.h"
+#include "logic_alloc.h"
 
 static const char *const DEVICE_KEYS[] = {"family", "minHz", "maxHz", "outputs", "vcc",
                                              "inputMax", NULL};
@@ -144,7 +145,7 @@ static void *osc_create(const void *config) {
     if (hz == 0) {
         return NULL;
     }
-    state = malloc(sizeof(*state));
+    state = logic_malloc(sizeof(*state));
     if (state == NULL) {
         return NULL;
     }
@@ -162,7 +163,7 @@ static void *osc_create(const void *config) {
 }
 
 static void osc_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static void drive_outputs(Sim *sim, SimInstance *instance, const OscState *state) {

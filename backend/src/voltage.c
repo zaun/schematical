@@ -43,6 +43,7 @@
 #include <stdlib.h>
 
 #include "model_pins.h"
+#include "logic_alloc.h"
 
 typedef struct {
     int known;
@@ -295,25 +296,25 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                      const VoltageConnection *connections, size_t connection_count,
                      const VoltageContact *closed, size_t closed_count,
                      const uint64_t *milliohms, VoltageProblem *out, size_t cap) {
-    size_t *parent = malloc((net_count + 1) * sizeof(*parent));
-    Level *supply = calloc(net_count + 1, sizeof(*supply));
-    Level *driven = calloc(net_count + 1, sizeof(*driven));
-    Level *carried = calloc(net_count + 1, sizeof(*carried));
-    Level *pulled = calloc(net_count + 1, sizeof(*pulled));
-    Level *regulated = calloc(net_count + 1, sizeof(*regulated));
-    Level *switched = calloc(net_count + 1, sizeof(*switched));
-    size_t *sw_high_part = malloc((net_count + 1) * sizeof(*sw_high_part));
-    size_t *sw_high_pin = malloc((net_count + 1) * sizeof(*sw_high_pin));
-    size_t *sw_high_net = malloc((net_count + 1) * sizeof(*sw_high_net));
-    size_t *reg_low_part = malloc((net_count + 1) * sizeof(*reg_low_part));
-    size_t *reg_low_pin = malloc((net_count + 1) * sizeof(*reg_low_pin));
-    size_t *reg_low_net = malloc((net_count + 1) * sizeof(*reg_low_net));
-    size_t *reg_high_part = malloc((net_count + 1) * sizeof(*reg_high_part));
-    uint32_t *reg_low_mv = calloc(net_count + 1, sizeof(*reg_low_mv));
-    size_t *clash_first = malloc((net_count + 1) * sizeof(*clash_first));
-    size_t *clash_conn = malloc((net_count + 1) * sizeof(*clash_conn));
-    unsigned char *clash_done = calloc(net_count + 1, 1);
-    VoltageProblem *found = malloc((connection_count + net_count + 1) * sizeof(*found));
+    size_t *parent = logic_malloc((net_count + 1) * sizeof(*parent));
+    Level *supply = logic_calloc(net_count + 1, sizeof(*supply));
+    Level *driven = logic_calloc(net_count + 1, sizeof(*driven));
+    Level *carried = logic_calloc(net_count + 1, sizeof(*carried));
+    Level *pulled = logic_calloc(net_count + 1, sizeof(*pulled));
+    Level *regulated = logic_calloc(net_count + 1, sizeof(*regulated));
+    Level *switched = logic_calloc(net_count + 1, sizeof(*switched));
+    size_t *sw_high_part = logic_malloc((net_count + 1) * sizeof(*sw_high_part));
+    size_t *sw_high_pin = logic_malloc((net_count + 1) * sizeof(*sw_high_pin));
+    size_t *sw_high_net = logic_malloc((net_count + 1) * sizeof(*sw_high_net));
+    size_t *reg_low_part = logic_malloc((net_count + 1) * sizeof(*reg_low_part));
+    size_t *reg_low_pin = logic_malloc((net_count + 1) * sizeof(*reg_low_pin));
+    size_t *reg_low_net = logic_malloc((net_count + 1) * sizeof(*reg_low_net));
+    size_t *reg_high_part = logic_malloc((net_count + 1) * sizeof(*reg_high_part));
+    uint32_t *reg_low_mv = logic_calloc(net_count + 1, sizeof(*reg_low_mv));
+    size_t *clash_first = logic_malloc((net_count + 1) * sizeof(*clash_first));
+    size_t *clash_conn = logic_malloc((net_count + 1) * sizeof(*clash_conn));
+    unsigned char *clash_done = logic_calloc(net_count + 1, 1);
+    VoltageProblem *found = logic_malloc((connection_count + net_count + 1) * sizeof(*found));
     size_t found_count = 0;
     size_t i;
     size_t j;
@@ -325,10 +326,10 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
         reg_high_part == NULL || reg_low_mv == NULL || switched == NULL || sw_high_part == NULL ||
         sw_high_pin == NULL || sw_high_net == NULL ||
         clash_first == NULL || clash_conn == NULL || clash_done == NULL || found == NULL) {
-        free(parent); free(supply); free(driven); free(carried); free(pulled);
-        free(regulated); free(reg_low_part); free(reg_low_pin); free(reg_low_net); free(reg_high_part);
-        free(reg_low_mv); free(switched); free(sw_high_part); free(sw_high_pin); free(sw_high_net);
-        free(clash_first); free(clash_conn); free(clash_done); free(found);
+        logic_free(parent); logic_free(supply); logic_free(driven); logic_free(carried); logic_free(pulled);
+        logic_free(regulated); logic_free(reg_low_part); logic_free(reg_low_pin); logic_free(reg_low_net); logic_free(reg_high_part);
+        logic_free(reg_low_mv); logic_free(switched); logic_free(sw_high_part); logic_free(sw_high_pin); logic_free(sw_high_net);
+        logic_free(clash_first); logic_free(clash_conn); logic_free(clash_done); logic_free(found);
         return 0;
     }
 
@@ -1003,10 +1004,10 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
     for (i = 0; i < found_count && i < cap; i++) {
         out[i] = found[i];
     }
-    free(parent); free(supply); free(driven); free(carried); free(pulled);
-    free(regulated); free(reg_low_part); free(reg_low_pin); free(reg_low_net); free(reg_high_part);
-    free(reg_low_mv); free(switched); free(sw_high_part); free(sw_high_pin); free(sw_high_net);
-    free(clash_first); free(clash_conn); free(clash_done); free(found);
+    logic_free(parent); logic_free(supply); logic_free(driven); logic_free(carried); logic_free(pulled);
+    logic_free(regulated); logic_free(reg_low_part); logic_free(reg_low_pin); logic_free(reg_low_net); logic_free(reg_high_part);
+    logic_free(reg_low_mv); logic_free(switched); logic_free(sw_high_part); logic_free(sw_high_pin); logic_free(sw_high_net);
+    logic_free(clash_first); logic_free(clash_conn); logic_free(clash_done); logic_free(found);
     return found_count;
 }
 

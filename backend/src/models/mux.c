@@ -21,6 +21,7 @@
 #include "model_pins.h"
 #include "mux.h"
 #include "seq.h"
+#include "logic_alloc.h"
 
 typedef struct {
     const MuxModel *model;
@@ -300,7 +301,7 @@ static void *sel_bind(KindContext *ctx, const void *raw, const PartPin *pins, si
 
 static MuxHeader *sel_create(const void *bound) {
     const SelBound *b = bound;
-    SelState *s = calloc(1, sizeof(*s));
+    SelState *s = logic_calloc(1, sizeof(*s));
     size_t i, j;
 
     if (s == NULL) {
@@ -459,7 +460,7 @@ static void *mux_create(const void *config) {
 }
 
 static void mux_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static void mux_start(Sim *sim, SimInstance *instance, void *state) {

@@ -22,6 +22,7 @@
 #include "kind.h"
 #include "model_pins.h"
 #include "seq.h"
+#include "logic_alloc.h"
 
 #define LATCH_MAX_UNITS 40
 #define MUX_CHANNELS 12
@@ -259,7 +260,7 @@ static void *tl_bind(KindContext *ctx, const void *raw, const PartPin *pins, siz
 
 static LatchHeader *tl_create(const void *dev, const void *bound) {
     const TlBound *b = bound;
-    TlState *s = calloc(1, sizeof(*s));
+    TlState *s = logic_calloc(1, sizeof(*s));
     size_t i;
 
     (void)dev;
@@ -440,7 +441,7 @@ static void *ad_bind(KindContext *ctx, const void *raw, const PartPin *pins, siz
 
 static LatchHeader *ad_create(const void *dev, const void *bound) {
     const AdBound *b = bound;
-    AdState *s = calloc(1, sizeof(*s));
+    AdState *s = logic_calloc(1, sizeof(*s));
     size_t i;
 
     (void)dev;
@@ -635,7 +636,7 @@ static void *sr_bind(KindContext *ctx, const void *raw, const PartPin *pins, siz
 
 static LatchHeader *sr_create(const void *dev, const void *bound) {
     const SrBound *b = bound;
-    SrState *s = calloc(1, sizeof(*s));
+    SrState *s = logic_calloc(1, sizeof(*s));
     size_t i;
 
     (void)dev;
@@ -788,7 +789,7 @@ static void *bcd_bind(KindContext *ctx, const void *raw, const PartPin *pins, si
 
 static LatchHeader *bcd_create(const void *dev, const void *bound) {
     const BcdBound *b = bound;
-    BcdState *s = calloc(1, sizeof(*s));
+    BcdState *s = logic_calloc(1, sizeof(*s));
     size_t i;
 
     (void)dev;
@@ -953,7 +954,7 @@ static void *mux_bind(KindContext *ctx, const void *raw, const PartPin *pins, si
 
 static LatchHeader *mux_create(const void *dev, const void *bound) {
     const MuxBound *b = bound;
-    MuxState *s = calloc(1, sizeof(*s));
+    MuxState *s = logic_calloc(1, sizeof(*s));
     size_t i;
 
     (void)dev;
@@ -1119,7 +1120,7 @@ static void *latch_create(const void *config) {
 }
 
 static void latch_destroy(void *state) {
-    free(state);
+    logic_free(state);
 }
 
 static void latch_start(Sim *sim, SimInstance *instance, void *state) {

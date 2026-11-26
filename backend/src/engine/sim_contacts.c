@@ -1,5 +1,6 @@
 /* engine/sim_contacts.c: part of the model in engine/sim.c (split by plan-68-I/J). */
 #include "sim_int.h"
+#include "logic_alloc.h"
 /* ---- Contacts ----------------------------------------------------------- */
 
 static Contact *find_contact(const Sim *sim, const SimInstance *instance,
@@ -364,14 +365,14 @@ static void resolve_nets(Sim *sim) {
 static int alloc_round_arrays(Sim *sim) {
     size_t n = sim->net_count > 0 ? sim->net_count : 1;
 
-    sim->dirty = malloc(n * sizeof(*sim->dirty));
-    sim->is_dirty = calloc(n, sizeof(*sim->is_dirty));
-    sim->old_values = malloc(n * sizeof(*sim->old_values));
-    sim->group_parent = malloc(n * sizeof(*sim->group_parent));
-    sim->group_root = malloc(n * sizeof(*sim->group_root));
-    sim->group_head = malloc(n * sizeof(*sim->group_head));
-    sim->group_next = malloc(n * sizeof(*sim->group_next));
-    sim->group_nets = malloc(n * sizeof(*sim->group_nets));
+    sim->dirty = logic_malloc(n * sizeof(*sim->dirty));
+    sim->is_dirty = logic_calloc(n, sizeof(*sim->is_dirty));
+    sim->old_values = logic_malloc(n * sizeof(*sim->old_values));
+    sim->group_parent = logic_malloc(n * sizeof(*sim->group_parent));
+    sim->group_root = logic_malloc(n * sizeof(*sim->group_root));
+    sim->group_head = logic_malloc(n * sizeof(*sim->group_head));
+    sim->group_next = logic_malloc(n * sizeof(*sim->group_next));
+    sim->group_nets = logic_malloc(n * sizeof(*sim->group_nets));
 
     if (sim->dirty == NULL || sim->is_dirty == NULL ||
         sim->old_values == NULL || sim->group_parent == NULL ||
@@ -383,14 +384,14 @@ static int alloc_round_arrays(Sim *sim) {
     if (sim->diode_count > 0) {
         size_t links = sim->diode_count;
 
-        sim->cluster_parent = malloc(n * sizeof(*sim->cluster_parent));
-        sim->cluster_root = malloc(n * sizeof(*sim->cluster_root));
-        sim->cluster_head = malloc(n * sizeof(*sim->cluster_head));
-        sim->cluster_next = malloc(n * sizeof(*sim->cluster_next));
-        sim->link_head = malloc(n * sizeof(*sim->link_head));
-        sim->link_next = malloc(links * sizeof(*sim->link_next));
-        sim->node_strong = malloc(n);
-        sim->node_weak = malloc(n);
+        sim->cluster_parent = logic_malloc(n * sizeof(*sim->cluster_parent));
+        sim->cluster_root = logic_malloc(n * sizeof(*sim->cluster_root));
+        sim->cluster_head = logic_malloc(n * sizeof(*sim->cluster_head));
+        sim->cluster_next = logic_malloc(n * sizeof(*sim->cluster_next));
+        sim->link_head = logic_malloc(n * sizeof(*sim->link_head));
+        sim->link_next = logic_malloc(links * sizeof(*sim->link_next));
+        sim->node_strong = logic_malloc(n);
+        sim->node_weak = logic_malloc(n);
         if (sim->cluster_parent == NULL || sim->cluster_root == NULL ||
             sim->cluster_head == NULL || sim->cluster_next == NULL ||
             sim->link_head == NULL || sim->link_next == NULL ||
@@ -428,11 +429,11 @@ static int collect_links(Sim *sim) {
         }
         count = hook(instance->state, anode, cathode, 16);
         if (count > 16) {
-            anode = malloc(count * sizeof(*anode));
-            cathode = malloc(count * sizeof(*cathode));
+            anode = logic_malloc(count * sizeof(*anode));
+            cathode = logic_malloc(count * sizeof(*cathode));
             if (anode == NULL || cathode == NULL) {
-                free(anode);
-                free(cathode);
+                logic_free(anode);
+                logic_free(cathode);
                 simc_set_error(sim, "out of memory");
                 return 0;
             }
@@ -456,8 +457,8 @@ static int collect_links(Sim *sim) {
 
                 if (grown == NULL) {
                     if (anode != local_anode) {
-                        free(anode);
-                        free(cathode);
+                        logic_free(anode);
+                        logic_free(cathode);
                     }
                     simc_set_error(sim, "out of memory");
                     return 0;
@@ -470,8 +471,8 @@ static int collect_links(Sim *sim) {
             sim->diode_count++;
         }
         if (anode != local_anode) {
-            free(anode);
-            free(cathode);
+            logic_free(anode);
+            logic_free(cathode);
         }
     }
     return 1;
