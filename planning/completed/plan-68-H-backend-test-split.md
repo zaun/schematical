@@ -146,7 +146,7 @@ Acceptance: no case lost.
   4/4; `counter_test` 65, 2/2; `charlcd_test` 222, 3/3; `shift_test` 64, 2/2;
   `pio_test` 42, 2/2; `circuit_check` 139, 2/2; `serialmem_test` 292, 2/2;
   `latch_test` 36, 1/1.
-Commit: —
+Commit: 4ae3273e
 
 ### Phase 3 — charlcd, shift, pio, circuit, serialmem, latch
 
@@ -162,7 +162,7 @@ over 800.
   (`buffer_test.c` 965 …). Every file this letter wrote is at or under 800
   (largest: `counter_div_test.c` 771); `SZ` → exit 0; `CT` → `100% tests
   passed, 0 tests failed out of 105`.
-Commit: —
+Commit: 4ae3273e
 
 ## Validation Plan
 
@@ -170,6 +170,8 @@ Commit: —
 - Coverage check: `COV --backend --check` → exit 0, no ratchet row changed.
 - Final gate (once, after Phase 3): `CT` → all pass; `SZ` → exit 0;
   `COV --backend --check` → exit 0 (est. 2 min).
+  Observed (after plan-68-I): `CT` → 105/105; `SZ` → exit 0; `COV --backend
+  --check` → exit 0, 7,090 uncovered as at the start.
 
 ## Decisions
 

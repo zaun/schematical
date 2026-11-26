@@ -196,6 +196,9 @@ Commit: 461b37d2
   changed (the same production lines are run).
 - Final gate (once, after Phase 2): `CT` → all pass; `SZ` → exit 0;
   `COV --backend --check` → exit 0 (est. 2 min).
+  Observed (on the tree after plan-68-I, which holds G): `CT` → `100% tests
+  passed, 0 tests failed out of 105`; `SZ` → exit 0; `COV --backend --check`
+  → exit 0, `60689 lines, 7090 uncovered` (the starting numbers).
 
 ## Decisions
 

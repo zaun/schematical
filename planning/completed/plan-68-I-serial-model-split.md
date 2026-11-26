@@ -120,7 +120,7 @@ Acceptance: behavior and coverage identical.
   `60689 lines, 7090 uncovered` before and after, and each model's pieces
   sum to its old row (ns16550 37+31+117+141 = 326, exar 85+69+102+75 = 331,
   bridge 128+109 = 237, max310x 50+132+154 = 336, i82510 68+71 = 139).
-Commit: —
+Commit: a0b23798, 24b23569
 
 ### Phase 2 — max310x, bridge, i82510
 
@@ -143,7 +143,7 @@ Acceptance: as Phase 1; and no serial model file over 800.
   file has a tentative definition (`const SerialModel MAX310X_MODEL;`) ahead
   of the real one, which the split put in another piece; the splitter now
   turns such a line into `extern`. CMake's archive build had not shown it.
-Commit: —
+Commit: a0b23798, 24b23569
 
 ## Validation Plan
 
@@ -151,6 +151,8 @@ Commit: —
 - Coverage check: total unchanged; rows renamed.
 - Final gate (once, after Phase 2): `CT`; `SZ`; `COV --backend --check`; the
   app build (est. 6 min).
+  Observed: `CT` → 105/105; `SZ` → exit 0; `COV --backend --check` → exit 0;
+  the app build linked (after 24b23569).
 
 ## Decisions
 

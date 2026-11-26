@@ -99,12 +99,15 @@ pass.
   `head -20 schematical/schematical/Canvas/SchematicModel.swift | grep -c
   'final class SchematicDocument'` → 1; `SZ` → exit 0 (est. 5 min).
   Observed: the nine classes pass (`ChipLayoutSideTests` 6, `SchematicRotateTests` 22, `WireSettleTests`, `WireRefitTests`, `RouteLegTests`, `SplitPartModelTests`, `SlideSwitchTests`, `CharacterLCDTests`, `SelectionModelTests`: every one of those suites `0 failures` in the run that also ran plan-68-C's new classes); `head -20 … | grep -c` → 1; `SZ` → exit 0 with the row at 4312 (`planning/plan-68-data/split_b.py` did the move).
-Commit: —
+Commit: 2fedca39
 
 ## Validation Plan
 
 - Final gate: the Phase 1 classes; `SZ`; `COV --app` total uncovered
   unchanged (est. one coverage run of those classes).
+  Observed: the classes pass and `SZ` exits 0 (Phase 1). The moved lines'
+  coverage is plan-68-C's first measurement (its § 2 maps them to the new
+  files).
 
 ## Decisions
 
