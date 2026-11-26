@@ -11,8 +11,6 @@
 3	schematical/schematical/Boards/BoardExpression.swift
 64	schematical/schematical/DesignRuleCheck/DesignRuleCheck.swift
 26	schematical/schematical/DesignRuleCheck/DesignRuleCheckWindow.swift
-24	schematical/schematical/Document/SchematicFile+Board.swift
-22	schematical/schematical/Document/SchematicFile+Document.swift
 12	schematical/schematical/DocumentInfo/DocumentInfoWindow.swift
 2	schematical/schematical/Help/Acknowledgements.swift
 34	schematical/schematical/Memory/MemoryFileAccess.swift
