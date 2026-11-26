@@ -2,7 +2,7 @@
 
 Last updated: 2026-11-25
 Effort: large (3h–1d)
-Depends on: plan-68-S
+Depends on: plan-68-S and plan-68-F (both tracks; plan-68-A § the dependency graph)
 
 The JavaScript in scope (plan-68-A § 3.3): the datasheet renderer and editor
 that run inside the app's datasheet window, the node scripts in `scripts/`,
@@ -11,7 +11,8 @@ lines) is split into its two halves — the pure model that node already tests
 and the DOM editor that nothing tests — and every in-scope JavaScript file is
 brought to 100% line coverage under `node --test`.
 
-Prerequisites: plan-68-A's table, and plan-68-S complete (every backend row is
+Prerequisites: plan-68-A's table, plan-68-F complete (`ls
+schematical/schematical/Canvas/SchematicModel.swift` → no such file), and plan-68-S complete (every backend row is
 gone from the coverage ratchet: `grep -c 'backend/' scripts/coverage-ratchet.tsv`
 → 0).
 

@@ -67,8 +67,16 @@ deletes the ratchet mechanism itself.
 | AJ | app coverage: Canvas (symbols and the rest) | large |
 | AK | landing: the ratchets deleted, both checks strict, the final gates | medium |
 
-**Letter order is the table's order**: A … Z, then AA … AK. Each letter
-depends on the one before it. The document work (B–F) comes first after the
+**The dependency graph**: two tracks after A, which share no files and
+may run side by side, then one chain.
+
+- App track: A → B → C → D → E → F.
+- Backend track: A → G → H → I → J → K → L → M → N → O → P → Q → R → S.
+- Then T (needs S: every backend coverage row gone) and F → … T → U → V →
+  W → X → Y → Z → AA → … → AJ → AK.
+
+So T waits for both F and S. Within a track, each letter depends on the one
+before it. The document work (B–F) comes first after the
 rules, ahead of the lower-risk backend splits: it is the reason for the plan
 (multi-sheet and multi-unit both wait on it) and it needs nothing from the
 backend letters; its risk is held by letter C, which covers the whole
@@ -506,6 +514,13 @@ question's list had dropped `serial_test_i.h` and `eeprom.c` (1,001). No ruling
 depends on the count.
 
 ## Corrections
+
+- **The letters were written as one chain; they are two tracks.** The app
+  letters B–F touch only `schematical/` and the backend letters G–S only
+  `backend/` (and their tests), so G needs only A. plan-68-G's `Depends on:`
+  is now plan-68-A and plan-68-T's is S and F; found while the full app
+  coverage run (whose test host is the real app, so no second app test can
+  run beside it) held up letter C.
 
 - **The app census used the wrong line count.** The plan first recorded app
   coverage from `xccov view --report --json`'s `executableLines` /

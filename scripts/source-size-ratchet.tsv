@@ -1,4 +1,3 @@
-6408	backend/tests/serial_test.c
 5606	schematical/schematical/Canvas/SchematicModel.swift
 3573	backend/src/models/converter_load.c
 3307	backend/tests/library_check.c
@@ -23,7 +22,6 @@
 1264	backend/tests/serialmem_test.c
 1216	backend/src/models/serial_i82510.c
 1151	backend/tests/latch_test.c
-1151	backend/tests/serial_test_i.h
 1149	backend/src/models/shift.c
 1115	backend/src/models/pio_via6522.c
 1099	backend/src/engine/sim.c

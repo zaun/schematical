@@ -1314,7 +1314,16 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   control, two channels, reset and the TX LED, the USB supply domain in
   the voltage check, and `circuit_serial_configure`'s errors.
 
-- `serial_test` — the serial kind on fixture devices
+- The serial programs (plan-68-G split the old `serial_test` by family;
+  shared benches in `tests/support/serial_bench*.c`, compiled into these
+  programs only): `serial_ns16550_test` (cases 1-12, the terminal, D24 on
+  the shipped device, the host port), `serial_d_test` / `serial_d_more_test`
+  (D1-D23, the shipped-device comparison), `serial_maxim_test` (JF, J1, J2),
+  `serial_max310x_test` (J3-J6), `serial_ay1013_test` (H1-H3),
+  `serial_intel_test` (H4, H5), `serial_acia_test` (H6, plan-14-E),
+  `serial_hs_com_test` (H7, H8), `serial_bridge_test` (I1-I7),
+  `serial_sc18is604_test` (I8, I9), `serial_exar_test` (E1-E15),
+  `serial_exar_v_test` (E16-E28). Together: the serial kind on fixture devices
   (`tests/support/serial_fixture.h`: a PC16550D-shaped `ns16550` in plcc44
   and dip40, and a 16450 twin) with a bench that clocks XIN and wires
   BAUDOUT to RCLK: reset values, divisor and BAUDOUT, transmit frames and
