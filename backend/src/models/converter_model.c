@@ -71,10 +71,9 @@ static void *cv_create(const void *config) {
     return s;
 }
 
+/* s is never NULL: cv_create frees only what it allocated, and the engine destroys
+   only states cv_create returned. */
 void cv_free_state(CvState *s) {
-    if (s == NULL) {
-        return;
-    }
     logic_free(s->regs);
     logic_free(s->drv);
     logic_free(s->ready_on);
@@ -123,14 +122,10 @@ static void cv_start(Sim *sim, SimInstance *instance, void *state) {
     }
     b = cvc_spi_bus(s);
     if (b != NULL) {
+        /* Every net is Z at start (sim_start resolves the nets before any start function and
+           applies no drive until the run): SCLK reads X and CS reads inactive, so a frame
+           begins on CS's first active edge (cvc_spi_pin). */
         s->sclk = cv_level(s, cv_pin(s, b->sclk), LOGIC_X);
-        if (b->cs != CV_NONE) {
-            LogicValue v = cv_level(s, cv_pin(s, b->cs), b->cs_level ? LOGIC_0 : LOGIC_1);
-
-            if (v == (b->cs_level ? LOGIC_1 : LOGIC_0) && !s->in_reset) {
-                cvc_spi_select(s, b);
-            }
-        }
     }
     if (s->dev->bus.style == CVB_I2C_SPI) {
         LogicValue v = cv_level(s, cv_pin(s, s->dev->bus.select), LOGIC_0);
@@ -226,8 +221,6 @@ static void control_pin(CvState *s, size_t pin) {
                 cvc_dac_clear(s);
             }
             break;
-        default:
-            break;
         }
     }
     cv_ready_refresh(s);
@@ -285,10 +278,8 @@ static void cv_timer(Sim *sim, SimInstance *instance, void *state, uint32_t id) 
         }
     } else if ((id & CV_TM_KIND) == CV_TM_RTC) {
         rtc_timer(s, id);
-    } else if ((id & CV_TM_KIND) == CV_TM_DISP) {
-        disp_timer(s, id);
     } else {
-        cv_par_timer(s, id);
+        disp_timer(s, id);  /* CV_TM_DISP, the last kind of timer (display_out.c, display_clock.c) */
     }
 }
 

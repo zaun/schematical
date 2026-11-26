@@ -12,7 +12,6 @@ enum {
     CV_TM_GEN = 0x0FFFFFFFu,
     CV_TM_CONV = 0x10000000u,
     CV_TM_READY = 0x20000000u,
-    CV_TM_PAR = 0x30000000u,    /* converter_par.c */
     CV_TM_RTC = 0x40000000u,    /* rtc.c */
     CV_TM_DISP = 0x50000000u    /* display_out.c */
 };
@@ -137,7 +136,6 @@ void cv_ready_refresh(CvState *s);
 void cv_start_conversion(CvState *s, int channel);
 void cv_result_read(CvState *s);
 void cv_reg_write(CvState *s, int reg, uint32_t value);
-void cv_reg_read(CvState *s, int reg);
 void cv_reset(CvState *s);
 void cv_bit_in(CvState *s, LogicValue v);
 LogicValue cv_bit_out(CvState *s, int *sdio);
@@ -182,6 +180,5 @@ void disp_lcd_byte(CvState *s, uint8_t byte);
 /* converter_par.c (plan-24-E) */
 void cv_par_start(CvState *s);
 void cv_par_pin(CvState *s, size_t pin);
-void cv_par_timer(CvState *s, uint32_t id);
 
 #endif

@@ -342,11 +342,10 @@ void cv_par_start(CvState *s) {
 
         release_data(s, b, 0);
         s->par_data_last = data_value(s, b, &known);
+        /* Every net is Z at start (sim_start), so CS / RD read inactive and no read is under
+           way yet: the first one starts on a pin change (par_pin). */
         s->par_reading = par_read_access(s, b);
         s->par_writing = par_write_access(s, b);
-        if (s->par_reading) {
-            par_read_drive(s, b, s->dev->timing.t_acc);
-        }
     } else if (b->style == CVB_CLOCKED) {
         s->par_clock = cv_level(s, cv_pin(s, b->clock), LOGIC_X);
         cv_seg_set(&s->clk_seg, cv_read_pattern(s));
@@ -363,9 +362,4 @@ void cv_par_pin(CvState *s, size_t pin) {
     } else if (b->style == CVB_CLOCKED) {
         clocked_pin(s, b, pin);
     }
-}
-
-void cv_par_timer(CvState *s, uint32_t id) {
-    (void)s;
-    (void)id;
 }

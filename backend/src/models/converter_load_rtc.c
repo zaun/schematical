@@ -75,9 +75,17 @@ static int ns_map(Ld *ld, const cJSON *v, const char *key, const uint32_t **keys
     return 0;
 }
 
+/* A register or field of the clock: R and CH (the conversion result and channel) hold no time. */
+static int reg_field(Ld *ld, const cJSON *o, const char *key, CvField *out) {
+    if (cvl_field_member(ld, o, key, out) != 0) {
+        return -1;
+    }
+    return out->reg < 0 ? kind_error(ld->ctx, "\"%s\" names a register or a field, not R or CH", key) : 0;
+}
+
 static int opt_field(Ld *ld, const cJSON *o, const char *key, int *has, CvField *out) {
     *has = cvl_member(o, key) != NULL;
-    return *has ? cvl_field_member(ld, o, key, out) : 0;
+    return *has ? reg_field(ld, o, key, out) : 0;
 }
 
 static int load_periodic(Ld *ld, const cJSON *e, RtcPeriodic *p) {
@@ -95,7 +103,7 @@ static int load_periodic(Ld *ld, const cJSON *e, RtcPeriodic *p) {
         p->fixed = 1;
         return cvl_cv_ns(ld->ctx, cvl_member(e, "periodNs"), "\"periodNs\"", &p->period_ps);
     }
-    return cvl_field_member(ld, e, "field", &p->rate) ||
+    return reg_field(ld, e, "field", &p->rate) ||
            ns_map(ld, cvl_member(e, "periods"), "periods", &p->keys, &p->ps, &p->count);
 }
 
@@ -138,7 +146,7 @@ int cvl_load_clock(Ld *ld, const cJSON *c, CvDevice *dev) {
             uint32_t first = 0, base = 2000;
 
             kind_push(ld->ctx, "fields[%zu]", n);
-            if (cvl_check_keys(ld, e, FK) != 0 || cvl_field_member(ld, e, "field", &tf[n].field) != 0 ||
+            if (cvl_check_keys(ld, e, FK) != 0 || reg_field(ld, e, "field", &tf[n].field) != 0 ||
                 unit_of(ld, e, &tf[n].unit) != 0 ||
                 opt_field(ld, e, "h12", &tf[n].has_h12, &tf[n].h12) != 0 ||
                 opt_field(ld, e, "pm", &tf[n].has_pm, &tf[n].pm) != 0 ||
@@ -157,7 +165,7 @@ int cvl_load_clock(Ld *ld, const cJSON *c, CvDevice *dev) {
                     }
                 } else if (cJSON_IsObject(f)) {
                     tf[n].format.has_field = 1;
-                    if (cvl_field_member(ld, f, "field", &tf[n].format.field) != 0 ||
+                    if (reg_field(ld, f, "field", &tf[n].format.field) != 0 ||
                         cvl_u32_member(ld, f, "binary", &tf[n].format.binary_value) != 0) {
                         return -1;
                     }
@@ -180,7 +188,7 @@ int cvl_load_clock(Ld *ld, const cJSON *c, CvDevice *dev) {
         static const char *const SK[] = {"field", "stopped", "running", "powerOn", NULL};
 
         kind_push(ld->ctx, "stop");
-        if (cvl_check_keys(ld, v, SK) != 0 || cvl_field_member(ld, v, "field", &k->stop) != 0) {
+        if (cvl_check_keys(ld, v, SK) != 0 || reg_field(ld, v, "field", &k->stop) != 0) {
             return -1;
         }
         k->has_stop = 1;
@@ -207,7 +215,7 @@ int cvl_load_clock(Ld *ld, const cJSON *c, CvDevice *dev) {
         }
         if (cvl_member(v, "uip") != NULL) {
             k->update.kind = RTC_UPDATE_UIP;
-            if (cvl_field_member(ld, v, "uip", &k->update.uip) != 0 ||
+            if (reg_field(ld, v, "uip", &k->update.uip) != 0 ||
                 opt_field(ld, v, "inhibit", &k->update.has_inhibit, &k->update.inhibit) != 0) {
                 return -1;
             }
@@ -215,7 +223,7 @@ int cvl_load_clock(Ld *ld, const cJSON *c, CvDevice *dev) {
             const cJSON *wh = cvl_member(v, "writeHalts");
 
             k->update.kind = RTC_UPDATE_LATCH;
-            if (cvl_field_member(ld, v, "latch", &k->update.latch) != 0 ||
+            if (reg_field(ld, v, "latch", &k->update.latch) != 0 ||
                 opt_field(ld, v, "write", &k->update.has_write, &k->update.write) != 0) {
                 return -1;
             }
@@ -261,7 +269,7 @@ int cvl_load_clock(Ld *ld, const cJSON *c, CvDevice *dev) {
                                                  NULL};
                 const cJSON *dc = cvl_member(x, "dontCare");
 
-                if (cvl_check_keys(ld, x, MK) != 0 || cvl_field_member(ld, x, "field", &mm[j].field) != 0 ||
+                if (cvl_check_keys(ld, x, MK) != 0 || reg_field(ld, x, "field", &mm[j].field) != 0 ||
                     unit_of(ld, x, &mm[j].unit) != 0 ||
                     opt_field(ld, x, "mask", &mm[j].has_mask, &mm[j].mask) != 0 ||
                     cvl_level_member(ld, x, "maskLevel", 1, &mm[j].mask_level) != 0) {
@@ -323,7 +331,7 @@ int cvl_load_clock(Ld *ld, const cJSON *c, CvDevice *dev) {
 
         kind_push(ld->ctx, "watchdog");
         w->present = 1;
-        if (cvl_check_keys(ld, v, WK) != 0 || cvl_field_member(ld, v, "field", &w->field) != 0 ||
+        if (cvl_check_keys(ld, v, WK) != 0 || reg_field(ld, v, "field", &w->field) != 0 ||
             ns_map(ld, cvl_member(v, "periods"), "periods", &w->keys, &w->ps, &w->count) != 0 ||
             opt_field(ld, v, "flag", &w->has_flag, &w->flag) != 0 ||
             rtc_pin(ld, cvl_member(v, "pin"), &w->pin) != 0 || rtc_pin(ld, rp, &w->reset_pin) != 0) {
@@ -385,6 +393,9 @@ int cvl_load_ram(Ld *ld, const cJSON *c) {
 
         snprintf(name, sizeof name, "RAM%u", (unsigned)(address + i));
         g->name = kind_strdup(ld->ctx, name);
+        if (g->name == NULL) {
+            return -1;
+        }
         g->address = (int32_t)(address + i);
         g->space = sp;
         g->width = 8;

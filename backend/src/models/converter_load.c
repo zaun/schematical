@@ -78,6 +78,9 @@ int cvl_name_id(Ld *ld, const char *name) {
         ld->name_cap = cap;
     }
     ld->names[ld->name_count] = kind_strdup(ld->ctx, name);
+    if (ld->names[ld->name_count] == NULL) {
+        return CV_NONE;
+    }
     return (int)ld->name_count++;
 }
 
@@ -105,14 +108,15 @@ int cvl_space_index(Ld *ld, const char *name) {
     }
     {
         const char **n = kind_alloc(ld->ctx, (ld->space_count + 1) * sizeof(*n));
+        char *copy = kind_strdup(ld->ctx, name);
 
-        if (n == NULL) {
+        if (n == NULL || copy == NULL) {
             return -1;
         }
         if (ld->space_count) {
             memcpy(n, ld->spaces, ld->space_count * sizeof(*n));
         }
-        n[ld->space_count] = kind_strdup(ld->ctx, name);
+        n[ld->space_count] = copy;
         ld->spaces = n;
         return (int)ld->space_count++;
     }
@@ -537,7 +541,9 @@ CvDevice *cv_load_device(KindContext *ctx, const cJSON *json, CvMode mode) {
                 kind_error(ctx, "\"analog\" must be an array of pin names");
                 return NULL;
             }
-            a[n++] = cvl_name_id(&ld, e->valuestring);
+            if ((a[n++] = cvl_name_id(&ld, e->valuestring)) == CV_NONE) {
+                return NULL;
+            }
         }
         dev->analog = a;
     }
@@ -600,7 +606,8 @@ CvDevice *cv_load_device(KindContext *ctx, const cJSON *json, CvMode mode) {
     } else if (cvl_load_display(&ld, cvl_member(json, "display"), dev) != 0) {
         return NULL;
     }
-    if (dev->disp != NULL) {
+    {
+        /* Any device, display or not: disp_lcd_byte relies on it. */
         size_t ci, ti;
 
         for (ci = 0; ci < dev->protocol.command_count; ci++) {
@@ -610,7 +617,7 @@ CvDevice *cv_load_device(KindContext *ctx, const cJSON *json, CvMode mode) {
             for (ti = 0; ti < cmd->then_count; ti++) {
                 uses |= cmd->then[ti] == CVA_LCDLOAD;
             }
-            if (uses && !(dev->disp->driver == DISP_LCD && dev->disp->has_load)) {
+            if (uses && !(dev->disp != NULL && dev->disp->driver == DISP_LCD && dev->disp->has_load)) {
                 kind_error(ctx, "action \"lcdload\" needs an lcd \"display\" with a \"load\" section");
                 return NULL;
             }
@@ -738,39 +745,30 @@ int cv_load_part(KindContext *ctx, const void *device, const void *bound, const 
     }
     if ((v = cvl_member(json, "i2c")) != NULL) {
         static const char *const IK[] = {"address", "table", NULL};
-        size_t k;
+        const cJSON *a = cvl_member(v, "address"), *t = cvl_member(v, "table"), *e;
+        size_t k, n = 0;
 
         /* names resolve against this pinout directly */
         if (cvl_check_keys(&ld, v, IK) != 0) {
             return -1;
         }
-        {
-            const cJSON *a = cvl_member(v, "address"), *e;
-            size_t n = 0;
-
-            if (!cJSON_IsArray(a) || cJSON_GetArraySize(a) > SERIAL_I2C_STRAPS) {
-                return kind_error(ctx, "\"i2c\": \"address\" is an array of strap pins");
-            }
-            cJSON_ArrayForEach(e, a) {
-                if (!cJSON_IsString(e) || kind_pin(ctx, b->pins, b->pin_count, e->valuestring,
-                                                   &k) != 0) {
-                    return kind_failed(ctx) ? -1 : kind_error(ctx, "\"i2c\": strap pin names");
-                }
-                data->straps[n++] = (int)k;
-            }
-            data->strap_count = (unsigned)n;
+        if (!cJSON_IsArray(a) || cJSON_GetArraySize(a) > SERIAL_I2C_STRAPS) {
+            return kind_error(ctx, "\"i2c\": \"address\" is an array of strap pins");
         }
-        {
-            const cJSON *t = cvl_member(v, "table"), *e;
-            size_t n = 0;
-
-            data->table_count = 1u << (2 * data->strap_count);
-            if (!cJSON_IsArray(t) || (unsigned)cJSON_GetArraySize(t) != data->table_count) {
-                return kind_error(ctx, "\"i2c\": \"table\" needs %u entries", data->table_count);
+        cJSON_ArrayForEach(e, a) {
+            if (!cJSON_IsString(e) || kind_pin(ctx, b->pins, b->pin_count, e->valuestring, &k) != 0) {
+                return kind_failed(ctx) ? -1 : kind_error(ctx, "\"i2c\": strap pin names");
             }
-            cJSON_ArrayForEach(e, t) {
-                data->table[n++] = cJSON_IsNumber(e) ? e->valueint : -1;
-            }
+            data->straps[n++] = (int)k;
+        }
+        data->strap_count = (unsigned)n;
+        data->table_count = 1u << (2 * data->strap_count);
+        if (!cJSON_IsArray(t) || (unsigned)cJSON_GetArraySize(t) != data->table_count) {
+            return kind_error(ctx, "\"i2c\": \"table\" needs %u entries", data->table_count);
+        }
+        n = 0;
+        cJSON_ArrayForEach(e, t) {
+            data->table[n++] = cJSON_IsNumber(e) ? e->valueint : -1;
         }
         data->has_bus_i2c = 1;
     }
@@ -792,7 +790,7 @@ int cv_load_part(KindContext *ctx, const void *device, const void *bound, const 
 
             if (cvl_field_ref(&ld, e->string, &f) != 0 || f.reg < 0 ||
                 cvl_u32(&ld, e, "a reset value", &rv[n].value) != 0) {
-                return -1;
+                return kind_failed(ctx) ? -1 : kind_error(ctx, "\"resets\" names registers");
             }
             rv[n++].reg = f.reg;
         }

@@ -104,9 +104,7 @@ static int load_lcd_load(Dl *dl, const cJSON *o, DispCfg *c) {
     unsigned i;
     uint32_t subs = 8;
 
-    if (!c->mode_dynamic) {
-        return kind_error(ld->ctx, "\"load\" needs \"mode\" as a field");
-    }
+    /* Only reached with "mode" as a field: load_display_lcd rejects "load" with a fixed mode. */
     kind_push(ld->ctx, "load");
     if (cvl_check_keys(ld, l, LK) != 0 || cvl_dl_field_member(ld, l, "pointer", &c->ld_pointer) != 0) {
         return -1;
@@ -257,7 +255,7 @@ static int load_display_lcd(Dl *dl, const cJSON *o, DispCfg *c) {
     c->frame_ps = frame_ps;
     c->slot_ps = frame_ps / c->bp_count;
     if (c->slot_ps == 0) {
-        c->slot_ps = 1;
+        return kind_error(ld->ctx, "\"frameUs\" is shorter than 1 ps per backplane");
     }
     if (dynamic && load_lcd_modes(dl, o, c) != 0) {
         return -1;
@@ -504,9 +502,7 @@ int cvl_load_display(Ld *ld, const cJSON *d, CvDevice *dev) {
     size_t i;
     int rc;
 
-    if (d == NULL) {
-        return kind_error(ld->ctx, "a display driver needs \"display\"");
-    }
+    /* d is not NULL: cv_load_device rejects a display driver without "display" first. */
     kind_push(ld->ctx, "display");
     if (!cJSON_IsObject(d) || kind_string(ld->ctx, d, "driver", &name) != 0) {
         return kind_failed(ld->ctx) ? -1 : kind_error(ld->ctx, "\"display\" must be an object");

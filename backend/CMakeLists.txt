@@ -371,6 +371,12 @@ logic_test(relay_test)
 logic_test(buzzer_test)
 logic_test(timer_test)
 logic_test(opamp_test)
+# plan-68-M
+logic_bench_test(converter_load_cov_test library_check_bench)
+logic_bench_test(converter_disp_load_cov_test library_check_bench)
+logic_bench_test(converter_more_test converter_bench)
+logic_bench_test(converter_more2_test converter_bench)
+logic_bench_test(rtc_more_test converter_bench)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be
 # flaky. Build Release to get meaningful numbers.

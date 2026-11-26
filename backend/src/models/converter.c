@@ -47,13 +47,12 @@ uint32_t cv_field_get(const CvState *s, const CvField *f) {
     return (v >> f->lo) & mask_of(f->hi - f->lo + 1);
 }
 
-/* Sets a field directly (internal: no read-only mask, no triggers). */
+/* Sets a field directly (internal: no read-only mask, no triggers). f is a register's
+   field: the loader rejects R and CH wherever a field is set (levels, busy, done, onRead,
+   a command's "set"). */
 void cvc_field_put(CvState *s, const CvField *f, uint32_t value) {
     uint32_t m;
 
-    if (f->reg < 0) {
-        return;
-    }
     m = mask_of(f->hi - f->lo + 1) << f->lo;
     s->regs[f->reg] = (s->regs[f->reg] & ~m) | ((value << f->lo) & m);
 }
@@ -147,24 +146,22 @@ int cvc_reg_next(const CvState *s, int reg) {
 /* The level a ready pin shows now (LOGIC_Z: inactive open drain). */
 LogicValue cv_ready_level(const CvState *s, int pin_name) {
     size_t i;
-    int found = 0, active_level = 0, open_drain = 0;
+    int active_level = 0, open_drain = 0;
 
+    /* pin_name is a ready entry's pin (its callers: cv_ready_refresh, cv_spi_refresh's
+       on-MISO ready) */
     for (i = 0; i < s->dev->ready_count; i++) {
         const CvReady *r = &s->dev->ready[i];
 
         if (r->pin != pin_name) {
             continue;
         }
-        found = 1;
         active_level = r->active;
         open_drain |= r->open_drain;
         if (cv_conds_hold(s, &r->enable) &&
             (r->asserts_done ? s->ready_on[i] : s->converting)) {
             return r->active ? LOGIC_1 : LOGIC_0;
         }
-    }
-    if (!found) {
-        return LOGIC_Z;
     }
     if (open_drain) {
         return LOGIC_Z;
@@ -406,9 +403,7 @@ static void after_write(CvState *s, int reg, uint32_t raw, uint32_t old_mode_con
         cvc_continuous(s) && c->start_on_enter) {
         cv_start_conversion(s, -1);
     }
-    if (c->present && c->mode == 2 && c->mode_field.reg == reg && old_mode_cont && !cvc_continuous(s)) {
-        /* leaving continuous mode: the conversion in progress finishes */
-    }
+    /* leaving continuous mode: the conversion in progress finishes (nothing to do) */
     for (i = 0; i < p->trigger_count; i++) {
         if (p->triggers[i].cond.field.reg == reg && cv_conds_hold(s, &(CvConds){&p->triggers[i].cond, 1})) {
             cvc_run_action(s, p->triggers[i].action, NULL, NULL);
@@ -467,18 +462,6 @@ void cv_reads_done(CvState *s) {
     }
     s->read_marked = 0;
     cv_ready_refresh(s);
-}
-
-/* A bus read of a register: clear-on-read bits; a result register counts as reading the result. */
-void cv_reg_read(CvState *s, int reg) {
-    const CvRegister *r = &s->dev->regs[reg];
-
-    if (r->cor) {
-        s->regs[reg] &= ~r->cor;
-    }
-    if (r->result) {
-        cv_result_read(s);
-    }
 }
 
 /* ---- Reset ------------------------------------------------------------------------------------ */
@@ -604,7 +587,7 @@ void cvc_run_action(CvState *s, uint8_t action, const CvCommand *cmd, const uint
     if (caps == NULL) {
         caps = ZERO;
     }
-    switch (action) {
+    switch ((CvAction)action) {     /* every action: -Wswitch checks it */
     case CVA_NOP:
         break;
     case CVA_WREG: {
@@ -726,8 +709,6 @@ void cvc_run_action(CvState *s, uint8_t action, const CvCommand *cmd, const uint
         }
         break;
     }
-    default:
-        break;
     }
 }
 

@@ -228,7 +228,7 @@ int cvl_dl_us(Ld *ld, const cJSON *v, const char *what, uint64_t *ps) {
     }
     *ps = (uint64_t)llround(v->valuedouble * 1e6);
     if (*ps == 0) {
-        *ps = 1;
+        return kind_error(ld->ctx, "%s is shorter than 1 ps", what);
     }
     return 0;
 }
@@ -301,9 +301,7 @@ static int dl_decode(Ld *ld, const cJSON *o, DispCfg *c, size_t data_pins, size_
         if (c->decode == DEC_NONE) {
             return kind_error(ld->ctx, "\"decodeField\" needs a \"decode\" other than \"none\"");
         }
-        if (digits == 0) {
-            return kind_error(ld->ctx, "\"decodeField\" goes in each group");
-        }
+        /* digits > 0 here: static's keys have no top-level "decodeField" (it goes in each group). */
         c->has_decode_field = 1;
         if (cJSON_IsString(v)) {
             f = kind_alloc(ld->ctx, sizeof(*f));
@@ -450,15 +448,13 @@ static int load_display_shared(Dl *dl, const cJSON *o, DispCfg *c) {
         h = cvl_member(b, "halfPeriodUs");
         if (cJSON_IsNumber(h)) {
             uint64_t ps;
-            uint32_t *val = kind_alloc(ld->ctx, sizeof *val);
 
-            if (val == NULL || cvl_dl_us(ld, h, "\"halfPeriodUs\"", &ps) != 0) {
+            if (cvl_dl_us(ld, h, "\"halfPeriodUs\"", &ps) != 0) {
                 return -1;
             }
-            *val = (uint32_t)h->valuedouble;
             memset(&c->blink_half, 0, sizeof c->blink_half);
             c->blink_half.pin = CV_NONE;
-            c->blink_half.fixed = *val;
+            c->blink_half.fixed = (uint32_t)h->valuedouble;     /* microseconds, as the {field, values} form */
         } else if (cJSON_IsObject(h)) {
             if (cvl_load_choice(ld, h, &c->blink_half, 0) != 0) {
                 return -1;

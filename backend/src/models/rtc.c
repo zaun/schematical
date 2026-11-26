@@ -50,12 +50,10 @@ static uint32_t mask_of(unsigned bits) {
     return bits >= 32 ? 0xFFFFFFFFu : ((1u << bits) - 1u);
 }
 
+/* f is a clock register's field: the loader rejects R and CH there (converter_load_rtc.c). */
 static void put(CvState *s, const CvField *f, uint32_t v) {
     uint32_t m;
 
-    if (f->reg < 0) {
-        return;
-    }
     m = mask_of(f->hi - f->lo + 1) << f->lo;
     s->regs[f->reg] = (s->regs[f->reg] & ~m) | ((v << f->lo) & m);
 }
@@ -298,9 +296,6 @@ static void drive_pin(CvState *s, const RtcClock *c, int pin, int asserted) {
     RtcPin a = attrs(c, pin);
     LogicValue v;
 
-    if (pin == CV_NONE) {
-        return;
-    }
     if (asserted) {
         v = a.active ? LOGIC_1 : LOGIC_0;
     } else {
@@ -319,9 +314,8 @@ void rtc_refresh(CvState *s) {
     int on[64];
     size_t n = 0, i, k;
 
-    if (c == NULL || r == NULL) {
-        return;
-    }
+    /* Called for an rtc device only, after rtc_start: nothing refreshes the ready pins during
+       cv_start's reset (an rtc has no "conversion"). */
 #define ADD(PIN, ON)                                       \
     do {                                                   \
         if ((PIN) != CV_NONE) {                            \
@@ -470,9 +464,7 @@ void rtc_timer(CvState *s, uint32_t id) {
     unsigned kind = (id >> 24) & 0xFu, index = (id >> 16) & 0xFFu;
     uint32_t gen = id & 0xFFFFu;
 
-    if (r == NULL) {
-        return;
-    }
+    /* r is set: only rtc_start and these timers schedule rtc timers */
     if (kind == RT_TICK) {
         int second_changed;
 
@@ -551,9 +543,8 @@ void rtc_after_write(CvState *s, int reg) {
     const RtcClock *c = clk(s);
     size_t i;
 
-    if (r == NULL) {
-        return;
-    }
+    /* r is set: registers are written by bus traffic, after rtc_start (cv_start's reset sets them
+       directly) */
     if (c->update.kind == RTC_UPDATE_LATCH) {
         uint32_t latch = cv_field_get(s, &c->update.latch);
         uint32_t write = c->update.has_write ? cv_field_get(s, &c->update.write) : latch;
@@ -596,9 +587,7 @@ void rtc_pin(CvState *s, size_t pin) {
     const RtcWatchdog *w;
     LogicValue v;
 
-    if (r == NULL) {
-        return;
-    }
+    /* r is set: pin changes come during the run, after rtc_start */
     w = &clk(s)->watchdog;
     if (!w->present || !w->has_kick || cv_pin(s, w->kick_pin) != pin) {
         return;
@@ -653,9 +642,8 @@ void rtc_free(CvState *s) {
 int rtc_snapshot(const CvState *s, RtcTime *out) {
     const RtcState *r = s->rtc;
 
-    if (r == NULL || s->dev->clock == NULL) {
-        return 0;
-    }
+    /* Its one caller, circuit_rtc_time, asks only an rtc part of a started circuit: rtc_start
+       has set r. */
     out->year = r->t[RU_YEAR];
     out->month = r->t[RU_MONTH];
     out->day = r->t[RU_DATE];

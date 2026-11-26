@@ -22,16 +22,6 @@
 35	backend/src/models/charlcd_load.c
 58	backend/src/models/charlcd.c
 23	backend/src/models/connector.c
-126	backend/src/models/converter_load_conv.c
-130	backend/src/models/converter_load_display.c
-100	backend/src/models/converter_load_lcd.c
-205	backend/src/models/converter_load_proto.c
-71	backend/src/models/converter_load_rtc.c
-135	backend/src/models/converter_load.c
-19	backend/src/models/converter_model.c
-12	backend/src/models/converter_par.c
-84	backend/src/models/converter_proto.c
-52	backend/src/models/converter.c
 45	backend/src/models/counter_div.c
 62	backend/src/models/counter_ripple.c
 34	backend/src/models/counter_seg7.c
@@ -94,7 +84,6 @@
 83	backend/src/models/regulator.c
 90	backend/src/models/relay.c
 31	backend/src/models/resistor.c
-45	backend/src/models/rtc.c
 21	backend/src/models/seq.c
 61	backend/src/models/serial_acia6551.c
 58	backend/src/models/serial_ay1013.c

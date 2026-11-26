@@ -287,11 +287,10 @@ static LogicValue tok_value(CvState *s, CvSeg *g, const CvTok *t) {
         return (cv_code(s) >> t->bit) & 1u ? LOGIC_1 : LOGIC_0;
     case CVT_CH:
         return ((uint32_t)s->out_channel >> t->bit) & 1u ? LOGIC_1 : LOGIC_0;
-    case CVT_REF:
+    default:
+        /* CVT_REF: an output pattern has no x (cvl_pattern) and cv_seg_bit handles @ itself */
         cvc_mark_read(s, t->reg);
         return (s->regs[t->reg] >> t->bit) & 1u ? LOGIC_1 : LOGIC_0;
-    default:
-        return LOGIC_0;
     }
 }
 
@@ -714,10 +713,9 @@ void cvc_i2c_next(void *ctx, unsigned index, uint8_t *data, uint8_t *known) {
         int sdio;
         LogicValue v = cv_bit_out(s, &sdio);
 
+        /* cv_seg_bit gives 0, 1 or Z, never X: a Z bit is a released line, a 1 */
         if (v == LOGIC_1 || v == LOGIC_Z) {
             *data |= (uint8_t)(1u << i);
-        } else if (v == LOGIC_X) {
-            *known &= (uint8_t)~(1u << i);
         }
     }
 }
