@@ -98,11 +98,14 @@ the split.
   5496-5500, count 1) and erase's `else { return }` is line 5719 (count 1).
   The lines this letter changed are covered too (`ChipLayout.supply` 10,
   `setBusLines`' guard 3).
-Commit: —
+Commit: bdb172c6, ddc6ea92
 
 ## Validation Plan
 
 - Final gate (once): the Phase 1 check; `SZ`.
+  Observed: the Phase 1 union check (above); the four classes and
+  `BusJoinTests` → `Executed 50 tests, with 0 failures` on the compacted
+  code, whose counts read right (5424: 3, 5425: 2; the init 1); `SZ` → exit 0.
 
 ## Decisions
 
