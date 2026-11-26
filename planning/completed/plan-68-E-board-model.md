@@ -129,7 +129,7 @@ Acceptance: the layout owns the content; nothing else changed.
   -only-testing:schematicalTests/PourFileTests
   -only-testing:schematicalTests/CutoutFileTests` → all pass (est. 5 min).
   Observed: `xcodebuild … -only-testing` PCBUndoTests 38, BoardObservationTests 2, BoardCopperCacheTests 3, PourFileTests, CutoutFileTests, TraceJoinTests → `TEST SUCCEEDED`, 0 failures.
-Commit: COMMIT_E
+Commit: 5749d50c
 
 ### Phase 2 — the logic into the values
 
@@ -146,7 +146,7 @@ Acceptance: logic in the values, tested alone; behavior unchanged.
   --only schematical/schematical/Model/Board/` → no uncovered line (est. the
   full Debug suite; every PCB edit moves).
   Observed: the full suite under `node scripts/coverage.js --app` → the 8 standing failures only (`planning/plan-68-data/coverage-start.txt`); `--only schematical/schematical/Model/Board/` with the four value classes and `BoardObservationTests` → `920 lines, 0 uncovered`. SchematicModel.swift had 12 uncovered lines: four static geometry forwards nothing called, deleted; `BoardTrace.swift` went down 10 → 8 and its row was lowered.
-Commit: COMMIT_E
+Commit: 5749d50c
 
 ## Validation Plan
 
