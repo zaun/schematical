@@ -139,10 +139,21 @@ struct RegisterInspector: View {
         return simulation.registerState(of: chip)
     }
 
-    @ViewBuilder private func content(_ chip: PlacedChip) -> some View {
-        let snapshot = snapshot(chip)
+    private func content(_ chip: PlacedChip) -> some View {
+        RegisterStateView(kindName: PartFacts.kindName(chip.part), snapshot: snapshot(chip))
+    }
+}
+
+/// A converter's or RTC's state as the register window shows it: the kind,
+/// an RTC's time, and the register table; a hint while `snapshot` is nil
+/// (the simulation is stopped).
+struct RegisterStateView: View {
+    let kindName: String
+    let snapshot: RegisterSnapshot?
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text(PartFacts.kindName(chip.part))
+            Text(kindName)
                 .font(.title3.weight(.semibold))
             if let snapshot {
                 if let clock = snapshot.clock {

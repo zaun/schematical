@@ -176,6 +176,8 @@ struct CpuInspector: View {
     let chipID: UUID
     let document: SchematicDocument
     let simulation: SimulationController
+    /// Asks for a firmware file (an open panel on `window`); tests answer it.
+    var chooseFile: @MainActor (NSWindow?) async -> MemoryFile? = MemoryFileAccess.choose(attachedTo:)
 
     /// The window, for the firmware's Choose… panel.
     @State private var window: NSWindow?
@@ -198,7 +200,7 @@ struct CpuInspector: View {
                             isRunning: simulation.isRunning,
                             choose: {
                                 Task {
-                                    if let file = await MemoryFileAccess.choose(attachedTo: window) {
+                                    if let file = await chooseFile(window) {
                                         document.setMemoryFile(chipID, file)
                                     }
                                 }
@@ -265,8 +267,17 @@ struct CpuInspector: View {
         return simulation.cpuState(of: chipID)
     }
 
-    @ViewBuilder private var content: some View {
-        let snapshot = snapshot
+    private var content: some View {
+        CpuStateView(snapshot: snapshot)
+    }
+}
+
+/// A processor's state as its window shows it: status, registers, flags and
+/// the last instruction; a hint while `snapshot` is nil (stopped).
+struct CpuStateView: View {
+    let snapshot: CpuSnapshot?
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             if let snapshot {
                 Text(snapshot.statusText)

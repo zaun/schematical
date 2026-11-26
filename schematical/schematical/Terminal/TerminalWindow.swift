@@ -16,6 +16,7 @@
 //
 
 import AppKit
+import Observation
 import SwiftUI
 
 /// Which terminal window to open: a serial part in one schematic window.
@@ -68,6 +69,8 @@ nonisolated enum TerminalText {
     /// Frames before this index were cleared from the view (Clear).
     var clearedAt: [Int] = []
 
+    nonisolated deinit {}
+
     /// Reads the frames a channel sent since the last read.
     func refresh(_ simulation: SimulationController, chipID: UUID, channels: Int) {
         if frames.count != channels {
@@ -118,30 +121,107 @@ struct TerminalWindowView: View {
     }
 }
 
-/// One serial part's terminal.
-struct TerminalInspector: View {
+/// What a terminal window holds and does (plan-68-X): the channel shown,
+/// the typed line, the last refusal, and the transcript read from the
+/// simulation. The view reads and writes these; nothing else.
+@MainActor @Observable final class TerminalController {
     let chipID: UUID
     let document: SchematicDocument
     let simulation: SimulationController
 
-    @State private var log = TerminalLog()
-    @State private var channel = 0
-    @State private var input = ""
-    @State private var error: String?
+    @ObservationIgnored let log = TerminalLog()
+    var channel = 0
+    var input = ""
+    var error: String?
+    /// Counts Clear presses: the log is not observed, so the transcript
+    /// reads this to redraw when Clear empties it.
+    private(set) var clears = 0
 
-    private var chip: PlacedChip? {
+    init(chipID: UUID, document: SchematicDocument, simulation: SimulationController) {
+        self.chipID = chipID
+        self.document = document
+        self.simulation = simulation
+    }
+
+    nonisolated deinit {}
+
+    var chip: PlacedChip? {
         document.chips.first { $0.id == chipID }
     }
 
     /// The part's channels, from its facts (the same while stopped).
-    private var channels: Int {
+    var channels: Int {
         if case let .serial(_, count, _, _)? = chip?.part.details { return count }
         return 0
     }
 
+    /// A USB-to-UART bridge: the PC sets its port.
+    var isUSBBridge: Bool {
+        if case let .serial(_, _, _, host)? = chip?.part.details { return host == "usb" }
+        return false
+    }
+
+    /// The channel's port, read from the simulation.
+    var port: SerialPort {
+        get { simulation.serialPort(of: chipID, channel: channel) }
+        set { error = simulation.setSerialPort(newValue, of: chipID, channel: channel) }
+    }
+
+    /// The channel's format by name ("8N1"); an unknown name changes nothing.
+    var formatName: String {
+        get { port.formatName }
+        set {
+            if let format = SerialPort.formats.first(where: { $0.formatName == newValue }) {
+                port = port.withFormat(format)
+            }
+        }
+    }
+
+    /// The transcript now: refreshed on every read, so every `stateVersion`
+    /// (each simulation step) redraws it. A new run's log restarts at 0,
+    /// below what was read, which empties the transcript (TerminalLog.refresh).
+    var transcript: String {
+        _ = simulation.stateVersion
+        _ = clears
+        if simulation.isRunning {
+            log.refresh(simulation, chipID: chipID, channels: channels)
+        }
+        return log.text(channel: channel)
+    }
+
+    /// Clears the shown channel's transcript.
+    func clear() {
+        log.clear(channel: channel)
+        clears += 1
+    }
+
+    /// Types `text` (and a CR for Return) into the channel's RX pin (a
+    /// bridge: out its TXD pin). The line empties when it was taken.
+    func send(_ text: String, carriageReturn: Bool) {
+        var bytes = Array(text.utf8)
+        if carriageReturn { bytes.append(0x0D) }
+        error = simulation.serialSend(to: chipID, channel: channel, bytes: bytes)
+        if error == nil { input = "" }
+    }
+
+    /// The simulation started or stopped: a new run clears the old refusal.
+    func runningChanged(_ running: Bool) {
+        if running { error = nil }
+    }
+}
+
+/// One serial part's terminal.
+struct TerminalInspector: View {
+    @State private var controller: TerminalController
+
+    init(chipID: UUID, document: SchematicDocument, simulation: SimulationController) {
+        _controller = State(initialValue: TerminalController(chipID: chipID, document: document,
+                                                             simulation: simulation))
+    }
+
     var body: some View {
         Group {
-            if let chip {
+            if let chip = controller.chip {
                 content
                     .navigationTitle("\(chip.reference) — \(chip.partNumber)")
             } else {
@@ -156,59 +236,30 @@ struct TerminalInspector: View {
         .frame(minWidth: 480, minHeight: 300)
     }
 
-    /// A USB-to-UART bridge: the PC sets its port.
-    private var isUSBBridge: Bool {
-        if case let .serial(_, _, _, host)? = chip?.part.details { return host == "usb" }
-        return false
-    }
-
-    /// The channel's port, read from and written to the simulation.
-    private var port: Binding<SerialPort> {
-        Binding(
-            get: { simulation.serialPort(of: chipID, channel: channel) },
-            set: { error = simulation.setSerialPort($0, of: chipID, channel: channel) }
-        )
-    }
-
     /// Baud, format and flow control of a bridge's channel.
     @ViewBuilder private var portControls: some View {
-        Picker("Baud", selection: port.baud) {
+        @Bindable var controller = controller
+        Picker("Baud", selection: $controller.port.baud) {
             ForEach(SerialPort.bauds, id: \.self) { Text(String($0)).tag($0) }
         }
         .fixedSize()
-        Picker("Format", selection: Binding(
-            get: { port.wrappedValue.formatName },
-            set: { name in
-                if let format = SerialPort.formats.first(where: { $0.formatName == name }) {
-                    port.wrappedValue = port.wrappedValue.withFormat(format)
-                }
-            }
-        )) {
+        Picker("Format", selection: $controller.formatName) {
             ForEach(SerialPort.formats, id: \.formatName) { Text($0.formatName).tag($0.formatName) }
         }
         .labelsHidden()
         .fixedSize()
-        Toggle("RTS/CTS", isOn: port.rtsCts)
+        Toggle("RTS/CTS", isOn: $controller.port.rtsCts)
             .help("Hardware flow control: the bridge sends only while CTS is low")
     }
 
-    /// The transcript now: refreshed in the body, so every `stateVersion`
-    /// (each simulation step) redraws it. A new run's log restarts at 0,
-    /// below what was read, which empties the transcript (TerminalLog.refresh).
-    private var transcript: String {
-        _ = simulation.stateVersion
-        if simulation.isRunning {
-            log.refresh(simulation, chipID: chipID, channels: channels)
-        }
-        return log.text(channel: channel)
-    }
-
     @ViewBuilder private var content: some View {
-        let text = transcript
+        @Bindable var controller = controller
+        let text = controller.transcript
+        let channels = controller.channels
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 if channels > 1 {
-                    Picker("Channel", selection: $channel) {
+                    Picker("Channel", selection: $controller.channel) {
                         ForEach(0..<channels, id: \.self) { index in
                             Text(TerminalText.channelName(index)).tag(index)
                         }
@@ -217,9 +268,9 @@ struct TerminalInspector: View {
                     .labelsHidden()
                     .frame(maxWidth: 240)
                 }
-                if isUSBBridge { portControls }
+                if controller.isUSBBridge { portControls }
                 Spacer()
-                Button("Clear") { log.clear(channel: channel) }
+                Button("Clear") { controller.clear() }
             }
             ScrollViewReader { proxy in
                 ScrollView {
@@ -235,30 +286,21 @@ struct TerminalInspector: View {
                 .onChange(of: text) { proxy.scrollTo("end", anchor: .bottom) }
             }
             HStack {
-                TextField(simulation.isRunning ? "Type, then Return to send" : "Run the simulation to type",
-                          text: $input)
+                TextField(controller.simulation.isRunning ? "Type, then Return to send" : "Run the simulation to type",
+                          text: $controller.input)
                     .font(.system(.body, design: .monospaced))
-                    .disabled(!simulation.isRunning)
-                    .onSubmit { send(input, carriageReturn: true) }
+                    .disabled(!controller.simulation.isRunning)
+                    .onSubmit { controller.send(controller.input, carriageReturn: true) }
             }
-            if let error {
+            if let error = controller.error {
                 Text(error)
                     .font(.callout)
                     .foregroundStyle(.red)
             }
         }
         .padding(12)
-        .onChange(of: simulation.isRunning) { _, running in
-            if running { error = nil }
+        .onChange(of: controller.simulation.isRunning) { _, running in
+            controller.runningChanged(running)
         }
-    }
-
-    /// Types `text` (and a CR for Return) into the channel's RX pin (a
-    /// bridge: out its TXD pin).
-    func send(_ text: String, carriageReturn: Bool) {
-        var bytes = Array(text.utf8)
-        if carriageReturn { bytes.append(0x0D) }
-        error = simulation.serialSend(to: chipID, channel: channel, bytes: bytes)
-        if error == nil { input = "" }
     }
 }

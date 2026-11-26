@@ -154,7 +154,7 @@ extension AutomationTools {
             name: "set_pour",
             summary: "PCB: change a pour: id (from get_board, or pour:ID), then any of layer, net, x, y, width, height, "
                 + "whole_board, clearance, connection, thermal_gap, spoke_width, min_width, locked.",
-            properties: pourProperties(needsPlace: false).merging(["id": Schema.string("pour:ID or the id")]) { a, _ in a },
+            properties: pourProperties(needsPlace: false, id: "pour:ID or the id"),
             required: ["id"], edits: true,
             run: { context, args in Out.text(try setPour(context!, args)) }),
         AutomationTool(
@@ -485,8 +485,9 @@ extension AutomationTools {
 
     // MARK: Pours and keep-outs
 
-    private static func pourProperties(needsPlace: Bool) -> [String: Any] {
-        [
+    /// A pour's arguments; `id` describes the id argument when there is one.
+    private static func pourProperties(needsPlace: Bool, id: String? = nil) -> [String: Any] {
+        var properties: [String: Any] = [
             "layer": Schema.string("top (default), bottom, inner2… (a trace layer, not a plane)"),
             "net": Schema.string("ground, 5V, 3.3V, pin:U1.3 or none"),
             "x": Schema.number("mm"), "y": Schema.number("mm"), "width": Schema.number("mm"), "height": Schema.number("mm"),
@@ -496,6 +497,8 @@ extension AutomationTools {
             "thermal_gap": Schema.number("Ring cut round each pad, mm"), "spoke_width": Schema.number("mm"),
             "min_width": Schema.number("Narrowest piece kept, mm"), "locked": Schema.boolean("Lock position"),
         ]
+        if let id { properties["id"] = Schema.string(id) }
+        return properties
     }
 
     /// The rectangle the arguments name: whole_board, or x, y, width and height (each optional against `current`).

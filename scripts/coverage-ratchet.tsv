@@ -1,12 +1,3 @@
-61	schematical/schematical/Automation/AutomationBoard.swift
-41	schematical/schematical/Automation/AutomationFolder.swift
-38	schematical/schematical/Automation/AutomationRead.swift
-18	schematical/schematical/Automation/AutomationSchematic.swift
-56	schematical/schematical/Automation/AutomationSchematicEdits.swift
-121	schematical/schematical/Automation/AutomationServer.swift
-38	schematical/schematical/Automation/AutomationSession.swift
-41	schematical/schematical/Automation/AutomationSimulation.swift
-19	schematical/schematical/Automation/AutomationTools.swift
 3	schematical/schematical/Backend/HeaderFamily.swift
 50	schematical/schematical/Backend/PartCatalog.swift
 21	schematical/schematical/Backend/PartCatalog+CStructs.swift
@@ -78,7 +69,6 @@
 115	schematical/schematical/Canvas/TransistorSymbolView.swift
 39	schematical/schematical/Canvas/WidthCalculator.swift
 366	schematical/schematical/ContentView.swift
-164	schematical/schematical/Cpu/CpuWindow.swift
 3	schematical/schematical/Datasheet/DatasheetFinder.swift
 11	schematical/schematical/Datasheet/DatasheetLoader.swift
 56	schematical/schematical/Datasheet/DatasheetWindow.swift
@@ -164,7 +154,6 @@
 36	schematical/schematical/Preferences/DesignRulePreferences.swift
 313	schematical/schematical/Preferences/PreferencesView.swift
 84	schematical/schematical/Preferences/ReferencePrefixes.swift
-125	schematical/schematical/Registers/RegisterWindow.swift
 13	schematical/schematical/Routing/AutorouteModel.swift
 56	schematical/schematical/Routing/AutorouteSheet.swift
 2	schematical/schematical/Routing/MovableChains.swift
@@ -190,4 +179,3 @@
 9	schematical/schematical/Simulation/SimulationCommands.swift
 69	schematical/schematical/Simulation/SimulationEngine.swift
 13	schematical/schematical/Simulation/VoltageCheck.swift
-189	schematical/schematical/Terminal/TerminalWindow.swift

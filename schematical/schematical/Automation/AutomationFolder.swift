@@ -34,8 +34,22 @@ final class AutomationFolder {
         if stale { remember(resolved) }
     }
 
+    /// Shows the folder panel and returns the folder chosen, nil when
+    /// cancelled (tests answer it instead).
+    @ObservationIgnored var present: (NSOpenPanel) -> URL? = AutomationFolder.runModal
+
+    nonisolated deinit {}
+
     /// Asks the user for the folder.
     func choose() {
+        guard let chosen = present(Self.panel()) else { return }
+        close()
+        open(chosen)
+        remember(chosen)
+    }
+
+    /// The panel `choose` shows.
+    static func panel() -> NSOpenPanel {
         let panel = NSOpenPanel()
         panel.canChooseFiles = false
         panel.canChooseDirectories = true
@@ -43,10 +57,12 @@ final class AutomationFolder {
         panel.allowsMultipleSelection = false
         panel.prompt = "Allow"
         panel.message = "Choose the folder AI agents may open and save schematics in."
-        guard panel.runModal() == .OK, let chosen = panel.url else { return }
-        close()
-        open(chosen)
-        remember(chosen)
+        return panel
+    }
+
+    /// Runs `panel` as an app-modal window.
+    static func runModal(_ panel: NSOpenPanel) -> URL? {
+        panel.runModal() == .OK ? panel.url : nil
     }
 
     /// Forgets the folder: the file tools go off.

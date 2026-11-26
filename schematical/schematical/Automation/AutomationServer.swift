@@ -47,6 +47,21 @@ final class AutomationServer {
     @ObservationIgnored
     private var listener: NWListener?
 
+    /// The port this server binds: `AutomationServer.port`; 0 (any free
+    /// port) for a test's own server.
+    let bindPort: UInt16
+    /// The port it is listening on once ready (`bindPort`, or the one the
+    /// system picked for 0).
+    private(set) var listeningPort: UInt16?
+    /// Makes the listener (tests make it fail).
+    @ObservationIgnored var makeListener: (NWParameters) throws -> NWListener = { try NWListener(using: $0) }
+
+    init(port: UInt16 = AutomationServer.port) {
+        bindPort = port
+    }
+
+    nonisolated deinit {}
+
     // MARK: Switching
 
     /// Whether Settings has the server on.
@@ -68,6 +83,7 @@ final class AutomationServer {
         listener?.cancel()
         listener = nil
         isListening = false
+        listeningPort = nil
         clientName = nil
         lastRequest = nil
         callCount = 0
@@ -81,22 +97,39 @@ final class AutomationServer {
             // `requiredInterfaceType = .loopback` alone still binds the
             // wildcard address (lsof shows *:port); pin the local endpoint.
             parameters.requiredLocalEndpoint = NWEndpoint.hostPort(
-                host: .ipv4(.loopback), port: NWEndpoint.Port(rawValue: Self.port)!)
-            let listener = try NWListener(using: parameters)
-            listener.newConnectionHandler = { connection in
-                AutomationServer.serve(connection)
+                host: .ipv4(.loopback), port: NWEndpoint.Port(rawValue: bindPort)!)
+            let listener = try makeListener(parameters)
+            listener.newConnectionHandler = { [weak self] connection in
+                Self.serve(connection) { [weak self] request in await self?.respond(to: request) ?? Data() }
             }
-            listener.stateUpdateHandler = { state in
-                NSLog("automation server \(AutomationServer.port): \(state)")
-                Task { @MainActor in
-                    if case .ready = state { AutomationServer.shared.isListening = true }
-                    if case .failed = state { AutomationServer.shared.isListening = false }
-                }
+            let bindPort = bindPort
+            listener.stateUpdateHandler = { [weak self, weak listener] state in
+                NSLog("automation server \(bindPort): \(state)")
+                let port = listener?.port?.rawValue
+                let event: ListenerState = if case .ready = state { .ready } else if case .failed = state { .failed } else { .other }
+                Task { @MainActor [weak self] in self?.listenerChanged(event, port: port) }
             }
             listener.start(queue: .global(qos: .userInitiated))
             self.listener = listener
         } catch {
             NSLog("automation server failed to start: \(error)")
+        }
+    }
+
+    /// What the listener's state means here.
+    enum ListenerState: Sendable { case ready, failed, other }
+
+    /// The listener's state changed: ready (on `port`) or failed.
+    func listenerChanged(_ state: ListenerState, port: UInt16?) {
+        switch state {
+        case .ready:
+            isListening = true
+            listeningPort = port
+        case .failed:
+            isListening = false
+            listeningPort = nil
+        case .other:
+            break
         }
     }
 
@@ -152,13 +185,17 @@ final class AutomationServer {
 
     // MARK: HTTP (just enough)
 
-    private nonisolated static func serve(_ connection: NWConnection) {
+    /// What answers a whole request: the reply's bytes (none once the
+    /// server is gone).
+    typealias Responder = @MainActor @Sendable (HTTPRequest) async -> Data
+
+    private nonisolated static func serve(_ connection: NWConnection, _ respond: @escaping Responder) {
         connection.start(queue: .global(qos: .userInitiated))
-        receive(connection, buffered: Data())
+        receive(connection, buffered: Data(), respond)
     }
 
     /// Reads until one whole request (headers + Content-Length body) is in.
-    private nonisolated static func receive(_ connection: NWConnection, buffered: Data) {
+    private nonisolated static func receive(_ connection: NWConnection, buffered: Data, _ respond: @escaping Responder) {
         connection.receive(minimumIncompleteLength: 1, maximumLength: 1 << 20) { chunk, _, isDone, error in
             var data = buffered
             if let chunk { data.append(chunk) }
@@ -169,11 +206,11 @@ final class AutomationServer {
                 return
             }
             guard let request = HTTPRequest(parsing: data) else {
-                receive(connection, buffered: data)
+                receive(connection, buffered: data, respond)
                 return
             }
             Task { @MainActor in
-                let response = await AutomationServer.shared.respond(to: request)
+                let response = await respond(request)
                 connection.send(content: response, completion: .contentProcessed { _ in
                     connection.cancel()
                 })
@@ -181,7 +218,7 @@ final class AutomationServer {
         }
     }
 
-    nonisolated struct HTTPRequest {
+    nonisolated struct HTTPRequest: Sendable {
         let method: String
         let path: String
         let headers: [String: String]
@@ -210,7 +247,7 @@ final class AutomationServer {
         }
     }
 
-    private func http(_ status: String, json: Any? = nil) -> Data {
+    func http(_ status: String, json: Any? = nil) -> Data {
         var body = Data()
         if let json, let data = try? JSONSerialization.data(withJSONObject: json) { body = data }
         var head = "HTTP/1.1 \(status)\r\nConnection: close\r\nContent-Length: \(body.count)\r\n"
@@ -221,7 +258,7 @@ final class AutomationServer {
 
     // MARK: MCP
 
-    private func respond(to request: HTTPRequest) async -> Data {
+    func respond(to request: HTTPRequest) async -> Data {
         if let refusal = Self.refusal(method: request.method, path: request.path,
                                       headers: request.headers, token: Self.token) {
             return http(refusal)

@@ -1,6 +1,6 @@
 # plan-68-X: App coverage — Registers, Cpu, Terminal, Automation
 
-Last updated: 2026-11-25
+Last updated: 2026-11-26
 Effort: large (3h–1d)
 Depends on: plan-68-W
 
@@ -80,7 +80,20 @@ controller tests both run in the phase gate.
 
 ### Phase 1 — `RegisterWindow.swift`, `CpuWindow.swift`, `TerminalWindow.swift`
 
-- [ ] Close every uncovered line of these files per § 3; ratchet rows removed.
+- [x] Close every uncovered line of these files per § 3. New classes
+  `RegisterWindowTests`, `CpuWindowTests`, `TerminalWindowTests`; the view
+  bodies moved into `RegisterStateView`, `CpuStateView` (render tests with
+  hand-built snapshots) and `TerminalController` (unit tests on a powered
+  XR21V1410 with TX wired to RX, so typed text loops back); `CpuInspector`
+  takes an injectable `chooseFile` (the test answers the open panel).
+  Check: `LOGIC_COV_WORK=/tmp/logic-cov-X node scripts/coverage.js --app
+  --tests RegisterWindowTests,CpuWindowTests,TerminalWindowTests,AutomationServerTests,AutomationSessionToolTests,AutomationEditToolTests,AutomationTests,AutomationWindowToolsTests,CutoutAutomationTests,SplitPartAutomationTests,SocketModeTests,AvrAppTests,DisplayDriverTests,SerialPortTests --only schematical/schematical/` → no `path:line` under
+  `Registers/`, `Cpu/`, `Terminal/` (RegisterWindow 0/135, CpuWindow 0/243,
+  TerminalWindow 0/207); the run's 164 test cases all pass.
+- [x] ratchet rows: parent (all three files at 0).
+  Ratchet rows: removed by the parent in this letter's commit (12 rows). Re-measured in the
+  shared tree by the parent with this letter's classes: no `path:line` for any of its files,
+  no failed test.
 
 Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
@@ -90,7 +103,20 @@ Commit: —
 
 ### Phase 2 — 8 files, `AutomationBoard.swift` … `AutomationTools.swift`
 
-- [ ] As Phase 1, for these files.
+- [x] As Phase 1, for these files (`AutomationSchematic.swift`'s row
+  stands for it and `AutomationSchematicEdits.swift`). New classes
+  `AutomationServerTests` (MCP answers, a listener of the test's own on port
+  0, the shared folder), `AutomationSessionToolTests` (plumbing, files,
+  exports, simulation tools) and `AutomationEditToolTests` (schematic, board
+  and read tools). Same check as Phase 1 → no `path:line` under
+  `Automation/`: Board 0/514, Folder 0/88, Read 0/509, Schematic 0/203,
+  SchematicEdits 0/599, Server 0/197, Session 0/160, Simulation 0/124,
+  Tools 0/229. `node scripts/source-size.js --check` → exit 0 (new test
+  files staged; the largest, `AutomationEditToolTests.swift`, 361 lines).
+- [x] ratchet rows: parent (all eight files at 0).
+  Ratchet rows: removed by the parent in this letter's commit (12 rows). Re-measured in the
+  shared tree by the parent with this letter's classes: no `path:line` for any of its files,
+  no failed test.
 
 Acceptance: as Phase 1.
   Check: as Phase 1; `SZ` → exit 0 (est. 10 min).
@@ -112,7 +138,29 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- (plan-68-X) Bug, fixed: the terminal's Clear did not redraw the
+  transcript (the log is a plain class SwiftUI does not observe, so the
+  cleared text stayed on screen until the next simulation step changed
+  `stateVersion`). `TerminalController.clear()` now bumps an observed
+  counter the transcript reads. Regression test:
+  `TerminalWindowTests.testWindowTypesAndShowsTheTranscript`.
+- (plan-68-X) `TerminalLog` had no `nonisolated deinit`: a test freeing one
+  crashed the host. Added; `AutomationServer`, `AutomationFolder` and the
+  new `TerminalController` have one too, each covered by a test that frees one.
+- (plan-68-X) Restructured, not just tested: `AutomationServer` is no longer
+  hard-wired to `shared` and port 47800 (`init(port:)`, `listeningPort`,
+  an injectable `makeListener`, `respond(to:)` and `http` internal, the
+  listener's state mapped to its own `ListenerState` so callers need no
+  `import Network`); `AutomationFolder.choose()` shows its panel through
+  `present` (default `runModal`, tested by aborting the real panel at once);
+  `new_window`'s wait is `AutomationTools.newSession(besides:tries:)`.
+- (plan-68-X) Deleted as unreachable: `AutomationArgs.point(_:)` (no
+  caller); `choice(_:among:default:)`'s missing-argument throw (every caller
+  passes a default, now required); `move_part`'s "was not moved" throw (the
+  part and unit still exist after `moveUnit`); `render`'s second "nothing to
+  draw" throw (merged with the first: `data` is nil only when `pixelSize` is).
+  `set_pour`'s properties no longer use `merging` with a closure no key
+  reached (`pourProperties(needsPlace:id:)`).
 
 ## Summary
 

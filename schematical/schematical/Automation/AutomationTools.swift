@@ -84,14 +84,6 @@ struct AutomationArgs {
         }
     }
 
-    func point(_ key: String) throws -> CGPoint {
-        guard let pair = raw[key] as? [Any], pair.count == 2,
-              let x = (pair[0] as? NSNumber)?.doubleValue, let y = (pair[1] as? NSNumber)?.doubleValue else {
-            throw AutomationFailure("\(key) must be [x, y]")
-        }
-        return CGPoint(x: x, y: y)
-    }
-
     func points(_ key: String) throws -> [CGPoint] {
         guard let list = raw[key] as? [Any] else { throw AutomationFailure("\(key) must be [[x, y], …]") }
         return try list.map {
@@ -103,11 +95,9 @@ struct AutomationArgs {
         }
     }
 
-    /// A choice from a fixed list.
-    func choice(_ key: String, among options: [String], default fallback: String? = nil) throws -> String {
-        guard let value = optString(key) ?? fallback else {
-            throw AutomationFailure("\(key) is required: one of \(options.joined(separator: ", "))")
-        }
+    /// A choice from a fixed list; `fallback` when the argument is absent.
+    func choice(_ key: String, among options: [String], default fallback: String) throws -> String {
+        let value = optString(key) ?? fallback
         guard options.contains(value) else {
             throw AutomationFailure("\(key) must be one of \(options.joined(separator: ", ")), got \(value)")
         }

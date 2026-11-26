@@ -60,13 +60,8 @@ extension AutomationTools {
             run: { _, _ in
                 let known = Set(sessions().map(\.id))
                 NSDocumentController.shared.newDocument(nil)
-                for _ in 0..<40 {
-                    try await Task.sleep(nanoseconds: 50_000_000)
-                    if let fresh = sessions().first(where: { !known.contains($0.id) }) {
-                        return Out.text("opened window \(fresh.shortID)")
-                    }
-                }
-                throw AutomationFailure("the new window didn't appear")
+                let fresh = try await newSession(besides: known)
+                return Out.text("opened window \(fresh.shortID)")
             }),
         AutomationTool(
             name: "open",
@@ -208,6 +203,15 @@ extension AutomationTools {
             required: ["calls"], edits: true,
             run: { context, args in try await batch(context!, args) }),
     ]
+
+    /// The first window not in `known`, waited for up to `tries` × 50 ms.
+    static func newSession(besides known: Set<UUID>, tries: Int = 40) async throws -> AutomationContext {
+        for _ in 0..<tries {
+            try await Task.sleep(nanoseconds: 50_000_000)
+            if let fresh = sessions().first(where: { !known.contains($0.id) }) { return fresh }
+        }
+        throw AutomationFailure("the new window didn't appear")
+    }
 
     private static func undoRedo(_ context: AutomationContext, _ args: AutomationArgs, redo: Bool) throws -> String {
         let document = context.document

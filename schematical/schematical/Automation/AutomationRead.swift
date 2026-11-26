@@ -596,17 +596,15 @@ extension AutomationTools {
         }
 
         // Enough pixels to read: the (cropped) longest side ≥ ~1100 px.
+        // An empty design has no size (and so no picture).
         options.scale = 1
-        guard let base = ImageExport.pixelSize(of: context.document, options) else {
-            throw AutomationFailure("nothing to draw yet (the design is empty)")
+        let rendered = ImageExport.pixelSize(of: context.document, options).flatMap { base -> Data? in
+            let share = region.map { max($0.x1 - $0.x0, $0.y1 - $0.y0) } ?? 1
+            let longest = Double(max(base.width, base.height)) * share
+            options.scale = ImageExportOptions.scales.first { longest * Double($0) >= 1100 } ?? 8
+            return ImageExport.data(for: context.document, options.normalized())
         }
-        let share = region.map { max($0.x1 - $0.x0, $0.y1 - $0.y0) } ?? 1
-        let longest = Double(max(base.width, base.height)) * share
-        options.scale = ImageExportOptions.scales.first { longest * Double($0) >= 1100 } ?? 8
-
-        guard var data = ImageExport.data(for: context.document, options.normalized()) else {
-            throw AutomationFailure("nothing to draw yet (the design is empty)")
-        }
+        guard var data = rendered else { throw AutomationFailure("nothing to draw yet (the design is empty)") }
         if let region, let rep = NSBitmapImageRep(data: data), let image = rep.cgImage {
             let w = Double(image.width), h = Double(image.height)
             let crop = CGRect(x: region.x0 * w, y: region.y0 * h,

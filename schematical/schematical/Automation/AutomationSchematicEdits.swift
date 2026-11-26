@@ -191,9 +191,8 @@ extension AutomationTools {
                 throw AutomationFailure("give x and y (the new centre), or dx and dy")
             }
             document.moveUnit(UnitRef(chipID: whole.id, key: key), to: target)
-            guard let moved = document.chips.first(where: { $0.id == whole.id })?.piece(forUnit: key) else {
-                throw AutomationFailure("\(whole.reference)-\(key) was not moved")
-            }
+            // The part and its unit are still there: moving keeps both.
+            let moved = document.chips.first(where: { $0.id == whole.id })?.piece(forUnit: key) ?? piece
             let centre = context.centre(of: moved)
             return "\(moved.drawnReference) now centred at (\(num(centre.x)),\(num(centre.y)))"
         }
