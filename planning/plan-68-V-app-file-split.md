@@ -88,8 +88,15 @@ controllers, which also shrinks them.
 
 ### Phase 1 — catalog, file, automation
 
-- [ ] Split `PartCatalog.swift`, `SchematicFile.swift`,
-  `AutomationSchematic.swift` per § 3; three size rows removed.
+- [x] Split `PartCatalog.swift`, `SchematicFile.swift`,
+  `AutomationSchematic.swift` per § 3; three size rows removed. Code lines:
+  PartCatalog 789, +CStructs, PartFiltering, PartCatalogStore; SchematicFile
+  529, +Document 640, +Board 534; AutomationSchematic 427,
+  AutomationSchematicEdits 608 (`node scripts/source-size.js --check` → exit 0).
+  Observed: the eight classes → all pass except
+  `DrawerCategoriesTests.testInterfaceAnalogAndClocks` (a standing failure,
+  not from this split) and `PartKindKeysTests` (plan-68-Q's new `simulated`
+  library key, in the tree uncommitted; fixed with Q).
 
 Acceptance: same behavior.
   Check: `XB -only-testing:schematicalTests/PartKindRoundTripTests
@@ -101,12 +108,14 @@ Acceptance: same behavior.
   -only-testing:schematicalTests/AutomationTests
   -only-testing:schematicalTests/SplitPartAutomationTests` → all pass (est. 6
   min).
-Commit: —
+Commit: 6b82023a
 
 ### Phase 2 — the three views
 
-- [ ] Split `SchematicCanvasView.swift`, `PCBSidebarView.swift`,
-  `PCBCanvasView.swift` per § 3; three size rows removed.
+- [x] Split `SchematicCanvasView.swift`, `PCBSidebarView.swift`,
+  `PCBCanvasView.swift` per § 3; three size rows removed (687 + 588, 410 +
+  640, 779 + 249 code lines). Observed: the seven classes → `XB` exit 0, 0
+  failures.
 
 Acceptance: same behavior.
   Check: `XB -only-testing:schematicalTests/SelectionGestureTests
@@ -116,12 +125,14 @@ Acceptance: same behavior.
   -only-testing:schematicalTests/CutoutPanelTests
   -only-testing:schematicalTests/TraceToolTests
   -only-testing:schematicalTests/PadHoverTests` → all pass (est. 6 min).
-Commit: —
+Commit: f3b53711
 
 ### Phase 3 — the DXF fixtures
 
-- [ ] The fixture files, the new `DXFFixtures.swift`, `make_fixtures.py`; the
-  size row removed.
+- [x] The fixture files, the new `DXFFixtures.swift`, `make_fixtures.py`; the
+  size row removed. Observed: the four classes → `XB` exit 0, 42 tests, 0
+  failures; `SZ` → exit 0 with `grep -c . scripts/source-size-ratchet.tsv` →
+  0. `DXFFixtures.swift` is 19 code lines.
 
 Acceptance: the DXF tests read the same text.
   Check: `XB -only-testing:schematicalTests/DXFReaderTests
@@ -145,7 +156,27 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- Phase 1: `CatalogPart.drawer` became `var` with an internal setter (the
+  store file sets it); the split scripts made top-level and member
+  `private`/`fileprivate` internal where the pieces read each other's, as §
+  Decisions allows. The "Bus values" section went to `SchematicFile+Board.swift`
+  with the PCB values (it is board state), not `+Document`.
+- Phase 3: `DXFFixtures.swift` held six DXF texts plus `expectedJSON` (§ 2
+  said seven texts): six `.dxf` files and `expected.json`. Each file is the
+  Swift value plus one final newline; `DXFFixtures.text` drops it, so the
+  tests read the same strings. `planning/plan-65-data/DXFFixtures.swift` (the
+  generator's old output, identical to the test copy) is deleted and the
+  README says where the files go now. The edited `make_fixtures.py`, run in a
+  scratch copy with ezdxf 1.4.5, writes files `diff -r`-identical to the
+  committed ones.
+- Order: plan-68-A's graph puts V after T and U, which wait for S. V was
+  committed while S, T and U were still running, because the app-coverage
+  letters (W–AJ) started on V's split files and V's commits had to hold
+  only the split. V shares no file with S, T or U; its size-ratchet commits
+  drop only V's rows (T's `datasheet-edit.js` row goes with T).
+- Order: W–AJ run side by side rather than as a chain (they share no
+  files); the parent wrote W's `Support/ViewProbe.swift` first, since every
+  app letter uses it.
 
 ## Summary
 

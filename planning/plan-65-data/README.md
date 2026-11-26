@@ -30,7 +30,7 @@ KiCad's zone fill against an inner Edge.Cuts loop (`zone_edge_cuts.kicad_pcb`: 4
 polygon that is the whole outline stays out of a cutout and keeps its edge clearance from it: plan-65-G leaves the Plane
 zone's polygon alone.
 
-`DXFFixtures.swift` is what `make_fixtures.py` also writes: the five ezdxf files reduced to their `$INSUNITS` and ENTITIES (ezdxf's tables and classes are
+`make_fixtures.py` also writes the app tests' copies to `schematical/schematicalTests/Fixtures/dxf/` (plan-68-V; before it,
+they were string literals in a generated `DXFFixtures.swift`): the five ezdxf files reduced to their `$INSUNITS` and ENTITIES (ezdxf's tables and classes are
 about 3000 lines each), the KiCad file whole, and `expectedJSON` (the same numbers as `fixtures/expected.json`, plus the KiCad file's three loops: a
-1200 mm² rectangle, a 3 mm circle 28.2368 and a half disc 6.2529; KiCad's DXF has y up, so its board lies at negative y). plan-65-H copies it to
-`schematical/schematicalTests/DXFFixtures.swift`; `swiftc -parse` accepts it (2172 lines), and ezdxf reads each reduced text back to the same entity types.
+1200 mm² rectangle, a 3 mm circle 28.2368 and a half disc 6.2529; KiCad's DXF has y up, so its board lies at negative y). ezdxf reads each reduced text back to the same entity types.
