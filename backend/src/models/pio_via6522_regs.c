@@ -355,12 +355,12 @@ void v22_t1_rise(Via *s) {
         s->t1_reload = 1;
         s->pb7 = s->pb7 == LOGIC_0 ? LOGIC_1 : s->pb7 == LOGIC_1 ? LOGIC_0 : LOGIC_X;
     } else if (free_run == LOGIC_0) {
+        /* A time-out needs t1_run 1, so t1_armed is 1 or 0 here: every
+           path that makes it -1 (t1_start unknown, reset unknown) also makes
+           t1_run -1 and clears t1_timeout. */
         if (s->t1_armed == 1) {
             v22_flag_set(s, F_T1, 0);
             s->pb7 = LOGIC_1;
-        } else if (s->t1_armed < 0) {
-            v22_flag_set(s, F_T1, 1);
-            s->pb7 = LOGIC_X;
         }
         s->t1_armed = 0;
     } else {
@@ -432,10 +432,9 @@ void v22_t2_rise(Via *s) {
     if (v22_sr_t2(v22_sr_mode(s))) {
         return;   /* T2 times the shift clock: no IFR5 */
     }
+    /* t2_armed is 1 or 0 here, as for T1 (t2_start, reset unknown). */
     if (s->t2_armed == 1) {
         v22_flag_set(s, F_T2, 0);
-    } else if (s->t2_armed < 0) {
-        v22_flag_set(s, F_T2, 1);
     }
     s->t2_armed = 0;
     v22_update_irq(s);

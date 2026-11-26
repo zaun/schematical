@@ -58,7 +58,3 @@ void avr_clock_init(AvrClock *clock, AvrCpu *cpu, uint32_t base_hz, const AvrClo
         cpu->write_hooks[config->CLKPR].ctx = clock;
     }
 }
-
-double avr_clock_time_nanos(const AvrClock *clock) {
-    return (((double)clock->cpu->cycles + clock->cycles_delta) / avr_clock_frequency(clock)) * 1e9;
-}

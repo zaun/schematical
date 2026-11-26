@@ -163,11 +163,16 @@ static int twcr_write(void *ctx, uint8_t value, uint8_t old_value, uint16_t addr
     return 0;
 }
 
+/* A chip reset (not in avr8js, whose constructor sets TWINT with the idle
+   status): TWSR reads F8 and TWCR its initial 0, TWINT clear (ATmega328P
+   datasheet 22.9.2, 22.9.3). */
 void avr_twi_reset(AvrTwi *twi) {
+    uint8_t *twsr = &twi->cpu->data[twi->config.TWSR];
+
     twi->busy = 0;
     twi->request_head = 0;
     twi->request_count = 0;
-    update_status(twi, STATUS_TWI_IDLE);
+    *twsr = (uint8_t)((*twsr & ~TWSR_TWS_MASK) | STATUS_TWI_IDLE);
 }
 
 void avr_twi_init(AvrTwi *twi, AvrCpu *cpu, const AvrTwiConfig *config, uint32_t freq_hz) {

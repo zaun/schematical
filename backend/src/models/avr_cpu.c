@@ -70,13 +70,11 @@ static int in_pool(const AvrCpu *cpu, const AvrClockEvent *event) {
     return 0;
 }
 
+/* cpu is never NULL: avr_cpu_create_data and avr_chip.c pass a CPU they made. */
 void avr_cpu_destroy(AvrCpu *cpu) {
     AvrClockEvent *event;
     size_t i;
 
-    if (cpu == NULL) {
-        return;
-    }
     /* A node may sit in the pool and in a list at once (see spare_event);
        free each node once. */
     for (i = 0; i < cpu->event_pool_count; i++) {

@@ -67,7 +67,7 @@ struct CpuCoreOps {
     void (*start)(Sim *sim, SimInstance *instance, void *state);
     void (*pin_changed)(Sim *sim, SimInstance *instance, void *state, size_t pin,
                         LogicValue old_value, LogicValue new_value);
-    void (*timer)(Sim *sim, SimInstance *instance, void *state, uint32_t timer_id);
+    /* No core schedules a timer: CPU_MODEL has no timer hook. */
     int (*state)(const void *state, CpuState *out);
 };
 

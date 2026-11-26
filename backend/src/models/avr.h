@@ -279,7 +279,6 @@ static inline int avr_clock_prescaler(const AvrClock *clock) { return clock->pre
 static inline double avr_clock_frequency(const AvrClock *clock) {
     return (double)clock->base_hz / clock->prescaler_value;
 }
-double avr_clock_time_nanos(const AvrClock *clock);
 
 /* ---- avr_timer.c: src/peripherals/timer.ts -------------------------------- */
 
@@ -306,19 +305,18 @@ typedef struct {
     AvrTimerConfig config;
     int max;                  /* 0xff or 0xffff */
     double last_cycle;
-    int ocr_a, next_ocr_a, ocr_b, next_ocr_b, ocr_c, next_ocr_c;
-    int has_ocr_c;
+    int ocr_a, next_ocr_a, ocr_b, next_ocr_b;   /* no channel C (avr_timer.c) */
     int ocr_update_mode, tov_update_mode;
     int icr;
     int timer_mode, top_value;
     int tcnt, tcnt_next;
-    int comp_a, comp_b, comp_c;
+    int comp_a, comp_b;
     int tcnt_updated, update_divider, counting_up;
     int divider;
     AvrPort *external_clock_port;
     int external_clock_rising_edge;
     uint8_t high_byte_temp;
-    AvrInterrupt OVF, OCFA, OCFB, OCFC;
+    AvrInterrupt OVF, OCFA, OCFB;
 } AvrTimer;
 
 void avr_timer_init(AvrTimer *timer, AvrCpu *cpu, const AvrTimerConfig *config);
@@ -350,6 +348,7 @@ typedef struct {
     int ocr_a_next, ocr_b_next;      /* not in avr8js: OCR1A/B are latched at TOP in PWM mode */
     int divider, update_divider, counting_up;
     int inverted_a, inverted_b;      /* not in avr8js: /OC1A, /OC1B are connected */
+    int connected_a, connected_b;    /* not in avr8js: OC1A, OC1B are connected (COM1x != 0) */
     AvrWriteHook tifr_hook, timsk_hook, gtccr_hook;   /* Timer0's, called first */
     AvrInterrupt OVF, OCFA, OCFB;
 } AvrTinyTimer1;
@@ -424,7 +423,6 @@ void avr_usart_reset(AvrUsart *usart);
    time, with the receiver busy meanwhile. 0 when the receiver is busy or
    off (the byte is lost). */
 int avr_usart_write_byte(AvrUsart *usart, uint8_t value, int immediate);
-static inline int avr_usart_rx_busy(const AvrUsart *usart) { return usart->rx_busy; }
 int avr_usart_rx_enabled(const AvrUsart *usart);
 int avr_usart_tx_enabled(const AvrUsart *usart);
 int avr_usart_bits(const AvrUsart *usart);        /* 5 to 9 */

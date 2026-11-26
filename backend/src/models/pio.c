@@ -37,10 +37,9 @@ enum { FIRST_MODEL_KEY = 2 };
 
 static const char *const PART_KEYS[] = {"grade", "vcc", "inputMax", NULL};
 
+/* Both callers pass a non-NULL list: DEVICE_KEYS and a model's keys (every
+   model in MODELS has them). */
 static int in_list(const char *const *list, const char *name) {
-    if (list == NULL) {
-        return 0;
-    }
     for (; *list != NULL; list++) {
         if (strcmp(*list, name) == 0) {
             return 1;

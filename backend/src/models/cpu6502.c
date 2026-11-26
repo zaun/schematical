@@ -667,5 +667,5 @@ static int c65_state(const void *raw, CpuState *out) {
 }
 
 const CpuCoreOps CPU6502_OPS = {
-    c65_create, c65_destroy, c65_start, c65_pin_changed, NULL, c65_state
+    c65_create, c65_destroy, c65_start, c65_pin_changed, c65_state
 };

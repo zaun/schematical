@@ -489,9 +489,12 @@ static void mc_rise(Sim *sim, SimInstance *instance, Z80 *s) {
                 if (s->mc == MC_FETCH) {
                     cpu_tracker_read(&s->tracker, s->mc_addr, data);
                 }
-                if (!commit(sim, instance, s, LOGIC_1, 0, 0, 0, NULL)) {
-                    return;
-                }
+                /* The refresh tick cannot go lost: its INT and NMI levels
+                   are the ones the tick above just passed with (an NMI X
+                   fails there, same_core compares the NMI pin; an INT X
+                   fails there when iff1 is set, and the refresh step does
+                   not change iff1), and it takes no WAIT or data. */
+                (void)commit(sim, instance, s, LOGIC_1, 0, 0, 0, NULL);
                 refresh(sim, instance, s);
                 s->phase++;
                 return;
@@ -541,6 +544,7 @@ static void mc_rise(Sim *sim, SimInstance *instance, Z80 *s) {
             s->phase++;
             return;
         case MC_NONE:
+            mc_start(sim, instance, s);   /* no machine cycle: the next one starts */
             return;
     }
 }
@@ -612,23 +616,21 @@ static void mc_fall(Sim *sim, SimInstance *instance, Z80 *s) {
                 s->phase = waited ? 2 : 4;
                 return;
             }
-            if (s->phase == 5) {   /* T3 */
-                if (s->mc == MC_MREAD) {
-                    sample_data(sim, instance, s, s->t[T_SDCF], &data, &xdata);
-                    if (!commit(sim, instance, s, LOGIC_1, 1, data, xdata, NULL)) {
-                        return;
-                    }
-                    cpu_tracker_read(&s->tracker, s->mc_addr, data);
-                    set_out(sim, instance, s, K_RD, LOGIC_1, s->t[T_DCFRDR]);
-                } else {
-                    set_out(sim, instance, s, K_WR, LOGIC_1, s->t[T_DCFWRR]);
-                    s->release_data = 1;
+            /* Phase 5, T3: a fall sees only phases 1, 3 and 5 (each rise
+               moves 2 to 3 and 4 to 5; enter_lost ends the cycle). */
+            if (s->mc == MC_MREAD) {
+                sample_data(sim, instance, s, s->t[T_SDCF], &data, &xdata);
+                if (!commit(sim, instance, s, LOGIC_1, 1, data, xdata, NULL)) {
+                    return;
                 }
-                set_out(sim, instance, s, K_MREQ, LOGIC_1, s->t[T_DCFMREQR]);
-                mc_done(s);
-                return;
+                cpu_tracker_read(&s->tracker, s->mc_addr, data);
+                set_out(sim, instance, s, K_RD, LOGIC_1, s->t[T_DCFRDR]);
+            } else {
+                set_out(sim, instance, s, K_WR, LOGIC_1, s->t[T_DCFWRR]);
+                s->release_data = 1;
             }
-            s->phase++;
+            set_out(sim, instance, s, K_MREQ, LOGIC_1, s->t[T_DCFMREQR]);
+            mc_done(s);
             return;
         case MC_IOWRITE:
         case MC_IOREAD:
@@ -746,11 +748,7 @@ static void clock_rise(Sim *sim, SimInstance *instance, Z80 *s) {
         s->busreq_last = busreq;
         return;
     }
-    if (s->mc != MC_NONE) {
-        mc_rise(sim, instance, s);
-    } else {
-        mc_start(sim, instance, s);
-    }
+    mc_rise(sim, instance, s);
     s->busreq_last = busreq;
 }
 
@@ -791,9 +789,8 @@ static void z80_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t p
             enter_lost(sim, instance, s);
             return;
         }
-        if (level == s->clock) {
-            return;
-        }
+        /* A change to 0 or 1 is never to the level s->clock holds: every
+           change to 0/1 sets it, and every X or Z sets it X. */
         s->clock = level;
         if (level == LOGIC_1) {
             int ok = (s->last_fall == CPU_NEVER || now - s->last_fall >= s->t[T_WCL]) &&
@@ -897,5 +894,5 @@ static int z80_state(const void *raw, CpuState *out) {
 }
 
 const CpuCoreOps CPUZ80_OPS = {
-    z80_create, z80_destroy, z80_start, z80_pin_changed, NULL, z80_state
+    z80_create, z80_destroy, z80_start, z80_pin_changed, z80_state
 };

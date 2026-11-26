@@ -643,5 +643,5 @@ static int c816_state(const void *raw, CpuState *out) {
 }
 
 const CpuCoreOps CPU65816_OPS = {
-    c816_create, c816_destroy, c816_start, c816_pin_changed, NULL, c816_state
+    c816_create, c816_destroy, c816_start, c816_pin_changed, c816_state
 };

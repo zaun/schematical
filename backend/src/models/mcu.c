@@ -141,11 +141,9 @@ static void *mcu_bind_model(KindContext *ctx, const McuDevice *device, const Par
         }
     }
     for (i = 0; i < pin_count; i++) {
+        /* Never NULL: the pinout loader requires every pin's "name". */
         const char *name = pins[i].name;
 
-        if (name == NULL) {
-            continue;
-        }
         if (strcmp(name, "ADC6") == 0) {
             bound->adc6 = i;
         } else if (strcmp(name, "ADC7") == 0) {

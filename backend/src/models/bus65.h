@@ -133,8 +133,4 @@ int bus65_pin_changed(Bus65 *bus, Sim *sim, SimInstance *instance, size_t pin,
 /* 1 when timer_id is the bus's (the call handled it). */
 int bus65_timer(Bus65 *bus, Sim *sim, SimInstance *instance, uint32_t timer_id);
 
-/* A pin's level as an input: 0, 1 or X. Z reads X, or with bus hold the
-   last known level of a bus pin. */
-LogicValue bus65_level(const Bus65 *bus, const Sim *sim, const SimInstance *instance, size_t pin);
-
 #endif

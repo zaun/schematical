@@ -58,12 +58,9 @@ static void update_comp_pin_non_pwm(AvrTinyTimer1 *timer, int channel_b) {
     int com = channel_b ? com_b(timer) : com_a(timer);
     int pin = channel_b ? timer->config.comp_pin_b : timer->config.comp_pin_a;
 
-    switch (com) {
-        case 1: override_pin(timer, pin, AVR_OVERRIDE_TOGGLE); break;
-        case 2: override_pin(timer, pin, AVR_OVERRIDE_CLEAR); break;
-        case 3: override_pin(timer, pin, AVR_OVERRIDE_SET); break;
-        default: break;
-    }
+    /* com is 1-3: every caller checks that it is not 0. */
+    override_pin(timer, pin, com == 1 ? AVR_OVERRIDE_TOGGLE
+                             : com == 2 ? AVR_OVERRIDE_CLEAR : AVR_OVERRIDE_SET);
 }
 
 /* avr8js's PWM compare output: for its up-and-down count. */
@@ -89,10 +86,21 @@ static void force_compare(AvrTinyTimer1 *timer, int channel_b) {
 }
 
 static void update_comp_config(AvrTinyTimer1 *timer) {
-    override_pin(timer, timer->config.comp_pin_a,
-                 com_a(timer) ? AVR_OVERRIDE_ENABLE : AVR_OVERRIDE_NONE);
-    override_pin(timer, timer->config.comp_pin_b,
-                 com_b(timer) ? AVR_OVERRIDE_ENABLE : AVR_OVERRIDE_NONE);
+    int a = com_a(timer) != 0;
+    int b = com_b(timer) != 0;
+
+    /* OC1x is connected while COM1x is not 00 (datasheet table 12-1);
+       writing TCCR1 or GTCCR does not change its level otherwise. avr8js
+       connects it again on every write, which puts the PORT bit back on the
+       pin and undoes a compare match or FOC1x; `exact` keeps that. */
+    if (timer->cpu->exact || a != timer->connected_a) {
+        timer->connected_a = a;
+        override_pin(timer, timer->config.comp_pin_a, a ? AVR_OVERRIDE_ENABLE : AVR_OVERRIDE_NONE);
+    }
+    if (timer->cpu->exact || b != timer->connected_b) {
+        timer->connected_b = b;
+        override_pin(timer, timer->config.comp_pin_b, b ? AVR_OVERRIDE_ENABLE : AVR_OVERRIDE_NONE);
+    }
     if (!timer->cpu->exact) {
         /* The inverted outputs /OC1A and /OC1B are connected in PWM mode
            with COM1x = 01 (datasheet table 12-1). avr8js has no such pins.
@@ -499,4 +507,6 @@ void avr_tiny_timer1_reset(AvrTinyTimer1 *timer) {
     timer->counting_up = 1;
     timer->inverted_a = 0;
     timer->inverted_b = 0;
+    timer->connected_a = 0;
+    timer->connected_b = 0;
 }

@@ -80,24 +80,17 @@ static size_t slot_pin(const Bus65 *bus, int slot) {
     return p->rs[slot - SLOT_RS];
 }
 
-/* A pin's level through its held slot (-1 = none). */
+/* A pin's level through its held slot. */
 static LogicValue held_level(const Bus65 *bus, const Sim *sim, const SimInstance *instance,
                              size_t pin, int held) {
     LogicValue v = sim_read_pin(sim, instance, pin);
 
     if (v == LOGIC_Z) {
-        return bus->bus_hold && held >= 0 ? bus->held[held] : LOGIC_X;
+        return bus->bus_hold ? bus->held[held] : LOGIC_X;
     }
     return v;
 }
 
-LogicValue bus65_level(const Bus65 *bus, const Sim *sim, const SimInstance *instance, size_t pin) {
-    int slot = control_slot(bus, pin);
-    int bit = data_bit(bus, pin);
-
-    return held_level(bus, sim, instance, pin,
-                      slot >= 0 ? slot : bit >= 0 ? SLOT_DATA + bit : -1);
-}
 
 static LogicValue slot_level(const Bus65 *bus, const Sim *sim, const SimInstance *instance,
                              int slot) {

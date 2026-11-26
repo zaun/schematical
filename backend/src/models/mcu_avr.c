@@ -139,16 +139,16 @@ static void update_port_pins(McuAvr *mcu, size_t port) {
     }
 }
 
+/* name is one of the layout's serial pins (mcu_avr_serial.c), which are on
+   its own ports (avr_chip.c's tables), bit 0-7. */
 size_t mcu_avr_pin(const McuAvr *mcu, AvrPinName name) {
     const AvrLayout *layout = mcu->pins->layout;
-    size_t port;
+    size_t port = 0;
 
-    for (port = 0; port < layout->port_count; port++) {
-        if (layout->ports[port].letter == name.port && name.bit < 8) {
-            return mcu->pins->port[port][name.bit];
-        }
+    while (layout->ports[port].letter != name.port) {
+        port++;
     }
-    return MCU_NO_PIN;
+    return mcu->pins->port[port][name.bit];
 }
 
 void mcu_avr_set_override(McuAvr *mcu, size_t pin, McuOverride override) {
@@ -610,10 +610,8 @@ McuAvr *mcu_avr_create(const Part *part, const McuAvrPins *pins) {
     return mcu;
 }
 
+/* mcu is never NULL: mcu.c checks, and mcu_avr_create passes its own. */
 void mcu_avr_destroy(McuAvr *mcu) {
-    if (mcu == NULL) {
-        return;
-    }
     avr_chip_destroy(mcu->chip);
     logic_free(mcu->pin_map);
     logic_free(mcu->driven);

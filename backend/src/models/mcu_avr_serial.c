@@ -89,11 +89,10 @@ static void usart_start_frame(McuUsartLine *line) {
     mcu_avr_schedule(line->mcu, MCU_TIMER_USART_TX + line->index, line->tx_bit_ps);
 }
 
-/* The end of a bit of the frame going out. */
+/* The end of a bit of the frame going out. A frame is going out whenever
+   this timer is pending: only a serial reset ends one early, and every
+   reset starts a new timer generation (mcu_avr.c), so the timer is dropped. */
 static void usart_tx_timer(McuUsartLine *line) {
-    if (!line->tx_active) {
-        return;
-    }
     if (++line->tx_position < line->tx_length) {
         usart_put(line, line->tx_levels[line->tx_position]);
         mcu_avr_schedule(line->mcu, MCU_TIMER_USART_TX + line->index, line->tx_bit_ps);
@@ -150,13 +149,11 @@ static void usart_pin(McuUsartLine *line, LogicValue old_value, LogicValue new_v
     mcu_avr_schedule(line->mcu, MCU_TIMER_USART_RX + line->index, line->rx_bit_ps / 2);
 }
 
-/* The middle of a bit of the frame coming in. */
+/* The middle of a bit of the frame coming in. rx_active is set while this
+   timer is pending (as for the transmitter: a reset drops the timer). */
 static void usart_rx_timer(McuUsartLine *line) {
     int level;
 
-    if (!line->rx_active) {
-        return;
-    }
     level = mcu_avr_pin_high(line->mcu, line->rxd);
     if (line->rx_position == 0) {
         if (level) {
@@ -266,15 +263,13 @@ static void spi_timer(McuSpiLine *line) {
 }
 
 /* A write to SPCR, after the peripheral's own hook: SCK idles at CPOL while
-   the master is enabled, and the pins go back to the port when it is not. */
+   the master is enabled, and the pins go back to the port when it is not.
+   Only running firmware writes SPCR (a reset clears it without the hook). */
 static int spi_spcr_write(void *ctx, uint8_t value, uint8_t old_value, uint16_t addr, uint8_t mask) {
     McuSpiLine *line = ctx;
     int handled = line->spcr_hook.fn != NULL
         ? line->spcr_hook.fn(line->spcr_hook.ctx, value, old_value, addr, mask) : 0;
 
-    if (line->mcu->state != MCU_RUNNING) {
-        return handled;
-    }
     if ((value & SPCR_SPE) && (value & SPCR_MSTR)) {
         if (!line->active) {
             spi_put(line, line->sck, (value & SPCR_CPOL) != 0);
@@ -581,12 +576,11 @@ void mcu_avr_serial_pin(McuAvr *mcu, size_t pin, LogicValue old_value, LogicValu
     }
 }
 
+/* kind is one this file scheduled: MCU_TIMER_* + a line index below
+   AVR_LAYOUT_SERIALS. */
 void mcu_avr_serial_timer(McuAvr *mcu, unsigned kind) {
     unsigned index = kind & 0x0f;
 
-    if (index >= AVR_LAYOUT_SERIALS) {
-        return;
-    }
     switch (kind & 0xf0) {
         case MCU_TIMER_USART_TX: usart_tx_timer(&mcu->usarts[index]); break;
         case MCU_TIMER_USART_RX: usart_rx_timer(&mcu->usarts[index]); break;

@@ -288,9 +288,21 @@ static void set_hook(AvrCpu *cpu, uint16_t addr, AvrWriteFn fn, void *ctx) {
     }
 }
 
+/* 1 when reg is one of the first n of seen. */
+static int in_seen(const uint16_t *seen, size_t n, uint16_t reg) {
+    size_t i;
+
+    for (i = 0; i < n; i++) {
+        if (seen[i] == reg) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 void avr_port_init(AvrPort *port, AvrCpu *cpu, const AvrPortConfig *config) {
     uint16_t seen_eicr[8];
-    size_t seen = 0, s;
+    size_t seen = 0;
     uint16_t eimsk = 0, eifr = 0;
     int i;
 
@@ -318,9 +330,7 @@ void avr_port_init(AvrPort *port, AvrCpu *cpu, const AvrPortConfig *config) {
         port->external_ints[i].flag_mask = (uint8_t)(1 << external->index);
         port->external_ints[i].enable_register = external->EIMSK;
         port->external_ints[i].enable_mask = (uint8_t)(1 << external->index);
-        for (s = 0; s < seen && seen_eicr[s] != external->EICR; s++) {
-        }
-        if (s == seen) {
+        if (!in_seen(seen_eicr, seen, external->EICR)) {
             seen_eicr[seen++] = external->EICR;
             attach_interrupt_hook(port, external->EICR, HOOK_OTHER);
         }
@@ -385,22 +395,15 @@ void avr_port_override_pin(AvrPort *port, int pin, AvrPinOverride mode) {
         port->override_value &= (uint8_t)~pin_mask;
     } else {
         port->override_mask &= (uint8_t)~pin_mask;
-        switch (mode) {
-            case AVR_OVERRIDE_ENABLE:
-                port->override_value &= (uint8_t)~pin_mask;
-                port->override_value |= cpu->data[port->config.PORT] & pin_mask;
-                break;
-            case AVR_OVERRIDE_SET:
-                port->override_value |= pin_mask;
-                break;
-            case AVR_OVERRIDE_CLEAR:
-                port->override_value &= (uint8_t)~pin_mask;
-                break;
-            case AVR_OVERRIDE_TOGGLE:
-                port->override_value ^= pin_mask;
-                break;
-            case AVR_OVERRIDE_NONE:
-                break;
+        if (mode == AVR_OVERRIDE_ENABLE) {
+            port->override_value &= (uint8_t)~pin_mask;
+            port->override_value |= cpu->data[port->config.PORT] & pin_mask;
+        } else if (mode == AVR_OVERRIDE_SET) {
+            port->override_value |= pin_mask;
+        } else if (mode == AVR_OVERRIDE_CLEAR) {
+            port->override_value &= (uint8_t)~pin_mask;
+        } else {
+            port->override_value ^= pin_mask;   /* AVR_OVERRIDE_TOGGLE */
         }
     }
     ddr_mask = cpu->data[port->config.DDR];

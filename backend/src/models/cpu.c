@@ -297,19 +297,13 @@ static void cpu_pin_changed(Sim *sim, SimInstance *instance, void *state, size_t
     ops_of(state)->pin_changed(sim, instance, state, pin, old_value, new_value);
 }
 
-static void cpu_timer(Sim *sim, SimInstance *instance, void *state, uint32_t timer_id) {
-    if (ops_of(state)->timer != NULL) {
-        ops_of(state)->timer(sim, instance, state, timer_id);
-    }
-}
-
 static int cpu_state(const void *state, CpuState *out) {
     memset(out, 0, sizeof(*out));
     return ops_of(state)->state(state, out);
 }
 
 static const SimComponentType CPU_MODEL = {
-    "cpu", cpu_pin_count, cpu_create, cpu_destroy, cpu_start, cpu_pin_changed, cpu_timer,
+    "cpu", cpu_pin_count, cpu_create, cpu_destroy, cpu_start, cpu_pin_changed, NULL,
     NULL, NULL, NULL, NULL, NULL, NULL, cpu_state
 };
 

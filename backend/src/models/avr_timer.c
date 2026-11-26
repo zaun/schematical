@@ -60,18 +60,22 @@ static const WgmConfig WGM_16BIT[16] = {
 };
 
 /* Force Output Compare bits. */
-enum { FOCA = 1 << 7, FOCB = 1 << 6, FOCC = 1 << 5 };
+enum { FOCA = 1 << 7, FOCB = 1 << 6 };
+
+/*
+ * Channels A and B only. avr8js also has a channel C (OCRnC, OCFnC, FOCnC);
+ * no layout here has one (the ATmega48-328, the PB devices and the ATtiny85:
+ * every config's OCRC, comp_c_interrupt and comp_port_c are 0), so that part
+ * of timer.ts is not ported. The config keeps the fields, as avr8js's
+ * configs do (avr_periph_test compares the layouts with them).
+ */
 
 static void count_event(void *ctx);
 static void count(AvrTimer *timer, int reschedule, int external);
 
+/* COMnx 1-3 (every caller checks that it is not 0): toggle, clear, set. */
 static AvrPinOverride comp_to_override(int comp) {
-    switch (comp) {
-        case 1: return AVR_OVERRIDE_TOGGLE;
-        case 2: return AVR_OVERRIDE_CLEAR;
-        case 3: return AVR_OVERRIDE_SET;
-        default: return AVR_OVERRIDE_ENABLE;
-    }
+    return comp == 1 ? AVR_OVERRIDE_TOGGLE : comp == 2 ? AVR_OVERRIDE_CLEAR : AVR_OVERRIDE_SET;
 }
 
 static int timer_top(const AvrTimer *timer) {
@@ -103,10 +107,8 @@ static int timer_wgm(const AvrTimer *timer) {
 
 static void update_comp(AvrTimer *timer, char pin_name, AvrPinOverride value) {
     const AvrTimerConfig *config = &timer->config;
-    uint16_t port_address = pin_name == 'A' ? config->comp_port_a
-                            : pin_name == 'B' ? config->comp_port_b : config->comp_port_c;
-    int pin = pin_name == 'A' ? config->comp_pin_a
-              : pin_name == 'B' ? config->comp_pin_b : config->comp_pin_c;
+    uint16_t port_address = pin_name == 'A' ? config->comp_port_a : config->comp_port_b;
+    int pin = pin_name == 'A' ? config->comp_pin_a : config->comp_pin_b;
     AvrPort *port = avr_cpu_port_at(timer->cpu, port_address);
 
     if (port != NULL) {
@@ -175,23 +177,11 @@ static void update_wgm_config(AvrTimer *timer) {
     if ((prev != 0) != (timer->comp_b != 0)) {
         update_comp(timer, 'B', timer->comp_b ? AVR_OVERRIDE_ENABLE : AVR_OVERRIDE_NONE);
     }
-
-    if (timer->has_ocr_c) {
-        prev = timer->comp_c;
-        timer->comp_c = (tccra >> 2) & 3;
-        if (timer->comp_c == 1 && pwm_mode) {
-            timer->comp_c = 0;   /* reserved, according to the datasheet */
-        }
-        if ((prev != 0) != (timer->comp_c != 0)) {
-            update_comp(timer, 'C', timer->comp_c ? AVR_OVERRIDE_ENABLE : AVR_OVERRIDE_NONE);
-        }
-    }
 }
 
 static void load_ocr(AvrTimer *timer) {
     timer->ocr_a = timer->next_ocr_a;
     timer->ocr_b = timer->next_ocr_b;
-    timer->ocr_c = timer->next_ocr_c;
 }
 
 static void compare_match(AvrTimer *timer, char pin_name) {
@@ -200,22 +190,17 @@ static void compare_match(AvrTimer *timer, char pin_name) {
         if (timer->comp_a) {
             update_comp_pin(timer, timer->comp_a, 'A', 0);
         }
-    } else if (pin_name == 'B') {
+    } else {
         avr_set_interrupt_flag(timer->cpu, &timer->OCFB);
         if (timer->comp_b) {
             update_comp_pin(timer, timer->comp_b, 'B', 0);
-        }
-    } else {
-        avr_set_interrupt_flag(timer->cpu, &timer->OCFC);
-        if (timer->comp_c) {
-            update_comp_pin(timer, timer->comp_c, 'C', 0);
         }
     }
 }
 
 static int phase_pwm_count(AvrTimer *timer, int value, double delta) {
     /* avr8js reads these once, before the loop. */
-    const int ocr_a = timer->ocr_a, ocr_b = timer->ocr_b, ocr_c = timer->ocr_c;
+    const int ocr_a = timer->ocr_a, ocr_b = timer->ocr_b;
     const int top = timer_top(timer);
     const int tcnt_updated = timer->tcnt_updated;
 
@@ -251,9 +236,6 @@ static int phase_pwm_count(AvrTimer *timer, int value, double delta) {
             if (value == ocr_b) {
                 compare_match(timer, 'B');
             }
-            if (timer->has_ocr_c && value == ocr_c) {
-                compare_match(timer, 'C');
-            }
         }
         delta--;
     }
@@ -262,7 +244,7 @@ static int phase_pwm_count(AvrTimer *timer, int value, double delta) {
 
 static void timer_updated(AvrTimer *timer, int value, int prev_value) {
     /* Read once, as avr8js does. */
-    const int ocr_a = timer->ocr_a, ocr_b = timer->ocr_b, ocr_c = timer->ocr_c;
+    const int ocr_a = timer->ocr_a, ocr_b = timer->ocr_b;
     const int overflow = prev_value > value;
 
     if (((prev_value < ocr_a || overflow) && value >= ocr_a) || (prev_value < ocr_a && overflow)) {
@@ -270,10 +252,6 @@ static void timer_updated(AvrTimer *timer, int value, int prev_value) {
     }
     if (((prev_value < ocr_b || overflow) && value >= ocr_b) || (prev_value < ocr_b && overflow)) {
         compare_match(timer, 'B');
-    }
-    if (timer->has_ocr_c &&
-        (((prev_value < ocr_c || overflow) && value >= ocr_c) || (prev_value < ocr_c && overflow))) {
-        compare_match(timer, 'C');
     }
 }
 
@@ -383,14 +361,15 @@ static void check_force_compare(AvrTimer *timer, int value) {
         /* The FOCnx bits are only active in a non-PWM mode. */
         return;
     }
-    if (value & FOCA) {
+    /* With COMnx = 00 the pin is a normal port pin, OCnx disconnected
+       (ATmega328P datasheet 15.7.2 table 15-2, 15.9.2 FOC0A): a forced
+       compare leaves it alone. avr8js overrides it with the PORT bit, which
+       then stops following PORT. */
+    if ((value & FOCA) && timer->comp_a) {
         update_comp_pin(timer, timer->comp_a, 'A', 0);
     }
-    if (value & FOCB) {
+    if ((value & FOCB) && timer->comp_b) {
         update_comp_pin(timer, timer->comp_b, 'B', 0);
-    }
-    if (timer->config.comp_port_c && (value & FOCC)) {
-        update_comp_pin(timer, timer->comp_c, 'C', 0);
     }
 }
 
@@ -445,17 +424,6 @@ static int ocrb_write(HOOK_ARGS) {
     timer->next_ocr_b = (timer->high_byte_temp << 8) | value;
     if (timer->ocr_update_mode == OCR_IMMEDIATE) {
         timer->ocr_b = timer->next_ocr_b;
-    }
-    return 0;
-}
-
-static int ocrc_write(HOOK_ARGS) {
-    AvrTimer *timer = ctx;
-
-    HOOK_UNUSED;
-    timer->next_ocr_c = (timer->high_byte_temp << 8) | value;
-    if (timer->ocr_update_mode == OCR_IMMEDIATE) {
-        timer->ocr_c = timer->next_ocr_c;
     }
     return 0;
 }
@@ -565,7 +533,6 @@ void avr_timer_init(AvrTimer *timer, AvrCpu *cpu, const AvrTimerConfig *config) 
     timer->cpu = cpu;
     timer->config = *config;
     timer->max = config->bits == 16 ? 0xffff : 0xff;
-    timer->has_ocr_c = config->OCRC > 0;
     timer->ocr_update_mode = OCR_IMMEDIATE;
     timer->tov_update_mode = TOV_MAX;
     timer->counting_up = 1;
@@ -575,8 +542,6 @@ void avr_timer_init(AvrTimer *timer, AvrCpu *cpu, const AvrTimerConfig *config) 
                   config->TIMSK, config->OCIEA);
     set_interrupt(&timer->OCFB, config->comp_b_interrupt, config->TIFR, config->OCFB,
                   config->TIMSK, config->OCIEB);
-    set_interrupt(&timer->OCFC, config->comp_c_interrupt, config->TIFR, config->OCFC,
-                  config->TIMSK, config->OCIEC);
 
     update_wgm_config(timer);
     if (config->TCNT < cpu->data_size) {
@@ -586,17 +551,11 @@ void avr_timer_init(AvrTimer *timer, AvrCpu *cpu, const AvrTimerConfig *config) 
     hook(timer, config->TCNT, tcnt_write);
     hook(timer, config->OCRA, ocra_write);
     hook(timer, config->OCRB, ocrb_write);
-    if (timer->has_ocr_c) {
-        hook(timer, config->OCRC, ocrc_write);
-    }
     if (config->bits == 16) {
         hook(timer, config->ICR, icr_write);
         hook(timer, config->TCNT + 1, temp_write);
         hook(timer, config->OCRA + 1, ocr_high_write);
         hook(timer, config->OCRB + 1, ocr_high_write);
-        if (timer->has_ocr_c) {
-            hook(timer, config->OCRC + 1, ocr_high_write);
-        }
         hook(timer, config->ICR + 1, temp_write);
     }
     hook(timer, config->TCCRA, tccra_write);
@@ -615,8 +574,6 @@ void avr_timer_reset(AvrTimer *timer) {
     timer->next_ocr_a = 0;
     timer->ocr_b = 0;
     timer->next_ocr_b = 0;
-    timer->ocr_c = 0;
-    timer->next_ocr_c = 0;
     timer->icr = 0;
     timer->tcnt = 0;
     timer->tcnt_next = 0;
