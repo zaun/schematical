@@ -377,6 +377,13 @@ logic_bench_test(converter_disp_load_cov_test library_check_bench)
 logic_bench_test(converter_more_test converter_bench)
 logic_bench_test(converter_more2_test converter_bench)
 logic_bench_test(rtc_more_test converter_bench)
+# plan-68-N
+logic_serial_test(serial_n68_load_test serial_bench_n68)
+logic_serial_test(serial_n68_core_test serial_bench_d serial_bench_exar serial_bench_n68)
+logic_serial_test(serial_n68_ext_test serial_bench_d serial_bench_exar serial_bench_n68)
+logic_serial_test(serial_n68_exar_test serial_bench_d serial_bench_exar serial_bench_n68)
+logic_serial_test(serial_n68_5g_test serial_bench_d serial_bench_exar serial_bench_n68)
+logic_serial_test(serial_n68_bridge_test serial_bench_maxim serial_bench_bridge serial_bench_n68)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be
 # flaky. Build Release to get meaningful numbers.

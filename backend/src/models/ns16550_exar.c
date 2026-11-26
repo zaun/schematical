@@ -30,14 +30,8 @@ int exs_has_bank(const NsChannel *c) {
 
 /* The enhanced-bit gate: IER[5] (ier5) or EFR[4]. */
 static int enhanced(const NsChannel *c) {
-    switch (exs_style_of(c)) {
-        case XS_IER5: return exs_kb(c->ier, 5);
-        case XS_650:
-        case XS_854:
-        case XS_M752:
-        case XS_5G: return exs_kb(c->efr, 4);
-        default: return 0;
-    }
+    /* XS_NONE: no EFR bank, EFR stays 0 from reset, so EFR[4] is 0 too. */
+    return exs_style_of(c) == XS_IER5 ? exs_kb(c->ier, 5) : exs_kb(c->efr, 4);
 }
 
 int exs_loopback(const NsChannel *c) {
@@ -52,33 +46,13 @@ int exs_mode1(const NsChannel *c) {
     return c->fifo_on && c->dma_mode;
 }
 
-/* The active-low RXRDY/TXRDY levels (core rules for classes N, B, T, P). */
+/* The active-low RXRDY/TXRDY levels: the core rules for classes N, B, T, P. */
 LogicValue exs_rxrdy_pin(const NsChannel *c) {
-    if (!exs_mode1(c)) {
-        return bool3(c->rx_count == 0);
-    }
-    if (c->owner->dev->dma_class == 'T' && c->lsr7) {
-        return LOGIC_1;
-    }
-    return bool3(!c->rxrdy1);
+    return ns_rxrdy_level(c, exs_mode1(c));
 }
 
 LogicValue exs_txrdy_pin(const NsChannel *c) {
-    unsigned threshold;
-
-    if (!exs_mode1(c)) {
-        return bool3(c->tx_count != 0);
-    }
-    switch (c->owner->dev->dma_class) {
-        case 'N':
-        case 'B':
-            return bool3(exs_tx_free(c) == 0);
-        case 'T':
-            threshold = ns_ext_tx_threshold(c);
-            return bool3(exs_tx_free(c) < (threshold != 0 ? threshold : 1));
-        default:
-            return bool3(!c->txrdy1);
-    }
+    return ns_txrdy_level(c, exs_mode1(c));
 }
 
 void exs_set_format_rate(NsChannel *c) {
@@ -480,10 +454,10 @@ static uint8_t fifo_ready(const NsState *s) {
 int ns_x_peek(NsChannel *c, unsigned address, uint8_t *v, uint8_t *k) {
     const NsDevice *d = c->owner->dev;
     NsExarChannel *xc = &c->xc;
+    int flvl_tx = (xc->emsr.v & 3u) == 1 || ((xc->emsr.v & 3u) == 3 && xc->flvl_tx_next);
 
     switch (exs_decode(c, address, 0)) {
-        case XR_CORE:
-        case XR_THR_IMM:
+        default:   /* XR_CORE, XR_THR_IMM (the core's registers) */
             return 0;
         case XR_EFR: *v = c->efr.v; *k = c->efr.k; return 1;
         case XR_XON1: *v = c->xon1.v; *k = c->xon1.k; return 1;
@@ -514,18 +488,15 @@ int ns_x_peek(NsChannel *c, unsigned address, uint8_t *v, uint8_t *k) {
                 *k = 0xFF;
             }
             return 1;
-        case XR_FLVL: {
-            unsigned mode = xc->emsr.v & 3u;
-            int tx = mode == 1 || (mode == 3 && xc->flvl_tx_next);
-
+        case XR_FLVL:
+            /* EMSR[1:0]: 01 TX count, 11 RX and TX in turn, else RX. */
             if ((xc->emsr.k & 3u) != 3u) {
                 *v = 0; *k = 0;
             } else {
-                *v = (uint8_t)(tx ? c->tx_count : c->rx_count);
+                *v = (uint8_t)(flvl_tx ? c->tx_count : c->rx_count);
                 *k = 0xFF;
             }
             return 1;
-        }
         case XR_TXCNT: *v = (uint8_t)c->tx_count; *k = 0xFF; return 1;
         case XR_RXCNT: *v = (uint8_t)c->rx_count; *k = 0xFF; return 1;
         case XR_XCHAR: *v = xc->xchar.v; *k = xc->xchar.k; return 1;
@@ -538,7 +509,6 @@ int ns_x_peek(NsChannel *c, unsigned address, uint8_t *v, uint8_t *k) {
             *v = 0; *k = 0;
             return 1;
     }
-    return 0;
 }
 
 /* A read of one of the registers above ended. */
@@ -589,7 +559,7 @@ int ns_x_write(NsState *s, NsChannel *c, unsigned address, uint8_t v, uint8_t k,
 
     *cause = CAUSE_WRITE;
     switch (exs_decode(c, address, 1)) {
-        case XR_CORE:
+        default:   /* XR_CORE: the core's register */
             return 0;
         case XR_X:
         case XR_FIFORDY:
@@ -703,7 +673,6 @@ int ns_x_write(NsState *s, NsChannel *c, unsigned address, uint8_t v, uint8_t k,
             *cause = CAUSE_THR_WRITE;
             return 1;
     }
-    return 0;
 }
 
 /* ---- Write masks, FCR, MCR ---------------------------------------------------------- */
@@ -893,9 +862,7 @@ unsigned ns_x_tx_threshold(const NsChannel *c) {
 int ns_x_thre_at_empty(NsChannel *c) {
     int fire;
 
-    if (ns_x_tx_threshold(c) == 0) {
-        return 0;
-    }
+    /* The one caller (ns_set_thre) asks only while a TX threshold is set. */
     fire = !c->xc.filled || exs_style_of(c) == XS_5G;
     c->xc.filled = 0;
     return fire;

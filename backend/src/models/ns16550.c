@@ -312,7 +312,7 @@ void ns_iir_now(const NsChannel *c, uint8_t *v, uint8_t *k) {
 /* RXRDY (active low) for one channel. Mode 0: low with a character.
    Mode 1: the latch (trigger or timeout; cleared when empty); class T also
    goes inactive while LSR[7] is 1. */
-static LogicValue rxrdy_level(const NsChannel *c, int mode1) {
+LogicValue ns_rxrdy_level(const NsChannel *c, int mode1) {
     if (!mode1) {
         return bool3(c->rx_count == 0);
     }
@@ -325,7 +325,7 @@ static LogicValue rxrdy_level(const NsChannel *c, int mode1) {
 /* TXRDY (active low). Mode 0: low when the THR/FIFO is empty. Mode 1 by
    class: P low when empty, high when full (a latch); N and B low while a
    slot is free; T low while the free spaces reach the TX trigger. */
-static LogicValue txrdy_level(const NsChannel *c, int mode1) {
+LogicValue ns_txrdy_level(const NsChannel *c, int mode1) {
     unsigned free_slots = depth(c) - c->tx_count;
 
     if (!mode1) {
@@ -380,8 +380,6 @@ static LogicValue int_pin_level(const NsState *s, const NsChannel *c, LogicValue
             }
             return level == LOGIC_1 ? LOGIC_1 : LOGIC_X;
         }
-        default:
-            return level;
     }
     if (enable == LOGIC_1) {
         return level;
@@ -500,8 +498,8 @@ static void update_channel_pins(NsState *s, NsChannel *c, Cause cause) {
     ns_drive(s, pin[CH_INT], intr, int_delay);
 
     /* RXRDY / TXRDY (active low). */
-    rxrdy = rxrdy_level(c, mode1);
-    txrdy = txrdy_level(c, mode1);
+    rxrdy = ns_rxrdy_level(c, mode1);
+    txrdy = ns_txrdy_level(c, mode1);
     if (s->dev->x != NULL) {
         ns_x_dma_pins(c, &rxrdy, &txrdy);   /* plan-12-E: XR16C864 DRQ */
     }
@@ -532,8 +530,8 @@ void nsc_update_shared_dma(NsState *s, Cause cause) {
             const NsChannel *c = &s->ch[i];
             int mode1 = c->fifo_on && c->dma_mode;
 
-            rx = and3(rx, rxrdy_level(c, mode1));
-            tx = and3(tx, txrdy_level(c, mode1));
+            rx = and3(rx, ns_rxrdy_level(c, mode1));
+            tx = and3(tx, ns_txrdy_level(c, mode1));
         }
     }
     if (d->dma_pins == DMA_PINS_SHARED_WIRE_OR) {

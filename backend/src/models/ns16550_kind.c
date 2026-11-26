@@ -159,13 +159,11 @@ static void ns_start(Sim *sim, SimInstance *instance, void *raw) {
     apply_reset(s);
 }
 
+/* `pin` is a real pin (the one caller is ns_pin_changed). */
 static int is_select_pin(const NsState *s, size_t pin) {
     unsigned i;
     unsigned k;
 
-    if (pin == SERIAL_NO_PIN) {
-        return 0;
-    }
     if (pin == s->pins->channel_pin || (s->pins->lpt != NULL && pin == s->pins->lpt->select)) {
         return 1;
     }

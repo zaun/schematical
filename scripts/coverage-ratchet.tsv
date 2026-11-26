@@ -61,17 +61,7 @@
 31	backend/src/models/nixie.c
 107	backend/src/models/ns16550_bridge_kind.c
 128	backend/src/models/ns16550_bridge.c
-69	backend/src/models/ns16550_exar_flow.c
-102	backend/src/models/ns16550_exar_load.c
-75	backend/src/models/ns16550_exar_pins.c
-85	backend/src/models/ns16550_exar.c
-186	backend/src/models/ns16550_ext.c
-31	backend/src/models/ns16550_io.c
-117	backend/src/models/ns16550_kind.c
-141	backend/src/models/ns16550_load.c
-4	backend/src/models/ns16550_lpt.c
 200	backend/src/models/ns16550_xr1280.c
-27	backend/src/models/ns16550.c
 21	backend/src/models/opamp.c
 14	backend/src/models/oscillator.c
 16	backend/src/models/pio_pia6521.c

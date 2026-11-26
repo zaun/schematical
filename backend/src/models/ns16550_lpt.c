@@ -92,13 +92,10 @@ static LogicValue data_driven(const NsState *s) {
         case LPT_TI451:
             /* LPTOE low drives the bus; high leaves PD as inputs. */
             return not3(serial_level(s->sim, s->instance, p->input_enable, LOGIC_X));
-        case LPT_TI552: {
-            LogicValue pemd = serial_level(s->sim, s->instance, p->pemd, LOGIC_X);
-            LogicValue dir = bool3((s->lpt->control >> 5) & 1u);
-
-            /* PEMD low: always output; high: output while DIR = 0. */
-            return or3(not3(pemd), not3(dir));
-        }
+        case LPT_TI552:
+            /* PEMD low: always output; high: output while DIR (control b5) = 0. */
+            return or3(not3(serial_level(s->sim, s->instance, p->pemd, LOGIC_X)),
+                       not3(bool3((s->lpt->control >> 5) & 1u)));
         case LPT_COM92C451:
         default:
             return LOGIC_1;
@@ -133,10 +130,6 @@ static uint8_t status_byte(const NsState *s, uint8_t *known) {
         }
     }
     return v;
-}
-
-int ns_lpt_selected(const NsState *s) {
-    return s->dev->lpt != NULL;
 }
 
 void ns_lpt_peek(NsState *s, unsigned address, uint8_t *v, uint8_t *k) {

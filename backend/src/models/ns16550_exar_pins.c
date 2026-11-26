@@ -831,13 +831,11 @@ static void read_mode(NsState *s) {
     s->bus.rw = xp->rw;
 }
 
+/* `pin` is a real pin (the caller is is_select_pin, from ns_pin_changed). */
 int ns_x_is_select_pin(const NsState *s, size_t pin) {
     const NsExarPins *xp = s->pins->xp;
     unsigned i;
 
-    if (pin == SERIAL_NO_PIN) {
-        return 0;
-    }
     if (pin == xp->mode || pin == xp->strobe || pin == xp->chan_bit[0] || pin == xp->chan_bit[1] ||
         pin == xp->pwrsave || pin == xp->fstat || pin == xp->aen) {
         return 1;
@@ -850,15 +848,13 @@ int ns_x_is_select_pin(const NsState *s, size_t pin) {
     return 0;
 }
 
-/* 1 when the bus mode changed (the core re-applies the reset level). */
+/* 1 when the bus mode changed (the core re-applies the reset level). `pin`
+   is a real pin (the one caller is ns_pin_changed). */
 int ns_x_pin_changed(NsState *s, size_t pin) {
     const NsExarPins *xp = s->pins->xp;
     int before = s->xs.motorola;
     unsigned i;
 
-    if (pin == SERIAL_NO_PIN) {
-        return 0;
-    }
     if (pin == xp->mode) {
         read_mode(s);
         return s->xs.motorola != before;

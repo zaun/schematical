@@ -207,11 +207,8 @@ static unsigned char_ticks(const NsChannel *c) {
    timeout, until TC or the FIFO empties. */
 void exs_dma_requests(NsChannel *c) {
     NsExarChannel *xc = &c->xc;
-    unsigned level = exs_tx_level_bytes(c);
+    unsigned level = exs_tx_level_bytes(c);   /* >= 1: the 864 is an 854 (tables, TRG) */
 
-    if (level == 0) {
-        level = 1;
-    }
     if (c->tx_count >= level) {
         xc->drq_tx = 0;
         xc->tc_tx = 0;
@@ -514,13 +511,13 @@ void ns_x_clock_edge(NsState *s, int rising) {
 
 /* ---- Sleep, wake, PowerSave ------------------------------------------------------- */
 
+/* For the Exar sleep styles (ns_x_sleep_check runs only for them): IER[4],
+   or the 5G SLEEP register. */
 static int sleep_enabled(const NsChannel *c) {
-    switch (c->owner->dev->sleep) {
-        case SLEEP_IER4_EXAR:
-        case SLEEP_IER4_EXAR_ALL: return exs_kb(c->ier, 4);
-        case SLEEP_GLOBAL: return (c->owner->xs.sleep >> c->index) & 1u;
-        default: return 0;
+    if (c->owner->dev->sleep == SLEEP_GLOBAL) {
+        return (c->owner->xs.sleep >> c->index) & 1u;
     }
+    return exs_kb(c->ier, 4);
 }
 
 /* Nothing pending, no modem delta, RX idle high, nothing to send. */

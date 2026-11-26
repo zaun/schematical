@@ -655,7 +655,11 @@ LogicValue nsc_bus_select(void *context, const Sim *sim, const SimInstance *inst
         *units = (pin == LOGIC_1) == d->a_is_high ? 1u : 2u;
         return common;
     }
-    if (d->per_channel_select) {
+    /* Per-channel selects: this hook is installed only for a device with a
+       channel pin, per-channel selects, a printer port (each handled above)
+       or Exar select rules, and ns_x_select hands back only a device with
+       one of the first three (d_needs_select, ns_x_select). */
+    {
         uint32_t on = 0;
         int unknown = 0;
 
@@ -681,17 +685,20 @@ LogicValue nsc_bus_select(void *context, const Sim *sim, const SimInstance *inst
         *units = on;
         return LOGIC_1;
     }
-    return common;
 }
 
+/* While the state is unknown (MR X, or a bridge's SRESET written X) no
+   access reaches these three: the parallel bus is disabled (apply_reset;
+   serial_bus runs no cycle while disabled), and the bridges' host port checks
+   `unknown` itself (host_write, host_peek, host_read_done). The one call that
+   can still come is the read_done of a read cut short as the bus is
+   disabled; its side effects are on state the only way out, a clean reset,
+   clears again (every output is X meanwhile). */
 void nsc_bus_peek(void *context, unsigned unit, unsigned address, uint8_t *data, uint8_t *known) {
     NsState *s = context;
 
     *data = 0;
     *known = 0;
-    if (s->unknown) {
-        return;
-    }
     if (s->dev->x != NULL && ns_x_unit_peek(s, unit, address, data, known)) {
         return;   /* plan-12-E */
     }
@@ -708,9 +715,6 @@ void nsc_bus_read_done(void *context, unsigned unit, unsigned address) {
     NsState *s = context;
     Cause cause;
 
-    if (s->unknown) {
-        return;
-    }
     if (s->dev->x != NULL && ns_x_unit_read_done(s, unit, address)) {
         return;   /* plan-12-E */
     }
@@ -718,9 +722,8 @@ void nsc_bus_read_done(void *context, unsigned unit, unsigned address) {
         ns_lpt_read_done(s, address);
         return;
     }
-    if (unit >= s->dev->channel_count) {
-        return;
-    }
+    /* Any other unit is a channel: the units past the channels are the
+       printer port (above) and the Exar ones (ns_x_unit_read_done). */
     cause = nsc_reg_read_done(&s->ch[unit], address);
     ns_ext_levels(s, &s->ch[unit]);
     nsc_update_channel_outputs(s, &s->ch[unit], cause);
@@ -733,9 +736,6 @@ void nsc_bus_write(void *context, unsigned unit, unsigned address, uint8_t data,
 
     unsigned i;
 
-    if (s->unknown) {
-        return;
-    }
     if (s->dev->x != NULL && ns_x_unit_write(s, unit, address, data, known)) {
         return;   /* plan-12-E */
     }
@@ -743,9 +743,7 @@ void nsc_bus_write(void *context, unsigned unit, unsigned address, uint8_t data,
         ns_lpt_write(s, address, data, known);
         return;
     }
-    if (unit >= s->dev->channel_count) {
-        return;
-    }
+    /* Any other unit is a channel (as in nsc_bus_read_done). */
     /* AFR concurrent write: every channel takes it. */
     if (s->dev->afr != AFR_NONE &&
         (s->dev->x != NULL ? ns_x_conc(s, unit) : s->conc)) {   /* plan-12-E */

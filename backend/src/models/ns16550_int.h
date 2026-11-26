@@ -398,6 +398,9 @@ void ns_clear_tx(NsChannel *c);
 int ns_rx_level(const NsChannel *c);
 /* plan-12-E: core entry points ns16550_exar.c uses. */
 LogicValue ns_int_level(const NsChannel *c);
+/* RXRDY / TXRDY (active low) of a channel in DMA mode 0 or 1, by DMA class. */
+LogicValue ns_rxrdy_level(const NsChannel *c, int mode1);
+LogicValue ns_txrdy_level(const NsChannel *c, int mode1);
 void ns_reg_peek(NsChannel *c, unsigned address, uint8_t *v, uint8_t *k);
 Cause ns_reg_read_done(NsChannel *c, unsigned address);
 Cause ns_reg_write(NsState *s, NsChannel *c, unsigned address, uint8_t v, uint8_t k);
@@ -600,7 +603,6 @@ void ns_x_start(NsState *s);
 struct NsLpt *ns_lpt_create(const NsState *s);
 void ns_lpt_destroy(struct NsLpt *lpt);
 void ns_lpt_reset(NsState *s);
-int ns_lpt_selected(const NsState *s);
 void ns_lpt_peek(NsState *s, unsigned address, uint8_t *v, uint8_t *k);
 void ns_lpt_write(NsState *s, unsigned address, uint8_t v, uint8_t k);
 void ns_lpt_read_done(NsState *s, unsigned address);

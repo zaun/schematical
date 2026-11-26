@@ -296,11 +296,11 @@ static void queue_flow_pair(NsChannel *c, unsigned txmode, int xon) {
     Reg first = xon ? c->xon1 : c->xoff1;
     Reg second = xon ? c->xon2 : c->xoff2;
 
+    /* txmode is never 0 here: both callers send only for a TX mode set. */
     switch (txmode) {
         case 2: queue_flow(c, first.v); break;
         case 1: queue_flow(c, second.v); break;
-        case 3: queue_flow(c, first.v); queue_flow(c, second.v); break;
-        default: break;
+        default: queue_flow(c, first.v); queue_flow(c, second.v); break;   /* 3 */
     }
 }
 
@@ -317,8 +317,13 @@ int ns_ext_write(NsState *s, NsChannel *c, unsigned address, uint8_t v, uint8_t 
     return 1;
 }
 
+/* A write of an enhanced register. The callers pass a register a write
+   decodes to: never R_CORE or R_X (ns_ext_write handles R_CORE; a write
+   decodes an unknown register as R_IGNORE) nor the read-only R_FIFORDY,
+   R_DREV, R_DVID (decode and the bridges' decode give them for reads only). */
 void ns_ext_write_reg(NsState *s, NsChannel *c, int reg, uint8_t v, uint8_t k) {
     const NsDevice *d = s->dev;
+    unsigned old_tx = (c->efr.v >> 2) & 3u;
     unsigned i;
 
     if (reg >= NS_REG_BRIDGE) {
@@ -326,12 +331,7 @@ void ns_ext_write_reg(NsState *s, NsChannel *c, int reg, uint8_t v, uint8_t k) {
         return;
     }
     switch (reg) {
-        case R_CORE:
-        case R_X:
-        case R_IGNORE: return;
-        case R_EFR: {
-            unsigned old_tx = (c->efr.v >> 2) & 3u;
-
+        case R_EFR:
             c->efr = (Reg){v, k};
             /* Software flow turned off or changed after an Xoff went out: the
                old Xon goes out (and the new Xoff if still above the level). */
@@ -341,17 +341,12 @@ void ns_ext_write_reg(NsState *s, NsChannel *c, int reg, uint8_t v, uint8_t k) {
             }
             ns_ext_levels(s, c);
             return;
-        }
         case R_XON1: c->xon1 = (Reg){v, k}; return;
         case R_XON2: c->xon2 = (Reg){v, k}; return;
         case R_XOFF1: c->xoff1 = (Reg){v, k}; return;
         case R_XOFF2: c->xoff2 = (Reg){v, k}; return;
         case R_TCR: c->tcr = (Reg){v, k}; ns_ext_levels(s, c); return;
         case R_TLR: c->tlr = (Reg){v, k}; ns_ext_levels(s, c); return;
-        case R_FIFORDY:
-        case R_DREV:
-        case R_DVID:
-            return;
         case R_AFR:
             c->afr = (Reg){v, k};
             /* The concurrent-write bit is shared: either channel sets or clears it. */
@@ -367,7 +362,7 @@ void ns_ext_write_reg(NsState *s, NsChannel *c, int reg, uint8_t v, uint8_t k) {
             ns_ext_load_divisor(c);
             return;
         default:
-            return;
+            return;   /* R_IGNORE */
     }
 }
 
@@ -473,6 +468,11 @@ int ns_ext_rx_char(NsState *s, NsChannel *c, const SerialRxChar *rc) {
     }
     if (!bank_style(d)) {
         return 1;
+    }
+    /* NS16C2552/2752 Table 8 and EFR[5]: a special-character interrupt is
+       cleared by the next received character. */
+    if (d->extended == EXT_NS_EFR) {
+        c->iir_special = 0;
     }
     if ((rc->known & mask) != mask ||
         (rc->flags & (SERIAL_RX_PE | SERIAL_RX_FE | SERIAL_RX_BI)) != 0 ||
@@ -650,7 +650,7 @@ void ns_ext_levels(NsState *s, NsChannel *c) {
                     c->rts_off = 0;
                 }
                 break;
-            case FLOW_TABLE:
+            default:   /* FLOW_TABLE (auto_rts_enabled is 0 for the other styles) */
                 off = d->rts_table[trigger_index(c)][0];
                 on = d->rts_table[trigger_index(c)][1];
                 if (level >= off) {
@@ -658,8 +658,6 @@ void ns_ext_levels(NsState *s, NsChannel *c) {
                 } else if (level <= on) {
                     c->rts_off = 0;
                 }
-                break;
-            default:
                 break;
         }
     } else {
@@ -769,6 +767,11 @@ void ns_ext_iir_read(NsChannel *c, uint8_t iir) {
 
     if ((iir & 0x3F) == 0x10 && d->special_clear == CLEAR_IIR) {
         c->iir_special = 0;
+    }
+    /* NS16C2552/2752 Table 8: an IIR read also clears the Xoff interrupt
+       (the transmitter stays halted until the Xon). */
+    if ((iir & 0x3F) == 0x10 && d->extended == EXT_NS_EFR) {
+        c->iir_xoff = 0;
     }
     if ((iir & 0x3F) == 0x20 &&
         (d->ctsrts_clear == CLEAR_IIR || d->ctsrts_clear == CLEAR_IIR_OR_MSR)) {
@@ -911,16 +914,14 @@ void ns_ext_pins(NsState *s, NsChannel *c, Cause cause) {
     ns_drive(s, op, op_level, delay);
     if (mf != SERIAL_NO_PIN) {
         unsigned sel = (c->afr.v >> 1) & 3u;
+        int mode1 = c->fifo_on && c->dma_mode;
 
         switch (sel) {
             case 0: ns_drive(s, mf, op_level, delay); break;
             case 1: break;   /* BAUDOUT: driven on clock edges by the core */
-            case 2: {
-                int mode1 = c->fifo_on && c->dma_mode;
-
+            case 2:
                 ns_drive(s, mf, mode1 ? bool3(!c->rxrdy1) : bool3(c->rx_count == 0), 0);
                 break;
-            }
             default:
                 ns_drive(s, mf, d->afr == AFR_NS ? LOGIC_1 : LOGIC_X, 0);
                 break;

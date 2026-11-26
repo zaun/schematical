@@ -177,6 +177,7 @@ int ns_x_load(KindContext *ctx, const cJSON *json, NsDevice *d) {
         "lsrBreakHold", "statusWrite", "dlabHidesStatus", "fstat", "dmaHost", "chcClock",
         "interrupt", "timer", "variant5g", "irdaStrap", NULL
     };
+    static const char *const XON_ANY[] = {"mcr5", NULL};
     NsExarDevice *x;
     int need = d->x != NULL || d->extended >= EXT_IER5 || d->afr == AFR_EXAR ||
                d->auto_flow >= FLOW_EXAR_TABLE || d->sw_flow == SW_EXAR_OR ||
@@ -259,14 +260,10 @@ int ns_x_load(KindContext *ctx, const cJSON *json, NsDevice *d) {
         }
         x->dld_sampling = x->dld && x->style != XS_5G;
     }
-    {
-        static const char *const XON_ANY[] = {"mcr5", NULL};
-
-        if (exs_opt_choice(ctx, json, "xonAny", XON_ANY, &choice) != 0) {
-            return -1;
-        }
-        x->xon_any = choice == 0;
+    if (exs_opt_choice(ctx, json, "xonAny", XON_ANY, &choice) != 0) {
+        return -1;
     }
+    x->xon_any = choice == 0;
     if (cJSON_GetObjectItemCaseSensitive(json, "powerSave") != NULL) {
         static const char *const PS_KEYS[] = {"pin", NULL};
         const cJSON *ps = cJSON_GetObjectItemCaseSensitive(json, "powerSave");
