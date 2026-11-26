@@ -132,7 +132,7 @@ Acceptance: these files have no uncovered line.
   letter and every program they touch pass.
   Check: `node scripts/coverage.js --backend --only <file>` → no `path:line`
   output for each file in this phase; `CT` → all pass (est. 2 min per run).
-Commit: —
+Commit: 16d39f16
 
 ### Phase 2 — `footprints.c`, `voltage.c`, `kind_util.c`, `net.c`, `erc_check.c`, `memory_image.c`, `kinds.c`, `erc_pins.c`
 
@@ -177,7 +177,7 @@ Acceptance: no `kind_alloc`/`kind_strdup` NULL check is uncovered anywhere
 in `backend/src`, and `basicsim/main.c` has no uncovered line.
   Check: `node scripts/coverage.js --backend` → none of the listed lines is a
   `return` after a NULL `kind_alloc`/`kind_strdup`; oom_test passes.
-Commit: —
+Commit: 75e2f036
 
 ## Validation Plan
 

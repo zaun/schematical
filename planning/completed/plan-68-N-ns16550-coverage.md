@@ -101,7 +101,7 @@ test written to match.
 Acceptance: these files have no uncovered line.
   Check: `node scripts/coverage.js --backend --only <file>` → no `path:line`
   output for each file in this phase; `CT` → all pass (est. 2 min per run).
-Commit: —
+Commit: ebf8c8d5
 
 ### Phase 2 — `ns16550_ext.c`, `ns16550_lpt.c`, `ns16550_int.h`
 
@@ -114,7 +114,7 @@ Commit: —
 
 Acceptance: as Phase 1, for these files.
   Check: as Phase 1; `SZ` → exit 0 (est. 2 min per run).
-Commit: —
+Commit: ebf8c8d5
 
 ## Validation Plan
 

@@ -100,7 +100,7 @@ test written to match.
 Acceptance: these files have no uncovered line.
   Check: `node scripts/coverage.js --backend --only <file>` → no `path:line`
   output for each file in this phase; `CT` → all pass (est. 2 min per run).
-Commit: —
+Commit: 65bbe8e9
 
 ### Phase 2 — `converter.c`, `rtc.c`, `converter_par.c`
 
@@ -113,7 +113,7 @@ Commit: —
 
 Acceptance: as Phase 1, for these files.
   Check: as Phase 1; `SZ` → exit 0 (est. 2 min per run).
-Commit: —
+Commit: 65bbe8e9
 
 ## Validation Plan
 

@@ -119,7 +119,7 @@ test written to match.
 Acceptance: these files have no uncovered line.
   Check: `node scripts/coverage.js --backend --only <file>` → no `path:line`
   output for each file in this phase; `CT` → all pass (est. 2 min per run).
-Commit: —
+Commit: c279db59
 
 ### Phase 2 — `mcu_avr_serial.c`, `mcu.c`, `avr_cpu.c`, `pio_pia6521.c`, `cpu6502.c`, `avr_twi.c`, `avr_chip.c`, `avr_timer_tiny.c`, `bus65.c`, `cpu65816.c`, `avr_usi.c`, `avr_instruction.c`, `avr_adc.c`, `avr_gpio.c`, `pld.c`, `avr_spi.c`, `avr.h`, `avr_clock.c`, `avr_usart.c`, `avr_eeprom.c`
 
@@ -131,7 +131,7 @@ Commit: —
 
 Acceptance: as Phase 1, for these files.
   Check: as Phase 1; `SZ` → exit 0 (est. 2 min per run).
-Commit: —
+Commit: c279db59
 
 ## Validation Plan
 

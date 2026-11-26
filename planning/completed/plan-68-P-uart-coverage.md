@@ -104,7 +104,7 @@ test written to match.
 Acceptance: these files have no uncovered line.
   Check: `node scripts/coverage.js --backend --only <file>` → no `path:line`
   output for each file in this phase; `CT` → all pass (est. 2 min per run).
-Commit: —
+Commit: 4f0554c7
 
 ### Phase 2 — `serial_i8251.c`, `serial.c`, `serial_acia6551.c`, `serial_hs82c52.c`, `serial_com78c80x.c`, `serial_ay1013.c`, `serial_util.h`, `serial_line.c`, `serial_usbuart.c`, `serial_bus.c`
 
@@ -120,7 +120,7 @@ Commit: —
 
 Acceptance: as Phase 1, for these files.
   Check: as Phase 1; `SZ` → exit 0 (est. 2 min per run).
-Commit: —
+Commit: 4f0554c7
 
 ## Validation Plan
 

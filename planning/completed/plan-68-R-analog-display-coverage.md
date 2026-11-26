@@ -140,7 +140,7 @@ test written to match.
 Acceptance: these files have no uncovered line.
   Check: `node scripts/coverage.js --backend --only <file>` → no `path:line`
   output for each file in this phase; `CT` → all pass (est. 2 min per run).
-Commit: —
+Commit: 165f4fe0
 
 ### Phase 2 — `timer.c`, `transistor.c`, `powerswitch.c`, `lcd.c`, `dekatron.c`, `display_out.c`, `resistor.c`, `nixie.c`, `diode.c`, `display_ccsi.c`, `connector.c`, `buzzer.c`, `opamp.c`, `switch.c`, `crystal.c`, `oscillator.c`, `display_clock.c`, `terminals.c`, `capacitor.c`, `fuse.c`, `inductor.c`, `generic.c`, `led.c`, `header.c`, `socket.c`, `supply.c`, `model_pins.c`
 
@@ -155,7 +155,7 @@ Commit: —
 
 Acceptance: as Phase 1, for these files.
   Check: as Phase 1; `SZ` → exit 0 (est. 2 min per run).
-Commit: —
+Commit: 165f4fe0
 
 ## Validation Plan
 

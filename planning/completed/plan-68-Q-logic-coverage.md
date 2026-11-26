@@ -121,7 +121,7 @@ test written to match.
 Acceptance: these files have no uncovered line.
   Check: `node scripts/coverage.js --backend --only <file>` → no `path:line`
   output for each file in this phase; `CT` → all pass (est. 2 min per run).
-Commit: —
+Commit: e59d7ff1
 
 ### Phase 2 — `buffer.c`, `shift_special.c`, `buffer_reg.c`, `gate.c`, `jkff.c`, `dff.c`, `register.c`, `arith.c`, `arith_alu.c`, `decoder.c`, `seq.c`, `mux_stored.c`, `mux.c`
 
@@ -145,7 +145,7 @@ Commit: —
 
 Acceptance: as Phase 1, for these files.
   Check: as Phase 1; `SZ` → exit 0 (est. 2 min per run).
-Commit: —
+Commit: e59d7ff1
 
 ## Validation Plan
 
