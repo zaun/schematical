@@ -27,29 +27,18 @@ struct CustomFootprintEditor: View {
                              "Radius", "Chamfer", "Corners", ""], id: \.self) { Text($0).font(.caption) }
                 }
                 ForEach($footprint.pads) { $pad in
-                    PadRow(pad: $pad, pinNumbers: pinNumbers) {
-                        footprint.pads.removeAll { $0.id == pad.id }
-                    }
+                    PadRow(pad: $pad, pinNumbers: pinNumbers) { footprint.removePad(pad.id) }
                 }
             }
             .padding(.vertical, 4)
         }
         HStack {
-            Button { addPad() } label: { Label("Add Pad", systemImage: "plus.circle") }
+            Button { footprint.addPad(pinNumbers: pinNumbers) } label: { Label("Add Pad", systemImage: "plus.circle") }
             Spacer()
             Button("Remove Custom Footprint", role: .destructive, action: onRemove)
         }
         Text("Pads are in mm, centred on the body (y down). Each pin of the pinout needs a pad with its number; pin 0 is an unnumbered centre pad. An opposite pad is a surface-mount pad on the other face of the board.")
             .font(.caption).foregroundStyle(.secondary)
-    }
-
-    private func addPad() {
-        let used = Set(footprint.pads.map(\.pin))
-        let pin = pinNumbers.first { !used.contains($0) } ?? 0
-        let last = footprint.pads.last
-        footprint.pads.append(PadDraft(pin: pin, x: (last?.x ?? 0) + 2.54, y: last?.y ?? 0,
-                                       width: last?.width ?? 1.6, height: last?.height ?? 1.6,
-                                       shape: last?.shape ?? "round", drill: last?.drill ?? 0.8))
     }
 
     private func double(_ binding: Binding<Double>) -> Binding<Double?> {
@@ -67,7 +56,7 @@ private struct PadRow: View {
         GridRow {
             Picker("", selection: $pad.pin) {
                 Text("0 (centre)").tag(0)
-                ForEach(pins, id: \.self) { Text("\($0)").tag($0) }
+                ForEach(pad.pinChoices(pinNumbers), id: \.self) { Text("\($0)").tag($0) }
             }
             .labelsHidden().frame(width: 90)
             number($pad.x)
@@ -93,11 +82,8 @@ private struct PadRow: View {
                 }
             }
             Button(action: onRemove) { Image(systemName: "minus.circle") }.buttonStyle(.borderless)
+                .accessibilityLabel("Remove Pad")
         }
-    }
-
-    private var pins: [Int] {
-        pad.pin != 0 && !pinNumbers.contains(pad.pin) ? pinNumbers + [pad.pin] : pinNumbers
     }
 
     private func number(_ binding: Binding<Double>) -> some View {
@@ -108,15 +94,6 @@ private struct PadRow: View {
     }
 
     private func cornerBinding(_ corner: String) -> Binding<Bool> {
-        Binding(
-            get: { pad.corners.contains(corner) },
-            set: { on in
-                if on {
-                    pad.corners = PadDraft.cornerNames.filter { $0 == corner || pad.corners.contains($0) }
-                } else {
-                    pad.corners.removeAll { $0 == corner }
-                }
-            }
-        )
+        Binding(get: { pad.corners.contains(corner) }, set: { pad.setCorner(corner, $0) })
     }
 }

@@ -146,7 +146,13 @@ private struct NotePanel: View {
     let document: SchematicDocument
     let note: SchematicNote
 
-    @State private var words = ""
+    init(document: SchematicDocument, note: SchematicNote) {
+        self.document = document
+        self.note = note
+        _words = State(initialValue: "")
+    }
+
+    @State private var words: String
     @FocusState private var isEditing: Bool
 
     var body: some View {
@@ -208,7 +214,7 @@ private struct NotePanel: View {
 /// A running 555 timer's state (plan-48-H): per timer section its mode and, for an astable
 /// section, the frequency, duty and times; for a one-shot, the pulse; for a section the
 /// circuit does not time, why.
-private struct TimingSection: View {
+struct TimingSection: View {
     let sections: [TimerSection]
 
     var body: some View {

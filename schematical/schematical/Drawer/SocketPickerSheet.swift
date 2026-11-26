@@ -13,10 +13,19 @@ struct SocketPickerSheet: View {
     /// Called with the chosen socket; the sheet then closes.
     let onUse: (CatalogPart) -> Void
 
-    @State private var search = ""
-    @State private var mounting = MountingFilter.all
+    @State private var search: String
+    @State private var mounting: MountingFilter
     @State private var maker: String?
     @State private var selection: String?
+
+    init(catalog: PartCatalogStore, document: SchematicDocument, chipID: UUID, onUse: @escaping (CatalogPart) -> Void) {
+        self.catalog = catalog
+        self.document = document
+        self.chipID = chipID
+        self.onUse = onUse
+        _search = State(initialValue: "")
+        _mounting = State(initialValue: .all)
+    }
 
     /// The Mounting menu's choices.
     enum MountingFilter: String, CaseIterable, Identifiable {
@@ -107,10 +116,7 @@ struct SocketPickerSheet: View {
                 TableColumn("Finish") { Text(Self.finishText($0)) }.width(min: 50, ideal: 70)
                 TableColumn("Row spacing") { Text(Self.rowSpacingText($0)) }.width(min: 70, ideal: 85)
             }
-            .contextMenu(forSelectionType: String.self) { _ in
-            } primaryAction: { names in
-                if let name = names.first { use(name, in: shown) }
-            }
+            .contextMenu(forSelectionType: String.self) { _ in } primaryAction: { use($0.first, in: shown) }
             .frame(minHeight: 260)
             HStack {
                 Text("\(shown.count) of \(sockets.count) sockets")
@@ -118,11 +124,9 @@ struct SocketPickerSheet: View {
                 Spacer()
                 Button("Cancel", role: .cancel) { dismiss() }
                     .keyboardShortcut(.cancelAction)
-                Button("Use Socket") {
-                    if let selection { use(selection, in: shown) }
-                }
+                Button("Use Socket") { use(selection, in: shown) }
                 .keyboardShortcut(.defaultAction)
-                .disabled(selection == nil || !shown.contains { $0.name == selection })
+                .disabled(Self.socket(named: selection, in: shown) == nil)
             }
         }
         .padding(20)
@@ -130,8 +134,13 @@ struct SocketPickerSheet: View {
         .onAppear { selection = chip?.socket?.part.name }
     }
 
-    private func use(_ name: String, in rows: [CatalogPart]) {
-        guard let part = rows.first(where: { $0.name == name }) else { return }
+    /// The shown socket named `name`; nil when there is none.
+    static func socket(named name: String?, in rows: [CatalogPart]) -> CatalogPart? {
+        rows.first { $0.name == name }
+    }
+
+    private func use(_ name: String?, in rows: [CatalogPart]) {
+        guard let part = Self.socket(named: name, in: rows) else { return }
         onUse(part)
         dismiss()
     }

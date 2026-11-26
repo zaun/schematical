@@ -38,17 +38,94 @@ struct UserLibraryRow: Identifiable, Equatable {
     }
 }
 
+/// What the User Library window does outside itself, injectable so a test
+/// answers it (plan-68-AC): Finder, alerts, the Add Part… file panel and the
+/// Part Editor.
+@MainActor
+struct UserLibraryActions {
+    var reveal: @MainActor ([URL]) -> Void = { NSWorkspace.shared.activateFileViewerSelecting($0) }
+    var ask: @MainActor (NSAlert) async -> NSApplication.ModalResponse = { await UserLibraryPrompts.run($0) }
+    var addPart: @MainActor (PartCatalogStore) async -> Void = { await PartFileLoading.addToLibrary(catalog: $0) }
+    /// Opens a part in the Part Editor; nil = the window's own `openWindow`.
+    var edit: (@MainActor (PartEditorTarget) -> Void)?
+}
+
+/// The User Library window's choices and changes (plan-68-AC: the logic
+/// `UserLibraryWindowView` held).
+@MainActor
+enum UserLibraryWindowModel {
+    /// The Part Editor target for a row.
+    static func target(_ row: UserLibraryRow) -> PartEditorTarget {
+        PartEditorTarget(source: .libraryPart(uuid: row.id))
+    }
+
+    /// The row Edit… opens: the only chosen row, when the Part Editor has a form for its kind.
+    static func editable(_ chosen: [UserLibraryRow]) -> UserLibraryRow? {
+        chosen.count == 1 && chosen[0].canEdit ? chosen[0] : nil
+    }
+
+    /// The rows of `ids`, in `rows`' order.
+    static func picked(_ rows: [UserLibraryRow], _ ids: Set<String>) -> [UserLibraryRow] {
+        rows.filter { ids.contains($0.id) }
+    }
+
+    /// Asks, then removes each part; failures are listed in one alert. The ids
+    /// that were asked about (removed or not), so the selection drops them;
+    /// empty when the user cancelled or there was nothing to remove.
+    static func remove(_ rows: [UserLibraryRow], catalog: PartCatalogStore, actions: UserLibraryActions) async
+        -> Set<String> {
+        guard let first = rows.first else { return [] }
+        let alert = rows.count == 1
+            ? UserLibraryPrompts.removeAlert(name: first.name)
+            : UserLibraryPrompts.removeAlert(count: rows.count)
+        guard await actions.ask(alert) == .alertFirstButtonReturn else { return [] }
+        var failures: [(name: String, error: Error)] = []
+        for row in rows {
+            do {
+                try catalog.removeFromUserLibrary(uuid: row.id)
+            } catch {
+                failures.append((row.name, error))
+            }
+        }
+        if !failures.isEmpty {
+            _ = await actions.ask(UserLibraryPrompts.failuresAlert(
+                title: "Couldn't remove from your User Library", failures: failures))
+        }
+        return Set(rows.map(\.id))
+    }
+
+    /// Removes a library file that could not be loaded; a failure is shown in an alert.
+    static func removeProblem(_ problem: UserPartLibraryProblem, catalog: PartCatalogStore,
+                              actions: UserLibraryActions) async {
+        do {
+            try catalog.removeUserLibraryProblem(problem)
+        } catch {
+            _ = await actions.ask(UserLibraryPrompts.failuresAlert(
+                title: "Couldn't remove from your User Library", failures: [(problem.url.lastPathComponent, error)]))
+        }
+    }
+}
+
 /// File › User Library…: lists the parts the user keeps, removes them, opens
 /// them in the Part Editor, adds a part file and shows a part's file in
 /// Finder. A library file that could not be loaded is listed with the reason.
 struct UserLibraryWindowView: View {
     let catalog: PartCatalogStore
-    @State private var selection: Set<String> = []
+    let actions: UserLibraryActions
+    @State private var selection: Set<String>
     @Environment(\.openWindow) private var openWindow
+
+    /// `actions` nil: the app's own (Finder, alerts, the file panel, `openWindow`).
+    @MainActor
+    init(catalog: PartCatalogStore, actions: UserLibraryActions? = nil) {
+        self.catalog = catalog
+        self.actions = actions ?? UserLibraryActions()
+        _selection = State(initialValue: [])
+    }
 
     var body: some View {
         let rows = UserLibraryRow.rows(from: catalog.userLibraryItems)
-        let chosen = rows.filter { selection.contains($0.id) }
+        let chosen = UserLibraryWindowModel.picked(rows, selection)
         VStack(spacing: 0) {
             if !catalog.userLibraryProblems.isEmpty {
                 problems
@@ -74,27 +151,18 @@ struct UserLibraryWindowView: View {
                         .width(min: 80, ideal: 100)
                 }
                 .contextMenu(forSelectionType: String.self) { ids in
-                    let picked = rows.filter { ids.contains($0.id) }
-                    if picked.count == 1, picked[0].canEdit {
-                        Button("Edit…") { edit(picked[0]) }
-                    }
-                    if !picked.isEmpty {
-                        Button("Show in Finder") { reveal(picked) }
-                        Button("Remove…") { Task { await remove(picked) } }
-                    }
+                    rowMenu(UserLibraryWindowModel.picked(rows, ids))
                 } primaryAction: { ids in
-                    if let row = rows.first(where: { ids.contains($0.id) }), ids.count == 1, row.canEdit {
-                        edit(row)
-                    }
+                    _ = UserLibraryWindowModel.editable(UserLibraryWindowModel.picked(rows, ids)).map(edit)
                 }
             }
             Divider()
             HStack {
-                Button("Add Part…") { Task { await PartFileLoading.addToLibrary(catalog: catalog) } }
+                Button("Add Part…") { Task { await actions.addPart(catalog) } }
                 Spacer()
-                Button("Edit…") { if let row = chosen.first { edit(row) } }
-                    .disabled(chosen.count != 1 || chosen.first?.canEdit != true)
-                Button("Show in Finder") { reveal(chosen) }
+                Button("Edit…") { _ = UserLibraryWindowModel.editable(chosen).map(edit) }
+                    .disabled(UserLibraryWindowModel.editable(chosen) == nil)
+                Button("Show in Finder") { actions.reveal(chosen.map(\.url)) }
                     .disabled(chosen.isEmpty)
                 Button("Remove…") { Task { await remove(chosen) } }
                     .disabled(chosen.isEmpty)
@@ -104,6 +172,18 @@ struct UserLibraryWindowView: View {
         .frame(minWidth: 560, minHeight: 280)
         .navigationTitle("User Library")
         .navigationSubtitle("\(rows.count) \(rows.count == 1 ? "part" : "parts")")
+    }
+
+    /// A row's context menu: Edit… for one editable part, then Show in Finder and Remove….
+    @ViewBuilder
+    func rowMenu(_ picked: [UserLibraryRow]) -> some View {
+        if let row = UserLibraryWindowModel.editable(picked) {
+            Button("Edit…") { edit(row) }
+        }
+        if !picked.isEmpty {
+            Button("Show in Finder") { actions.reveal(picked.map(\.url)) }
+            Button("Remove…") { Task { await remove(picked) } }
+        }
     }
 
     /// Library files that could not be loaded, with the reason and a way to
@@ -119,17 +199,9 @@ struct UserLibraryWindowView: View {
                         Text(problem.reason).font(.caption).foregroundStyle(.secondary)
                     }
                     Spacer()
-                    Button("Show in Finder") { NSWorkspace.shared.activateFileViewerSelecting([problem.url]) }
+                    Button("Show in Finder") { actions.reveal([problem.url]) }
                     Button("Remove") {
-                        do {
-                            try catalog.removeUserLibraryProblem(problem)
-                        } catch {
-                            Task {
-                                _ = await UserLibraryPrompts.run(UserLibraryPrompts.failuresAlert(
-                                    title: "Couldn't remove from your User Library",
-                                    failures: [(problem.url.lastPathComponent, error)]))
-                            }
-                        }
+                        Task { await UserLibraryWindowModel.removeProblem(problem, catalog: catalog, actions: actions) }
                     }
                 }
             }
@@ -138,32 +210,11 @@ struct UserLibraryWindowView: View {
     }
 
     private func edit(_ row: UserLibraryRow) {
-        openWindow(id: PartEditorScene.id, value: PartEditorTarget(source: .libraryPart(uuid: row.id)))
+        let target = UserLibraryWindowModel.target(row)
+        if let open = actions.edit { open(target) } else { openWindow(id: PartEditorScene.id, value: target) }
     }
 
-    private func reveal(_ rows: [UserLibraryRow]) {
-        NSWorkspace.shared.activateFileViewerSelecting(rows.map(\.url))
-    }
-
-    /// Asks, then removes each part; failures are listed in one alert.
     private func remove(_ rows: [UserLibraryRow]) async {
-        guard let first = rows.first else { return }
-        let alert = rows.count == 1
-            ? UserLibraryPrompts.removeAlert(name: first.name)
-            : UserLibraryPrompts.removeAlert(count: rows.count)
-        guard await UserLibraryPrompts.run(alert) == .alertFirstButtonReturn else { return }
-        var failures: [(name: String, error: Error)] = []
-        for row in rows {
-            do {
-                try catalog.removeFromUserLibrary(uuid: row.id)
-            } catch {
-                failures.append((row.name, error))
-            }
-        }
-        selection.subtract(rows.map(\.id))
-        if !failures.isEmpty {
-            _ = await UserLibraryPrompts.run(UserLibraryPrompts.failuresAlert(
-                title: "Couldn't remove from your User Library", failures: failures))
-        }
+        selection.subtract(await UserLibraryWindowModel.remove(rows, catalog: catalog, actions: actions))
     }
 }

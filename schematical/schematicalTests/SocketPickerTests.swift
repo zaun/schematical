@@ -120,4 +120,14 @@ final class SocketPickerTests: XCTestCase {
         XCTAssertEqual(SocketPickerSheet.rowSpacingText(plcc), "")
         XCTAssertEqual(PartOptionsSection.socketCaption(plcc), "PLCC socket, surface mount")
     }
+
+    /// plan-68-AC: a part that is not a socket has no socket texts.
+    func testANonSocketHasNoSocketTexts() throws {
+        let led = try TestSupport.part("GENERIC-LED")
+        XCTAssertEqual(SocketPickerSheet.mountingText(led), "")
+        XCTAssertEqual(SocketPickerSheet.finishText(led), "")
+        XCTAssertEqual(SocketPickerSheet.rowSpacingText(led), "")
+        XCTAssertNil(SocketPickerSheet.socket(named: nil, in: [led]))
+        XCTAssertEqual(SocketPickerSheet.socket(named: "GENERIC-LED", in: [led]), led)
+    }
 }

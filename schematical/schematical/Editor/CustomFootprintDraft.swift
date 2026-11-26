@@ -75,6 +75,21 @@ struct PadDraft: Hashable, Identifiable, Sendable {
         self.drill = drill
     }
 
+    /// The pad table's pin menu: the pinout's numbers, plus this pad's own
+    /// number when the pinout lacks it (0, the centre pad, is its own item).
+    func pinChoices(_ pinNumbers: [Int]) -> [Int] {
+        pin != 0 && !pinNumbers.contains(pin) ? pinNumbers + [pin] : pinNumbers
+    }
+
+    /// Cuts (`on`) or squares a corner; the cut corners stay in `cornerNames` order.
+    mutating func setCorner(_ corner: String, _ on: Bool) {
+        if on {
+            corners = Self.cornerNames.filter { $0 == corner || corners.contains($0) }
+        } else {
+            corners.removeAll { $0 == corner }
+        }
+    }
+
     /// A pad of an expanded footprint.
     init(_ pad: Footprint.Pad) {
         pin = pad.designator.flatMap { Int($0) } ?? 0
@@ -199,6 +214,23 @@ struct CustomFootprintDraft: Hashable, Sendable {
         if case let .bool(edgeMount)? = keys["edgeMount"] { self.edgeMount = edgeMount }
         // The entry's own pin count must be the one this draft writes back.
         if case let .number(pins)? = keys["pins"], Int(pins) != pinCount { return nil }
+    }
+
+    /// Add Pad: a pad for the first pinout pin no pad has (else pin 0), 2.54 mm
+    /// right of the last pad and like it (a 1.6 mm round through-hole pad when
+    /// there is none).
+    mutating func addPad(pinNumbers: [Int]) {
+        let used = Set(pads.map(\.pin))
+        let pin = pinNumbers.first { !used.contains($0) } ?? 0
+        let last = pads.last
+        pads.append(PadDraft(pin: pin, x: (last?.x ?? 0) + 2.54, y: last?.y ?? 0,
+                             width: last?.width ?? 1.6, height: last?.height ?? 1.6,
+                             shape: last?.shape ?? "round", drill: last?.drill ?? 0.8))
+    }
+
+    /// Removes the pad with `id`.
+    mutating func removePad(_ id: UUID) {
+        pads.removeAll { $0.id == id }
     }
 
     /// A first footprint for a pinout of `pins` pins: a row of 2.54 mm

@@ -76,7 +76,9 @@ final class CustomFootprintDraftTests: XCTestCase {
         // 1691, measured 2026-11-24 from `Parts/footprints.json` (3959 entries, 2268 of them parametric):
         // the count had not been re-measured since 954 while plan-47 (relays, buzzers, inductors, fuses),
         // plan-51 (sockets) and plan-58 (slide switches) added their explicit footprints.
-        XCTAssertEqual(ids.count, 1691)
+        // 1696, measured 2026-11-26 (plan-68-AC): plans 78-82 (potentiometers, battery holders,
+        // addressable LEDs, OLEDs, indicator LEDs) added five explicit footprints.
+        XCTAssertEqual(ids.count, 1696)
         XCTAssertEqual(mismatched, [])
         XCTAssertEqual(rejected, [:])
     }
@@ -87,5 +89,51 @@ final class CustomFootprintDraftTests: XCTestCase {
         guard case let .success(footprint) = Self.load(draft.encoded()) else { return XCTFail("rejected") }
         XCTAssertEqual(footprint.pads.count, 14)
         XCTAssertEqual(CustomFootprintDraft.id(forPart: "6f1c2e8a-3b7d"), "CUSTOM-6F1C2E8A")
+    }
+
+    // MARK: The pad table's edits (plan-68-AC: moved from CustomFootprintEditor)
+
+    func testAddPadTakesTheNextFreePinAndCopiesTheLastPad() {
+        var draft = CustomFootprintDraft(id: "CUSTOM-1", description: "d", bodyWidth: 5, bodyHeight: 5, pads: [])
+        draft.addPad(pinNumbers: [1, 2])
+        XCTAssertEqual(draft.pads, [PadDraft(pin: 1, x: 2.54, y: 0, width: 1.6, height: 1.6, shape: "round", drill: 0.8)])
+        draft.pads[0].y = 1
+        draft.pads[0].width = 2
+        draft.pads[0].shape = "rect"
+        draft.pads[0].drill = 0
+        draft.addPad(pinNumbers: [1, 2])
+        XCTAssertEqual(draft.pads[1], PadDraft(pin: 2, x: 5.08, y: 1, width: 2, height: 1.6, shape: "rect", drill: 0))
+        draft.addPad(pinNumbers: [1, 2])
+        XCTAssertEqual(draft.pads[2].pin, 0, "every pin has a pad: a centre pad")
+        draft.removePad(draft.pads[1].id)
+        XCTAssertEqual(draft.pads.map(\.pin), [1, 0])
+    }
+
+    func testCornersKeepTheirOrderAndPinChoicesKeepTheOwnPin() {
+        var pad = PadDraft(pin: 9, x: 0, y: 0, width: 1, height: 1)
+        pad.setCorner("bl", true)
+        pad.setCorner("tl", true)
+        XCTAssertEqual(pad.corners, ["tl", "bl"])
+        pad.setCorner("tl", false)
+        XCTAssertEqual(pad.corners, ["bl"])
+        XCTAssertEqual(pad.pinChoices([1, 2]), [1, 2, 9], "a pin the pinout lacks stays choosable")
+        XCTAssertEqual(pad.pinChoices([1, 9]), [1, 9])
+        pad.pin = 0
+        XCTAssertEqual(pad.pinChoices([1, 2]), [1, 2], "0 is the centre item")
+    }
+
+    func testPadsHashByPinAndPlaceAndAnUnknownKeyIsRefused() {
+        var a = PadDraft(pin: 1, x: 0, y: 0, width: 1, height: 1)
+        let b = PadDraft(pin: 1, x: 0, y: 0, width: 1, height: 1)
+        XCTAssertEqual(a.hashValue, b.hashValue, "ids differ, the pads are the same")
+        XCTAssertEqual(Set([a, b]).count, 1)
+        a.x = 2
+        XCTAssertEqual(Set([a, b]).count, 2)
+        let unknown: JSONValue = .object(["pin": .number(1), "x": .number(0), "y": .number(0), "width": .number(1),
+                                          "height": .number(1), "colour": .string("red")])
+        XCTAssertNil(PadDraft(json: unknown))
+        let both: JSONValue = .object(["pin": .number(1), "ball": .string("A1"), "x": .number(0), "y": .number(0),
+                                       "width": .number(1), "height": .number(1)])
+        XCTAssertNil(PadDraft(json: both), "a pad is numbered or a ball, not both")
     }
 }

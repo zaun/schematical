@@ -31,12 +31,6 @@ struct PartOptionsSection: View {
         }
     }
 
-    /// Resizes a header to `rows` × `perRow`, when that size is a part.
-    private func resize(_ id: UUID, rows: Int, perRow: Int) {
-        guard let part = catalog.part(named: HeaderFamily.name(rows: rows, perRow: perRow)) else { return }
-        document.setHeaderSize(id, to: part)
-    }
-
     /// Whether `part` has anything for this section to show.
     static func applies(to part: CatalogPart) -> Bool {
         hasColorChoice(part) || !part.footprintChoices.isEmpty || !part.units.isEmpty
@@ -96,7 +90,14 @@ struct PartOptionsSection: View {
         document.setPartSocket(chip.id, mode: mode, socket: socket)
     }
 
-    @State private var choosingSocket = false
+    @State private var choosingSocket: Bool
+
+    init(catalog: PartCatalogStore, document: SchematicDocument, chip: PlacedChip) {
+        self.catalog = catalog
+        self.document = document
+        self.chip = chip
+        _choosingSocket = State(initialValue: false)
+    }
 
     /// "Mill-Max Manufacturing Corp. · DIP socket, 0.3 in, through hole, gold".
     static func socketCaption(_ part: CatalogPart) -> String {
@@ -115,15 +116,12 @@ struct PartOptionsSection: View {
     }
 
     var body: some View {
-        // Read the chip again, so the pickers follow every change.
-        let current = document.chips.first { $0.id == chip.id } ?? chip
+        // The model reads the chip again, so the pickers follow every change.
+        let model = PartOptionsModel(catalog: catalog, document: document, chip: chip)
         Section("Options") {
             // A part with units (a gate IC): one block, or each unit its own symbol (plan-67).
-            if let unitView = current.part.unitViewName ?? (current.part.units.isEmpty ? nil : "Units") {
-                Picker("View", selection: Binding(
-                    get: { current.isSplit },
-                    set: { document.setPartSplit(chip.id, $0) }
-                )) {
+            if let unitView = model.unitViewName {
+                Picker("View", selection: Binding(get: { model.isSplit }, set: model.setSplit)) {
                     Text("Block").tag(false)
                     Text(unitView).tag(true)
                 }
@@ -131,83 +129,49 @@ struct PartOptionsSection: View {
                 .help("Block: one box with every pin. \(unitView): each \(unitView.lowercased()) as its own symbol, placed, "
                     + "flipped and turned on its own, plus a block for the power pins.")
             }
-            if let size = current.part.headerSize {
-                Picker("Rows", selection: Binding(
-                    get: { size.rows },
-                    set: { resize(chip.id, rows: $0, perRow: size.perRow) }
-                )) {
+            if let size = model.headerSize {
+                Picker("Rows", selection: Binding(get: { size.rows }, set: model.setRows)) {
                     Text("1").tag(1)
                     Text("2").tag(2)
                 }
                 .pickerStyle(.segmented)
-                let wired = Self.wiredPins(of: chip.id, in: document)
-                Picker("Pins per row", selection: Binding(
-                    get: { size.perRow },
-                    set: { resize(chip.id, rows: size.rows, perRow: $0) }
-                )) {
-                    ForEach(1...HeaderFamily.maxPerRow, id: \.self) { n in
-                        Text(Self.pinsPerRowLabel(n, rows: size.rows, wiredPins: wired)).tag(n)
-                    }
+                Picker("Pins per row", selection: Binding(get: { size.perRow }, set: model.setPerRow)) {
+                    ForEach(model.perRowItems, id: \.n) { Text($0.label).tag($0.n) }
                 }
                 .pickerStyle(.menu)
-                if current.part.genders.count > 1 {
-                    Picker("Gender", selection: Binding(
-                        get: { current.gender ?? current.part.genders[0] },
-                        set: { document.setPartGender(chip.id, $0) }
-                    )) {
-                        ForEach(current.part.genders, id: \.self) { Text($0).tag($0) }
-                    }
-                    .pickerStyle(.segmented)
+            }
+            if !model.genders.isEmpty {
+                Picker("Gender", selection: Binding(get: { model.gender }, set: model.setGender)) {
+                    ForEach(model.genders, id: \.self) { Text($0).tag($0) }
                 }
+                .pickerStyle(.segmented)
             }
-            if Self.hasColorChoice(current.part) {
-                ColorChoicePicker(colors: current.part.colors, selection: Binding(
-                    get: { current.color ?? current.part.colors[0] },
-                    set: { document.setPartColor(chip.id, $0) }
-                ))
+            if !model.colors.isEmpty {
+                ColorChoicePicker(colors: model.colors, selection: Binding(get: { model.color }, set: model.setColor))
             }
-            if current.part.hasOhmsField {
-                OhmsField(ohms: current.ohms ?? ResistorValue.defaultOhms) { ohms in
-                    document.setPartOhms(chip.id, ohms)
-                }
+            if let ohms = model.ohms {
+                OhmsField(ohms: ohms, commit: model.setOhms)
             }
-            if current.part.isGenericCapacitor {
-                CapacitanceField(farads: current.farads ?? CapacitorValue.defaultFarads) { farads in
-                    document.setPartFarads(chip.id, farads)
-                }
+            if let farads = model.farads {
+                CapacitanceField(farads: farads, commit: model.setFarads)
             }
-            if current.part.isTestPoint {
-                let mounting = TestPointFamily.parse(current.footprintID ?? current.part.footprint?.id ?? "")
-                    ?? (size: TestPointFamily.defaultSize, throughHole: false)
-                Picker("Size", selection: Binding(
-                    get: { mounting.size },
-                    set: { document.setPartFootprint(
-                        chip.id, TestPointFamily.footprintID(size: $0, throughHole: mounting.throughHole)) }
-                )) {
+            if let mounting = model.testPoint {
+                Picker("Size", selection: Binding(get: { mounting.size }, set: model.setTestPointSize)) {
                     ForEach(TestPointFamily.sizes, id: \.self) { Text(TestPointFamily.label($0)).tag($0) }
                 }
                 .pickerStyle(.menu)
-                Toggle("Through hole", isOn: Binding(
-                    get: { mounting.throughHole },
-                    set: { document.setPartFootprint(
-                        chip.id, TestPointFamily.footprintID(size: mounting.size, throughHole: $0)) }
-                ))
+                Toggle("Through hole", isOn: Binding(get: { mounting.throughHole }, set: model.setThroughHole))
             }
-            if !current.part.footprintChoices.isEmpty && !current.part.isTestPoint {
-                FootprintChoicePicker(choices: current.part.footprintChoices, selection: Binding(
-                    get: { current.footprintID ?? current.part.footprint?.id ?? "" },
-                    set: { document.setPartFootprint(chip.id, $0) }
-                ))
+            if !model.footprintChoices.isEmpty {
+                FootprintChoicePicker(choices: model.footprintChoices,
+                                      selection: Binding(get: { model.footprintID }, set: model.setFootprint))
             }
-            if Self.isSocketable(current.part, in: catalog) {
-                Picker("Mounting", selection: Binding(
-                    get: { MountingChoice(current.socket) },
-                    set: { Self.choose($0, for: current, in: document, catalog: catalog) }
-                )) {
+            if model.isSocketable {
+                Picker("Mounting", selection: Binding(get: { model.mounting }, set: model.setMounting)) {
                     ForEach(MountingChoice.allCases) { Text($0.title).tag($0) }
                 }
                 .pickerStyle(.segmented)
-                if let socket = current.socket {
+                if let socket = model.current.socket {
                     LabeledContent("Socket", value: socket.part.name)
                     Text(Self.socketCaption(socket.part))
                         .font(.caption).foregroundStyle(.secondary)
@@ -216,172 +180,8 @@ struct PartOptionsSection: View {
             }
         }
         .sheet(isPresented: $choosingSocket) {
-            SocketPickerSheet(catalog: catalog, document: document, chipID: chip.id) { part in
-                if let now = document.chips.first(where: { $0.id == chip.id }), let mode = now.socket?.mode {
-                    document.setPartSocket(chip.id, mode: mode, socket: part)
-                }
-            }
+            SocketPickerSheet(catalog: catalog, document: document, chipID: chip.id, onUse: model.useSocket)
         }
-    }
-}
-
-/// A pull resistor's resistance: a number field and a unit menu (Ω, kΩ,
-/// MΩ), showing `ohms` in the largest unit with a number of at least 1. The
-/// number commits on Return or when the field loses focus; picking a unit
-/// commits the shown number in that unit. Input that doesn't parse, or gives
-/// a value that isn't `ResistorValue.isValid`, puts the row back. Also used
-/// by Settings ▸ New Pull Resistor.
-struct OhmsField: View {
-    let ohms: Double
-    let commit: (Double) -> Void
-
-    @State private var text = ""
-    /// What the field last showed of the stored value; when `text` differs,
-    /// the user is typing and outside changes don't overwrite it.
-    @State private var shown = ""
-    @State private var unit: ResistorValue.Unit = .kilo
-    @FocusState private var isFocused: Bool
-
-    var body: some View {
-        LabeledContent("Ohms") {
-            HStack(spacing: 6) {
-                TextField("Ohms", text: $text)
-                    .labelsHidden()
-                    .focused($isFocused)
-                    .multilineTextAlignment(.trailing)
-                    .frame(minWidth: 60)
-                    .onSubmit(apply)
-                    .onChange(of: isFocused) { _, focused in
-                        if !focused { apply() }
-                    }
-                Picker("Unit", selection: Binding(get: { unit }, set: pick)) {
-                    ForEach(ResistorValue.Unit.allCases, id: \.self) { unit in
-                        Text(unit.symbol).tag(unit)
-                    }
-                }
-                .pickerStyle(.menu)
-                .labelsHidden()
-                .fixedSize()
-            }
-        }
-        .onChange(of: ohms) { refresh() }
-        .onAppear { show(ohms) }
-    }
-
-    /// Shows the stored value, unless the user is typing a new one.
-    private func refresh() {
-        if !isFocused || text == shown {
-            show(ohms)
-        } else {
-            unit = ResistorValue.split(ohms).unit
-        }
-    }
-
-    private func show(_ value: Double) {
-        let split = ResistorValue.split(value)
-        shown = ResistorValue.numberText(split.number)
-        text = shown
-        unit = split.unit
-    }
-
-    private func apply() {
-        guard text != shown else { return }
-        guard let number = ResistorValue.parse(text),
-              let value = ResistorValue.ohms(number: number, unit: unit) else {
-            show(ohms)
-            return
-        }
-        commit(value)
-        show(value)
-    }
-
-    private func pick(_ newUnit: ResistorValue.Unit) {
-        guard newUnit != unit else { return }
-        let number = ResistorValue.parse(text) ?? ResistorValue.split(ohms).number
-        guard let value = ResistorValue.ohms(number: number, unit: newUnit) else {
-            show(ohms)
-            return
-        }
-        commit(value)
-        show(value)
-    }
-}
-
-/// The generic capacitor's capacitance (plan-33-H): a number field and a
-/// unit menu (pF, nF, µF), showing `farads` in the largest unit with a
-/// number of at least 1. Commits like `OhmsField`: on Return, on losing
-/// focus, or on picking a unit; input that doesn't parse, or isn't
-/// `CapacitorValue.isValid`, puts the row back.
-struct CapacitanceField: View {
-    let farads: Double
-    let commit: (Double) -> Void
-
-    @State private var text = ""
-    @State private var shown = ""
-    @State private var unit: CapacitorValue.Unit = .nano
-    @FocusState private var isFocused: Bool
-
-    var body: some View {
-        LabeledContent("Capacitance") {
-            HStack(spacing: 6) {
-                TextField("Capacitance", text: $text)
-                    .labelsHidden()
-                    .focused($isFocused)
-                    .multilineTextAlignment(.trailing)
-                    .frame(minWidth: 60)
-                    .onSubmit(apply)
-                    .onChange(of: isFocused) { _, focused in
-                        if !focused { apply() }
-                    }
-                Picker("Unit", selection: Binding(get: { unit }, set: pick)) {
-                    ForEach(CapacitorValue.Unit.allCases, id: \.self) { unit in
-                        Text(unit.symbol).tag(unit)
-                    }
-                }
-                .pickerStyle(.menu)
-                .labelsHidden()
-                .fixedSize()
-            }
-        }
-        .onChange(of: farads) { refresh() }
-        .onAppear { show(farads) }
-    }
-
-    private func refresh() {
-        if !isFocused || text == shown {
-            show(farads)
-        } else {
-            unit = CapacitorValue.split(farads).unit
-        }
-    }
-
-    private func show(_ value: Double) {
-        let split = CapacitorValue.split(value)
-        shown = CapacitorValue.numberText(split.number)
-        text = shown
-        unit = split.unit
-    }
-
-    private func apply() {
-        guard text != shown else { return }
-        guard let number = CapacitorValue.parse(text),
-              let value = CapacitorValue.farads(number: number, unit: unit) else {
-            show(farads)
-            return
-        }
-        commit(value)
-        show(value)
-    }
-
-    private func pick(_ newUnit: CapacitorValue.Unit) {
-        guard newUnit != unit else { return }
-        let number = CapacitorValue.parse(text) ?? CapacitorValue.split(farads).number
-        guard let value = CapacitorValue.farads(number: number, unit: newUnit) else {
-            show(farads)
-            return
-        }
-        commit(value)
-        show(value)
     }
 }
 
