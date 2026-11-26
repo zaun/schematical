@@ -195,7 +195,7 @@ Acceptance: every out-of-memory path is run.
   6568 uncovered)`. The app build with the Swift changes: `xcodebuild …
   -only-testing` ErcPinChecks, ErcDrawingChecks, SchematicVoltageRefusal,
   PowerSwitch, TerminalConnector → `TEST SUCCEEDED`, 0 failures.
-Commit: —
+Commit: 19b1f226
 
 ## Validation Plan
 
