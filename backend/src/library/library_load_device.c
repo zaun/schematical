@@ -273,21 +273,6 @@ int lib_commit_parts(KindContext *ctx, PartLibrary *library, const FileParts *fi
     size_t i;
     int ok;
 
-    if (needed > library->capacity) {
-        size_t capacity = library->capacity == 0 ? 1024 : library->capacity;
-        const Part **parts;
-
-        while (capacity < needed) {
-            capacity *= 2;
-        }
-        /* Growing the array alone changes nothing the library reports. */
-        parts = logic_realloc(library->parts, capacity * sizeof(*parts));
-        if (parts == NULL) {
-            return kind_error(ctx, "out of memory");
-        }
-        library->parts = parts;
-        library->capacity = capacity;
-    }
     ok = lib_name_set_merge(&names, &library->names) == 0 &&
          lib_name_set_merge(&names, &file->names) == 0 &&
          lib_name_set_merge(&devices, &library->devices) == 0 &&
@@ -302,6 +287,21 @@ int lib_commit_parts(KindContext *ctx, PartLibrary *library, const FileParts *fi
         ok = sheets != NULL && lib_name_set_merge(&sheet_ids, &library->datasheet_ids) == 0;
         for (i = 0; ok && i < sheet_count; i++) {
             ok = lib_name_set_add(&sheet_ids, datasheets->items[i]->id, datasheets->items[i]) == 0;
+        }
+    }
+    /* Last, so a failure before it leaves even the parts array as it was. */
+    if (ok && needed > library->capacity) {
+        size_t capacity = library->capacity == 0 ? 1024 : library->capacity;
+        const Part **parts;
+
+        while (capacity < needed) {
+            capacity *= 2;
+        }
+        parts = logic_realloc(library->parts, capacity * sizeof(*parts));
+        ok = parts != NULL;
+        if (ok) {
+            library->parts = parts;
+            library->capacity = capacity;
         }
     }
     if (!ok) {

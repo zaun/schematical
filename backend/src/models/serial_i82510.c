@@ -499,7 +499,7 @@ static void tx_done(void *context, uint16_t data, uint16_t known) {
     unsigned q = stop_quarters(s);
 
     (void)known;
-    serial_line_log(&s->line, data);
+    serial_line_log(&s->line, s->sim, data);
     /* Odd quarter stops: the engine sends whole halves; the last quarter
        is held as mark before the next start. */
     if (!tx_1x(s) && q % 2 == 1) {

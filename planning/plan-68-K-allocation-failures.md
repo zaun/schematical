@@ -160,13 +160,22 @@ nothing leaks in the existing tests.
   tests failed out of 106` (with `logic_alloc_test`); `git status --short
   backend/tests/golden` → no output. Every test program now also fails if it
   leaves backend memory: three did (Corrections), and were fixed.
-Commit: —
+Commit: 4f656425
 
 ### Phase 2 — the sweep
 
-- [ ] `tests/oom_test.c` (§ 4) and its CMake line.
-- [ ] Fix each bug the sweep finds (Corrections lists each).
-- [ ] `COV --backend --write-ratchet`; commit the lowered rows.
+- [x] `tests/oom_test.c` (§ 4) and its CMake line (`logic_test(oom_test)`);
+  the targeted operations § 4 did not list are under Corrections.
+- [x] Fix each bug the sweep finds (Corrections lists each).
+- [x] `COV --backend --write-ratchet`; commit the lowered rows (no row went
+  up: every changed row of `scripts/coverage-ratchet.tsv` is lower than at
+  `4f656425`).
+- [x] Targeted tests for the out-of-memory paths the entry-point sweep cannot
+  reach on real parts: `sram_test` (`check_out_of_memory`), `avr_board_test`
+  (`out_of_memory_case`), and in `oom_test` an ERC check with more than 64
+  problems, a slide switch set to a state, a switched jack plugged in, a
+  looped-back USB-UART, a powered 555 among 17 resistors, a 17-diode part and
+  a refused load.
 
 Acceptance: every out-of-memory path is run.
   Check: `CT -R oom_test` → pass (its runtime recorded here when it runs);
@@ -177,6 +186,15 @@ Acceptance: every out-of-memory path is run.
   `logic_*alloc` on the line before (the script
   `planning/plan-68-data/oom-lines.js`, written in this phase, prints them;
   it must print nothing) (est. 3 min).
+  Observed: `ctest -R oom_test` → `Passed 80.82 sec`; `CT` → `100% tests
+  passed, 0 tests failed out of 107`, goldens unchanged (`git status --short
+  backend/tests/golden` → no output); over the uncovered `path:line` list
+  `node scripts/coverage.js --backend` prints, the grep's pattern matches 0
+  lines (`show.sh` read an old scratch build, so the same pattern was run
+  over that list) and `oom-lines.js` → `0 out-of-memory lines uncovered (of
+  6568 uncovered)`. The app build with the Swift changes: `xcodebuild …
+  -only-testing` ErcPinChecks, ErcDrawingChecks, SchematicVoltageRefusal,
+  PowerSwitch, TerminalConnector → `TEST SUCCEEDED`, 0 failures.
 Commit: —
 
 ## Validation Plan
@@ -212,6 +230,38 @@ Commit: —
   freed `cJSON_PrintUnformatted`'s text with `free` (now `cJSON_free`).
   Found with `planning/plan-68-data/trace_leak.sh`, which prints the live
   count after each call in a test's `main`.
+- **Out-of-memory results the callers could not see, now reported** (each
+  found by the sweep or by `oom-lines.js`, each with the test that runs it):
+  - `voltage_check` returned a count, so a failed allocation read as "no
+    problems": it returns `VOLTAGE_CHECK_OUT_OF_MEMORY` (`(size_t)-1`), and
+    `circuit.c`'s `voltage_failed` sets "out of memory".
+  - `erc_check` likewise: `ERC_CHECK_OUT_OF_MEMORY`, also when a problem
+    could not be kept (`Found.out_of_memory`). `ErcChecker.swift` and
+    `VoltageCheck.swift` read -1 as "the check did not run" (empty result),
+    not as a count.
+  - `timer_rc_analyze` was `void`: it returns -1, and a failed link list is
+    no longer reported as a `TIMER_SHAPE` stop.
+  - Models that fail in `start` or mid-run call the new `sim_fail(sim,
+    "out of memory")`: `rtc_start`/`disp_start` (they return int now), the
+    SRAM's page for a written word (it used to leave the word X; the
+    evaluate callback now stops the run), the AVR's clock events (a flag on
+    `AvrCpu`, turned into `sim_fail` after the step), and `serial_line_log`
+    (it takes the `Sim` now; a dropped log frame used to vanish silently).
+  - `sim_run_until` did not stop when a model called `sim_fail` during a
+    round; it stopped only at the next call. It now returns 0 after that
+    round.
+- **Cleanup bugs the sweep found:** `library_load_device.c` grew the parts
+  array before its other allocations, so a later failure left a part
+  half-added (it grows it last now); `converter_model.c` set `alive_store`
+  after the failure check (a leak); `ns16550.c` ignored a failed
+  `ns_lpt_create`.
+- **§ 4's sweep, as built:** the one-device file per kind became every device
+  *shape* of each kind (sorted keys plus `model`/`type`: 300 shapes), each
+  loaded and run in a circuit with every pin on a net of its own, switches
+  set and connectors plugged; `generic.json` (no devices) and parts the
+  simulator does not model are skipped. A failure prints its site as an
+  image offset (`atos -o oom_test -l 0x100000000 <offset>` names it). The
+  run takes 81 s, the longest test in `CT`.
 - **There are no `strdup` calls** in the backend (the 194 were 117 `calloc`,
   66 `malloc`, 11 `realloc`); `logic_strdup` exists for the tests and the
   sweep's own use.

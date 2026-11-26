@@ -18,6 +18,7 @@
 #include <string.h>
 
 #include "circuit.h"
+#include "logic_alloc.h"
 #include "parts.h"
 #include "read_file.h"
 
@@ -90,6 +91,38 @@ static void pb_case(void) {
     circuit_destroy(r.c);
 }
 
+/* Each allocation of a blink run failing in turn (its timer's clock events
+   among them) stops the run with an error, never a wrong run. */
+static void out_of_memory_case(void) {
+    long k;
+    int bad = 0, memory = 0;
+
+    for (k = 1;; k++) {
+        Rig r;
+        long made;
+        const char *error;
+
+        rig_new(&r, "ATMEGA328P-PU", "blink");
+        logic_alloc_fail_at(k);
+        if (circuit_start(r.c) == 0) {
+            rig_to(&r, 3 * MS);
+        }
+        made = logic_alloc_count();
+        logic_alloc_fail_at(0);
+        error = circuit_error(r.c);
+        if (made < k) {
+            bad += error != NULL;
+            circuit_destroy(r.c);
+            break;
+        }
+        memory += error != NULL && strstr(error, "out of memory") != NULL;
+        bad += error == NULL;
+        circuit_destroy(r.c);
+    }
+    check(bad == 0 && memory == k - 1,
+          "ATMEGA328P-PU running blink: each of its allocations failing stops it with \"out of memory\"");
+}
+
 /* Every part with a model runs. */
 static void every_part_case(void) {
     size_t count = part_library_count(library), i, ran = 0, bad = 0, tinies = 0;
@@ -134,6 +167,7 @@ int main(void) {
     uno_case();
     small_case();
     pb_case();
+    out_of_memory_case();
     every_part_case();
     part_library_destroy(library);
     if (failures > 0) {

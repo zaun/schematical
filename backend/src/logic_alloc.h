@@ -30,6 +30,9 @@ void logic_alloc_init(void);
 void logic_alloc_fail_at(long k);
 /* Allocations attempted so far. */
 long logic_alloc_count(void);
+/* Where the allocation that was made to fail was called from (its return
+   address), or NULL: for finding the cleanup a failure path misses. */
+void *logic_alloc_failed_site(void);
 /* Allocations made and not yet freed. */
 long logic_alloc_live(void);
 /* Frees of memory the wrapper did not count (the live count would have gone

@@ -99,6 +99,10 @@ struct AvrCpu {
        1 (the oracle tests): avr8js's behavior everywhere. */
     int exact;
 
+    /* A clock event could not be kept (out of memory): the simulator's model
+       stops the simulation after the instruction that asked for it. */
+    int out_of_memory;
+
     /* Tests only: when not NULL, avr_instruction counts each decode branch
        it takes in coverage[1..AVR_BRANCHES]. */
     uint32_t *coverage;

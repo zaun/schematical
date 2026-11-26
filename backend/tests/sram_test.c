@@ -13,6 +13,7 @@
 #include <string.h>
 
 #include "kind.h"
+#include "logic_alloc.h"
 #include "parts.h"
 #include "read_file.h"
 #include "sim.h"
@@ -457,6 +458,42 @@ static void check_memory_hooks(void) {
     bench_close(&b);
 }
 
+/* A write with each of its allocations failing in turn (the written word's page
+   among them) stops with "out of memory"; with none failing, the word is stored. */
+static void check_out_of_memory(void) {
+    long k;
+    int all_stopped = 1, stored = 0;
+
+    for (k = 1;; k++) {
+        Bench b;
+        long made;
+        uint32_t value = 0, known = 0;
+
+        if (!bench_open(&b, "AS6C62256-55PCN", "DQ", 0, 8)) {
+            expect(0, "AS6C62256-55PCN resolves and starts");
+            return;
+        }
+        set_pin(&b, "CE#", LOGIC_0);
+        set_pin(&b, "OE#", LOGIC_1);
+        set_pin(&b, "WE#", LOGIC_1);
+        run_to(&b, NS(100));
+        logic_alloc_fail_at(k);
+        write_cycle(&b, NS(200), 0x1234, 0x5A, NS(205), NS(45));
+        made = logic_alloc_count();
+        logic_alloc_fail_at(0);
+        if (made < k) {
+            word_at(&b, 0x1234, &value, &known);
+            stored = sim_error(b.sim) == NULL && value == 0x5A && known == 0xFF;
+            bench_close(&b);
+            break;
+        }
+        all_stopped &= sim_error(b.sim) != NULL && strcmp(sim_error(b.sim), "out of memory") == 0;
+        bench_close(&b);
+    }
+    expect(k > 1 && all_stopped, "a write with an allocation failing stops with \"out of memory\"");
+    expect(stored, "with memory to spare the write stores 0x5A at 0x1234");
+}
+
 int main(void) {
     library = part_library_create();
     if (load_parts_dir(library, PARTS_DIR) != 0) {
@@ -465,6 +502,7 @@ int main(void) {
     check_as6c62256();
     check_as7c34098a();
     check_memory_hooks();
+    check_out_of_memory();
     part_library_destroy(library);
     printf("%d failure(s)\n", failures);
     return failures == 0 ? 0 : 1;

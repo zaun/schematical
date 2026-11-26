@@ -339,7 +339,7 @@ static void tx_done(void *context, uint16_t data, uint16_t known) {
     Chan *c = context;
 
     (void)known;
-    serial_line_log(&c->line, data);
+    serial_line_log(&c->line, c->owner->sim, data);
     if (c->tx_count == 0 && c->ctl_n == 0) {
         if (c->owner->dev->v->sts_txempty) {
             c->sts |= ST_TXEMPTY;

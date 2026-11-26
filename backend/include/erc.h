@@ -113,6 +113,9 @@ extern const uint8_t ERC_DEFAULT_PIN_MAP[ERC_PIN_TYPE_COUNT][ERC_PIN_TYPE_COUNT]
 /* Returns the number of problems (all of them); writes up to cap into out,
    ordered by net (unwired pins last), then pin, then kind. nets has net_count
    entries, or is NULL (no net has an attachment). */
+/* What erc_check returns when it cannot get memory: the check did not run, and
+   nothing may be read as "no problems". (Swift imports size_t as Int: -1.) */
+#define ERC_CHECK_OUT_OF_MEMORY ((size_t)-1)
 size_t erc_check(const ErcPin *pins, size_t pin_count, size_t net_count, const ErcNet *nets,
                  const uint8_t pin_map[ERC_PIN_TYPE_COUNT][ERC_PIN_TYPE_COUNT],
                  ErcProblem *out, size_t cap);

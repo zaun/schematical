@@ -613,13 +613,13 @@ void rtc_pin(CvState *s, size_t pin) {
     r->kick_level = v;
 }
 
-void rtc_start(CvState *s) {
+int rtc_start(CvState *s) {
     RtcState *r = logic_calloc(1, sizeof *r);
     const RtcClock *c = clk(s);
     size_t i;
 
     if (r == NULL) {
-        return;
+        return -1;
     }
     s->rtc = r;
     r->t[RU_SECOND] = 0;
@@ -642,6 +642,7 @@ void rtc_start(CvState *s) {
     if (c->watchdog.present && c->watchdog.has_kick) {
         r->kick_level = cv_level(s, cv_pin(s, c->watchdog.kick_pin), LOGIC_X);
     }
+    return 0;
 }
 
 void rtc_free(CvState *s) {

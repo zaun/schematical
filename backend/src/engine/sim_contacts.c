@@ -766,7 +766,8 @@ int sim_run_until(Sim *sim, SimTime time) {
 
         sim->now = next_time;
 
-        if (!process_round(sim, next_time)) {
+        /* a model that called sim_fail in this round stops the run here */
+        if (!process_round(sim, next_time) || sim->error != NULL) {
             return 0;
         }
     }

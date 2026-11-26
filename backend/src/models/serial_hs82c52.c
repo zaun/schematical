@@ -572,7 +572,7 @@ static void tx_done(void *context, uint16_t data, uint16_t known) {
     HsState *s = context;
 
     (void)known;
-    serial_line_log(&s->line, data);
+    serial_line_log(&s->line, s->sim, data);
 }
 
 static void tx_tick(HsState *s) {

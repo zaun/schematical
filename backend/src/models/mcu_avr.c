@@ -247,6 +247,9 @@ static uint64_t step(McuAvr *mcu) {
 
     mcu->chip_was_reset = 0;
     avr_chip_step(mcu->chip);
+    if (cpu->out_of_memory) {
+        sim_fail(mcu->sim, "out of memory");
+    }
     mcu->has_instruction = 1;
     mcu->instruction_pc = pc;
     mcu->instruction_words[0] = word;

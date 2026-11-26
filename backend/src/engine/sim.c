@@ -1,6 +1,10 @@
 #include "sim_int.h"
 #include "logic_alloc.h"
 
+void sim_fail(Sim *sim, const char *message) {
+    simc_set_error(sim, message);
+}
+
 void simc_set_error(Sim *sim, const char *message) {
     if (sim != NULL && sim->error == NULL) {
         sim->error = message;

@@ -258,7 +258,8 @@ struct ErcChecker {
                             erc_check(pinList.baseAddress, pinList.count, netList.count, netList.baseAddress, rows,
                                       buffer.baseAddress, count)
                         }
-                        return Array(out.prefix(min(filled, count)))
+                        // ERC_CHECK_OUT_OF_MEMORY is -1 here: the check could not run.
+                        return filled < 0 ? [] : Array(out.prefix(min(filled, count)))
                     }
                 }
             }

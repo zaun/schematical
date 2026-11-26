@@ -101,6 +101,7 @@ typedef struct {
     unsigned long mark_before;   /* ... before its last 1 -> 0 */
     LogicValue in_level;         /* the receiver input at the last CLK */
     int resync;
+    Sim *sim;                    /* set by tx_tick, for tx_done */
 } CmLine;
 
 typedef struct {
@@ -595,13 +596,14 @@ static void tx_done(void *context, uint16_t data, uint16_t known) {
     CmLine *l = context;
 
     (void)known;
-    serial_line_log(&l->line, data);
+    serial_line_log(&l->line, l->sim, data);
 }
 
 static void tx_tick(CmState *s, CmLine *l) {
     SerialTxEvents events = {l, tx_fetch, NULL, tx_done};
     int busy = serial_tx_busy(&l->line.tx);
 
+    l->sim = s->sim;
     l->tsr = serial_tx_tick(&l->line.tx, &l->format, &events);
     if (!serial_tx_busy(&l->line.tx)) {
         /* TxBRK: spacing at the end of the character being sent. */

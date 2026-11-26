@@ -98,7 +98,8 @@ enum VoltageCheck {
                                           closedList.baseAddress, closedList.count,
                                           ohmsList.baseAddress, buffer.baseAddress, count)
                         }
-                        return Array(out.prefix(min(filled, count)))
+                        // VOLTAGE_CHECK_OUT_OF_MEMORY is -1 here: the check could not run.
+                        return filled < 0 ? [] : Array(out.prefix(min(filled, count)))
                     }
                 }
             }

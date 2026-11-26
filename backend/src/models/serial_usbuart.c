@@ -151,7 +151,7 @@ static void rx_received(void *raw, const SerialRxChar *c) {
     UbContext *ctx = raw;
 
     if (!(c->flags & c->flags_known & SERIAL_RX_BI)) {
-        serial_line_log(&ctx->s->ch[ctx->c].line, c->data & c->known);
+        serial_line_log(&ctx->s->ch[ctx->c].line, ctx->s->sim, c->data & c->known);
     }
 }
 

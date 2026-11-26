@@ -191,6 +191,9 @@ Sim *sim_create(void);
 void sim_destroy(Sim *sim);
 
 const char *sim_error(const Sim *sim);
+/* For a model's callbacks: stops the simulation with `message` (e.g. "out of
+   memory" when a model cannot set itself up in start). */
+void sim_fail(Sim *sim, const char *message);
 
 /* The net that blew up, or NULL. Set together with the "smoke:" error. */
 const SimNet *sim_shorted_net(const Sim *sim);

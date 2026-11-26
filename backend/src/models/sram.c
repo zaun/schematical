@@ -128,6 +128,7 @@ typedef struct {
     uint32_t last_write_addr[SRAM_MAX_LANES];
 
     SimTime wake;
+    int out_of_memory; /* a page to store a word in could not be made */
 } SramState;
 
 /* ---- Storage ------------------------------------------------------------- */
@@ -147,7 +148,8 @@ static void store(SramState *state, uint32_t address, uint32_t mask, uint32_t va
         }
         page = logic_calloc(1, sizeof(*page));
         if (page == NULL) {
-            return; /* out of memory: the word stays X */
+            state->out_of_memory = 1; /* the evaluate callback stops the simulation */
+            return;
         }
         state->pages[page_index] = page;
     }
@@ -652,6 +654,10 @@ static void update(Sim *sim, SimInstance *instance, SramState *state) {
     int address_changed = sync_inputs(sim, instance, state);
 
     evaluate_writes(state, address_changed, now);
+    if (state->out_of_memory) {
+        sim_fail(sim, "out of memory");
+        return;
+    }
     evaluate_outputs(state, address_changed, now);
     refresh_outputs(sim, instance, state);
 }

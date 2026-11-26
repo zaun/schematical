@@ -538,7 +538,7 @@ static void tx_done(void *context, uint16_t data, uint16_t known) {
     AcState *s = context;
 
     (void)known;
-    serial_line_log(&s->line, data);
+    serial_line_log(&s->line, s->sim, data);
 }
 
 /* 1 when this tick ends the bit the transmitter is sending. */
@@ -567,7 +567,7 @@ static void tx_tick(AcState *s) {
         if (s->line.tx.phase == SERIAL_TX_STOP) {
             uint16_t mask = (uint16_t)((1u << s->line.tx.format.data_bits) - 1);
 
-            serial_line_log(&s->line, s->line.tx.data & mask);
+            serial_line_log(&s->line, s->sim, s->line.tx.data & mask);
         }
         s->cut = 0;
         serial_tx_reset(&s->line.tx);

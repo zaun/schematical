@@ -772,6 +772,11 @@ void *nsc_ns_create(const Part *part, const void *data, const void *pins,
     }
     if (s->dev->lpt != NULL) {
         s->lpt = ns_lpt_create(s);
+        if (s->lpt == NULL) {
+            logic_free(s->out);
+            logic_free(s);
+            return NULL;
+        }
     }
     {
         SerialBusTiming timing = {grade->t[T_RVD], grade->t[T_HZ], grade->t[T_RDD], 0};

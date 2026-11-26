@@ -52,8 +52,13 @@ typedef struct {
     uint32_t min_mv, max_mv; /* the allowed range (CLASH: the lower voltage in both) */
 } VoltageProblem;
 
+/* What voltage_check returns when it cannot get memory: the check did not run.
+   (Swift imports size_t as Int, so there it is -1.) */
+#define VOLTAGE_CHECK_OUT_OF_MEMORY ((size_t)-1)
+
 /* Returns the number of problems (all of them); writes up to cap into out,
-   ordered by net, then part, then pin. parts[i] is the part at index i.
+   ordered by net, then part, then pin; VOLTAGE_CHECK_OUT_OF_MEMORY when it
+   could not run. parts[i] is the part at index i.
    milliohms (part_count entries, or NULL): a non-zero entry replaces that
    resistor part's PartResistor.milliohms in the feedback divider of an
    adjustable regulator (a placed GENERIC-RESISTOR's value; plan-42-G). */

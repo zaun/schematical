@@ -42,6 +42,7 @@ typedef struct {
     Link *links; size_t link_count;
     DiodeLink *diodes; size_t diode_count;
     CapLink *caps; size_t cap_count;
+    int out_of_memory; /* analyze could not build its links */
 } Ctx;
 
 const char *timer_reason_text(TimerReason reason) {
@@ -423,7 +424,7 @@ static void analyze(Ctx *x, unsigned section, TimerState *out) {
     }
     /* The links depend on the reference voltage (a pull-up of another voltage is no supply). */
     if (build_links(x) != 0) {
-        stop(out, TIMER_SHAPE);
+        x->out_of_memory = 1;
         return;
     }
     /* 3: the CONT pin carries nothing but capacitors to ground. */
@@ -532,10 +533,11 @@ static void analyze(Ctx *x, unsigned section, TimerState *out) {
     }
 }
 
-void timer_rc_analyze(const Part *const *parts, const uint64_t *values, size_t part_count,
-                      const VoltageConnection *connections, size_t connection_count,
-                      size_t part, unsigned section, TimerState *out) {
+int timer_rc_analyze(const Part *const *parts, const uint64_t *values, size_t part_count,
+                     const VoltageConnection *connections, size_t connection_count,
+                     size_t part, unsigned section, TimerState *out) {
     Ctx x = {0};
+    int built;
 
     x.parts = parts;
     x.values = values;
@@ -546,8 +548,10 @@ void timer_rc_analyze(const Part *const *parts, const uint64_t *values, size_t p
     out->mode = TIMER_STOPPED;
     out->reason = TIMER_SHAPE;
     out->first_ps = out->high_ps = out->low_ps = 0;
-    if (build(&x) == 0) {
+    built = build(&x);
+    if (built == 0) {
         analyze(&x, section, out);
     }
     release(&x);
+    return x.out_of_memory ? -1 : built;
 }

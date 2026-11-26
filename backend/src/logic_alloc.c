@@ -16,6 +16,7 @@ static _Atomic long fail_at;
 static _Atomic long live;
 static _Atomic long unmatched;
 static _Atomic int hooked;
+static void *_Atomic failed_site;
 
 /* Counts an attempt; nonzero when this one is the one that must fail. */
 static int failing(void) {
@@ -31,24 +32,30 @@ static void *counted(void *p) {
     return p;
 }
 
+/* A failed allocation: remembers who asked. */
+static void *refuse(void *site) {
+    atomic_store_explicit(&failed_site, site, memory_order_relaxed);
+    return NULL;
+}
+
 void *logic_malloc(size_t size) {
-    return failing() ? NULL : counted(malloc(size));
+    return failing() ? refuse(__builtin_return_address(0)) : counted(malloc(size));
 }
 
 void *logic_calloc(size_t count, size_t size) {
-    return failing() ? NULL : counted(calloc(count, size));
+    return failing() ? refuse(__builtin_return_address(0)) : counted(calloc(count, size));
 }
 
 void *logic_realloc(void *p, size_t size) {
     if (p == NULL) {
-        return logic_malloc(size);
+        return failing() ? refuse(__builtin_return_address(0)) : counted(malloc(size));
     }
-    return failing() ? NULL : realloc(p, size);
+    return failing() ? refuse(__builtin_return_address(0)) : realloc(p, size);
 }
 
 char *logic_strdup(const char *text) {
     size_t n = strlen(text) + 1;
-    char *copy = logic_malloc(n);
+    char *copy = failing() ? refuse(__builtin_return_address(0)) : counted(malloc(n));
 
     if (copy != NULL) {
         memcpy(copy, text, n);
@@ -81,7 +88,14 @@ void logic_alloc_init(void) {
     }
 }
 
+void *logic_alloc_failed_site(void) {
+    return atomic_load_explicit(&failed_site, memory_order_relaxed);
+}
+
 void logic_alloc_fail_at(long k) {
+    if (k != 0) {
+        atomic_store_explicit(&failed_site, NULL, memory_order_relaxed);
+    }
     atomic_store_explicit(&attempts, 0, memory_order_relaxed);
     atomic_store_explicit(&fail_at, k, memory_order_relaxed);
 }

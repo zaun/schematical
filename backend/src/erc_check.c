@@ -30,6 +30,7 @@ const uint8_t ERC_DEFAULT_PIN_MAP[ERC_PIN_TYPE_COUNT][ERC_PIN_TYPE_COUNT] = {
 typedef struct {
     ErcProblem *items;
     size_t count, capacity;
+    int out_of_memory; /* a problem could not be kept */
 } Found;
 
 static void found_add(Found *found, ErcProblemKind kind, size_t pin, size_t other, size_t net, int level) {
@@ -38,6 +39,7 @@ static void found_add(Found *found, ErcProblemKind kind, size_t pin, size_t othe
         ErcProblem *grown = logic_realloc(found->items, capacity * sizeof(*grown));
 
         if (grown == NULL) {
+            found->out_of_memory = 1;
             return;
         }
         found->items = grown;
@@ -176,7 +178,7 @@ static int compare_problems(const void *a, const void *b) {
 size_t erc_check(const ErcPin *pins, size_t pin_count, size_t net_count, const ErcNet *nets,
                  const uint8_t pin_map[ERC_PIN_TYPE_COUNT][ERC_PIN_TYPE_COUNT],
                  ErcProblem *out, size_t cap) {
-    Found found = {NULL, 0, 0};
+    Found found = {NULL, 0, 0, 0};
     Slot *slots = logic_malloc((pin_count ? pin_count : 1) * sizeof(*slots));
     size_t *group = logic_malloc((pin_count ? pin_count : 1) * sizeof(*group));
     size_t i, start, wired = 0, total;
@@ -184,7 +186,7 @@ size_t erc_check(const ErcPin *pins, size_t pin_count, size_t net_count, const E
     if (slots == NULL || group == NULL) {
         logic_free(slots);
         logic_free(group);
-        return 0;
+        return ERC_CHECK_OUT_OF_MEMORY;
     }
     for (i = 0; i < pin_count; i++) {
         if (pins[i].net == SIZE_MAX) {
@@ -212,6 +214,10 @@ size_t erc_check(const ErcPin *pins, size_t pin_count, size_t net_count, const E
     }
     logic_free(slots);
     logic_free(group);
+    if (found.out_of_memory) {
+        logic_free(found.items);
+        return ERC_CHECK_OUT_OF_MEMORY;
+    }
     if (found.count > 1) {
         qsort(found.items, found.count, sizeof(*found.items), compare_problems);
     }

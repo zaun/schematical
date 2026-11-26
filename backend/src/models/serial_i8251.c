@@ -483,7 +483,7 @@ static void tx_done(void *context, uint16_t data, uint16_t known) {
     I8State *s = context;
 
     (void)known;
-    serial_line_log(&s->line, data);
+    serial_line_log(&s->line, s->sim, data);
 }
 
 /* Loads the synchronous shift register: data, else a fill character. */
@@ -546,7 +546,7 @@ static void sync_tx_edge(I8State *s) {
 
     if (s->sh_left == 0) {
         if (s->sync_started && s->sh_bits != 0) {
-            serial_line_log(&s->line, (uint16_t)(s->sh_data & ((1u << char_length(s)) - 1)));
+            serial_line_log(&s->line, s->sim, (uint16_t)(s->sh_data & ((1u << char_length(s)) - 1)));
         }
         if (!sync_load(s)) {
             s->sync_started = 0;

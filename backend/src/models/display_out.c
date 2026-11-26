@@ -450,12 +450,12 @@ static void apply(CvState *s) {
 
 /* ---- Hooks from the engine ------------------------------------------------------------------ */
 
-void disp_start(CvState *s) {
+int disp_start(CvState *s) {
     const DispCfg *c = s->dev->disp;
     DispState *st = logic_calloc(1, sizeof *st);
 
     if (st == NULL) {
-        return;
+        return -1;
     }
     st->port_value = logic_calloc(c->port_count + 1, sizeof *st->port_value);
     st->port_weak = logic_calloc(c->port_count + 1, 1);
@@ -463,7 +463,7 @@ void disp_start(CvState *s) {
         logic_free(st->port_value);
         logic_free(st->port_weak);
         logic_free(st);
-        return;
+        return -1;
     }
     {
         size_t i;
@@ -480,7 +480,7 @@ void disp_start(CvState *s) {
             logic_free(st->port_value);
             logic_free(st->port_weak);
             logic_free(st);
-            return;
+            return -1;
         }
     }
     if (c->driver == DISP_CCSI) {
@@ -490,13 +490,14 @@ void disp_start(CvState *s) {
             logic_free(st->port_value);
             logic_free(st->port_weak);
             logic_free(st);
-            return;
+            return -1;
         }
     }
     apply(s);
     if (scans(c)) {
         sim_schedule_timer(s->sim, s->inst, CV_TM_DISP, slot_ps_of(s, c));
     }
+    return 0;
 }
 
 void disp_timer(CvState *s, uint32_t id) {

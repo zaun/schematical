@@ -25,13 +25,15 @@ static void *cv_create(const void *config) {
     s->ready_on = logic_calloc(s->dev->ready_count ? s->dev->ready_count : 1, 1);
     s->ready_gen = logic_calloc(s->dev->ready_count ? s->dev->ready_count : 1, sizeof(*s->ready_gen));
     s->x.alive = logic_calloc(s->dev->protocol.command_count ? s->dev->protocol.command_count : 1, 1);
+    /* cv_free_state frees the block through alive_store: set it before any
+       failure below can send us there (plan-68-K found the leak). */
+    s->alive_store = s->x.alive;
     s->read_mark = logic_calloc(s->dev->reg_count ? s->dev->reg_count : 1, 1);
     if (s->regs == NULL || s->drv == NULL || s->ready_on == NULL || s->ready_gen == NULL ||
         s->x.alive == NULL || s->read_mark == NULL) {
         cv_free_state(s);
         return NULL;
     }
-    s->alive_store = s->x.alive;
     for (i = 0; i < part->pin_count; i++) {
         s->drv[i] = LOGIC_Z;
     }
@@ -137,11 +139,9 @@ static void cv_start(Sim *sim, SimInstance *instance, void *state) {
         serial_i2c_enable(&s->i2c, sim, instance, s->spi_off);
     }
     cv_par_start(s);
-    if (s->dev->rtc) {
-        rtc_start(s);
-    }
-    if (s->dev->disp != NULL) {
-        disp_start(s);
+    if ((s->dev->rtc && rtc_start(s) != 0) || (s->dev->disp != NULL && disp_start(s) != 0)) {
+        sim_fail(sim, "out of memory");
+        return;
     }
     cv_ready_refresh(s);
 }

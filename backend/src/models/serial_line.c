@@ -442,12 +442,13 @@ void serial_line_free(SerialLine *line) {
     line->sender.bytes = NULL;
 }
 
-void serial_line_log(SerialLine *line, uint16_t data) {
+void serial_line_log(SerialLine *line, Sim *sim, uint16_t data) {
     if (line->log_count == line->log_capacity) {
         size_t capacity = line->log_capacity == 0 ? 64 : line->log_capacity * 2;
         uint16_t *bigger = logic_realloc(line->log, capacity * sizeof *bigger);
 
         if (bigger == NULL) {
+            sim_fail(sim, "out of memory");
             return;
         }
         line->log = bigger;

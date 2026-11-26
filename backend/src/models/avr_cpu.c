@@ -274,6 +274,7 @@ void avr_add_clock_event(AvrCpu *cpu, AvrEventFn fn, void *ctx, double cycles) {
     } else {
         entry = logic_calloc(1, sizeof(*entry));
         if (entry == NULL) {
+            cpu->out_of_memory = 1;
             return;
         }
     }

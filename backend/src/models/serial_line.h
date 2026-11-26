@@ -208,7 +208,8 @@ void serial_line_init(SerialLine *line, size_t rx_pin);
 void serial_line_free(SerialLine *line);
 
 /* Appends a sent frame's data bits to the log (unknown bits as 0). */
-void serial_line_log(SerialLine *line, uint16_t data);
+/* A frame that cannot be kept (out of memory) stops `sim` with "out of memory". */
+void serial_line_log(SerialLine *line, Sim *sim, uint16_t data);
 size_t serial_line_sent(const SerialLine *line, size_t start, uint16_t *frames, size_t cap);
 
 /* Queues bytes for the sender. 0 on success, -1 when out of memory. */

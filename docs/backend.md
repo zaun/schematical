@@ -986,6 +986,16 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   missing, a part rejected after its footprint checked, an unknown key)
   reports its message and leaves the part and footprint counts unchanged.
 - `switch_test`, `sram_test`, `display7_test` — model benches.
+- `oom_test` (plan-68-K) — every allocation of each entry point failing in
+  turn (`logic_alloc_fail_at`): `part_library_create`, the footprint,
+  datasheet and part loaders (every device shape of each kind), a wired
+  circuit of each shape run, `memory_image_parse`, and targeted runs (an ERC
+  check with many problems, a slide switch, a switched jack, a looped-back
+  USB-UART, a powered 555, a 17-diode part, a refused load). Each run must
+  fail with its error and leave no allocation behind. A failure prints its
+  site as an image offset: `atos -o /tmp/logic-build/oom_test -l
+  0x100000000 <offset>`. `sram_test` and `avr_board_test` sweep a write and a
+  blink run the same way.
 - `slide_test` (plan-58-B) — the switch kind's `states` / `rest` keys: the
   loader and its error messages, and an SPDT On-On, a DPDT On-Off-On and an
   SPST On-Off in a circuit (LEDs, nets), unwired pins, refused states, and the

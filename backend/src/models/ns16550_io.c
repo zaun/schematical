@@ -172,7 +172,7 @@ static void tx_done(void *context, uint16_t data, uint16_t known) {
     NsChannel *c = context;
 
     (void)known;
-    serial_line_log(&c->line, data);
+    serial_line_log(&c->line, c->owner->sim, data);
 }
 
 void nsc_tx_tick(NsState *s, NsChannel *c) {

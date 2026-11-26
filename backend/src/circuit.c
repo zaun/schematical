@@ -297,6 +297,11 @@ static int voltage_failed(Circuit *circuit) {
     if (count == 0) {
         return 0;
     }
+    if (count == VOLTAGE_CHECK_OUT_OF_MEMORY) {
+        snprintf(circuit->error, sizeof circuit->error, "out of memory");
+        circuit->has_error = 1;
+        return 1;
+    }
     circuit->problem = first;
     circuit->has_problem = 1;
     voltage_describe((const Part *const *)circuit->parts, &first, circuit->error,
@@ -531,8 +536,11 @@ static int analyze_timers(Circuit *circuit) {
         for (section = 0; section < circuit->parts[part]->timer->timer_count; section++) {
             TimerState timing;
 
-            timer_rc_analyze(circuit->parts, values, circuit->part_count, circuit->connections,
-                             circuit->connection_count, part, section, &timing);
+            if (timer_rc_analyze(circuit->parts, values, circuit->part_count, circuit->connections,
+                                 circuit->connection_count, part, section, &timing) != 0) {
+                logic_free(values);
+                return fail(circuit, "out of memory");
+            }
             timer_model_set(sim_instance_state(circuit->instances[part]), section, &timing);
         }
     }

@@ -20,8 +20,9 @@
 /* values[part]: a placed resistor's or pull part's value in milliohms, or a
    capacitor's in femtofarads; 0 = the library part's own (a pull part
    without a value counts as 1 kilohm). */
-void timer_rc_analyze(const Part *const *parts, const uint64_t *values, size_t part_count,
-                      const VoltageConnection *connections, size_t connection_count,
-                      size_t part, unsigned section, TimerState *out);
+/* 0, or -1 when out of memory (out is then the stopped state). */
+int timer_rc_analyze(const Part *const *parts, const uint64_t *values, size_t part_count,
+                     const VoltageConnection *connections, size_t connection_count,
+                     size_t part, unsigned section, TimerState *out);
 
 #endif

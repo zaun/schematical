@@ -157,7 +157,8 @@ int cv_reg_at(const CvState *s, int space, uint32_t address);
 void cv_reads_done(CvState *s);
 
 /* rtc.c (plan-24-F) */
-void rtc_start(CvState *s);
+/* 0, or -1 when out of memory. */
+int rtc_start(CvState *s);
 void rtc_timer(CvState *s, uint32_t id);
 void rtc_after_write(CvState *s, int reg);
 void rtc_pin(CvState *s, size_t pin);
@@ -168,7 +169,8 @@ int rtc_snapshot(const CvState *s, struct RtcTime *out);
 
 /* display_out.c (plan-56-B): the output driver of a leddriver / lcddriver. disp_refresh
    re-applies the current scan slot after any register or pin change. */
-void disp_start(CvState *s);
+/* 0, or -1 when out of memory. */
+int disp_start(CvState *s);
 void disp_timer(CvState *s, uint32_t id);
 void disp_refresh(CvState *s);
 void disp_pin(CvState *s, size_t pin);

@@ -330,7 +330,7 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
         logic_free(regulated); logic_free(reg_low_part); logic_free(reg_low_pin); logic_free(reg_low_net); logic_free(reg_high_part);
         logic_free(reg_low_mv); logic_free(switched); logic_free(sw_high_part); logic_free(sw_high_pin); logic_free(sw_high_net);
         logic_free(clash_first); logic_free(clash_conn); logic_free(clash_done); logic_free(found);
-        return 0;
+        return VOLTAGE_CHECK_OUT_OF_MEMORY;
     }
 
     /* 1. Groups. */
