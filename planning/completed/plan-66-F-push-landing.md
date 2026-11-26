@@ -30,7 +30,7 @@ The gate for the whole feature is in plan-66-A § Prerequisites. This letter add
 |---|---|---|
 | plan-66-E is complete and archived | `ls planning/completed/plan-66-E-* \| wc -l` → 1 | MET (2026-11-25, in `worktree-P-66`: 1) |
 | A–D are archived | `ls planning/completed/plan-66-[A-D]-* \| wc -l` → 4 | MET (2026-11-25, in `worktree-P-66`: 4) |
-| The Mac's screen is unlocked, so the app's window can be driven (added 2026-11-25: Phase 3's window pass needs it) | `ioreg -n Root -d1 \| grep -o '"CGSSessionScreenIsLocked"[^,]*'` → not `=Yes` | **NOT MET** (2026-11-25, polled from 12:10 to 15:19: `=Yes` throughout, `loginwindow` frontmost; a brief "Schematical" front once at about 13:50 was not mine and the screen was locked again at the next check; the accessibility tree of my own app returns no windows while locked) |
+| The Mac's screen is unlocked, so the app's window can be driven (added 2026-11-25: Phase 3's window pass needs it) | `ioreg -n Root -d1 \| grep -o '"CGSSessionScreenIsLocked"[^,]*'` → not `=Yes` | MET (2026-11-25 17:23: `ioreg … CGSSessionScreenIsLocked` printed nothing and Xcode was frontmost; it was `=Yes` from 12:10 to 17:20, and the window pass was driven at 17:24–17:37) |
 
 If plan-66-E is not complete, this plan cannot start, full stop.
 
@@ -174,7 +174,7 @@ Commit: d4151ae5
       -only-testing:schematicalTests/PCBUndoTests
       -only-testing:schematicalTests/TraceJoinTests` → pass (the DRC, the undo history
       and the join rule read the traces and vias a splice rewrites).
-- [~] (done through the sheet's own model in the app's test host, because the screen was locked; remaining: driving the window with the mouse, see Corrections) Real app, per `AGENTS.md` § Testing in the app and the owner's GUI notes
+- [x] (done in the real window, 2026-11-25 17:24–17:37, on a copy of RegFile in the scratchpad, the app a Debug build of the merged main driven by pid only (accessibility presses for menus, buttons and pop-ups; real keys and mouse once its pid was frontmost): Autoroute (⌥⌘R equivalent: Route ▸ Autoroute…) with the defaults → "**Routed 24 of 24 connections, 16 vias, 292 mm, 33.4 s**", no "Moved" line (option off). A LATCH1.13 trace clicked with the Select tool (inspector: Net LATCH1.13); the sheet: Nets **Selection** ("Removes 5 traces and 2 vias"), Existing **Clear all unlocked**, Strategy Fast, **Push and shove** on, Width on at 14 mil; Route → "**Routed 3 of 3 connections, 5 vias, 36 mm, 1.5 s**" and "**Moved 1 trace aside**" (the selection then lists the net's copper at 14 mil: 5 top, 3 bottom). Design Rule Check (the sheet's button, step 2 "Run Check"): "**8 issues**", all `Reference over pad D1.1…D8.1; min silkscreen to pad` (the fixture's own, as in the docs), nothing router-caused, no unrouted line. Edit ▸ Undo once: the board is back to the routed copper (select autorouted copper → 40 traces, 16 vias; one trace still 14 mil, from a slip below); a second Undo: 40 traces at 5 mil and 16 vias. Pictures kept with the session's files: `RESULT-window-after-push.png` (the sheet with both lines), `drc.png`, `after-undo1.png`. The pointer was parked at (0, 0).) Real app, per `AGENTS.md` § Testing in the app and the owner's GUI notes
       (one probe at a time, no modal left up, the app killed after each command):
       build the app; open a copy of `schematical/schematicalTests/Fixtures/RegFile.schematical`
       kept in the scratchpad; Route ▸ Autoroute (⌥⌘R) with the defaults; Close.
@@ -254,9 +254,19 @@ plan-66-A § Decisions apply. Added by the author, 2026-11-25:
   differs from "Now"; commit `f3cb52be` on main. Release `RouterQualityFixtureTests` then: `Executed 7 tests, with 0
   failures`, `** TEST SUCCEEDED **`. The owner may prefer to restore 188 by other means; the bound is one line.
 - **Status of every Prerequisites row at the last check (2026-11-25 15:19):** plan-66-E archived → 1 MET; A–D archived → 4 MET;
-  the screen unlocked → **NOT MET**. Plan-66-A's rows (plan-65-D archived → 1, no other unfinished plan edits the router,
+  the screen unlocked → MET at 17:23 (it had been locked since 12:10). Plan-66-A's rows (plan-65-D archived → 1, no other unfinished plan edits the router,
   router tests pass, the option absent) were the entry gate and were MET when the plan started; the last holds no longer by
-  design. The one NOT MET row is the only thing between this plan and 100%: the window drive of Phase 3.
+  design. The window drive of Phase 3 was then done (the box above), so every row is MET and every box is `[x]`.
+- **The window pass, driven once the screen unlocked, and the slips made while driving it** (2026-11-25). All on the
+  scratchpad copy of RegFile, never on the fixture or the owner's files: (1) a `Close` press with no sheet open closed the
+  document window (the copy had autosaved the routed copper; the app was relaunched on it, which gave the routed board
+  directly); (2) my first attempts to type the width went to the inspector's *Width* field of the selected trace, not the sheet's
+  (both are titled "Width"), so that trace was set to 14 mil — a separate edit, undone by the second Undo; (3) ⌘A reached the
+  canvas instead of the sheet's field and Return pressed Route, which started a run over all 67 selected items; it was Cancelled
+  at 12 of 24 connections, which puts nothing down (the copy still held 40 traces). The accepted run is the one in the box above.
+  The pass uses the sheet's Selection scope (a canvas click on a LATCH1.13 trace) as the plan says; the board's first routing is
+  the Balanced default, so the numbers (1 trace moved, 5 vias) differ from the Fast test's (2 traces and a via) for the same net
+  and width, as two routes of one case do.
 - **The window pass could not be driven: the screen was locked** (2026-11-25). `ioreg -n Root -d1`
   said `"CGSSessionScreenIsLocked"=Yes` with `loginwindow` frontmost, twice, an hour apart; the
   owner's GUI notes say to stop clicking and typing then (the text lands in the password field).
