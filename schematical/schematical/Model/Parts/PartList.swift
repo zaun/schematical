@@ -11,6 +11,10 @@ struct PartList {
     var chips: [PlacedChip]
     /// Lowest number tried for the next part's reference ("U" plus a number).
     var nextReference: Int
+    /// A part was put on a new version of its library part (`swap`). Parts
+    /// compare by name and uuid, which a part edited in place keeps, so the
+    /// write-back looks here too.
+    var replacedParts = false
 
     func index(_ id: UUID) -> Int? {
         chips.firstIndex { $0.id == id }
@@ -146,6 +150,7 @@ struct PartList {
             old.footprint?.pads.first { $0.designator == pad1 }.map { board.board($0.centre) }
         }
         chips[index] = old.resized(to: newPart, symbol: newSymbol)
+        replacedParts = true
         // The reference was placed for the old body.
         chips[index].board?.referenceOffset = .zero
         if let anchor, var board = chips[index].board,

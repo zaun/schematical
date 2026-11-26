@@ -156,3 +156,149 @@ extension SchematicDocument {
         return copy.isEmpty ? nil : copy
     }
 }
+
+extension SchematicDocument {
+    // MARK: Copy and paste (Schematic)
+
+    /// Adds a copy (`SchematicCopy`) moved by `offset` (snapped to the
+    /// grid), as one step, and makes it the selection. Every item gets a new
+    /// id; parts get new references (as a placed part does) and a footprint
+    /// spot to the right of the board's parts. Net labels keep their names,
+    /// so they join the nets of those names. A bus keeps its name when no
+    /// bus has it, or when the bus that has it carries the same wires and
+    /// type (so the two link, as labels join); else it takes the next free
+    /// "BUS n". Loose ends that land on a pin connect. Refused, with nothing
+    /// changed, when a pasted bus would touch another bus, or when it would
+    /// put a voltage out of range on a part (`editorMessage` says why).
+    /// Everything pasted is selected, wire ends (junctions) included, so the
+    /// whole paste drags as one; a loose end that joins a pin is no longer a
+    /// junction and drops out of the selection. Returns whether anything was
+    /// pasted.
+    @discardableResult
+    func pasteSchematic(_ copy: SchematicCopy, offset: CGSize) -> Bool {
+        guard !copy.isEmpty else { return false }
+        return edit(.schematic, "Paste") { scope -> Bool in
+            let dx = SchematicGrid.snap(offset.width), dy = SchematicGrid.snap(offset.height)
+            func shifted(_ point: CGPoint) -> CGPoint { CGPoint(x: point.x + dx, y: point.y + dy) }
+            var newID: [UUID: UUID] = [:]
+            func renamed(_ id: UUID) -> UUID {
+                if let id = newID[id] { return id }
+                let fresh = UUID()
+                newID[id] = fresh
+                return fresh
+            }
+
+            // References are taken from a copy: a refused paste leaves the
+            // parts, and the next reference, as they were.
+            var references = parts
+            var pastedChips: [PlacedChip] = []
+            for chip in copy.chips {
+                var placed = PlacedChip(
+                    id: renamed(chip.id), reference: references.takeReference(for: chip.part, gender: chip.gender,
+                                                                   alsoUsed: pastedChips.map(\.reference)),
+                    part: chip.part,
+                    symbol: chip.symbol, origin: shifted(chip.origin), isFlipped: chip.isFlipped,
+                    rotation: chip.rotation, switchesOn: chip.switchesOn, memoryFile: chip.memoryFile, color: chip.color,
+                    footprintID: chip.footprintID, gender: chip.gender, ohms: chip.ohms, farads: chip.farads,
+                    socket: chip.socket
+                )
+                placed.showsReference = chip.showsReference
+                if chip.isSplit {
+                    placed.setPlacements(chip.unitPlacements.map {
+                        UnitPlacement(key: $0.key, origin: shifted($0.origin), isFlipped: $0.isFlipped, rotation: $0.rotation)
+                    })
+                }
+                placed.board = placed.footprint.map {
+                    BoardLayout.nextSpot(for: $0, among: chips + pastedChips, pad1: placed.part.firstPinDesignator,
+                                         hasPinOneMark: placed.part.hasPinOneMark, grid: self.board.grid)
+                }
+                pastedChips.append(placed)
+            }
+            let pastedJunctions = copy.junctions.map {
+                Junction(id: renamed($0.id), point: shifted($0.point), isLoose: $0.isLoose)
+            }
+            let pastedLabels = copy.labels.map {
+                NetLabel(id: renamed($0.id), name: $0.name, style: $0.style, origin: shifted($0.origin),
+                         isFlipped: $0.isFlipped)
+            }
+            let pastedNotes = copy.notes.map {
+                SchematicNote(id: renamed($0.id), text: $0.text, origin: shifted($0.origin), size: $0.size,
+                              framed: $0.framed)
+            }
+            var pastedBuses: [Bus] = []
+            for bus in copy.buses {
+                let lines = bus.lines.map {
+                    BusLine(id: renamed($0.id), a: shifted($0.a), b: shifted($0.b))
+                }
+                let busWires = bus.wires.map { BusWire(id: renamed($0.id), name: $0.name) }
+                var horizontal: [UUID: Bool] = [:]
+                for line in bus.lines { horizontal[line.id] = line.isHorizontal }
+                let ports = bus.ports.map { port in
+                    BusPort(id: renamed(port.id), line: renamed(port.line),
+                            start: port.start + (horizontal[port.line] == true ? dx : dy), side: port.side,
+                            wireIDs: Set(port.wireIDs.map(renamed)))
+                }
+                let lowered = bus.name.lowercased()
+                let others = buses + pastedBuses
+                let named = others.filter { $0.name.lowercased() == lowered }
+                let links = named.allSatisfy { $0.wires.map(\.name) == bus.wires.map(\.name) && $0.card == bus.card }
+                let name = !bus.name.isEmpty && links ? (named.first?.name ?? bus.name)
+                    : Bus.defaultBusName(taken: others.map(\.name))
+                pastedBuses.append(Bus(id: renamed(bus.id), name: name, card: bus.card, lines: lines,
+                                       wires: busWires, ports: ports))
+            }
+            guard Self.busesAreApart(buses + pastedBuses) else {
+                editorMessage = "Can't paste there: a pasted bus would touch another bus."
+                return false
+            }
+            func end(_ end: WireEnd) -> WireEnd {
+                switch end {
+                case let .pin(ref): .pin(PinRef(chipID: renamed(ref.chipID), index: ref.index))
+                case let .junction(id): .junction(renamed(id))
+                case let .label(id): .label(renamed(id))
+                // Only pins of copied buses (`schematicCopy` loosens the rest).
+                case let .busPin(ref): .busPin(BusPinRef(portID: renamed(ref.portID), wireID: renamed(ref.wireID)))
+                }
+            }
+            let pastedWires = copy.wires.map {
+                Wire(id: renamed($0.id), start: end($0.start), end: end($0.end), interior: $0.interior.map(shifted))
+            }
+
+            // Labels join existing nets by name, which can put a voltage
+            // out of range.
+            if let library,
+               let issue = VoltageCheck.firstNew(before: chips, wires, after: chips + pastedChips,
+                                                 wires + pastedWires, buses: buses + pastedBuses, labels: netLabels,
+                                                 afterLabels: netLabels + pastedLabels, library: library) {
+                editorMessage = VoltageCheck.message(issue, chips: chips + pastedChips, edit: .connect)
+                return false
+            }
+            editorMessage = nil
+            updateParts(scope) {
+                $0.chips += pastedChips
+                $0.nextReference = references.nextReference
+            }
+            sheet.updateWiring(scope) { $0.junctions += pastedJunctions }
+            sheet.updateLabels(scope) { $0.labels += pastedLabels }
+            sheet.updateNotes(scope) { $0.notes += pastedNotes }
+            sheet.updateBuses(scope) { $0.buses += pastedBuses }
+            sheet.updateWiring(scope) { $0.wires += pastedWires }
+
+            var selection = Set<SchematicItem>()
+            selection.formUnion(pastedChips.map { .chip($0.id) })
+            selection.formUnion(pastedJunctions.map { .junction($0.id) })
+            selection.formUnion(pastedLabels.map { .label($0.id) })
+            selection.formUnion(pastedNotes.map { .note($0.id) })
+            selection.formUnion(pastedWires.map { .wire($0.id) })
+            selection.formUnion(pastedBuses.map { .bus($0.id) })
+            clearSchematicSelection()
+            for item in selection { toggleSelection(item) }
+            pruneJunctions(scope)
+            adoptLooseEnds(chips: Set(pastedChips.map(\.id)),
+                           ports: Set(pastedBuses.flatMap { $0.ports.map(\.id) }),
+                           junctions: Set(pastedJunctions.filter(\.isLoose).map(\.id)),
+                           labels: Set(pastedLabels.map(\.id)))
+            return true
+        }
+    }
+}

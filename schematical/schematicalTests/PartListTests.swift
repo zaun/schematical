@@ -70,6 +70,7 @@ final class PartListTests: XCTestCase {
         value.swap(header, to: bigger, symbol: nil)
         value.swap(UUID(), to: bigger, symbol: nil)
         XCTAssertEqual(value.chips[1].part.pins.count, 5)
+        XCTAssertTrue(value.replacedParts, "a swap is written back though the parts compare equal")
         XCTAssertEqual(value.chips[1].reference, reference)
     }
 

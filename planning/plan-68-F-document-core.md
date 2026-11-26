@@ -117,10 +117,10 @@ Commit: COMMIT_F1
 
 ### Phase 2 — file the document; delete `SchematicModel.swift`
 
-- [ ] Create the `Model/Document/` files of § 3 and move every remaining
+- [x] Create the `Model/Document/` files of § 3 and move every remaining
   member; delete `SchematicModel.swift`; Copy and paste into
   `SchematicClipboard.swift`.
-- [ ] `scripts/source-size-ratchet.tsv`: the `SchematicModel.swift` row
+- [x] `scripts/source-size-ratchet.tsv`: the `SchematicModel.swift` row
   removed.
 
 Acceptance: no document file over 800; the document behaves as before.
@@ -128,7 +128,13 @@ Acceptance: no document file over 800; the document behaves as before.
   file; `node scripts/source-size.js --all | grep -E
   'schematical/schematical/Model/' | awk '$1>800'` → no output; `SZ` → exit 0; the full `XB` → no failure beyond
   the standing ones (est. the full Debug suite: the whole document moves).
-Commit: —
+  Observed: `ls …/SchematicModel.swift` → No such file; the `awk '$1>800'` →
+  no output (largest `SchematicDocument.swift` 554); `SZ` → exit 0. The full
+  suite (`node scripts/coverage.js --app`) → the 8 standing failures plus two
+  in `UserLibraryEndToEndTests`/`UserLibraryUpdateTests` (a library part
+  edited in place was no longer written back: Corrections), fixed, then
+  `-only-testing` those two classes and `PartListTests` → 0 failures.
+Commit: COMMIT_F2
 
 ## Validation Plan
 
@@ -142,6 +148,26 @@ Commit: —
   do not depend on how many there are.
 
 ## Corrections
+
+- **A part edited in place compares equal to its old version.**
+  `CatalogPart`'s `==` is name and uuid, which a User Library update keeps,
+  so `updateParts`' compare-and-write-back skipped `updatePart`'s swap (two
+  full-suite failures). `PartList.replacedParts`, set by `swap`, makes the
+  write-back happen; `PartListTests` checks it.
+- **Editor state is internally settable now**: `schematicSelection`,
+  `boardSelection`, `pendingRemoval`, `pickedUnits`, `ercFocus` and
+  `isGestureOpen` lost `private(set)`, since the job files set them. Saved
+  content keeps its guard: `chips`/`nextReference` through `updateParts`,
+  `documentInfo` through `updateInfo` (new), the sheet and board through
+  their owners; all need an `EditScope`, which only the core file makes.
+- **The core also holds** every stored property (extensions cannot), `init`,
+  `replaceContents`, the board forwards, and `updatePart`/`swapPart` (they end
+  the history with their own scope). The job files' `private` members became
+  internal so the files can call each other.
+- **`Router.swift`'s coverage row is timing-dependent**: Thorough's seeded
+  later runs (`tieKey`'s mixing, lines 315–317) run only when the time budget
+  allows; one full run had 54 uncovered against its row of 51. Not a change
+  of this letter; its coverage letter makes the run deterministic.
 
 - **Switch inputs go through `updateInputs`**, a core method that makes its
   own scope: a tactile button held while the simulation plays, and the
