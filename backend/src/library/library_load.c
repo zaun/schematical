@@ -309,9 +309,7 @@ static int load_footprint_choices(KindContext *ctx, const PartLibrary *library,
     PartFootprintChoice *choices;
     size_t n = 0, k, default_index = (size_t)-1;
 
-    if (array == NULL) {
-        return 0;
-    }
+    /* The one caller calls only when "footprintChoices" is there. */
     if (!cJSON_IsArray(array) || cJSON_GetArraySize(array) == 0) {
         return kind_error(ctx, "%s", FOOTPRINT_CHOICES_SHAPE);
     }

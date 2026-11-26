@@ -1,17 +1,4 @@
-62	backend/src/circuit.c
-9	backend/src/engine/net.c
-25	backend/src/engine/sim_contacts.c
-38	backend/src/engine/sim.c
-4	backend/src/erc_check.c
-2	backend/src/erc_pins.c
-106	backend/src/library/footprints.c
-25	backend/src/library/kind_util.c
-4	backend/src/library/kinds.c
-58	backend/src/library/library_load_device.c
-36	backend/src/library/library_load.c
-52	backend/src/library/library.c
 3	backend/src/logic_alloc.c
-4	backend/src/memory_image.c
 24	backend/src/models/arith_alu.c
 30	backend/src/models/arith.c
 8	backend/src/models/avr_adc.c
@@ -141,7 +128,6 @@
 49	backend/src/models/timer.c
 48	backend/src/models/transistor.c
 38	backend/src/timer_rc.c
-36	backend/src/voltage.c
 336	backend/tools/avr8js-oracle/oracle.js
 9	backend/tools/jsmooch-gen/run.js
 32	basicsim/main.c

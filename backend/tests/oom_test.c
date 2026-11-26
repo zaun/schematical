@@ -18,6 +18,7 @@
 #include "cJSON.h"
 #include "circuit.h"
 #include "erc.h"
+#include "kind.h"
 #include "logic_alloc.h"
 #include "memory_image.h"
 #include "parts.h"
@@ -258,6 +259,16 @@ static int loop_back(Circuit *circuit, size_t bridge) {
                : 0;
 }
 
+/* Pins 1 and 2 of part `index` on nets of their own. */
+static int wire_two(Circuit *circuit, size_t index) {
+    size_t a, b;
+
+    return circuit_add_net(circuit, &a) != 0 || circuit_add_net(circuit, &b) != 0 ||
+                   circuit_connect(circuit, index, "1", a) != 0 || circuit_connect(circuit, index, "2", b) != 0
+               ? -1
+               : 0;
+}
+
 /* The message a refused load gives with memory to spare. */
 static char *refused_message;
 
@@ -289,6 +300,50 @@ static Outcome load_refused(void *arg) {
     out.has_error = error != NULL;
     free(error);
     return out;
+}
+
+/* Removing a part file's part (`retire` or the last file's unload), each
+   allocation failing in turn: the call reports it, and the library keeps the
+   part and leaks nothing. The part is loaded again before each try. */
+/* The inline footprint the part file brings; retiring the part removes it too. */
+static const char *const FOOTPRINT_IDS[] = {"CUSTOM-6F1C2E8F"};
+
+static long sweep_removal(const char *what, PartLibrary *library, const char *text, const char *uuid, int retire) {
+    long k;
+
+    for (k = 1;; k++) {
+        char *error = NULL;
+        long live, made;
+        int result;
+
+        if (load_part_file(library, text, "oom.schpart", &error) != 0) {
+            printf("FAIL: %s: the part does not load: %s\n", what, error != NULL ? error : "?");
+            free(error);
+            failures++;
+            return k;
+        }
+        live = logic_alloc_live();
+        logic_alloc_fail_at(k);
+        result = retire ? part_library_retire_part(library, uuid, FOOTPRINT_IDS, 1, NULL, 0)
+                        : part_library_unload_last_part_file(library);
+        made = logic_alloc_count();
+        logic_alloc_fail_at(0);
+        if (made < k) {
+            if (result != 0 || part_library_find_uuid(library, uuid) != NULL) {
+                printf("FAIL: %s: fails with no allocation failing\n", what);
+                failures++;
+            }
+            return made;
+        }
+        if (result == 0 || part_library_find_uuid(library, uuid) == NULL || logic_alloc_live() != live) {
+            printf("FAIL: %s: allocation %ld failing (called from image+0x%lx): result %d, part %s, %ld left\n", what,
+                   k, site_offset(), result, part_library_find_uuid(library, uuid) ? "kept" : "gone",
+                   logic_alloc_live() - live);
+            failures++;
+            return k;
+        }
+        part_library_unload_last_part_file(library);
+    }
 }
 
 /* ---- Inputs ---- */
@@ -536,6 +591,10 @@ int main(void) {
         Load pf;
         PartLibrary *base = base_library();
 
+        /* The library's own loaders with every kind_alloc a chunk of its own,
+           so each allocation failing in turn reaches each caller's NULL check
+           (plan-68-L; the kinds' loaders get the same in their own letters). */
+        kind_arena_chunk = 16;
         made = sweep("load_footprints (one per style)", load_text, &fp);
         printf("ok   load_footprints (%ld allocations)\n", made);
         made = sweep("load_datasheets (eight)", load_text, &ds);
@@ -546,6 +605,61 @@ int main(void) {
         pf.source = "oom.schpart";
         made = sweep("load_part_file", load_text, &pf);
         printf("ok   load_part_file (%ld allocations)\n", made);
+        part_library_unload_last_part_file(base);
+        {
+            /* The same part from a maker, with its datasheet inline. */
+            static const char MARK[] = "\"manufacturer\":\"Generic\",";
+            static const char WITH[] = "\"manufacturer\":\"Maker\",\"datasheet\":\"oom-sheet\",";
+            const char *at = strstr(PART_FILE, MARK);
+            char sheet_file[4096];
+            Load ds_file;
+
+            snprintf(sheet_file, sizeof sheet_file, "%.*s%s%s", (int)(at - PART_FILE), PART_FILE, WITH, at + strlen(MARK));
+            /* inline datasheets go before "devices" */
+            {
+                char *devices = strstr(sheet_file, "\"devices\"");
+                char tail[4096];
+
+                snprintf(tail, sizeof tail, "%s", devices);
+                snprintf(devices, sizeof sheet_file - (size_t)(devices - sheet_file),
+                         "\"datasheets\":[{\"id\":\"oom-sheet\",\"url\":\"https://example.com/a.pdf\"}],%s", tail);
+            }
+            ds_file.load = load_part_file;
+            ds_file.library = base;
+            ds_file.text = sheet_file;
+            ds_file.source = "oom-sheet.schpart";
+            made = sweep("load_part_file with an inline datasheet", load_text, &ds_file);
+            printf("ok   load_part_file, inline datasheet (%ld allocations)\n", made);
+            part_library_unload_last_part_file(base);
+        }
+        made = sweep_removal("part_library_retire_part", base, PART_FILE, "6F1C2E8A-3B7D-4C55-9A61-0E2B4D7F9C1F", 1);
+        printf("ok   part_library_retire_part (%ld allocations)\n", made);
+        made = sweep_removal("part_library_unload_last_part_file", base, PART_FILE,
+                             "6F1C2E8A-3B7D-4C55-9A61-0E2B4D7F9C1F", 0);
+        printf("ok   part_library_unload_last_part_file (%ld allocations)\n", made);
+        {
+            /* The common part keys: pins and balls, flags, footprint choices,
+               a socket's fits, a part's maker and datasheet. */
+            static const char *const KINDS[] = {"supply.json", "socket.json", "resistor.json", "header.json",
+                                                "led.json", "crystal.json"};
+            size_t k;
+
+            for (k = 0; k < sizeof KINDS / sizeof KINDS[0]; k++) {
+                char *name = NULL;
+                char *text = one_device(KINDS[k], &name);
+                PartLibrary *fresh = base_library();
+                Load one = {load_parts, fresh, text, KINDS[k]};
+                char what[128];
+
+                snprintf(what, sizeof what, "load_parts %s, chunked", KINDS[k]);
+                made = sweep(what, load_text, &one);
+                printf("ok   %s (%ld allocations)\n", what, made);
+                part_library_destroy(fresh);
+                cJSON_free(text);
+                free(name);
+            }
+        }
+        kind_arena_chunk = 64 * 1024;
         part_library_destroy(base);
         part_library_destroy(library);
         cJSON_free(footprints);
@@ -649,9 +763,17 @@ int main(void) {
         Several serial = {lib, {"N82510"}, 1, type_bytes};
         Several looped = {lib, {"CY7C64225-28PVXC"}, 1, type_bytes, loop_back};
         Several rc = {lib, {"ICM7555ESA+"}, 1, NULL, power_timer};
+        /* A slide switch whose rest position closes contacts, and a tactile
+           switch whose joined pins are left unwired (the circuit wires them). */
+        Several resting = {lib, {"CS22BNW03"}, 1, NULL};
+        Several joined = {lib, {"MJTP1212"}, 1, NULL};
         size_t n;
 
         load_parts_dir(lib, PARTS_DIR);
+        made = sweep("a slide switch resting on closed contacts", run_several, &resting);
+        printf("ok   a resting slide switch (%ld allocations)\n", made);
+        made = sweep("a tactile switch with unwired joined pins", run_several, &joined);
+        printf("ok   unwired joined pins (%ld allocations)\n", made);
         made = sweep("a slide switch set to a state", run_several, &slide);
         printf("ok   circuit_set_switch_state (%ld allocations)\n", made);
         made = sweep("a jack plugged in", run_several, &plug);
@@ -689,7 +811,7 @@ int main(void) {
             "\"parts\":[{\"name\":\"OOM-DIODES-17\",\"manufacturer\":\"Generic\",\"package\":\"TH\",\"pinout\":\"p2\",\"vr\":50,\"io\":1,\"footprint\":\"DIODE-DO-35\"}]}]}";
         PartLibrary *lib = base_library();
         char *error = NULL;
-        Several big = {lib, {"OOM-DIODES-17"}, 1, NULL};
+        Several big = {lib, {"OOM-DIODES-17"}, 1, NULL, wire_two};
         static const char REFUSED[] =
             "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"gate\",\"devices\":[{\"id\":\"X\",\"bogus\":1}]}";
         Load refused = {load_parts, lib, REFUSED, "refused.json"};

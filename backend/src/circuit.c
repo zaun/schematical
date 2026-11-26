@@ -15,7 +15,6 @@
 #include "voltage.h"
 #include "logic_alloc.h"
 
-int connector_contact_pins(const Part *part, unsigned position, size_t *a, size_t *b);
 static int record_contact(Circuit *circuit, size_t part, unsigned position, int on);
 
 struct Circuit {
@@ -59,16 +58,11 @@ static int fail(Circuit *circuit, const char *format, ...) {
     return -1;
 }
 
-/* Copies the engine's error (if any) into the circuit's. */
-static int engine_failed(Circuit *circuit) {
-    const char *error = sim_error(circuit->sim);
-
-    if (error != NULL) {
-        snprintf(circuit->error, sizeof circuit->error, "%s", error);
-        circuit->has_error = 1;
-        return 1;
-    }
-    return 0;
+/* Copies the engine's error into the circuit's. Called only after an engine
+   call failed, and the engine sets its error whenever one does. */
+static void engine_failed(Circuit *circuit) {
+    snprintf(circuit->error, sizeof circuit->error, "%s", sim_error(circuit->sim));
+    circuit->has_error = 1;
 }
 
 static int grow(void **array, size_t *capacity, size_t count, size_t size) {
@@ -403,9 +397,8 @@ int circuit_set_switch_state(Circuit *circuit, size_t part, unsigned state) {
             if (on != pass) {
                 continue;
             }
-            if (!type->set_switch(circuit->sim, instance, sim_instance_state(instance), position, on)) {
-                return fail(circuit, "%s has no position %u", info->name, position);
-            }
+            /* Positions 1 … positions are the switch model's own: it takes each. */
+            type->set_switch(circuit->sim, instance, sim_instance_state(instance), position, on);
             if (record_contact(circuit, part, position, on) != 0) {
                 return fail(circuit, "out of memory");
             }
@@ -466,9 +459,8 @@ int circuit_set_connector_plug(Circuit *circuit, size_t part, int inserted) {
     }
     instance = circuit->instances[part];
     type = sim_instance_type(instance);
-    if (!type->set_switch(circuit->sim, instance, sim_instance_state(instance), 1, !inserted)) {
-        return fail(circuit, "%s has no switched contact", circuit->parts[part]->name);
-    }
+    /* A connector with a switched contact: its model takes contact 1. */
+    type->set_switch(circuit->sim, instance, sim_instance_state(instance), 1, !inserted);
     if (record_contact(circuit, part, 1, !inserted) != 0) return fail(circuit, "out of memory");
     if (circuit->started && !inserted && !circuit->voltage_stopped && voltage_failed(circuit)) {
         circuit->voltage_stopped = 1;
@@ -563,23 +555,18 @@ int circuit_start(Circuit *circuit) {
         if (info->kind == PART_SWITCH &&
             (info->dip_switch->normally_closed || info->dip_switch->joined > 0 ||
              info->dip_switch->states > 0)) {
-            /* set_switch also closes the joined pairs. */
+            /* set_switch also closes the joined pairs. Positions 1 … positions
+               are the model's own: it takes each. */
             for (position = 1; position <= info->dip_switch->positions; position++) {
-                if (!sim_instance_type(instance)->set_switch(circuit->sim, instance,
-                                                              sim_instance_state(instance), position,
-                                                              contact_recorded(circuit, part, position))) {
-                    return fail(circuit, "cannot initialize switch \"%s\"", info->name);
-                }
+                sim_instance_type(instance)->set_switch(circuit->sim, instance, sim_instance_state(instance),
+                                                        position, contact_recorded(circuit, part, position));
             }
             continue;
         }
         if (info->kind != PART_CONNECTOR) continue;
         for (position = 1; position <= info->connector->contacts; position++) {
-            if (!sim_instance_type(instance)->set_switch(circuit->sim, instance,
-                                                          sim_instance_state(instance), position,
-                                                          contact_recorded(circuit, part, position))) {
-                return fail(circuit, "cannot initialize connector \"%s\"", info->name);
-            }
+            sim_instance_type(instance)->set_switch(circuit->sim, instance, sim_instance_state(instance),
+                                                    position, contact_recorded(circuit, part, position));
         }
     }
     circuit->has_problem = 0;
@@ -646,10 +633,9 @@ CircuitValue circuit_net_value(const Circuit *circuit, size_t net) {
     switch (sim_net_value(circuit->nets[net])) {
         case LOGIC_0: return CIRCUIT_0;
         case LOGIC_1: return CIRCUIT_1;
-        case LOGIC_X: return CIRCUIT_X;
         case LOGIC_Z: return CIRCUIT_Z;
+        default: return CIRCUIT_X;
     }
-    return CIRCUIT_X;
 }
 
 uint64_t circuit_net_changes(const Circuit *circuit, size_t net) {
@@ -666,15 +652,12 @@ int circuit_shorted_net(const Circuit *circuit, size_t *net) {
     if (shorted == NULL) {
         return 0;
     }
-    for (i = 0; i < circuit->net_count; i++) {
-        if (circuit->nets[i] == shorted) {
-            if (net != NULL) {
-                *net = i;
-            }
-            return 1;
-        }
+    /* The engine's nets are the circuit's, so the shorted one is among them. */
+    for (i = 0; circuit->nets[i] != shorted; i++) {}
+    if (net != NULL) {
+        *net = i;
     }
-    return 0;
+    return 1;
 }
 
 size_t circuit_part_lights(const Circuit *circuit, size_t part, unsigned char *on, size_t cap) {

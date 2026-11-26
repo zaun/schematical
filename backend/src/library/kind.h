@@ -86,6 +86,10 @@ const PartKindOps *kind_find(const char *name);
 
 /* Zeroed memory from the file's arena; NULL (with an error set) when out of memory. */
 void *kind_alloc(KindContext *ctx, size_t size);
+/* The size of the arena's chunks: 64 KiB. Tests only (oom_test): set small,
+   every kind_alloc takes a chunk of its own, so failing allocations in turn
+   reach each caller's check of a NULL result. */
+extern size_t kind_arena_chunk;
 char *kind_strdup(KindContext *ctx, const char *text);
 
 /*

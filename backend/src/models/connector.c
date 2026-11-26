@@ -241,15 +241,6 @@ static void *connector_bind_pinout(KindContext *ctx, const void *raw, const Part
     return bound;
 }
 
-int connector_contact_pins(const Part *part, unsigned position, size_t *a, size_t *b) {
-    const ConnectorPins *pins;
-    if (part == NULL || part->kind != PART_CONNECTOR || position < 1) return 0;
-    pins = part_internal(part)->bound;
-    if (position > pins->count) return 0;
-    *a = pins->pins[position - 1][0]; *b = pins->pins[position - 1][1];
-    return 1;
-}
-
 static int connector_load_part(KindContext *ctx, const void *device, const void *bound,
                                const cJSON *json, Part *out) {
     (void)ctx; (void)bound; (void)json;
@@ -271,6 +262,17 @@ static const SimComponentType CONNECTOR_MODEL = {
     "connector", connector_pin_count, connector_create, NULL, NULL, NULL, NULL,
     NULL, connector_set, NULL, NULL
 };
+
+int connector_contact_pins(const Part *part, unsigned position, size_t *a, size_t *b) {
+    const ConnectorPins *pins;
+
+    if (part == NULL || part->kind != PART_CONNECTOR) return 0;
+    pins = part_internal(part)->bound;
+    if (position < 1 || position > pins->count) return 0;
+    *a = pins->pins[position - 1][0];
+    *b = pins->pins[position - 1][1];
+    return 1;
+}
 
 const PartKindOps CONNECTOR_KIND = {
     PART_CONNECTOR, "connector", &CONNECTOR_MODEL, DEVICE_KEYS, NULL,

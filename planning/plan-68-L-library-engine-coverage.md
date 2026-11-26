@@ -117,20 +117,43 @@ test written to match.
 
 ### Phase 1 — `library.c`, `sim.c`, `circuit.c`
 
-- [ ] Re-run `COV --backend --only` for each file; close every line per § 3.
-- [ ] Ratchet rows removed for each file at 0.
+- [x] Re-run `COV --backend --only` for each file; close every line per § 3.
+  New programs: `library_reject_check`, `library_footprint_more_check`,
+  `engine_misuse_test`, `circuit_misuse_test`, `voltage_more_test`,
+  `erc_more_test`; oom_test's new sweeps (Corrections).
+- [x] Ratchet rows removed for each file at 0.
 
 Acceptance: these files have no uncovered line.
+  Observed (measured in a copy of HEAD plus this letter's files, since the
+  model letters were mid-edit in the shared checkout): `LOGIC_COV_WORK=…
+  node scripts/coverage.js --backend` → no `path:line` under
+  `backend/src/library/`, `engine/`, `circuit.c`, `voltage.c`, `erc_*.c`,
+  `memory_image.c`; `CT` in the checkout's own build → the programs of this
+  letter and every program they touch pass.
   Check: `node scripts/coverage.js --backend --only <file>` → no `path:line`
   output for each file in this phase; `CT` → all pass (est. 2 min per run).
 Commit: —
 
 ### Phase 2 — `footprints.c`, `voltage.c`, `kind_util.c`, `net.c`, `erc_check.c`, `memory_image.c`, `kinds.c`, `erc_pins.c`
 
-- [ ] As Phase 1, for these files.
+- [x] As Phase 1, for these files (same run: no `path:line`).
 
 Acceptance: as Phase 1, for these files.
   Check: as Phase 1; `SZ` → exit 0 (est. 2 min per run).
+Commit: COMMIT_L
+
+### Phase 3 — the chunked arena over every kind's loader
+
+- [ ] After plan-68-M … S land: oom_test sets `kind_arena_chunk` over the
+  per-kind `load_parts` sweep too, so every kind's `kind_alloc` NULL paths
+  are run; each crash or leak it finds is fixed (the converter loader's
+  `cvl_name_id` is one, Corrections), and the lines the model letters left
+  as "kind_alloc NULL paths left for the parent" are gone.
+
+Acceptance: no `kind_alloc`/`kind_strdup` NULL check is uncovered anywhere
+in `backend/src`.
+  Check: `node scripts/coverage.js --backend` → none of the listed lines is a
+  `return` after a NULL `kind_alloc`/`kind_strdup`; oom_test passes.
 Commit: —
 
 ## Validation Plan
@@ -146,7 +169,49 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- **The table's numbers were before plan-68-K**; the list measured at the
+  start (`node scripts/coverage.js --backend` after K) was 461 lines in
+  these files, split pieces included (`library_load.c`,
+  `library_load_device.c`, `sim_contacts.c`).
+- **Out-of-memory paths in the loaders' arena** (`kind_alloc`/`kind_strdup`
+  returning NULL) were not reached by plan-68-K's sweep: the arena takes
+  64 KiB chunks, so an allocation fails only at a chunk's start. A test-only
+  knob, `kind_arena_chunk` (`src/library/kind.h`), set to 16 gives every
+  `kind_alloc` a chunk of its own; oom_test sets it around the footprint,
+  datasheet and part-file sweeps and a `load_parts` sweep of six kinds.
+  With it set over every kind's loader, the converter loader crashed
+  (`cvl_name_id` on a NULL from `cvl_pin_member`) — a bug in plan-68-M's
+  files, left to that letter; the knob over all kinds runs once the model
+  letters land (plan-68-L's last task).
+- **oom_test also sweeps** `part_library_retire_part` and
+  `part_library_unload_last_part_file` (their table rebuilds could fail
+  unseen), a part file with an inline datasheet, a slide switch resting on
+  closed contacts, a tactile switch with unwired joined pins, and the
+  17-diode part with its pins wired.
+- **Unreachable lines restructured (each caller read):**
+  `load_footprint_choices`' NULL guard (its one caller checks first);
+  `load_part_file`'s "`devices` must hold exactly one part" (one device whose
+  `parts` holds one part, checked above, always adds one); `engine_failed`'s
+  no-error branch (every caller runs after an engine call failed, and the
+  engine sets its error then); `circuit_net_value`'s and `voltage_describe`'s
+  returns after a full switch (now `default:`); the `set_switch` result checks
+  in `circuit_set_switch_state`, `circuit_set_connector_plug` and
+  `circuit_start` (they loop over the model's own positions, which it
+  takes); `circuit_shorted_net`'s fall-through (the engine's nets are the
+  circuit's); `put_spec` with no mirror (`put_size` now: it cannot fail); the
+  last tie-break of `compare_problems` folded into the pin comparison.
+- **Line-coverage artifacts:** `snprintf` is a macro, so a call spread over
+  lines counted only its first line, and a closing brace after a `return`
+  never counts; `voltage_describe`'s texts are now one line each (the tests
+  check each text exactly, unchanged).
+- **A bug the tests found:** the voltage check joins nets only through switch
+  contacts (`switch_contact_pins` is `PART_SWITCH` only), so a switched
+  jack's contact never joined its nets there: pulling the plug of a PJ-002A
+  between 5 V and 3.3 V did not stop the run though `circuit_set_connector_plug`
+  re-runs the check for that. Fixed with `connector_contact_pins`
+  (`connector.c`) used by the voltage check's join; the regression test is
+  `circuit_misuse_test`'s `check_unplug_stops`.
+
 
 ## Summary
 

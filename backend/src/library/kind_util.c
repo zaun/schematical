@@ -8,7 +8,7 @@
 #include "library_internal.h"
 #include "logic_alloc.h"
 
-#define ARENA_CHUNK (64 * 1024)
+size_t kind_arena_chunk = 64 * 1024;
 
 void *kind_alloc(KindContext *ctx, size_t size) {
     ArenaChunk *chunk = ctx->arena;
@@ -19,7 +19,7 @@ void *kind_alloc(KindContext *ctx, size_t size) {
         size = 16;
     }
     if (chunk == NULL || chunk->size - chunk->used < size) {
-        size_t chunk_size = size > ARENA_CHUNK ? size : ARENA_CHUNK;
+        size_t chunk_size = size > kind_arena_chunk ? size : kind_arena_chunk;
         size_t header = (sizeof(ArenaChunk) + 15u) & ~(size_t)15u;
 
         chunk = logic_malloc(header + chunk_size);

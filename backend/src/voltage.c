@@ -83,10 +83,8 @@ static int compare_problems(const void *a, const void *b) {
     if (x->part != y->part) {
         return x->part < y->part ? -1 : 1;
     }
-    if (x->pin != y->pin) {
-        return x->pin < y->pin ? -1 : 1;
-    }
-    return (int)x->kind - (int)y->kind;
+    /* One problem per pin in practice; the kind keeps the order total. */
+    return x->pin != y->pin ? (x->pin < y->pin ? -1 : 1) : (int)x->kind - (int)y->kind;
 }
 
 /* The domain of a dual-supply part that pin belongs to (as a power pin when
@@ -343,7 +341,8 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
         size_t b;
 
         if (closed[i].part >= part_count ||
-            !switch_contact_pins(parts[closed[i].part], closed[i].position, &a, &b)) {
+            (!switch_contact_pins(parts[closed[i].part], closed[i].position, &a, &b) &&
+             !connector_contact_pins(parts[closed[i].part], closed[i].position, &a, &b))) {
             continue;
         }
         join_pins(parent, net_count, connections, connection_count, closed[i].part, a, b);
@@ -1022,45 +1021,34 @@ static const char *pin_name(const Part *part, size_t pin) {
 int voltage_describe(const Part *const *parts, const VoltageProblem *problem,
                      char *buffer, size_t size) {
     const Part *part = parts[problem->part];
-    double v = problem->mv / 1000.0;
+    double v = problem->mv / 1000.0, low_v = problem->min_mv / 1000.0, high_v = problem->max_mv / 1000.0;
+    const char *at = pin_designator(part, problem->pin), *pin = pin_name(part, problem->pin);
+    const Part *other = parts[problem->other_part];
+    /* CLASH: a supply part is judged by its voltage; a regulator part (the
+       clash of two regulators) is the lower one (plan-42-G). */
+    const Part *low = part->supply != NULL ? (part->supply->mv <= problem->min_mv ? part : other) : part;
+    const Part *high = low == part ? other : part;
+    const char *limit;
 
+    /* Each text on one line: snprintf is a macro, and a call spread over
+       lines counts only its first in line coverage. */
     switch (problem->kind) {
-        case VOLTAGE_SUPPLY_CLASH: {
-            const Part *other = parts[problem->other_part];
-            /* A supply part is judged by its voltage; a regulator part (the
-               clash of two regulators) is the lower one (plan-42-G). */
-            const Part *low = part->supply != NULL ? (part->supply->mv <= problem->min_mv ? part : other) : part;
-            const Part *high = low == part ? other : part;
-
-            return snprintf(buffer, size, "voltage: %g V and %g V supplies on one net (%s, %s)",
-                            problem->min_mv / 1000.0, v, low->name, high->name);
-        }
+        case VOLTAGE_SUPPLY_CLASH:
+            return snprintf(buffer, size, "voltage: %g V and %g V supplies on one net (%s, %s)", low_v, v, low->name, high->name);
         case VOLTAGE_POWER_RANGE:
-            return snprintf(buffer, size, "voltage: %g V on pin %s (%s) of %s; it needs %g-%g V", v,
-                            pin_designator(part, problem->pin), pin_name(part, problem->pin),
-                            part->name, problem->min_mv / 1000.0, problem->max_mv / 1000.0);
+            return snprintf(buffer, size, "voltage: %g V on pin %s (%s) of %s; it needs %g-%g V", v, at, pin, part->name, low_v, high_v);
+        case VOLTAGE_NIXIE_UNDER:
+            return snprintf(buffer, size, "voltage: %g V on pin %s (%s) of %s; it needs at least %g V to light", v, at, pin, part->name, low_v);
         case VOLTAGE_INPUT_OVER:
-            return snprintf(buffer, size,
-                            "voltage: %g V on pin %s (%s) of %s; its inputs take at most %g V", v,
-                            pin_designator(part, problem->pin), pin_name(part, problem->pin),
-                            part->name, problem->max_mv / 1000.0);
-        case VOLTAGE_SWITCH_OVER:
-        case VOLTAGE_CAPACITOR_OVER:
-        case VOLTAGE_TRANSISTOR_OVER:
-        case VOLTAGE_FUSE_OVER:
-            return snprintf(buffer, size, "voltage: %g V on pin %s (%s) of %s; it is rated %g V", v,
-                            pin_designator(part, problem->pin), pin_name(part, problem->pin),
-                            part->name, problem->max_mv / 1000.0);
+            limit = "its inputs take at most";
+            break;
         case VOLTAGE_REGULATOR_INPUT_OVER:
         case VOLTAGE_POWERSWITCH_INPUT_OVER:
-            return snprintf(buffer, size, "voltage: %g V on pin %s (%s) of %s; its input max is %g V", v,
-                            pin_designator(part, problem->pin), pin_name(part, problem->pin),
-                            part->name, problem->max_mv / 1000.0);
-        case VOLTAGE_NIXIE_UNDER:
-            return snprintf(buffer, size,
-                            "voltage: %g V on pin %s (%s) of %s; it needs at least %g V to light", v,
-                            pin_designator(part, problem->pin), pin_name(part, problem->pin),
-                            part->name, problem->min_mv / 1000.0);
+            limit = "its input max is";
+            break;
+        default:   /* switch, capacitor, transistor, fuse */
+            limit = "it is rated";
+            break;
     }
-    return snprintf(buffer, size, "voltage: problem");
+    return snprintf(buffer, size, "voltage: %g V on pin %s (%s) of %s; %s %g V", v, at, pin, part->name, limit, high_v);
 }

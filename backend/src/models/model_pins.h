@@ -107,6 +107,11 @@ int part_fixed_contact(const Part *part, size_t k, size_t *a, size_t *b);
 /* A switch position's (1-based) two contact pins, as indices into Part.pins. */
 int switch_contact_pins(const Part *part, unsigned position, size_t *a, size_t *b);
 
+/* A connector's normally-closed contact `position` (1-based): its two pins
+   (indexes into Part.pins). 0 for another kind or position (plan-68-L: the
+   voltage check joins a switched jack's nets while it is unplugged). */
+int connector_contact_pins(const Part *part, unsigned position, size_t *a, size_t *b);
+
 /*
  * 1 when pin (an index into Part.pins) is a PIN_OUTPUT or PIN_INOUT the part
  * never drives high: an open-drain output or port (gate, dff and buffer

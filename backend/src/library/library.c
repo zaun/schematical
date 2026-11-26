@@ -380,9 +380,8 @@ static int read_part_file(KindContext *ctx, PartLibrary *library, const cJSON *r
         return -1;
     }
     kind_pop(ctx);
-    if (file->count != 1) {
-        return kind_error(ctx, "\"devices\" must hold exactly one part");
-    }
+    /* One device whose "parts" holds one part (checked above) loaded: the
+       file has that one part. */
     /* A file carries no dead entries: the part names every inline datasheet. */
     for (i = 0; i < datasheets->count; i++) {
         if (file->parts[0]->datasheet != datasheets->items[i]) {

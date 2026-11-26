@@ -233,14 +233,22 @@ static int pad_spec(KindContext *ctx, const cJSON *object, const char *key, PadS
  * mirrored pad on a centre line can gain corners, so its cuts are checked
  * again.
  */
-static int put_spec(KindContext *ctx, FootprintPad *out, const PadSpec *spec, int turned,
-                    int mirror) {
+/* A pad takes `spec`'s size, shape and corners (`turned`: width and height
+   swapped). */
+static void put_size(FootprintPad *out, const PadSpec *spec, int turned) {
     out->width = turned ? spec->height : spec->width;
     out->height = turned ? spec->width : spec->height;
     out->shape = spec->shape;
     out->radius = spec->radius;
     out->chamfer = spec->chamfer;
-    out->corners = mirror ? mirrored_corners(spec->corners, out->x, out->y) : spec->corners;
+    out->corners = spec->corners;
+}
+
+/* `put_size`, the corners mirrored to the pad's side of the body: the cuts
+   are checked again where the mirror moved them. */
+static int put_spec(KindContext *ctx, FootprintPad *out, const PadSpec *spec, int turned) {
+    put_size(out, spec, turned);
+    out->corners = mirrored_corners(spec->corners, out->x, out->y);
     if (out->chamfer > 0 && out->corners != spec->corners) {
         kind_push(ctx, "pad %s (mirrored corners)", out->designator != NULL ? out->designator : "-");
         if (check_cuts(ctx, out->width, out->height, out->chamfer, out->corners) != 0) {
@@ -383,9 +391,7 @@ static int emit_slotted(KindContext *ctx, const cJSON *json, PartFootprint *fp, 
             return -1;
         }
         if (pin_slot[i] == 0) {
-            if (put_spec(ctx, out, &centre, 0, 0) != 0) {
-                return -1;
-            }
+            put_size(out, &centre, 0);
             centre_used = 1;
         } else {
             const Slot *slot = &slots[pin_slot[i] - 1];
@@ -397,18 +403,14 @@ static int emit_slotted(KindContext *ctx, const cJSON *json, PartFootprint *fp, 
                 /* pin1Shape is a plain shape: no rounded or cut corners. */
                 PadSpec plain = {pad.width, pad.height, pin1, 0, 0, 0};
 
-                if (put_spec(ctx, out, &plain, slot->turned, 0) != 0) {
-                    return -1;
-                }
-            } else if (put_spec(ctx, out, &pad, slot->turned, 1) != 0) {
+                put_size(out, &plain, slot->turned);
+            } else if (put_spec(ctx, out, &pad, slot->turned) != 0) {
                 return -1;
             }
         }
     }
     if (centre_json != NULL && !centre_used) {
-        if (put_spec(ctx, &pads[n++], &centre, 0, 0) != 0) {
-            return -1;
-        }
+        put_size(&pads[n++], &centre, 0);
     }
     fp->pads = pads;
     fp->pad_count = n;
@@ -667,7 +669,7 @@ static int load_grid(KindContext *ctx, const cJSON *json, PartFootprint *fp) {
         pads[i].x = clean(((double)balls[i].column - 1 - ((double)columns - 1) / 2) * pitch);
         pads[i].y = clean(((double)balls[i].row - ((double)rows - 1) / 2) * pitch);
         pads[i].drill = drill;
-        if (put_spec(ctx, &pads[i], &pad, 0, 1) != 0) {
+        if (put_spec(ctx, &pads[i], &pad, 0) != 0) {
             return -1;
         }
     }
