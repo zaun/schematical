@@ -199,30 +199,33 @@ to 100%), and `SchematicUndoTests` round-trips every edit kind.
 
 ### Phase 1 — `EditScope`, `edit`, the sheet owner
 
-- [ ] `EditScope` and `edit(_:_:coalescing:_:)` beside `recordEdit` (§ 3.1).
-- [ ] `Model/Sheet/SchematicSheet.swift` with the four values as thin
+- [x] `EditScope` and `edit(_:_:coalescing:_:)` beside `recordEdit` (§ 3.1).
+- [x] `Model/Sheet/SchematicSheet.swift` with the four values as thin
   structs holding the arrays (no logic yet); the document's stored `wires`,
   `junctions`, `buses`, `netLabels`, `notes` become read-only computed
   forwards to `sheet`; every write in the document goes through
   `sheet.update…(scope)`; `setState`/`replaceContents` through
-  `sheet.restore`.
-- [ ] `SheetObservationTests`.
+  `sheet.restore`. (Landed with Phase 2's logic in one commit: Corrections.)
+- [x] `SheetObservationTests`.
 
 Acceptance: the sheet owns the content and nothing else changed.
   Check: `XB -only-testing:schematicalTests/SchematicUndoTests
   -only-testing:schematicalTests/DocumentUndoTests
   -only-testing:schematicalTests/SheetObservationTests
   -only-testing:schematicalTests/SchematicFileV5Tests` → all pass (est. 5 min).
-Commit: —
+  Observed: SchematicUndoTests 50, DocumentUndoTests, SchematicFileV5Tests 8,
+  SheetObservationTests 2 → `TEST SUCCEEDED`, 0 failures.
+Commit: COMMIT_D
 
 ### Phase 2 — the logic into the values
 
-- [ ] Move the Wires, Buses, Bus ports, Removing ports, Net labels and Text
+- [x] Move the Wires, Buses, Bus ports, Removing ports, Net labels and Text
   blocks logic into the `mutating` methods of § 3.2 (`PinTips` added); the
   document methods become § 3.1-4 one-liners.
-- [ ] `WiringTests`, `BusNetworkTests`, `NetLabelsTests`, `SheetNotesTests`.
-- [ ] Ratchets: `SchematicModel.swift`'s size row lowered; coverage rows for
-  the new files at 0.
+- [x] `WiringTests`, `BusNetworkTests`, `NetLabelsTests`, `SheetNotesTests`.
+- [x] Ratchets: `SchematicModel.swift`'s size row lowered (4312 → 3813,
+  `node scripts/source-size.js --check` → exit 0); coverage rows for the new
+  files at 0 (no row: `Model/Sheet/` is fully covered).
 
 Acceptance: the logic is in the values, tested alone, and the document's
 behavior is unchanged.
@@ -232,7 +235,8 @@ behavior is unchanged.
   schematical/schematical/Model/Sheet/` → no uncovered line (est. the full
   Debug suite, as measured in `app-coverage.txt`; nothing smaller covers every
   caller of the moved methods).
-Commit: —
+  Observed: the full suite under `node scripts/coverage.js --app` → 9 failed cases: the 8 standing ones and `PartKindKeysTests.testFormKeysCoverTheBackendKeys`, a plan-68-J regression (it read the files J split by their old names; fixed here: Corrections), which then passed (`-only-testing` PartKindKeysTests, SheetObservationTests → 0 failures). `Model/Sheet/` → no uncovered line (`--only schematical/schematical/Model/Sheet/` with the four value classes → `758 lines, 0 uncovered`). SchematicModel.swift had 6 uncovered (an unused `wire(at:)`, now deleted, and three port refusals on nothing, now tested in `SheetObservationTests.testPortEditsOnNothing`); four ratchet rows went down and were lowered.
+Commit: COMMIT_D
 
 ## Validation Plan
 
@@ -249,7 +253,43 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- **Phases 1 and 2 landed as one commit.** Phase 1 alone would have threaded
+  an `EditScope` through every private helper of the moved marks only for
+  Phase 2 to replace them; the values were written with their logic at once.
+  Both phases' checks ran on the result.
+- **The route cache moved to the sheet as a shared class** (`WireRoutes`,
+  in `PinTips.swift`): every `Wiring` the sheet hands out holds the same
+  cache, so routes are still worked out once per change of a wire or its
+  tips. It needs `nonisolated deinit {}` like the document: with this
+  module's default main-actor isolation an isolated deinit freed memory it
+  did not own (`malloc: pointer being freed was not allocated` in every
+  `WiringTests` case before the fix).
+- **`PinTips` is three closures**, not a table the document builds per
+  edit: the document's closures read its `chips` (through `chipIndex`) and
+  the sheet's committed buses and labels, so a tip costs what it did; tests
+  build one from dictionaries.
+- **A sheet value never calls back into the document mid-update.** An update
+  writes its arrays back when its closure ends, so a nested update of the
+  same arrays would be overwritten. Edits that touched wires and buses in
+  one go (removing a bus line, absorbing a joined bus, ticking port pins)
+  became sequences of updates in the order the old code changed things.
+- **`adoptLooseEnds`' voltage check** reads the problems the drawing has
+  before each candidate from that candidate's own `before` wires when an
+  earlier adoption in the same call changed them (the old code re-read the
+  document, whose wires had changed); otherwise the kept issues.
+- **Refusals came back as values**: `BusNetwork.addPort` returns the port or
+  a `PortRefusal`, `setPortSide` a `PortSideResult`, `moveWire` its message
+  and the ports to re-fit, `removeLine` the wire-id remaps; the document sets
+  `editorMessage` and the selection from them (§ 3.3).
+- **`PartKindKeysTests` was broken by plan-68-J** (it lists the backend files
+  that hold each kind's `KEYS[]` arrays, and J split `converter_load.c` and
+  others into pieces with model-prefixed shared functions). It now reads a
+  listed file's pieces too (files `<stem>_…c` including `<stem>_int.h`) and
+  matches a skipped loader by its prefixed name (`cvl_load_clock`).
+- **`nodeHit`'s loop** was rewritten with `first(where:)`: the per-line
+  counter left the closing lines of the `for … where` loop uncovered though
+  the tests ran them.
+
 
 ## Summary
 

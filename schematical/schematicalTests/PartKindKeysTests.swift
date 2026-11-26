@@ -87,6 +87,25 @@ final class PartKindKeysTests: XCTestCase {
     /// The string keys of every `KEYS[] = { … }` array in a source file (its
     /// comments removed: a comment may quote a string), with the function
     /// each array is in (nil at file scope).
+    /// Whether `function` is `name`, or `name` with the model prefix a
+    /// plan-68-J split gave a shared function (`cvl_load_clock`).
+    static func named(_ function: String?, _ name: String) -> Bool {
+        guard let function else { return false }
+        return function == name || function.hasSuffix("_" + name) && !function.dropLast(name.count + 1).contains("_")
+    }
+
+    /// `file` and the pieces plan-68-I/J split out of it: the files
+    /// `<stem>_…c` that include its internal header `<stem>_int.h`.
+    static func pieces(of file: String) throws -> [String] {
+        let stem = String(file.dropLast(2))
+        let names = try FileManager.default.contentsOfDirectory(atPath: models.path)
+        let split = try names.filter { $0.hasPrefix(stem + "_") && $0.hasSuffix(".c") }.sorted().filter {
+            try String(contentsOf: models.appendingPathComponent($0), encoding: .utf8)
+                .contains("#include \"\(stem)_int.h\"")
+        }
+        return [file] + split
+    }
+
     static func keyArrays(in file: String) throws -> [(function: String?, keys: [String])] {
         let source = try String(contentsOf: models.appendingPathComponent(file), encoding: .utf8)
         let comments = try NSRegularExpression(pattern: #"/\*.*?\*/|//[^\n]*"#, options: [.dotMatchesLineSeparators])
@@ -155,11 +174,11 @@ final class PartKindKeysTests: XCTestCase {
             var arrays = 0
             for file in Self.files[kind]! {
                 let skip = Self.notCalled[kind]?[file] ?? []
-                let all = try Self.keyArrays(in: file)
+                let all = try Self.pieces(of: file).flatMap { try Self.keyArrays(in: $0) }
                 for name in skip {
-                    XCTAssertTrue(all.contains { $0.function == name }, "\(file) has no KEYS array in \(name)")
+                    XCTAssertTrue(all.contains { Self.named($0.function, name) }, "\(file) has no KEYS array in \(name)")
                 }
-                let found = all.filter { $0.function.map { !skip.contains($0) } ?? true }
+                let found = all.filter { array in !skip.contains { Self.named(array.function, $0) } }
                 arrays += found.count
                 keys.formUnion(found.flatMap(\.keys))
             }

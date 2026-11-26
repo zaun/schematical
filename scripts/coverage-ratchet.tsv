@@ -154,7 +154,7 @@
 41	schematical/schematical/Automation/AutomationSimulation.swift
 19	schematical/schematical/Automation/AutomationTools.swift
 3	schematical/schematical/Backend/HeaderFamily.swift
-116	schematical/schematical/Backend/PartCatalog.swift
+112	schematical/schematical/Backend/PartCatalog.swift
 181	schematical/schematical/Backend/PartFacts.swift
 6	schematical/schematical/Backend/UserPartLibrary.swift
 65	schematical/schematical/BillOfMaterials/BillOfMaterialsWindow.swift
@@ -170,9 +170,9 @@
 17	schematical/schematical/Canvas/BoardHole.swift
 6	schematical/schematical/Canvas/BoardModel.swift
 6	schematical/schematical/Canvas/BoardPour.swift
-33	schematical/schematical/Canvas/BoardSettings.swift
+32	schematical/schematical/Canvas/BoardSettings.swift
 10	schematical/schematical/Canvas/BoardTrace.swift
-85	schematical/schematical/Canvas/BusModel.swift
+79	schematical/schematical/Canvas/BusModel.swift
 10	schematical/schematical/Canvas/BuzzerSymbolView.swift
 20	schematical/schematical/Canvas/CanvasViewport.swift
 11	schematical/schematical/Canvas/CapacitorSymbolView.swift
@@ -217,7 +217,7 @@
 29	schematical/schematical/Canvas/TestPointSymbolView.swift
 115	schematical/schematical/Canvas/TransistorSymbolView.swift
 39	schematical/schematical/Canvas/WidthCalculator.swift
-389	schematical/schematical/ContentView.swift
+366	schematical/schematical/ContentView.swift
 164	schematical/schematical/Cpu/CpuWindow.swift
 3	schematical/schematical/Datasheet/DatasheetFinder.swift
 11	schematical/schematical/Datasheet/DatasheetLoader.swift
