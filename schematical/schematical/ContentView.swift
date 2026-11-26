@@ -24,371 +24,30 @@ nonisolated enum EditorPage: String, CaseIterable, Identifiable, Codable, Sendab
 }
 
 struct ContentView: View {
-    /// The app-wide catalog, loaded once at launch.
-    private let catalog = PartCatalogStore.shared
-    /// What this window edits (plan-61-B): made by the window's owner.
-    private let model: SchematicEditorModel
-    private var document: SchematicDocument { model.document }
-    /// The schematic's pan and zoom. Its 100 % draws at 0.75 points per
-    /// schematic unit (what used to be 75 %).
-    @State private var viewport = CanvasViewport(baseScale: 0.75)
-    /// The PCB page's own pan and zoom. It opens at 25 %, so a whole board
-    /// fits.
-    @State private var boardViewport = CanvasViewport(zoom: 0.25)
-    /// The page shown: the model's, so the menus and the document (which
-    /// restores it with the window) see it.
-    private var page: EditorPage {
-        get { model.page }
-        nonmutating set { model.page = newValue }
-    }
-    @State private var tool: SchematicTool = .pointer
-    @State private var pcbTool = PCBTool.select
-    /// Layers the PCB page doesn't draw (the View popover). The hidden set,
-    /// so layers added later start shown. Per window; not saved.
-    @State private var hiddenLayers: Set<BoardViewLayer> = []
-    @State private var isLayerViewShown = false
-    /// The net Board Details' Nets tab highlights on the canvas.
-    /// Per window; not saved, not undone.
-    @State private var highlightedNet: PlaneNet?
-    /// Route ▸ Autoroute…'s sheet, and its model (made on first use; kept by
-    /// the window's model, where the Route menu can follow it).
-    @State private var isAutorouteOpen = false
-    private var autoroute: AutorouteModel? {
-        get { model.autoroute }
-        nonmutating set { model.autoroute = newValue }
-    }
-    /// The layer the PCB Trace tool draws on (the trace layer menu).
-    @State private var traceLayer: CopperLayer = .top
-    /// What the Cutout tool draws (plan-65).
-    @State private var cutoutShape: CutoutShape = .rectangle
-    /// Whether the sidebar is shown: the parts drawer on the Schematic page,
-    /// the inspector on the PCB page. One flag for both pages.
-    @State private var isSidebarShown = true
-    private var simulation: SimulationController { model.simulation }
-    private var file: SchematicExporter { model.file }
-    /// Identifies this window's document to the child windows it opens.
-    private var documentID: UUID { model.id }
-    /// The child windows are AppKit windows of the document
-    /// (`ChildWindowCenter`); these two have SwiftUI's call syntax.
-    private var openWindow: ChildWindowOpener { ChildWindowOpener(documentID: model.id) }
-    private var dismissWindow: ChildWindowCloser { ChildWindowCloser(documentID: model.id) }
-    /// Memory windows opened from this window, closed along with it.
-    @State private var memoryWindows: Set<MemoryWindowTarget> = []
-    @State private var cpuWindows: Set<CpuWindowTarget> = []
-    @State private var registerWindows: Set<RegisterWindowTarget> = []
-    @State private var terminalWindows: Set<TerminalWindowTarget> = []
-    @State private var isBillOfMaterialsOpen = false
-    @State private var isDesignRuleCheckOpen = false
-    @State private var isElectricalRulesCheckOpen = false
-    @State private var isDocumentInfoOpen = false
-    @State private var isBoardPreviewOpen = false
-    /// Watches for the editing keys: ⌘R / ⇧⌘R rotate, A changes the trace
-    /// angle and ⌘X / ⌘C / ⌘V cut, copy and paste traces on the PCB, ⌘F
-    /// flips on the Schematic, ⌘X / ⌘C / ⌘V cut, copy and paste its
-    /// selection, ⌘⌫ deletes and ⌘A selects all on both.
-    /// Kept by the model, not in view state, and installed through the
-    /// model's monitors: the document empties those when it closes (a
-    /// hosted view gets no `onDisappear` then), and the monitor's closure
-    /// holds this view and so the model.
-    private var editKeyMonitor: UUID? {
-        get { model.editKeyMonitor }
-        nonmutating set { model.editKeyMonitor = newValue }
-    }
-    /// Edit › Reset References is asking whether to go on.
-    @State private var isConfirmingResetReferences = false
-    /// The supply menu's Custom…: the dialog, what is typed in it, and
-    /// whether the last entry was refused.
-    @State private var isAskingCustomVoltage = false
-    @State private var customVoltageText = ""
-    @State private var customVoltageRefused = false
-    /// The Trace tool's angle, kept until changed; not saved in the file.
-    @State private var traceAngle = TraceRoute.defaultAngle
-    /// The angle shown in the middle of the PCB after A, and how opaque it
-    /// is; `angleFlashID` lets only the latest press fade it.
-    @State private var angleFlash: Int?
-    @State private var angleFlashOpacity = 0.0
-    @State private var angleFlashID = UUID()
-    /// Where the pointer is over the PCB, for ⌘V.
-    @State private var boardPointer = BoardPointer()
-    /// Where the pointer is over the Schematic, for ⌘V.
-    @State private var schematicPointer = BoardPointer()
+    /// What the window holds and does (`ContentViewController`); this view
+    /// draws it.
+    @State private var controller: ContentViewController
     /// Simulation speed (circuit time per wall time), an app preference.
     @AppStorage("simulationSpeed") private var simulationSpeed = 1.0
     /// The Trace tool's router assist (plan-38-L), off until turned on.
     @AppStorage("traceAssist") private var traceAssist = false
-    /// The supply the VCC tool places (a `SupplyChoice` name), an app preference.
-    @AppStorage("supplyVoltage") private var supplyVoltage = SupplyChoice.defaultName
+    /// The supply the VCC tool places (a `SupplyChoice` name), an app
+    /// preference; the controller sets it.
+    @AppStorage(ContentViewController.supplyVoltageKey) private var supplyVoltage = SupplyChoice.defaultName
 
     init(model: SchematicEditorModel) {
-        self.model = model
+        self.init(controller: ContentViewController(model: model))
     }
 
-    /// The zoom controls act on the page being shown.
-    private var activeViewport: CanvasViewport {
-        page == .schematic ? viewport : boardViewport
+    /// The editor of `controller`'s window (tests keep the controller, to
+    /// reach what the view shows).
+    init(controller: ContentViewController) {
+        _controller = State(initialValue: controller)
     }
 
-    /// One inspector column: the parts drawer on the Schematic page, the PCB
-    /// sidebar on the PCB page. Both pages share one shown flag.
-    private var inspectorBinding: Binding<Bool> { $isSidebarShown }
-
-    /// The layers the Trace tool can draw on: the board's, less its planes.
-    private var traceLayers: [CopperLayer] { document.board.traceLayers }
-
-    /// What Rotate would turn. On the PCB: exactly one footprint or board
-    /// text selected (plan-15: never a group), not when it is locked; a trace
-    /// doesn't turn. On the Schematic: the sole selected part drawn as its
-    /// own symbol (`PartSymbol.canRotate`), while the simulation isn't running.
-    private var canRotate: Bool {
-        if page == .schematic { return rotateTarget != nil }
-        if let id = document.selectedTextID { return !document.isLocked(.text(id)) }
-        guard let id = document.selectedFootprintID,
-              let board = document.chips.first(where: { $0.id == id })?.board else { return false }
-        return !board.locked
-    }
-
-    /// The Rotate button and ⌘R: turns the selected board text, else the
-    /// selected footprint, 90° clockwise; ⇧⌘R turns it the other way.
-    /// Returns whether it turned anything.
-    @discardableResult
-    private func rotateSelection(counterclockwise: Bool = false) -> Bool {
-        guard canRotate else { return false }
-        if page == .schematic, let target = rotateTarget {
-            switch target {
-            case let .chip(id): document.rotateChip(id, counterclockwise: counterclockwise)
-            case let .unit(ref): document.rotateUnit(ref, counterclockwise: counterclockwise)
-            }
-        } else if let id = document.selectedTextID {
-            document.rotateText(id, counterclockwise: counterclockwise)
-        } else if let id = document.selectedFootprintID {
-            document.rotateFootprint(id, counterclockwise: counterclockwise)
-        }
-        return true
-    }
-
-    /// ⌘F: flips the selected net label, else the selected part, on the
-    /// Schematic. Returns whether it flipped anything.
-    private func flipSelection() -> Bool {
-        if page == .schematic, !simulation.isRunning, let id = document.selectedNetLabelID {
-            document.flipNetLabel(id)
-            return true
-        }
-        guard let target = flipTarget else { return false }
-        switch target {
-        case let .chip(id): document.flipChip(id)
-        case let .unit(ref): document.flipUnit(ref)
-        }
-        return true
-    }
-
-    /// Whether ⌘F has something to flip.
-    private var canFlip: Bool {
-        (page == .schematic && !simulation.isRunning && document.selectedNetLabelID != nil) || flipTarget != nil
-    }
-
-    /// What Rotate would turn on the Schematic: the sole selected part, or
-    /// the one picked unit of a part drawn as its units (plan-67), when it
-    /// can rotate and the simulation isn't running.
-    private var rotateTarget: SchematicDocument.EditTarget? {
-        guard page == .schematic, !simulation.isRunning else { return nil }
-        return document.rotateTarget
-    }
-
-    /// What Flip would mirror: the sole selected part on the Schematic, or
-    /// the one picked unit of a part drawn as its units, when it can flip
-    /// and the simulation isn't running.
-    private var flipTarget: SchematicDocument.EditTarget? {
-        guard page == .schematic, !simulation.isRunning else { return nil }
-        return document.flipTarget
-    }
-
-    /// The editing keys, in this window only and never while a text field
-    /// is being typed in: ⌘R presses Rotate (when it is enabled: on the PCB,
-    /// or on the Schematic for a part drawn as its own symbol)
-    /// and ⇧⌘R turns the other way; A steps the Trace tool's angle while
-    /// Trace is the PCB tool; ⌘F flips the selected part or net label on the
-    /// Schematic; ⌘⌫ deletes the selection (on the PCB only its texts, traces, vias and holes);
-    /// ⌘C copies the selected traces, texts and vias on the PCB and ⌘V pastes them centred
-    /// on the pointer (`BoardClipboard`); on the Schematic they copy the
-    /// selection and paste it the same way (`SchematicClipboard`; not while
-    /// the simulation runs); ⌘X copies and then deletes what it copied; ⌘A
-    /// selects everything on the page. These are the Edit menu's items too
-    /// (`EditCommands`). Every other key, and a key with nothing to act on,
-    /// is left alone.
-    private func installEditKeyMonitor() {
-        guard editKeyMonitor == nil else { return }
-        editKeyMonitor = model.eventMonitors.add(matching: .keyDown) { event in
-            guard let window = file.window, event.window === window, !(window.firstResponder is NSText),
-                  let key = Self.editKey(keyCode: event.keyCode, event.charactersIgnoringModifiers,
-                                         event.modifierFlags, isRepeat: event.isARepeat) else { return event }
-            switch key {
-            case .rotate:
-                guard rotateSelection() else { return event }
-            case .rotateBack:
-                guard rotateSelection(counterclockwise: true) else { return event }
-            case .flip:
-                guard flipSelection() else { return event }
-            case .angle:
-                guard page == .pcb, pcbTool == .trace else { return event }
-                traceAngle = TraceRoute.nextAngle(after: traceAngle)
-                flashAngle(traceAngle)
-            case .delete:
-                guard deleteSelection() else { return event }
-            case .cut:
-                guard cutSelection() else { return event }
-            case .copy:
-                guard copySelection() else { return event }
-            case .paste:
-                guard pasteClipboard() else { return event }
-            case .selectAll:
-                selectAll()
-            }
-            return nil
-        }
-    }
-
-    // MARK: Edit menu
-
-    /// ⌘⌫: deletes the selection (on the PCB only its texts, traces,
-    /// vias and holes). Returns whether anything was deleted.
-    private func deleteSelection() -> Bool {
-        page == .pcb
-            ? document.deleteBoardSelection()
-            : !simulation.isRunning && document.deleteSchematicSelection()
-    }
-
-    /// ⌘C: the Schematic selection to `SchematicClipboard`, or the selected
-    /// traces, texts and vias to `BoardClipboard`. Returns whether anything was copied.
-    private func copySelection() -> Bool {
-        if page == .schematic {
-            guard let copied = document.schematicCopy() else { return false }
-            SchematicClipboard.copy(copied)
-            return true
-        }
-        let copied = document.selectedTraces(), copiedTexts = document.selectedTexts()
-        let copiedVias = document.selectedVias()
-        guard !copied.isEmpty || !copiedTexts.isEmpty || !copiedVias.isEmpty else { return false }
-        BoardClipboard.copy(copied, texts: copiedTexts, vias: copiedVias)
-        return true
-    }
-
-    /// ⌘X: copies as ⌘C, then deletes what was copied (on the PCB, the
-    /// selected traces, texts and vias). Not on the Schematic while the simulation runs.
-    private func cutSelection() -> Bool {
-        if page == .schematic {
-            guard !simulation.isRunning, copySelection() else { return false }
-            return document.deleteSchematicSelection(named: "Cut", includingTitleBlock: false)
-        }
-        guard copySelection() else { return false }
-        return document.cutBoardSelection()
-    }
-
-    /// ⌘V: pastes centred on the pointer, or one step on from the last
-    /// paste with the pointer off the page. Returns whether it pasted.
-    private func pasteClipboard() -> Bool {
-        if page == .schematic {
-            guard !simulation.isRunning, let copied = SchematicClipboard.contents else { return false }
-            let offset = schematicPointer.point.map { SchematicClipboard.offset(centring: copied, on: $0) }
-                ?? SchematicClipboard.nextOffset()
-            return document.pasteSchematic(copied, offset: offset)
-        }
-        guard !BoardClipboard.isEmpty else { return false }
-        let copied = BoardClipboard.traces, copiedTexts = BoardClipboard.texts, copiedVias = BoardClipboard.vias
-        let offset = boardPointer.point.map {
-            BoardClipboard.offset(centring: copied, texts: copiedTexts, vias: copiedVias, on: $0,
-                                  grid: document.board.traceGrid)
-        } ?? BoardClipboard.nextOffset()
-        return !document.pasteBoard(traces: copied, texts: copiedTexts, vias: copiedVias, offset: offset).isEmpty
-    }
-
-    /// ⌘A: everything on the page shown (on the PCB, what is drawn).
-    @discardableResult
-    private func selectAll() -> Bool {
-        if page == .pcb {
-            document.selectAllBoard(visible: BoardVisibility(hidden: hiddenLayers))
-        } else {
-            document.selectAllSchematic()
-        }
-        return true
-    }
-
-    /// Simulation › Run / Stop. Play mode starts with the Pointer (and PCB
-    /// Select) tool and nothing selected. The simulation is the Schematic
-    /// page's: nothing happens on the PCB. Run does nothing while a part
-    /// that isn't simulated is placed (plan-36: the menu disables Run
-    /// itself; this is the check for any other way here).
-    private func toggleSimulation() {
-        guard page == .schematic else { return }
-        if !simulation.isRunning {
-            guard SimulationAvailability.canStart(document) else { return }
-            tool = .pointer
-            pcbTool = .select
-            document.clearAllSelections()
-        }
-        SimulationAvailability.toggle(simulation, document: document)
-    }
-
-    /// The Simulation menu's view of this window (plan-36: Run is off while a
-    /// part that isn't simulated is placed, with the reason under it).
-    private var simulationTarget: SimulationTarget {
-        SimulationAvailability.target(page: page, chips: document.chips, isRunning: simulation.isRunning,
-                                      toggle: toggleSimulation)
-    }
-
-    /// The Edit menu's actions for this window.
-    private var editActions: EditActions {
-        EditActions(cut: cutSelection, copy: copySelection, paste: pasteClipboard,
-                    delete: deleteSelection, selectAll: selectAll,
-                    flip: flipSelection, canFlip: canFlip,
-                    rotate: { rotateSelection(counterclockwise: $0) }, canRotate: canRotate,
-                    resetReferences: { isConfirmingResetReferences = true },
-                    canResetReferences: !document.chips.isEmpty && !simulation.isRunning)
-    }
-
-    /// Gives the app's menus this window's actions (`EditorMenus`). Each
-    /// closure reads the editor's state when a menu asks, so the menus
-    /// follow it; the document removes them when it closes.
-    private func installMenus() {
-        let menus = model.menus
-        menus.edit = { editActions }
-        menus.simulation = { simulationTarget }
-        menus.route = { RouteActions.available(page: page, isPlaying: document.isPlaying) ? routeActions : nil }
-        menus.openBillOfMaterials = {
-            isBillOfMaterialsOpen = true
-            openWindow(id: "bom", value: BillOfMaterialsTarget(documentID: documentID))
-        }
-        menus.openDocumentInfo = {
-            isDocumentInfoOpen = true
-            openWindow(id: "documentInfo", value: DocumentInfoTarget(documentID: documentID))
-        }
-        menus.openDesignRuleCheck = {
-            isDesignRuleCheckOpen = true
-            openWindow(id: "drc", value: DesignRuleCheckTarget(documentID: documentID))
-        }
-        menus.openElectricalRulesCheck = {
-            isElectricalRulesCheckOpen = true
-            openWindow(id: "erc", value: ElectricalRulesCheckTarget(documentID: documentID))
-        }
-    }
-
-    private func removeEditKeyMonitor() {
-        model.eventMonitors.remove(editKeyMonitor)
-        editKeyMonitor = nil
-    }
-
-    /// Shows `angle` in the middle of the PCB for 500 ms, then fades it out
-    /// over 250 ms. A newer press restarts it.
-    private func flashAngle(_ angle: Int) {
-        let id = UUID()
-        angleFlashID = id
-        angleFlash = angle
-        angleFlashOpacity = 1
-        Task { @MainActor in
-            try? await Task.sleep(for: .milliseconds(500))
-            guard angleFlashID == id else { return }
-            withAnimation(.easeOut(duration: 0.25)) { angleFlashOpacity = 0 }
-        }
-    }
+    private var model: SchematicEditorModel { controller.model }
+    private var document: SchematicDocument { controller.document }
+    private var simulation: SimulationController { controller.simulation }
 
     enum EditKey { case rotate, rotateBack, flip, angle, delete, cut, copy, paste, selectAll }
 
@@ -421,66 +80,32 @@ struct ContentView: View {
 
     @ViewBuilder
     private var pageContent: some View {
-        switch page {
+        switch controller.page {
         case .schematic:
-            SchematicCanvasView(
-                catalog: catalog,
-                document: document,
-                viewport: viewport,
-                tool: tool,
-                supplyVoltage: supplyVoltage,
-                simulation: simulation,
-                onOpenMemory: { chipID in
-                    let target = MemoryWindowTarget(documentID: documentID, chipID: chipID)
-                    memoryWindows.insert(target)
-                    openWindow(id: "memory", value: target)
-                },
-                onOpenCpu: { chipID in
-                    let target = CpuWindowTarget(documentID: documentID, chipID: chipID)
-                    cpuWindows.insert(target)
-                    openWindow(id: "cpu", value: target)
-                },
-                onOpenTerminal: { chipID in
-                    let target = TerminalWindowTarget(documentID: documentID, chipID: chipID)
-                    terminalWindows.insert(target)
-                    openWindow(id: "terminal", value: target)
-                },
-                onOpenRegisters: { chipID in
-                    let target = RegisterWindowTarget(documentID: documentID, chipID: chipID)
-                    registerWindows.insert(target)
-                    openWindow(id: "registers", value: target)
-                },
-                onOpenDocumentInfo: { model.menus.openDocumentInfo?() },
-                pointer: schematicPointer
-            ) {
-                // Placing a part from the drawer returns to the Pointer tool.
-                tool = .pointer
-            }
+            SchematicCanvasView(catalog: controller.catalog, document: document, viewport: controller.viewport,
+                                tool: controller.tool, supplyVoltage: supplyVoltage, simulation: simulation,
+                                onOpenMemory: controller.openMemory, onOpenCpu: controller.openCpu,
+                                onOpenTerminal: controller.openTerminal, onOpenRegisters: controller.openRegisters,
+                                onOpenDocumentInfo: controller.openDocumentInfo, pointer: controller.schematicPointer,
+                                onPartPlaced: controller.partPlaced)
         case .pcb:
-            PCBCanvasView(document: document, viewport: boardViewport, tool: pcbTool,
-                          visible: BoardVisibility(hidden: hiddenLayers), traceLayer: traceLayer,
-                          cutoutShape: cutoutShape,
-                          traceAngle: traceAngle, traceAssist: traceAssist,
-                          onShowLayer: { hiddenLayers.remove(.copper($0)) },
-                          onLayerChange: { layer in
-                              traceLayer = layer
-                              hiddenLayers.remove(.copper(layer))
-                          },
-                          pointer: boardPointer, highlightedNet: $highlightedNet,
-                          routePreview: autoroute?.session.isRunning == true ? autoroute?.session.preview : nil,
-                          onRoute: route) {
-                // Placing a text returns to the Select tool.
-                pcbTool = .select
-            }
+            PCBCanvasView(document: document, viewport: controller.boardViewport, tool: controller.pcbTool,
+                          visible: controller.visibility, traceLayer: controller.traceLayer,
+                          cutoutShape: controller.cutoutShape,
+                          traceAngle: controller.traceAngle, traceAssist: traceAssist,
+                          onShowLayer: controller.showLayer, onLayerChange: controller.changeTraceLayer,
+                          pointer: controller.boardPointer, highlightedNet: $controller.highlightedNet,
+                          routePreview: controller.routePreview, onRoute: controller.route,
+                          onPlaced: controller.textPlaced)
             .overlay {
-                if let angleFlash {
+                if let angleFlash = controller.angleFlash {
                     Text("\(angleFlash)°")
                         .font(.system(size: 48, weight: .semibold, design: .rounded))
                         .monospacedDigit()
                         .padding(.horizontal, 24)
                         .padding(.vertical, 12)
                         .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
-                        .opacity(angleFlashOpacity)
+                        .opacity(controller.angleFlashOpacity)
                         .allowsHitTesting(false)
                         .accessibilityHidden(true)
                 }
@@ -488,386 +113,236 @@ struct ContentView: View {
         }
     }
 
-    /// Takes the Custom… dialog's voltage for the VCC and Pull-up tools, or
-    /// asks again when it is no voltage a rail can have.
-    private func useCustomVoltage() {
-        guard let name = SupplyChoice.name(typed: customVoltageText), catalog.part(named: name) != nil else {
-            customVoltageRefused = true
-            // The alert has closed by now; show it again with the reason.
-            DispatchQueue.main.async { isAskingCustomVoltage = true }
-            return
-        }
-        supplyVoltage = name
-        tool = tool == .pullUp ? .pullUp : .vcc
-    }
-
     var body: some View {
         editor
-            // Edit › Cut, Copy, Paste, Delete, Select All, Reset References.
             // The speed is an app preference: every window runs at it.
             .onChange(of: simulationSpeed) { _, speed in simulation.setSpeed(speed) }
-            .alert("Reset References?", isPresented: $isConfirmingResetReferences) {
-                Button("Reset") { document.resetReferences(page: page) }
+            .alert("Reset References?", isPresented: $controller.isConfirmingResetReferences) {
+                Button("Reset", action: controller.resetReferences)
                 Button("Cancel", role: .cancel) {}
             } message: {
                 Text("Every part gets its default prefix back (U, or R and C for resistors and capacitors) and is numbered again from 1, top to bottom and left to right. You can undo this.")
             }
-            .alert("Custom Supply Voltage", isPresented: $isAskingCustomVoltage) {
-                TextField("Volts", text: $customVoltageText)
-                Button("Use") { useCustomVoltage() }
+            .alert("Custom Supply Voltage", isPresented: $controller.isAskingCustomVoltage) {
+                TextField("Volts", text: $controller.customVoltageText)
+                Button("Use", action: controller.useCustomVoltage)
                 Button("Cancel", role: .cancel) {}
             } message: {
-                Text(customVoltageRefused
-                    ? "That is not a voltage the tools can use. Enter a number above 0, up to 500 V."
-                    : "The voltage the VCC and Pull-up tools place, up to 500 V.")
+                Text(controller.customVoltageMessage)
             }
-            .sheet(isPresented: $isAutorouteOpen) {
-                AutorouteSheet(model: autorouteModel, onClose: { isAutorouteOpen = false },
-                               onHighlight: { highlightedNet = $0 },
-                               onOpenDesignRuleCheck: {
-                                   isDesignRuleCheckOpen = true
-                                   openWindow(id: "drc", value: DesignRuleCheckTarget(documentID: documentID))
-                               })
-                .interactiveDismissDisabled(autoroute?.session.isRunning == true)
+            .sheet(isPresented: $controller.isAutorouteOpen) {
+                AutorouteSheet(model: controller.autorouteModel, onClose: controller.closeAutoroute,
+                               onHighlight: controller.highlight, onOpenDesignRuleCheck: controller.openDesignRuleCheck)
+                .interactiveDismissDisabled(controller.isRouting)
             }
-    }
-
-    /// The window's Autoroute model, made the first time it is needed.
-    private var autorouteModel: AutorouteModel {
-        if let autoroute { return autoroute }
-        let model = AutorouteModel(document: document)
-        return model
-    }
-
-    /// Routes `scope` with the last Autoroute options, the sheet showing
-    /// the run (the Route tool, a Nets row's Route Net).
-    private func route(_ scope: RoutingOptions.Scope) {
-        guard !document.isPlaying, autoroute?.session.isRunning != true else { return }
-        let model = autorouteModel
-        autoroute = model
-        model.scopeChoice = .scope(scope)
-        isAutorouteOpen = true
-        model.route()
-    }
-
-    /// The Route menu's actions for this window (plan-38-K).
-    private var routeActions: RouteActions {
-        RouteActions(
-            autoroute: {
-                let model = autorouteModel
-                autoroute = model
-                model.scopeChoice = .all
-                isAutorouteOpen = true
-            },
-            routeSelected: {
-                let model = autorouteModel
-                autoroute = model
-                model.scopeChoice = .selection
-                isAutorouteOpen = true
-                model.route()
-            },
-            unrouteSelected: { document.unroute(nets: document.selectedNets(), onlyAuto: false) },
-            unrouteAllAutorouted: { document.unrouteAll(onlyAuto: true) },
-            selectAutorouted: { document.selectAutorouted() },
-            isRouting: autoroute?.session.isRunning == true,
-            hasSelection: !document.boardSelection.isEmpty
-        )
     }
 
     private var editor: some View {
         pageContent
-            .inspector(isPresented: inspectorBinding) {
+            .inspector(isPresented: $controller.isSidebarShown) {
                 ZStack {
                     // Kept in the tree on the PCB page too, so the parts
                     // library keeps its search, filters and open groups.
-                    SchematicSidebarView(catalog: catalog, document: document, simulation: simulation,
-                                         isActive: page == .schematic)
-                    if page == .pcb {
-                        PCBSidebarView(document: document, highlightedNet: $highlightedNet, onRoute: route)
+                    SchematicSidebarView(catalog: controller.catalog, document: document, simulation: simulation,
+                                         isActive: controller.page == .schematic)
+                    if controller.page == .pcb {
+                        PCBSidebarView(document: document, highlightedNet: $controller.highlightedNet,
+                                       onRoute: controller.route)
                     }
                 }
                 // macOS opens an inspector at its minimum width and ignores
                 // `ideal`, so the minimum is the width it should open at.
                 .inspectorColumnWidth(min: 350, ideal: 350, max: 500)
             }
-            .toolbar {
-                // The page picker on the left; the tools stay centred.
-                ToolbarItem(placement: .navigation) {
-                    Picker("Page", selection: Binding(get: { page }, set: { page = $0 })) {
-                        ForEach(EditorPage.allCases) { page in
-                            Text(page.title).tag(page)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-                    .labelsHidden()
-                    .help("Show the schematic or the PCB")
-                }
-
-                // Run/Stop and the speed are in the Simulation menu
-                // (`SimulationCommands`); only the slow-down notice is here.
-                if page == .schematic {
-                    ToolbarItem(placement: .navigation) {
-                        ReachedSpeedLabel(simulation: simulation)
-                    }
-                }
-
-                ToolbarItemGroup(placement: .principal) {
-                    if page == .schematic {
-                        // Two pickers on one selection, so the supply tools
-                        // stand apart from the drawing tools.
-                        schematicToolPicker(SchematicTool.drawingTools)
-                        schematicToolPicker(SchematicTool.powerTools)
-
-                        // The VCC and Pull-up tools' rail. Picking one also picks
-                        // VCC, unless Pull-up is the tool.
-                        Menu(supplyVoltage) {
-                            ForEach(SupplyChoice.names, id: \.self) { name in
-                                Button(name) {
-                                    supplyVoltage = name
-                                    tool = tool == .pullUp ? .pullUp : .vcc
-                                }
-                            }
-                            Divider()
-                            // Any other rail, such as a nixie tube's 170 V.
-                            Button("Custom…") {
-                                let current = SupplyChoice.millivolts(name: supplyVoltage)
-                                customVoltageText = current.map { VoltageCheck.volts(UInt32($0)) } ?? ""
-                                customVoltageRefused = false
-                                isAskingCustomVoltage = true
-                            }
-                        }
-                        .help("Supply voltage for the VCC and Pull-up tools")
-                        .disabled(simulation.isRunning)
-                    } else {
-                        Picker("Tool", selection: $pcbTool) {
-                            ForEach(PCBTool.allCases) { tool in
-                                Label(tool.title, systemImage: tool.symbol)
-                                    .help(tool.tooltip)
-                                    .tag(tool)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                        .labelStyle(.iconOnly)
-                        .labelsHidden()
-
-                        // The Trace tool's layer: every board layer that
-                        // isn't a plane. Picking one also picks Trace and
-                        // shows that layer.
-                        Menu(traceLayer.title) {
-                            ForEach(traceLayers, id: \.self) { layer in
-                                Button(layer.title) {
-                                    traceLayer = layer
-                                    pcbTool = .trace
-                                    hiddenLayers.remove(.copper(layer))
-                                }
-                            }
-                        }
-                        .help("Layer for the Trace tool")
-
-                        // The Cutout tool's shape. Picking one also picks the tool.
-                        Menu(cutoutShape.title) {
-                            ForEach(CutoutShape.allCases) { shape in
-                                Button(shape.title) {
-                                    cutoutShape = shape
-                                    pcbTool = .cutout
-                                }
-                            }
-                        }
-                        .help("Shape for the Cutout tool")
-
-                        // The Trace tool's router assist (plan-38-L), remembered.
-                        Toggle(isOn: $traceAssist) {
-                            Label("Assist", systemImage: "wand.and.rays")
-                        }
-                        .toggleStyle(.button)
-                        .labelStyle(.iconOnly)
-                        .help("Trace assist — walks around obstacles and stops at illegal routes")
-                    }
-                }
-
-                if page == .pcb {
-                    ToolbarItem(placement: .primaryAction) {
-                        Button {
-                            rotateSelection()
-                        } label: {
-                            Label("Rotate", systemImage: "rotate.right")
-                        }
-                        .help("Rotate the selection 90° clockwise (⌘R; ⇧⌘R turns it the other way)")
-                        .disabled(!canRotate)
-                    }
-                }
-
-                // Route ▸ Autoroute…'s sheet, from the toolbar too.
-                if page == .pcb {
-                    ToolbarItem(placement: .primaryAction) {
-                        Button {
-                            routeActions.autoroute()
-                        } label: {
-                            Label("Autoroute", systemImage: "point.topleft.down.curvedto.point.bottomright.up")
-                        }
-                        .help("Route the board's unrouted connections (⌥⌘R)")
-                        .disabled(document.isPlaying || autoroute?.session.isRunning == true)
-                    }
-                }
-
-                // A picture of the board as made, in its own window. Not a tool.
-                if page == .pcb {
-                    ToolbarItem(placement: .primaryAction) {
-                        Button {
-                            isBoardPreviewOpen = true
-                            openWindow(id: "board-preview", value: BoardPreviewTarget(documentID: documentID))
-                        } label: {
-                            Label("Preview", systemImage: "photo")
-                        }
-                        .help("Show a picture of the finished board, front or back")
-                    }
-                }
-
-                // Which layers the PCB page draws, just left of the zoom.
-                if page == .pcb {
-                    ToolbarItem(placement: .primaryAction) {
-                        Button {
-                            isLayerViewShown.toggle()
-                        } label: {
-                            Label("View", systemImage: "square.3.layers.3d")
-                        }
-                        .help("Choose which layers to show")
-                        .popover(isPresented: $isLayerViewShown, arrowEdge: .bottom) {
-                            LayerViewPopover(board: document.board, hidden: $hiddenLayers)
-                        }
-                    }
-                }
-
-                ToolbarItemGroup(placement: .primaryAction) {
-                    zoomControls
-                }
-
-                ToolbarItem(placement: .primaryAction) {
-                    if page == .schematic {
-                        Toggle(isOn: $isSidebarShown) {
-                            Label("Parts Drawer", systemImage: "sidebar.trailing")
-                        }
-                        .toggleStyle(.button)
-                        .help("Show or hide the parts drawer")
-                    } else {
-                        Toggle(isOn: $isSidebarShown) {
-                            Label("Inspector", systemImage: "sidebar.trailing")
-                        }
-                        .toggleStyle(.button)
-                        .help("Show or hide the inspector")
-                    }
-                }
-            }
-            .overlay(alignment: .bottom) {
-                if page == .schematic, let message = simulation.errorMessage {
-                    Label("Simulation stopped: \(message)", systemImage: "exclamationmark.triangle.fill")
-                        .font(.callout)
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 8)
-                        .background(.red.opacity(0.85), in: Capsule())
-                        .foregroundStyle(.white)
-                        .padding(.bottom, 16)
-                } else if let message = document.editorMessage {
-                    // A refused wire, switch, route, assisted trace or via:
-                    // says why, then clears. On either page.
-                    Label(message, systemImage: "bolt.trianglebadge.exclamationmark")
-                        .font(.callout)
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 8)
-                        .background(.orange.opacity(0.9), in: Capsule())
-                        .foregroundStyle(.white)
-                        .padding(.bottom, 16)
-                }
-            }
-            // A trace layer that left the board or became a plane goes back
-            // to Top.
-            .onChange(of: traceLayers) { _, layers in
-                if !layers.contains(traceLayer) { traceLayer = .top }
-            }
-            .task(id: document.editorMessage) {
-                guard document.editorMessage != nil else { return }
-                try? await Task.sleep(for: .seconds(4))
-                if !Task.isCancelled {
-                    document.editorMessage = nil
-                }
-            }
+            .toolbar { toolbar }
+            .overlay(alignment: .bottom) { messages }
+            .onChange(of: controller.traceLayers) { _, layers in controller.traceLayersChanged(layers) }
+            .task(id: document.editorMessage) { await controller.expireEditorMessage() }
             // Erasing a port with wires, a bus line with ports, or unticking
             // a wired pin asks first.
-            .alert(
-                document.pendingRemoval?.message ?? "",
-                isPresented: Binding(
-                    get: { document.pendingRemoval != nil },
-                    set: { if !$0 { document.cancelPendingRemoval() } }
-                )
-            ) {
-                Button("Delete", role: .destructive) { document.confirmPendingRemoval() }
-                Button("Cancel", role: .cancel) { document.cancelPendingRemoval() }
+            .alert(document.pendingRemoval?.message ?? "", isPresented: $controller.isConfirmingRemoval) {
+                Button("Delete", role: .destructive, action: document.confirmPendingRemoval)
+                Button("Cancel", role: .cancel, action: document.cancelPendingRemoval)
             }
-            .onChange(of: page) { _, newPage in
-                // The page is restored with the window (plan-61-C).
-                model.platformDocument?.pageDidChange()
-                // The simulation never runs on the PCB page. Coming back to
-                // the Schematic does not restart it.
-                if newPage == .pcb {
-                    simulation.stop()
-                }
-            }
-            .onAppear {
-                simulation.setSpeed(simulationSpeed)
-                installEditKeyMonitor()
-                installMenus()
-            }
-            .onDisappear {
-                removeEditKeyMonitor()
-                model.menus.removeAll()
-                for target in memoryWindows {
-                    dismissWindow(id: "memory", value: target)
-                }
-                memoryWindows = []
-                for target in cpuWindows {
-                    dismissWindow(id: "cpu", value: target)
-                }
-                cpuWindows = []
-                for target in registerWindows {
-                    dismissWindow(id: "registers", value: target)
-                }
-                registerWindows = []
-                for target in terminalWindows {
-                    dismissWindow(id: "terminal", value: target)
-                }
-                terminalWindows = []
-                if isBillOfMaterialsOpen {
-                    dismissWindow(id: "bom", value: BillOfMaterialsTarget(documentID: documentID))
-                    isBillOfMaterialsOpen = false
-                }
-                if isDesignRuleCheckOpen {
-                    dismissWindow(id: "drc", value: DesignRuleCheckTarget(documentID: documentID))
-                    isDesignRuleCheckOpen = false
-                }
-                if isElectricalRulesCheckOpen {
-                    dismissWindow(id: "erc", value: ElectricalRulesCheckTarget(documentID: documentID))
-                    isElectricalRulesCheckOpen = false
-                }
-                if isDocumentInfoOpen {
-                    dismissWindow(id: "documentInfo", value: DocumentInfoTarget(documentID: documentID))
-                    isDocumentInfoOpen = false
-                }
-                if isBoardPreviewOpen {
-                    dismissWindow(id: "board-preview", value: BoardPreviewTarget(documentID: documentID))
-                    isBoardPreviewOpen = false
-                }
-            }
+            .onChange(of: controller.page) { _, newPage in controller.pageChanged(to: newPage) }
+            .onAppear { controller.appear(speed: simulationSpeed) }
+            .onDisappear { controller.disappear() }
             // The canvases install their key monitors through the model's.
             .environment(\.editorEventMonitors, model.eventMonitors)
-            .focusedSceneValue(\.schematicExporter, file)
+            .focusedSceneValue(\.schematicExporter, model.file)
             // The menus read the page, the selection and the rest through
             // the model (`EditorMenus`), not through values published here.
             .focusedSceneValue(\.schematicEditor, model)
     }
 
+    /// The simulation's error, else a refused edit's reason (on either
+    /// page), along the bottom.
+    @ViewBuilder
+    private var messages: some View {
+        if controller.page == .schematic, let message = simulation.errorMessage {
+            Label("Simulation stopped: \(message)", systemImage: "exclamationmark.triangle.fill")
+                .font(.callout)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
+                .background(.red.opacity(0.85), in: Capsule())
+                .foregroundStyle(.white)
+                .padding(.bottom, 16)
+        } else if let message = document.editorMessage {
+            Label(message, systemImage: "bolt.trianglebadge.exclamationmark")
+                .font(.callout)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
+                .background(.orange.opacity(0.9), in: Capsule())
+                .foregroundStyle(.white)
+                .padding(.bottom, 16)
+        }
+    }
+
+    @ToolbarContentBuilder
+    private var toolbar: some ToolbarContent {
+        // The page picker on the left; the tools stay centred.
+        ToolbarItem(placement: .navigation) {
+            Picker("Page", selection: $controller.page) {
+                ForEach(EditorPage.allCases) { page in
+                    Text(page.title).tag(page)
+                }
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+            .help("Show the schematic or the PCB")
+        }
+
+        // Run/Stop and the speed are in the Simulation menu
+        // (`SimulationCommands`); only the slow-down notice is here.
+        if controller.page == .schematic {
+            ToolbarItem(placement: .navigation) {
+                ReachedSpeedLabel(simulation: simulation)
+            }
+        }
+
+        ToolbarItemGroup(placement: .principal) {
+            if controller.page == .schematic {
+                schematicTools
+            } else {
+                pcbTools
+            }
+        }
+
+        if controller.page == .pcb {
+            pcbActions
+        }
+
+        ToolbarItemGroup(placement: .primaryAction) {
+            zoomControls
+        }
+
+        ToolbarItem(placement: .primaryAction) {
+            Toggle(isOn: $controller.isSidebarShown) {
+                Label(controller.page == .schematic ? "Parts Drawer" : "Inspector", systemImage: "sidebar.trailing")
+            }
+            .toggleStyle(.button)
+            .help(controller.page == .schematic ? "Show or hide the parts drawer" : "Show or hide the inspector")
+        }
+    }
+
+    /// The Schematic page's tools. Two pickers on one selection, so the
+    /// supply tools stand apart from the drawing tools; then the VCC and
+    /// Pull-up tools' rail. Picking one also picks VCC, unless Pull-up is
+    /// the tool.
+    @ViewBuilder
+    private var schematicTools: some View {
+        schematicToolPicker(SchematicTool.drawingTools)
+        schematicToolPicker(SchematicTool.powerTools)
+        Menu(supplyVoltage) {
+            ForEach(SupplyChoice.names, id: \.self) { name in
+                Button(name) { controller.pickSupply(name) }
+            }
+            Divider()
+            // Any other rail, such as a nixie tube's 170 V.
+            Button("Custom…", action: controller.askCustomVoltage)
+        }
+        .help("Supply voltage for the VCC and Pull-up tools")
+        .disabled(simulation.isRunning)
+    }
+
+    /// The PCB page's tools: the tool picker, the Trace tool's layer (every
+    /// board layer that isn't a plane; picking one also picks Trace and
+    /// shows that layer), the Cutout tool's shape (picking one also picks
+    /// the tool) and the Trace tool's router assist (plan-38-L), remembered.
+    @ViewBuilder
+    private var pcbTools: some View {
+        Picker("Tool", selection: $controller.pcbTool) {
+            ForEach(PCBTool.allCases) { tool in
+                Label(tool.title, systemImage: tool.symbol)
+                    .help(tool.tooltip)
+                    .tag(tool)
+            }
+        }
+        .pickerStyle(.segmented)
+        .labelStyle(.iconOnly)
+        .labelsHidden()
+
+        Menu(controller.traceLayer.title) {
+            ForEach(controller.traceLayers, id: \.self) { layer in
+                Button(layer.title) { controller.pickTraceLayer(layer) }
+            }
+        }
+        .help("Layer for the Trace tool")
+
+        Menu(controller.cutoutShape.title) {
+            ForEach(CutoutShape.allCases) { shape in
+                Button(shape.title) { controller.pickCutoutShape(shape) }
+            }
+        }
+        .help("Shape for the Cutout tool")
+
+        Toggle(isOn: $traceAssist) {
+            Label("Assist", systemImage: "wand.and.rays")
+        }
+        .toggleStyle(.button)
+        .labelStyle(.iconOnly)
+        .help("Trace assist — walks around obstacles and stops at illegal routes")
+    }
+
+    /// The PCB page's Rotate, Autoroute (Route ▸ Autoroute…'s sheet), Preview
+    /// (a picture of the board as made, not a tool) and View (which layers
+    /// it draws, just left of the zoom).
+    @ToolbarContentBuilder
+    private var pcbActions: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            Button(action: controller.rotate) {
+                Label("Rotate", systemImage: "rotate.right")
+            }
+            .help("Rotate the selection 90° clockwise (⌘R; ⇧⌘R turns it the other way)")
+            .disabled(!controller.canRotate)
+        }
+        ToolbarItem(placement: .primaryAction) {
+            Button(action: controller.routeActions.autoroute) {
+                Label("Autoroute", systemImage: "point.topleft.down.curvedto.point.bottomright.up")
+            }
+            .help("Route the board's unrouted connections (⌥⌘R)")
+            .disabled(document.isPlaying || controller.isRouting)
+        }
+        ToolbarItem(placement: .primaryAction) {
+            Button(action: controller.openBoardPreview) {
+                Label("Preview", systemImage: "photo")
+            }
+            .help("Show a picture of the finished board, front or back")
+        }
+        ToolbarItem(placement: .primaryAction) {
+            Button(action: controller.toggleLayerView) {
+                Label("View", systemImage: "square.3.layers.3d")
+            }
+            .help("Choose which layers to show")
+            .popover(isPresented: $controller.isLayerViewShown, arrowEdge: .bottom) {
+                LayerViewPopover(board: document.board, hidden: $controller.hiddenLayers)
+            }
+        }
+    }
+
     /// A segmented picker over some of the schematic tools.
     private func schematicToolPicker(_ tools: [SchematicTool]) -> some View {
-        Picker("Tool", selection: $tool) {
+        Picker("Tool", selection: $controller.tool) {
             ForEach(tools) { tool in
                 Label(tool.title, systemImage: tool.symbol)
                     .help(tool.tooltip)
@@ -882,9 +357,7 @@ struct ContentView: View {
 
     @ViewBuilder
     private var zoomControls: some View {
-        Button {
-            activeViewport.zoomOut()
-        } label: {
+        Button(action: controller.zoomOut) {
             Label("Zoom Out", systemImage: "minus.magnifyingglass")
         }
         .keyboardShortcut("-", modifiers: .command)
@@ -892,33 +365,23 @@ struct ContentView: View {
 
         Menu {
             ForEach(CanvasViewport.zoomLevels, id: \.self) { level in
-                Button("\(Int((level * 100).rounded()))%") {
-                    activeViewport.setZoom(level)
-                }
+                Button(ContentViewController.percent(level)) { controller.setZoom(level) }
             }
             Divider()
-            Button("Actual Size") {
-                activeViewport.setZoom(1)
-            }
-            .keyboardShortcut("0", modifiers: .command)
+            Button("Actual Size") { controller.setZoom(1) }
+                .keyboardShortcut("0", modifiers: .command)
         } label: {
-            Text("\(Int((activeViewport.zoom * 100).rounded()))%")
+            Text(ContentViewController.percent(controller.activeViewport.zoom))
                 .monospacedDigit()
         }
         .help("Zoom level")
 
-        Button {
-            activeViewport.zoomIn()
-        } label: {
+        Button(action: controller.zoomIn) {
             Label("Zoom In", systemImage: "plus.magnifyingglass")
         }
         .keyboardShortcut("=", modifiers: .command)
         .help("Zoom in (⌘=)")
     }
-}
-
-#Preview {
-    ContentView(model: SchematicEditorModel())
 }
 
 /// "running at 0.078×" while the simulation runs below 90 % of the chosen speed.
@@ -955,7 +418,7 @@ struct ReachedSpeedLabel: View {
 /// colour), then PCB (the board's fill), Silkscreen and Document, then Ratsnest (the unrouted
 /// lines), and Show All. It stays open while
 /// the user ticks several boxes; a menu would close after each one.
-private struct LayerViewPopover: View {
+struct LayerViewPopover: View {
     let board: BoardSettings
     @Binding var hidden: Set<BoardViewLayer>
 

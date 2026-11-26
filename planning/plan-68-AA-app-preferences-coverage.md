@@ -73,7 +73,19 @@ controller tests both run in the phase gate.
 
 ### Phase 1 — `ContentView.swift`, `schematicalApp.swift`, `DesignRulePreferences.swift`, `PreferencesView.swift`
 
-- [ ] Close every uncovered line of these files per § 3; ratchet rows removed.
+- [x] Close every uncovered line of these files per § 3. `LOGIC_COV_WORK=/tmp/logic-cov-AA node
+  scripts/coverage.js --app --tests ContentViewControllerTests,ContentViewRenderTests,PreferencesTests,PreferencesViewTests,EditKeyTests,SchematicNSDocumentTests
+  --only schematical/schematical/` → no `path:line` for `ContentView.swift`, `ContentViewController.swift`
+  (new, split out of `ContentView.swift`), `schematicalApp.swift`, `Preferences/DesignRulePreferences.swift`,
+  `Preferences/PreferencesView.swift` (0 uncovered each). `XB -only-testing` those classes → pass (24 + 14 + 14
+  + 8 + EditKeyTests + SchematicNSDocumentTests); the view's other classes (EditMenuTests, NetLabelTests,
+  PullResistorTests, DesignRuleSettingsTests, AutomationWindowToolsTests, SelectionSidebarTests,
+  FileDesignRulesTests, DesignRuleCheckWizardTests) → 66 tests, 0 failures. `SZ --check` → exit 0.
+- [x] ratchet rows: parent (all four rows go to 0: `ContentView.swift`, `schematicalApp.swift`,
+  `Preferences/DesignRulePreferences.swift`, `Preferences/PreferencesView.swift`).
+  Ratchet rows: removed by the parent in this letter's commit (4 rows). Re-measured in the
+  shared tree by the parent with this letter's classes: no `path:line` for any of its files,
+  no failed test.
 
 Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
@@ -97,7 +109,31 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- (AA) `ContentView`'s state and logic moved into `ContentViewController` (new file beside it, an
+  `@Observable` held in the view's `@State`): rotate/flip, the editing keys (`handleKey` / `perform`), the
+  Edit / Route / Simulation menus' actions, the child windows it opened (one map of closers in place of four
+  sets and five flags; the same windows close with the window), the supply, trace layer, cutout and zoom
+  menus, the Autoroute sheet, the message expiry and the removal alert's binding. The view only draws it and
+  passes method references. `ContentView(controller:)` is added so render tests reach the controller.
+  `ContentViewControllerTests` (unit) and `ContentViewRenderTests` (hosted as `SchematicNSDocument` hosts it,
+  toolbar, sheets and alerts answered in place) test them. The angle-flash and editor-message delays are
+  properties (500 ms and 4 s, as before) so tests can shorten them.
+- (AA) `ContentView`'s `#Preview` deleted: no test runs a preview macro, and the line can't be covered.
+- (AA) `schematicalApp.swift`: the scene windows' `{ $target in if let target { … } }` closures (run only when
+  such a window opens) became `SceneTargetRoot<Content>.init` and `PartEditorSceneRoot.init(target:)`
+  references; `SceneTargetRoot` is render-tested. The plain-launch rule became
+  `openUntitledIfNeeded(launchEvent:documentCount:isTestHost:newDocument:)`, unit-tested with a stand-in.
+- (AA) `DesignRulePreferences.swift`: the Custom field's set closure and Reset button moved to
+  `DesignRulePreferences.setCustom` / `resetCustom` (stored defaults injectable), passed by reference.
+- (AA) `PreferencesView.swift`: SwiftUI's menu pickers fill their menus only while open, so a test cannot pick
+  in them; the pickers' `Binding(get:set:)` fallback logic moved into tested `Binding` helpers (`choice(of:default:)`,
+  `within(_:default:)`, `footprintID(in:default:)`, `store`). The private page views became internal for render
+  tests; `AutomationPreferencesView` takes its server, folder and pasteboard (defaults: the shared ones) so tests
+  never start the real server, write the owner's folder bookmark or the general pasteboard; its status line is
+  the pure `statusText(isListening:lastRequest:clientName:callCount:now:)`. Tests that touch the app's own
+  preferences put the owner's values back.
+- (AA) No bug found. Not a bug: `SimulationEngine` traps on `setSpeed(1e12)` (UInt64 overflow), a speed no menu
+  offers; the slow-down test uses 1e5.
 
 ## Summary
 

@@ -65,7 +65,6 @@
 29	schematical/schematical/Canvas/TestPointSymbolView.swift
 115	schematical/schematical/Canvas/TransistorSymbolView.swift
 39	schematical/schematical/Canvas/WidthCalculator.swift
-366	schematical/schematical/ContentView.swift
 64	schematical/schematical/DesignRuleCheck/DesignRuleCheck.swift
 26	schematical/schematical/DesignRuleCheck/DesignRuleCheckWindow.swift
 24	schematical/schematical/Document/SchematicFile+Board.swift
@@ -115,8 +114,6 @@
 2	schematical/schematical/Help/Acknowledgements.swift
 34	schematical/schematical/Memory/MemoryFileAccess.swift
 103	schematical/schematical/Memory/MemoryWindow.swift
-36	schematical/schematical/Preferences/DesignRulePreferences.swift
-313	schematical/schematical/Preferences/PreferencesView.swift
 84	schematical/schematical/Preferences/ReferencePrefixes.swift
 13	schematical/schematical/Routing/AutorouteModel.swift
 56	schematical/schematical/Routing/AutorouteSheet.swift
@@ -137,7 +134,6 @@
 21	schematical/schematical/Routing/RoutingTerminals.swift
 2	schematical/schematical/Routing/RoutingTuning.swift
 7	schematical/schematical/Routing/RoutingVerifier.swift
-12	schematical/schematical/schematicalApp.swift
 60	schematical/schematical/Simulation/BuzzerSound.swift
 51	schematical/schematical/Simulation/Simulation.swift
 9	schematical/schematical/Simulation/SimulationCommands.swift

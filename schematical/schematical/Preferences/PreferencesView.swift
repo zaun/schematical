@@ -177,6 +177,40 @@ enum NewPartOptions {
     }
 }
 
+/// The settings pickers' views of a stored value (plan-68-AA: the logic
+/// out of `DefaultsPreferencesView`).
+extension Binding where Value == String {
+    /// The stored value while it is one of `choices`, else `fallback` ("",
+    /// never picked, or a choice the part lost, shows the default); a pick
+    /// is stored as it is.
+    func choice(of choices: [String], default fallback: String) -> Binding<String> {
+        Binding(get: { choices.contains(wrappedValue) ? wrappedValue : fallback }, set: { wrappedValue = $0 })
+    }
+
+    /// A stored footprint type (a package name) as the id of the choice
+    /// with that package, `fallback` when none has it; a picked id is
+    /// stored as its choice's package.
+    func footprintID(in choices: [CatalogPart.FootprintChoice], default fallback: String) -> Binding<String> {
+        Binding(
+            get: { choices.first { $0.package == wrappedValue }?.footprint.id ?? fallback },
+            set: { id in wrappedValue = choices.first { $0.footprint.id == id }?.package ?? "" }
+        )
+    }
+}
+
+extension Binding where Value == Int {
+    /// The stored value while it is in `range`, else `fallback` (0 is never
+    /// picked); a pick is stored as it is.
+    func within(_ range: ClosedRange<Int>, default fallback: Int) -> Binding<Int> {
+        Binding(get: { range.contains(wrappedValue) ? wrappedValue : fallback }, set: { wrappedValue = $0 })
+    }
+}
+
+extension Binding {
+    /// Stores a value, for a field that reports what was typed.
+    func store(_ value: Value) { wrappedValue = value }
+}
+
 /// A page of the Settings window, in sidebar order.
 enum PreferencesPage: String, CaseIterable, Identifiable {
     case partList, defaults, references, designRules, automation
@@ -237,7 +271,7 @@ struct PreferencesView: View {
 }
 
 /// Settings ▸ Part List: which parts the parts drawer includes.
-private struct PartListPreferencesView: View {
+struct PartListPreferencesView: View {
     @AppStorage(PreferenceKey.showObsoleteParts) private var showObsolete = false
     @AppStorage(PreferenceKey.showMilitaryParts) private var showMilitary = false
     @AppStorage(PreferenceKey.showAutomotiveParts) private var showAutomotive = false
@@ -261,7 +295,7 @@ private struct PartListPreferencesView: View {
 }
 
 /// Settings ▸ General Defaults: the options a newly placed part starts with.
-private struct DefaultsPreferencesView: View {
+struct DefaultsPreferencesView: View {
     @AppStorage(PreferenceKey.genericLEDColor) private var ledColor = ""
     @AppStorage(PreferenceKey.genericLEDFootprint) private var ledFootprint = ""
     @AppStorage(PreferenceKey.headerRows) private var headerRows = 0
@@ -313,20 +347,13 @@ private struct DefaultsPreferencesView: View {
             if let led = catalog.part(named: NewPartOptions.genericLED) {
                 Section {
                     if !led.colors.isEmpty {
-                        ColorChoicePicker(colors: led.colors, selection: Binding(
-                            // "" (never picked) or a color the part lost shows the default.
-                            get: { led.colors.contains(ledColor) ? ledColor : led.colors[0] },
-                            set: { ledColor = $0 }
-                        ))
+                        // "" (never picked) or a color the part lost shows the default.
+                        ColorChoicePicker(colors: led.colors,
+                                          selection: $ledColor.choice(of: led.colors, default: led.colors[0]))
                     }
                     if !led.footprintChoices.isEmpty, let base = led.footprint {
-                        FootprintChoicePicker(choices: led.footprintChoices, selection: Binding(
-                            get: {
-                                led.footprintChoices.contains { $0.footprint.id == ledFootprint }
-                                    ? ledFootprint : base.id
-                            },
-                            set: { ledFootprint = $0 }
-                        ))
+                        FootprintChoicePicker(choices: led.footprintChoices, selection: $ledFootprint.choice(
+                            of: led.footprintChoices.map(\.footprint.id), default: base.id))
                     }
                 } header: {
                     Text("New Generic LED")
@@ -339,17 +366,11 @@ private struct DefaultsPreferencesView: View {
             if let pull = catalog.part(named: NewPartOptions.pullDown) {
                 Section {
                     // 0 (never set) or a bad value shows the default.
-                    OhmsField(ohms: ResistorValue.isValid(pullOhms) ? pullOhms : ResistorValue.defaultOhms) {
-                        pullOhms = $0
-                    }
+                    OhmsField(ohms: ResistorValue.isValid(pullOhms) ? pullOhms : ResistorValue.defaultOhms,
+                              commit: $pullOhms.store)
                     if !pull.footprintChoices.isEmpty, let base = pull.footprint {
-                        FootprintChoicePicker(choices: pull.footprintChoices, selection: Binding(
-                            get: {
-                                pull.footprintChoices.contains { $0.footprint.id == pullFootprint }
-                                    ? pullFootprint : base.id
-                            },
-                            set: { pullFootprint = $0 }
-                        ))
+                        FootprintChoicePicker(choices: pull.footprintChoices, selection: $pullFootprint.choice(
+                            of: pull.footprintChoices.map(\.footprint.id), default: base.id))
                     }
                 } header: {
                     Text("New Pull Resistor")
@@ -367,34 +388,25 @@ private struct DefaultsPreferencesView: View {
                     ? headerPinsPerRow : baseSize.perRow
                 let part = catalog.part(named: HeaderFamily.name(rows: rows, perRow: perRow)) ?? base
                 Section {
-                    Picker("Rows", selection: Binding(get: { rows }, set: { headerRows = $0 })) {
+                    Picker("Rows", selection: $headerRows.within(1...2, default: baseSize.rows)) {
                         Text("1").tag(1)
                         Text("2").tag(2)
                     }
                     .pickerStyle(.segmented)
-                    Picker("Pins per row", selection: Binding(get: { perRow }, set: { headerPinsPerRow = $0 })) {
+                    Picker("Pins per row", selection: $headerPinsPerRow.within(1...HeaderFamily.maxPerRow,
+                                                                                default: baseSize.perRow)) {
                         ForEach(1...HeaderFamily.maxPerRow, id: \.self) { Text("\($0)").tag($0) }
                     }
                     .pickerStyle(.menu)
                     if !part.genders.isEmpty {
-                        Picker("Gender", selection: Binding(
-                            get: { part.genders.contains(headerGender) ? headerGender : part.genders[0] },
-                            set: { headerGender = $0 }
-                        )) {
+                        Picker("Gender", selection: $headerGender.choice(of: part.genders, default: part.genders[0])) {
                             ForEach(part.genders, id: \.self) { Text($0).tag($0) }
                         }
                         .pickerStyle(.segmented)
                     }
                     if !part.footprintChoices.isEmpty, let footprint = part.footprint {
-                        FootprintChoicePicker(choices: part.footprintChoices, selection: Binding(
-                            get: {
-                                part.footprintChoices.first { $0.package == headerFootprintType }?.footprint.id
-                                    ?? footprint.id
-                            },
-                            set: { id in
-                                headerFootprintType = part.footprintChoices.first { $0.footprint.id == id }?.package ?? ""
-                            }
-                        ))
+                        FootprintChoicePicker(choices: part.footprintChoices, selection: $headerFootprintType.footprintID(
+                            in: part.footprintChoices, default: footprint.id))
                     }
                 } header: {
                     Text("New Generic Header")
@@ -411,11 +423,14 @@ private struct DefaultsPreferencesView: View {
 
 /// Settings ▸ AI Agents: turns on the server that lets an AI agent drive
 /// the running app (`AutomationServer`).
-private struct AutomationPreferencesView: View {
+struct AutomationPreferencesView: View {
     @AppStorage(PreferenceKey.automationEnabled) private var enabled = false
     @AppStorage(PreferenceKey.automationToken) private var token = ""
-    private let server = AutomationServer.shared
-    private let folder = AutomationFolder.shared
+    /// The server whose status this shows, the folder it shares, and the
+    /// pasteboard Copy Command writes to (tests give their own).
+    var server = AutomationServer.shared
+    var folder = AutomationFolder.shared
+    var pasteboard = NSPasteboard.general
 
     var body: some View {
         Form {
@@ -445,8 +460,8 @@ private struct AutomationPreferencesView: View {
                         VStack(alignment: .trailing, spacing: 6) {
                             Text(AutomationServer.addCommand).textSelection(.enabled).font(.caption.monospaced())
                             Button("Copy Command") {
-                                NSPasteboard.general.clearContents()
-                                NSPasteboard.general.setString(AutomationServer.addCommand, forType: .string)
+                                pasteboard.clearContents()
+                                pasteboard.setString(AutomationServer.addCommand, forType: .string)
                             }
                         }
                     }
@@ -478,7 +493,7 @@ private struct AutomationPreferencesView: View {
         }
         .formStyle(.grouped)
         .onChange(of: enabled) { _, value in
-            AutomationServer.shared.setEnabled(value)
+            server.setEnabled(value)
         }
         .onAppear {
             if token.isEmpty { token = AutomationServer.token }
@@ -487,10 +502,17 @@ private struct AutomationPreferencesView: View {
     }
 
     private var statusText: String {
-        guard server.isListening else { return "Starting…" }
-        guard let last = server.lastRequest else { return "Listening; no agent has connected yet" }
-        let name = server.clientName ?? "An agent"
-        let ago = Int(Date().timeIntervalSince(last))
-        return "\(name) connected; last request \(ago < 5 ? "just now" : "\(ago) s ago"); \(server.callCount) tool calls"
+        Self.statusText(isListening: server.isListening, lastRequest: server.lastRequest,
+                        clientName: server.clientName, callCount: server.callCount)
+    }
+
+    /// The Status row: starting, listening, or who called last and when.
+    static func statusText(isListening: Bool, lastRequest: Date?, clientName: String?, callCount: Int,
+                           now: Date = Date()) -> String {
+        guard isListening else { return "Starting…" }
+        guard let last = lastRequest else { return "Listening; no agent has connected yet" }
+        let name = clientName ?? "An agent"
+        let ago = Int(now.timeIntervalSince(last))
+        return "\(name) connected; last request \(ago < 5 ? "just now" : "\(ago) s ago"); \(callCount) tool calls"
     }
 }

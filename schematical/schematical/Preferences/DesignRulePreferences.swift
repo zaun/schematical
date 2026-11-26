@@ -137,18 +137,37 @@ struct DesignRulePreferencesView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
-            DesignRuleFields(rules: rules, editable: manufacturer == .custom) { field, typed in
-                var next = custom
-                next[keyPath: field] = max(0, typed)
-                customData = next.encoded
-                return next[keyPath: field]
-            }
+            DesignRuleFields(rules: rules, editable: manufacturer == .custom, set: DesignRulePreferences.setCustom)
             if manufacturer == .custom && custom != DesignRules.customDefault {
                 Section {
-                    Button("Reset to PCBWay Values") { customData = DesignRules.customDefault.encoded }
+                    Button("Reset to PCBWay Values", action: DesignRulePreferences.resetCustom)
                 }
             }
         }
         .formStyle(.grouped)
+    }
+}
+
+/// What Settings ▸ DRC Defaults changes: the stored Custom rules.
+enum DesignRulePreferences {
+    /// Sets one Custom rule to `typed` (never below 0) and returns the value
+    /// kept.
+    static func setCustom(_ field: WritableKeyPath<DesignRules, Double>, _ typed: Double) -> Double {
+        setCustom(field, typed, defaults: .standard)
+    }
+
+    static func setCustom(_ field: WritableKeyPath<DesignRules, Double>, _ typed: Double,
+                          defaults: UserDefaults) -> Double {
+        var next = DesignRules.decoded(defaults.data(forKey: PreferenceKey.drcCustomRules) ?? Data())
+        next[keyPath: field] = max(0, typed)
+        defaults.set(next.encoded, forKey: PreferenceKey.drcCustomRules)
+        return next[keyPath: field]
+    }
+
+    /// Settings' Reset to PCBWay Values: Custom back to its defaults.
+    static func resetCustom() { resetCustom(defaults: .standard) }
+
+    static func resetCustom(defaults: UserDefaults) {
+        defaults.set(DesignRules.customDefault.encoded, forKey: PreferenceKey.drcCustomRules)
     }
 }

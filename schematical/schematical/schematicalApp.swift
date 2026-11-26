@@ -29,11 +29,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         let event = NSAppleEventManager.shared().currentAppleEvent?.eventID
         DispatchQueue.main.async {
-            let count = NSDocumentController.shared.documents.count
-            if Self.opensUntitled(launchEvent: event, documentCount: count, isTestHost: Self.isTestHost) {
-                NSDocumentController.shared.newDocument(nil)
-            }
+            let documents = NSDocumentController.shared
+            Self.openUntitledIfNeeded(launchEvent: event, documentCount: documents.documents.count,
+                                      isTestHost: Self.isTestHost, newDocument: documents.newDocument)
         }
+    }
+
+    /// Shows an Untitled document (`newDocument`) when `opensUntitled`
+    /// says a launch should.
+    static func openUntitledIfNeeded(launchEvent: AEEventID?, documentCount: Int, isTestHost: Bool,
+                                     newDocument: (Any?) -> Void) {
+        guard opensUntitled(launchEvent: launchEvent, documentCount: documentCount, isTestHost: isTestHost)
+        else { return }
+        newDocument(nil)
     }
 
     /// The rule of `applicationDidFinishLaunching`. Not in the app that
@@ -75,11 +83,8 @@ struct schematicalApp: App {
         // a File › New item. The first one carries the app's menus.
 
         // One window per datasheet, opened from a part's Open Datasheet button.
-        WindowGroup("Datasheet", id: "datasheet", for: DatasheetWindowTarget.self) { $target in
-            if let target {
-                DatasheetWindowView(target: target)
-            }
-        }
+        WindowGroup("Datasheet", id: "datasheet", for: DatasheetWindowTarget.self,
+                    content: SceneTargetRoot<DatasheetWindowView>.init)
         .defaultSize(width: 820, height: 1000)
         .restorationBehavior(.disabled)
         .handlesExternalEvents(matching: [])
@@ -99,11 +104,8 @@ struct schematicalApp: App {
         }
 
         // One window per Markdown datasheet, opened from Show Datasheet.
-        WindowGroup("Datasheet", id: "datasheet-md", for: MarkdownDatasheetTarget.self) { $target in
-            if let target {
-                MarkdownDatasheetWindowView(target: target)
-            }
-        }
+        WindowGroup("Datasheet", id: "datasheet-md", for: MarkdownDatasheetTarget.self,
+                    content: SceneTargetRoot<MarkdownDatasheetWindowView>.init)
         .defaultSize(width: 1040, height: 1000)
         .restorationBehavior(.disabled)
         .handlesExternalEvents(matching: [])
@@ -133,9 +135,8 @@ struct schematicalApp: App {
 
         // One Part Editor per part being made (plan-32-C). File › New Part…
         // opens one on the Part Wizard's first step (plan-46-F).
-        WindowGroup("Part Editor", id: PartEditorScene.id, for: PartEditorTarget.self) { $target in
-            PartEditorSceneRoot(target: $target)
-        }
+        WindowGroup("Part Editor", id: PartEditorScene.id, for: PartEditorTarget.self,
+                    content: PartEditorSceneRoot.init(target:))
         // Wide enough for the Part Wizard's step list, step and preview.
         .defaultSize(width: 1120, height: 760)
         .restorationBehavior(.disabled)
@@ -157,6 +158,31 @@ struct schematicalApp: App {
 
         Settings {
             PreferencesView()
+        }
+    }
+}
+
+/// A view a scene window shows for one target value.
+protocol SceneTargetContent: View {
+    associatedtype Target: Codable & Hashable
+    init(target: Target)
+}
+
+extension DatasheetWindowView: SceneTargetContent {}
+extension MarkdownDatasheetWindowView: SceneTargetContent {}
+
+/// A `WindowGroup(for:)` window's content: `Content` for the window's
+/// target, nothing while it has none.
+struct SceneTargetRoot<Content: SceneTargetContent>: View {
+    @Binding var target: Content.Target?
+
+    init(_ target: Binding<Content.Target?>) {
+        _target = target
+    }
+
+    var body: some View {
+        if let target {
+            Content(target: target)
         }
     }
 }
