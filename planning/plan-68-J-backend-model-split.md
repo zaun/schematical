@@ -85,16 +85,20 @@ to `engine/sim_int.h`, included only by the two engine files.
 
 ### Phase 1 — converter_load.c, converter.c, library.c, serialmem.c
 
-- [ ] Split per § 3; CMake; ratchet rows (size removed, coverage renamed).
+- [x] Split per § 3; CMake; ratchet rows (size removed, coverage renamed).
 
 Acceptance: behavior and coverage identical.
   Check: `CT` → all pass, `git status --short backend/tests/golden` → no
   output; `COV --backend` total uncovered unchanged (est. 2 min).
+  Observed (all three phases together): `CT` → 104 of 105, the one failure
+  `source_size_check` naming the eleven stale rows this commit removes;
+  `git status --short backend/tests/golden` → no output; `COV --backend` →
+  7,090 uncovered before and after.
 Commit: —
 
 ### Phase 2 — counter.c, counter_div.c, shift.c, pio_via6522.c
 
-- [ ] Split per § 3; CMake; ratchet rows.
+- [x] Split per § 3; CMake; ratchet rows.
 
 Acceptance: as Phase 1.
   Check: as Phase 1 (est. 2 min).
@@ -102,20 +106,26 @@ Commit: —
 
 ### Phase 3 — sim.c, charlcd.c, eeprom.c
 
-- [ ] Split per § 3; CMake; ratchet rows.
-- [ ] `docs/backend.md` § Layout: every file and header added in D and E.
-- [ ] The app build (plan-68-I Phase 2's command).
+- [x] Split per § 3; CMake; ratchet rows.
+- [x] `docs/backend.md` § Layout: every file and header added in D and E.
+- [x] The app build (plan-68-I Phase 2's command).
 
 Acceptance: as Phase 1, and nothing in `backend/` over 800.
   Check: as Phase 1; `node scripts/source-size.js --all | grep backend/ |
   grep -v third_party | awk '$1>800'` → no output; the app build → `** BUILD
   SUCCEEDED **` (est. 6 min).
+  Observed: `node scripts/clash_check.sh`-style `nm` check → no name defined
+  twice; every new piece ≤ 800 (Corrections: the check as written also
+  lists sixteen untouched files); the app build → `** BUILD SUCCEEDED **`.
 Commit: —
 
 ## Validation Plan
 
 - Final gate (once, after Phase 3): `CT`; `SZ`; `COV --backend --check`; the
   app build (est. 6 min).
+  Observed: `CT` → 105/105 once the rows are gone; `SZ` → exit 0; `COV
+  --backend --only backend/src/ --write-ratchet --check` → exit 0; the app
+  build succeeded.
 
 ## Decisions
 
@@ -123,7 +133,24 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- **The three phases landed together**, by `planning/plan-68-data/split_model.py`
+  with the spec in `split_j.py`; every phase's check ran on the result.
+- **Shared names carry the model's prefix**, as in plan-68-I (cvl_, cvc_,
+  lib_, smem_, cnt_, cdv_, shf_, v22_ — `via_` was taken — simc_, clcd_,
+  eep_), and macros in an internal header follow a renamed name
+  (`library.c`'s `FLAG_COUNT` names `FLAG_NAMES`).
+- **New internal headers where the existing ones serve other files**:
+  `converter_core_int.h` (not `converter_int.h`), `library_load_int.h`
+  (not `library_internal.h`), `counter_int.h` (not `counter.h`),
+  `counter_div_int.h`, `shift_int.h` (not `shift.h`), `engine/sim_int.h`.
+- **"Nothing in `backend/` over 800" is the wrong check** for the same
+  reason as plan-68-H's: sixteen backend sources no letter touches are
+  already between 800 and 1000 (`latch.c` 971, `serial_ay1013.c` 933,
+  `footprints.c` 930 …). Every piece this letter wrote is at or under 800
+  (largest `converter_load_proto.c`, 790).
+- **The backend tier counts two fewer instrumented lines** after the split
+  (60,687 against 60,689) with the same 7,090 uncovered: two lines of
+  moved declarations no longer get a counter.
 
 ## Summary
 

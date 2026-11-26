@@ -746,6 +746,20 @@ backend/
                            serial_i82510_int.h. Names a piece shares with
                            another that were static before carry the
                            model's prefix (nsc_, exs_, brs_, m31x_, i82_);
+                           plan-68-J split, the same way:
+                           converter_load.c with converter_load_conv.c, converter_load_display.c, converter_load_lcd.c, converter_load_proto.c, converter_load_rtc.c;
+                           converter.c with converter_model.c, converter_proto.c;
+                           library.c with library_load.c, library_load_device.c;
+                           serialmem.c with serialmem_cmd.c, serialmem_load.c;
+                           counter.c with counter_ripple.c, counter_sync.c, counter_sync_load.c;
+                           counter_div.c with counter_seg7.c;
+                           shift.c with shift_load.c;
+                           pio_via6522.c with pio_via6522_regs.c;
+                           sim.c with sim_contacts.c;
+                           charlcd.c with charlcd_load.c;
+                           eeprom.c with eeprom_kind.c;
+                           prefixes cvl_, cvc_, lib_, smem_, cnt_, cdv_,
+                           shf_, v22_, simc_, clcd_, eep_;
                            pio.c + pio.h (the pio kind: loader, model
                            table, the model that forwards to a pio model),
                            bus65.c + bus65.h (the 65xx peripheral bus the

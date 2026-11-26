@@ -7,6 +7,7 @@ project(logic LANGUAGES C)
 # synchronized folder; the public headers are backend/include.
 add_library(logic STATIC
     src/engine/sim.c
+    src/engine/sim_contacts.c
     src/engine/net.c
     src/circuit.c
     src/timer_rc.c
@@ -15,6 +16,8 @@ add_library(logic STATIC
     src/erc_pins.c
     src/erc_check.c
     src/library/library.c
+    src/library/library_load.c
+    src/library/library_load_device.c
     src/library/kinds.c
     src/library/kind_util.c
     src/library/footprints.c
@@ -48,6 +51,8 @@ add_library(logic STATIC
     src/models/transistor.c
     src/models/generic.c
     src/models/serialmem.c
+    src/models/serialmem_cmd.c
+    src/models/serialmem_load.c
     src/models/sram.c
     src/models/display7.c
     src/models/supply.c
@@ -68,6 +73,7 @@ add_library(logic STATIC
     src/models/model_pins.c
     src/models/oscillator.c
     src/models/eeprom.c
+    src/models/eeprom_kind.c
     src/models/seq.c
     src/models/latch.c
     src/models/register.c
@@ -77,8 +83,13 @@ add_library(logic STATIC
     src/models/arith.c
     src/models/arith_alu.c
     src/models/counter.c
+    src/models/counter_ripple.c
+    src/models/counter_sync.c
+    src/models/counter_sync_load.c
     src/models/counter_div.c
+    src/models/counter_seg7.c
     src/models/shift.c
+    src/models/shift_load.c
     src/models/shift_special.c
     src/models/cpu.c
     src/models/cpu6502.c
@@ -89,6 +100,7 @@ add_library(logic STATIC
     src/models/chips_z80.c
     src/models/chips_dasm.c
     src/models/charlcd.c
+    src/models/charlcd_load.c
     src/models/charlcd_font.c
     src/models/serial.c
     src/models/serial_line.c
@@ -105,7 +117,14 @@ add_library(logic STATIC
     src/models/ns16550_exar_pins.c
     src/models/serial_target.c
     src/models/converter.c
+    src/models/converter_model.c
+    src/models/converter_proto.c
     src/models/converter_load.c
+    src/models/converter_load_conv.c
+    src/models/converter_load_display.c
+    src/models/converter_load_lcd.c
+    src/models/converter_load_proto.c
+    src/models/converter_load_rtc.c
     src/models/converter_par.c
     src/models/rtc.c
     src/models/display_out.c
@@ -136,6 +155,7 @@ add_library(logic STATIC
     src/models/bus65.c
     src/models/pio_pia6521.c
     src/models/pio_via6522.c
+    src/models/pio_via6522_regs.c
     src/models/buffer.c
     src/models/buffer_reg.c
     src/third_party/cjson/cJSON.c

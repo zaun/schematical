@@ -173,6 +173,8 @@ def split(path, header, cuts, prefix=''):
     if renames:
         out = {p: code_replace(t, renames) for p, t in out.items()}
         decls = [code_replace(d, renames) for d in decls]
+        # macros in the header name them too; types do not (a field may share a name)
+        header_parts = [(l, code_replace(t, renames) if t.lstrip().startswith('#') else t) for l, t in header_parts]
     guard = re.sub(r'\W', '_', header).upper()
     h = (f'/* {header}: what the pieces of {path} share (plan-68-I/J split it). */\n'
          f'#ifndef {guard}\n#define {guard}\n\n' + ''.join(l + t for l, t in header_parts)

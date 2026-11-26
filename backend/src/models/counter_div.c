@@ -1,21 +1,4 @@
-/*
- * counter_div: the counter kind's dividing models (plan-10-E section 4).
- *
- *   johnson  Johnson (twisted-ring) counters with decoded outputs and the
- *            anti-lock gate D3 = Q2.(Q1 + Q3): 4017B, 4022B, 74HC4017, 4018B
- *   seg7     decade counters with 7-segment outputs: 4026B, 4033B, 40110B
- *   divn     programmable divide-by-N (master preset, extra count): 4059A
- *   rate     rate multipliers: 4089B, 4527B, 74x97
- *
- * counter.c holds the kind and lists these models (counter.h).
- */
-
-#include <stdlib.h>
-#include <string.h>
-
-#include "counter.h"
-#include "kind.h"
-#include "seq.h"
+#include "counter_div_int.h"
 
 static int lo(int level) {
     return level < 0 ? 0 : level;
@@ -25,25 +8,25 @@ static int hi(int level) {
     return level < 0 ? 1 : level;
 }
 
-static int and3(int a, int b) {
+int cdv_and3(int a, int b) {
     if (a == 0 || b == 0) {
         return 0;
     }
     return a == 1 && b == 1 ? 1 : -1;
 }
 
-static int or3(int a, int b) {
+int cdv_or3(int a, int b) {
     if (a == 1 || b == 1) {
         return 1;
     }
     return a == 0 && b == 0 ? 0 : -1;
 }
 
-static int not3(int a) {
+int cdv_not3(int a) {
     return a < 0 ? -1 : !a;
 }
 
-static int bind_names(KindContext *ctx, const PartPin *pins, size_t count,
+int cdv_bind_names(KindContext *ctx, const PartPin *pins, size_t count,
                       const char *const *names, size_t n, size_t *out) {
     size_t i;
 
@@ -55,7 +38,7 @@ static int bind_names(KindContext *ctx, const PartPin *pins, size_t count,
     return 0;
 }
 
-static void init_outputs(SeqOutput *outputs, const size_t *pins, size_t n) {
+void cdv_init_outputs(SeqOutput *outputs, const size_t *pins, size_t n) {
     size_t i;
 
     for (i = 0; i < n; i++) {
@@ -65,12 +48,12 @@ static void init_outputs(SeqOutput *outputs, const size_t *pins, size_t n) {
     }
 }
 
-static void drive(Sim *sim, SimInstance *inst, SeqOutput *o, int level, const CounterTiming *t) {
+void cdv_drive(Sim *sim, SimInstance *inst, SeqOutput *o, int level, const CounterTiming *t) {
     counter_drive(sim, inst, o, seq_value(level), t, 0);
 }
 
 /* An optional {"in", "out"} pair of pin names. */
-static int pin_pair(KindContext *ctx, const cJSON *json, const char *key, const char **in,
+int cdv_pin_pair(KindContext *ctx, const cJSON *json, const char *key, const char **in,
                     const char **out) {
     static const char *const KEYS[] = {"in", "out", NULL};
     const cJSON *item = cJSON_GetObjectItemCaseSensitive(json, key);
@@ -89,49 +72,10 @@ static int pin_pair(KindContext *ctx, const cJSON *json, const char *key, const 
     return 0;
 }
 
-/* ---- johnson ---------------------------------------------------------------- */
-
-#define JOHNSON_MAX 5
-
 static const char *const JOHNSON_KEYS[] = {
     "stages", "clock", "clockGate", "reset", "outputs", "carry", "data", "presetEnable", "jam",
     "qbar", NULL
 };
-
-typedef struct {
-    unsigned stages;
-    const char *clock;
-    SeqGateName gate;
-    SeqControlName reset, preset;
-    const char *const *outputs;
-    size_t output_count;
-    const char *carry, *data;
-    const char *const *jam;
-    size_t jam_count;
-    const char *const *qbar;
-    size_t qbar_count;
-} JohnsonDevice;
-
-typedef struct {
-    const JohnsonDevice *dev;
-    size_t clock;
-    SeqGate gate;
-    SeqControl reset, preset;
-    size_t outputs[2 * JOHNSON_MAX];
-    size_t carry, data;
-    size_t jam[JOHNSON_MAX];
-    size_t qbar[JOHNSON_MAX];
-} JohnsonBound;
-
-typedef struct {
-    CounterHeader h;
-    const JohnsonBound *b;
-    int q[JOHNSON_MAX];          /* stage levels 1 / 0 / -1 */
-    LogicValue last_clock;
-    SeqOutput outputs[2 * JOHNSON_MAX];
-    SeqOutput carry;
-    SeqOutput qbar[JOHNSON_MAX];
-} JohnsonState;
 
 static void *johnson_load(KindContext *ctx, const cJSON *json, unsigned *units) {
     JohnsonDevice *dev = kind_alloc(ctx, sizeof(*dev));
@@ -184,11 +128,11 @@ static void *johnson_bind(KindContext *ctx, const void *raw, const PartPin *pins
         seq_bind_gate(ctx, pins, count, &dev->gate, &b->gate) != 0 ||
         seq_bind_control(ctx, pins, count, &dev->reset, &b->reset) != 0 ||
         seq_bind_control(ctx, pins, count, &dev->preset, &b->preset) != 0 ||
-        bind_names(ctx, pins, count, dev->outputs, dev->output_count, b->outputs) != 0 ||
+        cdv_bind_names(ctx, pins, count, dev->outputs, dev->output_count, b->outputs) != 0 ||
         seq_bind(ctx, pins, count, dev->carry, &b->carry) != 0 ||
         seq_bind(ctx, pins, count, dev->data, &b->data) != 0 ||
-        bind_names(ctx, pins, count, dev->jam, dev->jam_count, b->jam) != 0 ||
-        bind_names(ctx, pins, count, dev->qbar, dev->qbar_count, b->qbar) != 0) {
+        cdv_bind_names(ctx, pins, count, dev->jam, dev->jam_count, b->jam) != 0 ||
+        cdv_bind_names(ctx, pins, count, dev->qbar, dev->qbar_count, b->qbar) != 0) {
         return NULL;
     }
     b->dev = dev;
@@ -204,9 +148,9 @@ static CounterHeader *johnson_create(const void *dev, const void *bound) {
         return NULL;
     }
     s->b = b;
-    init_outputs(s->outputs, b->outputs, b->dev->output_count);
-    init_outputs(&s->carry, &b->carry, 1);
-    init_outputs(s->qbar, b->qbar, b->dev->qbar_count);
+    cdv_init_outputs(s->outputs, b->outputs, b->dev->output_count);
+    cdv_init_outputs(&s->carry, &b->carry, 1);
+    cdv_init_outputs(s->qbar, b->qbar, b->dev->qbar_count);
     return &s->h;
 }
 
@@ -237,9 +181,9 @@ static void johnson_eval(Sim *sim, SimInstance *inst, JohnsonState *s, int at_st
         next[k] = s->q[k];
     }
     if (edge) {
-        next[0] = b->data != SEQ_NO_PIN ? seq_read(sim, inst, b->data) : not3(s->q[n - 1]);
+        next[0] = b->data != SEQ_NO_PIN ? seq_read(sim, inst, b->data) : cdv_not3(s->q[n - 1]);
         next[1] = s->q[0];
-        next[2] = and3(s->q[1], or3(s->q[0], s->q[2]));
+        next[2] = cdv_and3(s->q[1], cdv_or3(s->q[0], s->q[2]));
         for (k = 3; k < n; k++) {
             next[k] = s->q[k - 1];
         }
@@ -265,18 +209,18 @@ static void johnson_eval(Sim *sim, SimInstance *inst, JohnsonState *s, int at_st
     if (dev->output_count > 0) {
         const int *q = s->q;
 
-        drive(sim, inst, &s->outputs[0], and3(not3(q[0]), not3(q[n - 1])), s->h.timing);
+        cdv_drive(sim, inst, &s->outputs[0], cdv_and3(cdv_not3(q[0]), cdv_not3(q[n - 1])), s->h.timing);
         for (k = 1; k < n; k++) {
-            drive(sim, inst, &s->outputs[k], and3(q[k - 1], not3(q[k])), s->h.timing);
+            cdv_drive(sim, inst, &s->outputs[k], cdv_and3(q[k - 1], cdv_not3(q[k])), s->h.timing);
         }
-        drive(sim, inst, &s->outputs[n], and3(q[0], q[n - 1]), s->h.timing);
+        cdv_drive(sim, inst, &s->outputs[n], cdv_and3(q[0], q[n - 1]), s->h.timing);
         for (k = 1; k < n; k++) {
-            drive(sim, inst, &s->outputs[n + k], and3(not3(q[k - 1]), q[k]), s->h.timing);
+            cdv_drive(sim, inst, &s->outputs[n + k], cdv_and3(cdv_not3(q[k - 1]), q[k]), s->h.timing);
         }
     }
-    drive(sim, inst, &s->carry, not3(s->q[n - 1]), s->h.timing);
+    cdv_drive(sim, inst, &s->carry, cdv_not3(s->q[n - 1]), s->h.timing);
     for (k = 0; k < dev->qbar_count; k++) {
-        drive(sim, inst, &s->qbar[k], not3(s->q[k]), s->h.timing);
+        cdv_drive(sim, inst, &s->qbar[k], cdv_not3(s->q[k]), s->h.timing);
     }
 }
 
@@ -300,551 +244,9 @@ const CounterModel JOHNSON_MODEL = {
     johnson_start, johnson_changed, NULL
 };
 
-/* ---- seg7 -------------------------------------------------------------------- */
-
-static const char *const SEG7_KEYS[] = {
-    "clock", "clockGate", "clockUp", "clockDown", "reset", "segments", "glyphs", "carry",
-    "carryPulse", "borrowPulse", "displayEnable", "ungatedC", "lampTest", "rippleBlank",
-    "toggleEnable", "latchEnable", "segmentsActive", "segmentsOutput", "maxCount", "latchOutputs",
-    "blank", "rbi", "rbo", "decimalPoint", NULL
-};
-/* extra[0], [1]: the carry and borrow pulse widths; extra[2], [3]: the maxCount pin's own rise and
-   fall delays (ns; 0 = the entry's rise and fall), plan-56-F. */
-static const CounterExtraKey SEG7_EXTRA[] = {
-    {"carryPulse", 0}, {"borrowPulse", 0}, {"maxRise", 0}, {"maxFall", 0}, {NULL, 0}
-};
-
-#define SEG7_MAX_TOGGLES 4
-
-enum { SEG7_TIMER_CARRY = 1, SEG7_TIMER_BORROW = 2 };
-
-typedef struct {
-    const char *clock, *clock_up, *clock_down;
-    SeqGateName gate;
-    SeqControlName reset, lamp_test, toggle[SEG7_MAX_TOGGLES], latch;
-    size_t toggle_count;
-    const char *const *segments;
-    size_t segment_count;
-    unsigned char glyphs[10];
-    const char *carry, *carry_pulse, *borrow_pulse;
-    const char *de_in, *de_out, *ungated_c, *rb_in, *rb_out;
-    /* plan-56-F (SN74143): all optional */
-    int segments_high;                 /* segmentsActive; 1 = a lit segment is a high pin */
-    SeqOutputStyle segments_style;     /* segmentsOutput */
-    const char *max_pin;
-    SeqControlName max_enable;
-    const char *const *latch_outputs;  /* 4 names */
-    SeqControlName blank;
-    const char *rbi, *rbo, *dp_in, *dp_out;
-} Seg7Device;
-
-typedef struct {
-    const Seg7Device *dev;
-    size_t clock, clock_up, clock_down;
-    SeqGate gate;
-    SeqControl reset, lamp_test, toggle[SEG7_MAX_TOGGLES], latch;
-    size_t segments[7];
-    size_t carry, carry_pulse, borrow_pulse, de_in, de_out, ungated_c, rb_in, rb_out;
-    size_t max_pin, latch_outputs[4], rbi, rbo, dp_in, dp_out;
-    SeqControl max_enable, blank;
-} Seg7Bound;
-
-typedef struct {
-    CounterHeader h;
-    const Seg7Bound *b;
-    int count;         /* 0-9, -1 unknown */
-    int shown;         /* the count the segments show (latchEnable) */
-    LogicValue last_clock, last_up, last_down;
-    uint32_t carry_gen, borrow_gen;
-    SeqOutput segments[7], carry, carry_pulse, borrow_pulse, de_out, ungated_c, rb_out;
-    SeqOutput max_out, latch_out[4], rbo, dp_out;
-} Seg7State;
-
-/* toggleEnable: one control object or an array of them. */
-static int seg7_toggles(KindContext *ctx, const cJSON *json, Seg7Device *dev) {
-    const cJSON *item = cJSON_GetObjectItemCaseSensitive(json, "toggleEnable");
-    const cJSON *e;
-
-    dev->toggle_count = 0;
-    if (item == NULL) {
-        return 0;
-    }
-    if (!cJSON_IsArray(item)) {
-        if (seq_control_name(ctx, json, "toggleEnable", 0, 0, &dev->toggle[0]) != 0) {
-            return -1;
-        }
-        dev->toggle_count = 1;
-        return 0;
-    }
-    kind_push(ctx, "toggleEnable");
-    if (cJSON_GetArraySize(item) < 1 || cJSON_GetArraySize(item) > SEG7_MAX_TOGGLES) {
-        return kind_error(ctx, "must have 1 to %d controls", SEG7_MAX_TOGGLES);
-    }
-    cJSON_ArrayForEach(e, item) {
-        kind_push(ctx, "[%zu]", dev->toggle_count);
-        if (seq_control_object(ctx, e, 0, &dev->toggle[dev->toggle_count]) != 0) {
-            return -1;
-        }
-        kind_pop(ctx);
-        dev->toggle_count++;
-    }
-    kind_pop(ctx);
-    return 0;
-}
-
-/* maxCount: {"pin", "enable": control}. */
-static int seg7_max_count(KindContext *ctx, const cJSON *json, Seg7Device *dev) {
-    static const char *const KEYS[] = {"pin", "enable", NULL};
-    const cJSON *item = cJSON_GetObjectItemCaseSensitive(json, "maxCount");
-
-    dev->max_pin = NULL;
-    dev->max_enable.pin = NULL;
-    if (item == NULL) {
-        return 0;
-    }
-    kind_push(ctx, "maxCount");
-    if (kind_check_keys(ctx, item, KEYS, NULL) != 0 || kind_string(ctx, item, "pin", &dev->max_pin) != 0 ||
-        seq_control_name(ctx, item, "enable", 1, 0, &dev->max_enable) != 0) {
-        return -1;
-    }
-    kind_pop(ctx);
-    return 0;
-}
-
-static void *seg7_load(KindContext *ctx, const cJSON *json, unsigned *units) {
-    Seg7Device *dev = kind_alloc(ctx, sizeof(*dev));
-    const char *const *glyphs;
-    size_t glyph_count;
-    size_t i, j;
-
-    if (dev == NULL) {
-        return NULL;
-    }
-    if (cJSON_GetObjectItemCaseSensitive(json, "clockUp") != NULL) {
-        if (kind_string(ctx, json, "clockUp", &dev->clock_up) != 0 ||
-            kind_string(ctx, json, "clockDown", &dev->clock_down) != 0) {
-            return NULL;
-        }
-    } else if (kind_string(ctx, json, "clock", &dev->clock) != 0) {
-        return NULL;
-    }
-    if (seq_gate_name(ctx, json, "clockGate", &dev->gate) != 0 ||
-        seq_control_name(ctx, json, "reset", 1, 0, &dev->reset) != 0 ||
-        seq_control_name(ctx, json, "lampTest", 0, 0, &dev->lamp_test) != 0 ||
-        seg7_toggles(ctx, json, dev) != 0 ||
-        seq_control_name(ctx, json, "latchEnable", 0, 0, &dev->latch) != 0 ||
-        seq_names(ctx, json, "segments", 7, 7, &dev->segments, &dev->segment_count) != 0 ||
-        seq_names(ctx, json, "glyphs", 10, 10, &glyphs, &glyph_count) != 0 ||
-        seq_optional_name(ctx, json, "carry", &dev->carry) != 0 ||
-        seq_optional_name(ctx, json, "carryPulse", &dev->carry_pulse) != 0 ||
-        seq_optional_name(ctx, json, "borrowPulse", &dev->borrow_pulse) != 0 ||
-        seq_optional_name(ctx, json, "ungatedC", &dev->ungated_c) != 0 ||
-        pin_pair(ctx, json, "displayEnable", &dev->de_in, &dev->de_out) != 0 ||
-        pin_pair(ctx, json, "rippleBlank", &dev->rb_in, &dev->rb_out) != 0 ||
-        seg7_max_count(ctx, json, dev) != 0 ||
-        seq_control_name(ctx, json, "blank", 0, 0, &dev->blank) != 0 ||
-        seq_optional_name(ctx, json, "rbi", &dev->rbi) != 0 ||
-        seq_optional_name(ctx, json, "rbo", &dev->rbo) != 0 ||
-        pin_pair(ctx, json, "decimalPoint", &dev->dp_in, &dev->dp_out) != 0) {
-        return NULL;
-    }
-    dev->segments_high = 1;
-    dev->segments_style = SEQ_PUSH_PULL;
-    if (cJSON_GetObjectItemCaseSensitive(json, "segmentsActive") != NULL &&
-        seq_active(ctx, json, "segmentsActive", &dev->segments_high) != 0) {
-        return NULL;
-    }
-    if (cJSON_GetObjectItemCaseSensitive(json, "segmentsOutput") != NULL) {
-        const char *style;
-
-        if (kind_string(ctx, json, "segmentsOutput", &style) != 0) {
-            return NULL;
-        }
-        if (strcmp(style, "open-drain") == 0) {
-            dev->segments_style = SEQ_OPEN_DRAIN;
-        } else if (strcmp(style, "push-pull") != 0) {
-            kind_error(ctx, "\"segmentsOutput\" must be \"push-pull\" or \"open-drain\"");
-            return NULL;
-        }
-    }
-    if (dev->segments_style == SEQ_OPEN_DRAIN && dev->segments_high) {
-        kind_error(ctx, "open-drain \"segmentsOutput\" needs \"segmentsActive\" low");
-        return NULL;
-    }
-    if ((dev->rbi != NULL) != (dev->rbo != NULL)) {
-        kind_error(ctx, "\"rbi\" and \"rbo\" go together");
-        return NULL;
-    }
-    if (dev->rbi != NULL && dev->rb_in != NULL) {
-        kind_error(ctx, "\"rbi\"/\"rbo\" and \"rippleBlank\" are alternatives");
-        return NULL;
-    }
-    if (cJSON_GetObjectItemCaseSensitive(json, "latchOutputs") != NULL &&
-        seq_names(ctx, json, "latchOutputs", 4, 4, &dev->latch_outputs, &glyph_count) != 0) {
-        return NULL;
-    }
-    for (i = 0; i < 10; i++) {
-        if (strlen(glyphs[i]) != 7) {
-            kind_error(ctx, "glyphs[%zu]: must be 7 characters 0 or 1 (segments a to g)", i);
-            return NULL;
-        }
-        for (j = 0; j < 7; j++) {
-            if (glyphs[i][j] != '0' && glyphs[i][j] != '1') {
-                kind_error(ctx, "glyphs[%zu]: must be 7 characters 0 or 1 (segments a to g)", i);
-                return NULL;
-            }
-            if (glyphs[i][j] == '1') {
-                dev->glyphs[i] |= (unsigned char)(1u << j);
-            }
-        }
-    }
-    *units = 1;
-    return dev;
-}
-
-static void *seg7_bind(KindContext *ctx, const void *raw, const PartPin *pins, size_t count) {
-    const Seg7Device *d = raw;
-    Seg7Bound *b = kind_alloc(ctx, sizeof(*b));
-    size_t i;
-
-    if (b == NULL || seq_bind(ctx, pins, count, d->clock, &b->clock) != 0 ||
-        seq_bind(ctx, pins, count, d->clock_up, &b->clock_up) != 0 ||
-        seq_bind(ctx, pins, count, d->clock_down, &b->clock_down) != 0 ||
-        seq_bind_gate(ctx, pins, count, &d->gate, &b->gate) != 0 ||
-        seq_bind_control(ctx, pins, count, &d->reset, &b->reset) != 0 ||
-        seq_bind_control(ctx, pins, count, &d->lamp_test, &b->lamp_test) != 0 ||
-        seq_bind_control(ctx, pins, count, &d->latch, &b->latch) != 0 ||
-        bind_names(ctx, pins, count, d->segments, 7, b->segments) != 0 ||
-        seq_bind(ctx, pins, count, d->carry, &b->carry) != 0 ||
-        seq_bind(ctx, pins, count, d->carry_pulse, &b->carry_pulse) != 0 ||
-        seq_bind(ctx, pins, count, d->borrow_pulse, &b->borrow_pulse) != 0 ||
-        seq_bind(ctx, pins, count, d->de_in, &b->de_in) != 0 ||
-        seq_bind(ctx, pins, count, d->de_out, &b->de_out) != 0 ||
-        seq_bind(ctx, pins, count, d->ungated_c, &b->ungated_c) != 0 ||
-        seq_bind(ctx, pins, count, d->rb_in, &b->rb_in) != 0 ||
-        seq_bind(ctx, pins, count, d->rb_out, &b->rb_out) != 0 ||
-        seq_bind(ctx, pins, count, d->max_pin, &b->max_pin) != 0 ||
-        seq_bind_control(ctx, pins, count, &d->max_enable, &b->max_enable) != 0 ||
-        seq_bind_control(ctx, pins, count, &d->blank, &b->blank) != 0 ||
-        seq_bind(ctx, pins, count, d->rbi, &b->rbi) != 0 ||
-        seq_bind(ctx, pins, count, d->rbo, &b->rbo) != 0 ||
-        seq_bind(ctx, pins, count, d->dp_in, &b->dp_in) != 0 ||
-        seq_bind(ctx, pins, count, d->dp_out, &b->dp_out) != 0) {
-        return NULL;
-    }
-    for (i = 0; i < d->toggle_count; i++) {
-        if (seq_bind_control(ctx, pins, count, &d->toggle[i], &b->toggle[i]) != 0) {
-            return NULL;
-        }
-    }
-    if (d->latch_outputs != NULL && bind_names(ctx, pins, count, d->latch_outputs, 4, b->latch_outputs) != 0) {
-        return NULL;
-    }
-    if (b->rbo != SEQ_NO_PIN && pins[b->rbo].role != PIN_INOUT) {
-        kind_error(ctx, "\"rbo\" pin \"%s\" must have role inout", d->rbo);
-        return NULL;
-    }
-    b->dev = d;
-    return b;
-}
-
-static CounterHeader *seg7_create(const void *dev, const void *bound) {
-    const Seg7Bound *b = bound;
-    Seg7State *s = calloc(1, sizeof(*s));
-
-    (void)dev;
-    if (s == NULL) {
-        return NULL;
-    }
-    s->b = b;
-    init_outputs(s->segments, b->segments, 7);
-    init_outputs(&s->carry, &b->carry, 1);
-    init_outputs(&s->carry_pulse, &b->carry_pulse, 1);
-    init_outputs(&s->borrow_pulse, &b->borrow_pulse, 1);
-    init_outputs(&s->de_out, &b->de_out, 1);
-    init_outputs(&s->ungated_c, &b->ungated_c, 1);
-    init_outputs(&s->rb_out, &b->rb_out, 1);
-    init_outputs(&s->max_out, &b->max_pin, 1);
-    init_outputs(s->latch_out, b->latch_outputs, b->dev->latch_outputs != NULL ? 4 : 0);
-    init_outputs(&s->rbo, &b->rbo, 1);
-    init_outputs(&s->dp_out, &b->dp_out, 1);
-    return &s->h;
-}
-
-static LogicValue seg7_clock(const Sim *sim, const SimInstance *inst, const Seg7Bound *b) {
-    LogicValue clock = sim_read_pin(sim, inst, b->clock);
-
-    if (b->gate.pin != SEQ_NO_PIN) {
-        clock = seq_gated_clock(clock, sim_read_pin(sim, inst, b->gate.pin), b->gate.op);
-    }
-    return clock;
-}
-
-/* Segment j of a count (count -1 -> -1 unless every digit agrees). */
-static int glyph_level(const Seg7Device *d, int count, unsigned j) {
-    int have = 0, v = -1;
-    int c;
-
-    if (count >= 0) {
-        return (d->glyphs[count] >> j) & 1u;
-    }
-    for (c = 0; c < 10; c++) {
-        int o = (d->glyphs[c] >> j) & 1u;
-
-        v = !have ? o : v == o ? v : -1;
-        have = 1;
-    }
-    return v;
-}
-
-/* A one-shot low pulse on o: low now (fall delay), high again width_ps later. */
-static void seg7_pulse(Sim *sim, SimInstance *inst, Seg7State *s, SeqOutput *o, uint32_t kind,
-                       uint32_t *gen, SimTime width_ps) {
-    if (o->pin == SEQ_NO_PIN) {
-        return;
-    }
-    counter_drive(sim, inst, o, LOGIC_0, s->h.timing, 0);
-    (*gen)++;
-    sim_schedule_timer(sim, inst, (kind << 24) | (*gen & 0xFFFFFFu),
-                       s->h.timing->seq->fall + width_ps);
-}
-
-/* A control that is optional: no pin -> never asserted. */
-static int seg7_control(const Sim *sim, const SimInstance *inst, const SeqControl *c) {
-    return c->pin == SEQ_NO_PIN ? 0 : seq_sync(sim, inst, c);
-}
-
-static void seg7_outputs(Sim *sim, SimInstance *inst, Seg7State *s) {
-    const Seg7Bound *b = s->b;
-    const Seg7Device *d = b->dev;
-    const CounterTiming *t = s->h.timing;
-    int lamp = seq_sync(sim, inst, &b->lamp_test);
-    int de = b->de_in != SEQ_NO_PIN ? seq_read(sim, inst, b->de_in) : 1;
-    int is_zero = s->shown < 0 ? -1 : s->shown == 0;
-    int rbi = b->rb_in != SEQ_NO_PIN ? seq_read(sim, inst, b->rb_in) : 1;
-    int blank = or3(not3(de), and3(is_zero, not3(rbi)));
-    int bi = 0, ripple = 0, hard = 0, dp = 0;
-    unsigned j;
-
-    if (b->lamp_test.pin == SEQ_NO_PIN) {
-        lamp = 0;
-    }
-    if (b->rbi != SEQ_NO_PIN) {
-        /* SN74143: BI high blanks and pulls RBO low; RBI low with the latched 0 blanks and pulls it
-           low; an external low on RBO (Z reads high) blanks. The RBO pin drives only the first two
-           terms, so it never holds itself low. */
-        LogicValue pin = sim_read_pin(sim, inst, b->rbo);
-        int external = pin == LOGIC_0 ? 1 : pin == LOGIC_X ? -1 : 0;
-
-        bi = seg7_control(sim, inst, &b->blank);
-        ripple = and3(is_zero, not3(seq_read(sim, inst, b->rbi)));
-        blank = or3(blank, ripple);
-        hard = or3(bi, external);
-    } else if (b->blank.pin != SEQ_NO_PIN) {
-        bi = seg7_control(sim, inst, &b->blank);
-        hard = bi;
-    }
-    for (j = 0; j < 7; j++) {
-        int seg = and3(not3(hard), or3(lamp, and3(not3(blank), glyph_level(d, s->shown, j))));
-
-        seq_drive(sim, inst, &s->segments[j], seq_value(d->segments_high ? seg : not3(seg)),
-                  d->segments_style, t->seq);
-    }
-    drive(sim, inst, &s->carry, s->count < 0 ? -1 : s->count <= 4, t);
-    drive(sim, inst, &s->de_out, de, t);
-    drive(sim, inst, &s->ungated_c, glyph_level(d, s->count, 2), t);
-    drive(sim, inst, &s->rb_out, not3(and3(s->count < 0 ? -1 : s->count == 0, not3(rbi))), t);
-    if (b->rbo != SEQ_NO_PIN) {
-        seq_drive(sim, inst, &s->rbo, seq_value(not3(or3(bi, ripple))), SEQ_OPEN_DRAIN, t->seq);
-    }
-    if (b->dp_out != SEQ_NO_PIN) {
-        dp = and3(seq_read(sim, inst, b->dp_in), not3(or3(hard, blank)));
-        seq_drive(sim, inst, &s->dp_out, seq_value(d->segments_high ? dp : not3(dp)),
-                  d->segments_style, t->seq);
-    }
-    if (d->latch_outputs != NULL) {
-        for (j = 0; j < 4; j++) {
-            drive(sim, inst, &s->latch_out[j], s->shown < 0 ? -1 : (s->shown >> j) & 1, t);
-        }
-    }
-    if (b->max_pin != SEQ_NO_PIN) {
-        int low = and3(s->count < 0 ? -1 : s->count == 9, seq_sync(sim, inst, &b->max_enable));
-        SeqTiming own = *t->seq;
-
-        if (t->extra[2] != 0 || t->extra[3] != 0) {
-            own.rise = t->extra[2];
-            own.fall = t->extra[3];
-        }
-        seq_drive(sim, inst, &s->max_out, seq_value(not3(low)), SEQ_PUSH_PULL, &own);
-    }
-}
-
-/* 1 when every toggleEnable control is asserted, 0 when one is not, else -1; none -> 1. */
-static int seg7_toggle(const Sim *sim, const SimInstance *inst, const Seg7Bound *b) {
-    int all = 1;
-    size_t i;
-
-    for (i = 0; i < b->dev->toggle_count; i++) {
-        all = and3(all, seq_sync(sim, inst, &b->toggle[i]));
-    }
-    return all;
-}
-
-static int seg7_open_drain(const void *bound, size_t pin) {
-    const Seg7Bound *b = bound;
-    size_t i;
-
-    if (b->rbo != SEQ_NO_PIN && pin == b->rbo) {
-        return 1;
-    }
-    if (b->dev->segments_style != SEQ_OPEN_DRAIN) {
-        return 0;
-    }
-    for (i = 0; i < 7; i++) {
-        if (pin == b->segments[i]) {
-            return 1;
-        }
-    }
-    return b->dp_out != SEQ_NO_PIN && pin == b->dp_out;
-}
-
-static void seg7_eval(Sim *sim, SimInstance *inst, Seg7State *s, int at_start) {
-    const Seg7Bound *b = s->b;
-    const Seg7Device *d = b->dev;
-    int reset = seq_async(sim, inst, &b->reset);
-    int toggle = seg7_toggle(sim, inst, b);
-    int step = 0;   /* +1 up, -1 down, 0 none; 2 = unknown */
-    int before = s->count;
-    int latch;
-
-    if (d->clock_up != NULL) {
-        LogicValue up = sim_read_pin(sim, inst, b->clock_up);
-        LogicValue down = sim_read_pin(sim, inst, b->clock_down);
-
-        if (!at_start && seq_rising(s->last_up, up)) {
-            step += 1;
-        }
-        if (!at_start && seq_rising(s->last_down, down)) {
-            step -= 1;
-        }
-        s->last_up = up;
-        s->last_down = down;
-    } else {
-        LogicValue clock = seg7_clock(sim, inst, b);
-
-        if (!at_start && seq_rising(s->last_clock, clock)) {
-            step = 1;
-        }
-        s->last_clock = clock;
-    }
-    if (step != 0 && s->count >= 0) {
-        int stepped = (s->count + 10 + step) % 10;
-
-        if (toggle == 1) {
-            s->count = stepped;
-        } else if (toggle < 0) {
-            s->count = -1;
-        }
-    }
-    if (reset == 1) {
-        s->count = 0;
-    } else if (reset < 0 && s->count != 0) {
-        s->count = -1;
-    }
-    latch = b->latch.pin != SEQ_NO_PIN ? seq_sync(sim, inst, &b->latch) : 0;
-    if (latch == 0) {
-        s->shown = s->count;
-    } else if (latch < 0 && s->shown != s->count) {
-        s->shown = -1;
-    }
-    if (!at_start && reset != 1 && before >= 0 && s->count >= 0) {
-        if (before == 9 && s->count == 0 && step > 0) {
-            seg7_pulse(sim, inst, s, &s->carry_pulse, SEG7_TIMER_CARRY, &s->carry_gen,
-                       s->h.timing->extra[0]);
-        } else if (before == 0 && s->count == 9 && step < 0) {
-            seg7_pulse(sim, inst, s, &s->borrow_pulse, SEG7_TIMER_BORROW, &s->borrow_gen,
-                       s->h.timing->extra[1]);
-        }
-    }
-    if (at_start) {
-        counter_drive(sim, inst, &s->carry_pulse, LOGIC_1, s->h.timing, 0);
-        counter_drive(sim, inst, &s->borrow_pulse, LOGIC_1, s->h.timing, 0);
-    }
-    seg7_outputs(sim, inst, s);
-}
-
-static void seg7_start(Sim *sim, SimInstance *inst, CounterHeader *h) {
-    Seg7State *s = (Seg7State *)h;
-    const Seg7Bound *b = s->b;
-
-    s->count = 0;
-    s->shown = 0;
-    if (b->dev->clock_up != NULL) {
-        s->last_up = sim_read_pin(sim, inst, b->clock_up);
-        s->last_down = sim_read_pin(sim, inst, b->clock_down);
-    } else {
-        s->last_clock = seg7_clock(sim, inst, b);
-    }
-    seg7_eval(sim, inst, s, 1);
-}
-
-static void seg7_changed(Sim *sim, SimInstance *inst, CounterHeader *h, size_t pin,
-                         LogicValue old_value, LogicValue new_value) {
-    (void)pin;
-    (void)old_value;
-    (void)new_value;
-    seg7_eval(sim, inst, (Seg7State *)h, 0);
-}
-
-static void seg7_timer(Sim *sim, SimInstance *inst, CounterHeader *h, uint32_t id) {
-    Seg7State *s = (Seg7State *)h;
-    SeqTiming now = *s->h.timing->seq;
-    CounterTiming immediate = {&now, {0}};
-    uint32_t kind = id >> 24;
-    uint32_t gen = id & 0xFFFFFFu;
-
-    now.rise = 0;
-    now.fall = 0;
-    if (kind == SEG7_TIMER_CARRY && gen == (s->carry_gen & 0xFFFFFFu)) {
-        counter_drive(sim, inst, &s->carry_pulse, LOGIC_1, &immediate, 0);
-    } else if (kind == SEG7_TIMER_BORROW && gen == (s->borrow_gen & 0xFFFFFFu)) {
-        counter_drive(sim, inst, &s->borrow_pulse, LOGIC_1, &immediate, 0);
-    }
-}
-
-const CounterModel SEG7_MODEL = {
-    "seg7", SEG7_KEYS, SEG7_EXTRA, seg7_load, seg7_bind, seg7_create, NULL, seg7_start,
-    seg7_changed, seg7_timer, seg7_open_drain
-};
-
 /* ---- divn ---------------------------------------------------------------------- */
 
 static const char *const DIVN_KEYS[] = {"clock", "jam", "modes", "latchEnable", "output", NULL};
-
-typedef struct {
-    const char *clock, *latch, *output;
-    const char *const *jam;
-    size_t jam_count;
-    const char *const *modes;
-    size_t mode_count;
-} DivnDevice;
-
-typedef struct {
-    size_t clock, latch, output;
-    size_t jam[16];
-    size_t modes[3];
-} DivnBound;
-
-typedef struct {
-    CounterHeader h;
-    const DivnBound *b;
-    long count;        /* C; -1 unknown */
-    int preset;        /* the extra count after a master preset is pending */
-    int pulse;         /* 1 / 0 / -1 for the current clock period */
-    int latched;       /* latch enable has caught a pulse */
-    LogicValue last_clock;
-    SeqOutput out;
-} DivnState;
 
 static void *divn_load(KindContext *ctx, const cJSON *json, unsigned *units) {
     DivnDevice *dev = kind_alloc(ctx, sizeof(*dev));
@@ -867,8 +269,8 @@ static void *divn_bind(KindContext *ctx, const void *raw, const PartPin *pins, s
     if (b == NULL || seq_bind(ctx, pins, count, d->clock, &b->clock) != 0 ||
         seq_bind(ctx, pins, count, d->latch, &b->latch) != 0 ||
         seq_bind(ctx, pins, count, d->output, &b->output) != 0 ||
-        bind_names(ctx, pins, count, d->jam, 16, b->jam) != 0 ||
-        bind_names(ctx, pins, count, d->modes, 3, b->modes) != 0) {
+        cdv_bind_names(ctx, pins, count, d->jam, 16, b->jam) != 0 ||
+        cdv_bind_names(ctx, pins, count, d->modes, 3, b->modes) != 0) {
         return NULL;
     }
     return b;
@@ -883,7 +285,7 @@ static CounterHeader *divn_create(const void *dev, const void *bound) {
         return NULL;
     }
     s->b = b;
-    init_outputs(&s->out, &b->output, 1);
+    cdv_init_outputs(&s->out, &b->output, 1);
     return &s->h;
 }
 
@@ -960,8 +362,8 @@ static void divn_output(Sim *sim, SimInstance *inst, DivnState *s) {
     } else if (le == 1 && s->pulse == 1) {
         s->latched = 1;   /* latch enable high during (or at) a pulse */
     }
-    level = or3(s->pulse, and3(s->latched ? 1 : 0, le));
-    drive(sim, inst, &s->out, level, s->h.timing);
+    level = cdv_or3(s->pulse, cdv_and3(s->latched ? 1 : 0, le));
+    cdv_drive(sim, inst, &s->out, level, s->h.timing);
 }
 
 static void divn_eval(Sim *sim, SimInstance *inst, DivnState *s, int at_start) {
@@ -1031,35 +433,6 @@ static const char *const RATE_KEYS[] = {
     "terminal", "enableOut", NULL
 };
 
-enum { RATE_BINARY4, RATE_BCD, RATE_BINARY6 };
-
-typedef struct {
-    int variant;
-    unsigned bits;       /* rate pins */
-    int max;             /* 15, 9, 63 */
-    const char *clock;
-    const char *const *rate;
-    size_t rate_count;
-    SeqControlName enable, strobe, cascade, clear, set;
-    const char *out, *out_bar, *terminal, *enable_out;
-} RateDevice;
-
-typedef struct {
-    const RateDevice *dev;
-    size_t clock;
-    size_t rate[6];
-    SeqControl enable, strobe, cascade, clear, set;
-    size_t out, out_bar, terminal, enable_out;
-} RateBound;
-
-typedef struct {
-    CounterHeader h;
-    const RateBound *b;
-    int count;   /* -1 unknown */
-    LogicValue last_clock;
-    SeqOutput out, out_bar, terminal, enable_out;
-} RateState;
-
 static void *rate_load(KindContext *ctx, const cJSON *json, unsigned *units) {
     RateDevice *dev = kind_alloc(ctx, sizeof(*dev));
     const char *variant;
@@ -1106,7 +479,7 @@ static void *rate_bind(KindContext *ctx, const void *raw, const PartPin *pins, s
     RateBound *b = kind_alloc(ctx, sizeof(*b));
 
     if (b == NULL || seq_bind(ctx, pins, count, d->clock, &b->clock) != 0 ||
-        bind_names(ctx, pins, count, d->rate, d->bits, b->rate) != 0 ||
+        cdv_bind_names(ctx, pins, count, d->rate, d->bits, b->rate) != 0 ||
         seq_bind_control(ctx, pins, count, &d->enable, &b->enable) != 0 ||
         seq_bind_control(ctx, pins, count, &d->strobe, &b->strobe) != 0 ||
         seq_bind_control(ctx, pins, count, &d->cascade, &b->cascade) != 0 ||
@@ -1131,10 +504,10 @@ static CounterHeader *rate_create(const void *dev, const void *bound) {
         return NULL;
     }
     s->b = b;
-    init_outputs(&s->out, &b->out, 1);
-    init_outputs(&s->out_bar, &b->out_bar, 1);
-    init_outputs(&s->terminal, &b->terminal, 1);
-    init_outputs(&s->enable_out, &b->enable_out, 1);
+    cdv_init_outputs(&s->out, &b->out, 1);
+    cdv_init_outputs(&s->out_bar, &b->out_bar, 1);
+    cdv_init_outputs(&s->terminal, &b->terminal, 1);
+    cdv_init_outputs(&s->enable_out, &b->enable_out, 1);
     return &s->h;
 }
 
@@ -1187,13 +560,13 @@ static void rate_outputs(Sim *sim, SimInstance *inst, RateState *s) {
                 have = 1;
             }
         }
-        any = or3(any, and3(bit, sel));
+        any = cdv_or3(any, cdv_and3(bit, sel));
     }
-    g = and3(and3(not3(strobe), not3(clock)), any);
-    drive(sim, inst, &s->out_bar, not3(g), t);
-    drive(sim, inst, &s->out, or3(g, cascade), t);
-    drive(sim, inst, &s->terminal, at_max, t);
-    drive(sim, inst, &s->enable_out, not3(and3(enable, at_max)), t);
+    g = cdv_and3(cdv_and3(cdv_not3(strobe), cdv_not3(clock)), any);
+    cdv_drive(sim, inst, &s->out_bar, cdv_not3(g), t);
+    cdv_drive(sim, inst, &s->out, cdv_or3(g, cascade), t);
+    cdv_drive(sim, inst, &s->terminal, at_max, t);
+    cdv_drive(sim, inst, &s->enable_out, cdv_not3(cdv_and3(enable, at_max)), t);
 }
 
 static void rate_eval(Sim *sim, SimInstance *inst, RateState *s, int at_start) {
