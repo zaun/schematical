@@ -1,8 +1,5 @@
 2182	schematical/schematicalTests/DXFFixtures.swift
-2111	schematical/schematical/Backend/PartCatalog.swift
-1693	schematical/schematical/Document/SchematicFile.swift
 1273	schematical/schematical/Canvas/SchematicCanvasView.swift
 1079	schematical/schematical/Datasheet/Renderer/datasheet-edit.js
 1049	schematical/schematical/Canvas/PCBSidebarView.swift
-1027	schematical/schematical/Automation/AutomationSchematic.swift
 1026	schematical/schematical/Canvas/PCBCanvasView.swift
