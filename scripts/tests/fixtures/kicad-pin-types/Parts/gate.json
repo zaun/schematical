@@ -1,0 +1,32 @@
+{
+  "devices": [
+    {
+      "id": "tst1000",
+      "pinouts": {
+        "p": [{"number": 1, "name": "A", "role": "input"}, {"number": 2, "name": "Y", "role": "output"},
+              {"number": 3, "name": "GND", "role": "ground"}, {"number": 4, "name": "VCC", "role": "power"}]
+      },
+      "parts": [
+        {"name": "TST1000A", "pinout": "p"}, {"name": "TST1000B", "pinout": "p"}, {"name": "TST1000C", "pinout": "p"},
+        {"name": "TST1000D", "pinout": "p"}, {"name": "TST1000E", "pinout": "p"}, {"name": "TST1000F", "pinout": "p"},
+        {"name": "TST1000Z", "pinout": "p"}, {"name": "XYZ9", "pinout": "p"}
+      ]
+    },
+    {
+      "id": "tst2000",
+      "pinouts": {
+        "q": [{"number": 1, "name": "A", "role": "input"}, {"number": 2, "name": "B", "role": "input"},
+              {"number": 3, "name": "C", "role": "input"}, {"number": 4, "name": "D", "role": "input"}]
+      },
+      "parts": [{"name": "TST2000A", "pinout": "q"}]
+    },
+    {
+      "id": "tst4000",
+      "pinouts": {
+        "r": [{"number": 1, "name": "A", "role": "input"}, {"number": 2, "name": "NC", "role": "nc"},
+              {"ball": 3, "name": "R", "role": "passive"}, {"number": 5, "name": "IO", "role": "input"}]
+      },
+      "parts": [{"name": "TST4000A", "pinout": "r"}]
+    }
+  ]
+}

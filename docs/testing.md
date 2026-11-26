@@ -56,6 +56,22 @@ measures line coverage and prints `path:line` for every uncovered line, then
 Test code is not measured. Out of scope: `scripts/harness/`, vendored code,
 shell scripts (size-checked only).
 
+The Python tests live in `scripts/tests/` (`python3 -m unittest discover -s
+scripts/tests`; standard library only). They load a hyphen-named script with
+`support.load` and run one as a program with `support.run`; they never run
+KiCad or the network (`erc-compare.py` gets the fake `scripts/tests/fakes/kicad-cli`
+through its `--kicad-cli` argument, the KiCad comparisons read the recorded
+library in `scripts/tests/fixtures/`). For coverage, `coverage.js` runs the suite
+under `python3 -m trace --count --no-report --file=<counts>` and sets
+`SCRIPTS_COVERAGE_FILE=<counts>`. With `--no-report`, `trace` does not save the
+counts, so `scripts/tests/support.py` saves the suite's own counts into that
+file when it exits, and `support.run` starts a program-style case through
+`scripts/tests/traced.py`, which adds the child's counts to the same file and
+keeps its exit code (`python3 -m trace <script>` exits 0 whatever the script
+does). `trace` also swallows the exit status of the `unittest` run, so a
+failing Python test does not fail the coverage command: run the plain
+`unittest` command for the result.
+
 Options:
 
 - `--only <path-prefix>`: print, check and write only files under the prefix.

@@ -1,0 +1,32 @@
+{
+  "devices": [
+    {
+      "id": "tst00",
+      "pinouts": {
+        "dip": [
+          {"number": 1, "name": "A", "role": "input"}, {"number": 2, "name": "B", "role": "input"},
+          {"number": 3, "name": "Y", "role": "output"}, {"number": 4, "name": "GND", "role": "ground"},
+          {"number": 5, "name": "C", "role": "input"}, {"number": 6, "name": "D", "role": "input"},
+          {"number": 7, "name": "Z", "role": "output"}, {"number": 8, "name": "VCC", "role": "power"}
+        ],
+        "dip-w": [
+          {"number": 1, "name": "A", "role": "input"}, {"number": 2, "name": "B", "role": "input"},
+          {"number": 3, "name": "Y", "role": "output"}, {"number": 4, "name": "GND", "role": "ground"},
+          {"number": 5, "name": "C", "role": "input"}, {"number": 6, "name": "D", "role": "input"},
+          {"number": 7, "name": "W", "role": "output"}, {"number": 8, "name": "VCC", "role": "power"}
+        ],
+        "qfn": [
+          {"number": 1, "name": "A", "role": "input"}, {"number": 2, "name": "Y", "role": "output"},
+          {"number": 3, "name": "GND", "role": "ground"}, {"number": 4, "name": "VCC", "role": "power"}
+        ]
+      },
+      "parts": [
+        {"name": "SN74TST00N", "pinout": "dip", "footprint": "DIP-8"},
+        {"name": "SN74TST01N", "pinout": "dip-w"},
+        {"name": "SN54TST00J", "pinout": "dip", "footprint": "DIP-8-WIDE", "flags": ["military"]},
+        {"name": "XYZ123", "pinout": "qfn", "footprint": "QFN-4"},
+        {"name": "WIDE8", "pinout": "dip", "footprint": "DIP-8-WIDE"}
+      ]
+    }
+  ]
+}

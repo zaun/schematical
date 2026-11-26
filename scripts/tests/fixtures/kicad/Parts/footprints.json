@@ -1,0 +1,11 @@
+{
+  "footprints": [
+    {"id": "DIP-8", "style": "dual", "pins": 8, "pitch": 2.54, "span": 7.62, "pad": {"width": 1.6, "height": 1.6}},
+    {"id": "DIP-8-WIDE", "style": "dual", "pins": 8, "pitch": 2.54, "span": 15.24, "pad": {"width": 1.6, "height": 1.6}},
+    {"id": "QFN-4", "style": "quad", "pins": 4, "sides": [1, 1, 1, 1], "pitch": 0.5, "spanX": 2, "spanY": 2,
+     "pad": {"width": 0.3, "height": 0.6}},
+    {"id": "RES-0603", "style": "explicit", "pins": 2,
+     "pads": [{"pin": 1, "x": -0.8, "y": 0, "width": 0.8, "height": 0.9},
+              {"pin": 2, "x": 0.8, "y": 0, "width": 0.8, "height": 0.9}]}
+  ]
+}

@@ -191,8 +191,3 @@
 69	schematical/schematical/Simulation/SimulationEngine.swift
 13	schematical/schematical/Simulation/VoltageCheck.swift
 189	schematical/schematical/Terminal/TerminalWindow.swift
-110	scripts/erc-compare.py
-641	scripts/kicad-compare.py
-93	scripts/kicad-pin-types.py
-39	scripts/part-editor-schema-extra.py
-355	scripts/part-editor-schema.py

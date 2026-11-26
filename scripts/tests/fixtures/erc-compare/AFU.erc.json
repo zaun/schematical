@@ -1,0 +1,25 @@
+{
+  "source": "AFU.kicad_sch",
+  "kicad_version": "10.0.8",
+  "sheets": [
+    {
+      "path": "/",
+      "violations": [
+        {"type": "pin_to_pin", "severity": "error", "description": "Pins of type Output and Output are connected",
+         "items": [{"description": "Symbol U2 Pin 3 [Y, Output, Line]"}, {"description": "Symbol U1 Pin 3 [Y, Output, Line]"}]},
+        {"type": "pin_not_connected", "severity": "error", "description": "Pin not connected",
+         "items": [{"description": "Symbol U1 Pin 5 [A, Input, Line]"}]},
+        {"type": "pin_not_connected", "severity": "error", "description": "Pin not connected",
+         "items": [{"description": "Symbol EDGE1 Pin 2 [D0, Passive, Line]"}]},
+        {"type": "wire_dangling", "severity": "error", "description": "Wire not connected",
+         "items": [{"description": "Wire"}]},
+        {"type": "multiple_net_names", "severity": "warning", "description": "Two names on one net",
+         "items": [{"description": "Label 5V_2"}]},
+        {"type": "multiple_net_names", "severity": "warning", "description": "Two names on one net",
+         "items": [{"description": "Label GND_5"}]},
+        {"type": "lib_symbol_issues", "severity": "warning", "description": "Symbol not in library",
+         "items": [{"description": "Symbol U1 [74HC00]"}]}
+      ]
+    }
+  ]
+}

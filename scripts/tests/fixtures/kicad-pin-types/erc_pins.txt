@@ -1,0 +1,9 @@
+TST1000A|gate|itPP
+TST1000B|gate|itPP
+TST1000C|gate|itPP
+TST1000D|gate|itPP
+TST1000E|gate|itPP
+TST1000F|gate|ioPP
+TST2000A|gate|iiii
+TST4000A|gate|inpb
+XYZ9|gate|iiii

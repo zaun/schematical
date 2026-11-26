@@ -1,0 +1,13 @@
+{
+  "devices": [
+    {
+      "id": "chip",
+      "pinouts": {"two": [{"number": 1, "name": "1", "role": "passive"}, {"number": 2, "name": "2", "role": "passive"}]},
+      "parts": [
+        {"name": "RC0603", "pinout": "two", "footprint": "RES-0603"},
+        {"name": "R-AXIAL", "pinout": "two"}
+      ]
+    },
+    {"id": "no-parts", "pinouts": {}}
+  ]
+}

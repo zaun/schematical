@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+"""A stand-in for `kicad-cli sch erc` (plan-68-U): writes a recorded report.
+
+usage: kicad-cli sch erc --format json --severity-all -o <out> <design>.kicad_sch
+
+Copies scripts/tests/fixtures/erc-compare/<design>.erc.json to <out>. Exits 2 when
+the arguments are not that form, or when the design's .kicad_pro does not switch
+on single_global_label and four_way_junction (erc-compare.py's run_kicad does).
+"""
+
+import json
+import os
+import shutil
+import sys
+
+args = sys.argv[1:]
+if args[:5] != ['sch', 'erc', '--format', 'json', '--severity-all'] or args[5] != '-o' or len(args) != 8:
+    sys.exit('fake kicad-cli: unexpected arguments %r' % args)
+out, sch = args[6], args[7]
+design = os.path.basename(sch)[:-len('.kicad_sch')]
+with open(os.path.join(os.path.dirname(sch), design + '.kicad_pro')) as fh:
+    severities = json.load(fh)['erc']['rule_severities']
+if severities.get('single_global_label') != 'warning' or severities.get('four_way_junction') != 'warning':
+    print('fake kicad-cli: rules not switched on: %r' % severities, file=sys.stderr)
+    sys.exit(2)
+here = os.path.dirname(os.path.abspath(__file__))
+shutil.copy(os.path.join(here, '..', 'fixtures', 'erc-compare', design + '.erc.json'), out)

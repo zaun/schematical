@@ -89,9 +89,23 @@ object. That one line is the only change to a script in this letter.
 
 ### Phase 1 — the four test modules
 
-- [ ] `scripts/tests/` modules, fixtures and the fake `kicad-cli` (§ 3).
-- [ ] `docs/testing.md`: the Python test command and `SCRIPTS_COVERAGE_DIR`.
-- [ ] `COV --scripts --write-ratchet`: the Python rows gone.
+- [x] `scripts/tests/` modules, fixtures and the fake `kicad-cli` (§ 3).
+  `test_erc_compare.py`, `test_kicad_compare.py`, `test_kicad_pin_types.py`,
+  `test_part_editor_schema.py`, plus `support.py` and `traced.py` (Corrections
+  2), `fakes/kicad-cli`, `fixtures/{erc-compare,kicad,kicad-pin-types}/`.
+  Observed: `python3 -m unittest discover -s scripts/tests` → `Ran 74 tests …
+  OK (expected failures=1)`; `LOGIC_COV_WORK=/tmp/logic-cov-U node
+  scripts/coverage.js --scripts` → no `.py` path:line, `scripts: 6744 lines, 0
+  uncovered, 100.00%`; `--only scripts/kicad` → 734 lines, `--only
+  scripts/part-editor` → 390, `--only scripts/erc` → 110, each 0 uncovered.
+- [x] `docs/testing.md`: the Python test command and `SCRIPTS_COVERAGE_DIR`.
+  The command was already in the table; § Coverage now says how the suite is
+  traced, with the variable's real name `SCRIPTS_COVERAGE_FILE` (Corrections 1).
+- [x] `COV --scripts --write-ratchet`: the Python rows gone (the parent
+  removes them in this letter's commit). Observed: `python3 -m unittest
+  discover -s scripts/tests` → `Ran 74 tests`, `OK` (no expected failure,
+  after the generator fix below); `COV --scripts` → `scripts: 6750 lines, 0
+  uncovered, 100.00%`.
 
 Acceptance: every Python line in scope is run and checked.
   Check: `python3 -m unittest discover -s scripts/tests` → `OK`; `COV
@@ -110,7 +124,79 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. (2026-11-26) The variable is `SCRIPTS_COVERAGE_FILE`, not
+   `SCRIPTS_COVERAGE_DIR`, and it names one `trace` counts file, not a
+   `--coverdir`: `scripts/coverage.js` runs `python3 -m trace --count
+   --file=<counts> --no-report --module unittest discover -s scripts/tests`
+   with `SCRIPTS_COVERAGE_FILE=<counts>`, then `trace --report --missing`.
+2. (2026-11-26) That command saves no counts. Python 3.14's `trace.main()`
+   calls `write_results` (the only place the counts file is written) only
+   without `--no-report`; checked: `python3 -m trace --count --file=cnt
+   --no-report hello.py` leaves no `cnt`. The first run of `COV --scripts`
+   with only `test_erc_compare.py` showed every line of `erc-compare.py`
+   outside module level uncovered (81 of 110). `coverage.js` is not this
+   letter's file, so the tests do it: `scripts/tests/support.py`, when
+   `SCRIPTS_COVERAGE_FILE` is set, takes the running `Trace` object from
+   `sys.gettrace().__self__` (its class is `__main__.Trace`, not
+   `trace.Trace`) and merges its counts into the file at exit. A
+   program-style case runs through `scripts/tests/traced.py`, which counts the
+   child into the same file. `python3 -m trace <script>` was not usable for the
+   child: it catches `SystemExit`, so every exit code would read 0. Do not
+   also drop `--no-report` from `coverage.js` while `support.py` saves: both
+   would add the suite's counts (lines stay covered, counts double), and
+   without `--coverdir` `trace` would write `.cover` files beside the sources.
+3. (2026-11-26) Also seen in `coverage.js`'s Python step: `trace` swallows
+   the `unittest` run's `SystemExit`, so a failing Python test still exits 0
+   and `COV --scripts` does not notice it. Documented in `docs/testing.md`;
+   the fix (check the suite separately, or read the summary) is
+   `coverage.js`'s, not this letter's.
+4. (2026-11-26) Not every committed Draft equals the generator's output, so
+   § 3's "compares each written file with the committed one" holds for 36 of
+   the 50 kinds in `KIND_FILES`, not all:
+   - 12 Drafts were edited by hand after generation (their header says "Edit
+     by hand freely"): counter, dekatron, dff, gate, nixie, pld, powerswitch,
+     serial, 7seg, shift, socket, switch (`diff` of generated vs committed: 2
+     to 84 changed lines each; `GateDraft.swift` adds `enum SchemaValues`).
+     `test_hand_edited_drafts_still_differ_from_the_generator` asserts they
+     still differ, so the list cannot go stale silently.
+   - converter and rtc cannot be generated today: `generate` raises
+     `ValueError: cannot add under ['commands']`. `part-editor-schema-extra.py`
+     (`CV_EXTRA`) places `wordBits` under `protocol.commands`, which the
+     shipped converter parts now infer as `listOf(valueMap)`, not a list of
+     objects (the committed `ConverterDraft.swift` has
+     `.listOf(.object([... wordBits]))`, edited by hand). Not fixed here: any
+     fix changes the generated schema, which is the owner's call. The test is
+     `@unittest.expectedFailure`, so it turns into an "unexpected success"
+     when the generator is fixed.
+5. (2026-11-26) `part-editor-schema.py` lost a second piece besides the
+   `compile` line: `class Ctx` (5 lines), never constructed (`grep -n Ctx
+   scripts/*.py scripts/tests/*.py` → only its definition; `git log
+   -S'Ctx('` → no commit that called it). An unreachable line is deleted
+   (AGENTS.md § Source size and coverage). Output unchanged: the 36 Drafts
+   still equal the committed files.
+6. (2026-11-26) `kicad-compare.py` and `kicad-pin-types.py` read the parts
+   from the module constant `PARTS_DIR`; the in-process cases patch it to
+   `scripts/tests/fixtures/kicad*/Parts`, and the one program-style case of
+   each reads the real library (with the recorded KiCad library: a fraction
+   of a second, no KiCad needed).
+- (parent) **The converter/rtc generator failure was the plan-68-J split.**
+  `kind_files` listed only `KIND_FILES`' own sources, so the keys in the
+  pieces split out of them (`converter_load_proto.c` holds the command keys)
+  were not "known", and `is_object` read 19 unknown command keys as a map.
+  `kind_files` now adds each file's pieces (the files `<stem>_….c` that
+  include `<stem>_int.h`, as PartKindKeysTests does); the header still names
+  the kind's own files. Then converter and rtc generate, and counter and
+  shift equal their committed Drafts too (they were in HAND_EDITED only
+  because of the missing keys): HAND_EDITED is 10 kinds, the expected
+  failure is gone, and `test_split_pieces_are_read_but_not_listed` checks
+  the rule. `ConverterDraft.swift` and `RtcDraft.swift` are regenerated: new
+  `.suggested` values from parts added since, and rtc's `timing` is no
+  longer required (the loader reads it as optional; DS3231M and PCF8563 ship
+  without it, so the form marked required a key two shipped parts omit).
+  Checked in a snapshot of HEAD plus the two Drafts: `XB -only-testing`
+  PartKindRoundTripTests, WizardKindStepsTests, PartKindKeysTests → 55
+  tests, 0 failures.
+- **(parent) One commit.** The letter landed in one commit.
 
 ## Summary
 
