@@ -6,31 +6,33 @@ import SwiftUI
 /// the form's own, for review and for parts with no table to copy.
 struct PinoutStepPage: View {
     @Bindable var model: PartEditorModel
-    @State private var pasted = ""
-    @State private var table = PinTable(rows: [])
-    @State private var columns: [PinColumn] = []
-    @State private var confirmReplace = false
-    @State private var pinCount = 8
+    /// Where Paste reads from; tests give their own.
+    let pasteboard: NSPasteboard
+    @State private var pasted: PastedPinTable
+    @State private var confirmReplace: Bool
+    @State private var pinCount: Int
 
-    /// How many rows of the pasted table the grid shows.
-    private static let previewRows = 10
+    // The state's first values are set here: xccov never counts a `@State` default (plan-68-AF).
+    init(model: PartEditorModel, pasteboard: NSPasteboard = .general) {
+        self.model = model
+        self.pasteboard = pasteboard
+        _pasted = State(initialValue: PastedPinTable())
+        _confirmReplace = State(initialValue: false)
+        _pinCount = State(initialValue: 8)
+    }
 
     var body: some View {
         Section {
-            TextEditor(text: $pasted)
+            TextEditor(text: Binding(get: { pasted.text }, set: { pasted.paste($0) }))
                 .font(.system(.body, design: .monospaced))
                 .frame(minHeight: 90, maxHeight: 140)
                 .accessibilityLabel("Pasted pin table")
-                .onChange(of: pasted) { _, text in
-                    table = PinTableParser.parse(text)
-                    columns = PinTableParser.guessColumns(table)
-                }
             HStack {
                 Button("Paste") {
-                    if let text = NSPasteboard.general.string(forType: .string) { pasted = text }
+                    if let text = pasteboard.string(forType: .string) { pasted.paste(text) }
                 }
-                Button("Clear") { pasted = "" }
-                    .disabled(pasted.isEmpty)
+                Button("Clear") { pasted.paste("") }
+                    .disabled(pasted.text.isEmpty)
             }
         } header: {
             Text("Paste the pin table from the datasheet")
@@ -40,33 +42,34 @@ struct PinoutStepPage: View {
                 + "has one, its type (I, O, I/O, power …).")
         }
 
-        if !table.rows.isEmpty {
+        if !pasted.table.rows.isEmpty {
             Section("Check the columns") {
-                let result = PinTableParser.pins(table, columns: columns)
+                let result = pasted.result
                 ScrollView(.horizontal) {
                     Grid(alignment: .leading, horizontalSpacing: 10, verticalSpacing: 4) {
                         GridRow {
-                            ForEach(columns.indices, id: \.self) { index in
-                                Picker("Column \(index + 1)", selection: $columns[index]) {
+                            ForEach(pasted.columns.indices, id: \.self) { index in
+                                Picker("Column \(index + 1)", selection: $pasted.columns[index]) {
                                     ForEach(PinColumn.allCases, id: \.self) { Text($0.title).tag($0) }
                                 }
                                 .labelsHidden()
                                 .frame(minWidth: 110)
                             }
                         }
-                        ForEach(Array(table.rows.prefix(Self.previewRows).enumerated()), id: \.offset) { _, row in
+                        ForEach(Array(pasted.table.rows.prefix(PastedPinTable.previewRows).enumerated()),
+                                id: \.offset) { _, row in
                             GridRow {
-                                ForEach(columns.indices, id: \.self) { index in
+                                ForEach(pasted.columns.indices, id: \.self) { index in
                                     Text(row.indices.contains(index) ? row[index] : "")
                                         .lineLimit(1)
-                                        .foregroundStyle(columns[index] == .ignore ? .secondary : .primary)
+                                        .foregroundStyle(pasted.columns[index] == .ignore ? .secondary : .primary)
                                 }
                             }
                         }
                     }
                 }
-                if table.rows.count > Self.previewRows {
-                    Text("… and \(table.rows.count - Self.previewRows) more rows").font(.caption).foregroundStyle(.secondary)
+                if pasted.hiddenRows > 0 {
+                    Text("… and \(pasted.hiddenRows) more rows").font(.caption).foregroundStyle(.secondary)
                 }
                 HStack {
                     Text(Self.summary(pins: result.pins.count, skipped: result.skipped))
@@ -108,14 +111,39 @@ struct PinoutStepPage: View {
     }
 
     private func apply() {
-        let result = PinTableParser.pins(table, columns: columns)
-        model.applyPins(result.pins, style: PinTableParser.style(columns))
+        model.applyPins(pasted.result.pins, style: pasted.style)
     }
 
     /// "14 pins, 1 row skipped".
     static func summary(pins: Int, skipped: Int) -> String {
         "\(pins) \(pins == 1 ? "pin" : "pins"), \(skipped) \(skipped == 1 ? "row" : "rows") skipped"
     }
+}
+
+/// The Pins step's pasted text and what is read from it (plan-68-AF): the
+/// table, the guessed column of each cell (the user can change them), and
+/// the pins they give.
+struct PastedPinTable: Equatable {
+    /// How many rows of the pasted table the grid shows.
+    static let previewRows = 10
+
+    private(set) var text = ""
+    private(set) var table = PinTable(rows: [])
+    var columns: [PinColumn] = []
+
+    /// New text: parsed again, its columns guessed again. The same text
+    /// keeps the columns the user chose.
+    mutating func paste(_ text: String) {
+        guard text != self.text else { return }
+        self.text = text
+        table = PinTableParser.parse(text)
+        columns = PinTableParser.guessColumns(table)
+    }
+
+    var result: (pins: [PinDraft], skipped: Int) { PinTableParser.pins(table, columns: columns) }
+    var style: PinoutDraft.Style { PinTableParser.style(columns) }
+    /// The rows past the grid's.
+    var hiddenRows: Int { max(0, table.rows.count - Self.previewRows) }
 }
 
 /// A pin's name in the pin table. The edit is committed on Return and when
@@ -125,8 +153,14 @@ struct PinoutStepPage: View {
 struct PinNameField: View {
     let name: String
     let commit: (String) -> Void
-    @State private var text = ""
+    @State private var text: String
     @FocusState private var focused: Bool
+
+    init(name: String, commit: @escaping (String) -> Void) {
+        self.name = name
+        self.commit = commit
+        _text = State(initialValue: "")
+    }
 
     var body: some View {
         TextField("", text: $text)

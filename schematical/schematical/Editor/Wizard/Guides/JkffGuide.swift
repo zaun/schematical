@@ -15,7 +15,7 @@ enum JkffGuide {
                        searchTerms: GuideParts.functionTitles),
             GuideParts.timingStep(keys: ["part.family", "device.timing"]),
         ] },
-        fields: GuideParts.timingFields(extra: DffGuide.controlFields.merging([
+        fields: GuideParts.timingFields(extra: DffGuide.controlFields.overridden(by: [
             "device.units": FieldGuide(
                 label: "Flip-flops",
                 help: "Add one entry for each flip-flop in the package (one or two).",
@@ -41,5 +41,5 @@ enum JkffGuide {
                     + "(drawn with a bar). No for an ordinary JK flip-flop (74HC112).",
                 whereToFind: GuideParts.functionTitles,
                 alsoCalled: ["J-K bar", "K with a bar"]),
-        ]) { _, new in new }))
+        ])))
 }

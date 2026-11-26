@@ -37,7 +37,7 @@ enum DffGuide {
                        searchTerms: GuideParts.functionTitles),
             GuideParts.timingStep(keys: ["part.family", "device.timing"]),
         ] },
-        fields: GuideParts.timingFields(extra: controlFields.merging([
+        fields: GuideParts.timingFields(extra: controlFields.overridden(by: [
             "device.units": FieldGuide(
                 label: "Flip-flops",
                 help: "Add one entry for each flip-flop in the package. Flip-flops may share a pin, such as a "
@@ -73,5 +73,5 @@ enum DffGuide {
                 help: "What happens when clear and preset are both asserted: Yes if Q goes low, No if both "
                     + "outputs go high (the 74HC74). The function table's row with both asserted shows it.",
                 whereToFind: GuideParts.functionTitles),
-        ]) { _, new in new }))
+        ])))
 }

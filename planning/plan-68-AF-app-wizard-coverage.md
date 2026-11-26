@@ -1,6 +1,6 @@
 # plan-68-AF: App coverage — Editor
 
-Last updated: 2026-11-25
+Last updated: 2026-11-26
 Effort: large (3h–1d)
 Depends on: plan-68-AE
 
@@ -81,7 +81,20 @@ controller tests both run in the phase gate.
 
 ### Phase 1 — `FootprintStepPage.swift`, `FootprintThumbnail.swift`, `Guidance.swift`
 
-- [ ] Close every uncovered line of these files per § 3; ratchet rows removed.
+- [x] Close every uncovered line of these files per § 3. New classes
+  `FootprintStepPageTests` (render tests of every tab and style, the
+  preview's three states, the model calls behind the buttons),
+  `FootprintThumbnailTests` (the thumbnail and each sketch in pixels) and
+  `FieldGuideViewTests` (the guidance view, `whereLine`, the shared-guide
+  fallback). `LOGIC_COV_WORK=/tmp/logic-cov-AF node scripts/coverage.js
+  --app --tests FootprintStepPageTests,FootprintThumbnailTests,FieldGuideViewTests,WizardStepPagesTests,KindGuideTests,PartEditorFootprintTests,ParametricFootprintDraftTests,PinTableParserTests,WizardKindStepsTests,WizardIdentityTests,WizardModelTests,WizardStepsTests,WizardStepPagesTests --only
+  schematical/schematical/Editor/Wizard` → no `path:line` and no table row for
+  `FootprintStepPage.swift`, `FootprintThumbnail.swift`, `Guidance.swift`
+  (exit 0; all tests pass).
+- [x] ratchet rows: parent (the three files at 0).
+  Ratchet rows: removed by the parent in this letter's commit (11 rows). Re-measured in the
+  shared tree by the parent with this letter's classes: no `path:line` for any of its files,
+  no failed test.
 
 Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
@@ -91,13 +104,31 @@ Commit: —
 
 ### Phase 2 — 9 files, `DffGuide.swift` … `PinoutStepPage.swift`
 
-- [ ] As Phase 1, for these files.
+- [x] As Phase 1, for these files. New class `WizardStepPagesTests` (the
+  Kind step's search, kind rows and "Change to …?" alert; the Part number
+  step's fields, menus and More options; the Pins step's paste, columns,
+  Apply / Replace and numbered start; `PastedPinTable`, `requestKind`,
+  `applyPins` with no pinout); `FieldGuideViewTests` adds
+  `overridden(by:)` and `GuideLayout.isPinsOnly(.listOf)`. The same scoped
+  run → no `path:line` and no table row for `DffGuide.swift`,
+  `GuideLayout.swift`, `GuideParts.swift`, `JkffGuide.swift`,
+  `VariantKindGuides.swift`, `IdentityStepPage.swift`, `KindStepPage.swift`,
+  `PinTableParser.swift`, `PinoutStepPage.swift`. `node scripts/source-size.js
+  --check` → exit 0.
+- [x] ratchet rows: parent (the nine files at 0).
+  Ratchet rows: removed by the parent in this letter's commit (11 rows). Re-measured in the
+  shared tree by the parent with this letter's classes: no `path:line` for any of its files,
+  no failed test.
 
 Acceptance: as Phase 1.
   Check: as Phase 1; `SZ` → exit 0 (est. 10 min).
 Commit: —
 
 ## Validation Plan
+
+- [x] Final gate (2026-11-26): `XB -only-testing` the 12 classes above plus
+  `PartEditorWindowViewTests` (it hosts `PinNameField`, whose init changed)
+  → `** TEST SUCCEEDED **`, 127 tests, 0 failures; `SZ` → exit 0.
 
 - Tests: the classes added or extended, each named in its commit.
 - Coverage check: every § 2 row gone from the ratchet; `COV --app --check
@@ -113,7 +144,33 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- (2026-11-26) Logic moved out of views into tested types beside them:
+  the ball grid's "Use the pinout's balls" and the header's row picker are
+  `ParametricFootprintDraft.useBalls(_:)` and `setHeaderRows(_:)`
+  (`FootprintStepPage.swift`); a kind row's press is
+  `PartEditorModel.requestKind(_:)` (`KindStepPage.swift`); the Pins step's
+  pasted text, parsed table and columns are `PastedPinTable`
+  (`PinoutStepPage.swift`; the same text pasted again keeps the user's
+  columns, as the old `onChange` did). Behavior unchanged.
+- (2026-11-26) Paste on the Pins step reads an injected `pasteboard`
+  (default `.general`), so the test never touches the owner's clipboard.
+- (2026-11-26) Unreachable code restructured: the guides' `merging(…) { _,
+  new in new }` closures ran only on a key collision, which no guide has;
+  they are `Dictionary.overridden(by:)` (`GuideParts.swift`, tested with a
+  collision).
+- (2026-11-26) As plan-68-AB/AC found, a `@State` default is never counted
+  by xccov: `FootprintStepPage`, `KindStepPage`, `IdentityStepPage`,
+  `PinoutStepPage` and `PinNameField` set their state in an explicit `init`.
+  The Part number step's two pull-down menus build their items only as they
+  open on screen, so each item row is one line (the render test asserts the
+  menus' labels; the maker and package are typed instead).
+- (2026-11-26) Render tests host the pages in a plain scrolling stack, not
+  the grouped `Form` the wizard uses: a grouped form builds only the rows on
+  screen, and its pop-ups' items are empty until opened.
+- (2026-11-26) The Preview's "drawn here once the part loads" branch is
+  shown, deterministically, for a valid part with no footprint (a copy of
+  the 5V supply); otherwise it showed only while the first check ran.
+- No bug found.
 
 ## Summary
 

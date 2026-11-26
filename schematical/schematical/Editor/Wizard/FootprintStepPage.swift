@@ -18,9 +18,17 @@ struct FootprintStepPage: View {
         }
     }
 
-    @State private var choice = Choice.library
-    @State private var search = ""
-    @State private var style = ParametricFootprintDraft.Style.dual
+    @State private var choice: Choice
+    @State private var search: String
+    @State private var style: ParametricFootprintDraft.Style
+
+    // The state's first values are set here: xccov never counts a `@State` default (plan-68-AF).
+    init(model: PartEditorModel) {
+        self.model = model
+        _choice = State(initialValue: .library)
+        _search = State(initialValue: "")
+        _style = State(initialValue: .dual)
+    }
 
     /// What the datasheet's drawing gives, in plain words.
     static let guidance = [
@@ -258,19 +266,10 @@ struct ParametricFootprintFields: View {
                    help: "The pad's diameter on the board")
             LabeledContent("Balls", value: "\(footprint.balls.count) of \(footprint.rows * footprint.columns) places")
             if let balls, balls != footprint.balls {
-                Button("Use the pinout's \(balls.count) balls") {
-                    footprint.balls = balls
-                    footprint.pins = balls.count
-                    let size = ParametricFootprintDraft.gridSize(balls: balls, count: balls.count)
-                    footprint.rows = max(footprint.rows, size.rows)
-                    footprint.columns = max(footprint.columns, size.columns)
-                }
+                Button("Use the pinout's \(balls.count) balls") { footprint.useBalls(balls) }
             }
         case .header:
-            Picker("Rows", selection: Binding(get: { footprint.rows }, set: { rows in
-                footprint.rows = rows
-                footprint.rowPitch = rows == 2 ? (footprint.rowPitch ?? footprint.pitch) : nil
-            })) {
+            Picker("Rows", selection: Binding(get: { footprint.rows }, set: { footprint.setHeaderRows($0) })) {
                 Text("1").tag(1)
                 Text("2").tag(2)
             }
@@ -314,6 +313,25 @@ struct ParametricFootprintFields: View {
 
     private func whole(_ label: String, _ value: Binding<Int>) -> some View {
         TextField(label, value: value, format: .number.grouping(.never))
+    }
+}
+
+extension ParametricFootprintDraft {
+    /// "Use the pinout's balls": the grid takes the pinout's ball names, one
+    /// pad each, and grows to hold them.
+    mutating func useBalls(_ names: [String]) {
+        balls = names
+        pins = names.count
+        let size = Self.gridSize(balls: names, count: names.count)
+        rows = max(rows, size.rows)
+        columns = max(columns, size.columns)
+    }
+
+    /// A header's row count: a second row gets a row pitch (the pin pitch
+    /// until it is changed), one row has none.
+    mutating func setHeaderRows(_ count: Int) {
+        rows = count
+        rowPitch = count == 2 ? (rowPitch ?? pitch) : nil
     }
 }
 

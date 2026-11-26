@@ -68,17 +68,6 @@
 24	schematical/schematical/Document/SchematicFile+Board.swift
 22	schematical/schematical/Document/SchematicFile+Document.swift
 12	schematical/schematical/DocumentInfo/DocumentInfoWindow.swift
-265	schematical/schematical/Editor/Wizard/FootprintStepPage.swift
-156	schematical/schematical/Editor/Wizard/FootprintThumbnail.swift
-30	schematical/schematical/Editor/Wizard/Guidance.swift
-1	schematical/schematical/Editor/Wizard/Guides/DffGuide.swift
-1	schematical/schematical/Editor/Wizard/Guides/GuideLayout.swift
-1	schematical/schematical/Editor/Wizard/Guides/JkffGuide.swift
-4	schematical/schematical/Editor/Wizard/Guides/VariantKindGuides.swift
-73	schematical/schematical/Editor/Wizard/IdentityStepPage.swift
-85	schematical/schematical/Editor/Wizard/KindStepPage.swift
-117	schematical/schematical/Editor/Wizard/PinoutStepPage.swift
-9	schematical/schematical/Editor/Wizard/PinTableParser.swift
 100	schematical/schematical/Editor/Wizard/ReviewStepPage.swift
 52	schematical/schematical/Editor/Wizard/VariantStepPage.swift
 5	schematical/schematical/Editor/Wizard/WizardIssueLocator.swift

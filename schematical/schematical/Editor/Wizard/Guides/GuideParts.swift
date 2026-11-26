@@ -26,7 +26,7 @@ enum GuideParts {
 
     /// The guides of a logic kind's `timing` table and its entries' own keys.
     static func timingFields(extra: [String: FieldGuide] = [:]) -> [String: FieldGuide] {
-        var fields: [String: FieldGuide] = [
+        let fields: [String: FieldGuide] = [
             "device.timing": FieldGuide(
                 label: "Delays, per logic family",
                 help: "One entry per logic family the part comes in, each with its delays and its supply range. "
@@ -40,8 +40,7 @@ enum GuideParts {
                 whereToFind: switchingTitles,
                 example: "tpd CLK to Q, typical at 4.5 V"),
         ]
-        fields.merge(extra) { _, new in new }
-        return fields
+        return fields.overridden(by: extra)
     }
 
     /// A step for a variant kind's keys, omitted (nil) when it has none.
@@ -49,5 +48,14 @@ enum GuideParts {
                      optional: Bool = false) -> WizardStep? {
         keys.isEmpty ? nil : WizardStep(id: id, title: title, intro: intro, page: .kindFields, keys: keys,
                                         optional: optional, searchTerms: searchTerms)
+    }
+}
+
+extension Dictionary where Key == String, Value == FieldGuide {
+    /// These guides with `more` added; a key in both takes `more`'s guide.
+    func overridden(by more: [String: FieldGuide]) -> [String: FieldGuide] {
+        var fields = self
+        for (key, guide) in more { fields[key] = guide }
+        return fields
     }
 }

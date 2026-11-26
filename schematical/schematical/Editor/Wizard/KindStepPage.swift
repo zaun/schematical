@@ -5,9 +5,16 @@ import SwiftUI
 /// from the grouped list, each in plain words with example parts.
 struct KindStepPage: View {
     @Bindable var model: PartEditorModel
-    @State private var query = ""
+    @State private var query: String
     /// The kind waiting for the "settings will be cleared" answer.
     @State private var pendingKind: String?
+
+    // The state's first values are set here: xccov never counts a `@State` default (plan-68-AF).
+    init(model: PartEditorModel) {
+        self.model = model
+        _query = State(initialValue: "")
+        _pendingKind = State(initialValue: nil)
+    }
 
     var body: some View {
         Section {
@@ -67,11 +74,7 @@ struct KindStepPage: View {
     @ViewBuilder private func kindRow(_ info: KindInfo?, title: String) -> some View {
         if let info {
             Button {
-                if model.kindChangeClearsSettings(to: info.kind) {
-                    pendingKind = info.kind
-                } else {
-                    model.chooseKind(info.kind)
-                }
+                pendingKind = model.requestKind(info.kind)
             } label: {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 2) {
@@ -106,5 +109,15 @@ struct KindStepPage: View {
     static func clearMessage(from kind: String) -> String {
         "The \(PartDraft.displayName(of: kind).lowercased())'s own settings will be cleared. "
             + "Pins, name, datasheet and footprint are kept."
+    }
+}
+
+extension PartEditorModel {
+    /// A kind row's press: the kind is chosen at once, unless choosing it
+    /// clears settings the user entered; then it is returned, to ask first.
+    func requestKind(_ kind: String) -> String? {
+        if kindChangeClearsSettings(to: kind) { return kind }
+        chooseKind(kind)
+        return nil
     }
 }

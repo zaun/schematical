@@ -9,7 +9,7 @@ import Foundation
 enum BufferGuide {
     static let guide = GuideLayout.guide(kind: "buffer", fields: GuideLayout.common(
         units: "One entry per group of bits that share their enable pins: a 74HC244 has two groups of four.")
-        .merging([
+        .overridden(by: [
             "device.invert": GuideLayout.function(
                 "Inverting", "Yes when every output is the opposite of its input (74HC240, 74HC540).",
                 also: ["Inverting buffer", "Inverted outputs"]),
@@ -51,13 +51,13 @@ enum BufferGuide {
                     + "part uses.",
                 whereToFind: ["Ordering Information", "Device Information"],
                 alsoCalled: ["Technology", "Series"], example: "HC"),
-        ]) { _, new in new })
+        ]))
 }
 
 enum LatchGuide {
     static let guide = GuideLayout.guide(kind: "latch", fields: GuideLayout.common(
         units: "One entry per latch, naming its pins. Latches may share a pin, such as a common latch enable.")
-        .merging([
+        .overridden(by: [
             "device.units.d": GuideLayout.pins("Data input (D)", "The pin the latch follows while it is enabled.", also: ["D", "1D"]),
             "device.units.le": GuideLayout.pins("Latch enable", "The pin that lets the data through.", also: ["LE", "C", "G"]),
             "device.units.q": GuideLayout.pins("Output (Q)", "The pin that shows the latched level.", also: ["Q", "1Q"]),
@@ -111,13 +111,13 @@ enum LatchGuide {
                                                     also: ["LE1B, LE2B, LEA1B, LEA2B"]),
             "device.outputEnables": GuideLayout.pins("Output enable pins", "The three output enables; a port drives while its pin is low.",
                                                      also: ["OEA, OE1B, OE2B"]),
-        ]) { _, new in new })
+        ]))
 }
 
 enum MuxGuide {
     static let guide = GuideLayout.guide(kind: "mux", fields: GuideLayout.common(
         units: "One entry per selector in the package: a 74HC153 has two, each with four data inputs.")
-        .merging([
+        .overridden(by: [
             "device.units.data": GuideLayout.pins("Data inputs", "The inputs, in select-code order: the first is chosen by code 0.",
                                                   also: ["D0 to D7", "1C0 to 1C3", "A, B"]),
             "device.units.select": GuideLayout.pins("Select pins", "The pins that pick the input, least significant first. Usually shared by every unit.",
@@ -154,13 +154,13 @@ enum MuxGuide {
                                           whereToFind: GuideParts.functionTitles, alsoCalled: ["GW", "WE"]),
             "device.files.re": FieldGuide(label: "Read enable", help: "The pin that puts the addressed word on the outputs, and its active level.",
                                           whereToFind: GuideParts.functionTitles, alsoCalled: ["GR", "RE"]),
-        ]) { _, new in new })
+        ]))
 }
 
 enum DecoderGuide {
     static let guide = GuideLayout.guide(kind: "decoder", fields: GuideLayout.common(
         units: "One entry per decoder in the package: a 74HC139 has two.")
-        .merging([
+        .overridden(by: [
             "device.units.address": GuideLayout.pins("Address inputs", "The pins that pick the output, least significant first.",
                                                      also: ["A, B, C", "A0, A1, A2"]),
             "device.units.outputs": GuideLayout.pins("Outputs", "The outputs, in code order: the first is picked by code 0.",
@@ -212,7 +212,7 @@ enum DecoderGuide {
                                              also: ["DF", "Ph"]),
             "device.phaseOut": GuideLayout.pins("Phase output", "An output pin that repeats the phase pin's level (CD4055B DF OUT).",
                                                 also: ["DF OUT"]),
-        ]) { _, new in new })
+        ]))
 }
 
 /// Diodes: the model, the diodes in the package, then the model's ratings.

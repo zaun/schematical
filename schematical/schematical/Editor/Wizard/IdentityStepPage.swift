@@ -6,7 +6,13 @@ import SwiftUI
 /// from these and can be changed under More options.
 struct IdentityStepPage: View {
     @Bindable var model: PartEditorModel
-    @State private var showMore = false
+    @State private var showMore: Bool
+
+    // The state's first value is set here: xccov never counts a `@State` default (plan-68-AF).
+    init(model: PartEditorModel) {
+        self.model = model
+        _showMore = State(initialValue: false)
+    }
 
     var body: some View {
         Section {
@@ -23,9 +29,8 @@ struct IdentityStepPage: View {
                 Menu {
                     Button("My own design / unknown") { model.draft.manufacturer = "Generic" }
                     Divider()
-                    ForEach(model.manufacturers, id: \.self) { name in
-                        Button(name) { model.draft.manufacturer = name }
-                    }
+                    // One line: a menu builds its items only as it opens (plan-68-AF).
+                    ForEach(model.manufacturers, id: \.self) { name in Button(name) { model.draft.manufacturer = name } }
                 } label: {
                     Image(systemName: "chevron.down")
                 }
@@ -40,9 +45,8 @@ struct IdentityStepPage: View {
             HStack {
                 TextField("Package", text: $model.draft.package, prompt: Text("SOIC, DIP, TSSOP …"))
                 Menu {
-                    ForEach(Self.packages(model.catalog.packages, matching: model.draft.package), id: \.self) { name in
-                        Button(name) { model.draft.package = name }
-                    }
+                    // One line: a menu builds its items only as it opens (plan-68-AF).
+                    ForEach(packageChoices, id: \.self) { name in Button(name) { model.draft.package = name } }
                 } label: {
                     Image(systemName: "chevron.down")
                 }
@@ -80,6 +84,8 @@ struct IdentityStepPage: View {
             }
         }
     }
+
+    private var packageChoices: [String] { Self.packages(model.catalog.packages, matching: model.draft.package) }
 
     /// The catalog's packages that contain the typed text (all of them for
     /// no text), at most 40 for the menu.
