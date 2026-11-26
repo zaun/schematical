@@ -141,4 +141,56 @@ final class ViewProbe {
         if let content = window.contentView { walk(content) }
         return found
     }
+
+    /// Chooses `title` in the `index`th pop-up menu (a menu-style `Picker`),
+    /// as a user's pick would, without opening the menu, then settles.
+    /// (plan-68-W)
+    func choose(_ title: String, inPopUp index: Int = 0, file: StaticString = #filePath, line: UInt = #line) throws {
+        let popUps = views(NSPopUpButton.self)
+        let popUp = try XCTUnwrap(popUps.indices.contains(index) ? popUps[index] : nil, "no pop-up \(index)",
+                                  file: file, line: line)
+        if let menu = popUp.menu {
+            // SwiftUI fills a pop-up's menu when it is about to show.
+            menu.delegate?.menuNeedsUpdate?(menu)
+            menu.update()
+        }
+        let item = try XCTUnwrap(popUp.itemTitles.firstIndex(of: title), "no \"\(title)\" in \(popUp.itemTitles)",
+                                 file: file, line: line)
+        popUp.selectItem(at: item)
+        if let chosen = popUp.selectedItem, let action = chosen.action {
+            NSApp.sendAction(action, to: chosen.target, from: chosen)
+        } else if let action = popUp.action {
+            popUp.sendAction(action, to: popUp.target)
+        }
+        settle()
+    }
+
+    /// Types `text` into the `index`th editable text field, as `type(_:intoField:)` does.
+    func type(_ text: String, intoFieldAt index: Int, file: StaticString = #filePath, line: UInt = #line) throws {
+        let fields = views(NSTextField.self).filter(\.isEditable)
+        let field = try XCTUnwrap(fields.indices.contains(index) ? fields[index] : nil, "no field \(index) of \(fields.count)",
+                                  file: file, line: line)
+        try typeAndReturn(text, into: field, file: file, line: line)
+    }
+
+    /// Types `text` into the text field whose placeholder (else label) is `placeholder`
+    /// (replacing what it holds) and presses Return, as a user would, then
+    /// settles. (plan-68-W)
+    func type(_ text: String, intoField placeholder: String, file: StaticString = #filePath, line: UInt = #line) throws {
+        let fields = views(NSTextField.self).filter(\.isEditable)
+        let field = try XCTUnwrap(fields.first { $0.placeholderString == placeholder }
+                                      ?? fields.first { $0.accessibilityLabel() == placeholder },
+                                  "no field \"\(placeholder)\" in \(fields.map { $0.placeholderString ?? $0.accessibilityLabel() ?? "?" })",
+                                  file: file, line: line)
+        try typeAndReturn(text, into: field, file: file, line: line)
+    }
+
+    private func typeAndReturn(_ text: String, into field: NSTextField, file: StaticString, line: UInt) throws {
+        XCTAssertTrue(window.makeFirstResponder(field), file: file, line: line)
+        let editor = try XCTUnwrap(field.currentEditor() as? NSTextView, file: file, line: line)
+        editor.selectAll(nil)
+        editor.insertText(text, replacementRange: editor.selectedRange())
+        editor.insertNewline(nil)
+        settle()
+    }
 }
