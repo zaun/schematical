@@ -66,13 +66,29 @@ Acceptance: the strict checks pass, and both tools stay fully covered.
   Check: `SZ` → exit 0; `node --test --experimental-test-coverage
   scripts/source-size.test.js scripts/coverage.test.js` → both files `100.00`
   (est. 30 s).
-Commit: —
+Commit: fce1867d
 
 ### Phase 2 — the final gates
 
-- [ ] Run once each: `CT`; `NT`; `python3 -m unittest discover -s
+- [x] Run once each: `CT`; `NT`; `python3 -m unittest discover -s
   scripts/tests`; the full `XB`; `COV --check`.
-- [ ] Record each result here; archive plan-68-AK to `planning/completed/`.
+  Observed, 2026-11-26 on the finished tree (fce1867d + this commit's plan text):
+  - `CT`: `100% tests passed, 0 tests failed out of 163` (128 s).
+  - `NT`: `tests 163`, `pass 163`, `fail 0`.
+  - `python3 -m unittest discover -s scripts/tests`: `Ran 74 tests`, `OK`.
+  - The full `XB` (Debug, every class): `Executed 3069 tests, with 9 tests skipped and 9
+    failures` in 6 tests: the standing `AcknowledgementsTests` (2), `DrawerCategoriesTests
+    .testInterfaceAnalogAndClocks`, `UserLibraryCatalogTests.testAddListsUnderUserLibrary
+    AndWritesTheFile`, `UserPartLibraryTests.testWriteThenFilesReturnsTheFile` (all in
+    `planning/plan-68-data/app-coverage.txt`'s set), and `ReferencePreferencesViewTests
+    .testTypingAPrefixStoresItAndResetClearsIt` (Corrections: the coverage run's host ran
+    alongside and took the keyboard; the class alone → 1 test, 0 failures; it passed in
+    the coverage run).
+  - `COV --check` (all three tiers): exit 0; `backend: 60195 lines, 0 uncovered,
+    100.00%`, `app: 50281 lines, 0 uncovered, 100.00%`, `scripts: 6684 lines, 0
+    uncovered, 100.00%`; its suite run failed only the five standing tests above.
+- [x] Record each result here; archive plan-68-AK to `planning/completed/`.
+  Recorded above; this file moves to `planning/completed/` in this commit.
 
 Acceptance: every gate green on the finished tree.
   Check: `CT` → `100% tests passed`; `NT` and the Python tests → no failure;
@@ -93,7 +109,20 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- The standing failures (5 tests, all listed in `planning/plan-68-data/app-coverage.txt`
+  at the plan's start) remain: `AcknowledgementsTests` expects no avr8js entry
+  (plan-62-H added one), `DrawerCategoriesTests.testInterfaceAnalogAndClocks`, and two
+  user-library tests comparing `/var` with `/private/var`. plan-68 did not touch their
+  causes. Of the rest of that list, the footprint-count tests were fixed by plan-68-AC/AD
+  (counts re-measured); `SchematicNSDocumentTests.testEachExampleReadsAndWritesAsBefore`
+  and `PourFillTests.testFillOfARealRoutedBoard` were measured on a working copy with the
+  owner's uncommitted example edits and pass on this clean tree.
+- The full `XB` and `COV --check` ran at the same time to save an hour. Two real-app test
+  hosts then share the screen: `ReferencePreferencesViewTests` types into a field and
+  lost the keyboard to the other host once. Re-run alone it passes; it also passed in
+  the coverage run. Not a code defect; run the two gates one after the other.
+- Phase 1's change was prepared and tested on a scratch copy while the last app letters
+  ran (they call both tools), and applied once every other letter was archived.
 
 ## Summary
 
