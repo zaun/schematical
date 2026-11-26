@@ -41,18 +41,27 @@ final class SchematicDocument {
     /// connectivity and ratsnest are built once per change, not once per
     /// redraw. Observed: a view that reads only the kept result still
     /// redraws when it goes stale.
-    var copperRevision: Int { ownCopperRevision &+ sheet.copperRevision }
+    var copperRevision: Int { ownCopperRevision &+ sheet.copperRevision &+ layout.copperRevision }
     /// The document's part of `copperRevision`; the sheet counts its own.
     private var ownCopperRevision = 0
     /// Counts every change to `chips`, for `chipPads`.
     @ObservationIgnored private var chipsRevision = 0
     /// The last `connectivity()` and `ratsnest()`, and the `copperRevision`
     /// they were built at (see Ratsnest.swift).
-    @ObservationIgnored var keptConnectivity: (revision: Int, copper: BoardConnectivity)?
+    var keptConnectivity: (revision: Int, copper: BoardConnectivity)? {
+        get { layout.keptConnectivity }
+        set { layout.keptConnectivity = newValue }
+    }
     /// The last pour fills, with the pours, keep-outs and board edge they were made for (plan-52-D, plan-65-C).
-    @ObservationIgnored var keptPourFills: (revision: Int, pours: [BoardPour], keepouts: [BoardKeepout],
-                                            edge: BoardEdge, fills: [UUID: PourFill])?
-    @ObservationIgnored var keptRatsnest: (revision: Int, lines: [(CGPoint, CGPoint)])?
+    var keptPourFills: (revision: Int, pours: [BoardPour], keepouts: [BoardKeepout], edge: BoardEdge,
+                        fills: [UUID: PourFill])? {
+        get { layout.keptPourFills }
+        set { layout.keptPourFills = newValue }
+    }
+    var keptRatsnest: (revision: Int, lines: [(CGPoint, CGPoint)])? {
+        get { layout.keptRatsnest }
+        set { layout.keptRatsnest = newValue }
+    }
     @ObservationIgnored private var keptChipPads: (revision: Int, pads: [[PlacedPad]])?
     @ObservationIgnored private var keptVoltageIssues: (revision: Int, issues: Set<VoltageIssue>)?
     @ObservationIgnored private var keptChipIndex: (revision: Int, index: [UUID: Int])?
@@ -478,29 +487,32 @@ final class SchematicDocument {
         }
     }
 
-    /// The PCB's size, layers, colour and units. Changed through the edit
-    /// functions, so every change is an undo step.
-    private(set) var board = BoardSettings() { didSet { ownCopperRevision &+= 1 } }
+    /// What is on the PCB page: the board's settings, texts, copper, holes,
+    /// pours, keep-outs and cutouts (plan-68-E). Changed only through
+    /// recorded edits (`edit`), so every change is an undo step.
+    let layout = BoardContent()
+    /// The PCB's size, layers, colour and units.
+    var board: BoardSettings { layout.settings }
     /// The electrical rules check's settings (plan-63-E): severities, the pin
     /// map and the excluded violations. Changed through the edit functions
     /// (`setErcSeverity` …), so every change is an undo step.
     private(set) var erc = ErcSettings()
     /// Free texts on the PCB, in drawing order.
-    private(set) var texts: [BoardText] = []
+    var texts: [BoardText] { layout.texts }
     /// Copper traces on the PCB, in drawing order (plan-16).
-    private(set) var traces: [BoardTrace] = [] { didSet { ownCopperRevision &+= 1 } }
+    var traces: [BoardTrace] { layout.traces }
     /// Vias on the PCB, in drawing order.
-    private(set) var vias: [BoardVia] = [] { didSet { ownCopperRevision &+= 1 } }
+    var vias: [BoardVia] { layout.vias }
     /// Drilled holes on the PCB (mounting holes and others), in drawing
     /// order.
-    private(set) var holes: [BoardHole] = [] { didSet { ownCopperRevision &+= 1 } }
+    var holes: [BoardHole] { layout.holes }
     /// Copper pours (plan-52), in drawing order: a pour fills before the
     /// ones after it, and gives way to the ones before it.
-    private(set) var pours: [BoardPour] = [] { didSet { ownCopperRevision &+= 1 } }
+    var pours: [BoardPour] { layout.pours }
     /// Keep-outs (plan-52): rectangles the pours stay out of.
-    private(set) var keepouts: [BoardKeepout] = [] { didSet { ownCopperRevision &+= 1 } }
+    var keepouts: [BoardKeepout] { layout.keepouts }
     /// Cutouts (plan-65): regions of the board with no material, in drawing order.
-    private(set) var cutouts: [BoardCutout] = [] { didSet { ownCopperRevision &+= 1 } }
+    var cutouts: [BoardCutout] { layout.cutouts }
 
     /// The board's edge: its outline and every cutout's loop (plan-65). What
     /// every reader of the edge asks.
@@ -540,8 +552,10 @@ final class SchematicDocument {
         self.library = library
         // A new board starts from Settings ▸ DRC Defaults; from then on its
         // rules are its own, saved in its file.
-        board.rules = DesignRules.appDefaults()
-        board.rulesManufacturer = DRCManufacturer.appDefault()
+        layout.updateSettings(EditScope()) {
+            $0.rules = DesignRules.appDefaults()
+            $0.rulesManufacturer = DRCManufacturer.appDefault()
+        }
     }
 
     /// Gives a new, blank schematic the standard net classes
@@ -549,7 +563,7 @@ final class SchematicDocument {
     /// once the board has any class.
     func addStandardNetClasses() {
         guard board.netClasses.isEmpty else { return }
-        board.netClasses = NetClass.standardClasses(rules: board.rules)
+        layout.updateSettings(EditScope()) { $0.netClasses = NetClass.standardClasses(rules: $0.rules) }
     }
 
     /// Replaces everything on the canvas, for example with a file that was
@@ -573,15 +587,9 @@ final class SchematicDocument {
         // A file load replaces the content outside the undo history.
         sheet.restore(wires: wires, junctions: junctions, buses: named, netLabels: netLabels, notes: notes, EditScope())
         self.nextReference = max(nextReference, 1)
-        self.board = board
-        self.texts = texts
-        defer { if self.board.edgeBus != nil, edgeBusID == nil { self.board.edgeBus = nil } }
-        self.traces = traces
-        self.vias = vias
-        self.holes = holes
-        self.pours = pours
-        self.keepouts = keepouts
-        self.cutouts = cutouts
+        layout.restore(settings: board, texts: texts, traces: traces, vias: vias, holes: holes, pours: pours,
+                       keepouts: keepouts, cutouts: cutouts, EditScope())
+        defer { dropStaleEdgeBus(EditScope()) }
         editingNoteID = nil
         clearAllSelections()
         editorMessage = nil
@@ -638,14 +646,8 @@ final class SchematicDocument {
         sheet.restore(wires: s.wires, junctions: s.junctions, buses: s.buses, netLabels: s.netLabels,
                       notes: s.notes, EditScope())
         if nextReference != s.nextReference { nextReference = s.nextReference }
-        if board != s.board { board = s.board }
-        if texts != s.texts { texts = s.texts }
-        if traces != s.traces { traces = s.traces }
-        if vias != s.vias { vias = s.vias }
-        if holes != s.holes { holes = s.holes }
-        if pours != s.pours { pours = s.pours }
-        if keepouts != s.keepouts { keepouts = s.keepouts }
-        if cutouts != s.cutouts { cutouts = s.cutouts }
+        layout.restore(settings: s.board, texts: s.texts, traces: s.traces, vias: s.vias, holes: s.holes,
+                       pours: s.pours, keepouts: s.keepouts, cutouts: s.cutouts, EditScope())
         if erc != s.erc { erc = s.erc }
         if documentInfo != s.documentInfo { documentInfo = s.documentInfo }
         pruneSelection()
@@ -688,6 +690,11 @@ final class SchematicDocument {
         try recordEdit(page, name, coalescing: coalescing) { try body(EditScope()) }
     }
 
+    /// A card-edge bus link that no longer counts goes (see `finishRecording`).
+    private func dropStaleEdgeBus(_ scope: EditScope) {
+        if board.edgeBus != nil, edgeBusID == nil { layout.updateSettings(scope) { $0.edgeBus = nil } }
+    }
+
     private func startRecording(coalescing: String?) {
         recordingStart = state
         recordingName = nil
@@ -706,7 +713,7 @@ final class SchematicDocument {
         // A card-edge bus link that no longer counts (the card's pin count
         // changed, the board stopped being a card, or the bus is gone) is
         // set back to None, in the same step, so no hidden link stays.
-        if board.edgeBus != nil, edgeBusID == nil { board.edgeBus = nil }
+        dropStaleEdgeBus(EditScope())
         let changes = UndoDiff.changes(from: start, to: state)
         guard !changes.isEmpty else { return }
         record(UndoStep(name: recordingName ?? "Edit", coalescing: outerCoalescing ?? recordingCoalescing,
@@ -2004,53 +2011,25 @@ final class SchematicDocument {
 
     /// Sets the board's size in mm, each side clamped to `BoardSettings.sizeRange`.
     func setBoardSize(width: Double, height: Double) {
-        recordEdit(.pcb, "Change Board Size") {
-            // A free-form outline fixes the size: it is the outline's bounds.
-            if board.isFreeForm { return }
-            let range = BoardSettings.sizeRange
-            if board.type == .customCard {
-                // A custom card is as high as you like above its tab, and at
-                // least long enough for it.
-                let card = board.customCard.clamped()
-                board.width = min(max(width, card.indent + card.tabLength), range.upperBound)
-                board.height = min(max(height, card.depth + 1), range.upperBound)
-                return
-            }
-            if let card = board.card {
-                // A card's height is the standard's; only its length changes,
-                // between the shortest that clears its connector and full length.
-                board.width = min(max(width, card.minimumLength), card.maximumLength)
-                board.height = card.height
-                return
-            }
-            board.width = min(max(width, range.lowerBound), range.upperBound)
-            board.height = min(max(height, range.lowerBound), range.upperBound)
-        }
+        editBoard("Change Board Size") { $0.setSize(width: width, height: height) }
+    }
+
+    /// Runs `change` on the board's settings as one undo step named `name`.
+    private func editBoard(_ name: String, _ change: (inout BoardSettings) -> Void) {
+        edit(.pcb, name) { scope in layout.updateSettings(scope, change) }
     }
 
     /// Sets the card settings (lanes, length, key, size, memory) and fits
     /// the board to them: the standard's height, and its length unless the
     /// card's length is free (PCI Express), when it stays within range.
     func setCardOptions(_ options: CardOptions) {
-        recordEdit(.pcb, "Change Card") {
-            guard board.cardOptions != options else { return }
-            board.cardOptions = options
-            guard board.type.hasOptions, let card = board.card else { return }
-            board.height = card.height
-            board.width = card.isFixedSize ? card.length : min(max(board.width, card.minimumLength), card.maximumLength)
-        }
+        editBoard("Change Card") { $0.setCardOptions(options) }
     }
 
     /// Sets the custom card's edge connector (clamped to fit), and grows
     /// the board to hold its tab.
     func setCustomCard(_ card: CustomCard) {
-        recordEdit(.pcb, "Change Card Edge") {
-            let value = card.clamped()
-            if board.customCard != value { board.customCard = value }
-            guard board.type == .customCard else { return }
-            board.width = max(board.width, value.indent + value.tabLength)
-            board.height = max(board.height, value.depth + 1)
-        }
+        editBoard("Change Card Edge") { $0.setCustomCard(card) }
     }
 
     /// Makes the board a custom rectangle, a custom card (keeping its size,
@@ -2059,23 +2038,7 @@ final class SchematicDocument {
     /// at least 2 layers when it has fingers, which are on both sides. Back to
     /// Custom keeps the size. Nothing on the board moves.
     func setBoardType(_ type: BoardType) {
-        recordEdit(.pcb, "Change Board Type") {
-            guard board.type != type else { return }
-            board.type = type
-            // A free-form outline belongs to the Custom type alone.
-            board.customOutline = nil
-            if type != .customCard, let card = board.card {
-                board.width = card.length
-                board.height = card.height
-            }
-            if type == .customCard {
-                // Keep the size, grown to fit the tab.
-                let card = board.customCard.clamped()
-                board.width = max(board.width, card.indent + card.tabLength)
-                board.height = max(board.height, card.depth + 1)
-            }
-            if board.needsTwoLayers, board.layers < 2 { board.layers = 2 }
-        }
+        editBoard("Change Board Type") { $0.setType(type) }
     }
 
     /// Makes the board a free-form Custom board with this outline (plan-65):
@@ -2086,14 +2049,7 @@ final class SchematicDocument {
     @discardableResult
     func setBoardOutline(_ points: [CGPoint]) -> Bool {
         guard BoardSettings.problem(outline: points) == nil else { return false }
-        recordEdit(.pcb, "Change Board Outline") {
-            let outline = BoardGeometry.clockwise(points)
-            let bounds = BoardSettings.bounds(of: outline)
-            board.type = .custom
-            board.customOutline = outline
-            board.width = bounds.width
-            board.height = bounds.height
-        }
+        editBoard("Change Board Outline") { $0.setOutline(points) }
         return true
     }
 
@@ -2103,10 +2059,10 @@ final class SchematicDocument {
     /// The new cutouts are the selection. Does nothing, with no step, when the outline is
     /// refused (`BoardSettings.problem(outline:)`) or there is nothing to import.
     func applyDXFImport(_ placed: DXFPlacedImport, mode: DXFImportMode) {
-        recordEdit(.pcb, "Import DXF") {
+        edit(.pcb, "Import DXF") { scope in
             if mode == .outlineAndCutouts {
                 guard let outline = placed.outline, setBoardOutline(outline) else { return }
-                cutouts.removeAll()
+                layout.updateFeatures(scope) { $0.cutouts.removeAll() }
             }
             guard mode == .outlineAndCutouts || !placed.cutouts.isEmpty else { return }
             var added: [BoardItem] = []
@@ -2121,34 +2077,23 @@ final class SchematicDocument {
     /// Puts the rectangle back: the free-form outline is dropped and the
     /// board keeps its width and height (the old bounds).
     func resetBoardOutline() {
-        recordEdit(.pcb, "Reset Board Outline") {
-            guard board.customOutline != nil else { return }
-            board.customOutline = nil
-        }
+        editBoard("Reset Board Outline") { $0.resetOutline() }
     }
 
     /// Sets the component grid (mm), clamped to `BoardSettings.gridRange`.
     /// The trace grid follows it. Nothing on the board moves.
     func setBoardGrid(_ mm: Double) {
-        recordEdit(.pcb, "Change Grid") {
-            let range = BoardSettings.gridRange
-            let value = min(max(mm, range.lowerBound), range.upperBound)
-            if board.grid != value { board.grid = value }
-        }
+        editBoard("Change Grid") { $0.setGrid(mm) }
     }
 
     /// The units the PCB sidebar shows sizes in.
     func setBoardUnits(_ units: BoardUnits) {
-        recordEdit(.pcb, "Change Units") {
-            if board.units != units { board.units = units }
-        }
+        editBoard("Change Units") { $0.units = units }
     }
 
     /// The board's solder-mask colour.
     func setBoardColor(_ color: BoardColor) {
-        recordEdit(.pcb, "Change Board Color") {
-            if board.color != color { board.color = color }
-        }
+        editBoard("Change Board Color") { $0.color = color }
     }
 
     // MARK: Board layers
@@ -2156,150 +2101,74 @@ final class SchematicDocument {
     /// Why the board can't have `count` copper layers, or nil when it can.
     /// A count is refused when it would drop a layer that holds something.
     func canSetLayerCount(_ count: Int) -> String? {
-        guard BoardSettings.layerCounts.contains(count) else { return "Boards have 1, 2, 4 or 6 layers." }
-        let dropped = Set(board.copperLayers).subtracting(CopperLayer.allCases(for: count))
-        if dropped.contains(.bottom),
-           chips.contains(where: { $0.board?.side == .bottom }) || texts.contains(where: { $0.side == .bottom }) {
-            return "Move every part and text to Top first."
-        }
-        if let layer = board.copperLayers.first(where: { layer in
-            dropped.contains(layer) && traces.contains { $0.layer == layer }
-        }) {
-            return "Delete or move the traces on \(layer.title) first."
-        }
-        if let layer = board.copperLayers.first(where: { layer in
-            dropped.contains(layer) && pours.contains { $0.layer == layer }
-        }) {
-            return "Delete or move the pours on \(layer.title) first."
-        }
-        if count == 1, !vias.isEmpty {
-            return "Delete the vias first."
-        }
-        if count == 1, board.needsTwoLayers {
-            return "A card has fingers on both sides."
-        }
-        return nil
+        board.layerCountProblem(count, bottomItems: chips.contains { $0.board?.side == .bottom }
+                                    || texts.contains { $0.side == .bottom },
+                                traceLayers: Set(traces.map(\.layer)), pourLayers: Set(pours.map(\.layer)),
+                                hasVias: !vias.isEmpty)
     }
 
     /// Sets the copper layer count, unless `canSetLayerCount` refuses it.
     func setLayerCount(_ count: Int) {
-        recordEdit(.pcb, "Change Layers") {
-            guard count != board.layers, canSetLayerCount(count) == nil else { return }
-            board.layers = count
-        }
+        guard canSetLayerCount(count) == nil else { return }
+        editBoard("Change Layers") { $0.layers = count }
     }
 
     // MARK: Stackup (PCB)
 
     func setStackupFinish(_ finish: SurfaceFinish) {
-        recordEdit(.pcb, "Change Stackup") {
-            if board.stackup.finish != finish { board.stackup.finish = finish }
-        }
+        editBoard("Change Stackup") { $0.stackup.finish = finish }
     }
 
     /// Sets the temperature rise the current estimate allows, clamped to
     /// `BoardStackup.temperatureRiseRange`.
     func setStackupTemperatureRise(_ degrees: Double) {
-        recordEdit(.pcb, "Change Stackup") {
-            let value = min(max(degrees, BoardStackup.temperatureRiseRange.lowerBound),
-                            BoardStackup.temperatureRiseRange.upperBound)
-            if board.stackup.temperatureRise != value { board.stackup.temperatureRise = value }
-        }
+        editBoard("Change Stackup") { $0.setTemperatureRise(degrees) }
     }
 
     /// Sets the thickness (mm) of the copper layer at `index` (Top is 0),
     /// clamped to `BoardStackup.copperRange`.
     func setCopperThickness(_ mm: Double, at index: Int) {
-        recordEdit(.pcb, "Change Stackup") {
-            guard board.stackup.copper.indices.contains(index) else { return }
-            let value = min(max(mm, BoardStackup.copperRange.lowerBound), BoardStackup.copperRange.upperBound)
-            if board.stackup.copper[index] != value { board.stackup.copper[index] = value }
-        }
+        editBoard("Change Stackup") { $0.setCopperThickness(mm, at: index) }
     }
 
     /// Changes the dielectric at `index` (the one below copper layer
     /// `index`): any of its kind, thickness (mm) and Er; values are clamped
     /// to `BoardStackup.thicknessRange` and `erRange`.
     func setDielectric(at index: Int, kind: DielectricKind? = nil, thickness: Double? = nil, er: Double? = nil) {
-        recordEdit(.pcb, "Change Stackup") {
-            guard board.stackup.dielectrics.indices.contains(index) else { return }
-            var dielectric = board.stackup.dielectrics[index]
-            if let kind { dielectric.kind = kind }
-            if let thickness {
-                dielectric.thickness = min(max(thickness, BoardStackup.thicknessRange.lowerBound),
-                                           BoardStackup.thicknessRange.upperBound)
-            }
-            if let er { dielectric.er = min(max(er, BoardStackup.erRange.lowerBound), BoardStackup.erRange.upperBound) }
-            if board.stackup.dielectrics[index] != dielectric { board.stackup.dielectrics[index] = dielectric }
-        }
+        editBoard("Change Stackup") { $0.setDielectric(at: index, kind: kind, thickness: thickness, er: er) }
     }
 
     /// Puts the board's standard stackup for its layer count back, keeping
     /// nothing of the old copper and dielectrics, the finish or the rise.
     func resetStackup() {
-        recordEdit(.pcb, "Reset Stackup") {
-            let standard = BoardStackup.standard(layers: board.layers)
-            if board.stackup != standard { board.stackup = standard }
-        }
+        editBoard("Reset Stackup") { $0.resetStackup() }
     }
 
     func setLayerColor(_ layer: CopperLayer, _ color: LayerColor) {
-        recordEdit(.pcb, "Change Layer Color") {
-            guard board.copperLayers.contains(layer) else { return }
-            var style = board.style(of: layer)
-            guard style.color != color else { return }
-            style.color = color
-            board.styles[layer] = style
-        }
+        editBoard("Change Layer Color") { $0.setLayerColor(layer, color) }
     }
 
     /// Why `layer` can't become `type`, or nil when it can. Top and Bottom
     /// are always Component; an inner layer is Plane or Wire.
     func canSetLayerType(_ layer: CopperLayer, _ type: LayerType) -> String? {
-        guard board.copperLayers.contains(layer) else { return "\(layer.title) is not on this board." }
-        guard layer.isInner else { return "\(layer.title) is always a component layer." }
-        guard type != .component else { return "Inner layers are planes or wires." }
-        if type == .plane, traces.contains(where: { $0.layer == layer }) {
-            return "Move or delete this layer's traces first."
-        }
-        if type == .plane, pours.contains(where: { $0.layer == layer }) {
-            return "Move or delete this layer's pours first."
-        }
-        return nil
+        board.layerTypeProblem(layer, type, hasTraces: traces.contains { $0.layer == layer },
+                               hasPours: pours.contains { $0.layer == layer })
     }
 
     func setLayerType(_ layer: CopperLayer, _ type: LayerType) {
-        recordEdit(.pcb, "Change Layer Type") {
-            guard canSetLayerType(layer, type) == nil else { return }
-            var style = board.style(of: layer)
-            guard style.type != type else { return }
-            style.type = type
-            board.styles[layer] = style
-        }
+        guard canSetLayerType(layer, type) == nil else { return }
+        editBoard("Change Layer Type") { $0.setLayerType(layer, type) }
     }
 
     /// Sets a Plane layer's net; nil leaves it on no net.
     func setLayerNet(_ layer: CopperLayer, _ net: PlaneNet?) {
-        recordEdit(.pcb, "Change Plane Net") {
-            guard board.copperLayers.contains(layer), layer.isInner else { return }
-            var style = board.style(of: layer)
-            guard style.net != net else { return }
-            style.net = net
-            board.styles[layer] = style
-        }
+        editBoard("Change Plane Net") { $0.setLayerNet(layer, net) }
     }
 
     /// Sets a Plane layer's clearance (mm), clamped to
     /// `LayerStyle.clearanceRange`; nil goes back to the DRC's minimum.
     func setLayerClearance(_ layer: CopperLayer, _ mm: Double?) {
-        recordEdit(.pcb, "Change Plane Clearance") {
-            guard board.copperLayers.contains(layer), layer.isInner else { return }
-            var style = board.style(of: layer)
-            let value = mm.map { min(max($0, LayerStyle.clearanceRange.lowerBound), LayerStyle.clearanceRange.upperBound) }
-            guard style.clearance != value else { return }
-            style.clearance = value
-            board.styles[layer] = style
-        }
+        editBoard("Change Plane Clearance") { $0.setLayerClearance(layer, mm) }
     }
 
     /// The nets a Plane can carry, as its Net picker lists them: ground,
@@ -2349,13 +2218,18 @@ final class SchematicDocument {
 
     // MARK: Board texts
 
+    /// Runs `change` on the board's texts as one undo step named `name`.
+    private func editTexts<T>(_ name: String, _ change: (inout BoardTexts) -> T) -> T {
+        edit(.pcb, name) { scope in layout.updateTexts(scope, change) }
+    }
+
     /// Adds a "Text" on the silkscreen with its top-left at `point` (snapped)
     /// and selects it.
     @discardableResult
     func addText(at point: CGPoint) -> UUID {
-        return recordEdit(.pcb, "Add Text") { () -> UUID in
-            let text = BoardText(id: UUID(), text: "Text", anchor: BoardGrid.snap(point, spacing: self.board.grid), size: BoardText.defaultSize)
-            texts.append(text)
+        return edit(.pcb, "Add Text") { scope -> UUID in
+            let grid = board.grid
+            let text = layout.updateTexts(scope) { $0.add(at: point, grid: grid) }
             select(.text(text.id))
             return text.id
         }
@@ -2363,79 +2237,54 @@ final class SchematicDocument {
 
     /// Changes a text's words. An empty string is refused and the text kept.
     func setText(_ id: UUID, _ value: String) {
-        recordEdit(.pcb, "Edit Text") {
-            guard !value.isEmpty, let index = texts.firstIndex(where: { $0.id == id }) else { return }
-            texts[index].text = value
-        }
+        editTexts("Edit Text") { $0.setText(id, value) }
     }
 
     /// Sets a text's font size in mil, clamped to `BoardText.sizeRange`.
     func setTextSize(_ id: UUID, _ size: Int) {
-        recordEdit(.pcb, "Change Font Size") {
-            guard let index = texts.firstIndex(where: { $0.id == id }) else { return }
-            texts[index].size = min(max(size, BoardText.sizeRange.lowerBound), BoardText.sizeRange.upperBound)
-        }
+        editTexts("Change Font Size") { $0.setSize(id, size) }
     }
 
     func setTextLayer(_ id: UUID, _ layer: TextLayer) {
-        recordEdit(.pcb, "Change Layer") {
-            guard let index = texts.firstIndex(where: { $0.id == id }) else { return }
-            texts[index].layer = layer
-        }
+        editTexts("Change Layer") { $0.setLayer(id, layer) }
     }
 
     /// Sets the layer of every text in `ids`, as one undo step.
     func setTextLayer(_ ids: some Collection<UUID>, _ layer: TextLayer) {
-        recordEdit(.pcb, "Change Layer") {
-            for id in ids { setTextLayer(id, layer) }
-        }
+        editTexts("Change Layer") { texts in ids.forEach { texts.setLayer($0, layer) } }
     }
 
     /// Sets the font size (mil) of every text in `ids`, as one undo step.
     func setTextSize(_ ids: some Collection<UUID>, _ size: Int) {
-        recordEdit(.pcb, "Change Font Size") {
-            for id in ids { setTextSize(id, size) }
-        }
+        editTexts("Change Font Size") { texts in ids.forEach { texts.setSize($0, size) } }
     }
 
     /// Puts a text on the top or bottom of the board. Its box stays where it
     /// is. Does nothing on a 1-layer board, except to bring a text back to Top.
     func setTextSide(_ id: UUID, _ side: BoardSide) {
-        recordEdit(.pcb, "Change Side") {
-            guard side == .top || board.layers > 1,
-                  let index = texts.firstIndex(where: { $0.id == id }), texts[index].side != side else { return }
-            texts[index].side = side
-        }
+        let layers = board.layers
+        editTexts("Change Side") { $0.setSide(id, side, layers: layers) }
     }
 
     /// Moves a text's anchor to `point`, snapped to the grid.
     func moveText(_ id: UUID, to point: CGPoint) {
-        recordEdit(.pcb, "Move") {
-            guard let index = texts.firstIndex(where: { $0.id == id }), !texts[index].locked else { return }
-            texts[index].anchor = BoardGrid.snap(point, spacing: self.board.grid)
-        }
+        let grid = board.grid
+        editTexts("Move") { $0.move(id, to: point, grid: grid) }
     }
 
     /// Sets a text's rotation: 0, 90, 180 or 270. Other values are ignored.
     func setTextRotation(_ id: UUID, _ rotation: Int) {
-        recordEdit(.pcb, "Rotate") {
-            guard BoardPlacement.rotations.contains(rotation),
-                  let index = texts.firstIndex(where: { $0.id == id }), !texts[index].locked else { return }
-            texts[index].rotation = rotation
-        }
+        editTexts("Rotate") { $0.setRotation(id, rotation) }
     }
 
     /// Turns a text 90° clockwise about its anchor.
     func rotateText(_ id: UUID, counterclockwise: Bool = false) {
-        recordEdit(.pcb, "Rotate") {
-            guard let index = texts.firstIndex(where: { $0.id == id }), !texts[index].locked else { return }
-            texts[index].rotation = (texts[index].rotation + (counterclockwise ? 270 : 90)) % 360
-        }
+        editTexts("Rotate") { $0.rotate(id, counterclockwise: counterclockwise) }
     }
 
     func deleteText(_ id: UUID) {
-        recordEdit(.pcb, "Delete Text") {
-            texts.removeAll { $0.id == id }
+        edit(.pcb, "Delete Text") { scope in
+            layout.updateTexts(scope) { $0.remove([id]) }
             pruneSelection()
         }
     }
@@ -2443,12 +2292,7 @@ final class SchematicDocument {
     /// The text under a board point (mm): the last one drawn there, a Top
     /// text before a Bottom one. A text that isn't drawn can't be hit.
     func text(at point: CGPoint, visible: BoardVisibility = BoardVisibility()) -> BoardText? {
-        for side in [BoardSide.top, .bottom] {
-            if let hit = texts.last(where: {
-                $0.side == side && visible.showsText($0) && $0.boardRect.contains(point)
-            }) { return hit }
-        }
-        return nil
+        layout.boardTexts.text(at: point, visible: visible)
     }
 
     /// The footprint under a board point (mm): the last one drawn there, a
@@ -2526,6 +2370,11 @@ final class SchematicDocument {
 
     // MARK: Traces (PCB)
 
+    /// Runs `change` on the board's traces and vias as one undo step named `name`.
+    private func editCopper<T>(_ name: String, _ change: (inout BoardCopper) -> T) -> T {
+        edit(.pcb, name) { scope in layout.updateCopper(scope, change) }
+    }
+
     /// The pads on `layer`, with their parts: a surface-mount pad is on its
     /// layer's side (its part's, or the other for an opposite pad); a
     /// through-hole pad is on every layer.
@@ -2556,30 +2405,8 @@ final class SchematicDocument {
         if let finger = (board.fingers + board.extraPads).last(where: { $0.isOn(layer) && $0.rect.contains(point) }) {
             return finger.contact
         }
-        let same = traces.filter { $0.layer == layer }
-        var best: (point: CGPoint, distance: CGFloat)?
-        for trace in same {
-            for vertex in trace.points {
-                let d = Self.distance(from: point, to: vertex)
-                if d <= tolerance, d < best?.distance ?? .infinity { best = (vertex, d) }
-            }
-        }
-        if let best { return best.point }
-        for trace in same {
-            for (a, b) in trace.segments {
-                let near = Self.nearest(on: a, b, to: point)
-                let d = Self.distance(from: point, to: near)
-                if d <= tolerance, d < best?.distance ?? .infinity { best = (near, d) }
-            }
-        }
-        return best?.point ?? BoardGrid.snap(point, spacing: self.board.traceGrid)
-    }
-
-    /// Why no trace can go on `layer`, or nil when one can.
-    private func traceLayerRefusal(_ layer: CopperLayer) -> String? {
-        guard board.copperLayers.contains(layer) else { return "\(layer.title) is not on this board." }
-        guard board.style(of: layer).type != .plane else { return "\(layer.title) is a plane." }
-        return nil
+        return layout.copper.nearestTracePoint(to: point, layer: layer, tolerance: tolerance)
+            ?? BoardGrid.snap(point, spacing: board.traceGrid)
     }
 
     /// Adds a trace from `a` to `b` on `layer`, routed at `angle`
@@ -2606,37 +2433,15 @@ final class SchematicDocument {
     /// otherwise as `addTrace(points:layer:)`.
     @discardableResult
     func addTrace(points: [CGPoint], layer: CopperLayer, width: Int) -> UUID? {
-        return recordEdit(.pcb, "Add Trace") { () -> UUID? in
-            let points = TraceRoute.simplified(points)
-            guard TraceRoute.isLegal(points), traceLayerRefusal(layer) == nil else { return nil }
-            let width = min(max(width, BoardTrace.widthRange.lowerBound), BoardTrace.widthRange.upperBound)
-            let trace = BoardTrace(id: UUID(), layer: layer, width: width, points: points)
-            traces.append(trace)
-            join(trace.id)
-            return trace.id
-        }
+        let settings = board
+        return editCopper("Add Trace") { $0.addTrace(points: points, layer: layer, width: width, settings: settings) }
     }
 
     /// Makes every point where trace `id` touches or crosses another trace
     /// on its layer a vertex of both. Inserting a vertex on a straight
     /// segment keeps its angle, so both stay legal.
     func join(_ id: UUID) {
-        recordEdit(.pcb, "Join Traces") {
-            guard let index = traces.firstIndex(where: { $0.id == id }) else { return }
-            let layer = traces[index].layer
-            for other in traces.indices where other != index && traces[other].layer == layer {
-                var contacts: [CGPoint] = []
-                for (a, b) in traces[index].segments {
-                    for (c, d) in traces[other].segments {
-                        contacts += Self.contacts(a, b, c, d)
-                    }
-                }
-                for point in contacts {
-                    traces[index].points = Self.inserting(point, into: traces[index].points)
-                    traces[other].points = Self.inserting(point, into: traces[other].points)
-                }
-            }
-        }
+        editCopper("Join Traces") { $0.join(id) }
     }
 
     /// Replaces the vertices of an unlocked trace with `points` (legal: at
@@ -2645,31 +2450,15 @@ final class SchematicDocument {
     /// Not joined to anything: the caller keeps the trace's contacts.
     @discardableResult
     func setTracePoints(_ id: UUID, _ points: [CGPoint]) -> Bool {
-        guard let index = traces.firstIndex(where: { $0.id == id }), !traces[index].locked,
-              TraceRoute.isLegal(points) else { return false }
-        guard traces[index].points != points else { return true }
-        recordEdit(.pcb, "Move Trace") { traces[index].points = points }
+        guard layout.copper.canSetPoints(id, points) else { return false }
+        editCopper("Move Trace") { $0.setPoints(id, points) }
         return true
     }
 
     /// The traces on the same layer reachable from `id` through shared
     /// vertices, `id` first.
     func connectedRun(of id: UUID) -> [UUID] {
-        guard let start = traces.first(where: { $0.id == id }) else { return [] }
-        let same = traces.filter { $0.layer == start.layer }
-        var run = [id], seen: Set<UUID> = [id], queue = [start]
-        while !queue.isEmpty {
-            let trace = queue.removeFirst()
-            for other in same where !seen.contains(other.id) {
-                let shares = trace.points.contains { p in other.points.contains { TraceRoute.same($0, p) } }
-                if shares {
-                    seen.insert(other.id)
-                    run.append(other.id)
-                    queue.append(other)
-                }
-            }
-        }
-        return run
+        layout.copper.connectedRun(of: id)
     }
 
     /// The pads the traces of `run` touch on their layer, as
@@ -2678,26 +2467,21 @@ final class SchematicDocument {
     func pads(touching run: [UUID]) -> [String] {
         let members = traces.filter { run.contains($0.id) }
         guard let layer = members.first?.layer else { return [] }
+        func touched(_ rect: CGRect) -> Bool {
+            members.contains { trace in trace.segments.contains { Self.segment($0.0, $0.1, touches: rect) } }
+        }
         var found: [(reference: String, designator: String)] = []
         for (chip, pad) in pads(on: layer) {
-            let touched = members.contains { trace in
-                trace.segments.contains { Self.segment($0.0, $0.1, touches: pad) }
-            }
-            if touched { found.append((chip.reference, pad.designator ?? "EP")) }
+            let hit = members.contains { trace in trace.segments.contains { Self.segment($0.0, $0.1, touches: pad) } }
+            if hit { found.append((chip.reference, pad.designator ?? "EP")) }
         }
-        for finger in board.fingers where finger.isOn(layer) {
-            let touched = members.contains { trace in
-                trace.segments.contains { Self.segment($0.0, $0.1, touches: finger.rect) }
-            }
-            if touched { found.append((board.connectorName, finger.name)) }
+        for finger in board.fingers where finger.isOn(layer) && touched(finger.rect) {
+            found.append((board.connectorName, finger.name))
         }
-        for pad in board.extraPads where pad.isOn(layer) {
-            let touched = members.contains { trace in
-                trace.segments.contains { Self.segment($0.0, $0.1, touches: pad.rect) }
-            }
+        for pad in board.extraPads where pad.isOn(layer) && touched(pad.rect) {
             // "ICSP.1": its group and pin.
             let parts = pad.name.split(separator: ".", maxSplits: 1).map(String.init)
-            if touched, parts.count == 2 { found.append((parts[0], parts[1])) }
+            if parts.count == 2 { found.append((parts[0], parts[1])) }
         }
         return found
             .sorted {
@@ -2710,21 +2494,14 @@ final class SchematicDocument {
 
     /// Sets a trace's width in mil, clamped to `BoardTrace.widthRange`.
     func setTraceWidth(_ id: UUID, _ mil: Int) {
-        recordEdit(.pcb, "Change Trace Width") {
-            guard let index = traces.firstIndex(where: { $0.id == id }) else { return }
-            traces[index].width = min(max(mil, BoardTrace.widthRange.lowerBound), BoardTrace.widthRange.upperBound)
-        }
+        editCopper("Change Trace Width") { $0.setWidth(id, mil) }
     }
 
     /// Moves one trace to another layer and joins it there. Ignored for a
     /// plane or a layer not on the board. Its run on the old layer stays.
     func setTraceLayer(_ id: UUID, _ layer: CopperLayer) {
-        recordEdit(.pcb, "Change Layer") {
-            guard traceLayerRefusal(layer) == nil,
-                  let index = traces.firstIndex(where: { $0.id == id }), traces[index].layer != layer else { return }
-            traces[index].layer = layer
-            join(id)
-        }
+        let settings = board
+        editCopper("Change Layer") { $0.setLayer(id, layer, settings: settings) }
     }
 
     // MARK: Routing primitives (plan-38-G)
@@ -2732,29 +2509,26 @@ final class SchematicDocument {
     /// Removes traces and vias by id, locked or not, inside the caller's
     /// edit (`applyRouting`, `unroute`); the callers decide what may go.
     func removeCopper(traces ids: Set<UUID>, vias viaIDs: Set<UUID>) {
-        if !ids.isEmpty { traces.removeAll { ids.contains($0.id) } }
-        if !viaIDs.isEmpty { vias.removeAll { viaIDs.contains($0.id) } }
+        editCopper("Delete") { $0.remove(traces: ids, vias: viaIDs) }
         pruneSelection()
     }
 
     /// Appends a trace as it is (no join), inside the caller's edit. False
     /// when the board refuses it: a plane or absent layer, or no length.
     func appendTrace(_ trace: BoardTrace) -> Bool {
-        guard traceLayerRefusal(trace.layer) == nil, TraceRoute.isLegal(trace.points) else { return false }
-        traces.append(trace)
-        return true
+        let settings = board
+        return editCopper("Add Trace") { $0.append(trace, settings: settings) }
     }
 
     /// Appends a via, inside the caller's edit. False on a 1-layer board.
     func appendVia(_ via: BoardVia) -> Bool {
-        guard board.layers > 1 else { return false }
-        vias.append(via)
-        return true
+        let layers = board.layers
+        return editCopper("Add Via") { $0.append(via, layers: layers) }
     }
 
     func deleteTrace(_ id: UUID) {
-        recordEdit(.pcb, "Delete Trace") {
-            traces.removeAll { $0.id == id }
+        edit(.pcb, "Delete Trace") { scope in
+            layout.updateCopper(scope) { $0.remove(traces: [id], vias: []) }
             pruneSelection()
         }
     }
@@ -2795,30 +2569,26 @@ final class SchematicDocument {
         }
     }
 
+    /// The ids of the selected PCB items `pick` takes.
+    private func selected(_ pick: (BoardItem) -> UUID?) -> Set<UUID> {
+        Set(boardSelection.items.compactMap(pick))
+    }
+
     /// The selected traces, in drawing order, for ⌘C.
     func selectedTraces() -> [BoardTrace] {
-        let ids = Set(boardSelection.items.compactMap { item -> UUID? in
-            if case let .trace(id) = item { return id }
-            return nil
-        })
+        let ids = selected { if case let .trace(id) = $0 { id } else { nil } }
         return traces.filter { ids.contains($0.id) }
     }
 
     /// The selected board texts, in creation order, for ⌘C.
     func selectedTexts() -> [BoardText] {
-        let ids = Set(boardSelection.items.compactMap { item -> UUID? in
-            if case let .text(id) = item { return id }
-            return nil
-        })
+        let ids = selected { if case let .text(id) = $0 { id } else { nil } }
         return texts.filter { ids.contains($0.id) }
     }
 
     /// The selected vias, in creation order, for ⌘C.
     func selectedVias() -> [BoardVia] {
-        let ids = Set(boardSelection.items.compactMap { item -> UUID? in
-            if case let .via(id) = item { return id }
-            return nil
-        })
+        let ids = selected { if case let .via(id) = $0 { id } else { nil } }
         return vias.filter { ids.contains($0.id) }
     }
 
@@ -2843,42 +2613,19 @@ final class SchematicDocument {
     @discardableResult
     func pasteBoard(traces copied: [BoardTrace], texts copiedTexts: [BoardText], vias copiedVias: [BoardVia] = [],
                     offset: CGSize) -> [UUID] {
-        let pastedTraces = copied.filter { traceLayerRefusal($0.layer) == nil }
-        let pastedVias = board.layers > 1 ? copiedVias : []
-        guard !pastedTraces.isEmpty || !copiedTexts.isEmpty || !pastedVias.isEmpty else { return [] }
-        return recordEdit(.pcb, "Paste") { () -> [UUID] in
-            var items: [BoardItem] = []
-            var ids: [UUID] = []
-            for trace in pastedTraces {
-                let copy = BoardTrace(id: UUID(), layer: trace.layer, width: trace.width,
-                                      points: trace.points.map {
-                                          CGPoint(x: $0.x + offset.width, y: $0.y + offset.height)
-                                      })
-                traces.append(copy)
-                ids.append(copy.id)
-                items.append(.trace(copy.id))
+        let settings = board
+        guard copied.contains(where: { settings.traceLayerRefusal($0.layer) == nil }) || !copiedTexts.isEmpty
+                || (settings.layers > 1 && !copiedVias.isEmpty) else { return [] }
+        return edit(.pcb, "Paste") { scope -> [UUID] in
+            let copper = layout.updateCopper(scope) {
+                $0.paste(traces: copied, vias: copiedVias, offset: offset, settings: settings)
             }
-            for id in ids { join(id) }
-            for text in copiedTexts {
-                let moved = CGPoint(x: text.anchor.x + offset.width, y: text.anchor.y + offset.height)
-                let copy = BoardText(id: UUID(), text: text.text, anchor: BoardGrid.snap(moved, spacing: board.grid),
-                                     size: text.size, layer: text.layer, rotation: text.rotation,
-                                     side: board.layers == 1 ? .top : text.side)
-                texts.append(copy)
-                ids.append(copy.id)
-                items.append(.text(copy.id))
+            let texts = layout.updateTexts(scope) {
+                $0.paste(copiedTexts, offset: offset, grid: settings.grid, layers: settings.layers)
             }
-            for via in pastedVias {
-                let moved = CGPoint(x: via.centre.x + offset.width, y: via.centre.y + offset.height)
-                let copy = BoardVia(id: UUID(), centre: BoardGrid.snap(moved, spacing: board.traceGrid),
-                                    drill: via.drill, diameter: via.diameter,
-                                    tentedTop: via.tentedTop, tentedBottom: via.tentedBottom)
-                vias.append(copy)
-                ids.append(copy.id)
-                items.append(.via(copy.id))
-            }
+            let items = copper.traces.map(BoardItem.trace) + texts.map { .text($0.id) } + copper.vias.map(BoardItem.via)
             boardSelection.set(Set(items))
-            return ids
+            return copper.traces + texts.map(\.id) + copper.vias
         }
     }
 
@@ -2903,14 +2650,12 @@ final class SchematicDocument {
         }
         guard !textIDs.isEmpty || !traceIDs.isEmpty || !viaIDs.isEmpty || !holeIDs.isEmpty || !pourIDs.isEmpty
                 || !keepoutIDs.isEmpty || !cutoutIDs.isEmpty else { return false }
-        recordEdit(.pcb, "Delete") {
-            texts.removeAll { textIDs.contains($0.id) }
-            traces.removeAll { traceIDs.contains($0.id) }
-            vias.removeAll { viaIDs.contains($0.id) }
-            holes.removeAll { holeIDs.contains($0.id) }
-            pours.removeAll { pourIDs.contains($0.id) }
-            keepouts.removeAll { keepoutIDs.contains($0.id) }
-            cutouts.removeAll { cutoutIDs.contains($0.id) }
+        edit(.pcb, "Delete") { scope in
+            layout.updateTexts(scope) { $0.remove(textIDs) }
+            layout.updateCopper(scope) { $0.remove(traces: traceIDs, vias: viaIDs) }
+            layout.updateFeatures(scope) {
+                $0.remove(holes: holeIDs, pours: pourIDs, keepouts: keepoutIDs, cutouts: cutoutIDs)
+            }
             pruneSelection()
         }
         return true
@@ -2925,10 +2670,9 @@ final class SchematicDocument {
         let textIDs = Set(selectedTexts().map(\.id))
         let viaIDs = Set(selectedVias().map(\.id))
         guard !traceIDs.isEmpty || !textIDs.isEmpty || !viaIDs.isEmpty else { return false }
-        recordEdit(.pcb, "Cut") {
-            traces.removeAll { traceIDs.contains($0.id) }
-            texts.removeAll { textIDs.contains($0.id) }
-            vias.removeAll { viaIDs.contains($0.id) }
+        edit(.pcb, "Cut") { scope in
+            layout.updateCopper(scope) { $0.remove(traces: traceIDs, vias: viaIDs) }
+            layout.updateTexts(scope) { $0.remove(textIDs) }
             pruneSelection()
         }
         return true
@@ -2937,28 +2681,14 @@ final class SchematicDocument {
     /// Moves every vertex of the traces `ids` by `offset` (mm), then joins
     /// each one where it now lands.
     func moveTraces(_ ids: Set<UUID>, by offset: CGSize) {
-        recordEdit(.pcb, "Move") {
-            for index in traces.indices where ids.contains(traces[index].id) && !traces[index].locked {
-                traces[index].points = traces[index].points.map {
-                    CGPoint(x: $0.x + offset.width, y: $0.y + offset.height)
-                }
-            }
-            for id in ids { join(id) }
-        }
+        editCopper("Move") { $0.moveTraces(ids, by: offset) }
     }
 
     /// The trace under a board point (mm): the last one drawn there (Top's
     /// layer first, down the stack) whose layer is shown, within half its
     /// width plus `tolerance`.
     func trace(at point: CGPoint, tolerance: CGFloat, visible: BoardVisibility = BoardVisibility()) -> BoardTrace? {
-        for layer in board.copperLayers where visible.showsTrace(on: layer) {
-            if let hit = traces.last(where: { trace in
-                trace.layer == layer && trace.segments.contains {
-                    Self.distance(from: point, toSegment: $0.0, $0.1) <= trace.widthMM / 2 + tolerance
-                }
-            }) { return hit }
-        }
-        return nil
+        layout.copper.trace(at: point, tolerance: tolerance, layers: board.copperLayers.filter(visible.showsTrace(on:)))
     }
 
     // MARK: Vias (PCB)
@@ -2967,29 +2697,15 @@ final class SchematicDocument {
     /// Vias are drawn while any copper layer is.
     func via(at point: CGPoint, visible: BoardVisibility = BoardVisibility()) -> BoardVia? {
         guard visible.showsAnyCopper else { return nil }
-        return vias.last { Self.distance(from: point, to: $0.centre) <= $0.diameter / 2 }
+        return layout.copper.via(at: point)
     }
 
     /// Where a via placed at `point` lands: a vertex of a trace on any layer
     /// within `tolerance`, else the nearest point of a trace segment within
     /// `tolerance`, else the nearest trace-grid point.
     func viaAnchor(at point: CGPoint, tolerance: CGFloat) -> CGPoint {
-        var best: (point: CGPoint, distance: CGFloat)?
-        for trace in traces {
-            for vertex in trace.points {
-                let d = Self.distance(from: point, to: vertex)
-                if d <= tolerance, d < best?.distance ?? .infinity { best = (vertex, d) }
-            }
-        }
-        if let best { return best.point }
-        for trace in traces {
-            for (a, b) in trace.segments {
-                let near = Self.nearest(on: a, b, to: point)
-                let d = Self.distance(from: point, to: near)
-                if d <= tolerance, d < best?.distance ?? .infinity { best = (near, d) }
-            }
-        }
-        return best?.point ?? BoardGrid.snap(point, spacing: self.board.traceGrid)
+        layout.copper.nearestTracePoint(to: point, layer: nil, tolerance: tolerance)
+            ?? BoardGrid.snap(point, spacing: board.traceGrid)
     }
 
     /// Adds a via at `point` (already anchored) with the sizes of the class
@@ -3000,63 +2716,39 @@ final class SchematicDocument {
     func addVia(at point: CGPoint) -> UUID? {
         guard board.layers > 1 else { return nil }
         let rules = netRules(at: point, layer: nil)
-        return recordEdit(.pcb, "Add Via") { () -> UUID? in
-            let via = BoardVia(id: UUID(), centre: point, drill: rules.viaDrill, diameter: rules.viaDiameter)
-            vias.append(via)
-            boardSelection.replace(with: .via(via.id))
-            return via.id
+        return edit(.pcb, "Add Via") { scope -> UUID? in
+            let id = layout.updateCopper(scope) { $0.addVia(at: point, rules: rules) }
+            boardSelection.replace(with: .via(id))
+            return id
         }
     }
 
     /// Moves a via's centre to `point`, snapped to the trace grid.
     func moveVia(_ id: UUID, to point: CGPoint) {
-        recordEdit(.pcb, "Move") {
-            guard let index = vias.firstIndex(where: { $0.id == id }), !vias[index].locked else { return }
-            let target = BoardGrid.snap(point, spacing: self.board.traceGrid)
-            if vias[index].centre != target { vias[index].centre = target }
-        }
+        let target = BoardGrid.snap(point, spacing: board.traceGrid)
+        editCopper("Move") { $0.setViaCentre(id, target) }
     }
 
     /// Moves a via's centre to exactly `point` (the sidebar's X and Y).
     func setViaCentre(_ id: UUID, _ point: CGPoint) {
-        recordEdit(.pcb, "Move") {
-            guard let index = vias.firstIndex(where: { $0.id == id }), !vias[index].locked,
-                  vias[index].centre != point else { return }
-            vias[index].centre = point
-        }
+        editCopper("Move") { $0.setViaCentre(id, point) }
     }
 
     /// Sets a via's hole, clamped to `BoardVia.drillRange` and to leave the
     /// thinnest ring inside its metal.
     func setViaDrill(_ id: UUID, _ mm: Double) {
-        recordEdit(.pcb, "Change Via Hole") {
-            guard let index = vias.firstIndex(where: { $0.id == id }) else { return }
-            let most = min(BoardVia.drillRange.upperBound, vias[index].diameter - 2 * BoardVia.minimumRing)
-            let value = min(max(mm, BoardVia.drillRange.lowerBound), most)
-            if vias[index].drill != value { vias[index].drill = value }
-        }
+        editCopper("Change Via Hole") { $0.setViaDrill(id, mm) }
     }
 
     /// Sets a via's metal diameter, clamped to `BoardVia.diameterRange` and
     /// to keep the thinnest ring round its hole.
     func setViaDiameter(_ id: UUID, _ mm: Double) {
-        recordEdit(.pcb, "Change Via Size") {
-            guard let index = vias.firstIndex(where: { $0.id == id }) else { return }
-            let least = max(BoardVia.diameterRange.lowerBound, vias[index].drill + 2 * BoardVia.minimumRing)
-            let value = max(min(mm, BoardVia.diameterRange.upperBound), least)
-            if vias[index].diameter != value { vias[index].diameter = value }
-        }
+        editCopper("Change Via Size") { $0.setViaDiameter(id, mm) }
     }
 
     /// Sets whether the solder mask covers a via on `side`.
     func setViaTenting(_ id: UUID, _ side: BoardSide, _ tented: Bool) {
-        recordEdit(.pcb, "Change Via Tenting") {
-            guard let index = vias.firstIndex(where: { $0.id == id }) else { return }
-            switch side {
-            case .top: if vias[index].tentedTop != tented { vias[index].tentedTop = tented }
-            case .bottom: if vias[index].tentedBottom != tented { vias[index].tentedBottom = tented }
-            }
-        }
+        editCopper("Change Via Tenting") { $0.setViaTenting(id, side, tented) }
     }
 
     // MARK: Electrical rules check settings (plan-63-E)
@@ -3113,15 +2805,7 @@ final class SchematicDocument {
     /// Sets the board's design rules (each 0 or more) and the manufacturer
     /// they are named after. One undo step.
     func setDesignRules(_ rules: DesignRules, manufacturer: DRCManufacturer) {
-        recordEdit(.pcb, "Change Design Rules") {
-            var next = rules
-            for rule in DesignRules.groups.flatMap(\.rules) {
-                let value = next[keyPath: rule.field]
-                next[keyPath: rule.field] = value.isFinite ? max(0, value) : 0
-            }
-            if board.rules != next { board.rules = next }
-            if board.rulesManufacturer != manufacturer { board.rulesManufacturer = manufacturer }
-        }
+        editBoard("Change Design Rules") { $0.setDesignRules(rules, manufacturer: manufacturer) }
     }
 
     // MARK: Net classes (PCB)
@@ -3131,111 +2815,58 @@ final class SchematicDocument {
     /// priority.
     @discardableResult
     func addNetClass(named name: String) -> UUID {
-        recordEdit(.pcb, "Add Net Class") {
-            let start = NetRules.defaults(for: board.rules)
-            let netClass = NetClass(id: UUID(), name: Self.netClassName(name) ?? "Class", width: start.width,
-                                    viaDrill: start.viaDrill, viaDiameter: start.viaDiameter)
-            board.netClasses.append(netClass)
-            return netClass.id
-        }
+        edit(.pcb, "Add Net Class") { scope in layout.updateSettings(scope) { $0.addNetClass(named: name) } }
     }
 
     func removeNetClass(_ id: UUID) {
-        recordEdit(.pcb, "Delete Net Class") {
-            board.netClasses.removeAll { $0.id == id }
-        }
+        editBoard("Delete Net Class") { $0.removeNetClass(id) }
     }
 
     /// Renames a class; a blank name is ignored, a long one cut to 40
     /// characters.
     func renameNetClass(_ id: UUID, to name: String) {
-        recordEdit(.pcb, "Rename Net Class") {
-            guard let index = netClassIndex(id), let value = Self.netClassName(name),
-                  board.netClasses[index].name != value else { return }
-            board.netClasses[index].name = value
-        }
+        editBoard("Rename Net Class") { $0.renameNetClass(id, to: name) }
     }
 
     /// Sets a class's trace width, clamped to `BoardTrace.widthRange`.
     func setNetClassWidth(_ id: UUID, _ mil: Int) {
-        recordEdit(.pcb, "Change Net Class Width") {
-            guard let index = netClassIndex(id) else { return }
-            let value = min(max(mil, BoardTrace.widthRange.lowerBound), BoardTrace.widthRange.upperBound)
-            if board.netClasses[index].width != value { board.netClasses[index].width = value }
-        }
+        editBoard("Change Net Class Width") { $0.setNetClassWidth(id, mil) }
     }
 
     /// Sets a class's clearance, clamped to `LayerStyle.clearanceRange`;
     /// nil is the DRC's minimum.
     func setNetClassClearance(_ id: UUID, _ mm: Double?) {
-        recordEdit(.pcb, "Change Net Class Clearance") {
-            guard let index = netClassIndex(id) else { return }
-            let range = LayerStyle.clearanceRange
-            let value = mm.map { min(max($0, range.lowerBound), range.upperBound) }
-            if board.netClasses[index].clearance != value { board.netClasses[index].clearance = value }
-        }
+        editBoard("Change Net Class Clearance") { $0.setNetClassClearance(id, mm) }
     }
 
     /// Sets a class's via, clamped as `setViaDrill` and `setViaDiameter`
     /// clamp a via: the hole to `BoardVia.drillRange`, then the metal to
     /// `BoardVia.diameterRange` and at least the thinnest ring round it.
     func setNetClassVia(_ id: UUID, drill: Double, diameter: Double) {
-        recordEdit(.pcb, "Change Net Class Via") {
-            guard let index = netClassIndex(id) else { return }
-            let hole = min(max(drill, BoardVia.drillRange.lowerBound), BoardVia.drillRange.upperBound,
-                           BoardVia.diameterRange.upperBound - 2 * BoardVia.minimumRing)
-            let least = max(BoardVia.diameterRange.lowerBound, hole + 2 * BoardVia.minimumRing)
-            let metal = max(min(diameter, BoardVia.diameterRange.upperBound), least)
-            if board.netClasses[index].viaDrill != hole { board.netClasses[index].viaDrill = hole }
-            if board.netClasses[index].viaDiameter != metal { board.netClasses[index].viaDiameter = metal }
-        }
+        editBoard("Change Net Class Via") { $0.setNetClassVia(id, drill: drill, diameter: diameter) }
     }
 
     /// Puts `net` in class `classID`, out of every other class; nil puts it
     /// back in the Default class. The copper already on the net takes the
-    /// class's rules: every trace its width, every via its hole and metal
-    /// (`applyClass(toNet:)`). One undo step.
+    /// class's rules: every trace its width, every via its hole and metal.
+    /// One undo step.
     func assignNet(_ net: PlaneNet, to classID: UUID?) {
-        recordEdit(.pcb, "Change Net Class") {
-            for index in board.netClasses.indices where board.netClasses[index].members.contains(net) {
-                board.netClasses[index].members.removeAll { $0 == net }
-            }
-            if let classID, let index = netClassIndex(classID) { board.netClasses[index].members.append(net) }
-            applyClass(toNet: net)
-        }
-    }
-
-    /// Gives the traces and vias of `net` the width and via of its class
-    /// (the Default class's when it is in none), so copper drawn before the
-    /// net changed class matches new copper. The class's clearance is read
-    /// by the checks, so there is nothing to set for it.
-    private func applyClass(toNet net: PlaneNet) {
-        let copper = connectivity()
-        guard let netID = copper.net(of: net) else { return }
-        let rules = netClass(ofNet: netID, in: copper).map {
-            NetRules(width: $0.width, clearance: $0.clearance, viaDrill: $0.viaDrill, viaDiameter: $0.viaDiameter)
-        } ?? NetRules.defaults(for: board.rules)
-        let items = copperItems(ofNet: netID, in: copper)
-        for index in traces.indices where items.traces.contains(traces[index].id) && traces[index].width != rules.width {
-            traces[index].width = rules.width
-        }
-        for index in vias.indices where items.vias.contains(vias[index].id)
-            && (vias[index].drill != rules.viaDrill || vias[index].diameter != rules.viaDiameter) {
-            vias[index].drill = rules.viaDrill
-            vias[index].diameter = rules.viaDiameter
+        edit(.pcb, "Change Net Class") { scope in
+            layout.updateSettings(scope) { $0.assignNet(net, toClass: classID) }
+            // Copper drawn before the net changed class matches new copper;
+            // the class's clearance is read by the checks.
+            let copper = connectivity()
+            guard let netID = copper.net(of: net) else { return }
+            let rules = board.netRules(ofNet: netID, in: copper)
+            let items = copperItems(ofNet: netID, in: copper)
+            layout.updateCopper(scope) { $0.apply(rules, traces: items.traces, vias: items.vias) }
         }
     }
 
     /// Moves a class to `position` in the list (clamped); order is
     /// priority.
     func moveNetClass(_ id: UUID, to position: Int) {
-        recordEdit(.pcb, "Move Net Class") {
-            guard let index = netClassIndex(id) else { return }
-            let target = min(max(position, 0), board.netClasses.count - 1)
-            guard target != index else { return }
-            let netClass = board.netClasses.remove(at: index)
-            board.netClasses.insert(netClass, at: target)
-        }
+        editBoard("Move Net Class") { $0.moveNetClass(id, to: position) }
     }
 
     /// The width and via new copper at `point` gets: those of the class of
@@ -3245,10 +2876,7 @@ final class SchematicDocument {
     /// it — or the Default class's when it is on no net or a net in no class.
     func netRules(at point: CGPoint, layer: CopperLayer?) -> NetRules {
         let copper = connectivity()
-        guard let net = net(at: point, layer: layer, in: copper),
-              let netClass = netClass(ofNet: net, in: copper) else { return NetRules.defaults(for: board.rules) }
-        return NetRules(width: netClass.width, clearance: netClass.clearance, viaDrill: netClass.viaDrill,
-                        viaDiameter: netClass.viaDiameter)
+        return board.netRules(ofNet: net(at: point, layer: layer, in: copper), in: copper)
     }
 
     /// The net (of `copper`) whose copper holds `point`, by the order
@@ -3284,62 +2912,36 @@ final class SchematicDocument {
     /// The class net `net` of `connectivity` is in: the first, in list
     /// order, any of whose members names it; nil is the Default class.
     func netClass(ofNet net: Int, in connectivity: BoardConnectivity) -> NetClass? {
-        board.netClasses.first { $0.members.contains { connectivity.net(of: $0) == net } }
+        board.netClass(ofNet: net, in: connectivity)
     }
-
 
     // MARK: Net layer rules and groups (PCB)
 
     /// Sets a class's layer rule; nil is any trace layer. A rule with no
     /// layers is ignored.
     func setNetClassLayerRule(_ id: UUID, _ rule: LayerRule?) {
-        recordEdit(.pcb, "Change Layer Rule") {
-            guard let index = netClassIndex(id), rule.map({ !$0.layers.isEmpty }) ?? true,
-                  board.netClasses[index].layerRule != rule else { return }
-            board.netClasses[index].layerRule = rule
-        }
+        editBoard("Change Layer Rule") { $0.setNetClassLayerRule(id, rule) }
     }
 
     /// Sets one net's own layer rule, before its class's; nil removes it.
     /// A rule with no layers is ignored.
     func setNetLayerRule(_ net: PlaneNet, _ rule: LayerRule?) {
-        recordEdit(.pcb, "Change Layer Rule") {
-            guard rule.map({ !$0.layers.isEmpty }) ?? true else { return }
-            if let rule {
-                if let index = board.netOverrides.firstIndex(where: { $0.net == net }) {
-                    if board.netOverrides[index].layerRule != rule { board.netOverrides[index].layerRule = rule }
-                } else {
-                    board.netOverrides.append(NetOverride(net: net, layerRule: rule))
-                }
-            } else {
-                board.netOverrides.removeAll { $0.net == net }
-            }
-        }
+        editBoard("Change Layer Rule") { $0.setNetLayerRule(net, rule) }
     }
 
     /// Adds an empty group (trimmed name, at most 40 characters; blank is
     /// "Group"), last.
     @discardableResult
     func addNetGroup(named name: String, mode: NetGroupMode) -> UUID {
-        recordEdit(.pcb, "Add Net Group") {
-            let group = NetGroup(id: UUID(), name: Self.netClassName(name) ?? "Group", mode: mode)
-            board.netGroups.append(group)
-            return group.id
-        }
+        edit(.pcb, "Add Net Group") { scope in layout.updateSettings(scope) { $0.addNetGroup(named: name, mode: mode) } }
     }
 
     func removeNetGroup(_ id: UUID) {
-        recordEdit(.pcb, "Delete Net Group") {
-            board.netGroups.removeAll { $0.id == id }
-        }
+        editBoard("Delete Net Group") { $0.removeNetGroup(id) }
     }
 
     func renameNetGroup(_ id: UUID, to name: String) {
-        recordEdit(.pcb, "Rename Net Group") {
-            guard let index = netGroupIndex(id), let value = Self.netClassName(name),
-                  board.netGroups[index].name != value else { return }
-            board.netGroups[index].name = value
-        }
+        editBoard("Rename Net Group") { $0.renameNetGroup(id, to: name) }
     }
 
     /// Changes a group's mode. A group with more than 2 nets can't be a
@@ -3347,15 +2949,12 @@ final class SchematicDocument {
     /// group has `mode` now.
     @discardableResult
     func setNetGroupMode(_ id: UUID, _ mode: NetGroupMode) -> Bool {
-        guard let index = netGroupIndex(id) else { return false }
-        let group = board.netGroups[index]
-        if mode == .diffPair, group.members.count > NetGroup.pairSize {
-            editorMessage = "A differential pair has 2 nets; \(group.name) has \(group.members.count)."
+        guard board.netGroupIndex(id) != nil else { return false }
+        if let problem = board.netGroupModeProblem(id, mode) {
+            editorMessage = problem
             return false
         }
-        recordEdit(.pcb, "Change Net Group") {
-            if board.netGroups[index].mode != mode { board.netGroups[index].mode = mode }
-        }
+        editBoard("Change Net Group") { $0.setNetGroupMode(id, mode) }
         return true
     }
 
@@ -3383,11 +2982,7 @@ final class SchematicDocument {
 
     private func setNetGroupValue(_ id: UUID, _ key: WritableKeyPath<NetGroup, Double>, _ mm: Double,
                                   _ range: ClosedRange<Double>) {
-        recordEdit(.pcb, "Change Net Group") {
-            guard let index = netGroupIndex(id) else { return }
-            let value = min(max(mm, range.lowerBound), range.upperBound)
-            if board.netGroups[index][keyPath: key] != value { board.netGroups[index][keyPath: key] = value }
-        }
+        editBoard("Change Net Group") { $0.setNetGroupValue(id, key, mm, range) }
     }
 
     /// Puts `net` in group `groupID`, out of any other group. A pair that
@@ -3395,38 +2990,24 @@ final class SchematicDocument {
     /// why. Returns whether the net is in the group now.
     @discardableResult
     func assignNet(_ net: PlaneNet, toGroup groupID: UUID) -> Bool {
-        guard let index = netGroupIndex(groupID) else { return false }
-        let group = board.netGroups[index]
-        if group.members.contains(net) { return true }
-        if group.mode == .diffPair, group.members.count >= NetGroup.pairSize {
-            editorMessage = "\(group.name) already has its 2 nets."
+        guard board.netGroupIndex(groupID) != nil else { return false }
+        if let problem = board.netGroupJoinProblem(net, groupID) {
+            editorMessage = problem
             return false
         }
-        recordEdit(.pcb, "Change Net Group") {
-            for other in board.netGroups.indices where board.netGroups[other].members.contains(net) {
-                board.netGroups[other].members.removeAll { $0 == net }
-            }
-            board.netGroups[index].members.append(net)
-        }
+        editBoard("Change Net Group") { $0.assignNet(net, toGroup: groupID) }
         return true
     }
 
     /// Takes `net` out of whichever group it is in.
     func unassignNet(_ net: PlaneNet) {
-        recordEdit(.pcb, "Change Net Group") {
-            for index in board.netGroups.indices where board.netGroups[index].members.contains(net) {
-                board.netGroups[index].members.removeAll { $0 == net }
-            }
-        }
+        editBoard("Change Net Group") { $0.unassignNet(net) }
     }
 
     /// The layer rule net `net` of `connectivity` follows: its own
     /// override, else its class's, else none.
     func layerRule(ofNet net: Int, in connectivity: BoardConnectivity) -> LayerRule? {
-        if let own = board.netOverrides.first(where: { $0.layerRule != nil && connectivity.net(of: $0.net) == net }) {
-            return own.layerRule
-        }
-        return netClass(ofNet: net, in: connectivity)?.layerRule
+        board.layerRule(ofNet: net, in: connectivity)
     }
 
     /// The trace layers net `net` may use and those it prefers. Only: the
@@ -3434,62 +3015,33 @@ final class SchematicDocument {
     /// can't be routed), with no preference. Prefer: every trace layer,
     /// preferring the rule's. No rule: every trace layer, no preference.
     func effectiveLayers(ofNet net: Int, in connectivity: BoardConnectivity) -> EffectiveLayers {
-        let trace = board.traceLayers
-        guard let rule = layerRule(ofNet: net, in: connectivity) else {
-            return EffectiveLayers(allowed: trace, preferred: [], rule: nil)
-        }
-        let named = trace.filter(rule.layers.contains)
-        switch rule.mode {
-        case .only: return EffectiveLayers(allowed: named, preferred: [], rule: rule)
-        case .prefer: return EffectiveLayers(allowed: trace, preferred: named, rule: rule)
-        }
+        board.effectiveLayers(ofNet: net, in: connectivity)
     }
 
     /// The group net `net` of `connectivity` is in: the first any of whose
     /// members names it.
     func group(ofNet net: Int, in connectivity: BoardConnectivity) -> NetGroup? {
-        board.netGroups.first { $0.members.contains { connectivity.net(of: $0) == net } }
-    }
-
-    private func netGroupIndex(_ id: UUID) -> Int? {
-        board.netGroups.firstIndex { $0.id == id }
-    }
-    private func netClassIndex(_ id: UUID) -> Int? {
-        board.netClasses.firstIndex { $0.id == id }
-    }
-
-    /// A class name as entered: trimmed and cut to the longest allowed, or
-    /// nil when blank.
-    private static func netClassName(_ name: String) -> String? {
-        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        return trimmed.isEmpty ? nil : String(trimmed.prefix(NetClass.nameLength.upperBound))
+        board.group(ofNet: net, in: connectivity)
     }
 
     func deleteVia(_ id: UUID) {
-        recordEdit(.pcb, "Delete Via") {
-            vias.removeAll { $0.id == id }
+        edit(.pcb, "Delete Via") { scope in
+            layout.updateCopper(scope) { $0.remove(traces: [], vias: [id]) }
             pruneSelection()
         }
     }
 
     /// The traces whose copper touches a via's metal, on any layer.
     func traces(touching via: BoardVia) -> [BoardTrace] {
-        traces.filter { trace in
-            trace.segments.contains {
-                Self.distance(from: via.centre, toSegment: $0.0, $0.1) <= via.diameter / 2 + trace.widthMM / 2
-            }
-        }
+        layout.copper.traces(touching: via.centre, radius: via.diameter / 2)
     }
 
     // MARK: Pours and keep-outs (PCB)
 
-    /// `rect` snapped to the trace grid, at least `BoardPour.minimumSide` wide and tall.
-    private func snappedRect(_ rect: CGRect) -> CGRect {
-        let grid = board.traceGrid
-        let r = rect.standardized
-        let minX = BoardGrid.snap(r.minX, spacing: grid), minY = BoardGrid.snap(r.minY, spacing: grid)
-        let maxX = BoardGrid.snap(r.maxX, spacing: grid), maxY = BoardGrid.snap(r.maxY, spacing: grid)
-        return BoardPour.normalized(CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY))
+    /// Runs `change` on the board's holes, pours, keep-outs and cutouts as
+    /// one undo step named `name`.
+    private func editFeatures<T>(_ name: String, _ change: (inout BoardFeatures) -> T) -> T {
+        edit(.pcb, name) { scope in layout.updateFeatures(scope, change) }
     }
 
     /// Adds a pour over `rect` (snapped to the trace grid) on `layer`, and
@@ -3499,152 +3051,104 @@ final class SchematicDocument {
     @discardableResult
     func addPour(rect: CGRect, layer: CopperLayer) -> UUID? {
         guard board.traceLayers.contains(layer) else { return nil }
-        return recordEdit(.pcb, "Add Pour") { () -> UUID in
-            var pour = BoardPour(id: UUID(), rect: snappedRect(rect), layer: layer)
-            if let like = pours.last {
-                pour.net = like.net
-                pour.clearance = like.clearance
-                pour.connection = like.connection
-                pour.thermalGap = like.thermalGap
-                pour.spokeWidth = like.spokeWidth
-                pour.minWidth = like.minWidth
-            } else {
-                pour.clearance = BoardPour.startClearance
-                pour.minWidth = BoardPour.startMinWidth
-                if planeNetChoices().contains(where: { $0.net == .ground }) { pour.net = .ground }
-            }
-            pours.append(pour)
-            boardSelection.replace(with: .pour(pour.id))
-            return pour.id
+        let grid = board.traceGrid
+        return edit(.pcb, "Add Pour") { scope -> UUID in
+            let ground = pours.isEmpty && planeNetChoices().contains(where: { $0.net == .ground })
+            let id = layout.updateFeatures(scope) { $0.addPour(rect: rect, layer: layer, grid: grid, ground: ground) }
+            boardSelection.replace(with: .pour(id))
+            return id
         }
     }
 
     /// Moves a pour so its top-left corner is at `origin`, snapped to the trace grid.
     func movePour(_ id: UUID, to origin: CGPoint) {
-        recordEdit(.pcb, "Move") {
-            guard let index = pours.firstIndex(where: { $0.id == id }), !pours[index].locked else { return }
-            let target = CGRect(origin: BoardGrid.snap(origin, spacing: board.traceGrid), size: pours[index].rect.size)
-            if pours[index].rect != target { pours[index].rect = target }
-        }
+        let grid = board.traceGrid
+        editFeatures("Move") { $0.movePour(id, to: origin, grid: grid) }
     }
 
     /// Sets a pour's rectangle (the sidebar's X, Y, width and height, a
     /// resize), snapped to the trace grid.
     func setPourRect(_ id: UUID, _ rect: CGRect, name: String = "Resize") {
-        recordEdit(.pcb, name) {
-            guard let index = pours.firstIndex(where: { $0.id == id }), !pours[index].locked else { return }
-            let target = snappedRect(rect)
-            if pours[index].rect != target { pours[index].rect = target }
-        }
+        let grid = board.traceGrid
+        editFeatures(name) { $0.setPourRect(id, rect, grid: grid) }
     }
 
     /// Puts a pour on `layer`, a trace layer of the board.
     func setPourLayer(_ id: UUID, _ layer: CopperLayer) {
-        recordEdit(.pcb, "Change Pour Layer") {
-            guard board.traceLayers.contains(layer), let index = pours.firstIndex(where: { $0.id == id }),
-                  pours[index].layer != layer else { return }
-            pours[index].layer = layer
-        }
+        guard board.traceLayers.contains(layer) else { return }
+        editFeatures("Change Pour Layer") { $0.setPourLayer(id, layer) }
     }
 
     /// Sets a pour's net (`planeNetChoices`), or none.
     func setPourNet(_ id: UUID, _ net: PlaneNet?) {
-        recordEdit(.pcb, "Change Pour Net") {
-            guard let index = pours.firstIndex(where: { $0.id == id }), pours[index].net != net else { return }
-            pours[index].net = net
-        }
+        editFeatures("Change Pour Net") { $0.setPourNet(id, net) }
     }
 
     /// Sets a pour's clearance (mm), clamped to `LayerStyle.clearanceRange`;
     /// nil is the DRC's minimum.
     func setPourClearance(_ id: UUID, _ mm: Double?) {
-        recordEdit(.pcb, "Change Pour") {
-            guard let index = pours.firstIndex(where: { $0.id == id }) else { return }
-            let value = mm.map { min(max($0, LayerStyle.clearanceRange.lowerBound), LayerStyle.clearanceRange.upperBound) }
-            if pours[index].clearance != value { pours[index].clearance = value }
-        }
+        editFeatures("Change Pour") { $0.setPourClearance(id, mm) }
     }
 
     func setPourConnection(_ id: UUID, _ connection: PourConnection) {
-        recordEdit(.pcb, "Change Pour") {
-            guard let index = pours.firstIndex(where: { $0.id == id }), pours[index].connection != connection else { return }
-            pours[index].connection = connection
-        }
+        editFeatures("Change Pour") { $0.setPourConnection(id, connection) }
     }
 
     func setPourThermalGap(_ id: UUID, _ mm: Double) {
-        recordEdit(.pcb, "Change Pour") {
-            guard let index = pours.firstIndex(where: { $0.id == id }) else { return }
-            let value = min(max(mm, BoardPour.gapRange.lowerBound), BoardPour.gapRange.upperBound)
-            if pours[index].thermalGap != value { pours[index].thermalGap = value }
-        }
+        editFeatures("Change Pour") { $0.setPourThermalGap(id, mm) }
     }
 
     func setPourSpokeWidth(_ id: UUID, _ mm: Double) {
-        recordEdit(.pcb, "Change Pour") {
-            guard let index = pours.firstIndex(where: { $0.id == id }) else { return }
-            let value = min(max(mm, BoardPour.spokeRange.lowerBound), BoardPour.spokeRange.upperBound)
-            if pours[index].spokeWidth != value { pours[index].spokeWidth = value }
-        }
+        editFeatures("Change Pour") { $0.setPourSpokeWidth(id, mm) }
     }
 
     func setPourMinWidth(_ id: UUID, _ mm: Double) {
-        recordEdit(.pcb, "Change Pour") {
-            guard let index = pours.firstIndex(where: { $0.id == id }) else { return }
-            let value = min(max(mm, BoardPour.minWidthRange.lowerBound), BoardPour.minWidthRange.upperBound)
-            if pours[index].minWidth != value { pours[index].minWidth = value }
+        editFeatures("Change Pour") { $0.setPourMinWidth(id, mm) }
+    }
+
+    /// Removes holes, pours, keep-outs or cutouts as one undo step named `name`.
+    private func deleteFeatures(_ name: String, holes: Set<UUID> = [], pours: Set<UUID> = [],
+                                keepouts: Set<UUID> = [], cutouts: Set<UUID> = []) {
+        edit(.pcb, name) { scope in
+            layout.updateFeatures(scope) { $0.remove(holes: holes, pours: pours, keepouts: keepouts, cutouts: cutouts) }
+            pruneSelection()
         }
     }
 
     func deletePour(_ id: UUID) {
-        recordEdit(.pcb, "Delete") {
-            pours.removeAll { $0.id == id }
-            pruneSelection()
-        }
+        deleteFeatures("Delete", pours: [id])
     }
 
     /// Adds a keep-out over `rect` (snapped to the trace grid) on `layers`
     /// (nil: every layer), and selects it.
     @discardableResult
     func addKeepout(rect: CGRect, layers: Set<CopperLayer>? = nil) -> UUID {
-        recordEdit(.pcb, "Add Keep-out") { () -> UUID in
-            let keepout = BoardKeepout(id: UUID(), rect: snappedRect(rect), layers: layers)
-            keepouts.append(keepout)
-            boardSelection.replace(with: .keepout(keepout.id))
-            return keepout.id
+        let grid = board.traceGrid
+        return edit(.pcb, "Add Keep-out") { scope -> UUID in
+            let id = layout.updateFeatures(scope) { $0.addKeepout(rect: rect, layers: layers, grid: grid) }
+            boardSelection.replace(with: .keepout(id))
+            return id
         }
     }
 
     /// Moves a keep-out so its top-left corner is at `origin`, snapped to the trace grid.
     func moveKeepout(_ id: UUID, to origin: CGPoint) {
-        recordEdit(.pcb, "Move") {
-            guard let index = keepouts.firstIndex(where: { $0.id == id }), !keepouts[index].locked else { return }
-            let target = CGRect(origin: BoardGrid.snap(origin, spacing: board.traceGrid), size: keepouts[index].rect.size)
-            if keepouts[index].rect != target { keepouts[index].rect = target }
-        }
+        let grid = board.traceGrid
+        editFeatures("Move") { $0.moveKeepout(id, to: origin, grid: grid) }
     }
 
     func setKeepoutRect(_ id: UUID, _ rect: CGRect, name: String = "Resize") {
-        recordEdit(.pcb, name) {
-            guard let index = keepouts.firstIndex(where: { $0.id == id }), !keepouts[index].locked else { return }
-            let target = snappedRect(rect)
-            if keepouts[index].rect != target { keepouts[index].rect = target }
-        }
+        let grid = board.traceGrid
+        editFeatures(name) { $0.setKeepoutRect(id, rect, grid: grid) }
     }
 
     /// Sets the layers a keep-out applies to; nil is every layer.
     func setKeepoutLayers(_ id: UUID, _ layers: Set<CopperLayer>?) {
-        recordEdit(.pcb, "Change Keep-out") {
-            guard let index = keepouts.firstIndex(where: { $0.id == id }), keepouts[index].layers != layers else { return }
-            keepouts[index].layers = layers
-        }
+        editFeatures("Change Keep-out") { $0.setKeepoutLayers(id, layers) }
     }
 
     func deleteKeepout(_ id: UUID) {
-        recordEdit(.pcb, "Delete") {
-            keepouts.removeAll { $0.id == id }
-            pruneSelection()
-        }
+        deleteFeatures("Delete", keepouts: [id])
     }
 
     // MARK: Cutouts (PCB)
@@ -3656,101 +3160,46 @@ final class SchematicDocument {
     @discardableResult
     func addCutout(_ shape: BoardCutout.Shape) -> UUID? {
         guard BoardCutout.problem(shape) == nil else { return nil }
-        return recordEdit(.pcb, "Add Cutout") { () -> UUID in
-            let stored: BoardCutout.Shape
-            switch shape {
-            case let .rounded(rect, radius):
-                // A circle or slot stays one when the grid moves its sides: fully rounded, and a circle square.
-                let full = BoardCutout(id: UUID(), shape: shape).kind != .rectangle
-                let square = BoardCutout(id: UUID(), shape: shape).kind == .circle
-                var box = snappedRect(rect)
-                if square { let side = max(box.width, box.height); box.size = CGSize(width: side, height: side) }
-                let fitted = BoardCutout.normalized(box, radius: radius)
-                stored = .rounded(rect: fitted.rect, radius: full ? min(fitted.rect.width, fitted.rect.height) / 2 : fitted.radius)
-            case let .polygon(points):
-                stored = .polygon(BoardGeometry.clockwise(points))
-            }
-            let cutout = BoardCutout(id: UUID(), shape: stored)
-            cutouts.append(cutout)
-            boardSelection.replace(with: .cutout(cutout.id))
-            return cutout.id
+        let grid = board.traceGrid
+        return edit(.pcb, "Add Cutout") { scope -> UUID in
+            let id = layout.updateFeatures(scope) { $0.addCutout(shape, grid: grid) }
+            boardSelection.replace(with: .cutout(id))
+            return id
         }
     }
 
     /// Moves a cutout so its bounds' top-left corner is at `origin`, snapped to the trace grid.
     func moveCutout(_ id: UUID, to origin: CGPoint) {
-        recordEdit(.pcb, "Move") {
-            guard let index = cutouts.firstIndex(where: { $0.id == id }), !cutouts[index].locked else { return }
-            let target = BoardGrid.snap(origin, spacing: board.traceGrid)
-            let from = cutouts[index].shape.bounds.origin
-            let moved = cutouts[index].shape.translated(by: CGSize(width: target.x - from.x, height: target.y - from.y))
-            if cutouts[index].shape != moved { cutouts[index].shape = moved }
-        }
+        let grid = board.traceGrid
+        editFeatures("Move") { $0.moveCutout(id, to: origin, grid: grid) }
     }
 
     /// Sets a rounded cutout's box (snapped to the trace grid, at least 0.5 mm a side); its radius
     /// stays within the new box. Does nothing to a polygon or a locked cutout.
     func setCutoutRect(_ id: UUID, _ rect: CGRect, name: String = "Resize") {
-        recordEdit(.pcb, name) {
-            guard let index = cutouts.firstIndex(where: { $0.id == id }), !cutouts[index].locked,
-                  case let .rounded(_, radius) = cutouts[index].shape else { return }
-            // A circle or slot stays fully rounded when it is resized.
-            let full = cutouts[index].kind != .rectangle
-            let fitted = BoardCutout.normalized(snappedRect(rect), radius: radius)
-            let target = BoardCutout.Shape.rounded(
-                rect: fitted.rect, radius: full ? min(fitted.rect.width, fitted.rect.height) / 2 : fitted.radius)
-            if cutouts[index].shape != target { cutouts[index].shape = target }
-        }
+        let grid = board.traceGrid
+        editFeatures(name) { $0.setCutoutRect(id, rect, grid: grid) }
     }
 
     /// Sets a rounded cutout's corner radius, within 0 to half its short side.
     func setCutoutRadius(_ id: UUID, _ radius: Double) {
-        recordEdit(.pcb, "Change Cutout") {
-            guard let index = cutouts.firstIndex(where: { $0.id == id }), !cutouts[index].locked,
-                  case let .rounded(rect, _) = cutouts[index].shape else { return }
-            let fitted = BoardCutout.normalized(rect, radius: radius)
-            let target = BoardCutout.Shape.rounded(rect: fitted.rect, radius: fitted.radius)
-            if cutouts[index].shape != target { cutouts[index].shape = target }
-        }
+        editFeatures("Change Cutout") { $0.setCutoutRadius(id, radius) }
     }
 
     func deleteCutout(_ id: UUID) {
-        recordEdit(.pcb, "Delete") {
-            cutouts.removeAll { $0.id == id }
-            pruneSelection()
-        }
+        deleteFeatures("Delete", cutouts: [id])
     }
 
     /// Whether a keep-out is drawn with `visible`: any layer it applies to shows.
     func keepoutIsShown(_ keepout: BoardKeepout, _ visible: BoardVisibility) -> Bool {
-        guard let layers = keepout.layers else { return visible.showsAnyCopper }
-        return layers.contains { visible.shows(.copper($0)) && board.copperLayers.contains($0) }
+        BoardFeatures.keepoutIsShown(keepout, visible, layers: board.copperLayers)
     }
 
     /// The pour or keep-out whose edge is within `tolerance` of `point` (mm):
     /// the last pour, else the last keep-out. Pressing inside one does not
     /// hit it (it is as big as a board), only its edge does.
     func pourItem(at point: CGPoint, tolerance: CGFloat, visible: BoardVisibility = BoardVisibility()) -> BoardItem? {
-        if let pour = pours.last(where: {
-            visible.shows(.copper($0.layer)) && board.copperLayers.contains($0.layer)
-                && Self.distance(from: point, toBoundaryOf: $0.rect) <= tolerance
-        }) { return .pour(pour.id) }
-        if let keepout = keepouts.last(where: {
-            keepoutIsShown($0, visible) && Self.distance(from: point, toBoundaryOf: $0.rect) <= tolerance
-        }) { return .keepout(keepout.id) }
-        // A cutout, by its edge (a polygon's or a rounded one's own, not its box).
-        if let cutout = cutouts.last(where: { Double($0.shape.distance(to: point)) <= Double(tolerance) }) {
-            return .cutout(cutout.id)
-        }
-        return nil
-    }
-
-    /// How far `point` is from the boundary of `rect`, inside or out.
-    static func distance(from point: CGPoint, toBoundaryOf rect: CGRect) -> CGFloat {
-        let dx = max(rect.minX - point.x, 0, point.x - rect.maxX)
-        let dy = max(rect.minY - point.y, 0, point.y - rect.maxY)
-        if dx > 0 || dy > 0 { return hypot(dx, dy) }
-        return min(point.x - rect.minX, rect.maxX - point.x, point.y - rect.minY, rect.maxY - point.y)
+        layout.features.item(at: point, tolerance: tolerance, visible: visible, layers: board.copperLayers)
     }
 
     // MARK: Holes (PCB)
@@ -3759,7 +3208,7 @@ final class SchematicDocument {
     /// land (plated) or its hole. Holes are drawn while any copper layer is.
     func hole(at point: CGPoint, visible: BoardVisibility = BoardVisibility()) -> BoardHole? {
         guard visible.showsAnyCopper else { return nil }
-        return holes.last { Self.distance(from: point, to: $0.centre) <= $0.outer / 2 }
+        return layout.features.hole(at: point)
     }
 
     /// Adds a hole at `point`, snapped to the trace grid, and selects it.
@@ -3767,174 +3216,68 @@ final class SchematicDocument {
     /// of mounting holes is quick to place; the first is a non-plated M3.
     @discardableResult
     func addHole(at point: CGPoint) -> UUID {
-        recordEdit(.pcb, "Add Hole") { () -> UUID in
-            let like = holes.last ?? BoardHole(id: UUID(), centre: .zero)
-            let hole = BoardHole(id: UUID(), centre: BoardGrid.snap(point, spacing: self.board.traceGrid),
-                                 size: like.size, drill: like.drill, diameter: like.diameter, plated: like.plated,
-                                 net: like.net)
-            holes.append(hole)
-            boardSelection.replace(with: .hole(hole.id))
-            return hole.id
+        let grid = board.traceGrid
+        return edit(.pcb, "Add Hole") { scope -> UUID in
+            let id = layout.updateFeatures(scope) { $0.addHole(at: point, grid: grid) }
+            boardSelection.replace(with: .hole(id))
+            return id
         }
     }
 
     /// Moves a hole's centre to `point`, snapped to the trace grid.
     func moveHole(_ id: UUID, to point: CGPoint) {
-        recordEdit(.pcb, "Move") {
-            guard let index = holes.firstIndex(where: { $0.id == id }), !holes[index].locked else { return }
-            let target = BoardGrid.snap(point, spacing: self.board.traceGrid)
-            if holes[index].centre != target { holes[index].centre = target }
-        }
+        let target = BoardGrid.snap(point, spacing: board.traceGrid)
+        editFeatures("Move") { $0.setHoleCentre(id, target) }
     }
 
     /// Moves a hole's centre to exactly `point` (the sidebar's X and Y).
     func setHoleCentre(_ id: UUID, _ point: CGPoint) {
-        recordEdit(.pcb, "Move") {
-            guard let index = holes.firstIndex(where: { $0.id == id }), !holes[index].locked,
-                  holes[index].centre != point else { return }
-            holes[index].centre = point
-        }
+        editFeatures("Move") { $0.setHoleCentre(id, point) }
     }
 
     /// Sets a hole's size: a screw size sets its hole and land.
     func setHoleSize(_ id: UUID, _ size: HoleSize) {
-        recordEdit(.pcb, "Change Hole Size") {
-            guard let index = holes.firstIndex(where: { $0.id == id }) else { return }
-            var hole = holes[index]
-            hole.apply(size)
-            if holes[index] != hole { holes[index] = hole }
-        }
+        editFeatures("Change Hole Size") { $0.setHoleSize(id, size) }
     }
 
     /// Sets a hole's drill, clamped to `BoardHole.drillRange`. The land
     /// grows to keep the thinnest ring round it. The size becomes Custom.
     func setHoleDrill(_ id: UUID, _ mm: Double) {
-        recordEdit(.pcb, "Change Hole Size") {
-            guard let index = holes.firstIndex(where: { $0.id == id }) else { return }
-            var hole = holes[index]
-            hole.drill = min(max(mm, BoardHole.drillRange.lowerBound), BoardHole.drillRange.upperBound)
-            hole.diameter = max(hole.diameter, hole.drill + 2 * BoardHole.minimumRing)
-            if hole.drill != holes[index].drill { hole.size = .custom }
-            if holes[index] != hole { holes[index] = hole }
-        }
+        editFeatures("Change Hole Size") { $0.setHoleDrill(id, mm) }
     }
 
     /// Sets a hole's land diameter, clamped to `BoardHole.diameterRange` and
     /// to keep the thinnest ring round its hole. The size becomes Custom.
     func setHoleDiameter(_ id: UUID, _ mm: Double) {
-        recordEdit(.pcb, "Change Hole Size") {
-            guard let index = holes.firstIndex(where: { $0.id == id }) else { return }
-            let least = max(BoardHole.diameterRange.lowerBound, holes[index].drill + 2 * BoardHole.minimumRing)
-            let value = max(min(mm, BoardHole.diameterRange.upperBound), least)
-            guard holes[index].diameter != value else { return }
-            holes[index].diameter = value
-            holes[index].size = .custom
-        }
+        editFeatures("Change Hole Size") { $0.setHoleDiameter(id, mm) }
     }
 
     /// Makes a hole plated (a copper land that can carry a net) or bare.
     func setHolePlated(_ id: UUID, _ plated: Bool) {
-        recordEdit(.pcb, plated ? "Plate Hole" : "Unplate Hole") {
-            guard let index = holes.firstIndex(where: { $0.id == id }), holes[index].plated != plated else { return }
-            holes[index].plated = plated
-        }
+        editFeatures(plated ? "Plate Hole" : "Unplate Hole") { $0.setHolePlated(id, plated) }
     }
 
     /// Sets a plated hole's net (`planeNetChoices`), or none.
     func setHoleNet(_ id: UUID, _ net: PlaneNet?) {
-        recordEdit(.pcb, "Change Hole Net") {
-            guard let index = holes.firstIndex(where: { $0.id == id }), holes[index].net != net else { return }
-            holes[index].net = net
-        }
+        editFeatures("Change Hole Net") { $0.setHoleNet(id, net) }
     }
 
     func deleteHole(_ id: UUID) {
-        recordEdit(.pcb, "Delete Hole") {
-            holes.removeAll { $0.id == id }
-            pruneSelection()
-        }
+        deleteFeatures("Delete Hole", holes: [id])
     }
 
     /// The traces whose copper touches a plated hole's land, on any layer.
     func traces(touching hole: BoardHole) -> [BoardTrace] {
         guard hole.plated else { return [] }
-        return traces.filter { trace in
-            trace.segments.contains {
-                Self.distance(from: hole.centre, toSegment: $0.0, $0.1) <= hole.diameter / 2 + trace.widthMM / 2
-            }
-        }
+        return layout.copper.traces(touching: hole.centre, radius: hole.diameter / 2)
     }
 
     // MARK: Trace geometry
 
-    /// The point of segment a–b nearest `point`.
-    static func nearest(on a: CGPoint, _ b: CGPoint, to point: CGPoint) -> CGPoint {
-        let dx = b.x - a.x, dy = b.y - a.y
-        let lengthSquared = dx * dx + dy * dy
-        guard lengthSquared > 0 else { return a }
-        let t = min(max(((point.x - a.x) * dx + (point.y - a.y) * dy) / lengthSquared, 0), 1)
-        return CGPoint(x: a.x + t * dx, y: a.y + t * dy)
-    }
-
-    /// Where segments a–b and c–d touch: their crossing point, or both ends
-    /// of a collinear overlap. Empty when they don't touch.
-    static func contacts(_ a: CGPoint, _ b: CGPoint, _ c: CGPoint, _ d: CGPoint) -> [CGPoint] {
-        let eps = TraceRoute.epsilon
-        let r = CGPoint(x: b.x - a.x, y: b.y - a.y), s = CGPoint(x: d.x - c.x, y: d.y - c.y)
-        let denom = r.x * s.y - r.y * s.x
-        let lengths = hypot(r.x, r.y) * hypot(s.x, s.y)
-        if abs(denom) > 1e-9 * lengths {
-            let q = CGPoint(x: c.x - a.x, y: c.y - a.y)
-            let t = (q.x * s.y - q.y * s.x) / denom
-            let point = CGPoint(x: a.x + t * r.x, y: a.y + t * r.y)
-            let onBoth = distance(from: point, toSegment: a, b) < eps && distance(from: point, toSegment: c, d) < eps
-            return onBoth ? [snapToEnds(point, [a, b, c, d])] : []
-        }
-        // Parallel: they touch only when collinear, at the ends of each that
-        // lie on the other.
-        var points: [CGPoint] = []
-        for (end, segment) in [(a, (c, d)), (b, (c, d)), (c, (a, b)), (d, (a, b))]
-        where distance(from: end, toSegment: segment.0, segment.1) < eps {
-            if !points.contains(where: { TraceRoute.same($0, end) }) { points.append(end) }
-        }
-        return points
-    }
-
-    /// `point`, or the end it is within epsilon of, so a touching end is
-    /// shared exactly.
-    private static func snapToEnds(_ point: CGPoint, _ ends: [CGPoint]) -> CGPoint {
-        ends.first { TraceRoute.same($0, point) } ?? point
-    }
-
-    /// `points` with `point` added as a vertex on the segment it lies on.
-    /// Unchanged when it is already a vertex or on no segment.
-    static func inserting(_ point: CGPoint, into points: [CGPoint]) -> [CGPoint] {
-        if points.contains(where: { TraceRoute.same($0, point) }) { return points }
-        for index in points.indices.dropLast()
-        where distance(from: point, toSegment: points[index], points[index + 1]) < TraceRoute.epsilon {
-            var result = points
-            result.insert(point, at: index + 1)
-            return result
-        }
-        return points
-    }
-
     /// Whether segment a–b meets `rect` (inside it, or crossing or touching
     /// its edge).
     nonisolated static func segment(_ a: CGPoint, _ b: CGPoint, touches rect: CGRect) -> Bool {
-        // Liang–Barsky: clip the segment's parameter range to the rect.
-        var low: CGFloat = 0, high: CGFloat = 1
-        let dx = b.x - a.x, dy = b.y - a.y
-        for (p, q) in [(-dx, a.x - rect.minX), (dx, rect.maxX - a.x), (-dy, a.y - rect.minY), (dy, rect.maxY - a.y)] {
-            if p == 0 {
-                if q < 0 { return false }
-            } else {
-                let t = q / p
-                if p < 0 { low = max(low, t) } else { high = min(high, t) }
-                if low > high { return false }
-            }
-        }
-        return true
+        BoardCopper.segment(a, b, touches: rect)
     }
 
     // MARK: Lock Position (PCB)
@@ -3957,26 +3300,16 @@ final class SchematicDocument {
     /// Locks or unlocks a PCB item's position (the sidebar's Lock Position).
     func setLocked(_ item: BoardItem, _ locked: Bool) {
         guard isLocked(item) != locked else { return }
-        recordEdit(.pcb, locked ? "Lock Position" : "Unlock Position") {
+        edit(.pcb, locked ? "Lock Position" : "Unlock Position") { scope in
             switch item {
             case let .footprint(id):
                 if let index = chips.firstIndex(where: { $0.id == id }), chips[index].board != nil {
                     chips[index].board?.locked = locked
                 }
-            case let .text(id):
-                if let index = texts.firstIndex(where: { $0.id == id }) { texts[index].locked = locked }
-            case let .trace(id):
-                if let index = traces.firstIndex(where: { $0.id == id }) { traces[index].locked = locked }
-            case let .via(id):
-                if let index = vias.firstIndex(where: { $0.id == id }) { vias[index].locked = locked }
-            case let .hole(id):
-                if let index = holes.firstIndex(where: { $0.id == id }) { holes[index].locked = locked }
-            case let .pour(id):
-                if let index = pours.firstIndex(where: { $0.id == id }) { pours[index].locked = locked }
-            case let .keepout(id):
-                if let index = keepouts.firstIndex(where: { $0.id == id }) { keepouts[index].locked = locked }
-            case let .cutout(id):
-                if let index = cutouts.firstIndex(where: { $0.id == id }) { cutouts[index].locked = locked }
+            case let .text(id): layout.updateTexts(scope) { $0.setLocked(id, locked) }
+            case let .trace(id): layout.updateCopper(scope) { $0.setLocked(trace: id, locked) }
+            case let .via(id): layout.updateCopper(scope) { $0.setLocked(via: id, locked) }
+            case .hole, .pour, .keepout, .cutout: layout.updateFeatures(scope) { $0.setLocked(item, locked) }
             }
         }
     }
@@ -4039,7 +3372,7 @@ final class SchematicDocument {
     /// snapped to the board grid, so they keep their places relative to
     /// each other.
     func moveBoardGroup(_ base: BoardGroupBase, by delta: CGSize) {
-        recordEdit(.pcb, "Move") {
+        edit(.pcb, "Move") { scope in
             func moved(_ point: CGPoint, by offset: CGSize) -> CGPoint {
                 CGPoint(x: point.x + offset.width, y: point.y + offset.height)
             }
@@ -4058,11 +3391,8 @@ final class SchematicDocument {
             }
             // Traces move by the snapped delta from where they were, alone or
             // in a group; joins wait for the release (`settleBoardGroup`).
-            for index in traces.indices {
-                guard let points = base.traces[traces[index].id] else { continue }
-                let target = points.map { moved($0, by: offset) }
-                if traces[index].points != target { traces[index].points = target }
-            }
+            let traceOffset = offset
+            layout.updateCopper(scope) { $0.moveGroup(traces: base.traces, vias: [:], by: traceOffset) }
             if base.count == 1 {
                 if let (id, centre) = base.footprints.first { moveFootprint(id, to: moved(centre, by: delta)) }
                 if let (id, anchor) = base.texts.first { moveText(id, to: moved(anchor, by: delta)) }
@@ -4074,50 +3404,21 @@ final class SchematicDocument {
                 if let (id, shape) = base.cutouts.first { moveCutout(id, to: moved(shape.bounds.origin, by: delta)) }
                 return
             }
-            for index in pours.indices {
-                guard let rect = base.pours[pours[index].id] else { continue }
-                let target = CGRect(origin: moved(rect.origin, by: offset), size: rect.size)
-                if pours[index].rect != target { pours[index].rect = target }
-            }
-            for index in keepouts.indices {
-                guard let rect = base.keepouts[keepouts[index].id] else { continue }
-                let target = CGRect(origin: moved(rect.origin, by: offset), size: rect.size)
-                if keepouts[index].rect != target { keepouts[index].rect = target }
-            }
-            for index in cutouts.indices {
-                guard let shape = base.cutouts[cutouts[index].id] else { continue }
-                let target = shape.translated(by: offset)
-                if cutouts[index].shape != target { cutouts[index].shape = target }
-            }
-            for index in holes.indices {
-                guard let centre = base.holes[holes[index].id] else { continue }
-                let target = moved(centre, by: offset)
-                if holes[index].centre != target { holes[index].centre = target }
-            }
-            for index in vias.indices {
-                guard let centre = base.vias[vias[index].id] else { continue }
-                let target = moved(centre, by: offset)
-                if vias[index].centre != target { vias[index].centre = target }
-            }
+            layout.updateFeatures(scope) { $0.moveGroup(base, by: traceOffset) }
+            layout.updateCopper(scope) { $0.moveGroup(traces: [:], vias: base.vias, by: traceOffset) }
             for index in chips.indices {
                 guard let centre = base.footprints[chips[index].id], chips[index].board != nil else { continue }
                 let target = moved(centre, by: offset)
                 if chips[index].board?.centre != target { chips[index].board?.centre = target }
             }
-            for index in texts.indices {
-                guard let anchor = base.texts[texts[index].id] else { continue }
-                let target = moved(anchor, by: offset)
-                if texts[index].anchor != target { texts[index].anchor = target }
-            }
+            layout.updateTexts(scope) { $0.move(base.texts, by: { moved($0, by: traceOffset) }) }
         }
     }
 
     /// The end of a PCB group drag: each moved trace joins what it now
     /// touches. Traces that weren't selected stay where they are.
     func settleBoardGroup(_ base: BoardGroupBase) {
-        recordEdit(.pcb, "Move") {
-            for id in base.traces.keys { join(id) }
-        }
+        editCopper("Move") { copper in base.traces.keys.forEach { copper.join($0) } }
     }
 
     // MARK: Segment drags (PCB)
@@ -4127,51 +3428,23 @@ final class SchematicDocument {
     /// which of them must stay where they are. Nil for a locked trace or
     /// none.
     func traceSegmentBase(_ id: UUID, at point: CGPoint) -> TraceSegmentBase? {
-        guard let trace = traces.first(where: { $0.id == id }), !trace.locked,
-              let segment = trace.segments.indices.min(by: {
-                  Self.distance(from: point, toSegment: trace.segments[$0].0, trace.segments[$0].1)
-                      < Self.distance(from: point, toSegment: trace.segments[$1].0, trace.segments[$1].1)
-              }) else { return nil }
-        var anchored: Set<Int> = []
-        let others = traces.filter { $0.id != id && $0.layer == trace.layer }
-        let padRects = pads(on: trace.layer).map(\.1.rect) + board.fingers.filter { $0.isOn(trace.layer) }.map(\.rect)
-            + board.extraPads.filter { $0.isOn(trace.layer) }.map(\.rect)
-        for (index, vertex) in trace.points.enumerated() {
-            let shared = others.contains { $0.points.contains { TraceRoute.same($0, vertex) } }
-            let viaHere = vias.contains { Self.distance(from: $0.centre, to: vertex) <= $0.diameter / 2 }
-            if shared || viaHere || padRects.contains(where: { $0.contains(vertex) }) { anchored.insert(index) }
-        }
-        return TraceSegmentBase(id: id, segment: segment, points: trace.points, anchored: anchored)
+        guard let layer = traces.first(where: { $0.id == id })?.layer else { return nil }
+        let pads = pads(on: layer).map(\.1.rect) + board.fingers.filter { $0.isOn(layer) }.map(\.rect)
+            + board.extraPads.filter { $0.isOn(layer) }.map(\.rect)
+        return layout.copper.segmentBase(id, at: point, pads: pads)
     }
 
     /// One frame of a plain drag on a trace segment: the segment slides
     /// sideways by the part of `delta` (mm) at right angles to it, snapped
     /// to the trace grid, and the rest of the trace follows (`TraceRoute.slide`).
     func dragTraceSegment(_ base: TraceSegmentBase, by delta: CGSize) {
-        recordEdit(.pcb, "Move Segment") {
-            guard let index = traces.firstIndex(where: { $0.id == base.id }) else { return }
-            let a = base.points[base.segment], b = base.points[base.segment + 1]
-            let length = Self.distance(from: a, to: b)
-            guard length > TraceRoute.epsilon else { return }
-            let normal = CGPoint(x: -(b.y - a.y) / length, y: (b.x - a.x) / length)
-            var distance = delta.width * normal.x + delta.height * normal.y
-            let spacing = board.traceGrid
-            if abs(normal.x) < 1e-9 || abs(normal.y) < 1e-9 {
-                // Along an axis: the segment lands on a trace grid line.
-                let axis: CGFloat = abs(normal.x) > abs(normal.y) ? a.x : a.y
-                let direction: CGFloat = abs(normal.x) > abs(normal.y) ? normal.x : normal.y
-                distance = (BoardGrid.snap(axis + distance * direction, spacing: spacing) - axis) * direction
-            } else {
-                distance = BoardGrid.snap(distance, spacing: spacing)
-            }
-            let target = TraceRoute.slide(base.points, segment: base.segment, by: distance, anchored: base.anchored)
-            if traces[index].points != target { traces[index].points = target }
-        }
+        let grid = board.traceGrid
+        editCopper("Move Segment") { $0.dragSegment(base, by: delta, grid: grid) }
     }
 
     /// The end of a segment drag: the trace joins what it now touches.
     func settleTraceSegment(_ base: TraceSegmentBase) {
-        recordEdit(.pcb, "Move Segment") { join(base.id) }
+        editCopper("Move Segment") { $0.join(base.id) }
     }
 
     /// What a Select press at `point` (board mm) picks: a text, else a via,
@@ -4774,10 +4047,8 @@ final class SchematicDocument {
     /// Chooses the bus the card edge uses, or none. A bus with the wrong
     /// wire count is ignored.
     func setEdgeBus(_ id: UUID?) {
-        recordEdit(.pcb, "Change Card Bus") {
-            if let id, !edgeBusChoices.contains(where: { $0.id == id }) { return }
-            if board.edgeBus != id { board.edgeBus = id }
-        }
+        if let id, !edgeBusChoices.contains(where: { $0.id == id }) { return }
+        editBoard("Change Card Bus") { $0.edgeBus = id }
     }
 
     /// The bus that renaming bus `id` to `name` would link it with: another

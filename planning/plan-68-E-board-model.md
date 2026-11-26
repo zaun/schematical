@@ -116,10 +116,11 @@ are the gate.
 
 ### Phase 1 — the owner
 
-- [ ] `Model/Board/BoardLayout.swift`; the document's eight stored arrays
+- [x] `Model/Board/BoardLayout.swift`; the document's eight stored arrays
   become forwards; every write through `layout.update…(scope)`;
   `setState`/`replaceContents` through `layout.restore`; the caches move.
-- [ ] `BoardObservationTests`.
+  (Landed with Phase 2's logic in one commit, as plan-68-D: Corrections.)
+- [x] `BoardObservationTests`.
 
 Acceptance: the layout owns the content; nothing else changed.
   Check: `XB -only-testing:schematicalTests/PCBUndoTests
@@ -127,20 +128,25 @@ Acceptance: the layout owns the content; nothing else changed.
   -only-testing:schematicalTests/BoardCopperCacheTests
   -only-testing:schematicalTests/PourFileTests
   -only-testing:schematicalTests/CutoutFileTests` → all pass (est. 5 min).
-Commit: —
+  Observed: `xcodebuild … -only-testing` PCBUndoTests 38, BoardObservationTests 2, BoardCopperCacheTests 3, PourFileTests, CutoutFileTests, TraceJoinTests → `TEST SUCCEEDED`, 0 failures.
+Commit: COMMIT_E
 
 ### Phase 2 — the logic into the values
 
-- [ ] Move each mark's logic into § 3's `mutating` methods (`PadLookup`
-  added); document methods become one-liners.
-- [ ] The four value-type test classes.
-- [ ] Ratchets: size row lowered; new files' coverage at 0.
+- [x] Move each mark's logic into § 3's `mutating` methods; document
+  methods become one-liners. ~~`PadLookup`~~ — moot: no moved method needs
+  pad positions; the two that read pads (`traceSegmentBase`, `traceAnchor`)
+  pass the rects or keep the pad step on the document (Corrections).
+- [x] The four value-type test classes (`BoardSettingsEditTests`,
+  `BoardTextsTests`, `BoardCopperTests`, `BoardFeaturesTests`).
+- [x] Ratchets: size row lowered; new files' coverage at 0.
 
 Acceptance: logic in the values, tested alone; behavior unchanged.
   Check: the full `XB` → no failure beyond the standing ones; `COV --app
   --only schematical/schematical/Model/Board/` → no uncovered line (est. the
   full Debug suite; every PCB edit moves).
-Commit: —
+  Observed: the full suite under `node scripts/coverage.js --app` → the 8 standing failures only (`planning/plan-68-data/coverage-start.txt`); `--only schematical/schematical/Model/Board/` with the four value classes and `BoardObservationTests` → `920 lines, 0 uncovered`. SchematicModel.swift had 12 uncovered lines: four static geometry forwards nothing called, deleted; `BoardTrace.swift` went down 10 → 8 and its row was lowered.
+Commit: COMMIT_E
 
 ## Validation Plan
 
@@ -153,7 +159,39 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- **Phases 1 and 2 landed as one commit**, for plan-68-D's reason: the owner
+  and the values were written together; both phases' checks ran on the result.
+- **No `PadLookup`.** `traceAnchor` keeps its pad, via, hole and finger steps
+  on the document and asks `BoardCopper.nearestTracePoint` for the rest;
+  `traceSegmentBase` hands `BoardCopper.segmentBase` the pad rects. Nothing
+  else moved reads pads.
+- **The settings' values are `BoardSettings` itself** (extensions in
+  `BoardSettings+Edits.swift` and `+NetRules.swift`), as § 3 said; the
+  refusals that need the rest of the board (`layerCountProblem`,
+  `layerTypeProblem`) take what they read as parameters, and
+  `traceLayerRefusal` moved onto the settings.
+- **The routing primitives (`removeCopper`, `appendTrace`, `appendVia`) open
+  their own nested `edit`.** They are called inside `RoutingApply`'s
+  `recordEdit`, which cannot hand them a scope; nested, the caller's step
+  still names the change (the outermost name wins).
+- **`init`, `addStandardNetClasses`, `replaceContents`, `setState` and
+  `finishRecording`'s stale-edge-bus drop make their scope directly**: they
+  run outside the undo history or are the undo code, as `EditScope`'s rule
+  allows. The edge-bus drop is one helper, `dropStaleEdgeBus`.
+- **The caches stay reachable as before**: the document's `keptConnectivity`,
+  `keptPourFills` and `keptRatsnest` are get/set forwards to the layout's, so
+  `Ratsnest.swift` and `PourConnectivity.swift` did not change.
+- **The owner is `BoardContent`, not `BoardLayout`**
+  (`Model/Board/BoardContent.swift`): `BoardLayout` already names the
+  footprint-placement helpers (`enum BoardLayout` in `Canvas/BoardModel.swift`:
+  `nextSpot`, `snapped`, `originPoint`), and the class would not compile
+  beside it. The document's property is still `layout`. plan-68-F's
+  prerequisite names the file; corrected there.
+- **The geometry statics moved to `BoardCopper`**; the document keeps
+  `segment(_:_:touches:)` as a forward (other files call it). Its `nearest`,
+  `contacts`, `inserting` and `distance(from:toBoundaryOf:)` had no caller
+  outside the board code once it moved, and were deleted.
+
 
 ## Summary
 

@@ -14,7 +14,7 @@ small core: stored state, undo, selection. Afterwards the only app files
 over 1000 code lines are the six that plan-68-V splits.
 
 Prerequisites: plan-68-A's table, and plan-68-E complete (`ls
-schematical/schematical/Model/Board/BoardLayout.swift` → the file, and
+schematical/schematical/Model/Board/BoardContent.swift` → the file, and
 plan-68-E's Commit lines filled).
 
 References:
@@ -141,7 +141,10 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- **The prerequisite names `Model/Board/BoardContent.swift`**, not
+  `BoardLayout.swift`: plan-68-E named the owner `BoardContent` (the name
+  `BoardLayout` was taken; plan-68-E Corrections). The `layout:` row of
+  § 3 is that class.
 
 ## Summary
 
