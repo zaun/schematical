@@ -76,7 +76,12 @@ controller tests both run in the phase gate.
 
 ### Phase 1 — `FieldEditors.swift`
 
-- [ ] Close every uncovered line of these files per § 3; ratchet rows removed.
+- [x] Close every uncovered line of these files per § 3 (2026-11-26): `LOGIC_COV_WORK=/tmp/logic-cov-AD node scripts/coverage.js --app --tests FieldEditorsTests,PartEditorModelTests,FootprintPreviewViewTests,PartDraftTests,FootprintPreviewTests,ParametricFootprintDraftTests,PartDraftRoundTripTests,PartEditorFootprintTests,PartEditorLibraryTests,PartEditorWindowTests,KindGuideTests,KindInfoTests,PartKindKeysTests,PartKindRoundTripTests,CustomFootprintDraftTests,SocketEditorTests,WizardKindStepsTests,PartFileSaveOpenTests,WizardIdentityTests,WizardModelTests,UserLibraryEndToEndTests,WizardIssueLocatorTests --only schematical/schematical/Editor` → no
+  `FieldEditors.swift:` line (417 → 0); the run's 215 tests pass (xcresult summary: 215 passed, 0 failed).
+- [x] ratchet rows: parent (the file is at 0).
+  Ratchet rows: removed by the parent in this letter's commit (7 rows). Re-measured in the
+  shared tree by the parent with this letter's classes: no `path:line` for any of its files,
+  no failed test.
 
 Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
@@ -86,7 +91,14 @@ Commit: —
 
 ### Phase 2 — `FootprintPreviewView.swift`, `KindSchema.swift`, `ParametricFootprintDraft.swift`, `PartDraft.swift`, `PartEditorCommands.swift`, `PartEditorModel.swift`
 
-- [ ] As Phase 1, for these files.
+- [x] As Phase 1, for these files (2026-11-26): the same command → no `path:line` for
+  `FootprintPreviewView.swift` (77 → 0), `KindSchema.swift` (1 → 0), `ParametricFootprintDraft.swift`
+  (19 → 0), `PartDraft.swift` (33 → 0), `PartEditorCommands.swift` (11 → 0), `PartEditorModel.swift`
+  (150 → 0); 215 tests pass; `node scripts/source-size.js --check` → exit 0.
+- [x] ratchet rows: parent (every file at 0).
+  Ratchet rows: removed by the parent in this letter's commit (7 rows). Re-measured in the
+  shared tree by the parent with this letter's classes: no `path:line` for any of its files,
+  no failed test.
 
 Acceptance: as Phase 1.
   Check: as Phase 1; `SZ` → exit 0 (est. 10 min).
@@ -108,7 +120,45 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- (2026-11-26) Tests added: `FieldEditorsTests` (the JSON bindings, and every
+  `FieldType`'s control rendered and edited through its AppKit control),
+  `FootprintPreviewViewTests` (the drawing in pixels, the zoom and pan
+  controller, the view's buttons and a synthesized drag), `PartEditorModelTests`
+  (Save / Save As… / Open / close-guard / library alerts and panels answered by
+  an injected presenter, the datasheet pane over a `URLProtocol` stub, the File
+  menu's Part Editor items), `PartDraftTests`; `ParametricFootprintDraftTests`
+  extended. Helpers in `schematicalTests/Support/ViewProbe+AD.swift` (additive;
+  a first `ViewProbe+Controls.swift` clashed with plan-68-AB's
+  `ViewProbe+Typing.swift` and was replaced).
+- (2026-11-26) Logic moved out of views: `FieldEditors.swift`'s per-view
+  bindings (bool tag, volt bound, shape index, list entries) became `Binding`
+  extensions, and its option list, map add and JSON parse `FieldEditing`
+  functions; `FootprintPreviewView`'s zoom, pan and drawing are
+  `FootprintPreviewController` and `FootprintPreview.draw` / `caption`;
+  `PartDraft.renamePin`'s nested walk is the `PinRename` value type.
+- (2026-11-26) Deleted as unreachable: `Binding<JSONValue>.optional` (no
+  caller). `PartEditorModel.keepCurrentStep`'s fallback when no earlier step
+  survives: every draft has the kind and part-number steps, and the current
+  step is never the first one removed, so the fallback is folded into one
+  expression.
+- (2026-11-26) `PartEditorModel` puts its panels and alerts up through
+  `ExportPresenter` (plan-68-Y's injectable presenter) and loads datasheets
+  with an injectable `datasheetSession`; it got `nonisolated deinit {}` (a
+  closed Part Editor window freeing its model aborted the test host).
+- (2026-11-26) As plan-68-AB/AF found: a `@State` default is never counted,
+  so `MapEditor`, `JSONTextEditor` and `FootprintPreviewView` set their state
+  in an explicit `init`; the suggested-value pull-down builds its items only
+  as it opens on screen, so its item row is one line (the render test asserts
+  the pull-down and types the value).
+- (2026-11-26) `ParametricFootprintDraftTests`' footprint counts were stale
+  (3959 / 2268) after plans 69–82: re-measured 3993 = 2297 parametric + 1696
+  explicit. Not a code bug.
+- (2026-11-26) A test window closing the host's last window quits it (exit 0
+  mid-run); the new classes set `AppDelegate.quitsAfterLastWindowCloses = false`.
+- (2026-11-26) `testTheMenuItemsFollowTheFocusedEditor` (async) spun the run
+  loop while holding the main actor, so the menu buttons' `Task`s never ran; it
+  now waits with `try await Task.sleep`, which frees the main actor (passes
+  alone: 18/18 `PartEditorModelTests`, and in the final 215-test run).
 
 ## Summary
 

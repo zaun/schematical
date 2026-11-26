@@ -68,13 +68,6 @@
 24	schematical/schematical/Document/SchematicFile+Board.swift
 22	schematical/schematical/Document/SchematicFile+Document.swift
 12	schematical/schematical/DocumentInfo/DocumentInfoWindow.swift
-417	schematical/schematical/Editor/FieldEditors.swift
-77	schematical/schematical/Editor/FootprintPreviewView.swift
-1	schematical/schematical/Editor/KindSchema.swift
-19	schematical/schematical/Editor/ParametricFootprintDraft.swift
-33	schematical/schematical/Editor/PartDraft.swift
-11	schematical/schematical/Editor/PartEditorCommands.swift
-150	schematical/schematical/Editor/PartEditorModel.swift
 181	schematical/schematical/Editor/PartEditorSections.swift
 333	schematical/schematical/Editor/PartEditorWindow.swift
 13	schematical/schematical/Editor/PartValidator.swift

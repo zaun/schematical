@@ -58,9 +58,120 @@ extension Binding where Value == JSONValue? {
     }
 }
 
-extension Binding where Value == JSONValue {
-    var optional: Binding<JSONValue?> {
-        Binding<JSONValue?>(get: { wrappedValue }, set: { wrappedValue = $0 ?? .null })
+extension Binding where Value == JSONValue? {
+    /// A yes/no as a picker's tag: 1 yes, 0 no, nil absent.
+    func boolTag() -> Binding<Int?> {
+        Binding<Int?>(
+            get: {
+                if case let .bool(flag)? = wrappedValue { return flag ? 1 : 0 }
+                return nil
+            },
+            set: { wrappedValue = $0.map { .bool($0 == 1) } }
+        )
+    }
+
+    /// One end of a `[min, max]` volt range; setting either end makes the
+    /// pair (the other end 0 when there was none).
+    func voltBound(_ index: Int) -> Binding<Double?> {
+        Binding<Double?>(
+            get: {
+                guard case let .array(items)? = wrappedValue, items.count == 2,
+                      case let .number(volts) = items[index] else { return nil }
+                return volts
+            },
+            set: { newValue in
+                var items: [JSONValue] = [.number(0), .number(0)]
+                if case let .array(current)? = wrappedValue, current.count == 2 { items = current }
+                items[index] = .number(newValue ?? 0)
+                wrappedValue = .array(items)
+            }
+        )
+    }
+
+    /// Which of `types` the value has (the first when none or no value);
+    /// choosing another starts that shape empty.
+    func shapeIndex(of types: [FieldType]) -> Binding<Int> {
+        Binding<Int>(
+            get: { wrappedValue.flatMap { current in types.firstIndex { $0.matches(current) } } ?? 0 },
+            set: { wrappedValue = types[$0].emptyValue }
+        )
+    }
+}
+
+extension Binding where Value == [JSONValue] {
+    /// One entry, nil past the end; setting nil stores `null`, and a set past
+    /// the end (the entry was just removed) does nothing.
+    func element(_ index: Int) -> Binding<JSONValue?> {
+        Binding<JSONValue?>(
+            get: { wrappedValue.indices.contains(index) ? wrappedValue[index] : nil },
+            set: { if wrappedValue.indices.contains(index) { wrappedValue[index] = $0 ?? .null } }
+        )
+    }
+
+    /// One entry as a string ("" when it is not one).
+    func string(_ index: Int) -> Binding<String> {
+        Binding<String>(
+            get: {
+                guard wrappedValue.indices.contains(index), case let .string(value) = wrappedValue[index] else { return "" }
+                return value
+            },
+            set: { if wrappedValue.indices.contains(index) { wrappedValue[index] = .string($0) } }
+        )
+    }
+
+    /// One entry as a number (nil when it is not one); setting nil stores 0.
+    func number(_ index: Int) -> Binding<Double?> {
+        Binding<Double?>(
+            get: {
+                guard wrappedValue.indices.contains(index), case let .number(value) = wrappedValue[index] else { return nil }
+                return value
+            },
+            set: { if wrappedValue.indices.contains(index) { wrappedValue[index] = .number($0 ?? 0) } }
+        )
+    }
+
+    /// One entry as an object (empty when it is not one).
+    func object(_ index: Int) -> Binding<[String: JSONValue]> {
+        Binding<[String: JSONValue]>(
+            get: {
+                guard wrappedValue.indices.contains(index), case let .object(object) = wrappedValue[index] else { return [:] }
+                return object
+            },
+            set: { if wrappedValue.indices.contains(index) { wrappedValue[index] = .object($0) } }
+        )
+    }
+}
+
+/// The editors' choices and edits that are not bindings.
+enum FieldEditing {
+    /// The options, plus the current string when it is not one of them (so a
+    /// file's value shows rather than vanishing).
+    static func options(_ options: [String], current: JSONValue?) -> [String] {
+        if case let .string(text)? = current, !text.isEmpty, !options.contains(text) { return options + [text] }
+        return options
+    }
+
+    /// The object with a new entry under `key` (trimmed); nil when the key is
+    /// blank or already there.
+    static func adding(_ key: String, entry: JSONValue, to object: [String: JSONValue]) -> [String: JSONValue]? {
+        let key = key.trimmingCharacters(in: .whitespaces)
+        guard !key.isEmpty, object[key] == nil else { return nil }
+        var object = object
+        object[key] = entry
+        return object
+    }
+
+    /// What JSON text gives a key: nil removes it (blank text, optional key),
+    /// a value when it parses; `.failure` when it does not.
+    static func parse(_ text: String, required: Bool) -> Result<JSONValue?, JSONTextError> {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty, !required { return .success(nil) }
+        guard let parsed = try? JSONValue(text: trimmed) else { return .failure(JSONTextError()) }
+        return .success(parsed)
+    }
+
+    struct JSONTextError: Error, Equatable {
+        let message = "Not valid JSON"
     }
 }
 
@@ -120,7 +231,7 @@ struct FieldValueEditor: View {
         case .integer:
             NumberField(label: label, value: $value.number(), integer: true, example: example)
         case .bool:
-            Picker(label, selection: boolSelection) {
+            Picker(label, selection: $value.boolTag()) {
                 if !required { Text("—").tag(Int?.none) }
                 Text("Yes").tag(Int?.some(1))
                 Text("No").tag(Int?.some(0))
@@ -128,15 +239,14 @@ struct FieldValueEditor: View {
         case let .choice(options):
             Picker(label, selection: $value.string(removeWhenEmpty: !required)) {
                 if !required { Text("—").tag("") }
-                ForEach(withCurrent(options), id: \.self) { Text($0).tag($0) }
+                ForEach(FieldEditing.options(options, current: value), id: \.self) { Text($0).tag($0) }
             }
         case let .suggested(options):
             HStack {
                 TextField(label, text: $value.string(removeWhenEmpty: !required), prompt: example.map { Text($0) })
                 Menu {
-                    ForEach(options, id: \.self) { option in
-                        Button(option) { value = .string(option) }
-                    }
+                    // One line: a menu builds its items only as it opens on screen.
+                    ForEach(options, id: \.self) { option in Button(option) { value = .string(option) } }
                 } label: {
                     Image(systemName: "chevron.down")
                 }
@@ -172,25 +282,6 @@ struct FieldValueEditor: View {
             OneOfEditor(label: label, types: types, required: required, value: $value, pinNames: pinNames)
         }
     }
-
-    private var boolSelection: Binding<Int?> {
-        Binding<Int?>(
-            get: {
-                if case let .bool(flag)? = value { return flag ? 1 : 0 }
-                return nil
-            },
-            set: { value = $0.map { .bool($0 == 1) } }
-        )
-    }
-
-    /// The options, plus the current value when it is not one of them (so a
-    /// file's value shows rather than vanishing).
-    private func withCurrent(_ options: [String]) -> [String] {
-        if case let .string(current)? = value, !current.isEmpty, !options.contains(current) {
-            return options + [current]
-        }
-        return options
-    }
 }
 
 /// A number text field; empty is nil.
@@ -220,12 +311,8 @@ struct PinPicker: View {
     var body: some View {
         Picker(label, selection: $selection) {
             if optional || selection.isEmpty { Text("—").tag("") }
-            ForEach(options, id: \.self) { Text($0).tag($0) }
+            ForEach(FieldEditing.options(pinNames, current: .string(selection)), id: \.self) { Text($0).tag($0) }
         }
-    }
-
-    private var options: [String] {
-        !selection.isEmpty && !pinNames.contains(selection) ? pinNames + [selection] : pinNames
     }
 }
 
@@ -240,17 +327,10 @@ struct StringListEditor: View {
             VStack(alignment: .leading, spacing: 4) {
                 ForEach(items.indices, id: \.self) { index in
                     HStack {
-                        let text = Binding<String>(
-                            get: {
-                                guard items.indices.contains(index), case let .string(value) = items[index] else { return "" }
-                                return value
-                            },
-                            set: { if items.indices.contains(index) { items[index] = .string($0) } }
-                        )
                         if let pinNames {
-                            PinPicker(label: "", selection: text, pinNames: pinNames).labelsHidden()
+                            PinPicker(label: "", selection: $items.string(index), pinNames: pinNames).labelsHidden()
                         } else {
-                            TextField("", text: text).labelsHidden()
+                            TextField("", text: $items.string(index)).labelsHidden()
                         }
                         Button { items.remove(at: index) } label: { Image(systemName: "minus.circle") }
                             .buttonStyle(.borderless)
@@ -274,13 +354,7 @@ struct NumberListEditor: View {
             VStack(alignment: .leading, spacing: 4) {
                 ForEach(items.indices, id: \.self) { index in
                     HStack {
-                        NumberField(label: "", value: Binding<Double?>(
-                            get: {
-                                guard items.indices.contains(index), case let .number(value) = items[index] else { return nil }
-                                return value
-                            },
-                            set: { if items.indices.contains(index) { items[index] = .number($0 ?? 0) } }
-                        )).labelsHidden()
+                        NumberField(label: "", value: $items.number(index)).labelsHidden()
                         Button { items.remove(at: index) } label: { Image(systemName: "minus.circle") }
                             .buttonStyle(.borderless)
                     }
@@ -299,9 +373,9 @@ struct VoltRangeEditor: View {
     var body: some View {
         LabeledContent("\(label) (V)") {
             HStack {
-                NumberField(label: "min", value: bound(0))
+                NumberField(label: "min", value: $value.voltBound(0))
                 Text("to")
-                NumberField(label: "max", value: bound(1))
+                NumberField(label: "max", value: $value.voltBound(1))
                 if value != nil {
                     Button { value = nil } label: { Image(systemName: "xmark.circle") }
                         .buttonStyle(.borderless)
@@ -309,23 +383,6 @@ struct VoltRangeEditor: View {
                 }
             }
         }
-    }
-
-    private func bound(_ index: Int) -> Binding<Double?> {
-        Binding<Double?>(
-            get: {
-                guard case let .array(items)? = value, items.count == 2, case let .number(volts) = items[index] else {
-                    return nil
-                }
-                return volts
-            },
-            set: { newValue in
-                var items: [JSONValue] = [.number(0), .number(0)]
-                if case let .array(current)? = value, current.count == 2 { items = current }
-                items[index] = .number(newValue ?? 0)
-                value = .array(items)
-            }
-        )
     }
 }
 
@@ -422,22 +479,12 @@ struct ListEditor: View {
                             Button { items.remove(at: index) } label: { Image(systemName: "minus.circle") }
                                 .buttonStyle(.borderless)
                         }
-                        AnyView(FieldsEditor(fields: fields, object: entry(index), pinNames: pinNames))
+                        AnyView(FieldsEditor(fields: fields, object: $items.object(index), pinNames: pinNames))
                     }
                     .padding(4)
                 }
             }
         }
-    }
-
-    private func entry(_ index: Int) -> Binding<[String: JSONValue]> {
-        Binding<[String: JSONValue]>(
-            get: {
-                guard items.indices.contains(index), case let .object(object) = items[index] else { return [:] }
-                return object
-            },
-            set: { if items.indices.contains(index) { items[index] = .object($0) } }
-        )
     }
 }
 
@@ -459,19 +506,12 @@ struct ValueListEditor: View {
             ForEach(items.indices, id: \.self) { index in
                 HStack(alignment: .top) {
                     AnyView(FieldValueEditor(label: "\(index + 1)", type: entryType, required: true,
-                                             value: element(index), pinNames: pinNames))
+                                             value: $items.element(index), pinNames: pinNames))
                     Button { items.remove(at: index) } label: { Image(systemName: "minus.circle") }
                         .buttonStyle(.borderless)
                 }
             }
         }
-    }
-
-    private func element(_ index: Int) -> Binding<JSONValue?> {
-        Binding<JSONValue?>(
-            get: { items.indices.contains(index) ? items[index] : nil },
-            set: { if items.indices.contains(index) { items[index] = $0 ?? .null } }
-        )
     }
 }
 
@@ -482,7 +522,17 @@ struct MapEditor: View {
     let entryType: FieldType
     @Binding var object: [String: JSONValue]
     let pinNames: [String]
-    @State private var newKey = ""
+    @State private var newKey: String
+
+    init(label: String, keyLabel: String, entryType: FieldType, object: Binding<[String: JSONValue]>,
+         pinNames: [String]) {
+        self.label = label
+        self.keyLabel = keyLabel
+        self.entryType = entryType
+        _object = object
+        self.pinNames = pinNames
+        _newKey = State(initialValue: "")
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -505,9 +555,8 @@ struct MapEditor: View {
             HStack {
                 TextField("New \(keyLabel.lowercased())", text: $newKey)
                 Button("Add \(keyLabel)") {
-                    let key = newKey.trimmingCharacters(in: .whitespaces)
-                    guard !key.isEmpty, object[key] == nil else { return }
-                    object[key] = entryType.emptyValue
+                    guard let added = FieldEditing.adding(newKey, entry: entryType.emptyValue, to: object) else { return }
+                    object = added
                     newKey = ""
                 }
                 .disabled(newKey.trimmingCharacters(in: .whitespaces).isEmpty)
@@ -526,15 +575,13 @@ struct OneOfEditor: View {
     let pinNames: [String]
 
     var body: some View {
-        let index = value.flatMap { current in types.firstIndex { $0.matches(current) } } ?? 0
+        let index = $value.shapeIndex(of: types)
         VStack(alignment: .leading, spacing: 4) {
-            Picker("\(label) as", selection: Binding<Int>(
-                get: { index },
-                set: { value = types[$0].emptyValue })) {
+            Picker("\(label) as", selection: index) {
                 ForEach(types.indices, id: \.self) { Text(types[$0].shape).tag($0) }
             }
             .pickerStyle(.segmented)
-            AnyView(FieldValueEditor(label: label, type: types[index], required: required, value: $value,
+            AnyView(FieldValueEditor(label: label, type: types[index.wrappedValue], required: required, value: $value,
                                      pinNames: pinNames))
         }
     }
@@ -545,8 +592,16 @@ struct JSONTextEditor: View {
     let label: String
     @Binding var value: JSONValue?
     let required: Bool
-    @State private var text = ""
+    @State private var text: String
     @State private var error: String?
+
+    init(label: String, value: Binding<JSONValue?>, required: Bool) {
+        self.label = label
+        _value = value
+        self.required = required
+        _text = State(initialValue: "")
+        _error = State(initialValue: nil)
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -561,15 +616,12 @@ struct JSONTextEditor: View {
     }
 
     private func apply(_ newText: String) {
-        let trimmed = newText.trimmingCharacters(in: .whitespacesAndNewlines)
-        if trimmed.isEmpty, !required {
-            value = nil
-            error = nil
-        } else if let parsed = try? JSONValue(text: trimmed) {
+        switch FieldEditing.parse(newText, required: required) {
+        case let .success(parsed):
             if parsed != value { value = parsed }
             error = nil
-        } else {
-            error = "Not valid JSON"
+        case let .failure(failure):
+            error = failure.message
         }
     }
 }

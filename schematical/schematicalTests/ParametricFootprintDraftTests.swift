@@ -39,7 +39,9 @@ final class ParametricFootprintDraftTests: XCTestCase {
         // footprints of plan-51 (146 dual, 8 quad).
         // 3959 = 2268 parametric + 1691 explicit, measured 2026-11-24 from `Parts/footprints.json`: the count
         // had gone stale again at 2929 while plan-47 and plan-58 (slide switches) added theirs.
-        XCTAssertEqual(Self.entries.count, 3959)
+        // 3993 = 2297 parametric + 1696 explicit, measured 2026-11-26 (plan-68-AD): stale again at 3959
+        // after the footprints plans 69–82 added.
+        XCTAssertEqual(Self.entries.count, 3993)
         for style in ["dual", "quad", "grid", "header"] {
             let entry = try Self.sample(style)
             let draft = try XCTUnwrap(ParametricFootprintDraft(json: entry), style)
@@ -64,7 +66,8 @@ final class ParametricFootprintDraftTests: XCTestCase {
         }
         // 1710 = 1556 on main (stale at 1339 here) + the 154 parametric `SKT-` footprints of plan-51.
         // 2268, measured 2026-11-24 (stale at 1710; see `testEachStyleReadsAndWritesItsEntry`).
-        XCTAssertEqual(count, 2268)
+        // 2297, measured 2026-11-26 (stale at 2268; see `testEachStyleReadsAndWritesItsEntry`).
+        XCTAssertEqual(count, 2297)
     }
 
     /// A generic part with the footprint's pins, naming an inline copy of it.
@@ -308,5 +311,23 @@ final class ParametricFootprintDraftTests: XCTestCase {
         XCTAssertTrue(found.contains { $0.id == "TSSOP-14" })
         XCTAssertFalse(found.contains { $0.id == "SOIC-14" })
         XCTAssertEqual(FootprintRanking.search(fourteen, text: " ").count, fourteen.count)
+    }
+
+    /// Each style's plain title and examples (plan-68-AD).
+    func testStyleTitlesAndExamples() {
+        XCTAssertEqual(ParametricFootprintDraft.Style.allCases.map(\.title),
+                       ["Two rows", "Four sides", "Ball grid", "Pin header"])
+        XCTAssertEqual(ParametricFootprintDraft.Style.allCases.map(\.examples),
+                       ["DIP, SOIC, TSSOP, SOT-23, chip parts", "QFN, QFP, LCC", "BGA, WLCSP",
+                        "Through-hole pin headers and sockets"])
+    }
+
+    /// A grid whose balls are not all names does not read (plan-68-AD).
+    func testAGridWithANonStringBallDoesNotRead() throws {
+        let grid = ParametricFootprintDraft.starter(style: .grid, id: "CUSTOM-G", pins: 4, balls: ["A1", "A2", "B1", "B2"])
+        guard case var .object(keys) = grid.encoded() else { return XCTFail("not an object") }
+        XCTAssertNotNil(ParametricFootprintDraft(json: .object(keys)))
+        keys["balls"] = .array([.string("A1"), .number(2), .string("B1"), .string("B2")])
+        XCTAssertNil(ParametricFootprintDraft(json: .object(keys)))
     }
 }

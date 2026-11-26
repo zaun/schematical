@@ -13,46 +13,44 @@ enum FootprintPreview {
     }
 }
 
-struct FootprintPreviewView: View {
-    let part: CatalogPart
-    /// Changes whenever `part` does (see `PartEditorModel.previewRevision`).
-    var revision = 0
-    /// Zoom (the PCB page's viewport type); 100 % fits the footprint.
-    @State private var viewport = CanvasViewport(baseScale: 1)
-    @State private var panStart: CGSize?
+/// The preview's zoom and pan (plan-68-AD): the PCB page's viewport type,
+/// where 100 % fits the footprint.
+@MainActor
+@Observable
+final class FootprintPreviewController {
+    /// As `CanvasViewport`'s: an isolated deinit aborts the test host.
+    nonisolated deinit {}
 
-    var body: some View {
-        let chip = FootprintPreview.chip(for: part)
-        VStack(spacing: 4) {
-            Canvas { context, size in
-                draw(chip, in: &context, size: size)
-            }
-            .background(PCBCanvasView.background)
-            .gesture(DragGesture()
-                .onChanged { value in
-                    let start = panStart ?? viewport.offset
-                    panStart = start
-                    viewport.pan(to: CGSize(width: start.width + value.translation.width,
-                                            height: start.height + value.translation.height))
-                }
-                .onEnded { _ in panStart = nil })
-            HStack {
-                Text(part.footprint.map { "\($0.id): \($0.pads.count) pads" } ?? "No footprint")
-                    .font(.caption).foregroundStyle(.secondary)
-                Spacer()
-                Button { viewport.zoomOut() } label: { Image(systemName: "minus.magnifyingglass") }
-                Button { viewport.setZoom(1); viewport.pan(to: .zero) } label: { Text("Fit") }
-                Button { viewport.zoomIn() } label: { Image(systemName: "plus.magnifyingglass") }
-            }
-            .buttonStyle(.borderless)
-        }
+    let viewport = CanvasViewport(baseScale: 1)
+    /// The offset when the current drag began; nil between drags.
+    private(set) var panStart: CGSize?
+
+    /// A drag moved `translation` from where it began.
+    func drag(_ translation: CGSize) {
+        let start = panStart ?? viewport.offset
+        panStart = start
+        viewport.pan(to: CGSize(width: start.width + translation.width, height: start.height + translation.height))
     }
 
-    private func draw(_ chip: PlacedChip, in context: inout GraphicsContext, size: CGSize) {
+    func endDrag() { panStart = nil }
+
+    func zoomIn() { viewport.zoomIn() }
+    func zoomOut() { viewport.zoomOut() }
+
+    /// Fit: 100 %, centred.
+    func fit() {
+        viewport.setZoom(1)
+        viewport.pan(to: .zero)
+    }
+}
+
+extension FootprintPreview {
+    /// Draws `chip`'s footprint fitted into `size` (with a margin), then
+    /// zoomed and panned by `viewport`. Nothing for a part with no footprint.
+    static func draw(_ chip: PlacedChip, in context: inout GraphicsContext, size: CGSize, viewport: CanvasViewport) {
         guard let footprint = chip.footprint, let bounds = chip.boardBounds, bounds.width > 0, bounds.height > 0 else {
             return
         }
-        // Fit the footprint (with a margin), then the viewport's zoom and pan.
         let fit = min(size.width / (bounds.width * 1.3), size.height / (bounds.height * 1.3))
         let scale = fit * viewport.zoom
         context.translateBy(x: size.width / 2 + viewport.offset.width, y: size.height / 2 + viewport.offset.height)
@@ -95,6 +93,47 @@ struct FootprintPreviewView: View {
             let r = max(min(footprint.body.width, footprint.body.height) * 0.04, 0.15)
             context.fill(Path(ellipseIn: CGRect(x: mark.x - r, y: mark.y - r, width: 2 * r, height: 2 * r)),
                          with: .color(ink))
+        }
+    }
+
+    /// The line under the preview: the footprint and its pad count.
+    static func caption(for part: CatalogPart) -> String {
+        part.footprint.map { "\($0.id): \($0.pads.count) pads" } ?? "No footprint"
+    }
+}
+
+struct FootprintPreviewView: View {
+    let part: CatalogPart
+    /// Changes whenever `part` does (see `PartEditorModel.previewRevision`).
+    var revision: Int
+    @State private var controller: FootprintPreviewController
+
+    /// `controller`: the window's zoom and pan; a test passes its own to read.
+    init(part: CatalogPart, revision: Int = 0, controller: FootprintPreviewController? = nil) {
+        self.part = part
+        self.revision = revision
+        _controller = State(initialValue: controller ?? FootprintPreviewController())
+    }
+
+    var body: some View {
+        let chip = FootprintPreview.chip(for: part)
+        VStack(spacing: 4) {
+            Canvas { context, size in
+                FootprintPreview.draw(chip, in: &context, size: size, viewport: controller.viewport)
+            }
+            .background(PCBCanvasView.background)
+            .gesture(DragGesture()
+                .onChanged { controller.drag($0.translation) }
+                .onEnded { _ in controller.endDrag() })
+            HStack {
+                Text(FootprintPreview.caption(for: part))
+                    .font(.caption).foregroundStyle(.secondary)
+                Spacer()
+                Button { controller.zoomOut() } label: { Image(systemName: "minus.magnifyingglass") }
+                Button { controller.fit() } label: { Text("Fit") }
+                Button { controller.zoomIn() } label: { Image(systemName: "plus.magnifyingglass") }
+            }
+            .buttonStyle(.borderless)
         }
     }
 }

@@ -8,6 +8,10 @@ import PDFKit
 @MainActor
 @Observable
 final class PartEditorModel {
+    /// An isolated deinit aborts the test host when a closed window frees
+    /// its model (as `CanvasViewport`'s).
+    nonisolated deinit {}
+
     var draft: PartDraft {
         didSet {
             guard draft != oldValue else { return }
@@ -73,6 +77,9 @@ final class PartEditorModel {
         return bundledDatasheetURL
     }
 
+    /// The session Load fetches with: the shared one; a test's stub.
+    @ObservationIgnored var datasheetSession = URLSession.shared
+
     /// Downloads the part's datasheet into the pane.
     func loadDatasheet() async {
         guard let url = datasheetAddress else {
@@ -80,7 +87,7 @@ final class PartEditorModel {
             return
         }
         datasheetPhase = .loading
-        switch await DatasheetLoader.load(url) {
+        switch await DatasheetLoader.load(url, session: datasheetSession) {
         case let .success(document):
             show(document, source: url.host() ?? url.absoluteString)
         case let .failure(failure):
@@ -295,13 +302,10 @@ final class PartEditorModel {
         let before = Self.steps(for: old, kindChosen: kindChosen)
         let index = before.firstIndex { $0.id == currentStepID } ?? 0
         let ids = now.map(\.id)
-        for earlier in before[..<index].reversed() {
-            if let kept = ids.firstIndex(of: earlier.id) {
-                currentStepID = now[min(kept + 1, now.count - 1)].id
-                return
-            }
-        }
-        currentStepID = now.first?.id ?? WizardStep.identity.id
+        // Every draft has the kind and part-number steps, so an earlier step
+        // is always kept (the current one is never the first).
+        let kept = before[..<index].reversed().lazy.compactMap { ids.firstIndex(of: $0.id) }.first ?? 0
+        currentStepID = now[min(kept + 1, now.count - 1)].id
     }
 
     /// The file the draft was last saved to or opened from.
@@ -350,6 +354,10 @@ final class PartEditorModel {
     weak var window: NSWindow? {
         didSet { closeGuard.attach(to: window) }
     }
+
+    /// How the save and open panels and the alerts are put up: the system's;
+    /// a test answers them instead (plan-68-AD).
+    @ObservationIgnored var presenter = ExportPresenter()
 
     @ObservationIgnored private var validationTask: Task<Void, Never>?
     @ObservationIgnored private var validationGeneration = 0
@@ -602,7 +610,7 @@ final class PartEditorModel {
         let panel = NSSavePanel()
         panel.allowedContentTypes = [PartFileType.contentType]
         panel.nameFieldStringValue = (draft.name.isEmpty ? "Untitled" : draft.name) + "." + PartFileType.fileExtension
-        guard await run(panel) == .OK, let url = panel.url else { return }
+        guard let url = await presenter.choose(panel, window) else { return }
         do { try saveAsNewVersion(to: url) } catch { await present(error, title: "Couldn't save the part") }
     }
 
@@ -629,7 +637,7 @@ final class PartEditorModel {
         panel.allowedContentTypes = PartFileType.openableTypes
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
-        guard await run(panel) == .OK, let url = panel.url else { return }
+        guard let url = await presenter.choose(panel, window) else { return }
         await open(url)
     }
 
@@ -686,13 +694,7 @@ final class PartEditorModel {
         _ = await run(alert)
     }
 
-    private func run(_ panel: NSSavePanel) async -> NSApplication.ModalResponse {
-        if let window { return await panel.beginSheetModal(for: window) }
-        return panel.runModal()
-    }
-
     private func run(_ alert: NSAlert) async -> NSApplication.ModalResponse {
-        if let window { return await alert.beginSheetModal(for: window) }
-        return alert.runModal()
+        await presenter.alert(alert, window)
     }
 }

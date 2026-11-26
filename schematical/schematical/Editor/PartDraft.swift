@@ -589,51 +589,10 @@ struct PartDraft: Equatable, Sendable {
         guard old != new, !old.isEmpty, !new.isEmpty, let schema else { return 0 }
         let pins = pinouts.first { $0.name == pinout }?.pins ?? []
         guard pins.filter({ $0.name == old }).count == 1, !pins.contains(where: { $0.name == new }) else { return 0 }
-        var count = 0
-        func rewrite(_ object: [String: JSONValue], _ fields: [Field]) -> [String: JSONValue] {
-            var result = object
-            for field in fields {
-                if let value = object[field.key] { result[field.key] = rewrite(value, field.type) }
-            }
-            return result
-        }
-        func rewrite(_ value: JSONValue, _ type: FieldType) -> JSONValue {
-            switch (type, value) {
-            case (.pin, .string(old)):
-                count += 1
-                return .string(new)
-            case let (.pins, .array(items)):
-                return .array(items.map { item in
-                    guard item == .string(old) else { return item }
-                    count += 1
-                    return .string(new)
-                })
-            case let (.object(fields), .object(object)):
-                return .object(rewrite(object, fields))
-            case let (.list(fields), .array(items)):
-                return .array(items.map { item in
-                    guard case let .object(object) = item else { return item }
-                    return .object(rewrite(object, fields))
-                })
-            case let (.map(_, fields), .object(object)):
-                return .object(object.mapValues { item in
-                    guard case let .object(entry) = item else { return item }
-                    return .object(rewrite(entry, fields))
-                })
-            case let (.valueMap(_, inner), .object(object)):
-                return .object(object.mapValues { rewrite($0, inner) })
-            case let (.listOf(inner), .array(items)):
-                return .array(items.map { rewrite($0, inner) })
-            case let (.oneOf(types), value):
-                guard let inner = types.first(where: { $0.matches(value) }) else { return value }
-                return rewrite(value, inner)
-            default:
-                return value
-            }
-        }
-        kindDevice = rewrite(kindDevice, schema.device)
-        kindPart = rewrite(kindPart, schema.part)
-        return count
+        var rename = PinRename(old: old, new: new)
+        kindDevice = rename.rewrite(kindDevice, schema.device)
+        kindPart = rename.rewrite(kindPart, schema.part)
+        return rename.count
     }
 
     // MARK: The inline datasheet
@@ -674,5 +633,62 @@ struct PartDraft: Equatable, Sendable {
     /// The pin count of the part's pinout.
     var pinCount: Int {
         pinouts.first { $0.name == pinout }?.pins.count ?? 0
+    }
+}
+
+/// One pin rename through a kind's settings (`PartDraft.renamePin`): every
+/// `.pin` value equal to `old`, and every such element of a `.pins` value,
+/// becomes `new`, at any depth the field types reach.
+struct PinRename {
+    let old: String
+    let new: String
+    /// How many values were rewritten so far.
+    private(set) var count = 0
+
+    init(old: String, new: String) {
+        self.old = old
+        self.new = new
+    }
+
+    mutating func rewrite(_ object: [String: JSONValue], _ fields: [Field]) -> [String: JSONValue] {
+        var result = object
+        for field in fields {
+            if let value = object[field.key] { result[field.key] = rewrite(value, field.type) }
+        }
+        return result
+    }
+    mutating func rewrite(_ value: JSONValue, _ type: FieldType) -> JSONValue {
+        switch (type, value) {
+        case (.pin, .string(old)):
+            count += 1
+            return .string(new)
+        case let (.pins, .array(items)):
+            return .array(items.map { item in
+                guard item == .string(old) else { return item }
+                count += 1
+                return .string(new)
+            })
+        case let (.object(fields), .object(object)):
+            return .object(rewrite(object, fields))
+        case let (.list(fields), .array(items)):
+            return .array(items.map { item in
+                guard case let .object(object) = item else { return item }
+                return .object(rewrite(object, fields))
+            })
+        case let (.map(_, fields), .object(object)):
+            return .object(object.mapValues { item in
+                guard case let .object(entry) = item else { return item }
+                return .object(rewrite(entry, fields))
+            })
+        case let (.valueMap(_, inner), .object(object)):
+            return .object(object.mapValues { rewrite($0, inner) })
+        case let (.listOf(inner), .array(items)):
+            return .array(items.map { rewrite($0, inner) })
+        case let (.oneOf(types), value):
+            guard let inner = types.first(where: { $0.matches(value) }) else { return value }
+            return rewrite(value, inner)
+        default:
+            return value
+        }
     }
 }
