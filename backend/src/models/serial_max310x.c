@@ -516,7 +516,7 @@ int m31x_mx_async(const void *raw, unsigned channel) {
 
 /* ---- Create / destroy ------------------------------------------------------------------------------------------- */
 
-const SerialModel MAX310X_MODEL;
+extern const SerialModel MAX310X_MODEL;
 
 void *m31x_mx_create(const Part *part, const void *data, const void *pins,
                        const SerialGrade *grade, const void *options) {
