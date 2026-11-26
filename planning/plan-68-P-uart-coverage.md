@@ -87,8 +87,19 @@ test written to match.
 
 ### Phase 1 — `serial_max310x.c`, `serial_i82510.c`, `serial_max3100.c`
 
-- [ ] Re-run `COV --backend --only` for each file; close every line per § 3.
-- [ ] Ratchet rows removed for each file at 0.
+- [x] Re-run `COV --backend --only` for each file; close every line per § 3.
+  `LOGIC_COV_WORK=/tmp/logic-cov-P node scripts/coverage.js --backend --only backend/src/models/serial`
+  → `serial_max310x*.c`: no line; `serial_i82510*.c`: only `serial_i82510_regs.c:546-547`;
+  `serial_max3100.c`: only `:952-953` — both `kind_alloc` NULL returns, left for the
+  `kind_arena_chunk` OOM sweep (parent). New programs `serial_max310x_cov_test`,
+  `serial_max310x_cov2_test`, `serial_max3100_cov_test`, `serial_i82510_cov_test` pass.
+- [x] Ratchet rows removed for each file at 0. Left to the parent: the files reach 0 only
+  once the `kind_alloc` NULL lines are covered, and this letter does not edit the ratchet.
+  Done by the parent (plan-68-L Phase 3): oom_test sweeps every kind's loader with
+  `kind_arena_chunk` 16, so the `kind_alloc` NULL returns left here run;
+  `LOGIC_COV_WORK=/tmp/p68-covB node scripts/coverage.js --backend` →
+  `backend: 60195 lines, 0 uncovered, 100.00%` (no ctest failure); this
+  letter's 16 coverage-ratchet rows removed.
 
 Acceptance: these files have no uncovered line.
   Check: `node scripts/coverage.js --backend --only <file>` → no `path:line`
@@ -97,7 +108,15 @@ Commit: —
 
 ### Phase 2 — `serial_i8251.c`, `serial.c`, `serial_acia6551.c`, `serial_hs82c52.c`, `serial_com78c80x.c`, `serial_ay1013.c`, `serial_util.h`, `serial_line.c`, `serial_usbuart.c`, `serial_bus.c`
 
-- [ ] As Phase 1, for these files.
+- [x] As Phase 1, for these files. Same command → no line in `serial_com78c80x.c`,
+  `serial_util.h`, `serial_line.c`, `serial_bus.c`; the only lines left are `kind_alloc`
+  NULL returns: `serial_acia6551.c:795-796`, `serial_ay1013.c:1098-1099`,
+  `serial_hs82c52.c:880-881`, `serial_i8251.c:923-924`, `serial_usbuart.c:405-406, 451-452`,
+  `serial.c:211-212, 279-280, 324-325, 328-329, 371-372, 409-410, 434-435` (parent's OOM
+  sweep). `backend: 11828 lines, 122 uncovered` for the whole prefix (the rest is
+  `serial_target.c`/`serialmem*`, not this letter). New programs `serial_i8251_cov_test`,
+  `serial_acia_cov_test`, `serial_ay1013_cov_test`, `serial_hs_com_cov_test`,
+  `usbuart_cov_test`, `serial_core_cov_test` pass; `SZ` → exit 0. Ratchet rows: as Phase 1.
 
 Acceptance: as Phase 1, for these files.
   Check: as Phase 1; `SZ` → exit 0 (est. 2 min per run).
@@ -116,7 +135,48 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- **82510 RTS/DTR straps never applied (model bug, fixed).** classic-b.md § 82510
+  (82510.pdf p8, p38): RTS/DTR are sampled as RESET falls, held 0..Tcy-20 after it. The
+  model read the pins at the instant it handled RESET falling: a strap released at that
+  instant read as the weak pull-up (1); one held longer shorted the chip's own RTS/DTR
+  drive. Now each strap pin's last change is recorded and the level held before RESET
+  fell is used (`serial_i82510_regs.c`, three fields in `serial_i82510_int.h`).
+  Regression: `serial_i82510_cov_test` `case_straps` (failed before, passes after). No
+  golden line changes (golden tests pass).
+- **Unreachable code removed or restructured (callers read, behavior unchanged):**
+  - `serial_max310x*.c`: the in-reset check in `rts_internal` (`m31x_cts_internal` only
+    runs from `tx_fetch` on a baud tick; the generator is stopped in reset);
+    `SERIAL_NO_PIN` in `m31x_mx_open_drain` (only via `part_pin_open_drain` from
+    `voltage.c`/`erc_pins.c` with a real pin); `ch >= uarts` in `mx_timer` (timers carry
+    `c->index` or a loop channel); `reg_peek`'s 0x1F "no RevID, not global" branch (the
+    variant table makes 0x1F valid only there); `i2c_ch < 0` in the I2C received/next/
+    acked callbacks (`serial_target.c` passes data only after an address the model ACKed,
+    which sets `i2c_ch`); `reg_peek` case braces after `return`.
+  - `serial_i82510*.c`: in-reset / unknown / power-down returns in `serial_tick_tx`/`_rx`
+    (callers `i82_sysclk_edge`, `i82_sclk_edge`, `brg_ticked` return on those states
+    first); the `unknown` return in `bus_read_done` (all it skips is overwritten by
+    `reset_regs` before the chip leaves unknown); the TMST read made one line.
+  - `serial_i8251.c`: `unknown` guards in `bus_peek`/`bus_write`/`bus_read_done`
+    (`apply_reset` disables the bus whenever it sets `unknown`); the `mode_known` TSR X
+    branch in `tx_edge` (`is_async()` is -1 only when the mode is unknown, which goes to
+    PH_X).
+  - `serial_acia6551.c`: `write_reg` case 2 moved to `write_command()`; `tx_bit_ends()`
+    without a `default` (only reached from `tx_tick` while busy).
+  - `serial_hs82c52.c`: `unknown` guards in `bus_peek`/`bus_write` (same reason as the
+    8251); `serial_com78c80x.c`: the `in->count == 0` branch of `in_level` (every `CmIn`
+    comes from `bind_in`, which fails on a missing pin), two brace blocks llvm-cov
+    counted as unrun.
+  - `serial_line.c`: `parity_bit`'s NONE case (callers `tx_bit_level`, `rx_deliver`,
+    `sender_bit` never pass NONE; it still returns 1), the dead `return LOGIC_X` after
+    `tx_bit_level`'s full switch, braces in `serial_tx_tick`.
+  - `serial_util.h` `su_load_names`: the "1 to cap names" branch (all 15 callers pass a
+    non-zero `exact` <= `cap`); the check is now `n != exact || n > cap`.
+- **Not bugs, noted:** i8251 async ignores the receiver while RxE is X (sync loads with
+  RxRDY X); AY-5-1013 mode 1 holds the transfer while CTS is X; HS-82C52 leaves DR 0
+  with REN X; the 82510 after crystal sleep keeps register value bits 0 while unknown
+  (PMD 00H makes DSR/TA/OUT0, DCD/ICLK/OUT1 outputs).
+- **(parent) One commit for both phases.** The letter's two phases landed
+  together, so both Commit lines name the same commit.
 
 ## Summary
 

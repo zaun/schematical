@@ -379,6 +379,17 @@ static void apply_reset(AcState *s) {
 
 /* ---- Registers -------------------------------------------------------------------------------- */
 
+static void write_command(AcState *s, uint8_t v, uint8_t k) {
+    unsigned old_tic = tic(s);
+
+    s->command = su_reg(v, k);
+    if (old_tic == 3 && tic(s) != 3 && s->break_on) {
+        s->break_on = 0;
+        s->break_end = 16;   /* a stop bit, then normal transmission */
+    }
+    update_format(s);
+}
+
 static void write_reg(AcState *s, unsigned rs, uint8_t v, uint8_t k) {
     switch (rs & 3u) {
         case 0:
@@ -399,17 +410,9 @@ static void write_reg(AcState *s, unsigned rs, uint8_t v, uint8_t k) {
             s->frozen = 0;
             update_format(s);
             break;
-        case 2: {
-            unsigned old_tic = tic(s);
-
-            s->command = su_reg(v, k);
-            if (old_tic == 3 && tic(s) != 3 && s->break_on) {
-                s->break_on = 0;
-                s->break_end = 16;   /* a stop bit, then normal transmission */
-            }
-            update_format(s);
+        case 2:
+            write_command(s, v, k);
             break;
-        }
         default:
             s->control = su_reg(v, k);
             update_format(s);
@@ -541,18 +544,13 @@ static void tx_done(void *context, uint16_t data, uint16_t known) {
     serial_line_log(&s->line, s->sim, data);
 }
 
-/* 1 when this tick ends the bit the transmitter is sending. */
+/* 1 when this tick ends the bit the transmitter is sending. Only asked while
+   it is busy (tx_tick), so the phase is never SERIAL_TX_IDLE. */
 static int tx_bit_ends(const SerialTx *tx) {
-    switch (tx->phase) {
-        case SERIAL_TX_START:
-        case SERIAL_TX_DATA:
-        case SERIAL_TX_PARITY:
-            return tx->count + 1 >= tx->format.factor;
-        case SERIAL_TX_STOP:
-            return (tx->stop_ticks + 1) % tx->format.factor == 0;
-        default:
-            return 1;
+    if (tx->phase == SERIAL_TX_STOP) {
+        return (tx->stop_ticks + 1) % tx->format.factor == 0;
     }
+    return tx->count + 1 >= tx->format.factor;
 }
 
 static void tx_tick(AcState *s) {

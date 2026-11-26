@@ -384,11 +384,10 @@ static void bus_peek(void *context, unsigned unit, unsigned address, uint8_t *da
     HsState *s = context;
 
     (void)address;
+    /* Never while RST is X: apply_reset clears bus.enabled with unknown, so
+       serial_bus.c ends the read cycle before any peek. */
     *data = 0;
     *known = 0;
-    if (s->unknown) {
-        return;
-    }
     switch (unit) {
         case 0:
             *data = s->rbr.v;
@@ -466,9 +465,8 @@ static void bus_write(void *context, unsigned unit, unsigned address, uint8_t da
     HsState *s = context;
 
     (void)address;
-    if (s->unknown) {
-        return;
-    }
+    /* Never while RST is X: serial_bus.c stores no write while bus.enabled
+       is 0, which apply_reset sets with unknown. */
     switch (unit) {
         case 0:
             write_tbr(s, data, known);

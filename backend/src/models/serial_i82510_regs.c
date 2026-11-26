@@ -82,12 +82,7 @@ static void reg_peek(I5State *s, unsigned a, uint8_t *v, uint8_t *k) {
                     if (s->rx_count > 0) { *v = s->rx[0].flags & 0x7Fu; }   /* bit 7 unused: 0 */
                     else { *k = 0; }
                     return;
-                case 3: {
-                    uint8_t gates = s->tmcr.v & 0x30u;
-
-                    *v = (uint8_t)(gates | (s->tmst & 3u));
-                    return;
-                }
+                case 3: *v = (uint8_t)((s->tmcr.v & 0x30u) | (s->tmst & 3u)); return;   /* gates, TxEx */
                 case 4:
                     if (s->powered_down) { *k = 0; return; }   /* invalid on exit */
                     *v = (uint8_t)(((s->rx_count & 7u) << 4) | (s->tx_count & 7u));
@@ -299,9 +294,9 @@ static void bus_read_done(void *context, unsigned unit, unsigned address) {
     I5State *s = context;
 
     (void)unit;
-    if (s->unknown) {
-        return;
-    }
+    /* Also while RESET is X (a read cut short by it): whatever read_done
+       changes, apply_reset's reset_regs puts back before the device leaves
+       the unknown state, and the outputs stay X until then. */
     if (s->pd_sleep && s->bank == 1 && (address & 7u) == 4) {
         s->pd_sleep = 0;   /* out of sleep: the registers are lost until a reset */
         s->powered_down = 0;
@@ -332,6 +327,23 @@ static void bus_write(void *context, unsigned unit, unsigned address, uint8_t da
 
 /* ---- Reset, clocks ------------------------------------------------------------------------- */
 
+/* Records a change of RTS (0) or DTR (1). */
+static void strap_track(I5State *s, unsigned which) {
+    LogicValue v = serial_level(s->sim, s->instance, s->pins->pin[which == 0 ? P_RTS : P_DTR], LOGIC_X);
+
+    if (v != s->strap_now[which]) {
+        s->strap_before[which] = s->strap_now[which];
+        s->strap_now[which] = v;
+        s->strap_at[which] = sim_now(s->sim);
+    }
+}
+
+/* The strap level held up to now (a change at this instant does not count). */
+static LogicValue strap_level(I5State *s, unsigned which) {
+    strap_track(s, which);
+    return s->strap_at[which] == sim_now(s->sim) ? s->strap_before[which] : s->strap_now[which];
+}
+
 static void apply_reset(I5State *s) {
     LogicValue r = serial_level(s->sim, s->instance, s->pins->reset, LOGIC_0);
 
@@ -352,9 +364,11 @@ static void apply_reset(I5State *s) {
         serial_line_sender_reset(&s->line, s->sim, s->instance);
     } else {
         if (s->in_reset) {
-            /* The strap as RESET falls: RTS low = crystal; DTR low = no /2. */
-            LogicValue rts = serial_level(s->sim, s->instance, s->pins->pin[P_RTS], LOGIC_X);
-            LogicValue dtr = serial_level(s->sim, s->instance, s->pins->pin[P_DTR], LOGIC_X);
+            /* The strap as RESET falls: RTS low = crystal; DTR low = no /2.
+               A strap released at the same instant (an open collector driven
+               from RESET) still counts: the level before that instant. */
+            LogicValue rts = strap_level(s, 0);
+            LogicValue dtr = strap_level(s, 1);
 
             s->strap_x = (rts == LOGIC_X || dtr == LOGIC_X || (rts == LOGIC_0 && dtr == LOGIC_0))
                 ? LOGIC_X : LOGIC_1;
@@ -410,6 +424,11 @@ static void i5_start(Sim *sim, SimInstance *instance, void *raw) {
     s->sysclk = LOGIC_0;
     s->strap_x = LOGIC_1;
     s->div2 = 1;
+    for (i = 0; i < 2; i++) {
+        s->strap_now[i] = serial_level(sim, instance, s->pins->pin[i == 0 ? P_RTS : P_DTR], LOGIC_X);
+        s->strap_before[i] = s->strap_now[i];
+        s->strap_at[i] = sim_now(sim);
+    }
     for (i = 0; i < 4; i++) {
         s->msr_level[i] = LOGIC_X;
     }
@@ -428,6 +447,9 @@ static void i5_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t pi
     (void)new_value;
     s->sim = sim;
     s->instance = instance;
+    if (pin == p[P_RTS] || pin == p[P_DTR]) {
+        strap_track(s, pin == p[P_RTS] ? 0 : 1);
+    }
     if (pin == s->pins->reset) {
         apply_reset(s);
         return;

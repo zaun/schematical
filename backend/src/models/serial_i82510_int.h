@@ -107,6 +107,10 @@ typedef struct {
     int crystal;            /* strap: crystal oscillator mode */
     int div2;               /* strap: system clock = CLK / 2 */
     LogicValue strap_x;     /* the strap read X */
+    /* RTS, DTR: the level, the level before the last change, and its time:
+       the straps are the levels held as RESET falls (hold 0, p38). */
+    LogicValue strap_now[2], strap_before[2];
+    SimTime strap_at[2];
     SuReg r[R_COUNT];
     unsigned bank;
     SuReg tmcr;             /* TMCR: the timer gates (bits 5:4) */

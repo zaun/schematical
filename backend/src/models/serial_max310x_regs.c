@@ -18,6 +18,7 @@ static int shared_elsewhere(const MxState *s, const Chan *c, unsigned addr) {
 
 static void reg_peek(MxState *s, Chan *c, unsigned addr, uint8_t *v, uint8_t *k) {
     const Variant *var = s->dev->v;
+    uint8_t m;
 
     *v = 0;
     *k = 0xFF;
@@ -44,27 +45,21 @@ static void reg_peek(MxState *s, Chan *c, unsigned addr, uint8_t *v, uint8_t *k)
             }
             return;
         case R_ISR: *v = m31x_isr_now(c); return;
-        case R_LSR: {
-            LogicValue cts = c->cts;
-
+        case R_LSR:
             *v = m31x_lsr_now(c);
             *k = (uint8_t)(c->lsr_k | 0xC3);
-            if (cts == LOGIC_1) *v |= 0x80;
-            if (cts == LOGIC_X) *k &= 0x7F;
+            if (c->cts == LOGIC_1) *v |= 0x80;
+            if (c->cts == LOGIC_X) *k &= 0x7F;
             return;
-        }
         case R_SPCL: *v = c->spcl; return;
-        case R_STS: {
-            uint8_t mask = 0x0F | ST_CLOCKREADY;
-
-            if (var->sts_txempty) mask |= ST_TXEMPTY;
-            if (var->sts_sleep) mask |= ST_SLEEP;
-            *v = m31x_sts_now(c) & mask;
+        case R_STS:
+            m = 0x0F | ST_CLOCKREADY;
+            if (var->sts_txempty) m |= ST_TXEMPTY;
+            if (var->sts_sleep) m |= ST_SLEEP;
+            *v = m31x_sts_now(c) & m;
             return;
-        }
-        case R_MODE1: {
-            uint8_t m = 0x1F;
-
+        case R_MODE1:
+            m = 0x1F;
             if (var->irqsel) m |= M1_IRQSEL;
             if (var->sleep) m |= M1_AUTOSLEEP | M1_FORCEDSLEEP;
             *v = m31x_rv(c, R_MODE1) & m;
@@ -79,7 +74,6 @@ static void reg_peek(MxState *s, Chan *c, unsigned addr, uint8_t *v, uint8_t *k)
                 *k |= M1_TXDIS;
             }
             return;
-        }
         case R_TXLVL: *v = (uint8_t)(c->tx_count > 255 ? 255 : c->tx_count); return;
         case R_RXLVL: *v = (uint8_t)(c->rx_count > 255 ? 255 : c->rx_count); return;
         case R_GPIODATA:
@@ -87,21 +81,15 @@ static void reg_peek(MxState *s, Chan *c, unsigned addr, uint8_t *v, uint8_t *k)
             *k = (uint8_t)((c->gpi_k << 4) | (c->r[R_GPIODATA].k & 0x0F));
             return;
         case R_GLOBAL:
-            if (var->global) {
-                *v = m31x_global_irq(s);
-            } else if (var->revid >= 0) {
-                *v = (uint8_t)var->revid;
-            } else {
-                *k = 0;
-            }
+            /* 0x1F is valid only on the MAX3107 (RevID) and the global variants
+               (VARIANTS: last_reg 0x1E on the MAX3108). */
+            *v = var->global ? m31x_global_irq(s) : (uint8_t)var->revid;
             return;
-        default: {
-            uint8_t m = m31x_writable(var, addr);
-
+        default:
+            m = m31x_writable(var, addr);
             *v = m31x_rv(c, addr) & m;
             *k = (uint8_t)(c->r[addr].k | (uint8_t)~m);
             return;
-        }
     }
 }
 
@@ -518,10 +506,11 @@ LogicValue m31x_i2c_received(void *context, unsigned index, uint8_t data, uint8_
     MxState *s = context;
     Chan *c;
 
+    /* Data bytes, reads and acks reach the model only after an address byte it
+       ACKed (serial_target.c i2c_falling: an ack other than 1 ignores the rest),
+       and m31x_i2c_address set i2c_ch for that ACK: i2c_ch >= 0 here and in
+       m31x_i2c_next and m31x_i2c_acked. */
     (void)index;
-    if (s->i2c_ch < 0) {
-        return LOGIC_0;
-    }
     c = &s->ch[s->i2c_ch];
     if (!s->i2c_have_ptr) {
         s->i2c_have_ptr = 1;
@@ -547,7 +536,7 @@ void m31x_i2c_next(void *context, unsigned index, uint8_t *data, uint8_t *known)
     (void)index;
     *data = 0;
     *known = 0;
-    if (s->i2c_ch < 0 || s->i2c_ptr < 0 || !reg_valid(s, (unsigned)s->i2c_ptr)) {
+    if (s->i2c_ptr < 0 || !reg_valid(s, (unsigned)s->i2c_ptr)) {
         return;
     }
     reg_peek(s, &s->ch[s->i2c_ch], (unsigned)s->i2c_ptr, data, known);
@@ -558,7 +547,7 @@ void m31x_i2c_acked(void *context, unsigned index, LogicValue ack) {
 
     (void)index;
     (void)ack;
-    if (s->i2c_ch < 0 || s->i2c_ptr < 0 || !reg_valid(s, (unsigned)s->i2c_ptr)) {
+    if (s->i2c_ptr < 0 || !reg_valid(s, (unsigned)s->i2c_ptr)) {
         return;
     }
     reg_read_done(s, &s->ch[s->i2c_ch], (unsigned)s->i2c_ptr);
@@ -672,9 +661,7 @@ static void mx_timer(Sim *sim, SimInstance *instance, void *raw, uint32_t id) {
         m31x_schedule(s, TM_REFCLK, 0, s->refclk_gen, m31x_refclk_half(s));
         return;
     }
-    if (ch >= s->dev->v->uarts) {
-        return;
-    }
+    /* TM_HALF and TM_BRG carry c->index (m31x_brg_schedule, below): always a UART. */
     if (type == TM_HALF) {
         Chan *c = &s->ch[ch];
 

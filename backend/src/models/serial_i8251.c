@@ -406,15 +406,18 @@ static void write_control(I8State *s, uint8_t v, uint8_t k) {
 
 /* ---- Bus events ------------------------------------------------------------------------- */
 
+/*
+ * No cycle reaches these while the state is unknown (RESET at X):
+ * apply_reset clears bus.enabled whenever it sets `unknown`, and with the
+ * bus disabled serial_bus_update sees no select (no peek), stores no write,
+ * and the read it ends (read_done) only touches state that reset_state
+ * replaces when RESET leaves X.
+ */
+
 static void bus_peek(void *context, unsigned unit, unsigned address, uint8_t *data, uint8_t *known) {
     I8State *s = context;
 
     (void)unit;
-    if (s->unknown) {
-        *data = 0;
-        *known = 0;
-        return;
-    }
     if (address & 1u) {
         status_of(s, data, known);
     } else {
@@ -427,9 +430,6 @@ static void bus_read_done(void *context, unsigned unit, unsigned address) {
     I8State *s = context;
 
     (void)unit;
-    if (s->unknown) {
-        return;
-    }
     if (address & 1u) {
         /* A status read resets the SYNDET flip-flop (not BRKDET). */
         if (is_async(s) == 0) {
@@ -446,9 +446,6 @@ static void bus_write(void *context, unsigned unit, unsigned address, uint8_t da
     I8State *s = context;
 
     (void)unit;
-    if (s->unknown) {
-        return;
-    }
     if (address & 1u) {
         write_control(s, data, known);
     } else {
@@ -576,8 +573,6 @@ static void tx_edge(I8State *s) {
         }
     } else if (async == 0) {
         sync_tx_edge(s);
-    } else if (mode_known(s)) {
-        s->tsr = LOGIC_X;
     }
     refresh(s, 0);
 }

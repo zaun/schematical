@@ -513,9 +513,8 @@ static void serial_tick_tx(I5State *s) {
     SerialTxEvents events = {s, tx_fetch, NULL, tx_done};
     unsigned before = s->tx_count;
 
-    if (s->in_reset || s->unknown || s->powered_down) {
-        return;
-    }
+    /* No reset / unknown / power-down check: both callers (i82_sysclk_edge,
+       i82_sclk_edge, directly or through brg_ticked) return before ticking. */
     if (s->tx_stop_hold > 0) {
         s->tx_stop_hold--;
     }
@@ -692,9 +691,7 @@ static void serial_tick_rx(I5State *s) {
     unsigned w = (i82_rv(s, R_RMD) & 0x10u) ? 7u : 3u;
     LogicValue in;
 
-    if (s->in_reset || s->unknown || s->powered_down) {
-        return;
-    }
+    /* As serial_tick_tx: the callers never tick in reset, unknown or power down. */
     if (local_loop(s)) {
         level = s->tsr;
     }

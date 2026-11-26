@@ -281,13 +281,11 @@ void m31x_brg_restart(Chan *c) {
 
 /* ---- Outputs -------------------------------------------------------------------------------- */
 
-/* The internal RTS (before RTSHiZ, inversion and loopback's pin rule). */
+/* The internal RTS (before RTSHiZ, inversion and loopback's pin rule).
+   Never asked for in reset: m31x_update_outputs drives RTS high itself
+   then, and m31x_cts_internal is only reached from tx_fetch, which runs on
+   a baud tick, and the generator is stopped in reset (m31x_chan_clock_on). */
 static LogicValue rts_internal(const Chan *c) {
-    const MxState *s = c->owner;
-
-    if (s->in_reset) {
-        return LOGIC_1;
-    }
     if (m31x_clk_to_rts(c)) {
         return c->clkout;
     }
@@ -588,10 +586,9 @@ int m31x_mx_open_drain(const void *data, const void *pins, const void *options, 
     const MxDevice *d = data;
     const MxPins *p = pins;
 
+    /* pin is a part pin index (part_pin_open_drain via serial_pin_open_drain),
+       never SERIAL_NO_PIN; IRQ is a required pin. */
     (void)options;
-    if (pin == SERIAL_NO_PIN) {
-        return 0;
-    }
     return pin == p->irq || serial_host_open_drain(&d->host, &p->host, pin);
 }
 

@@ -83,13 +83,13 @@ static LogicValue parity_bit(SerialParity parity, uint16_t data, uint16_t known,
     unsigned ones = 0;
     unsigned i;
 
-    switch (parity) {
-        case SERIAL_PARITY_MARK: return LOGIC_1;
-        case SERIAL_PARITY_SPACE: return LOGIC_0;
-        case SERIAL_PARITY_NONE: return LOGIC_1;
-        case SERIAL_PARITY_ODD:
-        case SERIAL_PARITY_EVEN:
-            break;
+    /* Stick parity. NONE never reaches here (every caller sends or checks a
+       parity bit only when the format has one); it reads as a mark. */
+    if (parity == SERIAL_PARITY_SPACE) {
+        return LOGIC_0;
+    }
+    if (parity != SERIAL_PARITY_ODD && parity != SERIAL_PARITY_EVEN) {
+        return LOGIC_1;
     }
     if ((known & mask) != mask) {
         return LOGIC_X;
@@ -130,9 +130,10 @@ static LogicValue tx_bit_level(const SerialTx *tx) {
             return (tx->data >> tx->bit) & 1u ? LOGIC_1 : LOGIC_0;
         case SERIAL_TX_PARITY:
             return parity_bit(tx->format.parity, tx->data, tx->known, tx->format.data_bits);
-        case SERIAL_TX_STOP: return LOGIC_1;
+        case SERIAL_TX_STOP:
+            break;
     }
-    return LOGIC_X;
+    return LOGIC_1;   /* the stop bit(s) */
 }
 
 static int tx_begin(SerialTx *tx, const SerialFormat *format, const SerialTxEvents *events) {
@@ -166,6 +167,8 @@ static void tx_enter_stop(SerialTx *tx, const SerialTxEvents *events) {
 }
 
 LogicValue serial_tx_tick(SerialTx *tx, const SerialFormat *format, const SerialTxEvents *events) {
+    unsigned total;
+
     switch (tx->phase) {
         case SERIAL_TX_IDLE:
             tx_begin(tx, format, events);
@@ -195,9 +198,8 @@ LogicValue serial_tx_tick(SerialTx *tx, const SerialFormat *format, const Serial
                 tx_enter_stop(tx, events);
             }
             break;
-        case SERIAL_TX_STOP: {
-            unsigned total = stop_total(&tx->format);
-
+        case SERIAL_TX_STOP:
+            total = stop_total(&tx->format);
             tx->stop_ticks++;
             if (total > tx->format.factor && tx->stop_ticks == total - tx->format.factor &&
                 events->last_stop != NULL) {
@@ -217,7 +219,6 @@ LogicValue serial_tx_tick(SerialTx *tx, const SerialFormat *format, const Serial
                 tx_begin(tx, format, events);
             }
             break;
-        }
     }
     tx->level = tx_bit_level(tx);
     return tx->level;

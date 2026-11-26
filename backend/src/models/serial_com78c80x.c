@@ -135,9 +135,7 @@ static LogicValue in_level(const CmState *s, const CmIn *in, LogicValue z_reads)
     LogicValue v = LOGIC_X;
     unsigned i;
 
-    if (in->count == 0) {
-        return z_reads;
-    }
+    /* in->count >= 1: bind_in refuses a name with no pin. */
     for (i = 0; i < in->count; i++) {
         LogicValue a = serial_level(s->sim, s->instance, in->pin[i], z_reads);
 
@@ -375,19 +373,17 @@ static void reg_peek(const CmState *s, unsigned line, unsigned reg, uint8_t *v, 
             *k = l->mr_ptr ? l->mr2.k : l->mr1.k;
             break;
         case 3: *v = l->cmd.v; *k = l->cmd.k; break;
-        case 4: {
-            unsigned ln = pos_line(s, s->pos);
-
+        case 4:
             /* 7 IRQ; 3..1 the line (bit 3 reads 0); 0 Tx/Rx. Bits 3..0 run
                free while bit 7 is 0. */
-            *v = (uint8_t)((s->stopped ? 0x80 : 0) | (ln << 1) | (s->pos >= s->lines ? 1 : 0));
+            *v = (uint8_t)((s->stopped ? 0x80 : 0) | (pos_line(s, s->pos) << 1) |
+                           (s->pos >= s->lines ? 1 : 0));
             if (s->lines == 2) {
                 *v &= 0x83;
             }
             /* Bits 3..0 run free, valid only while bit 7 is 1: X otherwise (P2). */
             *k = s->stopped ? 0xFF : 0xF0;
             break;
-        }
         case 5: *v = dschng_summary(s); *k = 0xFF; break;
         default: break;   /* 110, 111: not listed: X (P2) */
     }
@@ -872,6 +868,7 @@ static void *cm_load_device(KindContext *ctx, const cJSON *json, unsigned *chann
     const cJSON *bus;
     const cJSON *list;
     const cJSON *item;
+    const cJSON *irq;
     uint64_t lines;
     unsigned n = 0;
     unsigned ln_count = 0;
@@ -926,21 +923,18 @@ static void *cm_load_device(KindContext *ctx, const cJSON *json, unsigned *chann
         kind_pop(ctx);
         n++;
     }
-    {
-        const cJSON *irq = kind_member(ctx, json, "interrupt", 1);
-
-        if (irq == NULL) {
-            return NULL;
-        }
-        kind_push(ctx, "interrupt");
-        if (kind_check_keys(ctx, irq, INT_KEYS, NULL) != 0 ||
-            kind_string(ctx, irq, "irq", &d->irq) != 0 ||
-            kind_string(ctx, irq, "txrx", &d->txrx) != 0 ||
-            su_load_names(ctx, irq, "line", 1, d->irqln, 2, d->lines == 4 ? 2 : 1, &ln_count) != 0) {
-            return NULL;
-        }
-        kind_pop(ctx);
+    irq = kind_member(ctx, json, "interrupt", 1);
+    if (irq == NULL) {
+        return NULL;
     }
+    kind_push(ctx, "interrupt");
+    if (kind_check_keys(ctx, irq, INT_KEYS, NULL) != 0 ||
+        kind_string(ctx, irq, "irq", &d->irq) != 0 ||
+        kind_string(ctx, irq, "txrx", &d->txrx) != 0 ||
+        su_load_names(ctx, irq, "line", 1, d->irqln, 2, d->lines == 4 ? 2 : 1, &ln_count) != 0) {
+        return NULL;
+    }
+    kind_pop(ctx);
     *channels = d->lines;
     return d;
 }

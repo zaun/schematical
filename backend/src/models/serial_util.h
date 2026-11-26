@@ -154,7 +154,8 @@ static inline void su_drive_bus(SuOutputs *o, Sim *sim, SimInstance *instance, c
 
 /* ---- Loader helpers ---------------------------------------------------------------------- */
 
-/* An array of exactly n pin names (n = 0: 1 to cap names); *count set. */
+/* An array of exactly `exact` pin names (1 <= exact <= cap, the size of
+   `out`); *count set. Every caller passes its exact count (plan-68-P). */
 static inline int su_load_names(KindContext *ctx, const cJSON *object, const char *key,
                                 int required, const char **out, unsigned cap, unsigned exact,
                                 unsigned *count) {
@@ -171,11 +172,8 @@ static inline int su_load_names(KindContext *ctx, const cJSON *object, const cha
     if (kind_names(ctx, object, key, &names, &n) != 0) {
         return -1;
     }
-    if (exact != 0 && n != exact) {
+    if (n != exact || n > cap) {
         return kind_error(ctx, "\"%s\" needs exactly %u pin names", key, exact);
-    }
-    if (n == 0 || n > cap) {
-        return kind_error(ctx, "\"%s\" needs 1 to %u pin names", key, cap);
     }
     for (i = 0; i < n; i++) {
         out[i] = names[i];
