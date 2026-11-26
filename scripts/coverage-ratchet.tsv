@@ -68,10 +68,6 @@
 24	schematical/schematical/Document/SchematicFile+Board.swift
 22	schematical/schematical/Document/SchematicFile+Document.swift
 12	schematical/schematical/DocumentInfo/DocumentInfoWindow.swift
-181	schematical/schematical/Editor/PartEditorSections.swift
-333	schematical/schematical/Editor/PartEditorWindow.swift
-13	schematical/schematical/Editor/PartValidator.swift
-120	schematical/schematical/Editor/Wizard/DatasheetStepPage.swift
 265	schematical/schematical/Editor/Wizard/FootprintStepPage.swift
 156	schematical/schematical/Editor/Wizard/FootprintThumbnail.swift
 30	schematical/schematical/Editor/Wizard/Guidance.swift

@@ -22,9 +22,11 @@ nonisolated final class PartValidator: @unchecked Sendable {
     private let lock = NSLock()
     private let setupError: String?
 
-    init() {
+    /// `loadSupport` fills the scratch library (the bundled footprints and
+    /// datasheets); when it throws, every check answers `.unavailable`.
+    init(loadSupport: (PartLibraryHandle) throws -> Void = BackendCatalog.loadSupportFiles(into:)) {
         do {
-            try BackendCatalog.loadSupportFiles(into: library)
+            try loadSupport(library)
             setupError = nil
         } catch {
             setupError = error.localizedDescription
@@ -69,10 +71,9 @@ nonisolated final class PartValidator: @unchecked Sendable {
             return .failure(.backend(message))
         }
         defer { part_library_unload_last_part_file(library.pointer) }
-        let count = part_library_count(library.pointer)
-        guard count > 0, let loaded = part_library_at(library.pointer, count - 1) else {
-            return .failure(.backend("\(source): the part did not load"))
-        }
+        // A file that loads has added its part last, so the library holds at
+        // least that part (`load_part_file` fails on a file with none).
+        let loaded = part_library_at(library.pointer, part_library_count(library.pointer) - 1)!
         return .success(BackendCatalog.catalogPart(loaded.pointee) { Footprint($0.pointee) })
     }
 

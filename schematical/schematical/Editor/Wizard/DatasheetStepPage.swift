@@ -9,8 +9,16 @@ import UniformTypeIdentifiers
 /// and is never stored.
 struct DatasheetStepPage: View {
     @Bindable var model: PartEditorModel
-    @State private var text = ""
-    @State private var replacing = false
+    /// The address field's text; filled from the part when the field appears.
+    @State private var text: String
+    /// Whether Replace… was pressed, so a library datasheet shows the address field.
+    @State private var replacing: Bool
+
+    init(model: PartEditorModel) {
+        self.model = model
+        _text = State(initialValue: "")
+        _replacing = State(initialValue: false)
+    }
 
     var body: some View {
         let generic = (model.draft.manufacturer ?? "").isEmpty || model.draft.manufacturer == "Generic"
@@ -40,8 +48,8 @@ struct DatasheetStepPage: View {
         } else {
             Section {
                 TextField("Address", text: $text, prompt: Text("https://www.ti.com/lit/ds/symlink/sn74hc00.pdf"))
-                    .onSubmit { commit() }
-                    .onChange(of: text) { _, _ in commit() }
+                    .onSubmit { model.commitDatasheetAddress(text, replacing: replacing) }
+                    .onChange(of: text) { _, _ in model.commitDatasheetAddress(text, replacing: replacing) }
                 switch DatasheetURLRule.check(text, manufacturer: model.draft.manufacturer) {
                 case let .offerHTTPS(address):
                     HStack {
@@ -87,19 +95,6 @@ struct DatasheetStepPage: View {
             }
         }
     }
-
-    /// Keeps the part's datasheet in step with the field: an address the
-    /// rules accept is saved; an empty field removes it.
-    private func commit() {
-        switch DatasheetURLRule.check(text, manufacturer: model.draft.manufacturer) {
-        case let .ok(address):
-            if model.draft.datasheetURL != address { model.draft.setDatasheetURL(address) }
-        case .empty:
-            if model.draft.datasheetURL != nil || replacing { model.draft.setDatasheetURL(nil) }
-        case .offerHTTPS, .message:
-            break
-        }
-    }
 }
 
 /// The datasheet in the wizard's side pane: the PDF once it has loaded.
@@ -131,6 +126,20 @@ struct DatasheetPane: View {
 }
 
 extension PartEditorModel {
+    /// Keeps the part's datasheet in step with the Datasheet step's address
+    /// field: an address the rules accept is saved; an empty field removes
+    /// the part's own address (always while `replacing` the library's).
+    func commitDatasheetAddress(_ text: String, replacing: Bool) {
+        switch DatasheetURLRule.check(text, manufacturer: draft.manufacturer) {
+        case let .ok(address):
+            if draft.datasheetURL != address { draft.setDatasheetURL(address) }
+        case .empty:
+            if draft.datasheetURL != nil || replacing { draft.setDatasheetURL(nil) }
+        case .offerHTTPS, .message:
+            break
+        }
+    }
+
     /// Shows a PDF the user downloaded themselves. The part keeps its
     /// address; the file is only viewed.
     func openLocalDatasheet() async {
@@ -139,9 +148,7 @@ extension PartEditorModel {
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
         panel.message = "Choose the datasheet PDF you downloaded"
-        let response: NSApplication.ModalResponse
-        if let window { response = await panel.beginSheetModal(for: window) } else { response = panel.runModal() }
-        guard response == .OK, let url = panel.url else { return }
+        guard let url = await presenter.choose(panel, window) else { return }
         showLocalDatasheet(url)
     }
 }

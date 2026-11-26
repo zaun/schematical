@@ -24,14 +24,19 @@ struct PartEditorSceneRoot: View {
                     .frame(minWidth: 820, minHeight: 480)
             }
         }
-        .onOpenURL { url in
-            let opened = PartEditorTarget(source: .file(url))
-            if target == nil {
-                target = opened
-            } else {
-                openWindow(id: PartEditorScene.id, value: opened)
-            }
+        .onOpenURL { url in Self.open(url, in: &target).map { openWindow(id: PartEditorScene.id, value: $0) } }
+    }
+
+    /// A `.schpart` file sent to the scene: a window with no target becomes
+    /// its editor (nil returned); one with a part keeps it, and the file's
+    /// target is returned for a window of its own.
+    static func open(_ url: URL, in target: inout PartEditorTarget?) -> PartEditorTarget? {
+        let opened = PartEditorTarget(source: .file(url))
+        if target == nil {
+            target = opened
+            return nil
         }
+        return opened
     }
 }
 
@@ -40,8 +45,13 @@ struct PartEditorWindowView: View {
     @State private var model: PartEditorModel
 
     init(target: PartEditorTarget) {
+        self.init(model: PartEditorModel(target: target), target: target)
+    }
+
+    /// A window on `model` (a test's, with its presenter answered).
+    init(model: PartEditorModel, target: PartEditorTarget) {
         self.target = target
-        _model = State(initialValue: PartEditorModel(target: target))
+        _model = State(initialValue: model)
     }
 
     var body: some View {
@@ -187,11 +197,9 @@ struct PartEditorForm: View {
                 }
             }
             IdentitySection(model: model)
-            VerdictSection(model: model)
+            VerdictSection(validation: model.validation, status: model.status)
             PinoutsSection(pinouts: $model.draft.pinouts, partPinout: $model.draft.pinout,
-                           commitName: { pinout, pin, name in
-                               model.commitPinName(pinout: pinout, pin: pin, to: name)
-                           },
+                           commitName: { model.commitPinName(pinout: $0, pin: $1, to: $2) },
                            status: model.renameStatus)
             FootprintSection(model: model)
             SupplySection(model: model)
@@ -228,17 +236,29 @@ struct FootprintChoicesEditor: View {
                     HStack {
                         TextField("Package", text: $choice.package).frame(width: 120)
                         TextField("Footprint id", text: $choice.footprint).frame(width: 160)
-                        Button { choices?.removeAll { $0.id == choice.id }; if choices?.isEmpty == true { choices = nil } }
-                            label: { Image(systemName: "minus.circle") }
-                            .buttonStyle(.borderless)
+                        Button { choices = Self.removing(choice.id, from: choices) } label: {
+                            Label("Remove Choice", systemImage: "minus.circle").labelStyle(.iconOnly)
+                        }
+                        .buttonStyle(.borderless)
                     }
                 }
-                Button { choices = (choices ?? []) + [FootprintChoiceDraft(package: "", footprint: "")] } label: {
+                Button { choices = Self.adding(to: choices) } label: {
                     Label("Add Choice", systemImage: "plus.circle")
                 }
                 .buttonStyle(.borderless)
             }
         }
+    }
+
+    /// `choices` with a blank choice added at the end.
+    static func adding(to choices: [FootprintChoiceDraft]?) -> [FootprintChoiceDraft] {
+        (choices ?? []) + [FootprintChoiceDraft(package: "", footprint: "")]
+    }
+
+    /// `choices` without the one of `id`; nil when none is left (the key is then absent).
+    static func removing(_ id: UUID, from choices: [FootprintChoiceDraft]?) -> [FootprintChoiceDraft]? {
+        let left = (choices ?? []).filter { $0.id != id }
+        return left.isEmpty ? nil : left
     }
 }
 
@@ -254,9 +274,7 @@ struct DatasheetField: View {
                 set: { datasheet = $0.isEmpty ? nil : $0 }))
             Menu {
                 Button("None") { datasheet = nil }
-                ForEach(matches, id: \.self) { id in
-                    Button(id) { datasheet = id }
-                }
+                ForEach(Self.matches(ids, typed: datasheet), id: \.self) { id in Button(id) { datasheet = id } }
             } label: {
                 Image(systemName: "chevron.down")
             }
@@ -265,7 +283,8 @@ struct DatasheetField: View {
         }
     }
 
-    private var matches: [String] {
+    /// The menu's ids: the first 40, sorted, that contain what is typed (any case).
+    static func matches(_ ids: [String], typed datasheet: String?) -> [String] {
         let needle = (datasheet ?? "").lowercased()
         return Array(ids.filter { needle.isEmpty || $0.lowercased().contains(needle) }.sorted().prefix(40))
     }
@@ -288,7 +307,7 @@ struct PinoutsSection: View {
                 if !pinouts.contains(where: { $0.name == partPinout }) { Text(partPinout).tag(partPinout) }
             }
             ForEach($pinouts) { $pinout in
-                PinoutEditor(pinout: $pinout, onRemove: pinouts.count > 1 ? { remove(pinout.id) } : nil,
+                PinoutEditor(pinout: $pinout, onRemove: pinouts.count > 1 ? { Self.remove(pinout.id, from: &pinouts, partPinout: &partPinout) } : nil,
                              onRename: { old, new in if partPinout == old { partPinout = new } },
                              commitName: commitName.map { commit in { pin, name in commit(pinout.id, pin, name) } })
             }
@@ -296,19 +315,21 @@ struct PinoutsSection: View {
                 Text(status).font(.caption).foregroundStyle(.secondary)
             }
             HStack {
-                Button("Add Numbered Pinout") { add(.numbered) }
-                Button("Add Ball Pinout") { add(.ball) }
+                Button("Add Numbered Pinout") { Self.add(.numbered, to: &pinouts) }
+                Button("Add Ball Pinout") { Self.add(.ball, to: &pinouts) }
             }
         }
     }
 
-    private func add(_ style: PinoutDraft.Style) {
+    /// Adds an empty pinout of `style`, named "p<n>" with the first free n from the count up.
+    static func add(_ style: PinoutDraft.Style, to pinouts: inout [PinoutDraft]) {
         var n = pinouts.count + 1
         while pinouts.contains(where: { $0.name == "p\(n)" }) { n += 1 }
         pinouts.append(PinoutDraft(name: "p\(n)", style: style, pins: []))
     }
 
-    private func remove(_ id: UUID) {
+    /// Removes a pinout; when it was the part's, the first one left becomes the part's.
+    static func remove(_ id: UUID, from pinouts: inout [PinoutDraft], partPinout: inout String) {
         pinouts.removeAll { $0.id == id }
         if !pinouts.contains(where: { $0.name == partPinout }), let first = pinouts.first {
             partPinout = first.name
@@ -327,16 +348,11 @@ struct PinoutEditor: View {
         GroupBox {
             VStack(alignment: .leading, spacing: 6) {
                 HStack {
-                    TextField("Pinout name", text: Binding(
-                        get: { pinout.name },
-                        set: { new in
-                            let old = pinout.name
-                            pinout.name = new
-                            onRename(old, new)
-                        }))
+                    TextField("Pinout name", text: Binding(get: { pinout.name }, set: { rename(to: $0) }))
                     Text(pinout.style == .ball ? "Ball" : "Numbered").foregroundStyle(.secondary)
                     if let onRemove {
-                        Button(action: onRemove) { Image(systemName: "trash") }.buttonStyle(.borderless)
+                        Button(action: onRemove) { Label("Remove Pinout", systemImage: "trash").labelStyle(.iconOnly) }
+                            .buttonStyle(.borderless)
                     }
                 }
                 Grid(alignment: .leading, horizontalSpacing: 6, verticalSpacing: 4) {
@@ -352,9 +368,7 @@ struct PinoutEditor: View {
                     ForEach($pinout.pins) { $pin in
                         GridRow {
                             TextField("", text: $pin.designator).frame(width: 50)
-                            PinNameField(name: pin.name) { new in
-                                if let commitName { commitName(pin.id, new) } else { pin.name = new }
-                            }
+                            PinNameField(name: pin.name) { commitPinName(pin.id, $0) }
                             .frame(minWidth: 70)
                             Picker("", selection: $pin.role) {
                                 ForEach(PinDraft.roles, id: \.self) { Text($0).tag($0) }
@@ -369,24 +383,45 @@ struct PinoutEditor: View {
                             .labelsHidden().frame(width: 70)
                             ActiveLowMenu(pin: $pin)
                             HStack(spacing: 2) {
-                                Button { move(pin.id, by: -1) } label: { Image(systemName: "arrow.up") }
-                                Button { move(pin.id, by: 1) } label: { Image(systemName: "arrow.down") }
+                                Button { Self.move(pin.id, by: -1, in: &pinout) } label: {
+                                    Label("Move Up", systemImage: "arrow.up").labelStyle(.iconOnly)
+                                }
+                                Button { Self.move(pin.id, by: 1, in: &pinout) } label: {
+                                    Label("Move Down", systemImage: "arrow.down").labelStyle(.iconOnly)
+                                }
                                 Button { pinout.pins.removeAll { $0.id == pin.id } } label: {
-                                    Image(systemName: "minus.circle")
+                                    Label("Remove Pin", systemImage: "minus.circle").labelStyle(.iconOnly)
                                 }
                             }
                             .buttonStyle(.borderless)
                         }
                     }
                 }
-                Button { addPin() } label: { Label("Add Pin", systemImage: "plus.circle") }
+                Button { Self.addPin(to: &pinout) } label: { Label("Add Pin", systemImage: "plus.circle") }
                     .buttonStyle(.borderless)
             }
             .padding(4)
         }
     }
 
-    private func addPin() {
+    /// The name field's edit: the pinout takes the name, and `onRename` hears old and new.
+    func rename(to new: String) {
+        let old = pinout.name
+        pinout.name = new
+        onRename(old, new)
+    }
+
+    /// A pin name field's commit: through `commitName` when given, else straight into the pin.
+    func commitPinName(_ id: UUID, _ name: String) {
+        if let commitName {
+            commitName(id, name)
+        } else if let index = pinout.pins.firstIndex(where: { $0.id == id }) {
+            pinout.pins[index].name = name
+        }
+    }
+
+    /// Adds an input pin numbered one past the highest number (a ball pinout: "A<count + 1>").
+    static func addPin(to pinout: inout PinoutDraft) {
         let designator: String
         if pinout.style == .numbered {
             designator = String((pinout.pins.compactMap { Int($0.designator) }.max() ?? 0) + 1)
@@ -396,7 +431,8 @@ struct PinoutEditor: View {
         pinout.pins.append(PinDraft(designator: designator, name: "", role: "input"))
     }
 
-    private func move(_ id: UUID, by offset: Int) {
+    /// Moves a pin up (-1) or down (1); nothing at either end.
+    static func move(_ id: UUID, by offset: Int, in pinout: inout PinoutDraft) {
         guard let index = pinout.pins.firstIndex(where: { $0.id == id }) else { return }
         let target = index + offset
         guard pinout.pins.indices.contains(target) else { return }
@@ -412,14 +448,11 @@ struct ActiveLowMenu: View {
     var body: some View {
         Menu {
             ForEach(pin.menuAlternatives, id: \.self) { alternative in
-                Toggle(alternative, isOn: Binding(
-                    get: { pin.activeLow.contains(alternative) },
-                    set: { on in
-                        if on { pin.activeLow.insert(alternative) } else { pin.activeLow.remove(alternative) }
-                    }))
+                Toggle(alternative, isOn: Binding(get: { pin.activeLow.contains(alternative) },
+                                                  set: { Self.set(alternative, activeLow: $0, on: &pin) }))
             }
         } label: {
-            Text(label)
+            Text(Self.label(for: pin))
         }
         .menuStyle(.borderlessButton)
         .fixedSize()
@@ -428,7 +461,13 @@ struct ActiveLowMenu: View {
         .help("Mark the alternatives of the pin's name that are active low")
     }
 
-    private var label: String {
+    /// Flags or clears one alternative.
+    static func set(_ alternative: String, activeLow on: Bool, on pin: inout PinDraft) {
+        if on { pin.activeLow.insert(alternative) } else { pin.activeLow.remove(alternative) }
+    }
+
+    /// The menu's title: "—" (no flag for the role), "Low" (none flagged), "Low ✓" (all), or the flagged ones.
+    static func label(for pin: PinDraft) -> String {
         guard PinDraft.signalRoles.contains(pin.role) else { return "—" }
         let flagged = pin.menuAlternatives.filter { pin.activeLow.contains($0) }
         if flagged.isEmpty { return "Low" }

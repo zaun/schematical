@@ -17,9 +17,7 @@ struct IdentitySection: View {
                 Text("A part named \(model.draft.name) is loaded; Add to Library adds this one as \(model.libraryName).")
                     .font(.caption).foregroundStyle(.secondary)
             }
-            TextField("Manufacturer", text: Binding(
-                get: { model.draft.manufacturer ?? "" },
-                set: { model.draft.manufacturer = $0.isEmpty ? nil : $0 }))
+            TextField("Manufacturer", text: model.optionalText(\.manufacturer))
             TextField("Package", text: $model.draft.package)
             TextField("Function", text: $model.draft.function)
             TextField("Description", text: $model.draft.description)
@@ -27,9 +25,7 @@ struct IdentitySection: View {
             TextField("Drawer group", text: model.drawerLevel(1))
             TextField("Drawer sub-group", text: model.drawerLevel(2))
             TextField("Device id", text: $model.draft.deviceID)
-            TextField("Note", text: Binding(
-                get: { model.draft.note ?? "" },
-                set: { model.draft.note = $0.isEmpty ? nil : $0 }), axis: .vertical)
+            TextField("Note", text: model.optionalText(\.note), axis: .vertical)
                 .lineLimit(1...4)
             LabeledContent("Flags") {
                 HStack {
@@ -44,6 +40,29 @@ struct IdentitySection: View {
 }
 
 extension PartEditorModel {
+    /// An optional text key of the draft as a field's text: "" for nil, and
+    /// an emptied field removes the key.
+    func optionalText(_ key: WritableKeyPath<PartDraft, String?>) -> Binding<String> {
+        Binding(get: { self.draft[keyPath: key] ?? "" },
+                set: { self.draft[keyPath: key] = $0.isEmpty ? nil : $0 })
+    }
+
+    /// The custom footprint's editor binding; only read while the draft has one.
+    var customFootprintBinding: Binding<CustomFootprintDraft> {
+        Binding(get: { self.draft.customFootprint! }, set: { self.draft.customFootprint = $0 })
+    }
+
+    /// Custom Footprint…: a starter footprint with the pinout's pad count,
+    /// its pads numbered with the pinout's own pin numbers.
+    func startCustomFootprint() {
+        var custom = CustomFootprintDraft.starter(id: CustomFootprintDraft.id(forPart: draft.uuid), pins: draft.pinCount)
+        let numbers = draft.pinNumbers
+        for index in custom.pads.indices where index < numbers.count {
+            custom.pads[index].pin = numbers[index]
+        }
+        draft.customFootprint = custom
+    }
+
     /// One level of the drawer path (category, group, sub-group), for the
     /// form and the wizard's More options.
     func drawerLevel(_ level: Int) -> Binding<String> {
@@ -75,13 +94,15 @@ extension PartEditorModel {
     }
 }
 
-/// The backend's verdict on the draft, and the last Save or Add's result.
+/// The backend's verdict on the draft (nil while the first check runs), and
+/// the last Save or Add's result.
 struct VerdictSection: View {
-    @Bindable var model: PartEditorModel
+    let validation: Result<CatalogPart, PartValidator.Failure>?
+    let status: String?
 
     var body: some View {
         Section {
-            switch model.validation {
+            switch validation {
             case nil:
                 Text("Checking…").foregroundStyle(.secondary)
             case let .success(part)?:
@@ -92,7 +113,7 @@ struct VerdictSection: View {
                     .foregroundStyle(.red)
                     .textSelection(.enabled)
             }
-            if let status = model.status {
+            if let status {
                 Text(status).font(.caption).foregroundStyle(.secondary)
             }
         }
@@ -108,8 +129,7 @@ struct FootprintSection: View {
         if model.draft.customFootprint != nil {
             Section("Custom Footprint") {
                 CustomFootprintEditor(
-                    footprint: Binding(get: { model.draft.customFootprint! },
-                                       set: { model.draft.customFootprint = $0 }),
+                    footprint: model.customFootprintBinding,
                     pinNumbers: model.draft.pinNumbers,
                     onRemove: { model.draft.customFootprint = nil })
             }
@@ -145,16 +165,7 @@ struct FootprintSection: View {
             }
             FootprintChoicesEditor(choices: $model.draft.footprintChoices,
                                    ids: model.validator.footprints.map(\.id))
-            Button("Custom Footprint…") {
-                var custom = CustomFootprintDraft.starter(id: CustomFootprintDraft.id(forPart: model.draft.uuid),
-                                                          pins: pins)
-                // Number the starter's pads with the pinout's own pin numbers.
-                let numbers = model.draft.pinNumbers
-                for index in custom.pads.indices where index < numbers.count {
-                    custom.pads[index].pin = numbers[index]
-                }
-                model.draft.customFootprint = custom
-            }
+            Button("Custom Footprint…") { model.startCustomFootprint() }
         }
     }
 }

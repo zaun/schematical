@@ -73,7 +73,17 @@ controller tests both run in the phase gate.
 
 ### Phase 1 — `PartEditorSections.swift`, `PartEditorWindow.swift`
 
-- [ ] Close every uncovered line of these files per § 3; ratchet rows removed.
+- [x] Close every uncovered line of these files per § 3.
+  New `PartEditorWindowViewTests` (scene root, both modes and the toolbar in a
+  bridged window, the preview panes, the form, footprint choices, the datasheet
+  menu) and `PartEditorSectionsTests` (Identity, the verdict, Footprint and Fits,
+  Supply, the kind's fields, pinouts, the pin table, the active-low menu).
+  `LOGIC_COV_WORK=/tmp/logic-cov-AE node scripts/coverage.js --app --tests PartEditorWindowViewTests,PartEditorSectionsTests,DatasheetStepPageTests,PartValidatorTests,PartEditorWindowTests,PartEditorModelTests,WizardModelTests --only schematical/schematical/Editor` → no `path:line` for `PartEditorSections.swift` (was 181) or
+  `PartEditorWindow.swift` (was 333); the AE classes pass.
+- [x] ratchet rows: parent (`PartEditorSections.swift`, `PartEditorWindow.swift` at 0)
+  Ratchet rows: removed by the parent in this letter's commit (4 rows). Re-measured in the
+  shared tree by the parent with this letter's classes: no `path:line` for any of its files,
+  no failed test.
 
 Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
@@ -83,7 +93,17 @@ Commit: —
 
 ### Phase 2 — `PartValidator.swift`, `DatasheetStepPage.swift`
 
-- [ ] As Phase 1, for these files.
+- [x] As Phase 1, for these files. New `DatasheetStepPageTests` (every branch of
+  the step and the pane, the address rule, Open a downloaded PDF… through the
+  presenter, a download that hangs until cancelled); `PartValidatorTests`
+  extended (a setup failure, the kept lists, a draft that cannot be written, a
+  refused text, the async check). Same command → no `path:line` for
+  `PartValidator.swift` (was 13) or `DatasheetStepPage.swift` (was 120).
+  `node scripts/source-size.js --check` → exit 0.
+- [x] ratchet rows: parent (`PartValidator.swift`, `DatasheetStepPage.swift` at 0)
+  Ratchet rows: removed by the parent in this letter's commit (4 rows). Re-measured in the
+  shared tree by the parent with this letter's classes: no `path:line` for any of its files,
+  no failed test.
 
 Acceptance: as Phase 1.
   Check: as Phase 1; `SZ` → exit 0 (est. 10 min).
@@ -105,7 +125,43 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- (AE) Logic moved out of views into tested functions beside them, behavior
+  unchanged: `PartEditorSceneRoot.open(_:in:)` (onOpenURL);
+  `FootprintChoicesEditor.adding/removing`; `DatasheetField.matches`;
+  `PinoutsSection.add/remove`; `PinoutEditor.rename(to:)`, `commitPinName`,
+  `addPin(to:)`, `move(_:by:in:)`; `ActiveLowMenu.label(for:)`, `set(_:activeLow:on:)`;
+  `PartEditorModel.optionalText(_:)`, `customFootprintBinding`,
+  `startCustomFootprint()` (Custom Footprint…), `commitDatasheetAddress(_:replacing:)`
+  (the Datasheet step's `commit()`).
+- (AE) `VerdictSection` takes `validation` and `status` instead of the model, so
+  its "Checking…" state (before the first check) can be shown.
+- (AE) `PartEditorWindowView.init(model:target:)` added, so a test hosts the
+  window with its presenter answered.
+- (AE) Icon-only buttons (Remove Choice, Remove Pinout, Move Up/Down, Remove
+  Pin) are `Label(…).labelStyle(.iconOnly)` instead of a bare `Image`: they look
+  the same and now have an accessibility name.
+- (AE) `openLocalDatasheet` runs its open panel through `presenter.choose`
+  (it ran the panel itself, untestable and on the owner's screen).
+- (AE) `PartValidator.init(loadSupport:)` takes the support-file loader, so the
+  setup-failure path is tested. Its `guard count > 0, let loaded … else
+  { "the part did not load" }` was unreachable (`load_part_file` succeeded, so
+  the library holds the part it just added) and is now a force-unwrap with that
+  reason in a comment.
+- (AE) `DatasheetStepPage` sets its two `@State` values in an explicit `init`:
+  the property initializers (`= ""`, `= false`) counted as never run even with
+  the view rendered.
+- (AE) The shared worktree did not build for long stretches (other letters'
+  in-progress files: `BillOfMaterialsWindowTests.swift` missing
+  `import UniformTypeIdentifiers`, then `MemoryFileAccessTests.swift`). The
+  coverage runs were made in an APFS clone of the worktree (`/tmp/ae-copy`,
+  this letter's files identical to the worktree's, the BOM import added there
+  only), run with `node --preserve-symlinks-main` from `/tmp/ae-copy` so
+  coverage.js's root matches xccov's paths.
+- (AE) Seen, not this letter's: `PartEditorModelTests.testTheMenuItemsFollowTheFocusedEditor`
+  (plan-68-AD) fails on its own (`-only-testing` that one test → panels 0,
+  alerts []). It is an `async` test: a button whose action starts a `Task`
+  cannot run it while the test holds the main actor in `settle()`. The same
+  pattern made this letter's first Open-a-PDF test fail; it is a sync test now.
 
 ## Summary
 

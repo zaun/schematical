@@ -52,4 +52,54 @@ final class PartValidatorTests: XCTestCase {
             guard case .success = PartValidator.shared.validate(draft) else { return XCTFail("rejected") }
         }
     }
+
+    // MARK: plan-68-AE
+
+    /// A scratch library that could not be set up: every check says so, and
+    /// the pickers are empty.
+    func testASetupFailureMakesEveryCheckUnavailable() throws {
+        struct Broken: LocalizedError { var errorDescription: String? { "no support files" } }
+        let validator = PartValidator(loadSupport: { _ in throw Broken() })
+        XCTAssertEqual(validator.validate(try gateDraft()), .failure(.unavailable("no support files")))
+        XCTAssertEqual(validator.validate(try gateDraft()).failureMessage, "no support files")
+        XCTAssertEqual(validator.footprints.count, 0)
+        XCTAssertEqual(validator.datasheetIDs, [])
+    }
+
+    /// The pickers' lists are read once and kept.
+    func testTheFootprintAndDatasheetListsAreKept() {
+        let validator = PartValidator()
+        let footprints = validator.footprints.map(\.id)
+        XCTAssertGreaterThan(footprints.count, 100)
+        XCTAssertEqual(validator.footprints.map(\.id), footprints)
+        let ids = validator.datasheetIDs
+        XCTAssertGreaterThan(ids.count, 100)
+        XCTAssertEqual(Set(ids).count, ids.count, "each id once")
+        XCTAssertEqual(validator.datasheetIDs, ids)
+    }
+
+    /// A draft whose file cannot be written (a number JSON has no text for).
+    func testADraftThatCannotBeWritten() throws {
+        var draft = try gateDraft()
+        draft.kindDevice["zzBad"] = .number(.nan)
+        XCTAssertEqual(PartValidator.shared.validate(draft, source: "bad.schpart"),
+                       .failure(.backend("bad.schpart: the draft could not be written")))
+    }
+
+    /// A file the loader refuses: its message, prefixed with the source.
+    func testTextTheLoaderRefuses() async throws {
+        guard case let .failure(failure) = PartValidator.shared.validate(text: "{}", source: "empty.schpart") else {
+            return XCTFail("accepted an empty object")
+        }
+        XCTAssertTrue(failure.message.hasPrefix("empty.schpart"), failure.message)
+        let off = await PartValidator.shared.validated(try gateDraft(), source: "x.schpart")
+        XCTAssertEqual(off.map(\.name), .success("SN74HC00N"))
+    }
+}
+
+private extension Result where Failure == PartValidator.Failure {
+    var failureMessage: String? {
+        if case let .failure(failure) = self { return failure.message }
+        return nil
+    }
 }
