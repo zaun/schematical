@@ -400,6 +400,15 @@ logic_serial_test(serial_n68_ext_test serial_bench_d serial_bench_exar serial_be
 logic_serial_test(serial_n68_exar_test serial_bench_d serial_bench_exar serial_bench_n68)
 logic_serial_test(serial_n68_5g_test serial_bench_d serial_bench_exar serial_bench_n68)
 logic_serial_test(serial_n68_bridge_test serial_bench_maxim serial_bench_bridge serial_bench_n68)
+# plan-68-Q
+logic_bench_test(logic_ff_cov_test q_cov_bench)
+logic_bench_test(counter_sync_cov_test q_cov_bench)
+logic_bench_test(counter_div_cov_test q_cov_bench)
+logic_bench_test(shift_cov_test q_cov_bench)
+logic_bench_test(shift_special_cov_test q_cov_bench)
+logic_bench_test(latch_cov_test q_cov_bench)
+logic_bench_test(buffer_cov_test q_cov_bench)
+logic_bench_test(logic_misc_cov_test q_cov_bench)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be
 # flaky. Build Release to get meaningful numbers.

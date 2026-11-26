@@ -125,9 +125,7 @@ void buf_drive(Sim *sim, SimInstance *inst, BufHeader *h, SeqOutput *o, LogicVal
     LogicValue was = o->driven;
     LogicValue now = h->style == SEQ_OPEN_DRAIN && v == LOGIC_1 ? LOGIC_Z : v;
 
-    if (o->pin == SEQ_NO_PIN) {
-        return;
-    }
+    /* o->pin is always a pin: every output is bound with kind_pin (buf_bind_names). */
     seq_drive(sim, inst, o, v, h->style, h->timing);
     if (was != LOGIC_Z && now == LOGIC_Z && o->pin < h->pin_count) {
         SimTime until = sim_now(sim) + h->timing->rise + 1;
@@ -376,14 +374,11 @@ typedef struct {
     LogicValue hold[BUF_MAX_UNITS][BUF_MAX_BITS];   /* last value passed, either way */
 } XcvrState;
 
-/* "dir": {"pin": name, "ab": "high"|"low"}. */
+/* "dir": {"pin": name, "ab": "high"|"low"}; the callers call this only when the unit has "dir". */
 int buf_dir_name(KindContext *ctx, const cJSON *unit, const char **pin, int *ab_high) {
     static const char *const KEYS[] = {"pin", "ab", NULL};
-    const cJSON *dir = kind_member(ctx, unit, "dir", 1);
+    const cJSON *dir = cJSON_GetObjectItemCaseSensitive(unit, "dir");
 
-    if (dir == NULL) {
-        return -1;
-    }
     kind_push(ctx, "dir");
     if (!cJSON_IsObject(dir)) {
         return kind_error(ctx, "must be {\"pin\", \"ab\"}");
@@ -738,8 +733,9 @@ static int load_domains(KindContext *ctx, const cJSON *json, BufDevice *dev) {
 
 /*
  * The B side's voltage from json's "vccB"/"inputMaxB" over base, with the
- * rules of kind_voltage. NULL in *out (no error) when json has neither and
- * base is NULL.
+ * rules of kind_voltage; base itself when json has neither. A timing entry
+ * (base NULL) always has "vccB" (buffer_load_device checks it first), and a
+ * part's base is its timing entry's, so "inputMaxB" never comes alone.
  */
 static int voltage_b(KindContext *ctx, const cJSON *json, const PartVoltage *base,
                      const PartVoltage **out) {
@@ -750,9 +746,6 @@ static int voltage_b(KindContext *ctx, const cJSON *json, const PartVoltage *bas
     *out = base;
     if (range == NULL && in == NULL) {
         return 0;
-    }
-    if (range == NULL && base == NULL) {
-        return kind_error(ctx, "\"inputMaxB\" without \"vccB\"");
     }
     v = kind_alloc(ctx, sizeof(*v));
     if (v == NULL) {

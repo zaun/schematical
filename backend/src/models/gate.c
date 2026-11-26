@@ -500,8 +500,6 @@ static LogicValue gate_value(const GatePins *gate, const LogicValue *in) {
             }
             v = any_unknown ? LOGIC_X : (ones & 1) ? LOGIC_1 : LOGIC_0;
             break;
-        default:
-            return LOGIC_X;
     }
     if (v != LOGIC_X && (gate->op == OP_NAND || gate->op == OP_NOR || gate->op == OP_XNOR ||
                            gate->op == OP_NOT)) {

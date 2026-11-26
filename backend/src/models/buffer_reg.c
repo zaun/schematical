@@ -261,13 +261,11 @@ static int both(int x, int y) {
     return x < 0 || y < 0 ? -1 : 1;
 }
 
-/* v where load is 1; old where 0; X where they differ and load is unknown. */
+/* v where load is 1; X where they differ and load is unknown (-1). update_store, the only
+   caller, returns before it when load is 0. */
 static LogicValue maybe_load(LogicValue old, LogicValue v, int load) {
     if (load == 1) {
         return v;
-    }
-    if (load == 0) {
-        return old;
     }
     return old == v ? old : LOGIC_X;
 }

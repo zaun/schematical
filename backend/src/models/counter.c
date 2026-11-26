@@ -236,13 +236,7 @@ static void *counter_create(const void *config) {
 }
 
 static void counter_destroy(void *state) {
-    CounterHeader *h = state;
-
-    if (h != NULL && h->model->destroy != NULL) {
-        h->model->destroy(h);
-    } else {
-        logic_free(state);
-    }
+    logic_free(state);
 }
 
 static void counter_start(Sim *sim, SimInstance *instance, void *state) {

@@ -41,7 +41,6 @@ struct CounterModel {
     void *(*load)(KindContext *ctx, const cJSON *json, unsigned *units);
     void *(*bind)(KindContext *ctx, const void *dev, const PartPin *pins, size_t count);
     CounterHeader *(*create)(const void *dev, const void *bound);
-    void (*destroy)(CounterHeader *state);   /* NULL = free() */
     void (*start)(Sim *sim, SimInstance *inst, CounterHeader *state);
     void (*changed)(Sim *sim, SimInstance *inst, CounterHeader *state, size_t pin,
                     LogicValue old_value, LogicValue new_value);

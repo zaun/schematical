@@ -132,6 +132,13 @@ final class PartKindKeysTests: XCTestCase {
         }
     }
 
+    /// Device keys the library reads for every kind (library_load_device.c),
+    /// not the kind's model. seq.c's `LIBRARY_DEVICE_KEYS` copies the
+    /// library's list (plan-68-Q added `"simulated"` to it), but the form has a
+    /// Simulated control only where a part may be facts-only (mcu, generic,
+    /// pld, serialmem), not on every sequential kind.
+    static let libraryOnlyKeys: Set<String> = ["simulated"]
+
     /// Keys of a shared helper in seq.c that only that helper reads: a kind
     /// whose own sources never call the helper (in that mode) does not accept
     /// them, so the form needs no control for them. Derived from the sources.
@@ -182,7 +189,7 @@ final class PartKindKeysTests: XCTestCase {
                 arrays += found.count
                 keys.formUnion(found.flatMap(\.keys))
             }
-            let exempt = try Self.helperOnlyKeys(kind: kind)
+            let exempt = try Self.helperOnlyKeys(kind: kind).union(Self.libraryOnlyKeys)
             print("\(kind): \(arrays) KEYS arrays, \(keys.count) keys, seq.c helper keys not read: \(exempt.sorted())")
             let lacking = keys.subtracting(PartDraft.formKeys(kind)).subtracting(exempt).sorted()
             if !lacking.isEmpty { missing[kind] = lacking }

@@ -203,30 +203,32 @@ static int ripple_ctl_level(const Sim *sim, const SimInstance *inst, const Rippl
     return all;
 }
 
+/* div5: QB = bit 0, QC = bit 1, QD = bit 2; 0-4, then the JK structure's
+   illegal states (counter-b.md § 74_390): 5 -> 2, 6 -> 2, 7 -> 0. */
+static const unsigned char DIV5_NEXT[8] = {1, 2, 3, 4, 0, 2, 2, 0};
+
+/* div6: QB, QC a divide-by-3 (00 -> 01 -> 10 -> 00; 11 -> 00); QD (bit 2)
+   toggles when QC falls (counter-b.md § 74_92). */
+static unsigned div6_next(unsigned v) {
+    unsigned low = v & 3u;
+    unsigned next_low = low == 0 ? 1u : low == 1 ? 2u : 0u;
+    unsigned qd = (v >> 2) & 1u;
+
+    if ((low & 2u) && !(next_low & 2u)) {
+        qd ^= 1u;
+    }
+    return next_low | (qd << 2);
+}
+
 /* The next state of a section on its clock's falling edge (all bits known). */
 static unsigned ripple_next(int structure, unsigned v, unsigned stages) {
     switch (structure) {
         case R_DIV2:
             return v ^ 1u;
-        case R_DIV5: {
-            /* QB = bit 0, QC = bit 1, QD = bit 2; 0-4, then the JK structure's
-               illegal states (counter-b.md § 74_390): 5 -> 2, 6 -> 2, 7 -> 0. */
-            static const unsigned char NEXT[8] = {1, 2, 3, 4, 0, 2, 2, 0};
-
-            return NEXT[v & 7u];
-        }
-        case R_DIV6: {
-            /* QB, QC a divide-by-3 (00 -> 01 -> 10 -> 00; 11 -> 00); QD (bit 2)
-               toggles when QC falls (counter-b.md § 74_92). */
-            unsigned low = v & 3u;
-            unsigned next_low = low == 0 ? 1u : low == 1 ? 2u : 0u;
-            unsigned qd = (v >> 2) & 1u;
-
-            if ((low & 2u) && !(next_low & 2u)) {
-                qd ^= 1u;
-            }
-            return next_low | (qd << 2);
-        }
+        case R_DIV5:
+            return DIV5_NEXT[v & 7u];
+        case R_DIV6:
+            return div6_next(v);
         default:
             return (v + 1) & (unsigned)cnt_mask_of(stages);
     }
@@ -327,7 +329,7 @@ static void ripple_changed(Sim *sim, SimInstance *inst, CounterHeader *h, size_t
 }
 
 const CounterModel cnt_RIPPLE_MODEL = {
-    "ripple", RIPPLE_KEYS, RIPPLE_EXTRA, ripple_load, ripple_bind, ripple_create, NULL,
+    "ripple", RIPPLE_KEYS, RIPPLE_EXTRA, ripple_load, ripple_bind, ripple_create,
     ripple_start, ripple_changed, NULL
 };
 

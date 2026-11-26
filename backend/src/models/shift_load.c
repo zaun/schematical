@@ -63,6 +63,7 @@ static int row_index(const char *name) {
 }
 
 static int load_serial(KindContext *ctx, const cJSON *json, ShUnitDef *u) {
+    static const char *const SELECT_KEYS[] = {"select", "low", "high", NULL};
     int given = (cJSON_GetObjectItemCaseSensitive(json, "serial") != NULL) +
                 (cJSON_GetObjectItemCaseSensitive(json, "serialJK") != NULL) +
                 (cJSON_GetObjectItemCaseSensitive(json, "serialSelect") != NULL);
@@ -90,19 +91,15 @@ static int load_serial(KindContext *ctx, const cJSON *json, ShUnitDef *u) {
         return 0;
     }
     item = cJSON_GetObjectItemCaseSensitive(json, "serialSelect");
-    {
-        static const char *const KEYS[] = {"select", "low", "high", NULL};
-
-        u->serial_kind = SERIAL_SELECT;
-        kind_push(ctx, "serialSelect");
-        if (kind_check_keys(ctx, item, KEYS, NULL) != 0 ||
-            kind_string(ctx, item, "select", &u->sel) != 0 ||
-            kind_string(ctx, item, "low", &u->sel_low) != 0 ||
-            kind_string(ctx, item, "high", &u->sel_high) != 0) {
-            return -1;
-        }
-        kind_pop(ctx);
+    u->serial_kind = SERIAL_SELECT;
+    kind_push(ctx, "serialSelect");
+    if (kind_check_keys(ctx, item, SELECT_KEYS, NULL) != 0 ||
+        kind_string(ctx, item, "select", &u->sel) != 0 ||
+        kind_string(ctx, item, "low", &u->sel_low) != 0 ||
+        kind_string(ctx, item, "high", &u->sel_high) != 0) {
+        return -1;
     }
+    kind_pop(ctx);
     return 0;
 }
 

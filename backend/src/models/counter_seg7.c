@@ -468,7 +468,7 @@ static void seg7_timer(Sim *sim, SimInstance *inst, CounterHeader *h, uint32_t i
 }
 
 const CounterModel SEG7_MODEL = {
-    "seg7", SEG7_KEYS, SEG7_EXTRA, seg7_load, seg7_bind, seg7_create, NULL, seg7_start,
+    "seg7", SEG7_KEYS, SEG7_EXTRA, seg7_load, seg7_bind, seg7_create, seg7_start,
     seg7_changed, seg7_timer, seg7_open_drain
 };
 

@@ -241,7 +241,7 @@ static void johnson_changed(Sim *sim, SimInstance *inst, CounterHeader *h, size_
 }
 
 const CounterModel JOHNSON_MODEL = {
-    "johnson", JOHNSON_KEYS, NULL, johnson_load, johnson_bind, johnson_create, NULL,
+    "johnson", JOHNSON_KEYS, NULL, johnson_load, johnson_bind, johnson_create,
     johnson_start, johnson_changed, NULL
 };
 
@@ -329,18 +329,13 @@ static int divn_mode(const Sim *sim, const SimInstance *inst, const DivnBound *b
     }
 }
 
-/* N for a counting mode (2, 4, 5, 8, 10), or -1 when a jam pin is unknown. */
+/* N for a counting mode (2, 4, 5, 8, 10: what divn_mode returns above 0; its
+   only callers pass that), or -1 when a jam pin is unknown. */
 static long divn_n(const Sim *sim, const SimInstance *inst, const DivnBound *b, int mode) {
-    unsigned d1_bits, d5_bits;
+    unsigned d1_bits = mode == 2 ? 1u : mode == 4 ? 2u : mode == 10 ? 4u : 3u;   /* 5, 8: 3 */
+    unsigned d5_bits;
     long d1, d5, d2, d3, d4, n;
 
-    switch (mode) {
-        case 2: d1_bits = 1; break;
-        case 4: d1_bits = 2; break;
-        case 5: case 8: d1_bits = 3; break;
-        case 10: d1_bits = 4; break;
-        default: return -1;
-    }
     d5_bits = 4 - d1_bits;
     d1 = jam_value(sim, inst, b, 0, d1_bits);
     d5 = d5_bits > 0 ? jam_value(sim, inst, b, d1_bits, d5_bits) : 0;
@@ -423,7 +418,7 @@ static void divn_changed(Sim *sim, SimInstance *inst, CounterHeader *h, size_t p
 }
 
 const CounterModel DIVN_MODEL = {
-    "divn", DIVN_KEYS, NULL, divn_load, divn_bind, divn_create, NULL, divn_start, divn_changed,
+    "divn", DIVN_KEYS, NULL, divn_load, divn_bind, divn_create, divn_start, divn_changed,
     NULL
 };
 
@@ -615,6 +610,6 @@ static void rate_changed(Sim *sim, SimInstance *inst, CounterHeader *h, size_t p
 }
 
 const CounterModel RATE_MODEL = {
-    "rate", RATE_KEYS, NULL, rate_load, rate_bind, rate_create, NULL, rate_start, rate_changed,
+    "rate", RATE_KEYS, NULL, rate_load, rate_bind, rate_create, rate_start, rate_changed,
     NULL
 };

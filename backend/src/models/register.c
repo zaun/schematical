@@ -35,8 +35,6 @@
 #define REG_MAX_CONTROLS 4
 #define REG_MAX_BANKS 2
 
-static const char *const PARALLEL_KEYS[] = {"groups", NULL};
-
 typedef struct {
     SeqControlName names[REG_MAX_CONTROLS];
     size_t count;
@@ -288,9 +286,8 @@ static void *register_load_device(KindContext *ctx, const cJSON *json) {
         kind_error(ctx, "unknown model \"%s\"", name);
         return NULL;
     }
-    if (seq_check_model_keys(ctx, json, name, PARALLEL_KEYS) != 0) {
-        return NULL;
-    }
+    /* No seq_check_model_keys: "parallel" is the only model and its one key ("groups") is in
+       DEVICE_KEYS, which the library checks first, so no device key can be another model's. */
     dev = parallel_load(ctx, json, &units);
     if (dev == NULL || seq_timing(ctx, json, NULL, units, &dev->timing) != 0) {
         return NULL;
@@ -412,13 +409,11 @@ static void drive_group(Sim *sim, SimInstance *inst, RegState *s, size_t gi) {
     }
 }
 
-/* 1 the change was the clock's edge, -1 it may have been, 0 it was not. */
+/* 1 the change was the clock's edge, -1 it may have been, 0 it was not. before != now: the
+   engine calls pin_changed only when a net's value changed. */
 static int edge_of(const SeqClock *clk, LogicValue before, LogicValue now) {
     LogicValue from = clk->falling ? LOGIC_1 : LOGIC_0;
 
-    if (before == now) {
-        return 0;
-    }
     if (seq_clock_edge(clk, before, now)) {
         return before == from ? 1 : -1;
     }

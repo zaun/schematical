@@ -6,8 +6,10 @@
 
 #include "seq.h"
 
+/* The library's own device keys (library.c lib_DEVICE_KEYS) plus "model" and "timing". */
 static const char *const LIBRARY_DEVICE_KEYS[] = {
-    "id", "function", "description", "drawer", "note", "pinouts", "parts", "model", "timing", NULL
+    "id", "function", "description", "drawer", "note", "simulated", "pinouts", "parts", "model",
+    "timing", NULL
 };
 
 static int in_list(const char *const *list, const char *key) {

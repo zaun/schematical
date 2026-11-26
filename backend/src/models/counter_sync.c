@@ -604,7 +604,7 @@ static int sync_tristate(const void *bound, size_t pin) {
 }
 
 const CounterModel cnt_SYNC_MODEL = {
-    "sync", SYNC_KEYS, NULL, cnt_sync_load, cnt_sync_bind, cnt_sync_create, NULL, sync_start, sync_changed,
+    "sync", SYNC_KEYS, NULL, cnt_sync_load, cnt_sync_bind, cnt_sync_create, sync_start, sync_changed,
     NULL, NULL, sync_tristate
 };
 

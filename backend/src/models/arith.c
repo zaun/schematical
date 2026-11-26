@@ -467,7 +467,8 @@ static uint32_t cmp_fn(const void *bound, uint32_t in) {
     } else if (b->cascade_count > 0) {
         unsigned k = 0;
 
-        /* each output follows its same-named cascade input (levels) */
+        /* each output follows its same-named cascade input (levels); without "eq" rows the
+           loader gives every output one (cmp_load), so no output lacks it here */
         for (i = 0; i < REL_COUNT; i++) {
             if (b->cascade[i] != SEQ_NO_PIN) {
                 if (b->out_slot[i] >= 0) {
@@ -475,8 +476,6 @@ static uint32_t cmp_fn(const void *bound, uint32_t in) {
                     slot++;
                 }
                 k++;
-            } else if (b->out_slot[i] >= 0) {
-                slot++;
             }
         }
         return out;
