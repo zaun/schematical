@@ -79,10 +79,10 @@ lines of `SchematicModel.swift` at `e2f6811a`:
 
 ### Phase 1 — move the value types
 
-- [ ] Create the five files of § 3 by moving the line ranges verbatim (each
+- [x] Create the five files of § 3 by moving the line ranges verbatim (each
   file gets `import Foundation`/`import CoreGraphics` as the moved code
   needs); `SchematicModel.swift` keeps the document.
-- [ ] `scripts/source-size-ratchet.tsv`: lower the `SchematicModel.swift` row
+- [x] `scripts/source-size-ratchet.tsv`: lower the `SchematicModel.swift` row
   to its new count (`SZ` reports it stale until then).
 
 Acceptance: the app and the tests build and the users of the moved types
@@ -98,6 +98,7 @@ pass.
   -only-testing:schematicalTests/SelectionModelTests` → all pass;
   `head -20 schematical/schematical/Canvas/SchematicModel.swift | grep -c
   'final class SchematicDocument'` → 1; `SZ` → exit 0 (est. 5 min).
+  Observed: the nine classes pass (`ChipLayoutSideTests` 6, `SchematicRotateTests` 22, `WireSettleTests`, `WireRefitTests`, `RouteLegTests`, `SplitPartModelTests`, `SlideSwitchTests`, `CharacterLCDTests`, `SelectionModelTests`: every one of those suites `0 failures` in the run that also ran plan-68-C's new classes); `head -20 … | grep -c` → 1; `SZ` → exit 0 with the row at 4312 (`planning/plan-68-data/split_b.py` did the move).
 Commit: —
 
 ## Validation Plan
