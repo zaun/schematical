@@ -28,6 +28,10 @@ final class SchematicExporter {
     @ObservationIgnored
     weak var systemDocument: NSDocument?
 
+    /// How panels, alerts and sheets are put up: the system's; a test answers them instead.
+    @ObservationIgnored
+    var presenter = ExportPresenter()
+
     private let document: SchematicDocument
     private let catalog: PartCatalogStore
 
@@ -49,7 +53,7 @@ final class SchematicExporter {
     /// three. Like any export, not a save.
     func exportKiCadProject() async {
         let panel = kiCadFolderPanel()
-        guard await run(panel) == .OK, let folder = panel.url else { return }
+        guard let folder = await choose(panel) else { return }
         let existing = kiCadFiles(in: folder).filter { FileManager.default.fileExists(atPath: $0.path) }
         if !existing.isEmpty {
             let alert = NSAlert()
@@ -107,7 +111,7 @@ final class SchematicExporter {
     /// `.epro` file (`EasyEDAProExport`). Like any export, not a save.
     func exportEasyEDAProProject() async {
         let panel = exportPanel(.easyEDAPro)
-        guard await run(panel) == .OK, let url = panel.url else { return }
+        guard let url = await choose(panel) else { return }
         do {
             try writeEasyEDAPro(to: url)
         } catch {
@@ -173,7 +177,7 @@ final class SchematicExporter {
         panel.canChooseDirectories = false
         panel.allowsMultipleSelection = false
         if let fileURL { panel.directoryURL = fileURL.deletingLastPathComponent() }
-        guard await run(panel) == .OK, let url = panel.url else { return }
+        guard let url = await choose(panel) else { return }
         do {
             let drawing = try loadDXF(from: url)
             let state = DXFImportState(fileName: url.lastPathComponent, drawing: drawing, board: document.board)
@@ -200,7 +204,7 @@ final class SchematicExporter {
         if let fileURL {
             panel.directoryURL = fileURL.deletingLastPathComponent()
         }
-        guard await run(panel) == .OK, let url = panel.url else { return }
+        guard let url = await choose(panel) else { return }
         do {
             try writeImage(options, to: url)
         } catch {
@@ -230,7 +234,7 @@ final class SchematicExporter {
     ) async -> Result? {
         await withCheckedContinuation { continuation in
             let sheet = NSWindow(contentRect: .zero, styleMask: [.titled], backing: .buffered, defer: true)
-            let parent = window ?? NSApp.keyWindow
+            let parent = window ?? presenter.keyWindow()
             var finished = false
             let finish: (Result?) -> Void = { result in
                 guard !finished else { return }
@@ -261,21 +265,22 @@ final class SchematicExporter {
     func printPages() async {
         guard let options = await runPrintOptions(PrintOptions.saved(), action: .print) else { return }
         options.save()
+        print(options)
+    }
+
+    /// Prints the pages `options` choose: through the system document, else
+    /// as an operation run here. No page to print shows why.
+    func print(_ options: PrintOptions) {
         if let systemDocument {
             // The pages chosen in the sheet are not among what is saved (a
             // board's layers differ): they go to this one print.
             optionsForNextPrint = options
-            systemDocument.print(withSettings: [:], showPrintPanel: true, delegate: nil, didPrint: nil, contextInfo: nil)
+            presenter.printDocument(systemDocument)
             return
         }
         // With no system document (a window of its own): the operation, run here.
         do {
-            let operation = try printOperation(options, jobTitle: displayName)
-            if let window {
-                operation.runModal(for: window, delegate: nil, didRun: nil, contextInfo: nil)
-            } else {
-                operation.run()
-            }
+            presenter.print(try printOperation(options, jobTitle: displayName), window)
         } catch {
             present(error, title: "Couldn't print “\(displayName)”")
         }
@@ -316,7 +321,7 @@ final class SchematicExporter {
         if let fileURL {
             panel.directoryURL = fileURL.deletingLastPathComponent()
         }
-        guard await run(panel) == .OK, let url = panel.url else { return }
+        guard let url = await choose(panel) else { return }
         do {
             try writePDF(options, to: url)
         } catch {
@@ -350,7 +355,7 @@ final class SchematicExporter {
         if let fileURL {
             panel.directoryURL = fileURL.deletingLastPathComponent()
         }
-        guard await run(panel) == .OK, let url = panel.url else { return }
+        guard let url = await choose(panel) else { return }
         do {
             try writeGerber(to: url)
         } catch {
@@ -426,18 +431,48 @@ final class SchematicExporter {
     }
 
     /// Shows a panel as a sheet on this schematic's window, or on its own if
-    /// the window isn't known.
-    private func run(_ panel: NSSavePanel) async -> NSApplication.ModalResponse {
-        if let window = window ?? NSApp.keyWindow {
-            return await panel.beginSheetModal(for: window)
-        }
-        return panel.runModal()
+    /// the window isn't known; the URL chosen, nil when cancelled.
+    private func choose(_ panel: NSSavePanel) async -> URL? {
+        await presenter.choose(panel, window ?? presenter.keyWindow())
     }
 
     private func run(_ alert: NSAlert) async -> NSApplication.ModalResponse {
-        if let window = window ?? NSApp.keyWindow {
-            return await alert.beginSheetModal(for: window)
+        await presenter.alert(alert, window ?? presenter.keyWindow())
+    }
+}
+
+/// How the exports put up their panels and alerts, and which window a sheet
+/// goes on (plan-68-Y): the system's by default. A test replaces them with answers,
+/// so no modal is left on the screen.
+@MainActor
+struct ExportPresenter {
+    /// Runs a save or open panel on `window` (on its own when nil); the URL
+    /// chosen, nil when cancelled.
+    var choose: @MainActor (NSSavePanel, NSWindow?) async -> URL? = { await ExportPresenter.run($0, on: $1) }
+    /// Runs an alert on `window` (on its own when nil); the button pressed.
+    var alert: @MainActor (NSAlert, NSWindow?) async -> NSApplication.ModalResponse = { await ExportPresenter.run($0, on: $1) }
+    /// The window a sheet goes on when the exporter knows none.
+    var keyWindow: @MainActor () -> NSWindow? = { NSApp.keyWindow }
+    /// Prints a document the system's way: its print panel, then the print.
+    var printDocument: @MainActor (NSDocument) -> Void = {
+        $0.print(withSettings: [:], showPrintPanel: true, delegate: nil, didPrint: nil, contextInfo: nil)
+    }
+    /// Runs a print operation as a sheet on `window` (on its own when nil).
+    var print: @MainActor (NSPrintOperation, NSWindow?) -> Void = { operation, window in
+        if let window {
+            operation.runModal(for: window, delegate: nil, didRun: nil, contextInfo: nil)
+        } else {
+            operation.run()
         }
+    }
+
+    static func run(_ panel: NSSavePanel, on window: NSWindow?) async -> URL? {
+        let response = if let window { await panel.beginSheetModal(for: window) } else { panel.runModal() }
+        return response == .OK ? panel.url : nil
+    }
+
+    static func run(_ alert: NSAlert, on window: NSWindow?) async -> NSApplication.ModalResponse {
+        if let window { return await alert.beginSheetModal(for: window) }
         return alert.runModal()
     }
 }
@@ -452,11 +487,7 @@ enum PartFileType {
     /// The declared type, plus whatever type the system gives a `.schpart`
     /// file before the declaration is registered (as `SchematicFile.openableTypes`).
     static var openableTypes: [UTType] {
-        var types = [contentType]
-        if let byExtension = UTType(filenameExtension: fileExtension), byExtension != contentType {
-            types.append(byExtension)
-        }
-        return types
+        [contentType] + [UTType(filenameExtension: fileExtension)].compactMap { $0 }.filter { $0 != contentType }
     }
 }
 
@@ -466,20 +497,20 @@ enum PartFileType {
 enum PartFileLoading {
     /// The open panel for a part file, as a sheet on the key window; nil when
     /// cancelled.
+    /// How the panel and the alerts are put up (a test answers them).
+    static var presenter = ExportPresenter()
+
     private static func choosePartFile(message: String) async -> URL? {
         let panel = NSOpenPanel()
         panel.allowedContentTypes = PartFileType.openableTypes
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
         panel.message = message
-        let response: NSApplication.ModalResponse
-        if let window = NSApp.keyWindow {
-            response = await panel.beginSheetModal(for: window)
-        } else {
-            response = panel.runModal()
-        }
-        guard response == .OK else { return nil }
-        return panel.url
+        return await presenter.choose(panel, presenter.keyWindow())
+    }
+
+    private static func run(_ alert: NSAlert) async -> NSApplication.ModalResponse {
+        await presenter.alert(alert, presenter.keyWindow())
     }
 
     private static func showLoadFailure(_ url: URL, _ error: Error, verb: String) async {
@@ -487,7 +518,7 @@ enum PartFileLoading {
         alert.alertStyle = .warning
         alert.messageText = "Couldn't \(verb) “\(url.lastPathComponent)”"
         alert.informativeText = error.localizedDescription
-        _ = await UserLibraryPrompts.run(alert)
+        _ = await run(alert)
     }
 
     /// The User Library window's Add Part…: chooses a part file and adds it
@@ -509,14 +540,14 @@ enum PartFileLoading {
         do {
             let text = try PartFileReader.read(url: url)
             let outcome = try await load(text: text, source: url.lastPathComponent, catalog: catalog) { name in
-                switch await UserLibraryPrompts.run(UserLibraryPrompts.loadPartAlert(name: name)) {
+                switch await run(UserLibraryPrompts.loadPartAlert(name: name)) {
                 case .alertFirstButtonReturn: .add
                 case .alertSecondButtonReturn: .useOnce
                 default: .cancel
                 }
             }
             if case let .alreadyInLibrary(part) = outcome {
-                _ = await UserLibraryPrompts.run(UserLibraryPrompts.alreadyInLibraryAlert(name: part.name))
+                _ = await run(UserLibraryPrompts.alreadyInLibraryAlert(name: part.name))
             }
         } catch {
             await showLoadFailure(url, error, verb: "load")
@@ -555,41 +586,62 @@ struct SchematicFileCommands: Commands {
 
     var body: some Commands {
         CommandGroup(after: .newItem) {
-            PartEditorCommands(editor: editor)
-
-            if let editor {
-                Button("Open Part…") {
-                    Task { await editor.open() }
-                }
-                .keyboardShortcut("o", modifiers: .command)
-            }
-
-            PartFileMenuItems()
+            PartFileOpenItems(editor: editor)
         }
 
         CommandGroup(after: .saveItem) {
-            if let editor {
-                Button("Save Part…") {
-                    Task { await editor.save() }
-                }
-                .keyboardShortcut("s", modifiers: .command)
-                .disabled(!editor.isValid)
-            }
-
-            Divider()
-
-            SchematicImportMenu(file: file)
-
-            SchematicExportMenu(file: file)
-
-            Divider()
-
-            // The app's own Print: the system's is removed (`SimulationCommands`).
-            Button("Print…") {
-                Task { await file?.printPages() }
-            }
-            .keyboardShortcut("p", modifiers: .command)
-            .disabled(file == nil)
+            SchematicFileSaveItems(file: file, editor: editor)
         }
+    }
+}
+
+/// The File menu's items after New: the Part Editor's, then Open Part… in a
+/// Part Editor window, then the part file items (`SchematicFileCommands`).
+struct PartFileOpenItems: View {
+    let editor: PartEditorModel?
+
+    var body: some View {
+        PartEditorCommands(editor: editor)
+
+        if let editor {
+            Button("Open Part…") {
+                Task { await editor.open() }
+            }
+            .keyboardShortcut("o", modifiers: .command)
+        }
+
+        PartFileMenuItems()
+    }
+}
+
+/// The File menu's items after Save: Save Part… in a Part Editor window,
+/// then Import, Export and Print… (`SchematicFileCommands`).
+struct SchematicFileSaveItems: View {
+    let file: SchematicExporter?
+    let editor: PartEditorModel?
+
+    var body: some View {
+        if let editor {
+            Button("Save Part…") {
+                Task { await editor.save() }
+            }
+            .keyboardShortcut("s", modifiers: .command)
+            .disabled(!editor.isValid)
+        }
+
+        Divider()
+
+        SchematicImportMenu(file: file)
+
+        SchematicExportMenu(file: file)
+
+        Divider()
+
+        // The app's own Print: the system's is removed (`SimulationCommands`).
+        Button("Print…") {
+            Task { await file?.printPages() }
+        }
+        .keyboardShortcut("p", modifiers: .command)
+        .disabled(file == nil)
     }
 }

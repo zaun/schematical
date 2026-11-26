@@ -56,6 +56,33 @@ enum EditMenuItem: CaseIterable {
         if text.isEditable { return true }
         return self == .copy && text.isSelectable && text.selectedRange.length > 0
     }
+
+    /// Runs the item: the focused text's own action (or the responder
+    /// chain's, with no schematic window) by `send`, else the schematic's;
+    /// `beep` when the schematic had nothing to act on.
+    @MainActor
+    func perform(on target: EditActions?, firstResponder: NSResponder?,
+                 send: @MainActor (Selector) -> Void = { _ = EditMenuItem.sendToResponders($0) }, beep: () -> Void = NSSound.beep) {
+        guard !goesToText(firstResponder), let target else {
+            send(selector)
+            return
+        }
+        let done = switch self {
+        case .cut: target.cut()
+        case .copy: target.copy()
+        case .paste: target.paste()
+        case .delete: target.delete()
+        case .selectAll: target.selectAll()
+        }
+        if !done { beep() }
+    }
+
+    /// Sends `action` down the key window's responder chain; whether
+    /// anything took it.
+    @MainActor @discardableResult
+    static func sendToResponders(_ action: Selector) -> Bool {
+        NSApp.sendAction(action, to: nil, from: nil)
+    }
 }
 
 /// Replaces the Edit menu's pasteboard items. As with Undo, they are never
@@ -78,21 +105,21 @@ struct EditCommands: Commands {
 
 /// A view, so Flip, Rotate and Reset References are rendered again when the
 /// selection, the page or the simulation they read changes (`EditorMenus`).
-private struct EditMenuItems: View {
+struct EditMenuItems: View {
     let editor: SchematicEditorModel?
 
     var body: some View {
         let target = editor?.menus.edit?()
         Group {
-            Button("Cut") { perform(.cut, target) }
+            Button("Cut") { EditMenuItem.cut.perform(on: target, firstResponder: NSApp.keyWindow?.firstResponder) }
                 .keyboardShortcut("x", modifiers: .command)
-            Button("Copy") { perform(.copy, target) }
+            Button("Copy") { EditMenuItem.copy.perform(on: target, firstResponder: NSApp.keyWindow?.firstResponder) }
                 .keyboardShortcut("c", modifiers: .command)
-            Button("Paste") { perform(.paste, target) }
+            Button("Paste") { EditMenuItem.paste.perform(on: target, firstResponder: NSApp.keyWindow?.firstResponder) }
                 .keyboardShortcut("v", modifiers: .command)
-            Button("Delete") { perform(.delete, target) }
+            Button("Delete") { EditMenuItem.delete.perform(on: target, firstResponder: NSApp.keyWindow?.firstResponder) }
                 .keyboardShortcut(.delete, modifiers: .command)
-            Button("Select All") { perform(.selectAll, target) }
+            Button("Select All") { EditMenuItem.selectAll.perform(on: target, firstResponder: NSApp.keyWindow?.firstResponder) }
                 .keyboardShortcut("a", modifiers: .command)
             Divider()
             // Flip is the Schematic's; Rotate is the PCB's, and the Schematic's
@@ -110,21 +137,6 @@ private struct EditMenuItems: View {
             Button("Reset References…") { target?.resetReferences() }
                 .disabled(target?.canResetReferences != true)
         }
-    }
-
-    private func perform(_ item: EditMenuItem, _ target: EditActions?) {
-        guard !item.goesToText(NSApp.keyWindow?.firstResponder), let target else {
-            NSApp.sendAction(item.selector, to: nil, from: nil)
-            return
-        }
-        let done = switch item {
-        case .cut: target.cut()
-        case .copy: target.copy()
-        case .paste: target.paste()
-        case .delete: target.delete()
-        case .selectAll: target.selectAll()
-        }
-        if !done { NSSound.beep() }
     }
 }
 

@@ -145,4 +145,32 @@ final class DXFReaderTests: XCTestCase {
         XCTAssertNil(DXFUnits(code: nil))
         XCTAssertNil(DXFUnits(code: 3))
     }
+
+    // MARK: plan-68-Y
+
+    func testASplineWithTooFewControlsIsItsFitPoints() {
+        let spline = DXFSpline(degree: 3, controls: [CGPoint(x: 1, y: 1)],
+                               fit: [CGPoint(x: 0, y: 0), CGPoint(x: 1, y: 2), CGPoint(x: 3, y: 1)], closed: true)
+        let result = DXFLoops.splinePoints(spline, scale: 2)
+        XCTAssertEqual(result.points, [CGPoint(x: 0, y: 0), CGPoint(x: 2, y: 4), CGPoint(x: 6, y: 2)])
+        XCTAssertTrue(result.closed)
+    }
+
+    func testASplineWithNoKnotVectorIsClampedAndUniform() {
+        let controls = [CGPoint(x: 0, y: 0), CGPoint(x: 1, y: 2), CGPoint(x: 3, y: 2), CGPoint(x: 4, y: 0), CGPoint(x: 6, y: 1)]
+        let bare = DXFLoops.splinePoints(DXFSpline(degree: 3, knots: [], controls: controls), scale: 1)
+        let clamped = DXFLoops.splinePoints(DXFSpline(degree: 3, knots: [0, 0, 0, 0, 1, 2, 2, 2, 2], controls: controls), scale: 1)
+        XCTAssertEqual(bare.points, clamped.points, "the knots made up are the clamped uniform ones")
+        XCTAssertEqual(bare.points.first, controls.first)
+        XCTAssertEqual(Double(bare.points.last!.x), 6, accuracy: 1e-9)
+        XCTAssertGreaterThan(bare.points.count, controls.count)
+    }
+
+    func testAStrayVertexOrSequenceEndIsNotCountedAsSkipped() throws {
+        let text = "  0\nSECTION\n  2\nENTITIES\n  0\nVERTEX\n  8\nEdge\n  0\nSEQEND\n  0\nCIRCLE\n 10\n1\n 20\n2\n 40\n3\n"
+            + "  0\nENDSEC\n  0\nEOF\n"
+        let drawing = try parse(text)
+        XCTAssertTrue(drawing.skipped.isEmpty, "\(drawing.skipped)")
+        XCTAssertEqual(drawing.entities, [.circle(layer: "0", centre: CGPoint(x: 1, y: 2), radius: 3)])
+    }
 }

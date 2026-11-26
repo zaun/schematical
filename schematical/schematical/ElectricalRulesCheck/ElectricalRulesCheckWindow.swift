@@ -41,7 +41,7 @@ struct ElectricalRulesCheckCommands: Commands {
 }
 
 /// A view, so it is rendered again when the page it read changes (`EditorMenus`).
-private struct ElectricalRulesCheckMenuItem: View {
+struct ElectricalRulesCheckMenuItem: View {
     let editor: SchematicEditorModel?
 
     var body: some View {
@@ -74,7 +74,12 @@ struct ElectricalRulesCheckWindowView: View {
 /// The two steps: the rules, then the results. Opens on the rules every time.
 struct ElectricalRulesCheckWizard: View {
     let document: SchematicDocument
-    @State private var showsResults = false
+    @State private var showsResults: Bool
+
+    init(document: SchematicDocument) {
+        self.document = document
+        _showsResults = State(initialValue: false)
+    }
 
     var body: some View {
         Group {
@@ -106,15 +111,17 @@ struct ElectricalRulesCheckRules: View {
         ("Parts", [.duplicateReference]),
     ]
 
+    /// A rule's severity in `document`, as its menu reads and sets it.
+    static func severity(of rule: ErcRule, in document: SchematicDocument) -> Binding<ErcSeverity> {
+        Binding(get: { document.erc.severity(of: rule) }, set: { document.setErcSeverity(rule, $0) })
+    }
+
     var body: some View {
         Form {
             ForEach(Self.groups, id: \.title) { group in
                 Section(group.title) {
                     ForEach(group.rules, id: \.self) { rule in
-                        Picker(rule.title, selection: Binding(
-                            get: { document.erc.severity(of: rule) },
-                            set: { document.setErcSeverity(rule, $0) }
-                        )) {
+                        Picker(rule.title, selection: Self.severity(of: rule, in: document)) {
                             ForEach(ErcSeverity.allCases, id: \.self) { Text($0.title).tag($0) }
                         }
                         .pickerStyle(.menu)
@@ -265,16 +272,10 @@ struct ElectricalRulesCheckTable: View {
                     TableColumn("Violation", value: \.message)
                         .width(min: 200, ideal: 400)
                 }
-                .onCopyCommand {
-                    let chosen = model.selectedRows
-                    let text = (chosen.isEmpty ? model.rows : chosen)
-                        .map { "\($0.index)\t\($0.severity.title)\t\($0.reference)\t\($0.message)" }
-                        .joined(separator: "\n")
-                    return [NSItemProvider(object: text as NSString)]
-                }
+                .onCopyCommand(perform: model.copyItems)
             }
         }
-        .navigationSubtitle(summary)
+        .navigationSubtitle(model.summary)
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 Button(action: showRules) { Label("Rules", systemImage: "chevron.left") }
@@ -308,12 +309,5 @@ struct ElectricalRulesCheckTable: View {
         .onChange(of: model.selection) { _, chosen in model.select(chosen) }
         .onDisappear { model.clearMarkers() }
         .onChange(of: model.showsExcluded) { _, _ in model.selection = [] }
-    }
-
-    private var summary: String {
-        guard model.hasRun else { return "Step 2 of 2" }
-        let errors = model.errorCount, warnings = model.warningCount
-        if errors + warnings == 0 { return "Step 2 of 2 · no violations" }
-        return "Step 2 of 2 · \(errors) error\(errors == 1 ? "" : "s"), \(warnings) warning\(warnings == 1 ? "" : "s")"
     }
 }

@@ -83,9 +83,7 @@ struct KiCadSchematicWriter {
         func power(_ rail: String, at tip: CGPoint, seed: String) {
             powerNumber += 1
             body.append(powerInstance(rail, at: tip, seed: seed, number: powerNumber, symbols: &symbols))
-            if flagged.insert(rail).inserted {
-                body.append(flagInstance(at: tip, number: flagged.count, rail: rail, symbols: &symbols))
-            }
+            body += flagIfNew(rail, at: tip, flagged: &flagged, symbols: &symbols)
         }
         for chip in chips {
             if let supply = supplyName(of: chip), chip.symbol == .vcc || chip.symbol == .ground {
@@ -216,9 +214,7 @@ struct KiCadSchematicWriter {
                 powerNumber += 1
                 extra.append(powerInstance(rail, at: tip(row), seed: "edge/\(entry.name)", number: powerNumber,
                                            symbols: &symbols))
-                if flagged.insert(rail).inserted {
-                    extra.append(flagInstance(at: tip(row), number: flagged.count, rail: rail, symbols: &symbols))
-                }
+                extra += flagIfNew(rail, at: tip(row), flagged: &flagged, symbols: &symbols)
             } else if let text = context.labelText[net] {
                 out.append("""
                 \t(label \(KiCad.q(text))
@@ -240,6 +236,13 @@ struct KiCadSchematicWriter {
         var definitions: [String] = []
     }
 
+    /// A power flag on `rail` at `tip` the first time the rail is seen (one per rail); none after.
+    private func flagIfNew(_ rail: String, at tip: CGPoint, flagged: inout Set<String>,
+                           symbols: inout SymbolLibrary) -> [String] {
+        guard flagged.insert(rail).inserted else { return [] }
+        return [flagInstance(at: tip, number: flagged.count, rail: rail, symbols: &symbols)]
+    }
+
     /// A supply's rail name: "GND", "5V", "3V3". Nil for any other part.
     private func supplyName(of chip: PlacedChip) -> String? {
         guard case let .supply(_, mv, _) = chip.part.details else { return nil }
@@ -249,11 +252,11 @@ struct KiCadSchematicWriter {
     /// A pull resistor's pin the app doesn't have: the pad of its footprint
     /// that no pin names, drawn on the far edge from the signal pin.
     private func farPin(of chip: PlacedChip) -> (designator: String, tip: CGPoint, side: ChipLayout.Side)? {
+        let named = Set(chip.part.pins.map(\.designator))
         guard chip.symbol == .pullUp || chip.symbol == .pullDown,
               let slot = chip.layout.slots.first,
-              let footprint = chip.footprint else { return nil }
-        let named = Set(chip.part.pins.map(\.designator))
-        guard let designator = footprint.pads.compactMap(\.designator).first(where: { !named.contains($0) }) else {
+              let footprint = chip.footprint,
+              let designator = footprint.pads.compactMap(\.designator).first(where: { !named.contains($0) }) else {
             return nil
         }
         let stub = ChipLayout.stubLength, size = chip.layout.size

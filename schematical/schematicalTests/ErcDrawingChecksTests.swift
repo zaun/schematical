@@ -170,4 +170,43 @@ final class ErcDrawingChecksTests: XCTestCase {
         for violation in all { counts[violation.rule.rawValue, default: 0] += 1 }
         print("ERC AFU: \(all.count) violations in \(String(format: "%.2f", seconds)) s: \(counts.sorted { $0.key < $1.key })")
     }
+
+    // MARK: plan-68-Y
+
+    /// Two supply symbols of different names on one net: `multiple_net_names`, at the first name's pin.
+    func testTwoSupplyNamesOnOneNet() throws {
+        // A drawing an edit refuses (two voltages on one net) but a file can hold: no library while drawing.
+        let doc = TestSupport.newDocument()
+        let gate = try ErcCases.place(doc, "SN74HC00N", 200, 200)
+        let five = try ErcCases.place(doc, "5V", 600, 100), three = try ErcCases.place(doc, "3V3", 600, 400)
+        ErcCases.wire(doc, .pin(try ErcCases.pin(gate, "VCC")), .pin(try ErcCases.pin(five, "VCC")))
+        ErcCases.wire(doc, .pin(try ErcCases.pin(gate, "VCC")), .pin(try ErcCases.pin(three, "VCC")))
+        let hits = doc.electricalRulesCheck(library: TestSupport.catalog.library).filter { $0.rule == .multipleNetNames }
+        XCTAssertEqual(hits.count, 1)
+        XCTAssertEqual(hits.first?.message,
+                       "Both 3V3 and 5V are attached to the same items; 3V3 will be used in the netlist")
+        XCTAssertEqual(hits.first?.reference, "3V3, 5V")
+        XCTAssertEqual(hits.first?.items, [.chip(three.id), .chip(five.id)])
+        XCTAssertEqual(hits.first?.point, doc.pinTip(try ErcCases.pin(three, "VCC")))
+    }
+
+    /// Two violations of one rule at one point are listed in the order of their keys.
+    func testTiesAreOrderedByKey() {
+        let doc = ErcCases.newDocument()
+        let a = doc.addNetLabel(at: CGPoint(x: 100, y: 100)), b = doc.addNetLabel(at: CGPoint(x: 100, y: 100))
+        XCTAssertTrue(doc.setNetLabelName(a, "K"))
+        XCTAssertTrue(doc.setNetLabelName(b, "K"))
+        let hits = found(doc, .labelDangling)
+        XCTAssertEqual(hits.count, 2)
+        XCTAssertEqual(hits.map(\.point), [hits[0].point, hits[0].point], "one point")
+        XCTAssertLessThan(hits[0].key, hits[1].key)
+    }
+
+    func testThePinMapRuleIsAnErrorByDefaultAndHasNoSeverityOfItsOwn() {
+        XCTAssertEqual(ErcRule.pinToPin.defaultSeverity, .error)
+        XCTAssertFalse(ErcRule.pinToPin.hasSeverity)
+        XCTAssertEqual(ErcRule.pinToPin.title, "Pin conflicts on a net")
+        XCTAssertEqual(ErcSeverity.allCases.map(\.title), ["Error", "Warning", "Ignore"])
+        XCTAssertEqual(Set(ErcRule.allCases.map(\.title)).count, ErcRule.allCases.count, "every rule has its own words")
+    }
 }

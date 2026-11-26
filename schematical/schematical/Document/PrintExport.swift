@@ -132,7 +132,7 @@ struct BoardArtwork {
     var holes: [DrillExport.Hole]
     var outline: [CGPoint]
     /// Each cutout's loop, mm (plan-65-G).
-    var cutouts: [[CGPoint]] = []
+    var cutouts: [[CGPoint]]
     /// The board's rectangle, mm.
     var bounds: CGRect
     var layers: [CopperLayer]
@@ -173,14 +173,10 @@ enum PrintExport {
         return kinds
     }
 
-    /// The board's rectangle (mm): its outline, or its width and height from the origin.
+    /// The board's rectangle (mm): its outline's bounds.
     static func boardBounds(_ document: SchematicDocument) -> CGRect {
-        let outline = document.board.outline
-        guard let minX = outline.map(\.x).min(), let maxX = outline.map(\.x).max(),
-              let minY = outline.map(\.y).min(), let maxY = outline.map(\.y).max() else {
-            return CGRect(x: 0, y: 0, width: CGFloat(document.board.width), height: CGFloat(document.board.height))
-        }
-        return CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
+        // Never empty: a board with no outline of its own is its rectangle.
+        BoardSettings.bounds(of: document.board.outline)
     }
 
     /// The pages of `options`' kinds that exist, tiled for the paper.
@@ -372,7 +368,7 @@ enum PrintExport {
     ]
 
     /// `kind`'s artwork in board mm, the context's transform already set.
-    private static func drawBoard(_ kind: PrintPageKind, artwork: BoardArtwork, options: PrintOptions,
+    static func drawBoard(_ kind: PrintPageKind, artwork: BoardArtwork, options: PrintOptions,
                                   into ctx: CGContext) {
         let black = CGColor(gray: 0, alpha: 1), white = CGColor(gray: 1, alpha: 1)
         switch kind {
@@ -421,17 +417,14 @@ enum PrintExport {
             ctx.setStrokeColor(black)
             ctx.setLineWidth(2 * hairline)
             ctx.setLineJoin(.round)
-            if artwork.outline.count > 1 {
-                ctx.addLines(between: artwork.outline)
+            // A board's outline always has 3 or more points (the rectangle when it has none of its own).
+            ctx.addLines(between: artwork.outline)
+            ctx.closePath()
+            ctx.strokePath()
+            for loop in artwork.cutouts where loop.count > 1 {
+                ctx.addLines(between: loop)
                 ctx.closePath()
                 ctx.strokePath()
-                for loop in artwork.cutouts where loop.count > 1 {
-                    ctx.addLines(between: loop)
-                    ctx.closePath()
-                    ctx.strokePath()
-                }
-            } else {
-                ctx.stroke(artwork.bounds)
             }
             ctx.setLineWidth(hairline)
             for hole in artwork.holes {
@@ -467,7 +460,7 @@ enum PrintExport {
     }
 
     /// The shape of a pad's mark; nil for a pen stroke.
-    private static func path(of kind: GerberWriter.Mark.Kind) -> CGPath? {
+    static func path(of kind: GerberWriter.Mark.Kind) -> CGPath? {
         switch kind {
         case let .circle(centre, diameter):
             return CGPath(ellipseIn: CGRect(x: centre.x - diameter / 2, y: centre.y - diameter / 2,

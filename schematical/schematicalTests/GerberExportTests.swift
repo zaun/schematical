@@ -430,4 +430,55 @@ final class GerberExportTests: XCTestCase {
         XCTAssertEqual(try file(tented, ".GTS"), try file(none, ".GTS"))
         XCTAssertEqual(try file(tented, ".GBS"), try file(none, ".GBS"))
     }
+
+    // MARK: plan-68-Y
+
+    /// A board point as the Gerber files write it: nm, y up from the bottom edge.
+    private func gerber(_ point: CGPoint, height: Double) -> String {
+        "X\(Int((point.x * 1e6).rounded()))Y\(Int(((height - point.y) * 1e6).rounded()))"
+    }
+
+    func testBodyOutlinesOnTheSilkscreenAreDrawnWithTheDiodesBand() throws {
+        let doc = TestSupport.newDocument()
+        let chip = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 200, y: 200))
+        let diode = try TestSupport.place(doc, "1N4001-E3/54", at: CGPoint(x: 600, y: 200))
+        let led = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 600, y: 600))
+        let before = try file(GerberExport.files(for: doc, base: "b", rules: rules), ".GTO")
+        XCTAssertFalse(before.contains("C,0.150000*%"), "outlines are on the Document layer by default")
+        doc.setFootprintMarks([chip.id, diode.id, led.id], outline: .silkscreen)
+        let silk = try file(GerberExport.files(for: doc, base: "b", rules: rules), ".GTO")
+        XCTAssertTrue(silk.contains("C,0.150000*%"), "the body outline pen")
+        let height = doc.board.height
+        let placed = try XCTUnwrap(doc.chips.first { $0.id == chip.id })
+        let body = try XCTUnwrap(placed.boardBody)
+        XCTAssertFalse(body.round)
+        XCTAssertTrue(silk.contains(gerber(CGPoint(x: body.rect.minX, y: body.rect.minY), height: height) + "D02*"), "the rectangle starts at a corner")
+        XCTAssertTrue(silk.contains(gerber(CGPoint(x: body.rect.maxX, y: body.rect.maxY), height: height) + "D01*"))
+        let band = try XCTUnwrap(doc.chips.first { $0.id == diode.id }?.cathodeBand)
+        XCTAssertTrue(silk.contains(gerber(band.a, height: height) + "D02*\n" + gerber(band.b, height: height) + "D01*"), "the band")
+        let round = try XCTUnwrap(doc.chips.first { $0.id == led.id }?.boardBody)
+        XCTAssertTrue(round.round, "the LED's body is round")
+        let strokes = silk.split(separator: "\n").filter { $0.hasSuffix("D01*") }.count
+        XCTAssertGreaterThan(strokes, 20, "the round body is a polyline of many steps")
+    }
+
+    func testAPadThatIsNotACircleOrPlainRectangleIsItsOutlineAndASlotIsACapsule() throws {
+        let oval = PlacedPad(designator: "1", rect: CGRect(x: 0, y: 0, width: 2, height: 1), drill: 0.6, shape: .round,
+                             radius: 0, chamfer: 0, corners: [])
+        guard case let .polygon(points) = GerberExport.shape(of: oval) else { return XCTFail("an oval is an outline") }
+        XCTAssertGreaterThan(points.count, 8)
+        XCTAssertEqual(Double(points.map(\.x).max()!), 2, accuracy: 0.01)
+        XCTAssertEqual(Double(points.map(\.y).min()!), 0, accuracy: 0.01)
+        let rounded = PlacedPad(designator: "2", rect: CGRect(x: 0, y: 0, width: 2, height: 2), drill: 0, shape: .rect,
+                                radius: 0.3, chamfer: 0, corners: [])
+        guard case .polygon = GerberExport.shape(of: rounded) else { return XCTFail("a rounded rectangle is an outline") }
+
+        var slotted = PlacedPad(designator: "3", rect: CGRect(x: 0, y: 0, width: 3, height: 1.5), drill: 0.8, shape: .round,
+                                radius: 0, chamfer: 0, corners: [])
+        slotted.slotLength = 2
+        guard case let .capsule(a, b, diameter) = GerberExport.holeShape(of: slotted) else { return XCTFail("a slot is a capsule") }
+        XCTAssertEqual(diameter, 0.8, accuracy: 1e-9)
+        XCTAssertEqual(Double(b.x - a.x), 2 - 0.8, accuracy: 1e-9)
+        XCTAssertEqual(a.y, b.y)
+    }
 }

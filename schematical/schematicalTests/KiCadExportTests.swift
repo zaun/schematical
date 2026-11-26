@@ -539,6 +539,84 @@ final class KiCadExportTests: XCTestCase {
             print("GERBER_FILE opposite/\(file.name) \(file.data.base64EncodedString())")
         }
     }
+
+    // MARK: plan-68-Y
+
+    private func board(_ doc: SchematicDocument) throws -> String {
+        try file(KiCadExport.files(for: doc, base: "t"), "kicad_pcb")
+    }
+
+    private func schematic(_ doc: SchematicDocument) throws -> String {
+        try file(KiCadExport.files(for: doc, base: "t"), "kicad_sch")
+    }
+
+    func testABoardTypesMountingHolesAndTheDocumentsHolesAreFootprints() throws {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(1)
+        doc.setBoardType(.piHat)
+        _ = doc.addHole(at: CGPoint(x: 30, y: 30))
+        let text = try board(doc)
+        for n in 1...doc.board.holes.count { XCTAssertTrue(text.contains("\"MH\(n)\""), "MH\(n)") }
+        XCTAssertTrue(text.contains("\"H1\""))
+        XCTAssertTrue(balanced(text))
+    }
+
+    func testChamferedRoundedAndSlottedPadsKeepTheirShapes() throws {
+        let doc = TestSupport.newDocument()
+        try TestSupport.place(doc, "SN74LVC1G125DPWR", at: CGPoint(x: 100, y: 100))
+        try TestSupport.place(doc, "TPS22966TDPURQ1", at: CGPoint(x: 400, y: 100))
+        try TestSupport.place(doc, "10126196-102RLF", at: CGPoint(x: 700, y: 100))
+        let text = try board(doc)
+        XCTAssertTrue(text.contains("(chamfer_ratio "), "a cut corner")
+        XCTAssertTrue(text.contains("(chamfer "))
+        XCTAssertTrue(text.contains("(roundrect_rratio 0."), "a rounded pad")
+        XCTAssertTrue(text.contains("(drill oval "), "a slot")
+        XCTAssertTrue(balanced(text))
+    }
+
+    func testABareSlotIsAnOvalHoleAndAPlainRectangleIsARect() throws {
+        let doc = TestSupport.newDocument()
+        let usb = try TestSupport.place(doc, "10126196-102RLF", at: CGPoint(x: 100, y: 100))
+        let pads = try XCTUnwrap(doc.chips.first { $0.id == usb.id }).boardPads
+        let text = try board(doc)
+        if pads.contains(where: { !$0.plated && $0.drill > 0 }) {
+            XCTAssertTrue(text.contains(" np_thru_hole "), "a bare hole")
+        }
+        XCTAssertTrue(text.contains(" thru_hole "))
+    }
+
+    func testADiodesBandIsDrawnWithItsBody() throws {
+        let doc = TestSupport.newDocument()
+        try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 100, y: 100))
+        let before = count("(fp_line", in: try board(doc))
+        let diode = try TestSupport.place(doc, "1N4001-E3/54", at: CGPoint(x: 400, y: 100))
+        XCTAssertNotNil(try XCTUnwrap(doc.chips.first { $0.id == diode.id }).cathodeBand)
+        let text = try board(doc)
+        XCTAssertTrue(text.contains(KiCad.uuid("pcb/t/fp/\(diode.id)/band")), "the band line")
+        XCTAssertGreaterThan(count("(fp_line", in: text), before)
+    }
+
+    func testAnUprightResistorAndACapacitorsValue() throws {
+        let doc = TestSupport.newDocument()
+        let resistor = try TestSupport.place(doc, "GENERIC-RESISTOR", at: CGPoint(x: 100, y: 100))
+        doc.rotateChip(resistor.id)
+        let capacitor = try TestSupport.place(doc, "GENERIC-CAPACITOR", at: CGPoint(x: 400, y: 100))
+        let farads = try XCTUnwrap(doc.chips.first { $0.id == capacitor.id }?.farads)
+        let text = try schematic(doc)
+        XCTAssertTrue(text.contains("(property \"Value\" \"\(CapacitorValue.text(farads))\""), "the capacitor's value")
+        XCTAssertTrue(balanced(text))
+    }
+
+    func testABigSchematicIsOnAUserSheetAndTheConnectorsPinsAreOnePerName() {
+        XCTAssertEqual(KiCad.paper(width: 100, height: 100), "(paper \"A4\")")
+        XCTAssertEqual(KiCad.paper(width: 2000, height: 50), "(paper \"User\" 2000 100)")
+        let pins = KiCad.edgePins([("GND", nil), ("5V", 3), ("GND", 7), ("GND", 9), ("5V", nil)])
+        XCTAssertEqual(pins.map(\.name), ["GND", "5V"])
+        XCTAssertEqual(pins.map(\.net), [7, 3], "the first of a name on a net gives the pin its net")
+        XCTAssertEqual(ExportNetNames.boardPadNetName(["Header.3", "Edge.A1"], net: 4), "Net-(Edge-A1)")
+        XCTAssertEqual(ExportNetNames.boardPadNetName([], net: 4), "Net-5")
+    }
+
 }
 
 /// Boards the export tests (and `kicad-cli` / EasyEDA importer checks) use.

@@ -89,9 +89,6 @@ nonisolated struct GerberWriter {
         self.records = records
     }
 
-    /// Whether anything has been drawn.
-    var isEmpty: Bool { body.isEmpty }
-
     // MARK: Primitives
 
     /// Dark (adds) or clear (erases what is already drawn). Entering clear
@@ -331,10 +328,9 @@ nonisolated enum GerberOutline {
             case .addCurveToPoint:
                 guard let start = current.last else { return }
                 current += cubic(start, p[0], p[1], p[2])
-            case .closeSubpath:
+            default:
+                // `.closeSubpath`, and any element type newer than these: the contour ends.
                 finish()
-            @unknown default:
-                break
             }
         }
         finish()

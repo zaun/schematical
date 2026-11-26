@@ -6,12 +6,19 @@ struct SchematicImportMenu: View {
     let file: SchematicExporter?
 
     var body: some View {
-        Menu("Import") {
-            Button("DXF…") {
-                Task { await file?.importDXF() }
-            }
-            .disabled(file == nil)
+        Menu("Import") { SchematicImportItems(file: file) }
+    }
+}
+
+/// File › Import's items.
+struct SchematicImportItems: View {
+    let file: SchematicExporter?
+
+    var body: some View {
+        Button("DXF…") {
+            Task { await file?.importDXF() }
         }
+        .disabled(file == nil)
     }
 }
 
@@ -25,7 +32,16 @@ struct SchematicExportMenu: View {
     let file: SchematicExporter?
 
     var body: some View {
-        Menu("Export") {
+        Menu("Export") { SchematicExportItems(file: file) }
+    }
+}
+
+/// File › Export's items.
+struct SchematicExportItems: View {
+    let file: SchematicExporter?
+
+    var body: some View {
+        Group {
             Button("Image…") {
                 Task { await file?.exportImage() }
             }

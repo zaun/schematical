@@ -1,6 +1,6 @@
 # plan-68-Y: App coverage — ElectricalRulesCheck, Document
 
-Last updated: 2026-11-25
+Last updated: 2026-11-26
 Effort: large (3h–1d)
 Depends on: plan-68-X
 
@@ -98,7 +98,29 @@ controller tests both run in the phase gate.
 
 ### Phase 1 — 20 files, `ElectricalRulesCheckWindow.swift` … `ImageExportDialog.swift`
 
-- [ ] Close every uncovered line of these files per § 3; ratchet rows removed.
+- [x] Close every uncovered line of these files per § 3 — done; ratchet rows: parent (every file at 0).
+  Classes: ElectricalRulesCheckWindowTests, ErcResultsModelTextTests, SchematicExporterTests, PartFileLoadingTests, FileMenuItemsTests, ExportSheetsTests, SchematicFileErrorTests, SchematicFileReadTests (new); DXFReaderTests, ErcDrawingChecksTests, EasyEDAProExportTests, GerberAttributeTests, GerberExportTests, KiCadExportTests, PrintExportTests (extended), run with the 66 existing classes that test these files
+  (the list is `--tests` below). Check, 2026-11-26: the scoped run of all 74
+  classes → 899 passed, 0 failed, 1 skipped (`testClosingAKeyWindowFreesTheDocument`:
+  the host is not the front app); `xccov view --archive --file` → 0 uncovered
+  lines in each of the 20 files (and in every piece of the 9 of Phase 2).
+  Measured in a private copy of the tree (this letter's files, the others'
+  as of 01:55, their test files that did not compile then left out), because
+  the shared tree's test target kept failing to compile in other letters'
+  files (`VerifyDatasheetWindow`, `BusPanelModel`, `PartEditorModelTests`,
+  `PreferencesViewTests`, `AutomationServerTests`, `AutorouteSheetTests`,
+  last `BillOfMaterialsWindowTests`). The same `coverage.js --app --tests …`
+  in the shared tree at 02:50: the app target and this letter's test files
+  compile; only `BillOfMaterialsWindowTests.swift` fails, so no run. The
+  parent re-runs `COV --app --tests <the list> --only <file>` once the tree
+  builds. The list:
+  Ratchet rows: removed by the parent in this letter's commit (25 rows). Re-measured in the
+  shared tree by the parent with this letter's classes: no `path:line` for any of its files,
+  no failed test.
+
+  ```
+  DXFLoopTests,DXFReaderTests,DXFImportTests,CutoutExportTests,CutoutFileTests,EasyEDAProExportTests,ErcCompareTests,ErcDrawingChecksTests,ErcResultsModelTests,ErcMarkerTests,ErcSettingsTests,ErcPinChecksTests,GerberJobTests,GerberAttributeTests,GerberExportTests,KiCadExportTests,PourExportTests,PickAndPlaceExportTests,PrintExportTests,SchematicNSDocumentTests,SchematicFileV5Tests,SchematicExportActionTests,SplitPartExportTests,SplitPartFileTests,PourFileTests,ActiveLowExportTests,DocumentUndoTests,PowerFlagTests,BusTypeTests,NetClassTests,SocketModeTests,TitleBlockTests,ElectricalRulesCheckWindowTests,SchematicExporterTests,PartFileLoadingTests,FileMenuItemsTests,ExportSheetsTests,FileDesignRulesTests,BoardLayersTests,BoardStackupTests,NetRulesTests,NetLabelTests,HoleTests,SchematicNoteTests,DocumentInfoTests,BoardCardTests,AddOnBoardTests,HeaderBoardTests,CapacitorTests,ResistorTests,LockPositionTests,ReferencePositionTests,ViaTests,TraceRouteTests,PullResistorTests,DisplayReferenceTests,TestPointTests,SlideSwitchTests,TactileSwitchTests,TransistorTests,PlaneNetTests,FixtureTests,BoardGridTests,BoardSideTests,LooseEndTests,SchematicUndoTests,SchematicRotateTests,UndoHistoryTests,PCBUndoTests,SelectionModelTests,SchematicFileErrorTests,SchematicFileReadTests,ErcResultsModelTextTests
+  ```
 
 Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
@@ -108,7 +130,15 @@ Commit: —
 
 ### Phase 2 — 9 files, `KiCadBoardWriter.swift` … `SchematicFile.swift`
 
-- [ ] As Phase 1, for these files.
+- [x] As Phase 1, for these files — done; ratchet rows: parent (every file at 0).
+  Same run as Phase 1: 0 uncovered lines in `KiCadBoardWriter`, `KiCadExport`,
+  `KiCadSchematicWriter`, `PrintDialog`, `PrintExport`, `SaveFormat`,
+  `SchematicExportCommands`, `SchematicExporter`, `SchematicFile` (+`Document`,
+  +`Board`). `SZ`: `node scripts/source-size.js --check` (new files staged) →
+  exit 0; largest new test file 498 lines (`SchematicExporterTests.swift`).
+  Ratchet rows: removed by the parent in this letter's commit (25 rows). Re-measured in the
+  shared tree by the parent with this letter's classes: no `path:line` for any of its files,
+  no failed test.
 
 Acceptance: as Phase 1.
   Check: as Phase 1; `SZ` → exit 0 (est. 10 min).
@@ -130,7 +160,61 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- (plan-68-Y) § 2's `SchematicFile.swift` row stands for its plan-68-V pieces
+  `SchematicFile.swift`, `SchematicFile+Document.swift`,
+  `SchematicFile+Board.swift`. `Document/SchematicExport.swift` (not in § 2,
+  0 uncovered under the full suite) is not this letter's.
+- Panels, alerts and print panels of the exports and of File › Load Part… go
+  through `ExportPresenter` (`SchematicExporter.swift`): `choose`, `alert`,
+  `keyWindow`, `print`, `printDocument`, the system's by default. Tests answer
+  them (`ExportAnswers`); the defaults are tested once each with the real
+  panel put up and taken down by a timer (`NSApp.abortModal`, `endSheet`),
+  the print ones on a saving `NSPrintInfo` so nothing reaches a printer.
+- Menu items moved out of `Commands` bodies into views so they render in a
+  test: `PartFileOpenItems`, `SchematicFileSaveItems` (from
+  `SchematicFileCommands`), `SchematicImportItems`, `SchematicExportItems`
+  (inside the Import and Export menus); `EditMenuItems` and
+  `ElectricalRulesCheckMenuItem` are no longer `private`. The menus are the
+  same items in the same order.
+- Logic out of views: `ErcResultsModel.copyText`, `copyItems()` (the table's
+  `onCopyCommand` is handed the method: SwiftUI answers Copy only in the key
+  window of the active app, which a test host is not), `.summary` and
+  `summary(errors:warnings:)` (the ERC table's Copy and subtitle);
+  `ElectricalRulesCheckRules.severity(of:in:)` (a rule's menu binding);
+  `EditMenuItem.perform(on:firstResponder:send:beep:)` and
+  `sendToResponders` (the Edit items' routing, from `EditMenuItems`);
+  `KiCad.edgePins` (the connector's pins, one per name, from
+  `KiCadExport.Context.init`).
+- Unreachable or unused code removed: `DXFIgnoredReason`'s `Comparable`
+  (nothing sorts reasons), `EasyEDAProExport.write` and `EProJSON.str` (no
+  caller), `GerberWriter.isEmpty` (no caller), `BoardArtwork.cutouts`' and
+  `NetGroupEntry`'s default values (every init passes them);
+  `GerberOutline.contours`' `@unknown default: break` is now the
+  `.closeSubpath` case's `default` (a newer element type ends the contour);
+  `PrintExport.boardBounds` is `BoardSettings.bounds(of:)` of the outline (an
+  outline is never empty); `KiCadExport`'s net-name fallback for a net with
+  no pad is one expression with the board-pad case;
+  `ChildWindowOpener`'s unknown-target `assertionFailure` (it traps in
+  Debug, so no test can run it) is now a documented no-op.
+- More restructuring, no output change: `KiCadSchematicWriter.flagIfNew` is
+  the one place a rail's power flag is added (the supplies' and the edge
+  connector's; the edge's own copy ran only for a rail with no supply,
+  which no catalog part makes); `farPin`'s two guards are one;
+  `ExportNetNames.boardPadNetName` names a net of board pads only (tested
+  directly: no fixture has such a net) and `baseName(ofNet:)` ends in one
+  expression; `PrintExport`'s board page draws the outline always (it has 3
+  or more points; the `else` stroked the bounds of an outline that cannot
+  occur); `SchematicExporter.print(_:)` is Print…'s second half (the pages
+  sheet can't hand back no pages, so the "Couldn't print" path is tested on
+  it directly); `PartFileType.openableTypes` and `SchematicFile.openableTypes`
+  are one expression (the extension's type differs from the declared one only
+  before the declaration registers); `ElectricalRulesCheckWizard` sets its
+  step in an `init` (xccov never counted the `@State` default);
+  `EditMenuItem.sendToResponders` returns whether anything took the action.
+- No bug found; no behavior changed.
+- `PrintExport.drawBoard` and `PrintExport.path(of:)` are internal (were
+  `private`) so the schematic page's no-op and a stroke's nil path are
+  tested directly.
 
 ## Summary
 

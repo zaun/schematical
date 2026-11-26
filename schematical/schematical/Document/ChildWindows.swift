@@ -127,7 +127,8 @@ struct ChildWindowOpener {
                 BoardPreviewWindowView(target: target)
             }
         default:
-            assertionFailure("no child window for \(id)")
+            // Not a child window's target: nothing opens.
+            break
         }
     }
 }

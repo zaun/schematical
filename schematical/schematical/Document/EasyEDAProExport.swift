@@ -44,11 +44,6 @@ enum EasyEDAProExport {
         ZipArchive.stored(entries(for: document, base: base), date: Date(timeIntervalSinceReferenceDate: 0))
     }
 
-    /// Writes `<base>.epro` into `directory`, replacing a file of that name.
-    static func write(_ document: SchematicDocument, base: String, to directory: URL) throws {
-        try data(for: document, base: base).write(to: directory.appendingPathComponent("\(base).\(fileExtension)"),
-                                                  options: .atomic)
-    }
 
     // MARK: project.json
 
@@ -229,7 +224,6 @@ indirect enum EProJSON: ExpressibleByStringLiteral, ExpressibleByIntegerLiteral,
 
     static func num(_ value: Double) -> EProJSON { .number(value) }
     static func num(_ value: CGFloat) -> EProJSON { .number(Double(value)) }
-    static func str(_ value: String?) -> EProJSON { value.map { .string($0) } ?? .null }
 
     var text: String {
         switch self {

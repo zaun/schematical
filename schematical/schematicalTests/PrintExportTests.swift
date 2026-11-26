@@ -366,4 +366,67 @@ final class PrintExportTests: XCTestCase {
         o.marks = false
         print("PRINT_FILE THT \(try XCTUnwrap(PrintExport.pdf(for: doc, name: "THT", o)).base64EncodedString())")
     }
+
+    // MARK: plan-68-Y
+
+    /// How many pixels of `page` are dark, drawn at 2 px per point.
+    private func darkPixels(_ page: PDFPage) -> Int {
+        let box = page.bounds(for: .mediaBox)
+        let w = Int(box.width * 2), h = Int(box.height * 2)
+        var pixels = [UInt8](repeating: 255, count: w * h)
+        let context = CGContext(data: &pixels, width: w, height: h, bitsPerComponent: 8, bytesPerRow: w,
+                                space: CGColorSpaceCreateDeviceGray(), bitmapInfo: CGImageAlphaInfo.none.rawValue)!
+        context.setFillColor(gray: 1, alpha: 1)
+        context.fill(CGRect(x: 0, y: 0, width: w, height: h))
+        context.scaleBy(x: 2, y: 2)
+        page.draw(with: .mediaBox, to: context)
+        return pixels.filter { $0 < 128 }.count
+    }
+
+    func testTheSilkscreenPagePrintsTheReference() throws {
+        let doc = TestSupport.newDocument()
+        _ = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 200, y: 200))
+        let page = try XCTUnwrap(try pdf(doc, only(.silkscreen(.top))).page(at: 0))
+        XCTAssertTrue(try XCTUnwrap(page.string).contains("Top silkscreen"))
+        let empty = try XCTUnwrap(try pdf(TestSupport.newDocument(), only(.silkscreen(.top))).page(at: 0))
+        XCTAssertGreaterThan(darkPixels(page), darkPixels(empty), "the reference and pin-1 dot")
+    }
+
+    func testTheBoardPageDrawsACutout() throws {
+        let doc = TestSupport.newDocument()
+        let plain = darkPixels(try XCTUnwrap(try pdf(doc, only(.board)).page(at: 0)))
+        XCTAssertNotNil(doc.addCutout(.rounded(rect: CGRect(x: 20, y: 20, width: 10, height: 10), radius: 0)))
+        let cut = darkPixels(try XCTUnwrap(try pdf(doc, only(.board)).page(at: 0)))
+        XCTAssertGreaterThan(cut, plain, "the cutout's edge")
+    }
+
+    func testASlottedHoleIsACapsuleOnThePartsPage() throws {
+        let doc = TestSupport.newDocument()
+        let usb = try TestSupport.place(doc, "10126196-102RLF", at: CGPoint(x: 200, y: 200))
+        XCTAssertTrue(try XCTUnwrap(doc.chips.first { $0.id == usb.id }).boardPads.contains { $0.slotLength > $0.drill },
+                      "the connector has a slotted hole")
+        let page = try XCTUnwrap(try pdf(doc, only(.parts(.top))).page(at: 0))
+        XCTAssertGreaterThan(darkPixels(page), 0)
+    }
+
+    func testABigSchematicIsScaledToThePage() throws {
+        let doc = TestSupport.newDocument()
+        _ = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 100, y: 100))
+        _ = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 9000, y: 6000))
+        let page = try XCTUnwrap(try pdf(doc, only(.schematic)).page(at: 0))
+        XCTAssertTrue(try XCTUnwrap(page.string).contains("scaled to"), page.string ?? "")
+    }
+
+    func testASchematicPageHasNoBoardArtworkAndAStrokeIsNoPadShape() throws {
+        let doc = TestSupport.newDocument()
+        let artwork = PrintExport.artwork(for: doc)
+        var pixels = [UInt8](repeating: 255, count: 100 * 100)
+        let context = try XCTUnwrap(CGContext(data: &pixels, width: 100, height: 100, bitsPerComponent: 8, bytesPerRow: 100,
+                                              space: CGColorSpaceCreateDeviceGray(), bitmapInfo: CGImageAlphaInfo.none.rawValue))
+        PrintExport.drawBoard(.schematic, artwork: artwork, options: PrintOptions(), into: context)
+        XCTAssertTrue(pixels.allSatisfy { $0 == 255 }, "nothing drawn")
+        XCTAssertNil(PrintExport.path(of: .stroke([.zero, CGPoint(x: 1, y: 1)], width: 1, closed: false)))
+        XCTAssertNotNil(PrintExport.path(of: .rect(CGRect(x: 0, y: 0, width: 1, height: 1))))
+        XCTAssertEqual(PrintExport.boardBounds(doc), CGRect(x: 0, y: 0, width: doc.board.width, height: doc.board.height))
+    }
 }

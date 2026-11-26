@@ -275,4 +275,33 @@ final class GerberAttributeTests: XCTestCase {
         let second = GerberExport.files(for: doc, base: "b", rules: rules)
         XCTAssertEqual(first, second)
     }
+
+    // MARK: plan-68-Y
+
+    private func text(_ writer: GerberWriter) -> String { String(decoding: writer.data(), as: UTF8.self) }
+
+    func testAStrokeOfOnePlaceIsAFlash() {
+        var writer = GerberWriter(attributes: [], top: 10)
+        writer.stroke([CGPoint(x: 1, y: 1), CGPoint(x: 1, y: 1)], width: 0.4)
+        let out = text(writer)
+        XCTAssertTrue(out.contains("%ADD10C,0.400000*%"), out)
+        XCTAssertTrue(out.contains("X1000000Y9000000D03*"), out)
+        XCTAssertFalse(out.contains("D01*"), "nothing is drawn as a line")
+    }
+
+    func testAGrownPolygonIsARegionAndItsOutlineAndACapsuleIsAStroke() {
+        var writer = GerberWriter(attributes: [], top: 10)
+        let triangle = [CGPoint(x: 0, y: 0), CGPoint(x: 2, y: 0), CGPoint(x: 2, y: 2)]
+        writer.fill(.polygon(triangle), grownBy: 0.1)
+        writer.fill(.capsule(a: CGPoint(x: 5, y: 5), b: CGPoint(x: 7, y: 5), diameter: 1), grownBy: 0.25)
+        let out = text(writer)
+        XCTAssertEqual(out.components(separatedBy: "G36*").count - 1, 1, out)
+        XCTAssertTrue(out.contains("%ADD10C,0.200000*%"), "the outline pen is twice the growth: \(out)")
+        XCTAssertTrue(out.contains("%ADD11C,1.500000*%"), "the capsule's pen is its diameter plus the growth: \(out)")
+        XCTAssertTrue(out.contains("D11*\nX5000000Y5000000D02*\nX7000000Y5000000D01*"), out)
+
+        var plain = GerberWriter(attributes: [], top: 10)
+        plain.fill(.polygon(triangle))
+        XCTAssertFalse(text(plain).contains("%ADD"), "ungrown: the region alone, no pen")
+    }
 }

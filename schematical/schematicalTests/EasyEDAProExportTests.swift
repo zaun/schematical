@@ -274,4 +274,34 @@ final class EasyEDAProExportTests: XCTestCase {
         XCTAssertEqual(document.isDocumentEdited, before, "an export is not a save, and not an edit")
         XCTAssertFalse(doc.undoManager.canUndo)
     }
+
+    // MARK: plan-68-Y
+
+    /// A board type's own mounting holes are unnumbered, unnetted through pads of the board.
+    func testABoardTypesMountingHolesArePadsWithNoNet() throws {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(1)
+        doc.setBoardType(.piHat)
+        XCTAssertEqual(doc.board.holes.count, 4)
+        let board = try lines(try entry(EasyEDAProExport.entries(for: doc, base: "hat"), suffix: ".epcb").text)
+        let holes = board.filter { $0[0] as? String == "PAD" && $0[5] as? String == "" }
+        XCTAssertEqual(holes.count, 4)
+        XCTAssertTrue(holes.allSatisfy { $0[3] as? String == "" && $0[4] as? Int == 12 }, "\(holes)")
+    }
+
+    /// A resistor turned upright: its symbol's box spans its pins' column, not its whole layout.
+    func testAnUprightResistorsSymbolBoxIsAroundItsPins() throws {
+        let doc = TestSupport.newDocument()
+        let resistor = try TestSupport.place(doc, "GENERIC-RESISTOR", at: CGPoint(x: 100, y: 100))
+        doc.rotateChip(resistor.id)
+        let chip = try XCTUnwrap(doc.chips.first { $0.id == resistor.id })
+        XCTAssertEqual(chip.rotation, 90)
+        let columns = chip.layout.slots.map(\.centerX)
+        let low = try XCTUnwrap(columns.min()), high = try XCTUnwrap(columns.max())
+        let entries = EasyEDAProExport.entries(for: doc, base: "r")
+        let symbol = try lines(try entry(entries, suffix: ".esym").text)
+        let part = try XCTUnwrap(symbol.first { $0[0] as? String == "PART" })
+        let box = try XCTUnwrap((part[2] as? [String: Any])?["BBOX"] as? [NSNumber]).map(\.doubleValue)
+        XCTAssertEqual(box, [Double(low) - 20, 0, Double(high) + 20, Double(chip.layout.size.height)])
+    }
 }

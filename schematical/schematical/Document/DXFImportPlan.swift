@@ -17,10 +17,8 @@ nonisolated enum DXFImportMode: String, CaseIterable, Sendable {
 }
 
 /// Why a loop is left out of an import.
-nonisolated enum DXFIgnoredReason: Int, CaseIterable, Comparable, Sendable {
+nonisolated enum DXFIgnoredReason: Int, CaseIterable, Sendable {
     case crossesAnotherLoop, outsideTheOutline, insideACutout
-
-    static func < (a: DXFIgnoredReason, b: DXFIgnoredReason) -> Bool { a.rawValue < b.rawValue }
 
     var title: String {
         switch self {

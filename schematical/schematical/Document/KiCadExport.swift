@@ -194,17 +194,9 @@ enum KiCadExport {
             self.copper = copper
             let first = document.chips.filter { $0.board?.side != nil }.reduce(0) { $0 + $1.boardPads.count }
             edgeFirstPad = first
-            var pins: [(name: String, net: Int?)] = []
-            var seen = Set<String>()
-            for (offset, finger) in (document.board.fingers + document.board.extraPads).enumerated() {
-                let net = copper.netOfPad[first + offset]
-                if seen.insert(finger.name).inserted {
-                    pins.append((finger.name, net))
-                } else if let at = pins.firstIndex(where: { $0.name == finger.name }), pins[at].net == nil {
-                    pins[at].net = net
-                }
-            }
-            edgePins = pins
+            edgePins = KiCad.edgePins((document.board.fingers + document.board.extraPads).enumerated().map { offset, finger in
+                (finger.name, copper.netOfPad[first + offset])
+            })
             netlist = NetlistBuilder.build(chips: document.chips, wires: document.wires, buses: document.buses,
                                            labels: document.netLabels)
             busText = Self.busText(buses: document.buses, labels: document.netLabels)
@@ -334,6 +326,20 @@ nonisolated enum KiCad {
         return mapped.isEmpty ? "_" : mapped
     }
 
+    /// The connector's pins, one per name in the order first seen: fingers
+    /// that share a name are one pin, on the net of the first of them on one.
+    static func edgePins(_ fingers: [(name: String, net: Int?)]) -> [(name: String, net: Int?)] {
+        var pins: [(name: String, net: Int?)] = []
+        for finger in fingers {
+            if let at = pins.firstIndex(where: { $0.name == finger.name }) {
+                if pins[at].net == nil { pins[at].net = finger.net }
+            } else {
+                pins.append(finger)
+            }
+        }
+        return pins
+    }
+
     /// The smallest standard sheet that holds `width` × `height` mm, or a
     /// user size.
     static func paper(width: Double, height: Double) -> String {
@@ -428,6 +434,12 @@ enum ExportNetNames {
         return "Net-(\(chip.reference)-\(twins > 1 ? "\(name)-\(pad)" : name))"
     }
 
+    /// The name of a net with no part pin: after the first of the board's
+    /// own pads on it (`Net-(Header-3)`), or by number when it has none.
+    static func boardPadNetName(_ labels: [String], net: Int) -> String {
+        labels.min().map { "Net-(\($0.replacingOccurrences(of: ".", with: "-")))" } ?? "Net-\(net + 1)"
+    }
+
     /// The name of `net` (a net of `context.copper`): a rail's name, else the
     /// text of a label on it (`label` writes it), else after its first pin
     /// by name, `unconnected-(…)` when it has one pin.
@@ -448,10 +460,7 @@ enum ExportNetNames {
            let pin = document.chips[pad.chip].part.pins.first(where: { $0.designator == designator }) {
             return pinNetName(chip: document.chips[pad.chip], pin: pin, unconnected: true)
         }
-        if let first = pins.min() { return first }
-        if let pad = pads.min(by: { $0.label < $1.label }) {
-            return "Net-(\(pad.label.replacingOccurrences(of: ".", with: "-")))"
-        }
-        return "Net-\(net + 1)"
+        // After its first part pin, else (a net of the board's own pads only) after its first pad.
+        return pins.min() ?? boardPadNetName(pads.map(\.label), net: net)
     }
 }

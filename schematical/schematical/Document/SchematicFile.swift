@@ -55,11 +55,7 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     /// whatever type the system gives a `.schematical` file on its own, in case
     /// the declaration hasn't been registered yet, for example on a fresh build.
     static var openableTypes: [UTType] {
-        var types = [contentType]
-        if let byExtension = UTType(filenameExtension: fileExtension), byExtension != contentType {
-            types.append(byExtension)
-        }
-        return types
+        [contentType] + [UTType(filenameExtension: fileExtension)].compactMap { $0 }.filter { $0 != contentType }
     }
 
     struct Point: Codable, Equatable, Sendable {
@@ -344,10 +340,10 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var name: String
             var mode: String
             var members: [String]
-            var tolerance: Double? = nil
-            var gap: Double? = nil
-            var maxUncoupled: Double? = nil
-            var maxMeander: Double? = nil
+            var tolerance: Double?
+            var gap: Double?
+            var maxUncoupled: Double?
+            var maxMeander: Double?
         }
 
         /// A drilled hole: its centre, size (`HoleSize` raw value, default

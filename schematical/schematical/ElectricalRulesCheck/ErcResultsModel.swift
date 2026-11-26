@@ -88,6 +88,31 @@ final class ErcResultsModel {
         if let point = target.point { document.focusErc(on: point) }
     }
 
+    /// What Copy puts on the pasteboard: the selected lines, or every line on
+    /// show when none is selected, one per line with tabs between the columns.
+    var copyText: String {
+        let chosen = selectedRows
+        return (chosen.isEmpty ? rows : chosen)
+            .map { "\($0.index)\t\($0.severity.title)\t\($0.reference)\t\($0.message)" }
+            .joined(separator: "\n")
+    }
+
+    /// Copy's pasteboard items: `copyText`.
+    func copyItems() -> [NSItemProvider] {
+        [NSItemProvider(object: copyText as NSString)]
+    }
+
+    /// The window's subtitle: the step, then the counts once the check has run.
+    var summary: String {
+        hasRun ? Self.summary(errors: errorCount, warnings: warningCount) : "Step 2 of 2"
+    }
+
+    /// The subtitle once the check has found `errors` and `warnings`.
+    static func summary(errors: Int, warnings: Int) -> String {
+        if errors + warnings == 0 { return "Step 2 of 2 · no violations" }
+        return "Step 2 of 2 · \(errors) error\(errors == 1 ? "" : "s"), \(warnings) warning\(warnings == 1 ? "" : "s")"
+    }
+
     /// Excludes the selected lines (one undo step); the list reruns.
     func excludeSelected() {
         guard !showsExcluded else { return }
