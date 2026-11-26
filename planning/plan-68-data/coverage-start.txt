@@ -1,0 +1,21 @@
+The first full `node scripts/coverage.js --write-ratchet` run (plan-68-A Phase 3),
+on the worktree at 461b37d2's parent tree (plan-68-A done, nothing split),
+2026-11-25. Every coverage letter starts from these rows of
+scripts/coverage-ratchet.tsv (314 rows).
+
+backend: 60689 lines, 7090 uncovered, 88.32%
+app: 49627 lines, 11991 uncovered, 75.84%   (per line, from xccov --archive)
+scripts: 6401 lines, 3950 uncovered, 38.29%
+
+The app tier's xcodebuild exited 65 with 8 failed test cases: the standing set
+on a clean checkout (the two example-file tests in app-coverage.txt fail only
+with the owner's uncommitted edits to examples/ in the main checkout):
+
+  AcknowledgementsTests.testEveryLicenceIsInTheBundle
+  AcknowledgementsTests.testNamesTheThirdPartyCode
+  CustomFootprintDraftTests.testEveryExplicitFootprintRoundTrips
+  DrawerCategoriesTests.testInterfaceAnalogAndClocks
+  ParametricFootprintDraftTests.testEachStyleReadsAndWritesItsEntry
+  ParametricFootprintDraftTests.testEveryBundledParametricEntryRoundTrips
+  UserLibraryCatalogTests.testAddListsUnderUserLibraryAndWritesTheFile
+  UserPartLibraryTests.testWriteThenFilesReturnsTheFile

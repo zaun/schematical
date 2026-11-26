@@ -449,7 +449,7 @@ Commit: 9506ba24
   does not build the app.
 - [x] `scripts/tests/__init__.py` (empty) so `unittest discover -s
   scripts/tests` has a home for plan-68-U.
-- [ ] Run `node scripts/coverage.js --write-ratchet` once on the full tree;
+- [x] Run `node scripts/coverage.js --write-ratchet` once on the full tree;
   commit `scripts/coverage-ratchet.tsv`, and record each tier's total in
   `planning/plan-68-data/coverage-start.txt` (the starting line for every
   coverage letter).
@@ -461,6 +461,7 @@ numbers, and the check passes on the tree.
   full `COV` once → exit 0 (est. the full Debug suite, as measured in
   `planning/plan-68-data/app-coverage.txt`; nothing smaller checks that all
   three tiers parse their real tool output).
+  Observed: the full run (app tier 27 min) exited 0 and wrote 314 rows; totals in `planning/plan-68-data/coverage-start.txt` (backend 7,090 uncovered of 60,689; app 11,991 of 49,627; scripts 3,950 of 6,401). `COV --scripts --check` → exit 0. `coverage.test.js` → `coverage.js | 100.00`, 16 tests pass. The full `COV --check` on the same tree is the run that wrote the rows, so it passes by construction; each later letter checks its own files with `--only`.
 Commit: —
 
 ### Phase 4 — basicsim
