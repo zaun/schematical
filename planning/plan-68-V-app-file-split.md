@@ -141,13 +141,24 @@ Acceptance: the DXF tests read the same text.
   -only-testing:schematicalTests/CutoutPicturesTests` → all pass (these four
   are every test file that reads `DXFFixtures` or `DXFKiCadRoundTrip`); `SZ` → exit
   0 with an empty `scripts/source-size-ratchet.tsv` (`grep -c .` → 0) (est. 4 min).
-Commit: —
+Commit: 1eed563c
 
 ## Validation Plan
 
 - Final gate (once, after Phase 3): the three phases' test classes together;
   `SZ`; `COV --app --check` → exit 0 with the split files' rows renamed, not
   grown (est. the classes plus one coverage run of them).
+  Observed: the classes ran per phase (above, each `XB` exit 0 bar the two
+  standing failures named in Phase 1); `SZ` → exit 0. One full
+  `LOGIC_COV_WORK=/tmp/p68-covV node scripts/coverage.js --app` (exit 0,
+  `app: 50118 lines, 11734 uncovered`): each split file's pieces sum to its
+  old row exactly (AutomationSchematic 18 + 56 = 74; PartCatalog 50 + 21 +
+  36 + 5 = 112; PCBCanvasView 453 + 33 = 486; PCBSidebarView 272 + 444 =
+  716; SchematicCanvasView 548 + 161 = 709; SchematicFile 29 + 24 + 22 =
+  75), and the ratchet rows are split to match. Against the ratchet only
+  `Routing/Router.swift` read higher (51 → 54: its timing-dependent lines
+  315–317, plan-68-F's Corrections; plan-68-W covers that file), so the
+  run's `--check` is that row, not V's.
 
 ## Decisions
 
