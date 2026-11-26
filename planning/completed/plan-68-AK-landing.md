@@ -96,7 +96,7 @@ Acceptance: every gate green on the finished tree.
   `planning/plan-68-data/app-coverage.txt`; `COV --check` → exit 0 (est. the
   full Debug suite twice — plain and instrumented; this is the plan's one
   landing tier).
-Commit: —
+Commit: 407afb29
 
 ## Validation Plan
 
