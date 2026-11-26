@@ -894,6 +894,16 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
 `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build && ctest --test-dir /tmp/logic-build`
 
 - `source_size_check` — no in-scope file over 1000 lines of code (`scripts/source-size.js --check`; rules and coverage in [testing.md](testing.md)). `basicsim` (built from `basicsim/`, which also builds this tree) is a test there too.
+- Split programs (plan-68-H; each family's shared helpers in
+  `tests/support/<family>_bench.c`, compiled into that family's programs
+  only): `library_check` with `library_logic_check`, `library_parts_check`,
+  `library_pins_check`, `library_footprint_check`, `library_voltage_check`;
+  `cpu_test` with `cpu_z80_test`, `cpu_65816_test`, `cpu_io_board_test`;
+  `counter_test` with `counter_div_test`; `charlcd_test` with
+  `charlcd_4row_test`, `charlcd_board_test`; `shift_test` with
+  `shift_special_test`; `pio_test` with `pio_via_test`; `circuit_check` with
+  `circuit_adc_check`; `serialmem_test` with `serialmem_flash_test`. The
+  counter, shift and latch fixtures are `tests/fixtures/{counter,shift,latch}/`.
 - `library_check` — the loader's rules, every rejection case.
 - `listing_check`, `trace_check` — every part's facts and a hash of its
   simulated behavior against `tests/golden/` (recorded from the original C

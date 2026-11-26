@@ -101,9 +101,9 @@ def is_type(code):
     return code.lstrip().startswith(('typedef', 'struct ', 'enum ', 'union ')) and not is_function(code)
 
 
-def bench(text, guard, includes):
+def bench(text, guard, includes, sized=()):
     """(bench .c text, bench .h text) from a region of a test file."""
-    c_parts, h_parts = [], []
+    c_parts, h_parts, pp_parts = [], [], []
     pending = []
     for kind, t in items(text):
         if kind in ('blank', 'comment'):
@@ -111,17 +111,31 @@ def bench(text, guard, includes):
             continue
         lead = ''.join(pending)
         pending = []
-        if kind == 'pp' or is_type(t):
+        if kind == 'pp' or re.match(r'\s*enum\s*\{', t):
+            # macros and anonymous enum constants size the types below them
+            pp_parts.append(lead + t)
+            continue
+        if is_type(t):
             h_parts.append(lead + t)
             continue
         body = re.sub(r'^static\s+', '', t)
+        array = re.match(r'^(?:static\s+)?(?:const\s+)?[\w\s\*]*?\b(\w+)\s*\[\s*\]\s*=', t)
+        if array and array.group(1) in sized:
+            # sizeof needs the length: the whole (static) definition goes in the header.
+            h_parts.append(lead + t)
+            continue
         if is_function(t):
             h_parts.append(body.split('{', 1)[0].rstrip() + ';\n')
         else:
-            decl = body.split('=', 1)[0].rstrip() if '=' in body else body.rstrip()
-            decl = decl.rstrip(';').rstrip()
-            h_parts.append('extern ' + decl + ';\n')
+            multi = re.match(r'^((?:const\s+)?\w+)\s+(\w+\s*=\s*[^,;{]+(?:,\s*\w+\s*=\s*[^,;{]+)+);', body)
+            if multi:
+                names = [d.split('=')[0].strip() for d in multi.group(2).split(',')]
+                h_parts.append('extern ' + multi.group(1) + ' ' + ', '.join(names) + ';\n')
+            else:
+                decl = body.split('=', 1)[0].rstrip() if '=' in body else body.rstrip()
+                decl = decl.rstrip(';').rstrip()
+                h_parts.append('extern ' + decl + ';\n')
         c_parts.append(lead + body)
-    h = f'#ifndef {guard}\n#define {guard}\n\n' + ''.join(h_parts) + '\n#endif\n'
+    h = f'#ifndef {guard}\n#define {guard}\n\n' + ''.join(pp_parts) + '\n' + ''.join(h_parts) + '\n#endif\n'
     c = ''.join(f'#include "{x}"\n' for x in includes) + '\n' + ''.join(c_parts)
     return c, h
