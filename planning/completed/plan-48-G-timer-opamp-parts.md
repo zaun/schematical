@@ -181,7 +181,7 @@ Acceptance: the two generics load; goldens grow by 2 and 2 lines; the editor
 round-trips both.
   Check: `cmake -S backend -B /tmp/logic-p48-g && cmake --build /tmp/logic-p48-g -j8 && ctest --test-dir /tmp/logic-p48-g -j8` → `100% tests passed`; `git diff --stat backend/tests/golden` → `+2`, `+2`; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0; `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p48-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/WizardStepsTests -only-testing:schematicalTests/KindGuideTests` → `** TEST SUCCEEDED **` (est. 14 min: backend build 4, app build and four test classes 10).
   Result: the generics, the timers and the op-amps were generated together (one run per kind), so the goldens grew once, by the whole pick (see Phase 3); `ctest` → `100% tests passed, 0 tests failed out of 67`; the app: `PartKindRoundTripTests`, `PartKindKeysTests`, `WizardStepsTests`, `KindGuideTests`, `PartEditorWindowTests` → `** TEST SUCCEEDED **` (after Corrections 4's count updates). MET.
-Commit: —
+Commit: 449f2b5d
 
 ### Phase 2 — Timers
 
@@ -193,7 +193,7 @@ Commit: —
 Acceptance: the timers load and the goldens grow by exactly them.
   Check: `ctest --test-dir /tmp/logic-p48-g -j8` after a rebuild → `100% tests passed`; `grep -c '|timer|' backend/tests/golden/parts.txt` → 1 + the timer `add` rows (`awk -F'\t' 'NR>1 && $22=="add" && $3=="timer"' planning/plan-48-data/candidates.tsv | wc -l`); `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (est. 6 min).
   Result: `gen-parts.py --type timer` → `15 devices, 57 parts; 13 datasheets used, 13 added to datasheets.json`; `gen-parts.py --verify` → `timer: 56 add rows, 57 parts (1 generic)`; `grep -c '|timer|' parts.txt` → 57; removed or changed golden lines 0. MET.
-Commit: —
+Commit: 449f2b5d
 
 ### Phase 3 — Op-amps and the docs
 
@@ -210,7 +210,7 @@ Commit: —
 Acceptance: the whole pick loads; goldens grow by exactly it; docs name it.
   Check: `ctest --test-dir /tmp/logic-p48-g -j8` after a rebuild → `100% tests passed`; `grep -c '|opamp|' backend/tests/golden/parts.txt` → 1 + the op-amp `add` rows; `wc -l < backend/tests/golden/footprints.txt` → F1 + the objects merged; `git diff <G's first commit>^ -- backend/tests/golden | grep -c '^-[^-]'` → 0; `xcodebuild … test -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/DatasheetCatalogTests -only-testing:schematicalTests/DrawerPerformanceTests` → `** TEST SUCCEEDED **` (est. 14 min: backend build 4, app tests 10).
   Result: `gen-parts.py --type opamp` → `378 devices, 601 parts; 279 datasheets used, 279 added`; `gen-parts.py --verify` → `opamp: 600 add rows, 601 parts (1 generic)`; `grep -c '|opamp|' parts.txt` → 601; `wc -l`: parts 40561 (P1 39903 + 658), traces 40561, footprints 3859 (F1 3825 + 34); removed or changed golden lines 0 in all three; `ctest` → `100% tests passed, 0 tests failed out of 67`; `xcodebuild … test` with the four classes named here (and the Phase 1 five): `** TEST SUCCEEDED **`. MET.
-Commit: —
+Commit: 449f2b5d
 
 ## Validation Plan
 

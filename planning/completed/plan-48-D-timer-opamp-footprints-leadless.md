@@ -111,7 +111,7 @@ plan-48-C § 3.1 applies. In addition:
 Acceptance: every non-ball `D` line is mapped and the objects load.
   Check: `python3 -I planning/plan-48-data/census/fp-check.py D | grep -c 'DFN\|SON\|QFN\|LFCSP'` → 0, and `planning/plan-48-data/census/fp-load.sh planning/plan-48-data/footprints-C.json planning/plan-48-data/footprints-D.json` → only `extra footprint` / `unused footprint` lines for the new ids (est. 4 min).
   Result: `fp-check.py D` → `28 lines, 0 without a footprint` (no line printed, so `grep -c` → 0); `fp-load.sh` → `34 new footprints: load ok`. MET.
-Commit: —
+Commit: 25d81c25
 
 ### Phase 2 — Ball packages
 
@@ -128,7 +128,7 @@ Acceptance: every `D` line is mapped; every new object loads; ball names agree.
   Check: `python3 -I planning/plan-48-data/census/fp-check.py D` → `<n> lines, 0 without a footprint`, no `ball names differ` line; `fp-load.sh footprints-C.json footprints-D.json` → only `extra footprint` / `unused footprint` lines for exactly the new ids (est. 4 min).
   Result: `28 lines, 0 without a footprint`, `0 spec rows whose pin designators differ from their footprint` (the comparison covers numbers as well as ball names; its first run found
   `ada4096-2_4096-4.pdf`'s numbered pad 17 and the OPA2347's numbered bumps: both fixed above); `fp-load.sh` → `34 new footprints: load ok`. MET.
-Commit: —
+Commit: 25d81c25
 
 ## Validation Plan
 

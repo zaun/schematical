@@ -169,7 +169,7 @@ one `V-`; `vcc` is `min-max` with 0 < min < max ≤ 100; a timer's `process`,
 Acceptance: the timer rows are complete and consistent.
   Check: `python3 -I planning/plan-48-data/census/pinout-check.py --type timer` → `<n> rows, 0 errors` (est. < 1 min).
   Result: `34 rows, 0 errors`. MET.
-Commit: —
+Commit: f962a225
 
 ### Phase 2 — Op-amps
 
@@ -184,7 +184,7 @@ Commit: —
 Acceptance: the op-amp rows are complete and consistent.
   Check: `python3 -I planning/plan-48-data/census/pinout-check.py --type opamp` → `<n> rows, 0 errors` (est. < 1 min).
   Result: `469 rows, 0 errors` (after the refill of Phase 3). MET.
-Commit: —
+Commit: f962a225
 
 ### Phase 3 — The final pick, the two lists, the final package lines
 
@@ -203,7 +203,7 @@ Commit: —
 Acceptance: the pick is final and both lists are written.
   Check: `python3 -I planning/plan-48-data/census/final.py --verify-skipped` → `<n> skip rows, 0 missing from skipped-parts.md`; `python3 -I planning/plan-48-data/census/place.py --verify planning/plan-48-data/candidates.tsv` → `0 missing, 0 unused`; `awk -F'\t' 'NR>1 && $22=="add"' planning/plan-48-data/candidates.tsv | wc -l` → at most 662, with at most 200 per op-amp maker (est. 2 min).
   Result: `59 skip rows, 0 missing from skipped-parts.md`; `0 missing, 0 unused`; 656 `add` rows (op-amp TI 200, ADI 200, ST 200; timer TI 48, ADI 5, Renesas 3). MET.
-Commit: —
+Commit: f962a225
 
 ## Validation Plan
 

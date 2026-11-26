@@ -207,7 +207,7 @@ Acceptance: the facts, names, reference and drawer are right on the real
 catalog.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p48-dd CODE_SIGNING_ALLOWED=NO test -only-testing:schematicalTests/TimerOpampTests` → `** TEST SUCCEEDED **` (est. 8 min: build + one test class).
   Result (derived data `/tmp/p48-dd2`): `TimerOpampTests` (4 tests: the generic 555, the dual and CMOS timers, the op-amps, the drawer) and `KindInfoTests` → `** TEST SUCCEEDED **`. MET.
-Commit: —
+Commit: bafd7d4c
 
 ### Phase 2 — Placed values, the timer state, the Timing section and the mark
 
@@ -228,7 +228,7 @@ Commit: —
 Acceptance: a placed 555 times from the placed values and reports its state.
   Check: `xcodebuild … test -only-testing:schematicalTests/TimerOpampTests -only-testing:schematicalTests/PullResistorTests -only-testing:schematicalTests/ResistorTests -only-testing:schematicalTests/CapacitorTests` → `** TEST SUCCEEDED **` (est. 10 min).
   Result: those four classes and `KindInfoTests` → `** TEST SUCCEEDED **` (8 `TimerOpampTests` tests: + `testTimerText`, `testNetlistValues`, `testAstableCircuit`, `testMisWiredCircuit`). MET.
-Commit: —
+Commit: bafd7d4c
 
 ### Phase 3 — The harness
 
@@ -244,7 +244,7 @@ Commit: —
 Acceptance: the drawer, the sidebar and the play-mode outcome work end to end.
   Check: `rm -rf /tmp/p48-harness && APP=/tmp/p48-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/timer-app.swift /tmp/p48-harness && /tmp/p48-harness/H.app/Contents/MacOS/harness` → every line `ok`, exit 0; and `xcodebuild … test -only-testing:schematicalTests/TimerOpampTests -only-testing:schematicalTests/DrawerPerformanceTests -only-testing:schematicalTests/PartEditorWindowTests` → `** TEST SUCCEEDED **` (est. 15 min: app build, harness, three test classes).
   Result: the harness (`/tmp/p48/harness.sh`: build, then `/tmp/p48-harness/H.app/Contents/MacOS/harness /tmp`) → every line `ok`, `all checks ok`, exit 0 (Timing rows `Astable, 687 Hz, 52.4 % high`; high 762 µs, low 693 µs; the mis-wired run `Not timing`, OUT not toggling, LED dark, mark label `Not timing: The resistors and capacitors on TRIG, THRES and DISCH do not form an astable or a one-shot circuit`); `TimerOpampTests`, `DrawerPerformanceTests`, `PartEditorWindowTests` → `** TEST SUCCEEDED **`. MET.
-Commit: —
+Commit: bafd7d4c
 
 ## Validation Plan
 

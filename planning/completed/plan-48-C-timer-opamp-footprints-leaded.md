@@ -139,7 +139,7 @@ the paths and the letter set (`C`, `D`) changed; `fp-load.sh` builds
 Acceptance: every DIP, SOIC and SOP line is mapped and the new objects load.
   Check: `python3 -I planning/plan-48-data/census/fp-check.py C | grep -c 'DIP\|SOIC\|-SO\b\|SOP'` → 0 missing lines of these packages, and `planning/plan-48-data/census/fp-load.sh planning/plan-48-data/footprints-C.json` → only `extra footprint` / `unused footprint` lines for the new ids (est. 4 min: one `footprint_check` build).
   Result: `fp-check.py C` → `58 lines, 0 without a footprint`, `0 spec rows whose pin designators differ from their footprint`; `fp-load.sh footprints-C.json footprints-D.json` → `34 new footprints: load ok`. MET.
-Commit: —
+Commit: 25d81c25
 
 ### Phase 2 — SSOP, TSSOP, TVSOP, MSOP / VSSOP / µMAX / MiniSO
 
@@ -154,7 +154,7 @@ Commit: —
 Acceptance: these lines are mapped and the objects load.
   Check: `fp-check.py C | grep -c 'SSOP\|TVSOP\|MSOP\|uMAX\|MiniSO'` → 0, and `fp-load.sh footprints-C.json` as in Phase 1 (est. 4 min).
   Result: same run as Phase 1 (`58 lines, 0 without a footprint`; `34 new footprints: load ok`). MET.
-Commit: —
+Commit: 25d81c25
 
 ### Phase 3 — SOT-23, TSOT, SC-70, TO-263
 
@@ -173,7 +173,7 @@ Commit: —
 Acceptance: every `C` line is mapped; every new object loads.
   Check: `python3 -I planning/plan-48-data/census/fp-check.py C` → `<n> lines, 0 without a footprint`; `fp-load.sh footprints-C.json` → only `extra footprint` / `unused footprint` lines for exactly the ids of `footprints-C.json` (est. 4 min).
   Result: `58 lines, 0 without a footprint`; `fp-load.sh` (C and D together) → `34 new footprints: load ok`. MET.
-Commit: —
+Commit: 25d81c25
 
 ## Validation Plan
 

@@ -148,7 +148,7 @@ Acceptance: the kind loads, stays passive, and the voltage check treats it
 as § 1 says.
   Check: `cmake -S backend -B /tmp/logic-p48-f && cmake --build /tmp/logic-p48-f -j8 && /tmp/logic-p48-f/opamp_test` → every line `PASS`; `ctest --test-dir /tmp/logic-p48-f -j8` → `100% tests passed`, T0 + 2 programs (est. 4 min: a build from scratch).
   Result (2026-11-24, build dir `/tmp/logic-p48-e`): `opamp_test: all passed`; `ctest --test-dir /tmp/logic-p48-e -j8` → `100% tests passed, 0 tests failed out of 67` (T0 = 65, `timer_test`, `opamp_test`); `listing_check` / `trace_check` goldens unchanged (39903 parts). MET.
-Commit: —
+Commit: edbf9a33
 
 ### Phase 2 — Docs
 
@@ -157,7 +157,7 @@ Commit: —
 Acceptance: the docs name the kind.
   Check: `grep -n '^### `opamp`' docs/parts-format.md` → 1 line; `grep -c 'opamp.c' docs/backend.md` → above 0 (est. < 1 min).
   Result: `1217:### `opamp``; `2`. MET.
-Commit: —
+Commit: edbf9a33
 
 ## 5. `opamp_test` cases
 

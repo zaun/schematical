@@ -285,7 +285,7 @@ whose listed rows are all `out` by rule 3 is not placed and goes to
 
 Acceptance: every picked row passed its own lookup (observed 2026-11-26: `awk … $22=="add" && $27==""` → 0).
   Check: `awk -F'\t' 'NR>1 && $22=="candidate" && $27==""' planning/plan-48-data/candidates.tsv | wc -l` → 0, and `awk -F'\t' 'NR>1 && $2!="1"' planning/plan-48-data/stock-check.tsv | cut -f1 | while read m; do awk -F'\t' -v m="$m" '$1==m{print $22}' planning/plan-48-data/candidates.tsv; done | sort -u` → `out` or nothing (est. 45 min of calls at about 23 a minute).
-Commit: —
+Commit: 453d20c5, 79ab8524, a8c0b68f
 
 ### Phase 2 — The PDFs and the text scan
 
@@ -313,7 +313,7 @@ Commit: —
 Acceptance: every picked row has a scan result.
   Check: `awk -F'\t' 'NR>1' planning/plan-48-data/textscan.tsv | wc -l` → the picked count (`awk -F'\t' 'NR>1 && $22=="candidate"' planning/plan-48-data/candidates.tsv | wc -l`) (est. 15 min: 418 `pdftotext` runs are cached in `/tmp/p48/pdf`).
   Result: 656 lines of data; picked 656. MET.
-Commit: —
+Commit: 453d20c5, 79ab8524, a8c0b68f
 
 ### Phase 3 — Verdicts, the refill, placement, the specs skeleton
 
@@ -344,7 +344,7 @@ Acceptance: every picked row is `add`, its PDF is in the tree, and each has a
 spec row.
   Check: `python3 -I planning/plan-48-data/census/place.py --verify planning/plan-48-data/candidates.tsv` → `0 missing, 0 unused`; `awk -F'\t' 'NR>1 && $2=="add"' planning/plan-48-data/verdicts.tsv | wc -l` equals `awk -F'\t' 'NR>1 && $22=="candidate"' planning/plan-48-data/candidates.tsv | wc -l`; `awk -F'\t' 'NR>1{s+=$7} END{print s}' planning/plan-48-data/specs.tsv` (the `rows` column) equals the same count (est. 10 min).
   Result: `0 missing, 0 unused`; add 656, picked 656; `rows` sum 656. MET for the 656 rows; the 5 unchecked timers can only remove rows (then `select.py` → `textscan.py` → `verdicts.py` → `place.py` → `specs-skeleton.py` again).
-Commit: —
+Commit: 453d20c5, 79ab8524, a8c0b68f
 
 ## Validation Plan
 

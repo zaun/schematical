@@ -90,7 +90,10 @@
       modules. The bus-CPU kind only covers 6502/65816/Z80. These 
       microcontrollers need a `simulated` property set to false. When any
       are added to a schematic the "play" button should be disabled. (plan-36)
-- [ ] Add the 555 timer and common op-amps (LM358, TL07x…). (plan-48 written, not built)
+- [x] Add the 555 timer and common op-amps (LM358, TL07x…). (plan-48: Texas
+      Instruments, Analog Devices, STMicroelectronics, Renesas; op-amps are
+      placed and checked, not simulated; military parts and comparators out
+      of scope)
 - [x] Add crystals and resonators (oscillators exist, crystals don't). (plan-44:
       Abracon, ECS, Suntsu; SAW, overtone and thermistor parts out of scope)
 - [x] Add inductors, fuses / polyfuses, relays and buzzers. (plan-47: top three makers per type at DigiKey; no generic parts; panel-mount, AC-coil and plug-in parts out of scope)

@@ -298,7 +298,7 @@ not modelled: the formulas are the datasheets' nominal ones (thresholds at
 Acceptance: the kind loads, the latch works, goldens unchanged.
   Check: `cmake -S backend -B /tmp/logic-p48-e && cmake --build /tmp/logic-p48-e -j8 && /tmp/logic-p48-e/timer_test` → every line `PASS`, and `/tmp/logic-p48-e/listing_check` and `/tmp/logic-p48-e/trace_check` → exit 0 (est. 4 min: a build from scratch).
   Result (2026-11-24): `timer_test` cases (a)–(j) all `PASS`; `listing_check` → `39903 parts compared, 0 skipped` (exit 0); `trace_check` → `39903 parts compared, 0 skipped` (exit 0); `footprint_check` and `library_check` exit 0. MET.
-Commit: —
+Commit: 52fdcecb
 
 ### Phase 2 — Part values, the analysis, astable and one-shot modes
 
@@ -314,7 +314,7 @@ Commit: —
 Acceptance: the four circuits time as computed; every reason is reachable.
   Check: `cmake --build /tmp/logic-p48-e -j8 && /tmp/logic-p48-e/timer_test` → every line `PASS`; `ctest --test-dir /tmp/logic-p48-e -j8` → `100% tests passed`, T0 + 1 programs (est. 3 min).
   Result: `timer_test: all passed` (every case a–z); `ctest --test-dir /tmp/logic-p48-e -j8` → `100% tests passed, 0 tests failed out of 66` (T0 = 65, plus `timer_test`). MET.
-Commit: —
+Commit: 52fdcecb
 
 ### Phase 3 — Docs
 
@@ -323,7 +323,7 @@ Commit: —
 Acceptance: the docs name the kind and the two calls.
   Check: `grep -n '^### `timer`' docs/parts-format.md` → 1 line; `grep -c 'circuit_set_part_value\|circuit_timer_state' docs/backend.md` → above 0 (est. < 1 min).
   Result: `1159:### `timer``; `2`. MET.
-Commit: —
+Commit: 52fdcecb
 
 ## 6. `timer_test` cases
 
