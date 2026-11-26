@@ -329,8 +329,6 @@ nonisolated indirect enum BoardExpression: Hashable, Sendable {
 nonisolated struct BoardFormula: Hashable, Sendable, Decodable {
     let expression: BoardExpression
 
-    init(_ expression: BoardExpression) { self.expression = expression }
-
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         switch try container.decode(BoardValue.self) {

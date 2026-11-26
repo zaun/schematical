@@ -193,10 +193,6 @@ nonisolated struct RoutingGrid: Sendable {
         traceMaps[(profile * layers.count + layer) * cellCount + cell]
     }
 
-    func viaValue(_ cell: Int, layer: Int, profile: Int) -> Int32 {
-        viaMaps[(profile * layers.count + layer) * cellCount + cell]
-    }
-
     // MARK: Stamping
 
     private static func mark(_ map: inout [Int32], _ index: Int, _ owner: Int32) {

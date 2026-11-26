@@ -20,7 +20,8 @@ nonisolated struct RoutingDemand: Sendable {
     /// Indexed like the grid's trace maps: `(profile * layers + layer) * cells + cell`.
     private(set) var counts: [Int16]
     private var marks: [UInt32]
-    private var generation: UInt32 = 0
+    /// Marks `marks`; wraps to 1 after `UInt32.max` applies (set by a test).
+    var generation: UInt32 = 0
     /// `[a * profiles + q]`: the offsets, in cells, from a planned trace point
     /// of profile `a` that a trace centre of profile `q` may not stand on.
     private let traceDisks: [[(dx: Int, dy: Int)]]

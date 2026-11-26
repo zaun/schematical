@@ -390,8 +390,14 @@ final class SimulationController {
     /// oldest gives a steady pitch to a transducer.
     private var toneHistory: [SimulationSnapshot] = []
     private var sound: BuzzerSound?
+    /// Whether buzzers may sound now (`BuzzerSoundSetting.mayPlay`; a test says yes).
+    @ObservationIgnored var soundAllowed: @MainActor () -> Bool = BuzzerSoundSetting.mayPlayNow
+    /// Makes the player when a buzzer first sounds (a test's plays offline).
+    @ObservationIgnored var makeSound: @MainActor () -> BuzzerSound = BuzzerSound.init
+    /// The player while buzzers sound.
+    var buzzerSound: BuzzerSound? { sound }
     /// Counts engines started, so a snapshot from a stopped one is ignored.
-    private var generation = 0
+    private(set) var generation = 0
     private var netValues: [CircuitValue] = []
     private var shortedNets: Set<Int> = []
     /// LEDs (one light) and 7-segment displays (one per LED, in display
@@ -458,10 +464,8 @@ final class SimulationController {
         stop()
         errorMessage = nil
 
-        guard let opened = circuit_create(library.pointer) else {
-            errorMessage = "The simulation could not start."
-            return
-        }
+        // circuit_create fails only when memory runs out.
+        guard let opened = circuit_create(library.pointer) else { return errorMessage = "The simulation could not start." }
         if !Self.build(opened, from: built, loads: loads, ports: serialPorts) {
             errorMessage = circuit_error(opened).map { String(cString: $0) }
                 ?? "The simulation could not start."
@@ -595,7 +599,7 @@ final class SimulationController {
     }
 
     /// Turns a snapshot from the simulation thread into what the canvas draws.
-    private func apply(_ snapshot: SimulationSnapshot, generation snapshotGeneration: Int) {
+    func apply(_ snapshot: SimulationSnapshot, generation snapshotGeneration: Int) {
         guard snapshotGeneration == generation, engine != nil, let netlist else { return }
 
         netValues = snapshot.netValues
@@ -665,12 +669,12 @@ final class SimulationController {
         toneHistory.removeAll { snapshot.circuitTime > $0.circuitTime && snapshot.circuitTime - $0.circuitTime > BuzzerTone.windowPS }
         let window = toneHistory.first { $0.circuitTime < snapshot.circuitTime }
         buzzerVoices = BuzzerTone.voices(netlist: netlist, snapshot: snapshot, previous: previous, window: window)
-        guard BuzzerSoundSetting.mayPlay else {
+        guard soundAllowed() else {
             sound?.stop()
             sound = nil
             return
         }
-        if sound == nil, !buzzerVoices.isEmpty { sound = BuzzerSound() }
+        if sound == nil, !buzzerVoices.isEmpty { sound = makeSound() }
         sound?.update(buzzerVoices)
     }
 

@@ -253,12 +253,7 @@ nonisolated enum PartFacts {
         case let .powerswitch(info):
             add("Type", powerSwitchType(info))
             if info.switches > 1 { add(info.type == "ideal-diode" ? "Inputs" : "Channels", String(info.switches)) }
-            if info.vinMaxMV > 0 {
-                add("Input", info.vinMinMV > 0 ? "\(milli(info.vinMinMV))–\(milli(info.vinMaxMV)) V"
-                                               : "up to \(milli(info.vinMaxMV)) V")
-            } else if info.vinMinMV > 0 {
-                add("Input", "from \(milli(info.vinMinMV)) V")
-            }
+            add("Input", inputRange(minMV: info.vinMinMV, maxMV: info.vinMaxMV))
             if info.ioutMA > 0 { add("Current", "\(milli(info.ioutMA)) A") }
             if info.type == "limited", info.ilimitMA > 0 { add("Current limit", "\(milli(info.ilimitMA)) A") }
             if info.ronMOhm > 0 { add("On-resistance", milliohmsText(UInt64(info.ronMOhm))) }
@@ -339,12 +334,7 @@ nonisolated enum PartFacts {
                 if info.voutMaxMV > 0 { text += " (to \(milli(info.voutMaxMV)) V)" }
                 add("Output", text)
             }
-            if info.vinMaxMV > 0 {
-                add("Input", info.vinMinMV > 0 ? "\(milli(info.vinMinMV))–\(milli(info.vinMaxMV)) V"
-                                               : "up to \(milli(info.vinMaxMV)) V")
-            } else if info.vinMinMV > 0 {
-                add("Input", "from \(milli(info.vinMinMV)) V")
-            }
+            add("Input", inputRange(minMV: info.vinMinMV, maxMV: info.vinMaxMV))
             if info.type == "linear", info.dropoutMV > 0 { add("Dropout", "\(milli(info.dropoutMV)) V") }
             if info.ioutMA > 0 { add("Current", "\(milli(info.ioutMA)) A") }
             if info.iqUA > 0 {
@@ -783,6 +773,13 @@ nonisolated enum PartFacts {
         if flags.enhanced { names.append("Enhanced") }
         if flags.ceramic { names.append("Ceramic") }
         return names
+    }
+
+    /// A regulator's or power switch's input range: "2.5–5.5 V", "up to 5.5 V",
+    /// "from 2.5 V", or empty when neither is given.
+    static func inputRange(minMV: UInt32, maxMV: UInt32) -> String {
+        if maxMV > 0 { return minMV > 0 ? "\(milli(minMV))–\(milli(maxMV)) V" : "up to \(milli(maxMV)) V" }
+        return minMV > 0 ? "from \(milli(minMV)) V" : ""
     }
 
     /// "32768 × 8 (32 KB)": words × bits, then the byte total.

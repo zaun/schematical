@@ -12,6 +12,7 @@
 
 import AppKit
 import SwiftUI
+import Observation
 import UniformTypeIdentifiers
 
 /// Which schematic window's Bill of Materials to open.
@@ -200,7 +201,7 @@ struct BillOfMaterialsCommands: Commands {
 
 /// A view, so it is rendered again when the editor's menus change
 /// (`EditorMenus`).
-private struct BillOfMaterialsMenuItem: View {
+struct BillOfMaterialsMenuItem: View {
     let editor: SchematicEditorModel?
 
     var body: some View {
@@ -231,17 +232,92 @@ struct BillOfMaterialsWindowView: View {
     }
 }
 
-/// The table, rebuilt whenever the schematic's parts change.
-struct BillOfMaterialsTable: View {
+/// What the Bill of Materials window shows and does, apart from its layout
+/// (plan-68-W): the lines of the schematic, which are checked, which are
+/// selected, the copy, and the two exports.
+@MainActor
+@Observable
+final class BillOfMaterialsModel {
     let document: SchematicDocument
-    @State private var selection: Set<BillOfMaterialsLine.ID> = []
+    var selection: Set<BillOfMaterialsLine.ID> = []
     /// Lines whose checkmark is cleared. Kept as the unchecked set so a part
     /// newly placed on the schematic starts checked.
-    @State private var unchecked: Set<BillOfMaterialsLine.ID> = []
+    private(set) var unchecked: Set<BillOfMaterialsLine.ID> = []
+    /// How the save panel and an error are put up (a test answers them).
+    @ObservationIgnored var presenter = ExportPresenter()
+
+    /// As `SchematicDocument`'s: an isolated deinit aborts the runtime.
+    nonisolated deinit {}
+
+    init(document: SchematicDocument) {
+        self.document = document
+    }
+
+    var lines: [BillOfMaterialsLine] { BillOfMaterials.lines(for: document.chips) }
+
+    var checked: [BillOfMaterialsLine] { lines.filter { !unchecked.contains($0.id) } }
+
+    func isChecked(_ id: BillOfMaterialsLine.ID) -> Bool { !unchecked.contains(id) }
+
+    func setChecked(_ id: BillOfMaterialsLine.ID, _ on: Bool) {
+        if on { unchecked.remove(id) } else { unchecked.insert(id) }
+    }
+
+    /// Select All: on when there are lines and every one is checked.
+    var allChecked: Bool { !lines.isEmpty && checked.count == lines.count }
+
+    func setAllChecked(_ on: Bool) { unchecked = on ? [] : Set(lines.map(\.id)) }
+
+    /// The window's subtitle: parts, lines, and how many are checked when not all.
+    var summary: String {
+        let lines = self.lines, checked = self.checked
+        let parts = lines.reduce(0) { $0 + $1.quantity }
+        let text = "\(parts) part\(parts == 1 ? "" : "s"), \(lines.count) line\(lines.count == 1 ? "" : "s")"
+        return checked.count == lines.count ? text : text + ", \(checked.count) checked"
+    }
+
+    /// Edit › Copy: the selected lines as CSV, or the checked ones when none is selected.
+    var copyText: String {
+        let chosen = lines.filter { selection.contains($0.id) }
+        return BillOfMaterials.csv(chosen.isEmpty ? checked : chosen)
+    }
+
+    func copyItems() -> [NSItemProvider] { [NSItemProvider(object: copyText as NSString)] }
+
+    /// Export CSV…: the checked lines.
+    func exportCSV() async { await save(BillOfMaterials.csv(checked), as: "Bill of Materials.csv") }
+
+    /// Export JLCPCB / PCBWay BOM…: the checked surface-mount lines.
+    func exportJLCPCB() async { await save(BillOfMaterials.jlcpcbCSV(checked), as: "Bill of Materials JLCPCB.csv") }
+
+    private func save(_ text: String, as name: String) async {
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [.commaSeparatedText]
+        panel.nameFieldStringValue = name
+        guard let url = await presenter.choose(panel, nil) else { return }
+        do {
+            try text.write(to: url, atomically: true, encoding: .utf8)
+        } catch {
+            _ = await presenter.alert(NSAlert(error: error), nil)
+        }
+    }
+}
+
+/// The table, rebuilt whenever the schematic's parts change.
+struct BillOfMaterialsTable: View {
+    @State private var model: BillOfMaterialsModel
+
+    init(document: SchematicDocument) {
+        _model = State(initialValue: BillOfMaterialsModel(document: document))
+    }
+
+    /// A test's model (its panels answered).
+    init(model: BillOfMaterialsModel) {
+        _model = State(initialValue: model)
+    }
 
     var body: some View {
-        let lines = BillOfMaterials.lines(for: document.chips)
-        let checked = lines.filter { !unchecked.contains($0.id) }
+        let lines = model.lines
         let hasColor = lines.contains { !$0.color.isEmpty }
         let hasValue = lines.contains { !$0.value.isEmpty }
         Group {
@@ -252,9 +328,10 @@ struct BillOfMaterialsTable: View {
                     description: Text("Parts placed on the schematic are listed here.")
                 )
             } else {
-                Table(lines, selection: $selection) {
+                Table(lines, selection: $model.selection) {
                     TableColumn("") { line in
-                        Toggle("Export", isOn: checkBinding(line.id))
+                        // The binding only forwards to the model's checkmarks (tested there).
+                        Toggle("Export", isOn: Binding(get: { model.isChecked(line.id) }, set: { model.setChecked(line.id, $0) }))
                             .labelsHidden()
                             .help("Include this line in the export")
                     }
@@ -278,75 +355,36 @@ struct BillOfMaterialsTable: View {
                     TableColumn("Description", value: \.description)
                         .width(min: 120, ideal: 260)
                 }
-                .onCopyCommand {
-                    let chosen = lines.filter { selection.contains($0.id) }
-                    return [NSItemProvider(object: BillOfMaterials.csv(chosen.isEmpty ? checked : chosen) as NSString)]
-                }
+                .onCopyCommand(perform: model.copyItems)
             }
         }
         .frame(minWidth: 520, minHeight: 240)
         .navigationTitle("Bill of Materials")
-        .navigationSubtitle(summary(lines, checked: checked))
+        .navigationSubtitle(model.summary)
         .toolbar {
             ToolbarItem(placement: .automatic) {
-                Toggle("Select All", isOn: Binding(
-                    get: { !lines.isEmpty && checked.count == lines.count },
-                    set: { unchecked = $0 ? [] : Set(lines.map(\.id)) }
-                ))
-                .help("Check or clear every line")
-                .disabled(lines.isEmpty)
+                Toggle("Select All", isOn: Binding(get: { model.allChecked }, set: { model.setAllChecked($0) }))
+                    .help("Check or clear every line")
+                    .disabled(lines.isEmpty)
             }
             ToolbarItem(placement: .primaryAction) {
                 Button {
-                    export(checked)
+                    Task { await model.exportCSV() }
                 } label: {
                     Label("Export CSV…", systemImage: "square.and.arrow.up")
                 }
                 .help("Save the checked lines of the Bill of Materials as a CSV file")
-                .disabled(checked.isEmpty)
+                .disabled(model.checked.isEmpty)
             }
             ToolbarItem(placement: .primaryAction) {
                 Button {
-                    exportJLCPCB(checked)
+                    Task { await model.exportJLCPCB() }
                 } label: {
                     Label("Export JLCPCB / PCBWay BOM…", systemImage: "square.and.arrow.up.on.square")
                 }
                 .help("Save the checked surface-mount lines in the assembly BOM layout JLCPCB and PCBWay take (pair it with the pick-and-place file in the Gerber export)")
-                .disabled(!checked.contains { $0.isSurfaceMount })
+                .disabled(!model.checked.contains { $0.isSurfaceMount })
             }
-        }
-    }
-
-    private func checkBinding(_ id: BillOfMaterialsLine.ID) -> Binding<Bool> {
-        Binding(
-            get: { !unchecked.contains(id) },
-            set: { if $0 { unchecked.remove(id) } else { unchecked.insert(id) } }
-        )
-    }
-
-    private func summary(_ lines: [BillOfMaterialsLine], checked: [BillOfMaterialsLine]) -> String {
-        let parts = lines.reduce(0) { $0 + $1.quantity }
-        let text = "\(parts) part\(parts == 1 ? "" : "s"), \(lines.count) line\(lines.count == 1 ? "" : "s")"
-        return checked.count == lines.count ? text : text + ", \(checked.count) checked"
-    }
-
-    private func export(_ lines: [BillOfMaterialsLine]) {
-        save(BillOfMaterials.csv(lines), as: "Bill of Materials.csv")
-    }
-
-    private func exportJLCPCB(_ lines: [BillOfMaterialsLine]) {
-        save(BillOfMaterials.jlcpcbCSV(lines), as: "Bill of Materials JLCPCB.csv")
-    }
-
-    private func save(_ text: String, as name: String) {
-        let panel = NSSavePanel()
-        panel.allowedContentTypes = [.commaSeparatedText]
-        panel.nameFieldStringValue = name
-        guard panel.runModal() == .OK, let url = panel.url else { return }
-        do {
-            try text.write(to: url, atomically: true, encoding: .utf8)
-        } catch {
-            NSAlert(error: error).runModal()
         }
     }
 }

@@ -141,13 +141,10 @@ nonisolated enum RoutingPair {
         var alongs: [CGPoint] = []
         for k in 0..<(centrelines.count - 1) {
             let before = centrelines[k].points, after = centrelines[k + 1].points
-            if before.count >= 2 {
-                alongs.append(unit(before[before.count - 2], before[before.count - 1]))
-            } else if after.count >= 2 {
-                alongs.append(unit(after[0], after[1]))
-            } else {
-                return .failure(.noRoute)
-            }
+            // Two one-cell runs in a row would be two vias at one cell, which no cheapest path has.
+            guard before.count >= 2 || after.count >= 2 else { return .failure(.noRoute) }
+            let segment = before.count >= 2 ? (before[before.count - 2], before[before.count - 1]) : (after[0], after[1])
+            alongs.append(unit(segment.0, segment.1))
         }
         guard let firstDirection = centrelines[0].points.count >= 2
             ? unit(centrelines[0].points[0], centrelines[0].points[1]) : alongs.first else { return .failure(.noRoute) }

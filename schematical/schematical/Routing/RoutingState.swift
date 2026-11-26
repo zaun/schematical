@@ -229,18 +229,17 @@ nonisolated struct RoutingState: Sendable {
     /// stays where it was in its net's order.
     mutating func replace(_ id: Int, traces: [RoutedTrace], vias: [RoutedVia], touched: Bool) {
         guard var entry = entries[id] else { return }
-        let position = entriesOfNet[entry.net]?.firstIndex(of: id)
+        // The entry's place in its net's order (it is always in that list).
+        let position = entriesOfNet[entry.net]?.firstIndex(of: id) ?? 0
         remove([id])
         entry.traces = traces
         entry.vias = vias
         entry.box = copperBox(path: entry.path, traces: traces, vias: vias)
         entry.touched = touched
         entries[id] = entry
-        if let position, position <= entriesOfNet[entry.net]?.count ?? 0 {
-            entriesOfNet[entry.net]?.insert(id, at: position)
-        } else {
-            entriesOfNet[entry.net, default: []].append(id)
-        }
+        var order = entriesOfNet[entry.net] ?? []
+        order.insert(id, at: min(position, order.count))
+        entriesOfNet[entry.net] = order
         for tile in tileKeys(entry.box) { tiles[tile, default: []].append(id) }
         stamp(entry)
     }

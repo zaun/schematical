@@ -47,7 +47,7 @@ struct SimulationCommands: Commands {
 
 /// A view, so Run / Stop and the reason under it are rendered again when the
 /// page, the parts or the run they read changes (`EditorMenus`).
-private struct SimulationMenuItems: View {
+struct SimulationMenuItems: View {
     let editor: SchematicEditorModel?
     /// An app preference; each schematic window follows it.
     @AppStorage("simulationSpeed") private var speed = 1.0

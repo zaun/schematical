@@ -24,7 +24,7 @@ struct DocumentInfoCommands: Commands {
 
 /// A view, so it is rendered again when the editor's menus change
 /// (`EditorMenus`).
-private struct DocumentInfoMenuItem: View {
+struct DocumentInfoMenuItem: View {
     let editor: SchematicEditorModel?
 
     var body: some View {

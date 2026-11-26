@@ -36,6 +36,9 @@ enum BuzzerSoundSetting {
 
     /// Whether the app may open the audio device now.
     static var mayPlay: Bool { isOn && !isSilenced && !isUnderTest }
+
+    /// `mayPlay`, as a function a simulation asks every frame.
+    static func mayPlayNow() -> Bool { mayPlay }
 }
 
 /// The audio thread's side: a square wave per slot, read from a table the
@@ -155,19 +158,35 @@ final class BuzzerSound {
     /// a closing document frees this.
     nonisolated deinit {}
 
+    private let makeEngine: () -> AVAudioEngine
     private var engine: AVAudioEngine?
     private var renderer: ToneRenderer?
     private var slots = VoiceSlots()
     private var idleStop: Task<Void, Never>?
     /// The audio device could not be opened; not tried again until `stop`.
-    private var failed = false
+    private(set) var failed = false
+    /// How long the engine runs on after the last voice stops.
+    var idleDelay: Duration = .seconds(1)
+
+    /// Plays on the system's audio device.
+    convenience init() {
+        self.init(makeEngine: AVAudioEngine.init)
+    }
+
+    /// Plays through the engines `makeEngine` makes (a test's renders offline).
+    init(makeEngine: @escaping () -> AVAudioEngine) {
+        self.makeEngine = makeEngine
+    }
 
     /// Whether the audio engine is running.
     var isRunning: Bool { engine?.isRunning ?? false }
 
+    /// The running engine, nil when there is none.
+    var runningEngine: AVAudioEngine? { engine }
+
     /// Plays `voices` (chip → hertz), at most `ToneRenderer.maxVoices` of
     /// them (the lowest chip ids). An empty table silences everything and
-    /// stops the engine a second later.
+    /// stops the engine `idleDelay` later.
     func update(_ voices: [UUID: Double]) {
         let pitches = slots.pitches(for: voices)
         if pitches.contains(where: { $0 > 0 }) {
@@ -195,8 +214,9 @@ final class BuzzerSound {
 
     private func scheduleIdleStop() {
         guard engine != nil, idleStop == nil else { return }
+        let delay = idleDelay
         idleStop = Task { [weak self] in
-            try? await Task.sleep(for: .seconds(1))
+            try? await Task.sleep(for: delay)
             guard !Task.isCancelled, let self else { return }
             self.engine?.stop()
             self.engine = nil
@@ -207,26 +227,27 @@ final class BuzzerSound {
 
     private func startEngineIfNeeded() {
         guard engine == nil, !failed else { return }
-        let engine = AVAudioEngine()
-        let sampleRate = engine.outputNode.outputFormat(forBus: 0).sampleRate
-        guard sampleRate > 0, let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 1) else {
+        let engine = makeEngine()
+        if let renderer = Self.start(engine) {
+            self.engine = engine
+            self.renderer = renderer
+        } else {
             failed = true
-            return
         }
+    }
+
+    /// Attaches a source node to `engine` and starts it; the node's renderer,
+    /// or nil when the engine has no output or won't start.
+    static func start(_ engine: AVAudioEngine) -> ToneRenderer? {
+        let sampleRate = engine.outputNode.outputFormat(forBus: 0).sampleRate
+        guard sampleRate > 0, let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 1) else { return nil }
         let renderer = ToneRenderer(sampleRate: sampleRate, gain: ToneRenderer.monoMixerCompensation)
-        let node = Self.makeNode(renderer: renderer, format: format)
+        let node = makeNode(renderer: renderer, format: format)
         engine.attach(node)
         engine.connect(node, to: engine.mainMixerNode, format: format)
         engine.prepare()
-        do {
-            try engine.start()
-            self.engine = engine
-            self.renderer = renderer
-        } catch {
-            self.engine = nil
-            self.renderer = nil
-            failed = true
-        }
+        do { try engine.start() } catch { return nil }
+        return renderer
     }
 
     /// The source node, made outside the main actor: its render block runs

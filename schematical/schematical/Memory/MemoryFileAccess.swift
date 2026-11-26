@@ -25,24 +25,32 @@ nonisolated enum MemoryFileError: LocalizedError, Equatable {
 }
 
 nonisolated enum MemoryFileAccess {
-    /// Open panel (any file); returns the file with an app-scoped bookmark,
-    /// made while the panel's access is live. nil when cancelled.
+    /// Open panel (any file), on `window` (on its own when nil); returns the
+    /// file with an app-scoped bookmark, made while the panel's access is
+    /// live. nil when cancelled.
     @MainActor
     static func choose(attachedTo window: NSWindow?) async -> MemoryFile? {
+        await choose(attachedTo: window, run: ExportPresenter.run(_:on:))
+    }
+
+    /// `choose(attachedTo:)` with the panel run by `run` (a test answers it).
+    @MainActor
+    static func choose(attachedTo window: NSWindow?,
+                       run: @MainActor (NSSavePanel, NSWindow?) async -> URL?) async -> MemoryFile? {
+        guard let url = await run(openPanel(), window) else { return nil }
+        return MemoryFile(url: url, bookmark: bookmark(for: url))
+    }
+
+    /// The panel: one file, no folders.
+    @MainActor
+    static func openPanel() -> NSOpenPanel {
         let panel = NSOpenPanel()
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
         panel.canChooseFiles = true
         panel.prompt = "Choose"
         panel.message = "Choose a binary or Intel HEX file to load when the simulation starts."
-        let response: NSApplication.ModalResponse
-        if let window {
-            response = await panel.beginSheetModal(for: window)
-        } else {
-            response = panel.runModal()
-        }
-        guard response == .OK, let url = panel.url else { return nil }
-        return MemoryFile(url: url, bookmark: bookmark(for: url))
+        return panel
     }
 
     /// The file's bytes, read under its security scope.
@@ -97,6 +105,12 @@ nonisolated enum MemoryFileAccess {
         var stale = false
         guard let url = try? URL(resolvingBookmarkData: bookmark, options: [.withSecurityScope, .withoutUI],
                                  relativeTo: nil, bookmarkDataIsStale: &stale) else { return nil }
+        return kept(url, bookmark: bookmark, stale: stale)
+    }
+
+    /// The bookmark to keep for `url`: `bookmark`, or when it is stale a
+    /// fresh one made under its scope (the old one if that fails).
+    static func kept(_ url: URL, bookmark: Data, stale: Bool) -> (url: URL, bookmark: Data) {
         guard stale else { return (url, bookmark) }
         let scoped = url.startAccessingSecurityScopedResource()
         defer {

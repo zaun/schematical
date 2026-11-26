@@ -46,12 +46,6 @@ struct PartVisibility: Equatable {
     var showObsolete = false
     var showMilitary = false
     var showAutomotive = false
-
-    func allows(_ part: CatalogPart) -> Bool {
-        (showObsolete || !part.flags.obsolete)
-            && (showMilitary || !part.flags.military)
-            && (showAutomotive || !part.flags.automotive)
-    }
 }
 
 /// How a part is drawn on the canvas.

@@ -392,8 +392,12 @@ nonisolated enum BackendCatalog {
     /// their entries), then every other bundled JSON resource as a part
     /// file, in file-name order.
     static func load(into library: PartLibraryHandle) throws -> [CatalogPart] {
-        let urls = (Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: nil) ?? [])
-            .sorted { $0.lastPathComponent < $1.lastPathComponent }
+        try load(into: library, files: Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: nil) ?? [])
+    }
+
+    /// `load(into:)` from `files` instead of the bundle's JSON resources.
+    static func load(into library: PartLibraryHandle, files: [URL]) throws -> [CatalogPart] {
+        let urls = files.sorted { $0.lastPathComponent < $1.lastPathComponent }
         guard let footprintsURL = urls.first(where: { $0.lastPathComponent == footprintsFile }) else {
             throw LoadError.unavailable
         }
@@ -425,10 +429,13 @@ nonisolated enum BackendCatalog {
     /// Loads only `datasheets.json` and `footprints.json`: what a single part
     /// file's references resolve against (the Part Editor's validator).
     static func loadSupportFiles(into library: PartLibraryHandle) throws {
-        guard let datasheets = Bundle.main.url(forResource: "datasheets", withExtension: "json"),
-              let footprints = Bundle.main.url(forResource: "footprints", withExtension: "json") else {
-            throw LoadError.unavailable
-        }
+        try loadSupportFiles(into: library, datasheets: Bundle.main.url(forResource: "datasheets", withExtension: "json"),
+                             footprints: Bundle.main.url(forResource: "footprints", withExtension: "json"))
+    }
+
+    /// `loadSupportFiles(into:)` from these files; either missing is `unavailable`.
+    static func loadSupportFiles(into library: PartLibraryHandle, datasheets: URL?, footprints: URL?) throws {
+        guard let datasheets, let footprints else { throw LoadError.unavailable }
         try loadFile(datasheets, with: load_datasheets, into: library)
         try loadFile(footprints, with: load_footprints, into: library)
     }

@@ -397,29 +397,15 @@ private struct DesignRuleChecker {
 
     // MARK: Layers
 
+    /// The editor and the file reader keep traces off layers the board lacks
+    /// and off Planes, and parts and text off Bottom of a 1-layer board; a Top
+    /// part's opposite pad (plan-54-E) is the one copper that can land there.
     private mutating func checkLayers() {
-        for (t, trace) in copper.traces.enumerated() {
-            if !layers.contains(trace.layer) {
-                add(.layer, traceName(t),
-                    "On \(trace.layer.title), which a \(board.layers)-layer board doesn't have", [.trace(trace.id)])
-            } else if board.style(of: trace.layer).type == .plane {
-                add(.layer, traceName(t), "On \(trace.layer.title), a Plane layer", [.trace(trace.id)])
-            }
-        }
-        if !layers.contains(.bottom) {
-            for chip in chips {
-                guard let side = chip.board?.side else { continue }
-                if side == .bottom {
-                    add(.layer, chip.reference, "On Bottom, but a 1-layer board has only Top", [.footprint(chip.id)])
-                } else if chip.boardPads.contains(where: { $0.drill == 0 && $0.layerSide(on: side) == .bottom }) {
-                    // A Top part with an opposite pad (plan-54-E).
-                    add(.layer, chip.reference, "Has pads on Bottom, but a 1-layer board has only Top",
-                        [.footprint(chip.id)])
-                }
-            }
-            for text in texts where text.side == .bottom {
-                add(.layer, textName(text), "On Bottom, but a 1-layer board has only Top", [.text(text.id)])
-            }
+        guard !layers.contains(.bottom) else { return }
+        for chip in chips {
+            guard let side = chip.board?.side,
+                  chip.boardPads.contains(where: { $0.drill == 0 && $0.layerSide(on: side) == .bottom }) else { continue }
+            add(.layer, chip.reference, "Has pads on Bottom, but a 1-layer board has only Top", [.footprint(chip.id)])
         }
     }
 

@@ -10,6 +10,7 @@
 //
 
 import AppKit
+import Observation
 import SwiftUI
 
 /// Which schematic window's check to open.
@@ -32,7 +33,7 @@ struct DesignRuleCheckCommands: Commands {
 
 /// A view, so it is rendered again when the page it read changes
 /// (`EditorMenus`).
-private struct DesignRuleCheckMenuItem: View {
+struct DesignRuleCheckMenuItem: View {
     let editor: SchematicEditorModel?
 
     var body: some View {
@@ -67,7 +68,12 @@ struct DesignRuleCheckWindowView: View {
 /// the rules every time.
 struct DesignRuleCheckWizard: View {
     let document: SchematicDocument
-    @State private var showsResults = false
+    @State private var showsResults: Bool
+
+    init(document: SchematicDocument) {
+        self.document = document
+        _showsResults = State(initialValue: false)
+    }
 
     var body: some View {
         Group {
@@ -99,11 +105,8 @@ struct DesignRuleCheckRules: View {
         let board = document.board
         Form {
             Section {
-                Picker("Manufacturer", selection: Binding(
-                    get: { board.rulesManufacturer },
-                    // A manufacturer's rules replace the board's; Custom keeps them.
-                    set: { document.setDesignRules($0.fixedRules ?? document.board.rules, manufacturer: $0) }
-                )) {
+                // The binding only forwards to `choose`, which the tests call.
+                Picker("Manufacturer", selection: Binding(get: { board.rulesManufacturer }, set: { Self.choose($0, for: document) })) {
                     ForEach(DRCManufacturer.allCases, id: \.self) { Text($0.title).tag($0) }
                 }
                 .pickerStyle(.menu)
@@ -112,12 +115,7 @@ struct DesignRuleCheckRules: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
-            DesignRuleFields(rules: board.rules, editable: true) { field, typed in
-                var next = document.board.rules
-                next[keyPath: field] = max(0, typed)
-                document.setDesignRules(next, manufacturer: document.board.rulesManufacturer)
-                return document.board.rules[keyPath: field]
-            }
+            DesignRuleFields(rules: board.rules, editable: true) { Self.set($0, to: $1, in: document) }
         }
         .formStyle(.grouped)
         .safeAreaInset(edge: .bottom, spacing: 0) {
@@ -140,6 +138,19 @@ struct DesignRuleCheckRules: View {
         .navigationSubtitle("Step 1 of 2 · \(board.rulesTitle) rules")
     }
 
+    /// A manufacturer's rules replace the board's; Custom keeps them.
+    static func choose(_ manufacturer: DRCManufacturer, for document: SchematicDocument) {
+        document.setDesignRules(manufacturer.fixedRules ?? document.board.rules, manufacturer: manufacturer)
+    }
+
+    /// A typed rule (never below 0) on the board; the value the board then has.
+    static func set(_ field: WritableKeyPath<DesignRules, Double>, to typed: Double, in document: SchematicDocument) -> Double {
+        var next = document.board.rules
+        next[keyPath: field] = max(0, typed)
+        document.setDesignRules(next, manufacturer: document.board.rulesManufacturer)
+        return document.board.rules[keyPath: field]
+    }
+
     private func footer(_ board: BoardSettings) -> String {
         let changed = board.rulesManufacturer.fixedRules.map { $0 != board.rules } ?? false
         return (changed ? "\(board.rulesManufacturer.title)'s limits, with changes. " : "")
@@ -152,7 +163,7 @@ struct DesignRuleCheckRules: View {
 
 /// Everything the check reads (the rules are in `board`), so it reruns only
 /// when one of them changes.
-private struct DesignRuleCheckInput: Hashable {
+struct DesignRuleCheckInput: Hashable {
     let chips: [PlacedChip]
     let wires: [Wire]
     let buses: [Bus]
@@ -163,34 +174,93 @@ private struct DesignRuleCheckInput: Hashable {
     let holes: [BoardHole]
 }
 
-struct DesignRuleCheckTable: View {
+/// What step 2 shows and does, apart from its layout (plan-68-W): the
+/// issues of the last check, the selected lines (selecting what they name
+/// on the PCB), the copy and the subtitle.
+@MainActor
+@Observable
+final class DesignRuleCheckResults {
     let document: SchematicDocument
-    /// Goes back to the rules.
-    let showRules: () -> Void
-    @State private var issues: [DesignRuleIssue] = []
-    @State private var hasRun = false
-    @State private var selection: Set<DesignRuleIssue.ID> = []
+    private(set) var issues: [DesignRuleIssue] = []
+    private(set) var hasRun = false
+    var selection: Set<DesignRuleIssue.ID> = []
+    /// How long a change waits before the check runs again (a drag, a run of typing).
+    @ObservationIgnored var settleDelay: Duration = .milliseconds(150)
 
-    private var input: DesignRuleCheckInput {
+    /// As `SchematicDocument`'s: an isolated deinit aborts the runtime.
+    nonisolated deinit {}
+
+    init(document: SchematicDocument) {
+        self.document = document
+    }
+
+    var input: DesignRuleCheckInput {
         DesignRuleCheckInput(chips: document.chips, wires: document.wires, buses: document.buses,
                              board: document.board, texts: document.texts, traces: document.traces,
                              vias: document.vias, holes: document.holes)
     }
 
+    /// The board changed (or the step opened): checks it, after the settle
+    /// delay once it has run. A newer change cancels the wait.
+    func inputChanged() async {
+        if hasRun { try? await Task.sleep(for: settleDelay) }
+        guard !Task.isCancelled else { return }
+        check()
+    }
+
+    func check() {
+        let found = document.designRuleCheck(rules: document.board.rules)
+        // Line numbers move when the list changes.
+        if found != issues { selection = [] }
+        issues = found
+        hasRun = true
+    }
+
+    /// Selecting lines selects what they name on the PCB.
+    func selectionChanged() {
+        let items = issues.filter { selection.contains($0.id) }.reduce(into: Set<BoardItem>()) { $0.formUnion($1.items) }
+        if !items.isEmpty { document.selectBoardItems(items) }
+    }
+
+    /// Edit › Copy: the selected lines, else every line, one per row, tab separated.
+    var copyText: String {
+        let chosen = issues.filter { selection.contains($0.id) }
+        return (chosen.isEmpty ? issues : chosen).map { "\($0.index)\t\($0.reference)\t\($0.issue)" }.joined(separator: "\n")
+    }
+
+    func copyItems() -> [NSItemProvider] { [NSItemProvider(object: copyText as NSString)] }
+
+    var summary: String {
+        let count = issues.count
+        return "Step 2 of 2 · \(count == 0 ? "No" : String(count)) issue\(count == 1 ? "" : "s") · "
+            + "\(document.board.rulesTitle) rules"
+    }
+}
+
+struct DesignRuleCheckTable: View {
+    @State private var model: DesignRuleCheckResults
+    /// Goes back to the rules.
+    let showRules: () -> Void
+
+    init(document: SchematicDocument, showRules: @escaping () -> Void) {
+        _model = State(initialValue: DesignRuleCheckResults(document: document))
+        self.showRules = showRules
+    }
+
     var body: some View {
         Group {
-            if !hasRun {
+            if !model.hasRun {
                 ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if issues.isEmpty {
+            } else if model.issues.isEmpty {
                 ContentUnavailableView(
                     "No Problems",
                     systemImage: "checkmark.seal",
-                    description: Text("The board passes every \(document.board.rulesTitle) design rule, "
+                    description: Text("The board passes every \(model.document.board.rulesTitle) design rule, "
                                       + "and every connection is routed.")
                 )
             } else {
-                Table(issues, selection: $selection) {
+                Table(model.issues, selection: $model.selection) {
                     TableColumn("#") { Text("\($0.index)").monospacedDigit().foregroundStyle(.secondary) }
                         .width(min: 28, ideal: 36, max: 60)
                     TableColumn("Reference", value: \.reference)
@@ -198,16 +268,10 @@ struct DesignRuleCheckTable: View {
                     TableColumn("Issue", value: \.issue)
                         .width(min: 200, ideal: 460)
                 }
-                .onCopyCommand {
-                    let chosen = issues.filter { selection.contains($0.id) }
-                    let text = (chosen.isEmpty ? issues : chosen)
-                        .map { "\($0.index)\t\($0.reference)\t\($0.issue)" }
-                        .joined(separator: "\n")
-                    return [NSItemProvider(object: text as NSString)]
-                }
+                .onCopyCommand(perform: model.copyItems)
             }
         }
-        .navigationSubtitle(summary)
+        .navigationSubtitle(model.summary)
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 Button(action: showRules) {
@@ -216,25 +280,7 @@ struct DesignRuleCheckTable: View {
                 .help("Back to step 1: this board's design rules")
             }
         }
-        .task(id: input) {
-            // Wait for a drag or a run of typing to settle.
-            if hasRun { try? await Task.sleep(for: .milliseconds(150)) }
-            guard !Task.isCancelled else { return }
-            let found = document.designRuleCheck(rules: document.board.rules)
-            // Line numbers move when the list changes.
-            if found != issues { selection = [] }
-            issues = found
-            hasRun = true
-        }
-        .onChange(of: selection) { _, chosen in
-            let items = issues.filter { chosen.contains($0.id) }.reduce(into: Set<BoardItem>()) { $0.formUnion($1.items) }
-            if !items.isEmpty { document.selectBoardItems(items) }
-        }
-    }
-
-    private var summary: String {
-        let count = issues.count
-        return "Step 2 of 2 · \(count == 0 ? "No" : String(count)) issue\(count == 1 ? "" : "s") · "
-            + "\(document.board.rulesTitle) rules"
+        .task(id: model.input) { await model.inputChanged() }
+        .onChange(of: model.selection) { model.selectionChanged() }
     }
 }

@@ -202,16 +202,19 @@ final class AutorouteModel {
 
     /// Each group's outcome, as a line of text.
     var groupLines: [String] {
-        (session.result?.groups ?? []).map { group in
-            let status: String
-            switch group.status {
-            case .matched: status = "matched"
-            case let .residual(spread, reason): status = String(format: "%.2f mm apart", spread) + (reason.map { " (\($0))" } ?? "")
-            case let .ineligible(_, reason): status = "not matched: \(reason)"
-            case let .coupled(uncoupled): status = String(format: "coupled, %.2f mm apart", uncoupled)
-            case let .uncoupled(reason): status = "routed uncoupled: \(reason)"
-            }
-            return "\(group.name): \(status)"
+        (session.result?.groups ?? []).map(Self.groupLine)
+    }
+
+    /// One group's outcome ("BUS: 0.40 mm apart (no room)").
+    nonisolated static func groupLine(_ group: GroupOutcome) -> String {
+        let status: String
+        switch group.status {
+        case .matched: status = "matched"
+        case let .residual(spread, reason): status = String(format: "%.2f mm apart", spread) + (reason.map { " (\($0))" } ?? "")
+        case let .ineligible(_, reason): status = "not matched: \(reason)"
+        case let .coupled(uncoupled): status = String(format: "coupled, %.2f mm apart", uncoupled)
+        case let .uncoupled(reason): status = "routed uncoupled: \(reason)"
         }
+        return "\(group.name): \(status)"
     }
 }

@@ -40,37 +40,28 @@ struct MemoryWindowView: View {
     }
 }
 
-/// One page of a memory part, with controls to pick the page.
-private struct MemoryInspector: View {
-    let chipID: UUID
-    let document: SchematicDocument
-    let simulation: SimulationController
-
-    /// Words per page.
-    static let pageWords = 256
-
-    @State private var page = 0
-    @State private var size: MemorySize?
-    @State private var words: [MemoryWord] = []
-    /// Simulator state version at which each word on the page last changed.
-    @State private var changedAt: [Int: Int] = [:]
-    @State private var addressText = ""
-    /// EEPROM, stopped: the contents the chip will start with, or why the
-    /// load file can't be used.
-    @State private var startImage: [UInt32] = []
-    @State private var loadError: String?
+/// One page of a memory part, with controls to pick the page
+/// (`MemoryInspectorModel` holds what it shows).
+struct MemoryInspector: View {
+    @State private var model: MemoryInspectorModel
     @State private var window: NSWindow?
+    /// The simulation, observed for its steps and its run.
+    private let simulation: MemorySource
 
-    /// Simulator steps a changed word stays highlighted (about half a second).
-    private static let highlightSteps = 30
+    init(chipID: UUID, document: SchematicDocument, simulation: MemorySource) {
+        _model = State(initialValue: MemoryInspectorModel(chipID: chipID, document: document, source: simulation))
+        self.simulation = simulation
+    }
 
-    private var chip: PlacedChip? {
-        document.chips.first { $0.id == chipID }
+    /// A test's model (its panel and beep answered).
+    init(model: MemoryInspectorModel) {
+        _model = State(initialValue: model)
+        simulation = model.source
     }
 
     var body: some View {
         Group {
-            if let chip {
+            if let chip = model.chip {
                 content(for: chip)
                     .navigationTitle("\(chip.reference) · \(chip.partNumber)")
             } else {
@@ -84,57 +75,25 @@ private struct MemoryInspector: View {
         }
         .frame(minWidth: 520, minHeight: 360)
         .background(WindowReader { window = $0 })
-        .onAppear {
-            refreshStartImage()
-            reload()
-        }
-        .onChange(of: simulation.stateVersion) { reload() }
-        .onChange(of: simulation.isRunning) {
-            if !simulation.isRunning {
-                refreshStartImage()
-            }
-            changedAt = [:]
-            reload()
-        }
-        .onChange(of: chip?.memoryFile) {
-            refreshStartImage()
-            reload()
-        }
-        .onChange(of: page) {
-            if let size, page < 0 || page >= pageCount(size) {
-                page = min(max(page, 0), pageCount(size) - 1)
-                return
-            }
-            changedAt = [:]
-            words = []
-            reload()
-        }
-    }
-
-    /// An EEPROM while the simulation is stopped: the window previews its
-    /// start contents instead of live ones.
-    private var showsStartContents: Bool {
-        chip?.part.kind == PART_EEPROM && !simulation.isRunning
+        .onAppear { model.appeared() }
+        .onChange(of: simulation.stateVersion) { model.stepped() }
+        .onChange(of: simulation.isRunning) { model.runningChanged() }
+        .onChange(of: model.chip?.memoryFile) { model.fileChanged() }
+        .onChange(of: model.page) { model.pageChanged() }
     }
 
     @ViewBuilder
     private func content(for chip: PlacedChip) -> some View {
-        if chip.part.kind == PART_EEPROM {
+        if model.isEEPROM {
             VStack(spacing: 0) {
                 LoadFileBar(
                     file: chip.memoryFile,
                     isRunning: simulation.isRunning,
-                    choose: {
-                        Task {
-                            if let file = await MemoryFileAccess.choose(attachedTo: window) {
-                                document.setMemoryFile(chipID, file)
-                            }
-                        }
-                    },
-                    clear: { document.setMemoryFile(chipID, nil) }
+                    choose: { Task { await model.chooseLoadFile(window: window) } },
+                    clear: { model.clearLoadFile() }
                 )
                 Divider()
-                if showsStartContents, let loadError {
+                if model.showsStartContents, let loadError = model.loadError {
                     ContentUnavailableView(
                         "Can't Load File",
                         systemImage: "exclamationmark.triangle",
@@ -152,23 +111,27 @@ private struct MemoryInspector: View {
 
     @ViewBuilder
     private func pageContent(for chip: PlacedChip) -> some View {
-        if let size {
+        if let size = model.size {
             VStack(spacing: 0) {
                 pageBar(size: size)
                 Divider()
                 ScrollView([.vertical, .horizontal]) {
-                    MemoryPageGrid(
-                        start: page * Self.pageWords,
-                        words: words,
-                        size: size,
-                        highlighted: highlighted
-                    )
-                    .equatable()
-                    .padding(12)
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                    MemoryPageGrid(start: model.start, words: model.words, size: size, highlighted: model.highlighted)
+                        .equatable()
+                        .padding(12)
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
                 }
                 Divider()
-                footer(chip: chip, size: size)
+                let footer = model.footer(size, function: chip.part.function)
+                HStack {
+                    Text(footer.left)
+                    Spacer()
+                    Text(footer.right)
+                }
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
             }
         } else {
             ContentUnavailableView {
@@ -182,36 +145,25 @@ private struct MemoryInspector: View {
 
     // MARK: Page picker
 
-    private func pageCount(_ size: MemorySize) -> Int {
-        max(1, (size.words + Self.pageWords - 1) / Self.pageWords)
-    }
-
     private func pageBar(size: MemorySize) -> some View {
-        let count = pageCount(size)
-        let first = page * Self.pageWords
-        let last = min(first + Self.pageWords, size.words) - 1
-
+        let count = MemoryInspectorModel.pageCount(size)
         return HStack(spacing: 10) {
-            Button {
-                page = max(0, page - 1)
-            } label: {
+            Button { model.previousPage() } label: {
                 Label("Previous Page", systemImage: "chevron.left")
             }
             .labelStyle(.iconOnly)
-            .disabled(page == 0)
+            .disabled(model.page == 0)
             .help("Previous page")
 
-            Button {
-                page = min(count - 1, page + 1)
-            } label: {
+            Button { model.nextPage(size) } label: {
                 Label("Next Page", systemImage: "chevron.right")
             }
             .labelStyle(.iconOnly)
-            .disabled(page >= count - 1)
+            .disabled(model.page >= count - 1)
             .help("Next page")
 
             Text("Page")
-            TextField("Page", value: $page, format: .number.grouping(.never))
+            TextField("Page", value: $model.page, format: .number.grouping(.never))
                 .textFieldStyle(.roundedBorder)
                 .multilineTextAlignment(.trailing)
                 .frame(width: 64)
@@ -220,131 +172,21 @@ private struct MemoryInspector: View {
             Text("of \(count)")
                 .foregroundStyle(.secondary)
 
-            Text("\(hex(first, digits: addressDigits(size)))–\(hex(last, digits: addressDigits(size)))")
+            Text(model.rangeText(size))
                 .font(.system(.body, design: .monospaced))
                 .foregroundStyle(.secondary)
 
             Spacer()
 
-            TextField("Go to address (hex)", text: $addressText)
+            TextField("Go to address (hex)", text: $model.addressText)
                 .textFieldStyle(.roundedBorder)
                 .font(.system(.body, design: .monospaced))
                 .frame(width: 170)
-                .onSubmit { goToAddress(size: size) }
+                .onSubmit { model.goToAddress() }
                 .help("Type a word address in hex and press Return")
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
-    }
-
-    private func goToAddress(size: MemorySize) {
-        var text = addressText.trimmingCharacters(in: .whitespaces)
-        if text.lowercased().hasPrefix("0x") {
-            text.removeFirst(2)
-        }
-        guard let address = Int(text, radix: 16), address >= 0, address < size.words else {
-            NSSound.beep()
-            return
-        }
-        page = address / Self.pageWords
-    }
-
-    private func footer(chip: PlacedChip, size: MemorySize) -> some View {
-        let known = words.filter { $0.known == wordMask(size.bits) }.count
-        let prefix = showsStartContents ? "Contents at start · " : ""
-        return HStack {
-            Text("\(prefix)\(size.words) words × \(size.bits) bits (\(chip.part.function))")
-            Spacer()
-            Text("\(known) of \(words.count) words on this page defined")
-        }
-        .font(.caption)
-        .foregroundStyle(.secondary)
-        .padding(.horizontal, 12)
-        .padding(.vertical, 6)
-    }
-
-    // MARK: Reading
-
-    private var highlighted: Set<Int> {
-        Set(changedAt.compactMap { index, version in
-            simulation.stateVersion - version < Self.highlightSteps ? index : nil
-        })
-    }
-
-    /// EEPROM: parses the load file again (or all FF without one).
-    private func refreshStartImage() {
-        guard let chip, chip.part.kind == PART_EEPROM, let partSize = chip.part.memorySize else { return }
-        do {
-            startImage = try MemoryFileAccess.image(chip.memoryFile, size: partSize)
-            loadError = nil
-        } catch {
-            startImage = []
-            loadError = error.localizedDescription
-        }
-    }
-
-    /// Reads the page again. State is only assigned when it changed, so the
-    /// grid redraws only when the memory does.
-    private func reload() {
-        if showsStartContents {
-            reloadStartContents()
-            return
-        }
-        let newSize = simulation.memorySize(of: chipID)
-        if newSize != size {
-            size = newSize
-        }
-        guard let newSize else {
-            if !words.isEmpty { words = [] }
-            if !changedAt.isEmpty { changedAt = [:] }
-            return
-        }
-        if page >= pageCount(newSize) {
-            page = 0
-        }
-
-        let fresh = simulation.readMemory(of: chipID, start: page * Self.pageWords, count: Self.pageWords)
-        guard fresh != words else {
-            expireHighlights()
-            return
-        }
-        if words.count == fresh.count {
-            var updated = changedAt
-            for index in fresh.indices where fresh[index] != words[index] {
-                updated[index] = simulation.stateVersion
-            }
-            changedAt = updated
-        }
-        words = fresh
-        expireHighlights()
-    }
-
-    /// EEPROM, stopped: the page of the start contents. No highlights.
-    private func reloadStartContents() {
-        let newSize = chip?.part.memorySize
-        if newSize != size {
-            size = newSize
-        }
-        if !changedAt.isEmpty { changedAt = [:] }
-        guard let newSize else { return }
-        if page >= pageCount(newSize) {
-            page = 0
-        }
-        let first = page * Self.pageWords
-        let last = min(first + Self.pageWords, startImage.count)
-        let fresh = first < last
-            ? startImage[first..<last].map { MemoryWord(value: $0, known: wordMask(newSize.bits)) }
-            : []
-        if fresh != words {
-            words = fresh
-        }
-    }
-
-    private func expireHighlights() {
-        let live = changedAt.filter { simulation.stateVersion - $0.value < Self.highlightSteps }
-        if live.count != changedAt.count {
-            changedAt = live
-        }
     }
 }
 
@@ -356,31 +198,21 @@ private struct MemoryPageGrid: View, Equatable {
     let size: MemorySize
     let highlighted: Set<Int>
 
-    private var wordsPerRow: Int {
-        switch size.bits {
-        case ...8: 16
-        case ...16: 8
-        default: 4
-        }
-    }
-
     var body: some View {
-        let perRow = wordsPerRow
+        let perRow = MemoryFormat.wordsPerRow(bits: size.bits)
         let rows = (words.count + perRow - 1) / perRow
+        let digits = MemoryFormat.addressDigits(size)
 
         Grid(alignment: .leading, horizontalSpacing: 6, verticalSpacing: 3) {
             ForEach(0..<rows, id: \.self) { row in
+                let indices = row * perRow..<min((row + 1) * perRow, words.count)
                 GridRow {
-                    Text(hex(start + row * perRow, digits: addressDigits(size)))
+                    Text(MemoryFormat.hex(start + row * perRow, digits: digits))
                         .foregroundStyle(.secondary)
                         .padding(.trailing, 8)
-
-                    ForEach(row * perRow..<min((row + 1) * perRow, words.count), id: \.self) { index in
-                        wordCell(index)
-                    }
-
+                    ForEach(indices, id: \.self) { index in wordCell(index, digits: digits) }
                     if size.bits <= 8 {
-                        Text(ascii(row: row, perRow: perRow))
+                        Text(MemoryFormat.ascii(words[indices]))
                             .foregroundStyle(.secondary)
                             .padding(.leading, 10)
                     }
@@ -391,66 +223,14 @@ private struct MemoryPageGrid: View, Equatable {
         .textSelection(.enabled)
     }
 
-    private func wordCell(_ index: Int) -> some View {
+    private func wordCell(_ index: Int, digits: Int) -> some View {
         let word = words[index]
-        let defined = word.known == wordMask(size.bits)
-
-        return Text(wordText(word))
+        let defined = word.known == MemoryFormat.wordMask(size.bits)
+        return Text(MemoryFormat.wordText(word, bits: size.bits))
             .foregroundStyle(defined ? Color.primary : Color.secondary.opacity(0.7))
             .padding(.horizontal, 2)
-            .background(
-                highlighted.contains(index) ? Color.accentColor.opacity(0.3) : Color.clear,
-                in: RoundedRectangle(cornerRadius: 3)
-            )
-            .help("\(hex(start + index, digits: addressDigits(size))): \(binary(word))")
+            .background(highlighted.contains(index) ? Color.accentColor.opacity(0.3) : Color.clear,
+                        in: RoundedRectangle(cornerRadius: 3))
+            .help("\(MemoryFormat.hex(start + index, digits: digits)): \(MemoryFormat.binary(word, bits: size.bits))")
     }
-
-    private func wordText(_ word: MemoryWord) -> String {
-        let digits = (size.bits + 3) / 4
-        let present = wordMask(size.bits)
-        var text = ""
-        for nibble in (0..<digits).reversed() {
-            let shift = UInt32(nibble * 4)
-            let bits: UInt32 = (0xF << shift) & present
-            if word.known & bits != bits {
-                text += "X"
-            } else {
-                text += String((word.value >> shift) & 0xF, radix: 16, uppercase: true)
-            }
-        }
-        return text
-    }
-
-    private func binary(_ word: MemoryWord) -> String {
-        String((0..<size.bits).reversed().map { bit in
-            let b = UInt32(1) << UInt32(bit)
-            return word.known & b == 0 ? "X" : (word.value & b != 0 ? "1" : "0")
-        })
-    }
-
-    private func ascii(row: Int, perRow: Int) -> String {
-        String((row * perRow..<min((row + 1) * perRow, words.count)).map { index in
-            let word = words[index]
-            guard word.known & 0xFF == 0xFF, (0x20..<0x7F).contains(word.value & 0xFF),
-                  let scalar = Unicode.Scalar(word.value & 0xFF) else { return "." }
-            return Character(scalar)
-        })
-    }
-}
-
-// MARK: - Formatting
-
-/// Hex digits needed for any word address of this memory.
-private func addressDigits(_ size: MemorySize) -> Int {
-    max(1, String(max(size.words - 1, 0), radix: 16).count)
-}
-
-private func hex(_ value: Int, digits: Int) -> String {
-    let text = String(value, radix: 16, uppercase: true)
-    return String(repeating: "0", count: max(0, digits - text.count)) + text
-}
-
-/// Bits that exist in a word of the given width.
-private func wordMask(_ bits: Int) -> UInt32 {
-    bits >= 32 ? .max : (UInt32(1) << UInt32(bits)) - 1
 }

@@ -46,7 +46,8 @@ nonisolated extension Router.Run {
     /// most 3 times), else left unrouted with the reason.
     mutating func finishedCopper() -> FinishedCopper {
         var attempt = 0
-        while true {
+        var done: FinishedCopper?
+        while done == nil {
             var cleanup = cleanupInput()
             if cleaning { cleanup.run() }
             var copper = cleanup.result
@@ -76,7 +77,10 @@ nonisolated extension Router.Run {
                 raw.formUnion(fresh)
                 copper = Self.reverting(copper, entries: fresh, ledger: state.entries)
             }
-            guard !illegal.isEmpty else { return finished(copper) }
+            guard !illegal.isEmpty else {
+                done = finished(copper)
+                continue
+            }
             // A touched chain that is illegal even as the push left it goes back to where it was; the
             // violation is then the new copper's, which the repair below handles.
             let back = illegal.filter { state.entries[$0].map { $0.chain != nil && $0.touched } ?? false }
@@ -94,6 +98,7 @@ nonisolated extension Router.Run {
             }
             reroute(illegal, margin: 0.5 * grid.pitch * Double(attempt))
         }
+        return done!
     }
 
     static let repairAttempts = 3

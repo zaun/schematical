@@ -177,52 +177,57 @@ nonisolated final class SimulationEngine: @unchecked Sendable {
         anchorWall = ProcessInfo.processInfo.systemUptime
         anchorSim = circuit_time(circuit)
         lock.unlock()
+        while runFrame() {}
+    }
+
+    /// One frame: the circuit advanced to wall time × speed (or for the
+    /// budget), a snapshot published, the rest of the frame slept. False when
+    /// the thread is to end: cancelled, or the circuit stopped.
+    private func runFrame() -> Bool {
+        let frameStart = ProcessInfo.processInfo.systemUptime
+
+        lock.lock()
+        if cancelled {
+            lock.unlock()
+            return false
+        }
+        let elapsed = max(0, frameStart - anchorWall)
+        let target = anchorSim &+ UInt64(elapsed * speed * 1e12)
+        lock.unlock()
 
         while true {
-            let frameStart = ProcessInfo.processInfo.systemUptime
-
             lock.lock()
-            if cancelled {
+            let now = circuit_time(circuit)
+            if now >= target || cancelled {
                 lock.unlock()
-                return
+                break
             }
-            let elapsed = max(0, frameStart - anchorWall)
-            let target = anchorSim &+ UInt64(elapsed * speed * 1e12)
+            dispatchPrecondition(condition: .notOnQueue(.main))
+            let ok = circuit_advance(circuit, min(Self.chunk, target - now)) != 0
             lock.unlock()
 
-            while true {
-                lock.lock()
-                let now = circuit_time(circuit)
-                if now >= target || cancelled {
-                    lock.unlock()
-                    break
-                }
-                dispatchPrecondition(condition: .notOnQueue(.main))
-                let ok = circuit_advance(circuit, min(Self.chunk, target - now)) != 0
-                lock.unlock()
-
-                if !ok {
-                    // The circuit stopped (short, or did not settle): show why.
-                    publish(snapshotNow())
-                    return
-                }
-                if ProcessInfo.processInfo.systemUptime - frameStart > Self.budget {
-                    // Can't keep up: drop the backlog and go on from here.
-                    lock.lock()
-                    anchorWall = ProcessInfo.processInfo.systemUptime
-                    anchorSim = circuit_time(circuit)
-                    lock.unlock()
-                    break
-                }
+            if !ok {
+                // The circuit stopped (short, or did not settle): show why.
+                publish(snapshotNow())
+                return false
             }
-
-            publish(snapshotNow())
-
-            let sleep = frameStart + Self.frame - ProcessInfo.processInfo.systemUptime
-            if sleep > 0 {
-                _ = wake.wait(timeout: .now() + sleep)
+            if ProcessInfo.processInfo.systemUptime - frameStart > Self.budget {
+                // Can't keep up: drop the backlog and go on from here.
+                lock.lock()
+                anchorWall = ProcessInfo.processInfo.systemUptime
+                anchorSim = circuit_time(circuit)
+                lock.unlock()
+                break
             }
         }
+
+        publish(snapshotNow())
+
+        let sleep = frameStart + Self.frame - ProcessInfo.processInfo.systemUptime
+        if sleep > 0 {
+            _ = wake.wait(timeout: .now() + sleep)
+        }
+        return true
     }
 
     // MARK: Reads and switches (any thread)

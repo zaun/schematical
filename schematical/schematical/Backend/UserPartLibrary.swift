@@ -31,8 +31,11 @@ nonisolated final class UserPartLibrary: Sendable {
     /// app's container, the app being sandboxed). Under XCTest it is a fresh
     /// folder in the temporary directory, so a test run never reads or
     /// writes the owner's library.
-    static var defaultDirectory: URL {
-        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
+    static var defaultDirectory: URL { directory(environment: ProcessInfo.processInfo.environment) }
+
+    /// `defaultDirectory` in a process with `environment`.
+    static func directory(environment: [String: String]) -> URL {
+        if environment["XCTestConfigurationFilePath"] != nil {
             return testDirectory
         }
         let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first

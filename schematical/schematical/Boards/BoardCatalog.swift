@@ -9,16 +9,18 @@ nonisolated final class BoardCatalog: @unchecked Sendable {
 
     /// The bundled catalog. Empty, with `loadError` set, when the file
     /// can't be read (a test checks that it can).
-    static let shared: BoardCatalog = {
-        guard let url = Bundle.main.url(forResource: "boards", withExtension: "json") else {
-            return BoardCatalog(boards: [], loadError: "\(fileName) is missing from the app")
-        }
+    static let shared = load(Bundle.main.url(forResource: "boards", withExtension: "json"))
+
+    /// The catalog in the file at `url`; empty, with `loadError` set, when
+    /// there is no file or it can't be read.
+    static func load(_ url: URL?) -> BoardCatalog {
+        guard let url else { return BoardCatalog(boards: [], loadError: "\(fileName) is missing from the app") }
         do {
             return try BoardCatalog(data: Data(contentsOf: url))
         } catch {
             return BoardCatalog(boards: [], loadError: "\(fileName): \(BoardCatalog.describe(error))")
         }
-    }()
+    }
 
     let boards: [BoardDefinition]
     let loadError: String?

@@ -539,10 +539,8 @@ nonisolated enum Router {
                         all += state.ledger.filter { group.nets.contains($0.net) && !all.contains($0.id) }.map(\.id)
                     }
                     let nets = Set(all.compactMap { state.entries[$0]?.net })
-                    // Existing copper that may move is never ripped up: a way through it is no way.
-                    if all.contains(where: { state.entries[$0]?.chain != nil }) {
-                        all = []
-                    }
+                    // Existing copper that may move is never in the way here: without a push price a
+                    // relaxed search can't cross a chain's cells (`RoutingSearch` `tracePrice`).
                     if polishing {
                         // A move is kept or undone whole (`attempt`): no budget, no
                         // history, and never a coupled pair's copper.
@@ -664,11 +662,8 @@ nonisolated enum Router {
                 let via = RoutedVia(centre: grid.point(end % grid.cellCount), drill: net.viaDrill,
                                     diameter: net.viaDiameter, net: net.id)
                 let startTie = sources.first { $0.node == path[0] }?.tie
+                // The tie is a pad's centre, never a target, so the copper has the trace from it to the via.
                 var copper = Router.copper(path, startTie: startTie, endTie: nil, net: net, grid: grid)
-                if copper.traces.isEmpty, let start = startTie {
-                    copper.traces = [RoutedTrace(layer: grid.layers[path[0] / grid.cellCount], width: net.width,
-                                                 points: [start, via.centre], net: net.id)]
-                }
                 copper.vias.append(via)
                 state.add(net: net.id, path: path, traces: copper.traces, vias: copper.vias, allowed: rules.allowed)
                 onPlane[index] = true

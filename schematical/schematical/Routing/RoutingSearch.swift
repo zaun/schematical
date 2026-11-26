@@ -82,7 +82,8 @@ nonisolated struct RoutingSearch {
     private var came: [Int32]
     private var touched: [Int] = []
     private var targetMark: [UInt32]
-    private var generation: UInt32 = 0
+    /// Marks `targetMark`; wraps to 1 after `UInt32.max` searches (set by a test).
+    var generation: UInt32 = 0
     /// Expansions over every search so far.
     private(set) var expansions = 0
     /// The cost of the last path found.

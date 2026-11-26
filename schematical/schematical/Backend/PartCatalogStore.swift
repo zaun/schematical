@@ -421,10 +421,10 @@ final class PartCatalogStore {
             {"format":"schematical-parts","version":1,"kind":"supply","devices":[\(devices.joined(separator: ","))]}
             """
         var error: UnsafeMutablePointer<CChar>?
-        if load_parts(library.pointer, text, "custom-supply-\(rail).json", &error) != 0 {
-            free(error)
-            return nil
-        }
+        // The text is made here from a rail name `SupplyChoice` parsed: the loader takes it.
+        let loaded = load_parts(library.pointer, text, "custom-supply-\(rail).json", &error) == 0
+        free(error)
+        guard loaded else { return nil }
         for part in wanted {
             guard let loaded = part_library_find(library.pointer, part) else { continue }
             customSupplies[part] = BackendCatalog.catalogPart(loaded.pointee) { Footprint($0.pointee) }
@@ -496,9 +496,8 @@ final class PartCatalogStore {
             free(error)
             throw PartRegistrationError.backend(message)
         }
-        guard let uuid = file.uuid, let loaded = part_library_find_uuid(library.pointer, uuid) else {
-            throw PartRegistrationError.backend("\(source): the part did not load")
-        }
+        // The loader refuses a part file without a uuid, so a loaded one is found by it.
+        guard let uuid = file.uuid, let loaded = part_library_find_uuid(library.pointer, uuid) else { throw PartRegistrationError.backend("\(source): the part did not load") }
         let backendPart = BackendCatalog.catalogPart(loaded.pointee) { Footprint($0.pointee) }
         let part = backendPart.listed(in: listing.category ?? PartCategory.fileLibrary)
         partsByName[part.name] = part
@@ -603,9 +602,8 @@ final class PartCatalogStore {
     }
 
     private func persistToUserLibrary(_ part: CatalogPart, previous: PartListing) throws {
-        guard let userLibrary, let uuid = part.uuid, let text = registeredTexts[uuid] else {
-            throw PartRegistrationError.noUserLibrary
-        }
+        // Both callers check the library and register the part (its uuid and text) first.
+        guard let userLibrary, let uuid = part.uuid, let text = registeredTexts[uuid] else { throw PartRegistrationError.noUserLibrary }
         do {
             try userLibrary.write(uuid: uuid, text: text)
             userLibraryAdded[uuid] = userLibraryAdded[uuid] ?? Date()
@@ -657,11 +655,11 @@ final class PartCatalogStore {
             throw PartRegistrationError.libraryWrite(error.localizedDescription)
         }
         let source = "\(file.name ?? uuid).schpart"
-        guard library.retire(uuid: uuid, footprintIDs: ids("footprints", of: oldFile),
-                             datasheetIDs: ids("datasheets", of: oldFile)) else {
-            try? userLibrary.write(uuid: uuid, text: oldText)
-            throw PartRegistrationError.backend("\(source): the part could not be replaced")
-        }
+        // The part is registered (checked above), so the backend has it to retire.
+        let retired = library.retire(uuid: uuid, footprintIDs: ids("footprints", of: oldFile),
+                                     datasheetIDs: ids("datasheets", of: oldFile))
+        if !retired { try? userLibrary.write(uuid: uuid, text: oldText) }
+        guard retired else { throw PartRegistrationError.backend("\(source): the part could not be replaced") }
         var error: UnsafeMutablePointer<CChar>?
         if load_part_file(library.pointer, text, source, &error) != 0 {
             let message = error.map { String(cString: $0) } ?? source
@@ -673,9 +671,7 @@ final class PartCatalogStore {
             try? userLibrary.write(uuid: uuid, text: oldText)
             throw PartRegistrationError.backend(message)
         }
-        guard let loaded = part_library_find_uuid(library.pointer, uuid) else {
-            throw PartRegistrationError.backend("\(source): the part did not load")
-        }
+        guard let loaded = part_library_find_uuid(library.pointer, uuid) else { throw PartRegistrationError.backend("\(source): the part did not load") }
         let part = BackendCatalog.catalogPart(loaded.pointee) { Footprint($0.pointee) }
             .listed(in: PartCategory.userLibrary)
         if old.name != part.name { partsByName[old.name] = nil }
@@ -950,9 +946,12 @@ final class PartCatalogStore {
         Array(Set(names)).sorted { $0.localizedStandardCompare($1) == .orderedAscending }
     }
 
-    func load() {
+    func load() { load(using: BackendCatalog.load(into:)) }
+
+    /// `load()` with the parts `loader` loads into the library (a test's may fail).
+    func load(using loader: (PartLibraryHandle) throws -> [CatalogPart]) {
         do {
-            let parts = try BackendCatalog.load(into: library)
+            let parts = try loader(library)
             partsByName = Dictionary(parts.map { ($0.name, $0) }, uniquingKeysWith: { first, _ in first })
             socketIndex = nil
             // The 80 header sizes are one generic header in the drawer
