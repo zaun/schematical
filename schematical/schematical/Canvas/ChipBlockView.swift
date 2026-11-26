@@ -74,17 +74,14 @@ struct ChipBlockView: View {
         if chip.symbol == .oscillator {
             let radius = min(14, (box.maxY - ChipLayout.headerHeight) / 2 - 4)
             // The frequency to the right of the glyph; the pair is centred
-            // on the body together.
-            if let hertz = oscillatorFrequency(chip.part) {
-                let text = PaintedText(hertz, size: 9, weight: .medium, ink: .secondary)
-                let gap: CGFloat = 4
-                let width = 2 * radius + gap + BoundsPainter.textSize(text).width
-                let centre = CGPoint(x: bodyCentre.x - width / 2 + radius, y: bodyCentre.y)
-                drawSquareWaveGlyph(&painter, centre: centre, radius: radius, ink: outline)
-                painter.draw(text, at: CGPoint(x: centre.x + radius + gap, y: centre.y), anchor: .leading)
-            } else {
-                drawSquareWaveGlyph(&painter, centre: bodyCentre, radius: radius, ink: outline)
-            }
+            // on the body together (the glyph alone, should a part have none:
+            // the loader keeps every oscillator's defaultHz at least 1).
+            let text = oscillatorFrequency(chip.part).map { PaintedText($0, size: 9, weight: .medium, ink: .secondary) }
+            let gap: CGFloat = 4
+            let width = 2 * radius + (text.map { gap + BoundsPainter.textSize($0).width } ?? 0)
+            let centre = CGPoint(x: bodyCentre.x - width / 2 + radius, y: bodyCentre.y)
+            drawSquareWaveGlyph(&painter, centre: centre, radius: radius, ink: outline)
+            if let text { painter.draw(text, at: CGPoint(x: centre.x + radius + gap, y: centre.y), anchor: .leading) }
         } else if chip.symbol == .barrelJack {
             let radius = min(14, (box.maxY - ChipLayout.headerHeight) / 2 - 4)
             drawBarrelGlyph(&painter, centre: bodyCentre, radius: radius, ink: outline)

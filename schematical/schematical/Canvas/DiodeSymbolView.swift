@@ -40,13 +40,8 @@ struct DiodeSymbolView: View {
     /// `.led` for an LED; a diode part's mark otherwise.
     var mark: DiodeMark = .led
 
-    /// The LED's color: the placed LED's own color (Red, Green, Blue, Amber,
-    /// White), or a 7-segment display's (also Yellow and Orange).
-    static func lightColor(for chip: PlacedChip) -> Color {
-        lightColor(named: lightName(for: chip))
-    }
-
-    /// The glow color of a color name; `.secondary` for an unknown one.
+    /// The glow color of a color name (an LED's own color, or a 7-segment
+    /// display's); `.secondary` for an unknown one.
     nonisolated static func lightColor(named family: String) -> Color {
         switch family {
         case "Red": return .red

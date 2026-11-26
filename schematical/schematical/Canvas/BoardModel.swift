@@ -253,28 +253,7 @@ extension PlacedChip {
         guard symbol == .plainDiode, let footprint, let board,
               let cathode = part.pins.first(where: { $0.name == "K" })?.designator,
               let anode = part.pins.first(where: { $0.name == "A" })?.designator else { return nil }
-        func centre(_ designator: String) -> CGPoint? {
-            let pads = footprint.pads.filter { $0.designator == designator }
-            guard !pads.isEmpty else { return nil }
-            let n = CGFloat(pads.count)
-            return CGPoint(x: pads.map(\.centre.x).reduce(0, +) / n, y: pads.map(\.centre.y).reduce(0, +) / n)
-        }
-        guard let k = centre(cathode), let a = centre(anode) else { return nil }
-        let dx = k.x - a.x, dy = k.y - a.y
-        guard max(abs(dx), abs(dy)) > 0.01 else { return nil }
-        let horizontal = abs(dx) >= abs(dy)
-        let length = horizontal ? footprint.body.width : footprint.body.height
-        let across = horizontal ? footprint.body.height : footprint.body.width
-        let along = (length / 2 - length / 5) * ((horizontal ? dx : dy) > 0 ? 1 : -1)
-        // On a round body the band is the chord at that point.
-        var half = across / 2
-        if footprint.bodyRound {
-            let t = along / (length / 2)
-            half *= (1 - t * t).squareRoot()
-        }
-        let p = horizontal ? CGPoint(x: along, y: -half) : CGPoint(x: -half, y: along)
-        let q = horizontal ? CGPoint(x: along, y: half) : CGPoint(x: half, y: along)
-        return (board.board(p), board.board(q))
+        return BoardLayout.cathodeBand(of: footprint, on: board, cathode: cathode, anode: anode)
     }
 
     /// Where the pin-1 mark goes: 0.5 mm outside the body corner nearest the
@@ -301,6 +280,36 @@ extension PlacedChip {
 }
 
 nonisolated enum BoardLayout {
+    /// The cathode band of a diode `footprint` placed at `placement`
+    /// (`PlacedChip.cathodeBand`): nil when the pads named `cathode` and
+    /// `anode` are missing or don't sit apart along one axis. On a round
+    /// body (a custom footprint's) the band is the chord at that point.
+    static func cathodeBand(of footprint: Footprint, on placement: BoardPlacement, cathode: String,
+                            anode: String) -> (a: CGPoint, b: CGPoint)? {
+        func centre(_ designator: String) -> CGPoint? {
+            let pads = footprint.pads.filter { $0.designator == designator }
+            guard !pads.isEmpty else { return nil }
+            let n = CGFloat(pads.count)
+            return CGPoint(x: pads.map(\.centre.x).reduce(0, +) / n, y: pads.map(\.centre.y).reduce(0, +) / n)
+        }
+        guard let k = centre(cathode), let a = centre(anode) else { return nil }
+        let dx = k.x - a.x, dy = k.y - a.y
+        guard max(abs(dx), abs(dy)) > 0.01 else { return nil }
+        let horizontal = abs(dx) >= abs(dy)
+        let length = horizontal ? footprint.body.width : footprint.body.height
+        let across = horizontal ? footprint.body.height : footprint.body.width
+        let along = (length / 2 - length / 5) * ((horizontal ? dx : dy) > 0 ? 1 : -1)
+        // On a round body the band is the chord at that point.
+        var half = across / 2
+        if footprint.bodyRound {
+            let t = along / (length / 2)
+            half *= (1 - t * t).squareRoot()
+        }
+        let p = horizontal ? CGPoint(x: along, y: -half) : CGPoint(x: -half, y: along)
+        let q = horizontal ? CGPoint(x: along, y: half) : CGPoint(x: half, y: along)
+        return (placement.board(p), placement.board(q))
+    }
+
     /// A footprint's body plus pads, unrotated, around its origin.
     static func localBounds(of footprint: Footprint) -> CGRect {
         var bounds = CGRect(x: -footprint.body.width / 2, y: -footprint.body.height / 2,

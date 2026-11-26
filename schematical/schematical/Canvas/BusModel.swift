@@ -313,11 +313,6 @@ nonisolated struct Bus: Identifiable, Hashable {
     /// The joints shapes (joints without their points).
     var jointShapes: Set<BusJoint> { Set(joints.map(\.shape)) }
 
-    /// The joints a line takes part in.
-    func joints(of lineID: UUID) -> [BusJoint] {
-        joints.filter { $0.involves(lineID) }
-    }
-
     /// The joint a line end is in, or nil for a free end.
     func joint(at end: BusLineEnd) -> BusJoint? {
         joints.first { $0.ends.contains(end) }

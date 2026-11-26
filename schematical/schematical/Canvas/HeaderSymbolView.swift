@@ -22,9 +22,8 @@ struct HeaderSymbolView: View {
         if let size = chip.part.headerSize {
             words.append("\(size.rows)×\(size.perRow)")
         }
+        // A header with genders always has one chosen (`PlacedChip.init`).
         if let gender = chip.gender {
-            words.append(gender.lowercased())
-        } else if let gender = chip.part.genders.first {
             words.append(gender.lowercased())
         }
         return words.filter { !$0.isEmpty }.joined(separator: " ")

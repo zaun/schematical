@@ -9,7 +9,7 @@ struct BoardDetailsSheet: View {
     @Bindable var document: SchematicDocument
     let highlightedNet: Binding<PlaneNet?>
     /// Routes a net from its row (Route Net). The sheet closes first.
-    var onRoute: (RoutingOptions.Scope) -> Void = { _ in }
+    var onRoute: (RoutingOptions.Scope) -> Void
     var onClose: () -> Void
 
     enum Tab: String, CaseIterable, Identifiable {
@@ -40,8 +40,20 @@ struct BoardDetailsSheet: View {
     @State var tab: Tab?
     /// The net list the three net tabs share, rebuilt shortly after the
     /// board or the schematic changes rather than on every redraw.
-    @State private var rows: [NetRow] = []
-    @State private var hasBuilt = false
+    @State private var rows: [NetRow]
+    @State private var hasBuilt: Bool
+
+    /// Opens on `tab` (the first tab when nil), with the net list not yet built.
+    init(document: SchematicDocument, highlightedNet: Binding<PlaneNet?>,
+         onRoute: @escaping (RoutingOptions.Scope) -> Void = { _ in }, onClose: @escaping () -> Void, tab: Tab? = nil) {
+        self.document = document
+        self.highlightedNet = highlightedNet
+        self.onRoute = onRoute
+        self.onClose = onClose
+        _tab = State(initialValue: tab)
+        _rows = State(initialValue: [])
+        _hasBuilt = State(initialValue: false)
+    }
 
     var body: some View {
         let tabs = Self.tabs(for: document.board)

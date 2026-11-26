@@ -9,17 +9,30 @@ struct LengthField: View {
     let millimetres: Double
     let units: BoardUnits
     /// Shows 2 more decimals (4 in mm, 5 in inches), for grid sizes.
-    var precise = false
+    var precise: Bool
     /// Hands each typed length to `commit` as it is typed, not only on
     /// Return or leaving the field (as `ValueField.live`).
-    var live = false
+    var live: Bool
     let commit: (Double) -> Double
 
-    @State private var text = ""
+    @State private var text: String
     /// What the field last showed of the stored value; when `text` differs,
     /// the user is typing and outside changes don't overwrite it.
-    @State private var shown = ""
+    @State private var shown: String
     @FocusState private var isFocused: Bool
+
+    /// Starts empty; the field shows the stored length once it appears.
+    init(title: String, millimetres: Double, units: BoardUnits, precise: Bool = false, live: Bool = false,
+         commit: @escaping (Double) -> Double) {
+        self.title = title
+        self.millimetres = millimetres
+        self.units = units
+        self.precise = precise
+        self.live = live
+        self.commit = commit
+        _text = State(initialValue: "")
+        _shown = State(initialValue: "")
+    }
 
     var body: some View {
         TextField(title, text: $text)
