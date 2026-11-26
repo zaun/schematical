@@ -690,6 +690,26 @@ final class SchematicDocument {
         try recordEdit(page, name, coalescing: coalescing) { try body(EditScope()) }
     }
 
+    /// The parts as a value (plan-68-F).
+    var parts: PartList { PartList(chips: chips, nextReference: nextReference) }
+
+    /// Runs `body` on the parts and writes back what it changed. Only a
+    /// recorded edit (or the undo code) has the scope.
+    func updateParts<T>(_ scope: EditScope, _ body: (inout PartList) throws -> T) rethrows -> T {
+        var value = parts
+        defer {
+            if value.chips != chips { chips = value.chips }
+            if value.nextReference != nextReference { nextReference = value.nextReference }
+        }
+        return try body(&value)
+    }
+
+    /// Switch inputs while the simulation plays or as it stops (a button
+    /// held, positions put back): not edits, so not recorded.
+    func updateInputs(_ body: (inout PartList) -> Void) {
+        updateParts(EditScope(), body)
+    }
+
     /// A card-edge bus link that no longer counts goes (see `finishRecording`).
     private func dropStaleEdgeBus(_ scope: EditScope) {
         if board.edgeBus != nil, edgeBusID == nil { layout.updateSettings(scope) { $0.edgeBus = nil } }
@@ -842,6 +862,11 @@ final class SchematicDocument {
 
     // MARK: Chips
 
+    /// Runs `change` on the parts as one undo step named `name` on `page`.
+    private func editParts<T>(_ name: String, page: EditorPage = .schematic, _ change: (inout PartList) -> T) -> T {
+        edit(page, name) { scope in updateParts(scope, change) }
+    }
+
     /// Places a block with its centre under `point`, snapped to the grid.
     /// The new part is not selected, so the parts library stays open for
     /// the next drop.
@@ -851,81 +876,31 @@ final class SchematicDocument {
     func placeChip(part: CatalogPart, symbol: PartSymbol, centeredAt point: CGPoint,
                    color: String? = nil, footprintID: String? = nil, gender: String? = nil,
                    ohms: Double? = nil, farads: Double? = nil) {
-        recordEdit(.schematic, "Add Part") {
-            let layout = ChipLayout(part: part, symbol: symbol)
-            let origin = SchematicGrid.snap(
-                CGPoint(x: point.x - layout.size.width / 2, y: point.y - layout.size.height / 2)
-            )
-            let reference = takeReference(for: part, gender: gender)
-            var placed = PlacedChip(
-                reference: reference,
-                part: part,
-                symbol: symbol,
-                origin: origin,
-                color: color,
-                footprintID: footprintID,
-                gender: gender,
-                ohms: ohms,
-                farads: farads
-            )
-            placed.board = placed.footprint.map {
-                BoardLayout.nextSpot(for: $0, among: chips, pad1: placed.part.firstPinDesignator,
-                                     hasPinOneMark: placed.part.hasPinOneMark, grid: self.board.grid)
+        let grid = board.grid
+        edit(.schematic, "Add Part") { scope in
+            let id = updateParts(scope) {
+                $0.place(part: part, symbol: symbol, centeredAt: point, color: color, footprintID: footprintID,
+                         gender: gender, ohms: ohms, farads: farads, grid: grid)
             }
-            chips.append(placed)
-            adoptLooseEnds(chips: [placed.id])
+            adoptLooseEnds(chips: [id])
         }
-    }
-
-    /// The reference for a new part, taken, with its prefix from Settings ▸
-    /// Reference Defaults (`ReferencePrefixes`). A part with the Integrated Circuit
-    /// prefix gets the first number from `nextReference` on that no part
-    /// uses (a part may have been renamed to one), which moves
-    /// `nextReference` past it; any other part the lowest number no part
-    /// uses. `alsoUsed` are references taken but not yet in `chips` (a
-    /// paste in progress); `gender` is a header's.
-    private func takeReference(for part: CatalogPart, gender: String?,
-                               alsoUsed: [String] = []) -> String {
-        let used = Set(chips.map(\.reference) + alsoUsed)
-        let prefix = ReferencePrefixes.prefix(for: part, gender: gender)
-        let counted = prefix == ReferencePrefixes.prefix(for: .integratedCircuit)
-        var number = counted ? nextReference : 1
-        while used.contains(ReferenceParts.reference(prefix: prefix, number: number)) {
-            number += 1
-        }
-        if counted { nextReference = number + 1 }
-        return ReferenceParts.reference(prefix: prefix, number: number)
     }
 
     /// Sets an LED's color. Does nothing for a part that isn't an LED, or a
     /// color the part doesn't have.
     func setPartColor(_ id: UUID, _ color: String) {
-        recordEdit(.schematic, "Change Color") {
-            guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].part.kind == PART_LED,
-                  chips[index].part.colors.contains(color) else { return }
-            chips[index].color = color
-        }
+        editParts("Change Color") { $0.setColor(id, color) }
     }
 
     /// Turns the reference above a part on the Schematic on or off.
     func setPartShowsReference(_ id: UUID, _ shows: Bool) {
-        recordEdit(.schematic, shows ? "Show Reference" : "Hide Reference") {
-            guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].showsReference != shows else { return }
-            chips[index].showsReference = shows
-        }
+        editParts(shows ? "Show Reference" : "Hide Reference") { $0.setShowsReference(id, shows) }
     }
 
     /// Sets a header's gender. Does nothing for a part that isn't a header,
     /// or a gender the part doesn't list.
     func setPartGender(_ id: UUID, _ gender: String) {
-        recordEdit(.schematic, "Change Gender") {
-            guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].part.kind == PART_HEADER,
-                  chips[index].part.genders.contains(gender) else { return }
-            chips[index].gender = gender
-        }
+        editParts("Change Gender") { $0.setGender(id, gender) }
     }
 
     /// Changes a header's size by swapping its part for `newPart` (the
@@ -936,42 +911,21 @@ final class SchematicDocument {
     /// tips; the rest are re-fitted. Does
     /// nothing unless both are headers and `newPart` is another size.
     func setHeaderSize(_ id: UUID, to newPart: CatalogPart) {
-        edit(.schematic, "Change Size") { scope in
-            guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].part.kind == PART_HEADER, newPart.kind == PART_HEADER,
-                  chips[index].part != newPart else { return }
-            swapPart(of: id, to: newPart, scope)
-        }
+        guard parts.canResizeHeader(id, to: newPart) else { return }
+        edit(.schematic, "Change Size") { scope in swapPart(of: id, to: newPart, scope) }
     }
 
-    /// Puts chip `id` on `newPart` (a header's new size, or a library part
-    /// updated in place): wires on pins the new part lacks stay with loose
-    /// ends at those pins' old tips, the chip keeps its reference, origin,
-    /// flip, options and board placement, on the PCB pad 1 keeps its board
-    /// point, and the rest of the wires are re-fitted. Not recorded: callers
-    /// wrap it in `recordEdit` or clear the history.
+    /// Puts chip `id` on `newPart` (`PartList.swap`): wires on pins the new
+    /// part lacks stay with loose ends at those pins' old tips, and the rest
+    /// of the wires are re-fitted. Not recorded: callers wrap it in an edit
+    /// or clear the history.
     private func swapPart(of id: UUID, to newPart: CatalogPart, symbol newSymbol: PartSymbol? = nil, _ scope: EditScope) {
-        guard let index = chips.firstIndex(where: { $0.id == id }) else { return }
-        let old = chips[index]
-        let pad1 = old.part.firstPinDesignator
-        let anchor = old.board.flatMap { board in
-            old.footprint?.pads.first { $0.designator == pad1 }.map { board.board($0.centre) }
-        }
         let pinCount = newPart.pins.count
         loosen(scope) { end in
             if case let .pin(ref) = end { return ref.chipID == id && ref.index >= pinCount }
             return false
         }
-        chips[index] = old.resized(to: newPart, symbol: newSymbol)
-        // The reference was placed for the old body.
-        chips[index].board?.referenceOffset = .zero
-        if let anchor, var board = chips[index].board,
-           let pad = chips[index].footprint?.pads.first(where: { $0.designator == pad1 }) {
-            let landed = board.board(pad.centre)
-            board.centre.x += anchor.x - landed.x
-            board.centre.y += anchor.y - landed.y
-            chips[index].board = board
-        }
+        updateParts(scope) { $0.swap(id, to: newPart, symbol: newSymbol) }
         settleWires(attachedTo: id)
     }
 
@@ -997,23 +951,13 @@ final class SchematicDocument {
     /// (`hasOhmsField`). Does nothing for any other part, or a value that
     /// isn't `ResistorValue.isValid`.
     func setPartOhms(_ id: UUID, _ ohms: Double) {
-        recordEdit(.schematic, "Change Resistance") {
-            guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].part.hasOhmsField,
-                  ResistorValue.isValid(ohms) else { return }
-            chips[index].ohms = ohms
-        }
+        editParts("Change Resistance") { $0.setOhms(id, ohms) }
     }
 
     /// Sets the generic capacitor's capacitance (plan-33-H). Does nothing for
     /// any other part, or a value that isn't `CapacitorValue.isValid`.
     func setPartFarads(_ id: UUID, _ farads: Double) {
-        recordEdit(.schematic, "Change Capacitance") {
-            guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].part.isGenericCapacitor,
-                  CapacitorValue.isValid(farads) else { return }
-            chips[index].farads = farads
-        }
+        editParts("Change Capacitance") { $0.setFarads(id, farads) }
     }
 
     /// Picks one of a part's footprint choices. On the PCB the pad of the
@@ -1021,35 +965,7 @@ final class SchematicDocument {
     /// `setFootprintStyle`); rotation, origin, marks and style are kept. Does
     /// nothing for an id that isn't one of the part's choices, or the current one.
     func setPartFootprint(_ id: UUID, _ footprintID: String) {
-        recordEdit(.schematic, "Change Footprint") {
-            guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].footprintID != footprintID,
-                  chips[index].part.footprintChoices.contains(where: { $0.footprint.id == footprintID })
-            else { return }
-            changingFootprint(of: index) { chips[index].footprintID = footprintID }
-        }
-    }
-
-    /// Runs `change`, which swaps the footprint of the chip at `index`, and
-    /// keeps the pad of the part's first pin at its board point: the
-    /// placement moves by the difference between the old and new pad 1, the
-    /// reference text goes back to its default offset. The chip's rotation,
-    /// origin, marks and style are kept (`setPartFootprint`, `setPartSocket`).
-    private func changingFootprint(of index: Int, _ change: () -> Void) {
-        let before = chips[index].footprint
-        change()
-        guard var changed = chips[index].board, let before, let after = chips[index].footprint else { return }
-        // The reference was placed for the old body.
-        changed.referenceOffset = .zero
-        let pad1 = chips[index].part.firstPinDesignator
-        if let old = before.pads.first(where: { $0.designator == pad1 }),
-           let new = after.pads.first(where: { $0.designator == pad1 }) {
-            let anchor = changed.board(old.centre)
-            let landed = changed.board(new.centre)
-            changed.centre.x += anchor.x - landed.x
-            changed.centre.y += anchor.y - landed.y
-        }
-        chips[index].board = changed
+        editParts("Change Footprint") { $0.setFootprint(id, footprintID) }
     }
 
     /// Puts a chip in or out of a socket (plan-51-H). `mode` nil is a plain IC;
@@ -1061,21 +977,7 @@ final class SchematicDocument {
     /// pad where it was; between the two socket modes only the mode changes,
     /// and between two sockets that share a footprint nothing moves.
     func setPartSocket(_ id: UUID, mode: ChipSocket.Mode?, socket: CatalogPart?) {
-        recordEdit(.schematic, "Change Socket") {
-            guard let index = chips.firstIndex(where: { $0.id == id }) else { return }
-            var new: ChipSocket?
-            if let mode {
-                guard let part = socket ?? chips[index].socket?.part,
-                      ChipSocket.fits(part, chips[index].part) else { return }
-                new = ChipSocket(part: part, mode: mode)
-            }
-            guard chips[index].socket != new else { return }
-            if chips[index].socket?.part.footprint?.id == new?.part.footprint?.id {
-                chips[index].socket = new
-            } else {
-                changingFootprint(of: index) { chips[index].socket = new }
-            }
-        }
+        editParts("Change Socket") { $0.setSocket(id, mode: mode, socket: socket) }
     }
 
     /// Renames a part to `prefix` (uppercased) plus `number`. Returns why it
@@ -1084,18 +986,7 @@ final class SchematicDocument {
     /// the step is on both pages' lists either way.
     @discardableResult
     func renameChip(_ id: UUID, prefix: String, number: Int?, page: EditorPage) -> String? {
-        return recordEdit(page, "Rename") { () -> String? in
-            if let message = ReferenceParts.validate(prefix: prefix, number: number) {
-                return message
-            }
-            guard let number, let index = chips.firstIndex(where: { $0.id == id }) else { return nil }
-            let reference = ReferenceParts.reference(prefix: prefix, number: number)
-            if chips.contains(where: { $0.id != id && $0.reference == reference }) {
-                return "\(reference) is already used by another part."
-            }
-            chips[index].reference = reference
-            return nil
-        }
+        editParts("Rename", page: page) { $0.rename(id, prefix: prefix, number: number) }
     }
 
     /// Edit › Reset References: every part gets its prefix from Settings ▸
@@ -1106,50 +997,33 @@ final class SchematicDocument {
     /// Returns whether any reference changed.
     @discardableResult
     func resetReferences(page: EditorPage) -> Bool {
-        let order = chips.indices.sorted { a, b in
-            let ca = chips[a], cb = chips[b]
-            if ca.origin.y != cb.origin.y { return ca.origin.y < cb.origin.y }
-            if ca.origin.x != cb.origin.x { return ca.origin.x < cb.origin.x }
-            return ca.reference.localizedStandardCompare(cb.reference) == .orderedAscending
-        }
-        var counts: [String: Int] = [:]
-        var renamed = chips
-        for index in order {
-            let prefix = ReferencePrefixes.prefix(for: chips[index].part, gender: chips[index].gender)
-            let number = (counts[prefix] ?? 0) + 1
-            counts[prefix] = number
-            renamed[index].reference = ReferenceParts.reference(prefix: prefix, number: number)
-        }
-        let next = (counts[ReferencePrefixes.prefix(for: .integratedCircuit)] ?? 0) + 1
-        guard renamed != chips || next != nextReference else { return false }
-        recordEdit(page, "Reset References") {
-            chips = renamed
-            nextReference = next
-        }
+        var renamed = parts
+        renamed.resetReferences()
+        guard renamed.chips != chips || renamed.nextReference != nextReference else { return false }
+        editParts("Reset References", page: page) { $0 = renamed }
         return true
+    }
+
+    /// After a part's pins moved: re-fits its wires and connects loose ends
+    /// its pins landed on.
+    private func settled(_ id: UUID) {
+        settleWires(attachedTo: id)
+        adoptLooseEnds(chips: [id])
     }
 
     /// Swaps the side of every pin on a placed part, and re-fits the wires
     /// attached to it.
     func flipChip(_ id: UUID) {
-        recordEdit(.schematic, "Flip") {
-            guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].symbol.canFlip, !chips[index].isSplit else { return }
-            chips[index].isFlipped.toggle()
-            settleWires(attachedTo: id)
-            adoptLooseEnds(chips: [id])
+        edit(.schematic, "Flip") { scope in
+            if updateParts(scope, { $0.flip(id) }) { settled(id) }
         }
     }
 
     /// Turns a part that can rotate (`PartSymbol.canRotate`) a quarter turn,
     /// clockwise or not, and re-fits the wires attached to it.
     func rotateChip(_ id: UUID, counterclockwise: Bool = false) {
-        recordEdit(.schematic, "Rotate") {
-            guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].symbol.canRotate, !chips[index].isSplit else { return }
-            chips[index].rotation = PlacedChip.normalized(chips[index].rotation + (counterclockwise ? 270 : 90))
-            settleWires(attachedTo: id)
-            adoptLooseEnds(chips: [id])
+        edit(.schematic, "Rotate") { scope in
+            if updateParts(scope, { $0.rotate(id, counterclockwise: counterclockwise) }) { settled(id) }
         }
     }
 
@@ -1159,52 +1033,37 @@ final class SchematicDocument {
     /// separate gates) or as one block again. The wires stay on their pins.
     /// Nothing for a part with no units, or one already drawn that way.
     func setPartSplit(_ id: UUID, _ split: Bool) {
-        guard let index = chips.firstIndex(where: { $0.id == id }),
-              !chips[index].part.units.isEmpty, chips[index].isSplit != split else { return }
-        recordEdit(.schematic, "Change View") {
-            if split { chips[index].split() } else { chips[index].join() }
-            settleWires(attachedTo: id)
-            adoptLooseEnds(chips: [id])
+        guard let chip = chips.first(where: { $0.id == id }), !chip.part.units.isEmpty, chip.isSplit != split else { return }
+        edit(.schematic, "Change View") { scope in
+            _ = updateParts(scope) { $0.setSplit(id, split) }
+            settled(id)
         }
-    }
-
-    /// Whether `ref` names a unit of a part drawn as its units.
-    private func placementIndex(_ ref: UnitRef) -> Int? {
-        guard let index = chips.firstIndex(where: { $0.id == ref.chipID }),
-              chips[index].unitPlacements.contains(where: { $0.key == ref.key }) else { return nil }
-        return index
     }
 
     /// Moves one unit's body corner to `origin` (snapped to the grid).
     func moveUnit(_ ref: UnitRef, to origin: CGPoint) {
-        guard let index = placementIndex(ref) else { return }
-        recordEdit(.schematic, "Move") {
-            chips[index].updatePlacement(ref.key) { $0.origin = SchematicGrid.snap(origin) }
-            settleWires(attachedTo: ref.chipID)
-            adoptLooseEnds(chips: [ref.chipID])
+        guard parts.placementIndex(ref) != nil else { return }
+        edit(.schematic, "Move") { scope in
+            updateParts(scope) { $0.moveUnit(ref, to: origin) }
+            settled(ref.chipID)
         }
     }
 
     /// Mirrors one unit left to right.
     func flipUnit(_ ref: UnitRef) {
-        guard let index = placementIndex(ref) else { return }
-        recordEdit(.schematic, "Flip") {
-            chips[index].updatePlacement(ref.key) { $0.isFlipped.toggle() }
-            settleWires(attachedTo: ref.chipID)
-            adoptLooseEnds(chips: [ref.chipID])
+        guard parts.placementIndex(ref) != nil else { return }
+        edit(.schematic, "Flip") { scope in
+            updateParts(scope) { $0.flipUnit(ref) }
+            settled(ref.chipID)
         }
     }
 
     /// Turns one unit a quarter turn. Nothing for a unit drawn as a block.
     func rotateUnit(_ ref: UnitRef, counterclockwise: Bool = false) {
-        guard let index = placementIndex(ref),
-              chips[index].piece(forUnit: ref.key)?.symbol.canRotate == true else { return }
-        recordEdit(.schematic, "Rotate") {
-            chips[index].updatePlacement(ref.key) {
-                $0.rotation = PlacedChip.normalized($0.rotation + (counterclockwise ? 270 : 90))
-            }
-            settleWires(attachedTo: ref.chipID)
-            adoptLooseEnds(chips: [ref.chipID])
+        guard parts.canRotateUnit(ref) else { return }
+        edit(.schematic, "Rotate") { scope in
+            updateParts(scope) { $0.rotateUnit(ref, counterclockwise: counterclockwise) }
+            settled(ref.chipID)
         }
     }
 
@@ -1439,18 +1298,7 @@ final class SchematicDocument {
                 guard Self.busesAreApart(moved) else { return }
                 sheet.updateBuses(scope) { $0.buses = moved }
             }
-            for index in chips.indices {
-                guard let origin = base.chips[chips[index].id] else { continue }
-                let moved = shifted(origin)
-                if chips[index].origin != moved { chips[index].origin = moved }
-            }
-            for (ref, origin) in base.units {
-                guard let index = chips.firstIndex(where: { $0.id == ref.chipID }) else { continue }
-                let moved = shifted(origin)
-                if chips[index].unitPlacements.first(where: { $0.key == ref.key })?.origin != moved {
-                    chips[index].updatePlacement(ref.key) { $0.origin = moved }
-                }
-            }
+            updateParts(scope) { $0.moveGroup(origins: base.chips, units: base.units, by: shifted) }
             sheet.updateNotes(scope) { $0.move(base.notes, by: shifted) }
             sheet.updateLabels(scope) { $0.move(base.labels, by: shifted) }
             if let origin = base.titleBlock {
@@ -1507,11 +1355,13 @@ final class SchematicDocument {
                 return fresh
             }
 
-            let savedNextReference = nextReference
+            // References are taken from a copy: a refused paste leaves the
+            // parts, and the next reference, as they were.
+            var references = parts
             var pastedChips: [PlacedChip] = []
             for chip in copy.chips {
                 var placed = PlacedChip(
-                    id: renamed(chip.id), reference: takeReference(for: chip.part, gender: chip.gender,
+                    id: renamed(chip.id), reference: references.takeReference(for: chip.part, gender: chip.gender,
                                                                    alsoUsed: pastedChips.map(\.reference)),
                     part: chip.part,
                     symbol: chip.symbol, origin: shifted(chip.origin), isFlipped: chip.isFlipped,
@@ -1565,7 +1415,6 @@ final class SchematicDocument {
                                        wires: busWires, ports: ports))
             }
             guard Self.busesAreApart(buses + pastedBuses) else {
-                nextReference = savedNextReference
                 editorMessage = "Can't paste there: a pasted bus would touch another bus."
                 return false
             }
@@ -1588,12 +1437,14 @@ final class SchematicDocument {
                let issue = VoltageCheck.firstNew(before: chips, wires, after: chips + pastedChips,
                                                  wires + pastedWires, buses: buses + pastedBuses, labels: netLabels,
                                                  afterLabels: netLabels + pastedLabels, library: library) {
-                nextReference = savedNextReference
                 editorMessage = VoltageCheck.message(issue, chips: chips + pastedChips, edit: .connect)
                 return false
             }
             editorMessage = nil
-            chips += pastedChips
+            updateParts(scope) {
+                $0.chips += pastedChips
+                $0.nextReference = references.nextReference
+            }
             sheet.updateWiring(scope) { $0.junctions += pastedJunctions }
             sheet.updateLabels(scope) { $0.labels += pastedLabels }
             sheet.updateNotes(scope) { $0.notes += pastedNotes }
@@ -1853,49 +1704,22 @@ final class SchematicDocument {
     /// Moves a footprint's centre (board mm), then snaps its origin point to
     /// the board grid.
     func moveFootprint(_ id: UUID, to centre: CGPoint) {
-        recordEdit(.pcb, "Move") {
-            guard let index = chips.firstIndex(where: { $0.id == id }),
-                  let board = chips[index].board, !board.locked,
-                  let footprint = chips[index].footprint else { return }
-            var moved = board
-            moved.centre = centre
-            chips[index].board = BoardLayout.snapped(moved, footprint: footprint,
-                                                     pad1: chips[index].part.firstPinDesignator, grid: self.board.grid)
-        }
+        let grid = board.grid
+        editParts("Move", page: .pcb) { $0.moveFootprint(id, to: centre, grid: grid) }
     }
 
     /// Moves a footprint so its origin point lands on `point` (board mm),
     /// snapped to the grid.
     func moveFootprintOrigin(_ id: UUID, to point: CGPoint) {
-        recordEdit(.pcb, "Move") {
-            guard let index = chips.firstIndex(where: { $0.id == id }),
-                  let board = chips[index].board, !board.locked,
-                  let footprint = chips[index].footprint else { return }
-            let pad1 = chips[index].part.firstPinDesignator
-            let current = BoardLayout.originPoint(of: board, footprint: footprint, pad1: pad1)
-            var moved = board
-            moved.centre.x += point.x - current.x
-            moved.centre.y += point.y - current.y
-            chips[index].board = BoardLayout.snapped(moved, footprint: footprint, pad1: pad1, grid: self.board.grid)
-        }
+        let grid = board.grid
+        editParts("Move", page: .pcb) { $0.moveFootprintOrigin(id, to: point, grid: grid) }
     }
 
     /// Turns a footprint 90° clockwise about its origin point, which stays
     /// where it was.
     func rotateFootprint(_ id: UUID, counterclockwise: Bool = false) {
-        recordEdit(.pcb, "Rotate") {
-            guard let index = chips.firstIndex(where: { $0.id == id }),
-                  let board = chips[index].board, !board.locked,
-                  let footprint = chips[index].footprint else { return }
-            let pad1 = chips[index].part.firstPinDesignator
-            let before = BoardLayout.originPoint(of: board, footprint: footprint, pad1: pad1)
-            var turned = board
-            turned.rotation = (board.rotation + (counterclockwise ? 270 : 90)) % 360
-            let after = BoardLayout.originPoint(of: turned, footprint: footprint, pad1: pad1)
-            turned.centre.x += before.x - after.x
-            turned.centre.y += before.y - after.y
-            chips[index].board = BoardLayout.snapped(turned, footprint: footprint, pad1: pad1, grid: self.board.grid)
-        }
+        let grid = board.grid
+        editParts("Rotate", page: .pcb) { $0.rotateFootprint(id, counterclockwise: counterclockwise, grid: grid) }
     }
 
     /// Moves a footprint to the other side of the board, mirrored left to
@@ -1903,34 +1727,14 @@ final class SchematicDocument {
     /// snaps, as in `rotateFootprint`. Does nothing on a 1-layer board or when
     /// the side doesn't change.
     func setFootprintSide(_ id: UUID, _ side: BoardSide) {
-        recordEdit(.pcb, "Change Side") {
-            guard board.layers > 1,
-                  let index = chips.firstIndex(where: { $0.id == id }),
-                  let placement = chips[index].board, placement.side != side,
-                  let footprint = chips[index].footprint else { return }
-            let pad1 = chips[index].part.firstPinDesignator
-            let before = BoardLayout.originPoint(of: placement, footprint: footprint, pad1: pad1)
-            var flipped = placement
-            flipped.side = side
-            // A placement mirrors before it turns, so a board-wide left-right
-            // mirror of a turned footprint is the mirror plus the opposite
-            // turn. Without this, 90° and 270° parts come out mirrored top to
-            // bottom and their pad rows swap.
-            flipped.rotation = (360 - placement.rotation) % 360
-            let after = BoardLayout.originPoint(of: flipped, footprint: footprint, pad1: pad1)
-            flipped.centre.x += before.x - after.x
-            flipped.centre.y += before.y - after.y
-            chips[index].board = BoardLayout.snapped(flipped, footprint: footprint, pad1: pad1, grid: self.board.grid)
-        }
+        let layers = board.layers, grid = board.grid
+        editParts("Change Side", page: .pcb) { $0.setFootprintSide(id, side, layers: layers, grid: grid) }
     }
 
     /// Changes which point of a footprint is its origin. The footprint stays
     /// where it is and is not re-snapped.
     func setFootprintOrigin(_ id: UUID, _ origin: FootprintOrigin) {
-        recordEdit(.pcb, "Change Origin") {
-            guard let index = chips.firstIndex(where: { $0.id == id }), chips[index].board != nil else { return }
-            chips[index].board?.origin = origin
-        }
+        editParts("Change Origin", page: .pcb) { $0.setFootprintOrigin(id, origin) }
     }
 
     /// Switches a part between its footprint and its connector footprint
@@ -1939,27 +1743,7 @@ final class SchematicDocument {
     /// point off the grid); rotation, origin and marks are kept. Does nothing for a part without a connector
     /// footprint or when the style does not change.
     func setFootprintStyle(_ id: UUID, _ style: FootprintStyle) {
-        recordEdit(.pcb, "Change Style") {
-            guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].part.connectorFootprint != nil,
-                  let board = chips[index].board, board.style != style,
-                  let before = chips[index].footprint else { return }
-            let pad1 = chips[index].part.firstPinDesignator
-            var changed = board
-            changed.style = style
-            // The reference was placed for the old body.
-            changed.referenceOffset = .zero
-            chips[index].board = changed
-            guard let after = chips[index].footprint else { return }
-            if let old = before.pads.first(where: { $0.designator == pad1 }),
-               let new = after.pads.first(where: { $0.designator == pad1 }) {
-                let anchor = board.board(old.centre)
-                let landed = changed.board(new.centre)
-                changed.centre.x += anchor.x - landed.x
-                changed.centre.y += anchor.y - landed.y
-            }
-            chips[index].board = changed
-        }
+        editParts("Change Style", page: .pcb) { $0.setFootprintStyle(id, style) }
     }
 
     /// Sets where a footprint's marks are drawn. A nil layer is left as it is.
@@ -1973,13 +1757,7 @@ final class SchematicDocument {
     /// skipped.
     func setFootprintMarks(_ ids: some Collection<UUID>, outline: MarkLayer? = nil, pin1: MarkLayer? = nil,
                            reference: MarkLayer? = nil) {
-        recordEdit(.pcb, "Change Marks") {
-            for index in chips.indices where ids.contains(chips[index].id) && chips[index].board != nil {
-                if let outline { chips[index].board?.outline = outline }
-                if let pin1 { chips[index].board?.pin1 = pin1 }
-                if let reference { chips[index].board?.reference = reference }
-            }
-        }
+        editParts("Change Marks", page: .pcb) { $0.setFootprintMarks(ids, outline: outline, pin1: pin1, reference: reference) }
     }
 
     /// Moves a footprint's reference so its text is centred at `point` (board
@@ -1987,24 +1765,13 @@ final class SchematicDocument {
     /// part (`BoardPlacement.referenceOffset`), so it follows the part. A
     /// locked footprint's reference can still be moved.
     func moveReference(_ id: UUID, toCentre point: CGPoint) {
-        recordEdit(.pcb, "Move Reference") {
-            guard let index = chips.firstIndex(where: { $0.id == id }), let board = chips[index].board else { return }
-            let grid = CGFloat(self.board.traceGrid)
-            let snapped = BoardGrid.snap(point, spacing: grid)
-            let local = board.local(snapped)
-            // Whole 0.0001 mm, so the file carries no float noise.
-            let offset = CGPoint(x: (local.x * 10000).rounded() / 10000 + 0, y: (local.y * 10000).rounded() / 10000 + 0)
-            if board.referenceOffset != offset { chips[index].board?.referenceOffset = offset }
-        }
+        let grid = board.traceGrid
+        editParts("Move Reference", page: .pcb) { $0.moveReference(id, toCentre: point, grid: grid) }
     }
 
     /// Puts a footprint's reference back on the body centre.
     func resetReference(_ id: UUID) {
-        recordEdit(.pcb, "Reset Reference") {
-            guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].board?.referenceOffset != .zero else { return }
-            chips[index].board?.referenceOffset = .zero
-        }
+        editParts("Reset Reference", page: .pcb) { $0.resetReference(id) }
     }
 
     // MARK: Board
@@ -3302,10 +3069,7 @@ final class SchematicDocument {
         guard isLocked(item) != locked else { return }
         edit(.pcb, locked ? "Lock Position" : "Unlock Position") { scope in
             switch item {
-            case let .footprint(id):
-                if let index = chips.firstIndex(where: { $0.id == id }), chips[index].board != nil {
-                    chips[index].board?.locked = locked
-                }
+            case let .footprint(id): updateParts(scope) { $0.setLocked(footprint: id, locked) }
             case let .text(id): layout.updateTexts(scope) { $0.setLocked(id, locked) }
             case let .trace(id): layout.updateCopper(scope) { $0.setLocked(trace: id, locked) }
             case let .via(id): layout.updateCopper(scope) { $0.setLocked(via: id, locked) }
@@ -3406,11 +3170,7 @@ final class SchematicDocument {
             }
             layout.updateFeatures(scope) { $0.moveGroup(base, by: traceOffset) }
             layout.updateCopper(scope) { $0.moveGroup(traces: [:], vias: base.vias, by: traceOffset) }
-            for index in chips.indices {
-                guard let centre = base.footprints[chips[index].id], chips[index].board != nil else { continue }
-                let target = moved(centre, by: offset)
-                if chips[index].board?.centre != target { chips[index].board?.centre = target }
-            }
+            updateParts(scope) { $0.moveGroup(footprints: base.footprints, by: traceOffset) }
             layout.updateTexts(scope) { $0.move(base.texts, by: { moved($0, by: traceOffset) }) }
         }
     }
@@ -3465,38 +3225,38 @@ final class SchematicDocument {
     /// other parts. The memory and processor windows call it only while the
     /// simulation is stopped.
     func setMemoryFile(_ id: UUID, _ file: MemoryFile?) {
-        recordEdit(.schematic, "Change Load File") {
-            guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].part.hasLoadFile else { return }
-            chips[index].memoryFile = file
-        }
+        editParts("Change Load File") { $0.setMemoryFile(id, file) }
     }
 
-    /// Flips a switch position (1-based) between ON and OFF. Returns the new
-    /// state, or nil when the part is not a switch or has no such position,
-    /// or when turning it ON would put a voltage out of range on a part (the
-    /// switch stays OFF and `editorMessage` says why).
-    @discardableResult
+    /// Whether switch `index` set to `on` would put a voltage out of range
+    /// on a part; sets `editorMessage` when it would.
+    private func refusesSwitches(at index: Int, _ on: [Bool]) -> Bool {
+        guard let library else { return false }
+        var candidate = chips
+        candidate[index].switchesOn = on
+        guard let issue = VoltageCheck.firstNew(before: chips, wires, after: candidate, wires,
+                                                buses: buses, labels: netLabels,
+                                                known: currentVoltageIssues(library), library: library) else { return false }
+        editorMessage = VoltageCheck.message(issue, chips: chips, edit: .turnOn)
+        return true
+    }
+
     /// Presses or releases a tactile switch (plan-27-J). Nil for any other
     /// chip, or when a press would close a contact the voltage check refuses
     /// (`editorMessage` says why); otherwise the new pressed state. Releasing
     /// never checks. Not undoable and does not mark the document changed:
     /// the pressed state is never saved.
+    @discardableResult
     func setButton(_ id: UUID, pressed: Bool) -> Bool? {
-        guard let index = chips.firstIndex(where: { $0.id == id }), chips[index].part.isTactileSwitch,
+        guard let index = parts.index(id), chips[index].part.isTactileSwitch,
               !chips[index].switchesOn.isEmpty else { return nil }
-        if pressed, !chips[index].part.isNormallyClosed, !chips[index].isPressed, let library {
-            var candidate = chips
-            candidate[index].switchesOn[0] = true
-            if let issue = VoltageCheck.firstNew(before: chips, wires, after: candidate, wires,
-                                                 buses: buses, labels: netLabels,
-                                                 known: currentVoltageIssues(library), library: library) {
-                editorMessage = VoltageCheck.message(issue, chips: chips, edit: .turnOn)
-                return nil
-            }
+        var on = chips[index].switchesOn
+        on[0] = pressed
+        if pressed, !chips[index].part.isNormallyClosed, !chips[index].isPressed, refusesSwitches(at: index, on) {
+            return nil
         }
         if pressed { editorMessage = nil }
-        chips[index].switchesOn[0] = pressed
+        updateInputs { $0.setSwitches(at: index, on) }
         return pressed
     }
 
@@ -3511,38 +3271,26 @@ final class SchematicDocument {
     /// that run, not edits. Parts not in `saved`, or whose position count
     /// changed, are left alone.
     func restoreSwitches(_ saved: [UUID: [Bool]]) {
-        for index in chips.indices {
-            guard let positions = saved[chips[index].id],
-                  positions.count == chips[index].switchesOn.count,
-                  positions != chips[index].switchesOn else { continue }
-            chips[index].switchesOn = positions
-        }
+        updateInputs { $0.restoreSwitches(saved) }
     }
 
     /// Releases every pressed tactile switch (play mode ended).
     func releaseAllButtons() {
-        for index in chips.indices where chips[index].isPressed {
-            chips[index].switchesOn[0] = false
-        }
+        updateInputs { $0.releaseAllButtons() }
     }
 
+    /// Flips a switch position (1-based) between ON and OFF. Returns the new
+    /// state, or nil when the part is not a switch or has no such position,
+    /// or when turning it ON would put a voltage out of range on a part (the
+    /// switch stays OFF and `editorMessage` says why).
+    @discardableResult
     func toggleSwitch(_ id: UUID, position: Int) -> Bool? {
-        return recordEdit(.schematic, "Flip Switch") { () -> Bool? in
-            guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].switchesOn.indices.contains(position - 1) else { return nil }
-            if !chips[index].switchesOn[position - 1], let library {
-                var candidate = chips
-                candidate[index].switchesOn[position - 1] = true
-                if let issue = VoltageCheck.firstNew(before: chips, wires, after: candidate, wires,
-                                                     buses: buses, labels: netLabels,
-                                                 known: currentVoltageIssues(library), library: library) {
-                    editorMessage = VoltageCheck.message(issue, chips: chips, edit: .turnOn)
-                    return nil
-                }
-            }
+        return edit(.schematic, "Flip Switch") { scope -> Bool? in
+            guard let toggled = parts.toggled(id, position: position) else { return nil }
+            if toggled.on[position - 1], refusesSwitches(at: toggled.index, toggled.on) { return nil }
             editorMessage = nil
-            chips[index].switchesOn[position - 1].toggle()
-            return chips[index].switchesOn[position - 1]
+            updateParts(scope) { $0.setSwitches(at: toggled.index, toggled.on) }
+            return toggled.on[position - 1]
         }
     }
 
@@ -3554,27 +3302,14 @@ final class SchematicDocument {
     /// Switch"); in play mode an input, put back by `restoreSwitches`.
     @discardableResult
     func setSlideState(_ id: UUID, to state: Int) -> Int? {
-        return recordEdit(.schematic, "Move Switch") { () -> Int? in
-            guard let index = chips.firstIndex(where: { $0.id == id }),
-                  let slide = chips[index].part.slideStates,
+        return edit(.schematic, "Move Switch") { scope -> Int? in
+            guard let index = parts.index(id), let slide = chips[index].part.slideStates,
                   (1...slide.positions).contains(state) else { return nil }
-            let contacts = chips[index].part.slideContacts
-            let closed = PlacedChip.contacts(mask: slide.masks[state - 1], count: contacts)
-            if closed.indices.contains(where: { closed[$0] && !chips[index].switchesOn[$0] }), let library {
-                var candidate = chips
-                candidate[index].switchesOn = closed
-                if let issue = VoltageCheck.firstNew(before: chips, wires, after: candidate, wires,
-                                                     buses: buses, labels: netLabels,
-                                                     known: currentVoltageIssues(library), library: library) {
-                    editorMessage = VoltageCheck.message(issue, chips: chips, edit: .turnOn)
-                    return nil
-                }
-            }
+            let closed = PlacedChip.contacts(mask: slide.masks[state - 1], count: chips[index].part.slideContacts)
+            if closed.indices.contains(where: { closed[$0] && !chips[index].switchesOn[$0] }),
+               refusesSwitches(at: index, closed) { return nil }
             editorMessage = nil
-            if let before = chips[index].slidePosition, before != state {
-                chips[index].slideDirection = state > before ? 1 : -1
-            }
-            chips[index].switchesOn = closed
+            updateParts(scope) { $0.setSlide(at: index, state: state, closed: closed) }
             return state
         }
     }
@@ -4395,7 +4130,7 @@ final class SchematicDocument {
                     return
                 }
                 loosen(scope) { attaches($0, to: hit.id) }
-                chips.removeAll { $0.id == hit.id }
+                updateParts(scope) { $0.chips.removeAll { $0.id == hit.id } }
             } else if let hit = netLabel(at: point) {
                 deleteNetLabel(hit.id)
             } else if let portID = portHit(at: point) {
@@ -4512,7 +4247,7 @@ final class SchematicDocument {
             }
             sheet.updateBuses(scope) { $0.buses.removeAll { busIDs.contains($0.id) } }
             if message != nil { editorMessage = message }
-            chips.removeAll { chipIDs.contains($0.id) }
+            updateParts(scope) { $0.chips.removeAll { chipIDs.contains($0.id) } }
             sheet.updateLabels(scope) { $0.remove(labelIDs) }
             sheet.updateNotes(scope) { $0.remove(noteIDs) }
             if let editing = editingNoteID, noteIDs.contains(editing) { editingNoteID = nil }

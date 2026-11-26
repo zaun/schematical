@@ -99,10 +99,10 @@ leaves loose ends; undo restores the pins) cover it.
 
 ### Phase 1 — `PartList`
 
-- [ ] `Model/Parts/PartList*.swift` with the Chips, Units, Footprints logic;
+- [x] `Model/Parts/PartList*.swift` with the Chips, Units, Footprints logic;
   `updateParts(scope)` on the document (compare-and-write-back of `chips` and
   `nextReference`); the part methods become thin.
-- [ ] `PartListTests`.
+- [x] `PartListTests`.
 
 Acceptance: the part logic is in `PartList`, tested alone.
   Check: `XB -only-testing:schematicalTests/PartListTests
@@ -111,7 +111,9 @@ Acceptance: the part logic is in `PartList`, tested alone.
   -only-testing:schematicalTests/ReferencePrefixTests
   -only-testing:schematicalTests/SocketModeTests
   -only-testing:schematicalTests/SchematicUndoTests` → all pass (est. 5 min).
-Commit: —
+  Observed: `node scripts/coverage.js --app --only schematical/schematical/Model/Parts/
+  --tests` with those six classes → 0 failed cases, `322 lines, 0 uncovered`.
+Commit: COMMIT_F1
 
 ### Phase 2 — file the document; delete `SchematicModel.swift`
 
@@ -140,6 +142,17 @@ Commit: —
   do not depend on how many there are.
 
 ## Corrections
+
+- **Switch inputs go through `updateInputs`**, a core method that makes its
+  own scope: a tactile button held while the simulation plays, and the
+  positions put back when it stops, are inputs, not edits, and were never
+  recorded (`setButton`, `restoreSwitches`, `releaseAllButtons`).
+- **A paste takes its references from a copy of the parts** (`var references
+  = parts`): a refused paste used to put `nextReference` back by hand; now
+  nothing is written until the paste is accepted.
+- **The switch, slide and button edits share one voltage check**
+  (`refusesSwitches(at:_:)`), and their state changes moved into `PartList`
+  (`toggled`, `setSwitches`, `setSlide`).
 
 - **The prerequisite names `Model/Board/BoardContent.swift`**, not
   `BoardLayout.swift`: plan-68-E named the owner `BoardContent` (the name
