@@ -193,11 +193,9 @@ class Library {
 
     // The in-scope kind whose file has a device with this id, or undefined.
     kindOf(id) {
+        // Each command looks one device up, on a fresh Library, before it
+        // loads any kind: the text search below decides what to parse.
         for (const kind of IN_SCOPE) {
-            if (kind in this.loaded) {
-                if (this.loaded[kind] && this.loaded[kind].devices.some((d) => d.id === id)) return kind;
-                continue;
-            }
             const file = path.join(this.partsDir, `${kind}.json`);
             if (!fs.existsSync(file)) continue;
             const text = fs.readFileSync(file, 'utf8');

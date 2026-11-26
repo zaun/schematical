@@ -1,0 +1,20 @@
+{
+  "Manufacturers": [
+    { "Id": 50, "Name": "ECS Inc." },
+    { "Id": 51, "Name": "ECStatic Ltd" },
+    { "Id": 296, "Name": "Texas Instruments" },
+    { "Id": 297, "Name": "Texas Instruments Japan" },
+    { "Id": 1001, "Name": "Acme Parts 1" },
+    { "Id": 1002, "Name": "Acme Parts 2" },
+    { "Id": 1003, "Name": "Acme Parts 3" },
+    { "Id": 1004, "Name": "Acme Parts 4" },
+    { "Id": 1005, "Name": "Acme Parts 5" },
+    { "Id": 1006, "Name": "Acme Parts 6" },
+    { "Id": 1007, "Name": "Acme Parts 7" },
+    { "Id": 1008, "Name": "Acme Parts 8" },
+    { "Id": 1009, "Name": "Acme Parts 9" },
+    { "Id": 1010, "Name": "Acme Parts 10" },
+    { "Id": 1011, "Name": "Acme Parts 11" },
+    { "Id": 2000, "Name": "Abracon LLC" }
+  ]
+}

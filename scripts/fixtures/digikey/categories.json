@@ -1,0 +1,28 @@
+{
+  "ProductCount": 3,
+  "Categories": [
+    {
+      "CategoryId": 12,
+      "Name": "Crystals, Oscillators, Resonators",
+      "ProductCount": 120000,
+      "Children": [
+        { "CategoryId": 171, "Name": "Crystals", "ProductCount": 80000, "Children": [] },
+        { "CategoryId": 172, "Name": "Oscillators", "ProductCount": 30000, "Children": [] },
+        {
+          "CategoryId": 174, "Name": "Resonators", "ProductCount": 4000,
+          "ChildCategories": [
+            { "CategoryId": 1740, "Name": "Ceramic Resonators", "ProductCount": 3000 }
+          ]
+        }
+      ]
+    },
+    {
+      "CategoryId": 32,
+      "Name": "Integrated Circuits (ICs)",
+      "ProductCount": 600000,
+      "Children": [
+        { "CategoryId": 2012, "Name": "Clock/Timing - Programmable Timers and Oscillators", "ProductCount": 900 }
+      ]
+    }
+  ]
+}

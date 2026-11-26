@@ -1,0 +1,21 @@
+{"name":"atmega168pb","flash":16384,
+ "ports":[
+  {"letter":"B","PIN":35,"DDR":36,"PORT":37,"pinChange":{"PCIE":0,"PCICR":104,"PCIFR":59,"PCMSK":107,"pinChangeInterrupt":6,"mask":255,"offset":0},"externalInterrupts":[]},
+  {"letter":"C","PIN":38,"DDR":39,"PORT":40,"pinChange":{"PCIE":1,"PCICR":104,"PCIFR":59,"PCMSK":108,"pinChangeInterrupt":8,"mask":255,"offset":0},"externalInterrupts":[]},
+  {"letter":"D","PIN":41,"DDR":42,"PORT":43,"pinChange":{"PCIE":2,"PCICR":104,"PCIFR":59,"PCMSK":109,"pinChangeInterrupt":10,"mask":255,"offset":0},"externalInterrupts":[null,null,{"EICR":105,"EIMSK":61,"EIFR":60,"iscOffset":0,"index":0,"interrupt":2},{"EICR":105,"EIMSK":61,"EIFR":60,"iscOffset":2,"index":1,"interrupt":4}]},
+  {"letter":"E","PIN":44,"DDR":45,"PORT":46,"externalInterrupts":[]}],
+ "clock":{"CLKPR":97},
+ "timers":[
+  {"bits":8,"dividers":[0,1,8,64,256,1024,0,0],"captureInterrupt":0,"compAInterrupt":28,"compBInterrupt":30,"compCInterrupt":0,"ovfInterrupt":32,"TIFR":53,"OCRA":71,"OCRB":72,"OCRC":0,"ICR":0,"TCNT":70,"TCCRA":68,"TCCRB":69,"TCCRC":0,"TIMSK":110,"TOV":1,"OCFA":2,"OCFB":4,"OCFC":0,"TOIE":1,"OCIEA":2,"OCIEB":4,"OCIEC":0,"compPortA":43,"compPinA":6,"compPortB":43,"compPinB":5,"compPortC":0,"compPinC":0,"externalClockPort":43,"externalClockPin":4},
+  {"bits":16,"dividers":[0,1,8,64,256,1024,0,0],"captureInterrupt":20,"compAInterrupt":22,"compBInterrupt":24,"compCInterrupt":0,"ovfInterrupt":26,"TIFR":54,"OCRA":136,"OCRB":138,"OCRC":0,"ICR":134,"TCNT":132,"TCCRA":128,"TCCRB":129,"TCCRC":130,"TIMSK":111,"TOV":1,"OCFA":2,"OCFB":4,"OCFC":0,"TOIE":1,"OCIEA":2,"OCIEB":4,"OCIEC":0,"compPortA":37,"compPinA":1,"compPortB":37,"compPinB":2,"compPortC":0,"compPinC":0,"externalClockPort":43,"externalClockPin":5},
+  {"bits":8,"dividers":[0,1,8,32,64,128,256,1024],"captureInterrupt":0,"compAInterrupt":14,"compBInterrupt":16,"compCInterrupt":0,"ovfInterrupt":18,"TIFR":55,"OCRA":179,"OCRB":180,"OCRC":0,"ICR":0,"TCNT":178,"TCCRA":176,"TCCRB":177,"TCCRC":0,"TIMSK":112,"TOV":1,"OCFA":2,"OCFB":4,"OCFC":0,"TOIE":1,"OCIEA":2,"OCIEB":4,"OCIEC":0,"compPortA":37,"compPinA":3,"compPortB":43,"compPinB":3,"compPortC":0,"compPinC":0,"externalClockPort":0,"externalClockPin":0}],
+ "usarts":[
+  {"rxCompleteInterrupt":36,"dataRegisterEmptyInterrupt":38,"txCompleteInterrupt":40,"UCSRA":192,"UCSRB":193,"UCSRC":194,"UBRRL":196,"UBRRH":197,"UDR":198}],
+ "spis":[
+  {"spiInterrupt":34,"SPCR":76,"SPSR":77,"SPDR":78}],
+ "twis":[
+  {"twiInterrupt":48,"TWBR":184,"TWSR":185,"TWAR":186,"TWDR":187,"TWCR":188,"TWAMR":189}],
+ "adc":{"ADMUX":124,"ADCSRA":122,"ADCSRB":123,"ADCL":120,"ADCH":121,"DIDR0":126,"adcInterrupt":42,"numChannels":8,"muxInputMask":15,"muxChannels":{"0":{"type":0,"channel":0},"1":{"type":0,"channel":1},"2":{"type":0,"channel":2},"3":{"type":0,"channel":3},"4":{"type":0,"channel":4},"5":{"type":0,"channel":5},"6":{"type":0,"channel":6},"7":{"type":0,"channel":7},"8":{"type":3},"14":{"type":2,"voltage":1.1000000000000001},"15":{"type":2,"voltage":0}},"adcReferences":[1,0,4,2]},
+ "eeprom":{"eepromReadyInterrupt":44,"EECR":63,"EEDR":64,"EEARL":65,"EEARH":66,"eraseCycles":28800,"writeCycles":28800},
+ "watchdog":{"watchdogInterrupt":12,"MCUSR":84,"WDTCSR":96},
+ "sramStart":256}

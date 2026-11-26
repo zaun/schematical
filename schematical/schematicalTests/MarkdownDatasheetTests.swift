@@ -22,6 +22,7 @@ final class MarkdownDatasheetTests: XCTestCase {
         }
         XCTAssertNotNil(Bundle.main.url(forResource: "datasheet", withExtension: "html"))
         XCTAssertNotNil(Bundle.main.url(forResource: "datasheet-edit", withExtension: "js"))
+        XCTAssertNotNil(Bundle.main.url(forResource: "datasheet-edit-model", withExtension: "js"))
         XCTAssertNotNil(Bundle.main.url(forResource: "load-cmos-50pf", withExtension: "svg"))
     }
 

@@ -1,4 +1,4 @@
-// Tests for the model half of schematical/schematical/Datasheet/Renderer/datasheet-edit.js (the Verify
+// Tests for schematical/schematical/Datasheet/Renderer/datasheet-edit-model.js, the model half of the Verify
 // Datasheet window's inline editor). Run: node --test scripts/datasheet-edit.test.js
 
 'use strict';
@@ -8,7 +8,7 @@ const assert = require('node:assert');
 const fs = require('fs');
 const path = require('path');
 
-const model = require('../schematical/schematical/Datasheet/Renderer/datasheet-edit.js');
+const model = require('../schematical/schematical/Datasheet/Renderer/datasheet-edit-model.js');
 const DATASHEETS = path.join(__dirname, '..', 'schematical', 'schematical', 'Datasheets');
 
 function datasheets() {

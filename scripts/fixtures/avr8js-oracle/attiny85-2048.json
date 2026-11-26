@@ -1,0 +1,14 @@
+{"name":"attiny85","flash":2048,
+ "ports":[
+  {"letter":"B","PIN":54,"DDR":55,"PORT":56,"pinChange":{"PCIE":5,"PCICR":91,"PCIFR":90,"PCMSK":53,"pinChangeInterrupt":2,"mask":63,"offset":0},"externalInterrupts":[null,null,{"EICR":85,"EIMSK":91,"EIFR":90,"iscOffset":0,"index":6,"interrupt":1}]}],
+ "clock":{"CLKPR":70},
+ "timers":[
+  {"bits":8,"dividers":[0,1,8,64,256,1024,0,0],"captureInterrupt":0,"compAInterrupt":10,"compBInterrupt":11,"compCInterrupt":0,"ovfInterrupt":5,"TIFR":88,"OCRA":73,"OCRB":72,"OCRC":0,"ICR":0,"TCNT":82,"TCCRA":74,"TCCRB":83,"TCCRC":0,"TIMSK":89,"TOV":2,"OCFA":16,"OCFB":8,"OCFC":0,"TOIE":2,"OCIEA":16,"OCIEB":8,"OCIEC":0,"compPortA":56,"compPinA":0,"compPortB":56,"compPinB":1,"compPortC":0,"compPinC":0,"externalClockPort":56,"externalClockPin":2}],
+ "usarts":[],
+ "spis":[],
+ "twis":[],
+ "adc":{"ADMUX":39,"ADCSRA":38,"ADCSRB":35,"ADCL":36,"ADCH":37,"DIDR0":52,"adcInterrupt":8,"numChannels":4,"muxInputMask":15,"muxChannels":{"0":{"type":0,"channel":0},"1":{"type":0,"channel":1},"2":{"type":0,"channel":2},"3":{"type":0,"channel":3},"4":{"type":1,"positiveChannel":2,"negativeChannel":2,"gain":1},"5":{"type":1,"positiveChannel":2,"negativeChannel":2,"gain":20},"6":{"type":1,"positiveChannel":2,"negativeChannel":3,"gain":1},"7":{"type":1,"positiveChannel":2,"negativeChannel":3,"gain":20},"8":{"type":1,"positiveChannel":0,"negativeChannel":0,"gain":1},"9":{"type":1,"positiveChannel":0,"negativeChannel":0,"gain":20},"10":{"type":1,"positiveChannel":0,"negativeChannel":1,"gain":1},"11":{"type":1,"positiveChannel":0,"negativeChannel":1,"gain":20},"12":{"type":2,"voltage":1.1000000000000001},"13":{"type":2,"voltage":0},"15":{"type":3}},"adcReferences":[0,1,2,4]},
+ "eeprom":{"eepromReadyInterrupt":6,"EECR":60,"EEDR":61,"EEARL":62,"EEARH":63,"eraseCycles":28800,"writeCycles":28800},
+ "watchdog":{"watchdogInterrupt":12,"MCUSR":84,"WDTCSR":65},
+ "sramStart":96,
+ "tinyTimer1":{"TCCR1":80,"GTCCR":76,"TCNT1":79,"OCR1A":78,"OCR1B":75,"OCR1C":77,"TIFR":88,"TIMSK":89,"ovfInterrupt":4,"compAInterrupt":3,"compBInterrupt":9,"TOV1":4,"OCF1A":64,"OCF1B":32,"TOIE1":4,"OCIE1A":64,"OCIE1B":32,"compPortB":56,"compPinA":1,"compPinB":4,"dividers":[0,1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384]}}

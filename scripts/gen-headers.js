@@ -110,6 +110,7 @@ function device(rows) {
     const choices = ['V', 'RA'].map((s) => JSON.stringify({ package: PACKAGES[s], footprint: footprintId(rows, perRow, s) }));
     parts.push('        ' + JSON.stringify({
       name: `GENERIC-HEADER-${size(rows, perRow)}`,
+      manufacturer: 'Generic',
       package: PACKAGES.V,
       pinout: name,
       footprint: footprintId(rows, perRow, 'V'),

@@ -837,7 +837,8 @@
 
   function outline(html) {
     const sections = [];
-    const re = /<h2 id="([^"]+)">([\s\S]*?)<\/h2>/g;
+    // In edit mode a heading also carries data-l0 / data-l1 after its id.
+    const re = /<h2 id="([^"]+)"[^>]*>([\s\S]*?)<\/h2>/g;
     let m;
     while ((m = re.exec(html)) !== null) sections.push([m[1], m[2]]);
     return '<nav class="outline">' + sections.map(([id, title]) =>

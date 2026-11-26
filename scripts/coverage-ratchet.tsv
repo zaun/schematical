@@ -1,5 +1,3 @@
-336	backend/tools/avr8js-oracle/oracle.js
-9	backend/tools/jsmooch-gen/run.js
 61	schematical/schematical/Automation/AutomationBoard.swift
 41	schematical/schematical/Automation/AutomationFolder.swift
 38	schematical/schematical/Automation/AutomationRead.swift
@@ -85,8 +83,6 @@
 11	schematical/schematical/Datasheet/DatasheetLoader.swift
 56	schematical/schematical/Datasheet/DatasheetWindow.swift
 118	schematical/schematical/Datasheet/MarkdownDatasheetWindow.swift
-773	schematical/schematical/Datasheet/Renderer/datasheet-edit.js
-768	schematical/schematical/Datasheet/Renderer/datasheet.js
 293	schematical/schematical/Datasheet/VerifyDatasheetWindow.swift
 64	schematical/schematical/DesignRuleCheck/DesignRuleCheck.swift
 26	schematical/schematical/DesignRuleCheck/DesignRuleCheckWindow.swift
@@ -195,13 +191,8 @@
 69	schematical/schematical/Simulation/SimulationEngine.swift
 13	schematical/schematical/Simulation/VoltageCheck.swift
 189	schematical/schematical/Terminal/TerminalWindow.swift
-108	scripts/check-datasheets.js
-507	scripts/digikey.js
 110	scripts/erc-compare.py
-129	scripts/gen-headers.js
-9	scripts/gen-sockets.js
 641	scripts/kicad-compare.py
 93	scripts/kicad-pin-types.py
 39	scripts/part-editor-schema-extra.py
 355	scripts/part-editor-schema.py
-73	scripts/pin-polarity.js

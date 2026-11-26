@@ -365,3 +365,43 @@ test('a generic row must be through hole', () => {
   assert.strictEqual(result.status, 1);
   assert.match(result.stderr, /generic DIP row must be through hole/);
 });
+
+// ---- the remaining failure paths (plan-68-T) ------------------------------------------------------------------------
+
+test('a PLCC row whose sides are not four counts fails with the format it wants', () => {
+  const ws = workspace([plccRow({ sides: '28:7,7,7;32:9,7,9,7' })]);
+  const result = runE(ws, '--skip-generic-check');
+  assert.strictEqual(result.status, 1);
+  assert.strictEqual(result.stderr, 'gen-sockets: Assmann ASS_0142 sides: "28:7,7,7" is not N:left,bottom,right,top\n');
+  assert.strictEqual(fs.existsSync(ws.out), false);
+});
+
+test('--write fails when a fits.tsv shape has no generic footprint', () => {
+  const root = tree();
+  const g3 = row({ generic: 'yes', pins: '8,14,16,20,24,28', body_len: '8:10.16;14:17.78;16:20.32;20:25.4;24:30.48;28:35.56' });
+  const g6 = row({ generic: 'yes', spacing: '0.6', pins: '24,28,32,40,48', span: '15.24', body_w: '17.78',
+    body_len: '24:30.48;28:35.56;32:40.64;40:50.8;48:60.96' });
+  const p = plccRow({ pins: '28,32,44,68', generic: 'yes', span: '28:15.30/15.25;32:15.30/17.80;44:20.30/20.30;68:23.72/23.72',
+    sides: '28:7,7,7,7;32:9,7,9,7;44:11,11,11,11;68:17,17,17,17', body_w: '28:18.19;32:18.19;44:23.25;68:30.81',
+    body_len: '28:18.19;32:20.80;44:23.25;68:30.81' });
+  const data = path.join(root, 'planning', 'plan-51-data');
+  fs.writeFileSync(path.join(data, 'series.tsv'),
+    [HEADER.join('\t'), ...[g3, g6, p].map((r) => HEADER.map((h) => r[h]).join('\t'))].join('\n') + '\n');
+  fs.writeFileSync(path.join(data, 'fits.tsv'), 'family\tpins\tspacing\tfits\nDIP\t14\t0.3\tPDIP-14\nDIP\t22\t0.4\tPDIP-22\n');
+  const result = childProcess.spawnSync('node', [TOOL, '--write', '--root', root], { encoding: 'utf8' });
+  assert.strictEqual(result.status, 1);
+  assert.strictEqual(result.stderr, 'gen-sockets: no generic footprint for DIP 22 0.4\n');
+  assert.strictEqual(fs.existsSync(path.join(root, 'schematical', 'schematical', 'Parts', 'socket.json')), false);
+});
+
+test('an unknown option fails; no mode prints the usage and exits 2', () => {
+  const unknown = childProcess.spawnSync('node', [TOOL, '--bogus'], { encoding: 'utf8' });
+  assert.strictEqual(unknown.status, 1);
+  assert.strictEqual(unknown.stderr, 'gen-sockets: unknown option --bogus\n');
+  for (const args of [[], ['--letter', 'F', '--out', '/nonexistent/x.json'], ['--letter', 'D']]) {
+    const usage = childProcess.spawnSync('node', [TOOL, ...args], { encoding: 'utf8' });
+    assert.strictEqual(usage.status, 2, args.join(' '));
+    assert.match(usage.stderr, /^usage: node scripts\/gen-sockets\.js --letter D\|E --out FILE /);
+    assert.match(usage.stderr, /--write \| --check \[--root DIR\] \[--skip-generic-check\]\n$/);
+  }
+});

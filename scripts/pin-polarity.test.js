@@ -389,3 +389,128 @@ test('golden-check: only :low added passes; anything else fails; with and withou
     assert.strictEqual(run(root, 'golden-check', '--since', 'HEAD~2').status, 1);
     assert.strictEqual(run(root, 'golden-check', '--since', 'HEAD~1').status, 1);
 });
+
+// ---- the remaining paths (plan-68-T) -------------------------------------------------------------------------------
+
+const polarity = require('./pin-polarity.js');
+
+test('the positioned parser names a missing comma in an object and in an array', () => {
+    assert.throws(() => polarity.parsePositioned('{"a": 1 "b": 2}'), { message: 'JSON: expected , or } at offset 8' });
+    assert.throws(() => polarity.parsePositioned('[1 2]'), { message: 'JSON: expected , or ] at offset 3' });
+});
+
+test('an unknown device or pinout is refused with what there is', () => {
+    const root = fixture();
+    const device = run(root, 'pins', 'NOPE', 'p6');
+    assert.strictEqual(device.status, 1);
+    assert.strictEqual(device.err, 'no in-scope device "NOPE"\n');
+    const pinout = run(root, 'pins', 'M1', 'qfn');
+    assert.strictEqual(pinout.status, 1);
+    assert.strictEqual(pinout.err, 'device M1 has no pinout "qfn" (p6, tsop)\n');
+});
+
+test('record without --source or --pages prints its usage', () => {
+    const root = fixture();
+    const r = run(root, 'record', 'M1', 'p6', '--pages', 'p.1');
+    assert.strictEqual(r.status, 1);
+    assert.strictEqual(r.err, 'usage: record <device> <pinout> --source S --pages P [--note N]\n');
+});
+
+test('status counts the reviewed and total pinouts per kind', () => {
+    const root = fixture();
+    assert.strictEqual(ok(root, 'status'), 'sram\t0/4\nconverter\t0/1\ntotal\t0/5\n');
+    recordAll(root);
+    assert.strictEqual(ok(root, 'status'), 'sram\t4/4\nconverter\t1/1\ntotal\t5/5\n');
+});
+
+test('no command, --help, -h and help print the help', () => {
+    const root = fixture();
+    for (const args of [[], ['--help'], ['-h'], ['help']]) {
+        const out = ok(root, ...args);
+        assert.ok(out.startsWith('The active-low pin review tool (plan-39-D).\n\nusage: node scripts/pin-polarity.js'), args.join(' '));
+        assert.ok(out.endsWith('Exit status: 0 on success, 1 when a check fails or a command is refused.\n'));
+    }
+});
+
+// The lock a writing command takes for a root (withLock).
+const lockOf = (root) => path.join(os.tmpdir(), `pin-polarity-${Buffer.from(path.resolve(root)).toString('hex').slice(-40)}.lock`);
+
+test('a writer takes over a stale lock, and waits for a live one', async () => {
+    const root = fixture();
+    const lock = lockOf(root);
+    fs.mkdirSync(lock);
+    const old = new Date(Date.now() - 5 * 60 * 1000);
+    fs.utimesSync(lock, old, old);
+    assert.strictEqual(ok(root, 'set', 'M1', 'p6', 'A0', 'true'), 'M1 p6 1 A0 -> true\n');
+    assert.strictEqual(fs.existsSync(lock), false);
+
+    fs.mkdirSync(lock);
+    const started = Date.now();
+    const child = childProcess.spawn('node', [TOOL, '--root', root, 'set', 'M1', 'p6', 'A0', 'off'], { stdio: ['ignore', 'pipe', 'pipe'] });
+    let stdout = '';
+    child.stdout.on('data', (b) => { stdout += b; });
+    const done = new Promise((resolve) => child.on('exit', resolve));
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    assert.strictEqual(fs.readFileSync(sramPath(root), 'utf8').includes('"name":"A0","role":"input","activeLow":true'), true,
+        'the waiting writer changed the file while the lock was held');
+    fs.rmdirSync(lock);
+    assert.strictEqual(await done, 0);
+    assert.ok(Date.now() - started >= 600);
+    assert.strictEqual(stdout, 'M1 p6 1 A0 -> off\n');
+    assert.strictEqual(fs.readFileSync(sramPath(root), 'utf8'), sramFile());
+});
+
+test('a lock folder that cannot be made is an error, not a wait', () => {
+    const root = fixture();
+    const r = childProcess.spawnSync('node', [TOOL, '--root', root, 'set', 'M1', 'p6', 'A0', 'true'],
+        { encoding: 'utf8', env: Object.assign({}, process.env, { TMPDIR: path.join(root, 'no-such-dir') }) });
+    assert.notStrictEqual(r.status, 0);
+    assert.match(r.stderr, /ENOENT: no such file or directory, mkdir '.*no-such-dir\/pin-polarity-[0-9a-f]+\.lock'/);
+    assert.strictEqual(fs.readFileSync(sramPath(root), 'utf8'), sramFile());
+});
+
+test('fetch: usage, a local copy, an unknown id; a URL is downloaded once, a bad one refused', () => {
+    const root = fixture();
+    const usage = run(root, 'fetch');
+    assert.strictEqual(usage.status, 1);
+    assert.strictEqual(usage.err, 'usage: fetch <id>\n');
+    assert.strictEqual(ok(root, 'fetch', 'M1'), path.join(root, 'datasheets/sram/m1.pdf') + '\n');
+    const unknown = run(root, 'fetch', 'zz');
+    assert.strictEqual(unknown.status, 1);
+    assert.strictEqual(unknown.err, '"zz" is not in datasheets.json\n');
+
+    // file:// URLs: curl copies them without the network.
+    const served = path.join(root, 'served');
+    write(root, 'served/good.pdf', '%PDF-1.7 the sheet\n');
+    write(root, 'served/page.html', '<html>moved</html>\n');
+    const tag = `pp-test-${process.pid}-${Date.now()}`;
+    const good = `${tag}-good`, bad = `${tag}-bad`;
+    write(root, 'schematical/schematical/Parts/datasheets.json', JSON.stringify({ datasheets: [
+        { id: good, url: `file://${served}/good.pdf` }, { id: bad, url: `file://${served}/page.html` }] }));
+    const cache = (id) => path.join('/tmp/pin-polarity', id);
+    try {
+        const file = path.join(cache(good), `${good}.pdf`);
+        assert.strictEqual(ok(root, 'fetch', good), file + '\n');
+        assert.strictEqual(fs.readFileSync(file, 'utf8'), '%PDF-1.7 the sheet\n');
+        fs.unlinkSync(path.join(served, 'good.pdf'));
+        assert.strictEqual(ok(root, 'fetch', good), file + '\n', 'the cached copy is reused');
+        const refused = run(root, 'fetch', bad);
+        assert.strictEqual(refused.status, 1);
+        assert.strictEqual(refused.err, `file://${served}/page.html did not give a PDF\n`);
+        assert.strictEqual(fs.existsSync(path.join(cache(bad), `${bad}.pdf`)), false);
+    } finally {
+        fs.rmSync(cache(good), { recursive: true, force: true });
+        fs.rmSync(cache(bad), { recursive: true, force: true });
+    }
+});
+
+test('pins lists designator, name, role and the flag as low or low=ALT', () => {
+    const root = fixture();
+    const usage = run(root, 'pins', 'C1');
+    assert.strictEqual(usage.status, 1);
+    assert.strictEqual(usage.err, 'usage: pins <device> <pinout>\n');
+    ok(root, 'set', 'C1', 'p5', 'A0/CS', 'CS');
+    ok(root, 'set', 'C1', 'p5', 'D0', 'true');
+    assert.strictEqual(ok(root, 'pins', 'C1', 'p5'),
+        '1\tAIN0\tinput\n2\tA0/CS\tinput\tlow=CS\n3\tAIN7/GPIO3/DRDY/CLK\tinout\n4\tGND\tground\n5\tD0\toutput\tlow\n');
+});

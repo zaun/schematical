@@ -1,0 +1,52 @@
+{
+  "ProductsCount": 3,
+  "Products": [
+    {
+      "ManufacturerProductNumber": "ECS-100AX-100",
+      "Manufacturer": { "Id": 50, "Name": "ECS Inc." },
+      "ProductStatus": { "Id": 0, "Status": "Active" },
+      "QuantityAvailable": 1234,
+      "Series": { "Id": 1400, "Name": "ECS-100AX" },
+      "DatasheetUrl": "https://ecsxtal.com/store/pdf/ECS-100AX.pdf",
+      "Description": { "ProductDescription": "XTAL OSC XO 10.0000MHZ HCMOS TTL" },
+      "Parameters": [
+        { "ParameterId": 2085, "ParameterText": "Frequency", "ValueText": "10 MHz" },
+        { "ParameterId": 16, "ParameterText": "Package / Case", "ValueText": "4-DIP, Half Size" }
+      ]
+    },
+    {
+      "ManufacturerProductNumber": "ECS-100AX-100",
+      "Manufacturer": { "Id": 50, "Name": "ECS Inc." },
+      "ProductStatus": { "Id": 0, "Status": "Active" },
+      "QuantityAvailable": 1234,
+      "Series": { "Id": 1400, "Name": "ECS-100AX" },
+      "DatasheetUrl": "https://ecsxtal.com/store/pdf/ECS-100AX.pdf",
+      "Description": { "ProductDescription": "XTAL OSC XO 10.0000MHZ HCMOS TTL (second packing)" },
+      "Parameters": []
+    },
+    {
+      "ManufacturerProductNumber": "ECS-100AX-200",
+      "Manufacturer": { "Id": 50, "Name": "ECS Inc." },
+      "ProductStatus": { "Id": 7, "Status": "Not For New Designs" },
+      "QuantityAvailable": 0,
+      "Series": { "Id": 1400, "Name": "ECS-100AX" },
+      "DatasheetUrl": "https://ecsxtal.com/store/pdf/ECS-100AX.pdf",
+      "Description": { "ProductDescription": "XTAL OSC XO 20.0000MHZ HCMOS TTL" },
+      "Parameters": [
+        { "ParameterId": 2085, "ParameterText": "Frequency", "ValueText": "20 MHz" }
+      ]
+    },
+    {}
+  ],
+  "FilterOptions": {
+    "Series": [
+      { "Id": 1400, "Value": "ECS-100AX", "ProductCount": 3 },
+      { "Id": 1401, "Value": "ECS-2100X", "ProductCount": 40 }
+    ],
+    "Status": [
+      { "Id": 0, "Value": "Active", "ProductCount": 2 },
+      { "Id": 1, "Value": "Obsolete", "ProductCount": 9 },
+      { "Id": 7, "Value": "Not For New Designs", "ProductCount": 1 }
+    ]
+  }
+}
