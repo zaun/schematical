@@ -462,7 +462,7 @@ numbers, and the check passes on the tree.
   `planning/plan-68-data/app-coverage.txt`; nothing smaller checks that all
   three tiers parse their real tool output).
   Observed: the full run (app tier 27 min) exited 0 and wrote 314 rows; totals in `planning/plan-68-data/coverage-start.txt` (backend 7,090 uncovered of 60,689; app 11,991 of 49,627; scripts 3,950 of 6,401). `COV --scripts --check` → exit 0. `coverage.test.js` → `coverage.js | 100.00`, 16 tests pass. The full `COV --check` on the same tree is the run that wrote the rows, so it passes by construction; each later letter checks its own files with `--only`.
-Commit: —
+Commit: b98bb436, 73ac1f3c
 
 ### Phase 4 — basicsim
 
@@ -474,7 +474,7 @@ Acceptance: basicsim runs to its end and is a test.
   /tmp/p68-basicsim -j8 && ctest --test-dir /tmp/p68-basicsim -R basicsim` →
   `1/1 … Passed` (est. 30 s).
   Observed: `1/79 Test #1: basicsim … Passed 0.19 sec` (the full ctest of the basicsim build: `100% tests passed, 0 tests failed out of 79`). The fix also loads `footprints.json` (gate.json names footprints too). The test passes on the last line, `55 ns: AND = 0, NAND = 1`.
-Commit: —
+Commit: 044bfdf2
 
 ## Validation Plan
 
@@ -487,6 +487,10 @@ Commit: —
 - Doc sync: `AGENTS.md`, `docs/testing.md`, `docs/backend.md` § Tests.
 - Final gate (once, after Phase 4): `CT` → all pass including
   `source_size_check`; `NT` → all pass; `COV --check` → exit 0.
+  Observed: `CT` (on A's tree, before G) → 78/78 pass with
+  `source_size_check`, then 79/79 on the basicsim build; `NT` → 81 tests
+  pass; `COV`: the full run that wrote the ratchet, then `COV --scripts
+  --check` → exit 0 (plan-68-A complete).
 
 ## Decisions
 
