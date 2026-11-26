@@ -4,8 +4,8 @@ Last updated: 2026-11-25
 Effort: large (3h–1d)
 Depends on: plan-68-V
 
-The app files in § 2 are brought to 100% line coverage: 1628 lines are
-uncovered in them today (45 files, 14766 executable lines).
+The app files in § 2 are brought to 100% line coverage: 1069 lines are
+uncovered in them today (45 files, 10716 executable lines).
 
 Prerequisites: plan-68-A's table, and plan-68-V complete (its rows are gone
 from `scripts/coverage-ratchet.tsv` and its Commit lines are filled).
@@ -34,60 +34,60 @@ References:
 
 ## 2. Current State
 
-Uncovered lines per file under the full Debug suite at `e2f6811a`
-(`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
+Uncovered lines per file under the full Debug suite at `e2f6811a`, counted
+per line from `xccov view --archive` (`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
 A file that plan-68-B–F or plan-68-V split appears under its old name; its row
 stands for all of its pieces. The letter starts by re-running step 1 of § 3
 for each file; that list is the work.
 
 | File | Uncovered | Executable |
 |---|---|---|
-| `Backend/HeaderFamily.swift` | 4 | 4 |
-| `Backend/PartCatalog.swift` | 169 | 2260 |
-| `Backend/PartFacts.swift` | 199 | 772 |
-| `Backend/TimerText.swift` | 1 | 52 |
-| `Backend/UserPartLibrary.swift` | 8 | 67 |
-| `Routing/AssistRouter.swift` | 2 | 99 |
-| `Routing/AutorouteModel.swift` | 25 | 139 |
-| `Routing/AutorouteSheet.swift` | 201 | 574 |
-| `Routing/MovableChains.swift` | 4 | 366 |
-| `Routing/RouteCommands.swift` | 18 | 85 |
-| `Routing/Router.swift` | 81 | 880 |
-| `Routing/RoutingApply.swift` | 13 | 221 |
-| `Routing/RoutingCleanup.swift` | 3 | 421 |
-| `Routing/RoutingGrid.swift` | 13 | 288 |
-| `Routing/RoutingOptions.swift` | 3 | 97 |
-| `Routing/RoutingPair.swift` | 4 | 295 |
-| `Routing/RoutingPlan.swift` | 11 | 274 |
-| `Routing/RoutingPolish.swift` | 4 | 141 |
-| `Routing/RoutingProblem.swift` | 3 | 17 |
-| `Routing/RoutingProblemBuilder.swift` | 8 | 307 |
-| `Routing/RoutingPush.swift` | 3 | 137 |
-| `Routing/RoutingRepair.swift` | 27 | 277 |
-| `Routing/RoutingSearch.swift` | 6 | 754 |
-| `Routing/RoutingSession.swift` | 2 | 101 |
-| `Routing/RoutingState.swift` | 19 | 354 |
-| `Routing/RoutingTerminals.swift` | 21 | 88 |
-| `Routing/RoutingTuning.swift` | 17 | 215 |
-| `Routing/RoutingVerifier.swift` | 13 | 231 |
-| `Simulation/BuzzerSound.swift` | 71 | 173 |
-| `Simulation/Simulation.swift` | 61 | 672 |
-| `Simulation/SimulationCommands.swift` | 21 | 81 |
-| `Simulation/SimulationEngine.swift` | 79 | 317 |
-| `Simulation/VoltageCheck.swift` | 23 | 233 |
-| `Memory/LoadFileBar.swift` | 1 | 41 |
-| `Memory/MemoryFileAccess.swift` | 36 | 110 |
-| `Memory/MemoryWindow.swift` | 122 | 608 |
-| `Boards/BoardCard.swift` | 3 | 109 |
-| `Boards/BoardCatalog.swift` | 36 | 434 |
-| `Boards/BoardExpression.swift` | 4 | 288 |
-| `DesignRuleCheck/DesignRuleCheck.swift` | 100 | 989 |
-| `DesignRuleCheck/DesignRuleCheckWindow.swift` | 37 | 349 |
-| `BillOfMaterials/BillOfMaterialsWindow.swift` | 122 | 433 |
-| `DocumentInfo/DocumentInfoWindow.swift` | 23 | 156 |
-| `Help/Acknowledgements.swift` | 4 | 78 |
-| `Help/KeyboardHelp.swift` | 3 | 179 |
-| **Total** | **1628** | **14766** |
+| `Backend/HeaderFamily.swift` | 3 | 3 |
+| `Backend/PartCatalog.swift` | 116 | 1738 |
+| `Backend/PartFacts.swift` | 181 | 731 |
+| `Backend/TimerText.swift` | 0 | 49 |
+| `Backend/UserPartLibrary.swift` | 6 | 62 |
+| `Routing/AssistRouter.swift` | 0 | 82 |
+| `Routing/AutorouteModel.swift` | 19 | 110 |
+| `Routing/AutorouteSheet.swift` | 56 | 203 |
+| `Routing/MovableChains.swift` | 2 | 329 |
+| `Routing/RouteCommands.swift` | 3 | 48 |
+| `Routing/Router.swift` | 54 | 631 |
+| `Routing/RoutingApply.swift` | 9 | 153 |
+| `Routing/RoutingCleanup.swift` | 0 | 346 |
+| `Routing/RoutingGrid.swift` | 3 | 248 |
+| `Routing/RoutingOptions.swift` | 2 | 81 |
+| `Routing/RoutingPair.swift` | 4 | 214 |
+| `Routing/RoutingPlan.swift` | 6 | 243 |
+| `Routing/RoutingPolish.swift` | 2 | 115 |
+| `Routing/RoutingProblem.swift` | 3 | 16 |
+| `Routing/RoutingProblemBuilder.swift` | 6 | 214 |
+| `Routing/RoutingPush.swift` | 0 | 107 |
+| `Routing/RoutingRepair.swift` | 14 | 191 |
+| `Routing/RoutingSearch.swift` | 5 | 348 |
+| `Routing/RoutingSession.swift` | 0 | 77 |
+| `Routing/RoutingState.swift` | 2 | 252 |
+| `Routing/RoutingTerminals.swift` | 21 | 80 |
+| `Routing/RoutingTuning.swift` | 2 | 152 |
+| `Routing/RoutingVerifier.swift` | 7 | 161 |
+| `Simulation/BuzzerSound.swift` | 60 | 147 |
+| `Simulation/Simulation.swift` | 51 | 586 |
+| `Simulation/SimulationCommands.swift` | 9 | 36 |
+| `Simulation/SimulationEngine.swift` | 69 | 279 |
+| `Simulation/VoltageCheck.swift` | 13 | 117 |
+| `Memory/LoadFileBar.swift` | 0 | 21 |
+| `Memory/MemoryFileAccess.swift` | 34 | 94 |
+| `Memory/MemoryWindow.swift` | 103 | 363 |
+| `Boards/BoardCard.swift` | 1 | 100 |
+| `Boards/BoardCatalog.swift` | 31 | 367 |
+| `Boards/BoardExpression.swift` | 3 | 266 |
+| `DesignRuleCheck/DesignRuleCheck.swift` | 64 | 774 |
+| `DesignRuleCheck/DesignRuleCheckWindow.swift` | 26 | 156 |
+| `BillOfMaterials/BillOfMaterialsWindow.swift` | 65 | 239 |
+| `DocumentInfo/DocumentInfoWindow.swift` | 12 | 69 |
+| `Help/Acknowledgements.swift` | 2 | 63 |
+| `Help/KeyboardHelp.swift` | 0 | 55 |
+| **Total** | **1069** | **10716** |
 
 ## 3. Design: the method
 

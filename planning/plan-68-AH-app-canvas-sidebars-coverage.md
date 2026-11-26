@@ -4,8 +4,8 @@ Last updated: 2026-11-25
 Effort: large (3h–1d)
 Depends on: plan-68-AG
 
-The app files in § 2 are brought to 100% line coverage: 1693 lines are
-uncovered in them today (3 files, 2367 executable lines).
+The app files in § 2 are brought to 100% line coverage: 964 lines are
+uncovered in them today (3 files, 1499 executable lines).
 
 Prerequisites: plan-68-A's table, and plan-68-AG complete (its rows are gone
 from `scripts/coverage-ratchet.tsv` and its Commit lines are filled).
@@ -34,18 +34,18 @@ References:
 
 ## 2. Current State
 
-Uncovered lines per file under the full Debug suite at `e2f6811a`
-(`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
+Uncovered lines per file under the full Debug suite at `e2f6811a`, counted
+per line from `xccov view --archive` (`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
 A file that plan-68-B–F or plan-68-V split appears under its old name; its row
 stands for all of its pieces. The letter starts by re-running step 1 of § 3
 for each file; that list is the work.
 
 | File | Uncovered | Executable |
 |---|---|---|
-| `Canvas/NetsSidebar.swift` | 1002 | 1022 |
-| `Canvas/NixieSymbolView.swift` | 130 | 130 |
-| `Canvas/PCBCanvasView.swift` | 561 | 1215 |
-| **Total** | **1693** | **2367** |
+| `Canvas/NetsSidebar.swift` | 361 | 379 |
+| `Canvas/NixieSymbolView.swift` | 117 | 117 |
+| `Canvas/PCBCanvasView.swift` | 486 | 1003 |
+| **Total** | **964** | **1499** |
 
 ## 3. Design
 

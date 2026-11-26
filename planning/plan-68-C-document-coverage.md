@@ -7,8 +7,9 @@ Depends on: plan-68-B
 Letters D, E and F take `SchematicDocument` apart into a sheet model, a board
 model and a small core. Their only proof that nothing changed is the existing
 test suite, so before the first cut every line of the document must be run by
-a test that checks what it did. Today 313 of its 8,338 executable lines are
-not. This letter writes those tests against the document's public API, the
+a test that checks what it did. Today 221 of its 5,420 executable lines are
+not (per line; plan-68-A Corrections). This letter writes those tests against
+the document's public API, the
 API that D–F keep, so they stay valid through the split.
 
 Prerequisites: plan-68-A's table, and plan-68-B complete (`head -20
@@ -19,9 +20,9 @@ References:
 
 - `schematical/schematical/Canvas/SchematicModel.swift` (after plan-68-B: the
   document only).
-- `planning/plan-68-data/app-missed.tsv` (`313 8338
+- `planning/plan-68-data/app-missed.tsv` (`221 5420
   schematical/schematical/Canvas/SchematicModel.swift`: the full Debug suite
-  with coverage at `e2f6811a`).
+  with coverage at `e2f6811a`, per line).
 - plan-68-W § 3 (the app coverage method; this letter uses its unit-test and
   unreachable-code steps only: the document has no views).
 - `schematicalTests/TestSupport.swift` (`TestSupport.newDocument()`),
@@ -44,7 +45,7 @@ References:
 
 ## 2. Current State
 
-313 uncovered lines (above). The lines move between files as plan-68-B lands
+221 uncovered lines, per line (above). The lines move between files as plan-68-B lands
 (it moves only the value types, and their lines go with them), so the letter
 starts with the scoped list:
 `node scripts/coverage.js --app --tests <classes> --only

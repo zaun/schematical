@@ -4,8 +4,8 @@ Last updated: 2026-11-25
 Effort: large (3h–1d)
 Depends on: plan-68-AB
 
-The app files in § 2 are brought to 100% line coverage: 1672 lines are
-uncovered in them today (8 files, 2238 executable lines).
+The app files in § 2 are brought to 100% line coverage: 715 lines are
+uncovered in them today (8 files, 1115 executable lines).
 
 Prerequisites: plan-68-A's table, and plan-68-AB complete (its rows are gone
 from `scripts/coverage-ratchet.tsv` and its Commit lines are filled).
@@ -34,23 +34,23 @@ References:
 
 ## 2. Current State
 
-Uncovered lines per file under the full Debug suite at `e2f6811a`
-(`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
+Uncovered lines per file under the full Debug suite at `e2f6811a`, counted
+per line from `xccov view --archive` (`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
 A file that plan-68-B–F or plan-68-V split appears under its old name; its row
 stands for all of its pieces. The letter starts by re-running step 1 of § 3
 for each file; that list is the work.
 
 | File | Uncovered | Executable |
 |---|---|---|
-| `Drawer/PartOptionsSection.swift` | 633 | 689 |
-| `Drawer/SchematicSidebarView.swift` | 291 | 429 |
-| `Drawer/SocketPickerSheet.swift` | 163 | 211 |
-| `Drawer/UserLibraryWindow.swift` | 314 | 344 |
-| `Editor/BlockPreviewView.swift` | 28 | 28 |
-| `Editor/BundledPartFile.swift` | 1 | 122 |
-| `Editor/CustomFootprintDraft.swift` | 7 | 180 |
-| `Editor/CustomFootprintEditor.swift` | 235 | 235 |
-| **Total** | **1672** | **2238** |
+| `Drawer/PartOptionsSection.swift` | 283 | 334 |
+| `Drawer/SchematicSidebarView.swift` | 131 | 181 |
+| `Drawer/SocketPickerSheet.swift` | 63 | 95 |
+| `Drawer/UserLibraryWindow.swift` | 114 | 129 |
+| `Editor/BlockPreviewView.swift` | 18 | 18 |
+| `Editor/BundledPartFile.swift` | 1 | 109 |
+| `Editor/CustomFootprintDraft.swift` | 7 | 151 |
+| `Editor/CustomFootprintEditor.swift` | 98 | 98 |
+| **Total** | **715** | **1115** |
 
 ## 3. Design
 

@@ -4,8 +4,8 @@ Last updated: 2026-11-25
 Effort: large (3h–1d)
 Depends on: plan-68-X
 
-The app files in § 2 are brought to 100% line coverage: 1695 lines are
-uncovered in them today (29 files, 9934 executable lines).
+The app files in § 2 are brought to 100% line coverage: 941 lines are
+uncovered in them today (29 files, 7386 executable lines).
 
 Prerequisites: plan-68-A's table, and plan-68-X complete (its rows are gone
 from `scripts/coverage-ratchet.tsv` and its Commit lines are filled).
@@ -34,44 +34,44 @@ References:
 
 ## 2. Current State
 
-Uncovered lines per file under the full Debug suite at `e2f6811a`
-(`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
+Uncovered lines per file under the full Debug suite at `e2f6811a`, counted
+per line from `xccov view --archive` (`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
 A file that plan-68-B–F or plan-68-V split appears under its old name; its row
 stands for all of its pieces. The letter starts by re-running step 1 of § 3
 for each file; that list is the work.
 
 | File | Uncovered | Executable |
 |---|---|---|
-| `ElectricalRulesCheck/ElectricalRulesCheckWindow.swift` | 502 | 520 |
-| `ElectricalRulesCheck/ErcChecker.swift` | 5 | 344 |
-| `ElectricalRulesCheck/ErcDrawingRules.swift` | 14 | 208 |
-| `ElectricalRulesCheck/ErcResultsModel.swift` | 1 | 72 |
-| `ElectricalRulesCheck/ErcSettings.swift` | 28 | 85 |
-| `Document/ChildWindows.swift` | 32 | 125 |
-| `Document/DXFImportPlan.swift` | 3 | 87 |
-| `Document/DXFImportSheet.swift` | 75 | 334 |
-| `Document/DXFImportState.swift` | 1 | 91 |
-| `Document/DXFLoops.swift` | 12 | 295 |
-| `Document/DXFReader.swift` | 15 | 231 |
-| `Document/EasyEDAProBoardWriter.swift` | 3 | 293 |
-| `Document/EasyEDAProExport.swift` | 7 | 190 |
-| `Document/EasyEDAProSchematicWriter.swift` | 8 | 465 |
-| `Document/EditCommands.swift` | 36 | 158 |
-| `Document/GerberExport.swift` | 15 | 292 |
-| `Document/GerberJob.swift` | 5 | 84 |
-| `Document/GerberWriter.swift` | 10 | 330 |
-| `Document/ImageExport.swift` | 25 | 216 |
-| `Document/ImageExportDialog.swift` | 302 | 302 |
-| `Document/KiCadBoardWriter.swift` | 39 | 664 |
-| `Document/KiCadExport.swift` | 14 | 364 |
-| `Document/KiCadSchematicWriter.swift` | 15 | 754 |
-| `Document/PrintDialog.swift` | 12 | 372 |
-| `Document/PrintExport.swift` | 23 | 486 |
-| `Document/SaveFormat.swift` | 2 | 16 |
-| `Document/SchematicExportCommands.swift` | 24 | 86 |
-| `Document/SchematicExporter.swift` | 383 | 533 |
-| `Document/SchematicFile.swift` | 84 | 1937 |
-| **Total** | **1695** | **9934** |
+| `ElectricalRulesCheck/ElectricalRulesCheckWindow.swift` | 199 | 214 |
+| `ElectricalRulesCheck/ErcChecker.swift` | 1 | 222 |
+| `ElectricalRulesCheck/ErcDrawingRules.swift` | 7 | 167 |
+| `ElectricalRulesCheck/ErcResultsModel.swift` | 0 | 58 |
+| `ElectricalRulesCheck/ErcSettings.swift` | 28 | 77 |
+| `Document/ChildWindows.swift` | 16 | 94 |
+| `Document/DXFImportPlan.swift` | 1 | 63 |
+| `Document/DXFImportSheet.swift` | 35 | 109 |
+| `Document/DXFImportState.swift` | 0 | 71 |
+| `Document/DXFLoops.swift` | 7 | 218 |
+| `Document/DXFReader.swift` | 1 | 197 |
+| `Document/EasyEDAProBoardWriter.swift` | 2 | 262 |
+| `Document/EasyEDAProExport.swift` | 5 | 162 |
+| `Document/EasyEDAProSchematicWriter.swift` | 3 | 397 |
+| `Document/EditCommands.swift` | 25 | 98 |
+| `Document/GerberExport.swift` | 9 | 255 |
+| `Document/GerberJob.swift` | 0 | 63 |
+| `Document/GerberWriter.swift` | 7 | 274 |
+| `Document/ImageExport.swift` | 23 | 187 |
+| `Document/ImageExportDialog.swift` | 120 | 120 |
+| `Document/KiCadBoardWriter.swift` | 28 | 553 |
+| `Document/KiCadExport.swift` | 7 | 319 |
+| `Document/KiCadSchematicWriter.swift` | 7 | 707 |
+| `Document/PrintDialog.swift` | 8 | 112 |
+| `Document/PrintExport.swift` | 16 | 437 |
+| `Document/SaveFormat.swift` | 0 | 14 |
+| `Document/SchematicExportCommands.swift` | 12 | 33 |
+| `Document/SchematicExporter.swift` | 299 | 401 |
+| `Document/SchematicFile.swift` | 75 | 1502 |
+| **Total** | **941** | **7386** |
 
 ## 3. Design
 

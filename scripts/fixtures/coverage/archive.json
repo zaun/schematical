@@ -1,0 +1,15 @@
+{
+  "ROOT/schematical/schematical/A.swift": [
+    {"isExecutable": false, "line": 1},
+    {"isExecutable": true, "line": 2, "executionCount": 3},
+    {"isExecutable": true, "line": 3, "executionCount": 0},
+    {"isExecutable": true, "line": 4, "executionCount": 1, "subranges": [{"column": 5, "executionCount": 0, "length": 2}]},
+    {"isExecutable": true, "line": 5}
+  ],
+  "ROOT/backend/src/circuit.c": [
+    {"isExecutable": true, "line": 1, "executionCount": 0}
+  ],
+  "ROOT/schematical/schematicalTests/ATests.swift": [
+    {"isExecutable": true, "line": 1, "executionCount": 0}
+  ]
+}

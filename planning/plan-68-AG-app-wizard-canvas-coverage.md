@@ -4,8 +4,8 @@ Last updated: 2026-11-25
 Effort: large (3h–1d)
 Depends on: plan-68-AF
 
-The app files in § 2 are brought to 100% line coverage: 1616 lines are
-uncovered in them today (40 files, 5480 executable lines).
+The app files in § 2 are brought to 100% line coverage: 836 lines are
+uncovered in them today (40 files, 4156 executable lines).
 
 Prerequisites: plan-68-A's table, and plan-68-AF complete (its rows are gone
 from `scripts/coverage-ratchet.tsv` and its Commit lines are filled).
@@ -34,55 +34,55 @@ References:
 
 ## 2. Current State
 
-Uncovered lines per file under the full Debug suite at `e2f6811a`
-(`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
+Uncovered lines per file under the full Debug suite at `e2f6811a`, counted
+per line from `xccov view --archive` (`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
 A file that plan-68-B–F or plan-68-V split appears under its old name; its row
 stands for all of its pieces. The letter starts by re-running step 1 of § 3
 for each file; that list is the work.
 
 | File | Uncovered | Executable |
 |---|---|---|
-| `Editor/Wizard/ReviewStepPage.swift` | 297 | 342 |
-| `Editor/Wizard/VariantStepPage.swift` | 196 | 210 |
-| `Editor/Wizard/WizardIssueLocator.swift` | 7 | 129 |
-| `Editor/Wizard/WizardIssues.swift` | 18 | 107 |
-| `Editor/Wizard/WizardNavBar.swift` | 40 | 40 |
-| `Editor/Wizard/WizardStepList.swift` | 98 | 98 |
-| `Editor/Wizard/WizardStepView.swift` | 236 | 236 |
-| `Editor/Wizard/WizardSteps.swift` | 1 | 116 |
-| `Canvas/BarrelJackSymbolView.swift` | 5 | 91 |
-| `Canvas/BoardColors.swift` | 7 | 40 |
-| `Canvas/BoardDetailsSheet.swift` | 40 | 156 |
-| `Canvas/BoardHole.swift` | 17 | 71 |
-| `Canvas/BoardModel.swift` | 8 | 253 |
-| `Canvas/BoardPour.swift` | 6 | 43 |
-| `Canvas/BoardSettings.swift` | 35 | 319 |
-| `Canvas/BoardTrace.swift` | 13 | 210 |
-| `Canvas/BusModel.swift` | 98 | 762 |
-| `Canvas/BusWireList.swift` | 1 | 68 |
-| `Canvas/BuzzerSymbolView.swift` | 14 | 91 |
-| `Canvas/CanvasViewport.swift` | 22 | 68 |
-| `Canvas/CapacitorSymbolView.swift` | 11 | 73 |
-| `Canvas/CapacitorValue.swift` | 2 | 52 |
-| `Canvas/CharacterLCDSymbolView.swift` | 5 | 183 |
-| `Canvas/ChipBlockView.swift` | 23 | 166 |
-| `Canvas/CrystalSymbolView.swift` | 14 | 85 |
-| `Canvas/CutoutSection.swift` | 145 | 172 |
-| `Canvas/DekatronSymbolView.swift` | 106 | 106 |
-| `Canvas/DiodeSymbolView.swift` | 17 | 149 |
-| `Canvas/DipSwitchSymbolView.swift` | 19 | 99 |
-| `Canvas/ErcMarkerLayer.swift` | 24 | 38 |
-| `Canvas/FuseSymbolView.swift` | 14 | 74 |
-| `Canvas/GateSymbolView.swift` | 15 | 212 |
-| `Canvas/HeaderSymbolView.swift` | 10 | 78 |
-| `Canvas/InductorSymbolView.swift` | 14 | 55 |
-| `Canvas/InductorValue.swift` | 1 | 28 |
-| `Canvas/LengthField.swift` | 8 | 74 |
-| `Canvas/NetClass.swift` | 6 | 49 |
-| `Canvas/NetLabel.swift` | 4 | 154 |
-| `Canvas/NetList.swift` | 6 | 147 |
-| `Canvas/NetRules.swift` | 13 | 36 |
-| **Total** | **1616** | **5480** |
+| `Editor/Wizard/ReviewStepPage.swift` | 100 | 126 |
+| `Editor/Wizard/VariantStepPage.swift` | 52 | 65 |
+| `Editor/Wizard/WizardIssueLocator.swift` | 5 | 102 |
+| `Editor/Wizard/WizardIssues.swift` | 10 | 84 |
+| `Editor/Wizard/WizardNavBar.swift` | 21 | 21 |
+| `Editor/Wizard/WizardStepList.swift` | 45 | 45 |
+| `Editor/Wizard/WizardStepView.swift` | 71 | 71 |
+| `Editor/Wizard/WizardSteps.swift` | 1 | 101 |
+| `Canvas/BarrelJackSymbolView.swift` | 5 | 79 |
+| `Canvas/BoardColors.swift` | 6 | 38 |
+| `Canvas/BoardDetailsSheet.swift` | 25 | 92 |
+| `Canvas/BoardHole.swift` | 17 | 69 |
+| `Canvas/BoardModel.swift` | 6 | 217 |
+| `Canvas/BoardPour.swift` | 6 | 39 |
+| `Canvas/BoardSettings.swift` | 33 | 281 |
+| `Canvas/BoardTrace.swift` | 10 | 188 |
+| `Canvas/BusModel.swift` | 85 | 635 |
+| `Canvas/BusWireList.swift` | 0 | 61 |
+| `Canvas/BuzzerSymbolView.swift` | 10 | 75 |
+| `Canvas/CanvasViewport.swift` | 20 | 66 |
+| `Canvas/CapacitorSymbolView.swift` | 11 | 67 |
+| `Canvas/CapacitorValue.swift` | 1 | 47 |
+| `Canvas/CharacterLCDSymbolView.swift` | 4 | 172 |
+| `Canvas/ChipBlockView.swift` | 23 | 149 |
+| `Canvas/CrystalSymbolView.swift` | 9 | 74 |
+| `Canvas/CutoutSection.swift` | 45 | 71 |
+| `Canvas/DekatronSymbolView.swift` | 100 | 100 |
+| `Canvas/DiodeSymbolView.swift` | 17 | 140 |
+| `Canvas/DipSwitchSymbolView.swift` | 14 | 93 |
+| `Canvas/ErcMarkerLayer.swift` | 15 | 23 |
+| `Canvas/FuseSymbolView.swift` | 10 | 68 |
+| `Canvas/GateSymbolView.swift` | 10 | 189 |
+| `Canvas/HeaderSymbolView.swift` | 10 | 72 |
+| `Canvas/InductorSymbolView.swift` | 9 | 47 |
+| `Canvas/InductorValue.swift` | 0 | 26 |
+| `Canvas/LengthField.swift` | 6 | 62 |
+| `Canvas/NetClass.swift` | 5 | 42 |
+| `Canvas/NetLabel.swift` | 4 | 123 |
+| `Canvas/NetList.swift` | 2 | 101 |
+| `Canvas/NetRules.swift` | 13 | 35 |
+| **Total** | **836** | **4156** |
 
 ## 3. Design
 

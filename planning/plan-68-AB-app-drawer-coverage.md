@@ -4,8 +4,8 @@ Last updated: 2026-11-25
 Effort: large (3h–1d)
 Depends on: plan-68-AA
 
-The app files in § 2 are brought to 100% line coverage: 1372 lines are
-uncovered in them today (4 files, 2357 executable lines).
+The app files in § 2 are brought to 100% line coverage: 603 lines are
+uncovered in them today (4 files, 1146 executable lines).
 
 Prerequisites: plan-68-A's table, and plan-68-AA complete (its rows are gone
 from `scripts/coverage-ratchet.tsv` and its Commit lines are filled).
@@ -34,19 +34,19 @@ References:
 
 ## 2. Current State
 
-Uncovered lines per file under the full Debug suite at `e2f6811a`
-(`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
+Uncovered lines per file under the full Debug suite at `e2f6811a`, counted
+per line from `xccov view --archive` (`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
 A file that plan-68-B–F or plan-68-V split appears under its old name; its row
 stands for all of its pieces. The letter starts by re-running step 1 of § 3
 for each file; that list is the work.
 
 | File | Uncovered | Executable |
 |---|---|---|
-| `Preferences/ReferencePrefixes.swift` | 182 | 261 |
-| `Drawer/BusPanels.swift` | 985 | 985 |
-| `Drawer/ChipDrawerView.swift` | 192 | 1000 |
-| `Drawer/NetLabelPanel.swift` | 13 | 111 |
-| **Total** | **1372** | **2357** |
+| `Preferences/ReferencePrefixes.swift` | 84 | 157 |
+| `Drawer/BusPanels.swift` | 362 | 362 |
+| `Drawer/ChipDrawerView.swift` | 150 | 567 |
+| `Drawer/NetLabelPanel.swift` | 7 | 60 |
+| **Total** | **603** | **1146** |
 
 ## 3. Design
 

@@ -4,8 +4,8 @@ Last updated: 2026-11-25
 Effort: large (3h–1d)
 Depends on: plan-68-AI
 
-The app files in § 2 are brought to 100% line coverage: 1825 lines are
-uncovered in them today (25 files, 6718 executable lines).
+The app files in § 2 are brought to 100% line coverage: 1234 lines are
+uncovered in them today (25 files, 4540 executable lines).
 
 Prerequisites: plan-68-A's table, and plan-68-AI complete (its rows are gone
 from `scripts/coverage-ratchet.tsv` and its Commit lines are filled).
@@ -34,40 +34,40 @@ References:
 
 ## 2. Current State
 
-Uncovered lines per file under the full Debug suite at `e2f6811a`
-(`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
+Uncovered lines per file under the full Debug suite at `e2f6811a`, counted
+per line from `xccov view --archive` (`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
 A file that plan-68-B–F or plan-68-V split appears under its old name; its row
 stands for all of its pieces. The letter starts by re-running step 1 of § 3
 for each file; that list is the work.
 
 | File | Uncovered | Executable |
 |---|---|---|
-| `Canvas/PartInfoViews.swift` | 125 | 125 |
-| `Canvas/PourConnectivity.swift` | 4 | 50 |
-| `Canvas/PourSection.swift` | 385 | 511 |
-| `Canvas/Ratsnest.swift` | 10 | 668 |
-| `Canvas/ReferenceLabel.swift` | 2 | 126 |
-| `Canvas/RelayShape.swift` | 2 | 191 |
-| `Canvas/RelaySymbolView.swift` | 21 | 234 |
-| `Canvas/ResistorSymbolView.swift` | 1 | 54 |
-| `Canvas/SchematicCanvasView.swift` | 728 | 2096 |
-| `Canvas/SchematicClipboard.swift` | 1 | 163 |
-| `Canvas/SchematicExportScene.swift` | 8 | 128 |
-| `Canvas/SchematicNote.swift` | 1 | 44 |
-| `Canvas/SchematicPainter.swift` | 4 | 141 |
-| `Canvas/ScrollPan.swift` | 18 | 44 |
-| `Canvas/Selection.swift` | 10 | 91 |
-| `Canvas/SelectionList.swift` | 144 | 239 |
-| `Canvas/SevenSegmentSymbolView.swift` | 34 | 206 |
-| `Canvas/SlideSwitchSymbolView.swift` | 3 | 172 |
-| `Canvas/StackupAnalysis.swift` | 4 | 170 |
-| `Canvas/StackupSection.swift` | 39 | 376 |
-| `Canvas/SupplySymbolView.swift` | 1 | 131 |
-| `Canvas/TactileSwitchSymbolView.swift` | 13 | 125 |
-| `Canvas/TestPointSymbolView.swift` | 34 | 37 |
-| `Canvas/TransistorSymbolView.swift` | 123 | 130 |
-| `Canvas/WidthCalculator.swift` | 110 | 466 |
-| **Total** | **1825** | **6718** |
+| `Canvas/PartInfoViews.swift` | 63 | 63 |
+| `Canvas/PourConnectivity.swift` | 4 | 46 |
+| `Canvas/PourSection.swift` | 129 | 233 |
+| `Canvas/Ratsnest.swift` | 1 | 532 |
+| `Canvas/ReferenceLabel.swift` | 1 | 115 |
+| `Canvas/RelayShape.swift` | 0 | 157 |
+| `Canvas/RelaySymbolView.swift` | 14 | 219 |
+| `Canvas/ResistorSymbolView.swift` | 0 | 46 |
+| `Canvas/SchematicCanvasView.swift` | 692 | 1243 |
+| `Canvas/SchematicClipboard.swift` | 0 | 118 |
+| `Canvas/SchematicExportScene.swift` | 8 | 116 |
+| `Canvas/SchematicNote.swift` | 0 | 34 |
+| `Canvas/SchematicPainter.swift` | 3 | 134 |
+| `Canvas/ScrollPan.swift` | 14 | 38 |
+| `Canvas/Selection.swift` | 4 | 83 |
+| `Canvas/SelectionList.swift` | 47 | 134 |
+| `Canvas/SevenSegmentSymbolView.swift` | 28 | 190 |
+| `Canvas/SlideSwitchSymbolView.swift` | 3 | 150 |
+| `Canvas/StackupAnalysis.swift` | 1 | 153 |
+| `Canvas/StackupSection.swift` | 28 | 169 |
+| `Canvas/SupplySymbolView.swift` | 0 | 109 |
+| `Canvas/TactileSwitchSymbolView.swift` | 11 | 115 |
+| `Canvas/TestPointSymbolView.swift` | 29 | 32 |
+| `Canvas/TransistorSymbolView.swift` | 115 | 121 |
+| `Canvas/WidthCalculator.swift` | 39 | 190 |
+| **Total** | **1234** | **4540** |
 
 ## 3. Design
 

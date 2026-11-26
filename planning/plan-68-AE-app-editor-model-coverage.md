@@ -4,8 +4,8 @@ Last updated: 2026-11-25
 Effort: large (3h–1d)
 Depends on: plan-68-AD
 
-The app files in § 2 are brought to 100% line coverage: 1620 lines are
-uncovered in them today (4 files, 1713 executable lines).
+The app files in § 2 are brought to 100% line coverage: 647 lines are
+uncovered in them today (4 files, 720 executable lines).
 
 Prerequisites: plan-68-A's table, and plan-68-AD complete (its rows are gone
 from `scripts/coverage-ratchet.tsv` and its Commit lines are filled).
@@ -34,19 +34,19 @@ References:
 
 ## 2. Current State
 
-Uncovered lines per file under the full Debug suite at `e2f6811a`
-(`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
+Uncovered lines per file under the full Debug suite at `e2f6811a`, counted
+per line from `xccov view --archive` (`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
 A file that plan-68-B–F or plan-68-V split appears under its old name; its row
 stands for all of its pieces. The letter starts by re-running step 1 of § 3
 for each file; that list is the work.
 
 | File | Uncovered | Executable |
 |---|---|---|
-| `Editor/PartEditorSections.swift` | 380 | 416 |
-| `Editor/PartEditorWindow.swift` | 967 | 969 |
-| `Editor/PartValidator.swift` | 18 | 73 |
-| `Editor/Wizard/DatasheetStepPage.swift` | 255 | 255 |
-| **Total** | **1620** | **1713** |
+| `Editor/PartEditorSections.swift` | 181 | 205 |
+| `Editor/PartEditorWindow.swift` | 333 | 334 |
+| `Editor/PartValidator.swift` | 13 | 61 |
+| `Editor/Wizard/DatasheetStepPage.swift` | 120 | 120 |
+| **Total** | **647** | **720** |
 
 ## 3. Design
 

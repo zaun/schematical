@@ -4,8 +4,8 @@ Last updated: 2026-11-25
 Effort: large (3h–1d)
 Depends on: plan-68-AC
 
-The app files in § 2 are brought to 100% line coverage: 1407 lines are
-uncovered in them today (7 files, 2805 executable lines).
+The app files in § 2 are brought to 100% line coverage: 708 lines are
+uncovered in them today (7 files, 1864 executable lines).
 
 Prerequisites: plan-68-A's table, and plan-68-AC complete (its rows are gone
 from `scripts/coverage-ratchet.tsv` and its Commit lines are filled).
@@ -34,22 +34,22 @@ References:
 
 ## 2. Current State
 
-Uncovered lines per file under the full Debug suite at `e2f6811a`
-(`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
+Uncovered lines per file under the full Debug suite at `e2f6811a`, counted
+per line from `xccov view --archive` (`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
 A file that plan-68-B–F or plan-68-V split appears under its old name; its row
 stands for all of its pieces. The letter starts by re-running step 1 of § 3
 for each file; that list is the work.
 
 | File | Uncovered | Executable |
 |---|---|---|
-| `Editor/FieldEditors.swift` | 1021 | 1021 |
-| `Editor/FootprintPreviewView.swift` | 129 | 134 |
-| `Editor/KindSchema.swift` | 4 | 161 |
-| `Editor/ParametricFootprintDraft.swift` | 24 | 329 |
-| `Editor/PartDraft.swift` | 52 | 642 |
-| `Editor/PartEditorCommands.swift` | 16 | 23 |
-| `Editor/PartEditorModel.swift` | 161 | 495 |
-| **Total** | **1407** | **2805** |
+| `Editor/FieldEditors.swift` | 417 | 417 |
+| `Editor/FootprintPreviewView.swift` | 77 | 82 |
+| `Editor/KindSchema.swift` | 1 | 131 |
+| `Editor/ParametricFootprintDraft.swift` | 19 | 289 |
+| `Editor/PartDraft.swift` | 33 | 473 |
+| `Editor/PartEditorCommands.swift` | 11 | 16 |
+| `Editor/PartEditorModel.swift` | 150 | 456 |
+| **Total** | **708** | **1864** |
 
 ## 3. Design
 

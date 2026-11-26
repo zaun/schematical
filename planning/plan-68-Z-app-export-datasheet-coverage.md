@@ -4,8 +4,8 @@ Last updated: 2026-11-25
 Effort: large (3h–1d)
 Depends on: plan-68-Y
 
-The app files in § 2 are brought to 100% line coverage: 1550 lines are
-uncovered in them today (12 files, 3408 executable lines).
+The app files in § 2 are brought to 100% line coverage: 882 lines are
+uncovered in them today (12 files, 2287 executable lines).
 
 Prerequisites: plan-68-A's table, and plan-68-Y complete (its rows are gone
 from `scripts/coverage-ratchet.tsv` and its Commit lines are filled).
@@ -34,27 +34,27 @@ References:
 
 ## 2. Current State
 
-Uncovered lines per file under the full Debug suite at `e2f6811a`
-(`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
+Uncovered lines per file under the full Debug suite at `e2f6811a`, counted
+per line from `xccov view --archive` (`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
 A file that plan-68-B–F or plan-68-V split appears under its old name; its row
 stands for all of its pieces. The letter starts by re-running step 1 of § 3
 for each file; that list is the work.
 
 | File | Uncovered | Executable |
 |---|---|---|
-| `Document/SchematicNSDocument.swift` | 34 | 315 |
-| `Document/UserLibraryPrompts.swift` | 14 | 95 |
-| `Document/WindowHelpers.swift` | 27 | 39 |
-| `Document/ZipArchive.swift` | 6 | 89 |
-| `Datasheet/DatasheetFinder.swift` | 3 | 64 |
-| `Datasheet/DatasheetLoader.swift` | 11 | 41 |
-| `Datasheet/DatasheetWindow.swift` | 91 | 91 |
-| `Datasheet/MarkdownDatasheetWindow.swift` | 186 | 318 |
-| `Datasheet/VerifyDatasheetWindow.swift` | 601 | 745 |
-| `BoardPreview/BoardPreviewWindow.swift` | 136 | 145 |
-| `BoardPreview/BoardRenderer.swift` | 93 | 511 |
-| `BoardPreview/PartLook.swift` | 348 | 955 |
-| **Total** | **1550** | **3408** |
+| `Document/SchematicNSDocument.swift` | 15 | 212 |
+| `Document/UserLibraryPrompts.swift` | 12 | 90 |
+| `Document/WindowHelpers.swift` | 25 | 37 |
+| `Document/ZipArchive.swift` | 0 | 82 |
+| `Datasheet/DatasheetFinder.swift` | 3 | 56 |
+| `Datasheet/DatasheetLoader.swift` | 11 | 39 |
+| `Datasheet/DatasheetWindow.swift` | 56 | 56 |
+| `Datasheet/MarkdownDatasheetWindow.swift` | 118 | 233 |
+| `Datasheet/VerifyDatasheetWindow.swift` | 293 | 410 |
+| `BoardPreview/BoardPreviewWindow.swift` | 66 | 72 |
+| `BoardPreview/BoardRenderer.swift` | 52 | 378 |
+| `BoardPreview/PartLook.swift` | 231 | 622 |
+| **Total** | **882** | **2287** |
 
 ## 3. Design
 

@@ -4,8 +4,8 @@ Last updated: 2026-11-25
 Effort: large (3h–1d)
 Depends on: plan-68-W
 
-The app files in § 2 are brought to 100% line coverage: 1553 lines are
-uncovered in them today (11 files, 4653 executable lines).
+The app files in § 2 are brought to 100% line coverage: 911 lines are
+uncovered in them today (11 files, 3168 executable lines).
 
 Prerequisites: plan-68-A's table, and plan-68-W complete (its rows are gone
 from `scripts/coverage-ratchet.tsv` and its Commit lines are filled).
@@ -34,26 +34,26 @@ References:
 
 ## 2. Current State
 
-Uncovered lines per file under the full Debug suite at `e2f6811a`
-(`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
+Uncovered lines per file under the full Debug suite at `e2f6811a`, counted
+per line from `xccov view --archive` (`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
 A file that plan-68-B–F or plan-68-V split appears under its old name; its row
 stands for all of its pieces. The letter starts by re-running step 1 of § 3
 for each file; that list is the work.
 
 | File | Uncovered | Executable |
 |---|---|---|
-| `Registers/RegisterWindow.swift` | 239 | 258 |
-| `Cpu/CpuWindow.swift` | 343 | 444 |
-| `Terminal/TerminalWindow.swift` | 319 | 319 |
-| `Automation/AutomationBoard.swift` | 91 | 740 |
-| `Automation/AutomationFolder.swift` | 43 | 86 |
-| `Automation/AutomationRead.swift` | 82 | 752 |
-| `Automation/AutomationSchematic.swift` | 120 | 1172 |
-| `Automation/AutomationServer.swift` | 176 | 237 |
-| `Automation/AutomationSession.swift` | 59 | 207 |
-| `Automation/AutomationSimulation.swift` | 59 | 158 |
-| `Automation/AutomationTools.swift` | 22 | 280 |
-| **Total** | **1553** | **4653** |
+| `Registers/RegisterWindow.swift` | 125 | 133 |
+| `Cpu/CpuWindow.swift` | 164 | 240 |
+| `Terminal/TerminalWindow.swift` | 189 | 189 |
+| `Automation/AutomationBoard.swift` | 61 | 513 |
+| `Automation/AutomationFolder.swift` | 41 | 80 |
+| `Automation/AutomationRead.swift` | 38 | 511 |
+| `Automation/AutomationSchematic.swift` | 74 | 803 |
+| `Automation/AutomationServer.swift` | 121 | 179 |
+| `Automation/AutomationSession.swift` | 38 | 158 |
+| `Automation/AutomationSimulation.swift` | 41 | 124 |
+| `Automation/AutomationTools.swift` | 19 | 238 |
+| **Total** | **911** | **3168** |
 
 ## 3. Design
 

@@ -170,7 +170,7 @@ All files are in `planning/plan-68-data/`. The counter is
 | Backend own code (`backend/src`, not `third_party`): line coverage under `CT` | 88.30%: 60,333 lines, 7,057 uncovered, in 115 of 132 files | `planning/plan-68-data/backend-coverage.txt` (the `llvm-cov report` of the instrumented `CT`); `backend-missed.tsv` per file; `backend-missed-by-letter.tsv` assigns each file to its coverage letter |
 | Script JavaScript under `NT` | `datasheet-edit.js` 35.04%, `gen-sockets.js` 98.00%, `gen-terminals.js` 100%, `pin-polarity.js` 91.72%; `datasheet.js`, `digikey.js`, `check-datasheets.js`, `gen-headers.js`, `jsmooch-gen/run.js`, `avr8js-oracle/oracle.js` have no tests (0%) | `node --test --experimental-test-coverage scripts/*.test.js` |
 | Script Python | 5 files in `scripts/`, 0 tests | `ls scripts/*.py`; `grep -l unittest scripts/*.py` → none |
-| App Swift line coverage (`schematical/schematical/**/*.swift`) under the full Debug suite | 69.45%: 74,819 executable lines, 22,860 uncovered, in 246 files (`SchematicModel.swift`: 313 of 8,338) | `bash planning/plan-68-data/scov.sh`, then `python3 planning/plan-68-data/appcov.py`; `app-coverage.txt`, `app-missed.tsv` |
+| App Swift line coverage (`schematical/schematical/**/*.swift`) under the full Debug suite | 75.99% per line: 49,627 executable lines, 11,916 uncovered, in 246 files (`SchematicModel.swift`: 221 of 5,420) — see Corrections: the first figure written here (69.45%, 22,860) was `xccov --report`'s per-function line total | `bash planning/plan-68-data/scov.sh`, then `python3 planning/plan-68-data/appcov.py`; `app-coverage.txt`, `app-missed.tsv` |
 | Full Debug suite | 2,078 tests in 1,634 s wall; 10 failures on the measured tree, listed in `app-coverage.txt` (the standing set every later gate compares against) | same run |
 | Backend allocation calls (`malloc`/`calloc`/`realloc`/`strdup`) in `backend/src`, not `third_party` | 194 | `grep -rnoE '\b(malloc\|calloc\|realloc\|strdup)\(' backend/src --include='*.c' \| grep -v third_party \| wc -l` |
 
@@ -430,8 +430,8 @@ Commit: 9506ba24
 
 ### Phase 3 — the coverage tool
 
-- [ ] `scripts/coverage.js` (§ 6) with the backend, app and scripts tiers.
-- [ ] `scripts/coverage.test.js`: the lcov and `xccov` JSON and `trace`
+- [x] `scripts/coverage.js` (§ 6) with the backend, app and scripts tiers.
+- [x] `scripts/coverage.test.js`: the lcov and `xccov` JSON and `trace`
   `.cover` parsers on fixture files in `scripts/fixtures/coverage/` whose
   uncovered lines are written by hand; the ratchet compare (worse / stale /
   pass / file without row); `--only`; `--write-ratchet`; a tier whose tool
@@ -439,7 +439,7 @@ Commit: 9506ba24
   tested through an injected runner (the module takes a `run(cmd, args)`
   function; the tests pass a fake that returns fixture output), so the test
   does not build the app.
-- [ ] `scripts/tests/__init__.py` (empty) so `unittest discover -s
+- [x] `scripts/tests/__init__.py` (empty) so `unittest discover -s
   scripts/tests` has a home for plan-68-U.
 - [ ] Run `node scripts/coverage.js --write-ratchet` once on the full tree;
   commit `scripts/coverage-ratchet.tsv`, and record each tier's total in
@@ -507,7 +507,28 @@ depends on the count.
 
 ## Corrections
 
-(none yet)
+- **The app census used the wrong line count.** The plan first recorded app
+  coverage from `xccov view --report --json`'s `executableLines` /
+  `coveredLines` (74,819 / 22,860 uncovered). Those totals count lines per
+  function, so a line inside a closure is counted again for each function
+  range that spans it (`NetLabel.swift`: report 154 executable, 44
+  uncovered; per-line archive 123 executable, 38 uncovered, checked with
+  `xccov view --archive --json` on the same result bundle). The tool counts
+  per line, from the archive, so the census is now that: 49,627 executable,
+  11,916 uncovered (`planning/plan-68-data/app-missed.tsv`; the report-based
+  file is kept as `app-missed-report.tsv`). The app coverage letters W–AJ
+  keep their file groups (no re-split) and their tables now carry the
+  per-line numbers: 603–1,234 uncovered lines each; plan-68-C's
+  `SchematicModel.swift` figure is 221 of 5,420.
+- **`--tests` and `--only` were added to the tool's design** (§ 6) while
+  writing the app letters, so a coverage letter never needs the full app
+  run; recorded here because § 6 was edited after the first draft.
+- **basicsim also needs `footprints.json`.** § 5 said datasheets; gate.json
+  names footprints too, so `load_gates` loads both before `gate.json`.
+- **The backend tier needs `enable_testing()` in `basicsim/`** (Phase 4's
+  task), or `ctest` on the basicsim build registers no tests: the first
+  `COV --backend` run reported `no profile was written` because `ctest -N`
+  listed 0 tests. Phase 4 landed before Phase 3 for that reason.
 
 ## Summary
 

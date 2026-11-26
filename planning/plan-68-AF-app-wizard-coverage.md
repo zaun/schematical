@@ -4,8 +4,8 @@ Last updated: 2026-11-25
 Effort: large (3h–1d)
 Depends on: plan-68-AE
 
-The app files in § 2 are brought to 100% line coverage: 1690 lines are
-uncovered in them today (12 files, 2182 executable lines).
+The app files in § 2 are brought to 100% line coverage: 742 lines are
+uncovered in them today (12 files, 1157 executable lines).
 
 Prerequisites: plan-68-A's table, and plan-68-AE complete (its rows are gone
 from `scripts/coverage-ratchet.tsv` and its Commit lines are filled).
@@ -34,27 +34,27 @@ References:
 
 ## 2. Current State
 
-Uncovered lines per file under the full Debug suite at `e2f6811a`
-(`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
+Uncovered lines per file under the full Debug suite at `e2f6811a`, counted
+per line from `xccov view --archive` (`planning/plan-68-data/app-missed.tsv`; paths under `schematical/schematical/`).
 A file that plan-68-B–F or plan-68-V split appears under its old name; its row
 stands for all of its pieces. The letter starts by re-running step 1 of § 3
 for each file; that list is the work.
 
 | File | Uncovered | Executable |
 |---|---|---|
-| `Editor/Wizard/FootprintStepPage.swift` | 611 | 654 |
-| `Editor/Wizard/FootprintThumbnail.swift` | 184 | 205 |
-| `Editor/Wizard/Guidance.swift` | 78 | 100 |
+| `Editor/Wizard/FootprintStepPage.swift` | 265 | 308 |
+| `Editor/Wizard/FootprintThumbnail.swift` | 156 | 176 |
+| `Editor/Wizard/Guidance.swift` | 30 | 50 |
 | `Editor/Wizard/Guides/DffGuide.swift` | 1 | 12 |
-| `Editor/Wizard/Guides/GuideLayout.swift` | 1 | 126 |
-| `Editor/Wizard/Guides/GuideParts.swift` | 1 | 37 |
+| `Editor/Wizard/Guides/GuideLayout.swift` | 1 | 99 |
+| `Editor/Wizard/Guides/GuideParts.swift` | 0 | 34 |
 | `Editor/Wizard/Guides/JkffGuide.swift` | 1 | 13 |
-| `Editor/Wizard/Guides/VariantKindGuides.swift` | 4 | 28 |
-| `Editor/Wizard/IdentityStepPage.swift` | 244 | 250 |
-| `Editor/Wizard/KindStepPage.swift` | 231 | 240 |
-| `Editor/Wizard/PinTableParser.swift` | 13 | 164 |
-| `Editor/Wizard/PinoutStepPage.swift` | 321 | 353 |
-| **Total** | **1690** | **2182** |
+| `Editor/Wizard/Guides/VariantKindGuides.swift` | 4 | 26 |
+| `Editor/Wizard/IdentityStepPage.swift` | 73 | 77 |
+| `Editor/Wizard/KindStepPage.swift` | 85 | 93 |
+| `Editor/Wizard/PinTableParser.swift` | 9 | 124 |
+| `Editor/Wizard/PinoutStepPage.swift` | 117 | 145 |
+| **Total** | **742** | **1157** |
 
 ## 3. Design
 
