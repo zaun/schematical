@@ -157,8 +157,8 @@ enum CitationLocator {
     /// the start of a line (a caption), else its first occurrence.
     static func labelRange(_ reference: String, in folded: Folded, text: String) -> NSRange? {
         guard !reference.contains("#"), reference.rangeOfCharacter(from: .letters) != nil else { return nil }
+        // Not empty: the reference has a letter.
         let needle = Folded(reference).units
-        guard !needle.isEmpty else { return nil }
         let ns = text as NSString
         var first: Int?
         var from = 0
@@ -211,8 +211,9 @@ final class VerifyDatasheetModel {
     /// As `DatasheetFinder`'s: an isolated deinit aborts the runtime.
     nonisolated deinit {}
 
+    /// The PDF pane shows once a part is picked, and picking one starts its PDF: there is
+    /// no "nothing yet" to show.
     enum PDFPhase {
-        case none
         case loading
         case loaded(PDFDocument)
         case failed(String)
@@ -224,7 +225,7 @@ final class VerifyDatasheetModel {
     let finder = DatasheetFinder()
 
     private(set) var selected: CatalogPart?
-    private(set) var pdf = PDFPhase.none
+    private(set) var pdf = PDFPhase.loading
     /// What the last citation click did, for the line under the search field.
     private(set) var status = ""
     /// The datasheet pane is an editor.
@@ -237,8 +238,12 @@ final class VerifyDatasheetModel {
 
     @ObservationIgnored private var documents: [URL: PDFDocument] = [:]
     @ObservationIgnored private var loading: Task<Void, Never>?
+    @ObservationIgnored private let fetch: (URL) async -> Result<PDFDocument, DatasheetLoader.Failure>
 
-    init(catalog: PartCatalogStore = .shared) {
+    /// `fetch` is the loader in the app; tests pass a stub.
+    init(catalog: PartCatalogStore = .shared,
+         fetch: @escaping (URL) async -> Result<PDFDocument, DatasheetLoader.Failure> = { await DatasheetLoader.load($0) }) {
+        self.fetch = fetch
         candidates = catalog.allParts
             .filter { $0.datasheetMarkdown != nil }
             .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
@@ -311,7 +316,7 @@ final class VerifyDatasheetModel {
         }
         pdf = .loading
         loading = Task {
-            let result = await DatasheetLoader.load(url)
+            let result = await fetch(url)
             guard !Task.isCancelled, selected?.datasheetURL == url else { return }
             switch result {
             case let .success(document):
@@ -321,6 +326,55 @@ final class VerifyDatasheetModel {
                 pdf = .failed(failure.message)
             }
         }
+    }
+
+    // MARK: The search field
+
+    /// What is typed in the search field.
+    var query = ""
+    /// The results list under the field is open.
+    private(set) var showsResults = false
+
+    /// The field's text changed: the list opens unless the text names the part shown.
+    func queryChanged() {
+        showsResults = query != selected?.name
+    }
+
+    /// Return in the field: the first match is shown.
+    func submit() {
+        if let first = matches(query).first { choose(first) }
+    }
+
+    /// The field's clear button: empty text, the list open.
+    func clearQuery() {
+        query = ""
+        showsResults = true
+    }
+
+    func hideResults() {
+        showsResults = false
+    }
+
+    /// A result picked: shown, named in the field, the list closed.
+    func choose(_ part: CatalogPart) {
+        select(part)
+        query = part.name
+        showsResults = false
+    }
+
+    /// A result's second line: maker and description.
+    static func detail(of part: CatalogPart) -> String {
+        [part.manufacturer, part.description].filter { !$0.isEmpty }.joined(separator: " · ")
+    }
+
+    /// "1 block edited", "3 blocks edited".
+    static func editedText(_ blocks: Int) -> String {
+        blocks == 1 ? "1 block edited" : "\(blocks) blocks edited"
+    }
+
+    /// The window's subtitle: the part and its datasheet's title.
+    var subtitle: String {
+        selected.map { "\($0.name) — \(page.title)" } ?? ""
     }
 
     /// Scrolls the PDF to what a citation names.
@@ -349,10 +403,16 @@ final class VerifyDatasheetModel {
 // MARK: - Window
 
 struct VerifyDatasheetWindowView: View {
-    @State private var model = VerifyDatasheetModel()
-    @State private var query = ""
-    @State private var showResults = false
+    @State private var model: VerifyDatasheetModel
     @FocusState private var searchFocused: Bool
+
+    init() {
+        self.init(model: VerifyDatasheetModel())
+    }
+
+    init(model: VerifyDatasheetModel) {
+        _model = State(initialValue: model)
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -362,11 +422,11 @@ struct VerifyDatasheetWindowView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .overlay(alignment: .topLeading) {
-            if showResults { results }
+            if model.showsResults { results }
         }
         .frame(minWidth: 900, minHeight: 500)
         .navigationTitle(VerifyDatasheetScene.title)
-        .navigationSubtitle(model.selected.map { "\($0.name) — \(model.page.title)" } ?? "")
+        .navigationSubtitle(model.subtitle)
         .onAppear { searchFocused = true }
     }
 
@@ -374,25 +434,19 @@ struct VerifyDatasheetWindowView: View {
         HStack(spacing: 12) {
             HStack {
                 Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
-                TextField("Search a part with a converted datasheet", text: $query)
+                TextField("Search a part with a converted datasheet", text: $model.query)
                     .textFieldStyle(.plain)
                     .focused($searchFocused)
-                    .onChange(of: query) { _, text in
-                        showResults = text != model.selected?.name
-                    }
-                    .onSubmit {
-                        if let first = model.matches(query).first { choose(first) }
-                    }
-                    .onExitCommand { showResults = false }
-                if !query.isEmpty {
-                    Button {
-                        query = ""
-                        showResults = true
-                    } label: {
+                    .onChange(of: model.query) { model.queryChanged() }
+                    .onSubmit { model.submit() }
+                    .onExitCommand { model.hideResults() }
+                if !model.query.isEmpty {
+                    Button { model.clearQuery() } label: {
                         Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary)
                     }
                     .buttonStyle(.plain)
                     .help("Clear")
+                    .accessibilityLabel("Clear")
                 }
             }
             .padding(.horizontal, 8)
@@ -416,7 +470,7 @@ struct VerifyDatasheetWindowView: View {
     private var editControls: some View {
         HStack(spacing: 8) {
             if model.isEditing, model.editedBlocks > 0 {
-                Text(model.editedBlocks == 1 ? "1 block edited" : "\(model.editedBlocks) blocks edited")
+                Text(VerifyDatasheetModel.editedText(model.editedBlocks))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -437,7 +491,7 @@ struct VerifyDatasheetWindowView: View {
     }
 
     private var results: some View {
-        let matches = model.matches(query)
+        let matches = model.matches(model.query)
         return Group {
             if matches.isEmpty {
                 Text("No part with a converted datasheet matches.")
@@ -447,11 +501,10 @@ struct VerifyDatasheetWindowView: View {
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 0) {
                         ForEach(matches) { part in
-                            Button { choose(part) } label: {
+                            Button { model.choose(part) } label: {
                                 VStack(alignment: .leading, spacing: 1) {
                                     Text(part.name).fontWeight(.medium)
-                                    Text([part.manufacturer, part.description].filter { !$0.isEmpty }
-                                        .joined(separator: " · "))
+                                    Text(VerifyDatasheetModel.detail(of: part))
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
                                         .lineLimit(1)
@@ -474,12 +527,6 @@ struct VerifyDatasheetWindowView: View {
         .shadow(radius: 8, y: 3)
         .padding(.leading, 10)
         .padding(.top, 46)
-    }
-
-    private func choose(_ part: CatalogPart) {
-        model.select(part)
-        query = part.name
-        showResults = false
     }
 
     @ViewBuilder
@@ -514,8 +561,6 @@ struct VerifyDatasheetWindowView: View {
     @ViewBuilder
     private var pdfPane: some View {
         switch model.pdf {
-        case .none:
-            Color.clear
         case .loading:
             ProgressView("Downloading datasheet…")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

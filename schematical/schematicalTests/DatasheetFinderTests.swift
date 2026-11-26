@@ -156,3 +156,16 @@ final class DatasheetFinderTests: XCTestCase {
         XCTAssertEqual(terms["datasheet"], [])
     }
 }
+
+extension DatasheetFinderTests {
+    /// With the pane's view attached, a hit scrolls it there and selects the text.
+    func testAHitIsShownInTheView() throws {
+        let finder = try finder()
+        let view = PDFView(frame: NSRect(x: 0, y: 0, width: 300, height: 400))
+        view.document = finder.document
+        finder.view = view
+        XCTAssertEqual(finder.find(["Pin Functions"]), 3)
+        XCTAssertEqual(view.currentSelection?.string, "Pin Functions")
+        XCTAssertEqual(view.currentSelection?.pages.first, finder.document?.page(at: 2))
+    }
+}

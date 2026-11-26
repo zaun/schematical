@@ -33,23 +33,56 @@ struct OpenDatasheetButton: View {
     }
 }
 
-/// The datasheet window: a spinner while the PDF downloads, then the PDF,
-/// or what went wrong with a Try Again button and a link to open it in the
-/// browser.
-struct DatasheetWindowView: View {
-    let target: DatasheetWindowTarget
+/// What the datasheet window shows: a spinner while the PDF downloads, the
+/// PDF, or what went wrong.
+@MainActor
+@Observable
+final class DatasheetWindowModel {
+    nonisolated deinit {}
 
-    private enum Phase {
+    enum Phase {
         case loading
         case loaded(PDFDocument)
         case failed(String)
     }
 
-    @State private var phase = Phase.loading
+    let target: DatasheetWindowTarget
+    private(set) var phase = Phase.loading
+    @ObservationIgnored private let fetch: (URL) async -> Result<PDFDocument, DatasheetLoader.Failure>
+
+    /// `fetch` is the loader in the app; tests pass a stub.
+    init(target: DatasheetWindowTarget,
+         fetch: @escaping (URL) async -> Result<PDFDocument, DatasheetLoader.Failure> = { await DatasheetLoader.load($0) }) {
+        self.target = target
+        self.fetch = fetch
+    }
+
+    func load() async {
+        phase = .loading
+        switch await fetch(target.url) {
+        case let .success(document): phase = .loaded(document)
+        case let .failure(failure): phase = .failed(failure.message)
+        }
+    }
+}
+
+/// The datasheet window: a spinner while the PDF downloads, then the PDF,
+/// or what went wrong with a Try Again button and a link to open it in the
+/// browser.
+struct DatasheetWindowView: View {
+    @State private var model: DatasheetWindowModel
+
+    init(target: DatasheetWindowTarget) {
+        self.init(model: DatasheetWindowModel(target: target))
+    }
+
+    init(model: DatasheetWindowModel) {
+        _model = State(initialValue: model)
+    }
 
     var body: some View {
         Group {
-            switch phase {
+            switch model.phase {
             case .loading:
                 ProgressView("Downloading datasheet…")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -61,23 +94,15 @@ struct DatasheetWindowView: View {
                 } description: {
                     Text(message)
                 } actions: {
-                    Button("Try Again") { Task { await load() } }
-                    Link("Open in Browser", destination: target.url)
+                    Button("Try Again") { Task { await model.load() } }
+                    Link("Open in Browser", destination: model.target.url)
                 }
             }
         }
         .frame(minWidth: 400, minHeight: 400)
-        .navigationTitle("\(target.partName) Datasheet")
-        .navigationSubtitle(target.url.host() ?? "")
-        .task { await load() }
-    }
-
-    private func load() async {
-        phase = .loading
-        switch await DatasheetLoader.load(target.url) {
-        case let .success(document): phase = .loaded(document)
-        case let .failure(failure): phase = .failed(failure.message)
-        }
+        .navigationTitle("\(model.target.partName) Datasheet")
+        .navigationSubtitle(model.target.url.host() ?? "")
+        .task { await model.load() }
     }
 }
 

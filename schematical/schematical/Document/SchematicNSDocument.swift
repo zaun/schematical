@@ -33,12 +33,14 @@ final class SchematicNSDocument: NSDocument {
 
     nonisolated override class var autosavesInPlace: Bool { true }
 
-    /// Not in the app that hosts the unit tests: a test's document is edited
+    /// Off in the app that hosts the unit tests: a test's document is edited
     /// and kept for the life of the process, and AppKit would autosave it,
     /// to a file the test never wrote or has already removed (it then asks
     /// the user about a file they never saw).
+    static var autosaves = !AppDelegate.isTestHost
+
     override func scheduleAutosaving() {
-        guard !AppDelegate.isTestHost else { return }
+        guard Self.autosaves else { return }
         super.scheduleAutosaving()
     }
 
@@ -268,8 +270,14 @@ struct DocumentMenuCommands: Commands {
     @FocusedValue(\.schematicExporter) private var file
     @FocusedValue(\.partEditor) private var editor
 
-    private func send(_ selector: String) {
+    /// Sends a standard action down the responder chain; false when nothing took it.
+    @discardableResult
+    static func send(_ selector: String) -> Bool {
         NSApp.sendAction(Selector(selector), to: nil, from: nil)
+    }
+
+    static func closeAll() {
+        NSDocumentController.shared.closeAllDocuments(withDelegate: nil, didCloseAllSelector: nil, contextInfo: nil)
     }
 
     /// ⌘O and ⌘S are the Part Editor's own in its window (`SchematicFileCommands`).
@@ -284,39 +292,34 @@ struct DocumentMenuCommands: Commands {
             Button("Open…") { NSDocumentController.shared.openDocument(nil) }
                 .keyboardShortcut(key("o"))
             Menu("Open Recent") {
-                ForEach(NSDocumentController.shared.recentDocumentURLs, id: \.self) { url in
-                    Button(url.lastPathComponent) {
-                        NSDocumentController.shared.openDocument(withContentsOf: url, display: true) { _, _, _ in }
-                    }
-                }
-                Divider()
-                Button("Clear Menu") { NSDocumentController.shared.clearRecentDocuments(nil) }
+                let documents = NSDocumentController.shared
+                RecentDocumentsMenu(urls: documents.recentDocumentURLs,
+                                    open: { documents.openDocument(withContentsOf: $0, display: true) { _, _, _ in } },
+                                    clear: { documents.clearRecentDocuments(nil) })
             }
         }
         CommandGroup(replacing: .saveItem) {
-            Button("Close") { send("performClose:") }
+            Button("Close") { Self.send("performClose:") }
                 .keyboardShortcut("w", modifiers: .command)
-            Button("Close All") {
-                NSDocumentController.shared.closeAllDocuments(withDelegate: nil, didCloseAllSelector: nil, contextInfo: nil)
-            }
-            .keyboardShortcut("w", modifiers: [.command, .option])
-            Button("Save") { send("saveDocument:") }
+            Button("Close All") { Self.closeAll() }
+                .keyboardShortcut("w", modifiers: [.command, .option])
+            Button("Save") { Self.send("saveDocument:") }
                 .keyboardShortcut(key("s"))
                 .disabled(file == nil)
-            Button(DocumentMenuCommands.duplicateTitle) { send("duplicateDocument:") }
+            Button(DocumentMenuCommands.duplicateTitle) { Self.send("duplicateDocument:") }
                 .keyboardShortcut("s", modifiers: [.command, .shift])
                 .disabled(file == nil)
             // Shown in place of Duplicate while Option is held (`OptionOnlyMenuItems`).
-            Button(DocumentMenuCommands.saveAsTitle) { send("saveDocumentAs:") }
+            Button(DocumentMenuCommands.saveAsTitle) { Self.send("saveDocumentAs:") }
                 .keyboardShortcut("s", modifiers: [.command, .shift, .option])
                 .disabled(file == nil)
-            Button("Rename…") { send("renameDocument:") }
+            Button("Rename…") { Self.send("renameDocument:") }
                 .disabled(file == nil)
-            Button("Move To…") { send("moveDocument:") }
+            Button("Move To…") { Self.send("moveDocument:") }
                 .disabled(file == nil)
             Menu("Revert To") {
-                Button("Last Saved") { send("revertDocumentToSaved:") }
-                Button("Browse All Versions…") { send("browseDocumentVersions:") }
+                Button("Last Saved") { Self.send("revertDocumentToSaved:") }
+                Button("Browse All Versions…") { Self.send("browseDocumentVersions:") }
             }
             .disabled(file == nil)
         }
@@ -324,4 +327,20 @@ struct DocumentMenuCommands: Commands {
 
     static let duplicateTitle = "Duplicate"
     static let saveAsTitle = "Save As…"
+}
+
+/// File › Open Recent's items: one per recent file, then Clear Menu.
+struct RecentDocumentsMenu: View {
+    let urls: [URL]
+    /// Opens a recent file; empties the list (the document controller's, in the app).
+    let open: (URL) -> Void
+    let clear: () -> Void
+
+    var body: some View {
+        ForEach(urls, id: \.self) { url in
+            Button(url.lastPathComponent) { open(url) }
+        }
+        Divider()
+        Button("Clear Menu") { clear() }
+    }
 }

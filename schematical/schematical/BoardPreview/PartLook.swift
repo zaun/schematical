@@ -82,20 +82,17 @@ struct PartLook {
         case PART_HEADER:
             return .header(female: chip.gender == "Female")
         case PART_CHARLCD:
-            if case let .characterLCD(info) = part.details { return .lcd(columns: info.columns, rows: info.rows) }
-            return .lcd(columns: 16, rows: 2)
+            // Without its facts (none in the catalog), a 16 × 2 module.
+            let info = part.characterLCD
+            return .lcd(columns: info?.columns ?? 16, rows: info?.rows ?? 2)
         case PART_7SEG:
-            if case let .display(info) = part.details {
-                // A numitron or VFD is a glass tube standing on its leads.
-                if info.type != "led" { return .nixie(endView: false, tint: ledTint(info.color)) }
-                return .sevenSegment(digits: max(1, info.digits), tint: ledTint(info.color))
-            }
-            return .sevenSegment(digits: 1, tint: ledTint("Red"))
+            let info = part.display
+            // A numitron or VFD is a glass tube standing on its leads.
+            if let info, info.type != "led" { return .nixie(endView: false, tint: ledTint(info.color)) }
+            return .sevenSegment(digits: max(1, info?.digits ?? 1), tint: ledTint(info?.color ?? "Red"))
         case PART_LCD:
-            if case let .display(info) = part.details {
-                return .sevenSegment(digits: max(1, info.digits), tint: ledTint(info.color))
-            }
-            return .sevenSegment(digits: 1, tint: ledTint("Gray"))
+            let info = part.display
+            return .sevenSegment(digits: max(1, info?.digits ?? 1), tint: ledTint(info?.color ?? "Gray"))
         case PART_NIXIE:
             return .nixie(endView: part.nixie?.view == "end", tint: ledTint(part.nixie?.color ?? "Orange"))
         case PART_DEKATRON:

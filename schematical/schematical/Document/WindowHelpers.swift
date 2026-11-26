@@ -49,24 +49,26 @@ struct WindowReader: NSViewRepresentable {
     let onWindow: (NSWindow) -> Void
 
     func makeNSView(context: Context) -> NSView {
-        ReaderView(onWindow: onWindow)
+        WindowReaderView(onWindow: onWindow)
     }
 
     func updateNSView(_ nsView: NSView, context: Context) {}
+}
 
-    private final class ReaderView: NSView {
-        let onWindow: (NSWindow) -> Void
+/// `WindowReader`'s view: reports its window when it moves into one.
+final class WindowReaderView: NSView {
+    let onWindow: (NSWindow) -> Void
 
-        init(onWindow: @escaping (NSWindow) -> Void) {
-            self.onWindow = onWindow
-            super.init(frame: .zero)
-        }
+    init(onWindow: @escaping (NSWindow) -> Void) {
+        self.onWindow = onWindow
+        super.init(frame: .zero)
+    }
 
-        required init?(coder: NSCoder) { nil }
+    /// Never archived: a view made from a coder has no callback, so there is none.
+    required init?(coder: NSCoder) { nil }
 
-        override func viewDidMoveToWindow() {
-            super.viewDidMoveToWindow()
-            if let window { onWindow(window) }
-        }
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        if let window { onWindow(window) }
     }
 }

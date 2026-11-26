@@ -367,10 +367,8 @@ struct BoardRenderer {
         // Copper under the mask shows as a lighter tint of it.
         let underMask = mask.mixed(with: Tint(0.85, 0.70, 0.40), 0.18).shaded(1.05).color
         let layer = side.copperLayer
+        // The side's copper is a component layer (a Plane is inner only, under the core).
         if board.copperLayers.contains(layer) {
-            if board.style(of: layer).type == .plane {
-                drawPlane(on: layer, colour: underMask, shape: shape, in: &context)
-            }
             if !document.pours.isEmpty {
                 let copper = document.connectivity()
                 for pour in document.pours where pour.layer == layer {
@@ -486,31 +484,6 @@ struct BoardRenderer {
                 l.scaleBy(x: text.drawScale, y: text.drawScale)
                 l.draw(Text(text.text).font(Font(text.font)).foregroundStyle(ink), at: .zero, anchor: .topLeading)
             }
-        }
-    }
-
-    /// A Plane's copper under the mask, with its clearances cut out.
-    private func drawPlane(on layer: CopperLayer, colour: Color, shape: Path, in context: inout GraphicsContext) {
-        let rules = document.board.rules
-        let style = document.board.style(of: layer)
-        let cuts = PCBCanvasView.planeCuts(on: layer, copper: document.connectivity())
-        let clearance = style.clearance(rules: rules), edge = rules.minCopperToEdge
-        context.drawLayer { plane in
-            plane.fill(shape, with: .color(colour), style: FillStyle(eoFill: true))
-            plane.blendMode = .clear
-            func clear(_ path: Path, by distance: Double) {
-                guard !path.isEmpty else { return }
-                plane.fill(path, with: .color(.black))
-                if distance > 0 {
-                    plane.stroke(path, with: .color(.black), style: StrokeStyle(lineWidth: 2 * distance, lineJoin: .round))
-                }
-            }
-            if edge > 0 {
-                plane.stroke(shape, with: .color(.black), style: StrokeStyle(lineWidth: 2 * edge, lineJoin: .round))
-            }
-            clear(cuts.copper, by: clearance)
-            clear(cuts.edges, by: edge)
-            clear(cuts.drills, by: 0)
         }
     }
 }

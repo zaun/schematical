@@ -46,7 +46,12 @@ struct ShowDatasheetButton: View {
 struct MarkdownDatasheetWindowView: View {
     let target: MarkdownDatasheetTarget
 
-    @State private var page = DatasheetPage()
+    @State private var page: DatasheetPage
+
+    init(target: MarkdownDatasheetTarget) {
+        self.target = target
+        _page = State(initialValue: DatasheetPage())
+    }
 
     var body: some View {
         Group {
@@ -94,9 +99,14 @@ final class DatasheetPage: NSObject, WKNavigationDelegate {
     @ObservationIgnored var onEdit: ((DatasheetEditState) -> Void)?
     /// The editor asked which page the PDF is showing.
     @ObservationIgnored var onPDFPageRequest: (() -> Void)?
+    /// Opens a link that leaves the page: the browser in the app, a recorder in tests.
+    @ObservationIgnored var openExternal: (URL) -> Void = { NSWorkspace.shared.open($0) }
+    /// Where the viewer page is: the app's bundle (a test passes one without it).
+    @ObservationIgnored private let bundle: Bundle
 
-    init(showsCitations: Bool = false) {
+    init(showsCitations: Bool = false, bundle: Bundle = .main) {
         self.showsCitations = showsCitations
+        self.bundle = bundle
         webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
         super.init()
         webView.navigationDelegate = self
@@ -118,8 +128,8 @@ final class DatasheetPage: NSObject, WKNavigationDelegate {
                                                    editing: showsCitations && editing)
             payload = built.json
             title = built.title
-            guard let html = Bundle.main.url(forResource: "datasheet", withExtension: "html"),
-                  let resources = Bundle.main.resourceURL else {
+            guard let html = bundle.url(forResource: "datasheet", withExtension: "html"),
+                  let resources = bundle.resourceURL else {
                 failure = "The datasheet viewer is missing from the app."
                 return
             }
@@ -168,7 +178,7 @@ final class DatasheetPage: NSObject, WKNavigationDelegate {
             decisionHandler(.allow)
             return
         }
-        NSWorkspace.shared.open(url)
+        openExternal(url)
         decisionHandler(.cancel)
     }
 }

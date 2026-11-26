@@ -28,11 +28,12 @@ enum DatasheetLoader {
     /// Some manufacturer sites refuse requests with no browser agent.
     static let userAgent = "Mozilla/5.0 (Macintosh) Schematical"
 
-    static func load(_ url: URL) async -> Result<PDFDocument, Failure> {
+    /// `session` is the shared one in the app; tests pass one with a stub protocol.
+    static func load(_ url: URL, session: URLSession = .shared) async -> Result<PDFDocument, Failure> {
         do {
             var request = URLRequest(url: url)
             request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
-            let (data, response) = try await URLSession.shared.data(for: request)
+            let (data, response) = try await session.data(for: request)
             return document(data: data, status: (response as? HTTPURLResponse)?.statusCode)
         } catch {
             return .failure(.network(error.localizedDescription))
