@@ -31,8 +31,10 @@ References:
 ## 1. Goal
 
 - `node scripts/coverage.js --app --tests <the document's test classes> --only
-  schematical/schematical/Canvas/SchematicModel.swift` prints no uncovered
-  line; the file's coverage ratchet row is gone.
+  <file>` prints no uncovered line for `SchematicModel.swift` and for the five
+  files plan-68-B moved out of it (`SchematicTool.swift`, `ChipLayout.swift`,
+  `PlacedChip.swift`, `Wire.swift`, `OrthogonalRoute.swift`, all in
+  `schematical/schematical/Canvas/`); their coverage ratchet rows are gone.
 - Every new test calls only members that are used outside
   `SchematicModel.swift` today (the API D–F keep), or is in a test class that
   D–F list as moving with the member it tests.
@@ -45,7 +47,11 @@ References:
 
 ## 2. Current State
 
-221 uncovered lines, per line (above). The lines move between files as plan-68-B lands
+221 uncovered lines, per line (above): 148 in the document and 73 in the
+value types plan-68-B moved out (`SchematicTool.swift` 9, `ChipLayout.swift`
+35, `PlacedChip.swift` 9, `OrthogonalRoute.swift` 20, `Wire.swift` 0;
+mapped from the old file's line numbers to the B boundaries by
+`planning/plan-68-data/c_lines.py`, run in the main checkout before B). The lines move between files as plan-68-B lands
 (it moves only the value types, and their lines go with them), so the letter
 starts with the scoped list:
 `node scripts/coverage.js --app --tests <classes> --only
@@ -72,14 +78,26 @@ state before it — so the same tests also pin the undo snapshot D–F rewire.
 
 ### Phase 1 — every document line run and checked
 
-- [ ] The scoped list (§ 2); a test per block (§ 3), each with its undo check.
-- [ ] The ratchet row for `SchematicModel.swift` removed.
+- [x] The scoped list (§ 2); a test per block (§ 3), each with its undo check.
+- [x] The ratchet row for `SchematicModel.swift` removed.
 
 Acceptance: the whole document is covered by tests on the API that survives
 the split.
   Check: the § 1 scoped command → no uncovered line; `XB -only-testing` the
   classes it names → pass (est. 15 min: one scoped coverage run over every
   class that builds a document).
+  Observed, by the union check that replaces it (Corrections):
+  `planning/plan-68-data/c_union.py /tmp/logic-cov/app/result.xcresult
+  /tmp/p68-c.xcresult` maps each of the 221 lines the full-suite baseline
+  left uncovered to its file and line after plan-68-B and reads its count
+  in the run of the four new classes (`SchematicValueTypesTests`,
+  `SchematicDocumentEdgeTests`, `SchematicDocumentEdgeMoreTests`,
+  `SchematicVoltageRefusalTests`: `Executed 37 tests, with 0 failures`):
+  219 covered, and the 2 it flags are its own mapping misses, checked by
+  hand — `let id = UUID()` became `PendingRemoval`'s explicit init (lines
+  5496-5500, count 1) and erase's `else { return }` is line 5719 (count 1).
+  The lines this letter changed are covered too (`ChipLayout.supply` 10,
+  `setBusLines`' guard 3).
 Commit: —
 
 ## Validation Plan
@@ -93,7 +111,31 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- **The acceptance's scoped run became a union check.** Running every class
+  that builds a document (`grep -lE 'TestSupport.newDocument|Fixture.open'`)
+  is most of the 27-minute suite. A line covered by the baseline full run
+  stays covered (tests and code unchanged but for this letter's edits), so
+  only the baseline's 221 uncovered lines need the new classes: the union
+  check reads exactly those, in minutes.
+- **Two restructures for the coverage counters, not for reachability.**
+  `setBusLines`' `for … where … { return false }` loop left the lines after
+  it with count 0 and then 2^48-1 although the test proves they ran (it
+  asserts the `true` only the end of the function returns): Swift's
+  counters for that shape inside a closure are wrong. It is now the
+  equivalent `guard !zip(…).contains(where: …) else { return false }`, and
+  the counts are right (3, 2, 1). And `PendingRemoval`'s `let id = UUID()`
+  default is never counted (a synthesized init's default value has no
+  counter of its own), though removals are made; it is an explicit
+  `fileprivate init`. Both keep behavior exactly.
+- **`ChipLayout.supply`'s fallback was unreachable** (a supply symbol on a
+  part with no visible pin: no such part exists), so it is total now: the
+  symbol at its size, with the part's first pin if it has one.
+- **Scope widened to the five value files.** The letter was written as
+  "`SchematicModel.swift` to 100%", but plan-68-B moved 73 of the file's 221
+  uncovered lines into five new files before this letter starts. Those lines
+  were part of `SchematicModel.swift` when the plan was measured and are in
+  no other letter's table, so they are this letter's: the goal now names the
+  six files.
 
 ## Summary
 

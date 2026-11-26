@@ -185,7 +185,6 @@
 14	schematical/schematical/Canvas/RelaySymbolView.swift
 709	schematical/schematical/Canvas/SchematicCanvasView.swift
 8	schematical/schematical/Canvas/SchematicExportScene.swift
-221	schematical/schematical/Canvas/SchematicModel.swift
 3	schematical/schematical/Canvas/SchematicPainter.swift
 14	schematical/schematical/Canvas/ScrollPan.swift
 4	schematical/schematical/Canvas/Selection.swift

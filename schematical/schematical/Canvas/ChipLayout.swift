@@ -549,13 +549,11 @@ nonisolated struct ChipLayout: Hashable {
         )
     }
 
+    /// A supply symbol: its size, and its one pin (the part's first) on `side`.
     private static func supply(_ pins: [ChipPin], side: Side, size: CGSize = supplySize) -> ChipLayout {
-        guard let pin = pins.first else {
-            return ChipLayout(pins: pins)
-        }
-        return ChipLayout(
+        ChipLayout(
             size: size,
-            slots: [PinSlot(pin: pin, side: side, centerY: 0, centerX: supplyPinX)]
+            slots: pins.prefix(1).map { PinSlot(pin: $0, side: side, centerY: 0, centerX: supplyPinX) }
         )
     }
 

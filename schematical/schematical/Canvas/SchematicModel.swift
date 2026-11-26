@@ -5421,10 +5421,9 @@ final class SchematicDocument {
             guard let index = buses.firstIndex(where: { $0.id == id }) else { return false }
             let old = buses[index]
             guard lines.map(\.id) == old.lines.map(\.id) else { return false }
-            for (before, after) in zip(old.lines, lines)
-                where before.isHorizontal != after.isHorizontal || before.direction != after.direction {
-                return false
-            }
+            guard !zip(old.lines, lines).contains(where: { before, after in
+                before.isHorizontal != after.isHorizontal || before.direction != after.direction
+            }) else { return false }
             var edited = old
             edited.lines = lines
             guard edited.isValid, edited.jointShapes == old.jointShapes, edited.portsFit else { return false }
@@ -5490,9 +5489,15 @@ final class SchematicDocument {
     /// A removal waiting for the user to confirm: it would take more than the
     /// thing clicked (wires on port pins, or a line's ports).
     struct PendingRemoval: Identifiable {
-        let id = UUID()
+        let id: UUID
         let message: String
         fileprivate let action: Action
+
+        fileprivate init(message: String, action: Action) {
+            id = UUID()
+            self.message = message
+            self.action = action
+        }
 
         fileprivate enum Action {
             case port(UUID)
