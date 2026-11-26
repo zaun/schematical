@@ -27,7 +27,7 @@ plan-48-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-48-A complete | `ls planning/completed/plan-48-A-*.md` → exists, or every A box ticked | NOT MET (2026-11-24: Phases 2 and 3 done, Phase 1 `[~]`: 11 picked rows still need their stock lookup, both DigiKey keys are spent until 2026-11-26 00:00 UTC; the lookups can only drop rows or move a reserve row up, and B's steps are rerun for those (Corrections 5)) |
+| plan-48-A complete | `ls planning/completed/plan-48-A-*.md` → exists, or every A box ticked | MET (2026-11-26: every A box ticked; the 11 outstanding stock lookups all passed, so no B step is rerun, A Corrections 7) |
 | The spec skeleton exists | `head -1 planning/plan-48-data/specs.tsv` → the header | MET (2026-11-24: `type company pdf package supplier_package circuits rows example scheme label pinout facts`; B adds `label` and `scheme` before `pinout`) |
 
 Everything below is written against the world where these hold.
@@ -255,7 +255,7 @@ Commit: —
    reserve rows moved up (ADI `AD823AARZ-RL`, `MAX4493AUK+T`; TI `TL031IP`,
    `TLV2322IDR`, `LMV341IDCKR`, `MC33078DGKR`); their 5 new spec rows were
    read in a second slice.
-5. **The pick is final except for the DigiKey lookups A could not finish.**
+5. **The pick is final except for the DigiKey lookups A could not finish.** (Outcome 2026-11-26: all 11 lookups passed; nothing changed.)
    11 `add` rows have no stock lookup (`census/to-check.py raw candidates.tsv
    stock-check.tsv candidate verdicts.tsv`): `TLC3555IDR`, `TLC555CPWR`,
    `TLC555CPSR`, `NE555PS`, `LM555CMM/NOPB` (timers) and `AD823AARZ-RL`,

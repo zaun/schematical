@@ -264,25 +264,26 @@ whose listed rows are all `out` by rule 3 is not placed and goes to
 
 ### Phase 1 — Part-by-part stock check
 
-- [~] `cd planning/plan-48-data && DK_OPT2=1 VERDICTS=verdicts.tsv census/stock-check.sh raw candidates.tsv
+- [x] `cd planning/plan-48-data && DK_OPT2=1 VERDICTS=verdicts.tsv census/stock-check.sh raw candidates.tsv
       stock-check.tsv candidate` (one `node scripts/digikey.js` call per
       picked row; Corrections 1: only the rows whose datasheet lists them).
-      Result: 651 of 656 picked rows checked (`stock-check.tsv` 664 rows: key 2 for 644, key 1 for 20); both
-      keys ran dry. **Remains:** 5 TI timers (`TLC3555IDR`, `TLC555CPWR`,
-      `TLC555CPSR`, `NE555PS`, `LM555CMM/NOPB`): run `census/stock-check.sh`
-      again after the next reset (2026-11-26 00:00 UTC; the 2026-11-25 00:00 UTC one was already spent when this ran at 05:50 UTC); a failing timer has no
-      reserve row, it only drops out. After plan-48-B's refill (6 reserve rows moved up) the list is 11
-      rows (`python3 -I census/to-check.py raw candidates.tsv stock-check.tsv candidate verdicts.tsv`: the 5 timers
-      and `AD823AARZ-RL`, `MAX4493AUK+T`, `TL031IP`, `TLV2322IDR`, `LMV341IDCKR`, `MC33078DGKR`).
-- [~] `python3 -I census/select.py raw candidates.tsv --urls url-check.tsv
+      Result: 651 of 656 picked rows checked on 2026-11-24 (key 2 for 644, key 1 for 20); both
+      keys ran dry. The last 11 rows (5 TI timers `TLC3555IDR`, `TLC555CPWR`, `TLC555CPSR`, `NE555PS`,
+      `LM555CMM/NOPB` and the op-amps `AD823AARZ-RL`, `MAX4493AUK+T`, `TL031IP`, `TLV2322IDR`, `LMV341IDCKR`,
+      `MC33078DGKR`) were looked up on 2026-11-26 after the reset
+      (`/tmp/p48/sc.sh 2 1 add`, state `add` because `final.py --apply` had already run):
+      `digikey: 1 of 1 parts … 989 left today`, 11 rows appended to `stock-check.tsv`, all `found 1`, Active, stock 696 to 35073.
+      `to-check.py raw candidates.tsv stock-check.tsv add verdicts.tsv` → `656 add rows, 0 unchecked`.
+- [x] `python3 -I census/select.py raw candidates.tsv --urls url-check.tsv
       --pdf /tmp/p48/pdf --stock stock-check.tsv --verdicts verdicts.tsv --report` (the refill loop, Phase 3):
       4 rows failed the lookup (`LTC6241HVIS8#TRPBF`, `TLV2450ID`, `TLV9102IDR`
-      op-amps, replaced from reserve; `LMC555CMM/NOPB` timer, dropped); `python3 -I census/to-check.py raw
-      candidates.tsv stock-check.tsv candidate verdicts.tsv` → `656 candidate rows, 5 unchecked`
-      (the five above).
+      op-amps, replaced from reserve; `LMC555CMM/NOPB` timer, dropped); the final 11 lookups all passed,
+      so the pick did not change: rerun of the loop (`/tmp/p48/final.sh` then `final.py --apply`) →
+      656 `add` rows (opamp ti 200, adi 200, st 200; timer ti 48, adi 5, renesas 3), `specs.tsv` `503 rows; 503 kept from before`,
+      and only the `stock_checked` column of those 11 rows changed in `candidates.tsv`.
 - [x] Record in § Corrections: the rows that failed and the calls used (Corrections 4).
 
-Acceptance: every picked row passed its own lookup.
+Acceptance: every picked row passed its own lookup (observed 2026-11-26: `awk … $22=="add" && $27==""` → 0).
   Check: `awk -F'\t' 'NR>1 && $22=="candidate" && $27==""' planning/plan-48-data/candidates.tsv | wc -l` → 0, and `awk -F'\t' 'NR>1 && $2!="1"' planning/plan-48-data/stock-check.tsv | cut -f1 | while read m; do awk -F'\t' -v m="$m" '$1==m{print $22}' planning/plan-48-data/candidates.tsv; done | sort -u` → `out` or nothing (est. 45 min of calls at about 23 a minute).
 Commit: —
 
@@ -432,6 +433,11 @@ Commit: —
    `LMC555CMM/NOPB` is out by stock.
 6. **Prerequisite values moved** (main advanced since planning): T0 = 65
    (was 37), P0 = R0 = 39903, F0 = 3825.
+7. **The last 11 stock lookups passed (2026-11-26).** After the quota reset
+   `census/stock-check.sh` (state `add`; the state was no longer `candidate`
+   after `final.py --apply`) looked up the 5 TI timers and 6 op-amps with
+   key 2 (1 call each, 989 left afterwards): all Active, stock 696 to 35073.
+   The pick of Correction 5 stands (656 rows, 292 PDFs, 503 spec rows).
 
 ## Summary
 
