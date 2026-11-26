@@ -215,7 +215,7 @@ Acceptance: the sheet owns the content and nothing else changed.
   -only-testing:schematicalTests/SchematicFileV5Tests` → all pass (est. 5 min).
   Observed: SchematicUndoTests 50, DocumentUndoTests, SchematicFileV5Tests 8,
   SheetObservationTests 2 → `TEST SUCCEEDED`, 0 failures.
-Commit: COMMIT_D
+Commit: 70b58b99
 
 ### Phase 2 — the logic into the values
 
@@ -236,7 +236,7 @@ behavior is unchanged.
   Debug suite, as measured in `app-coverage.txt`; nothing smaller covers every
   caller of the moved methods).
   Observed: the full suite under `node scripts/coverage.js --app` → 9 failed cases: the 8 standing ones and `PartKindKeysTests.testFormKeysCoverTheBackendKeys`, a plan-68-J regression (it read the files J split by their old names; fixed here: Corrections), which then passed (`-only-testing` PartKindKeysTests, SheetObservationTests → 0 failures). `Model/Sheet/` → no uncovered line (`--only schematical/schematical/Model/Sheet/` with the four value classes → `758 lines, 0 uncovered`). SchematicModel.swift had 6 uncovered (an unused `wire(at:)`, now deleted, and three port refusals on nothing, now tested in `SheetObservationTests.testPortEditsOnNothing`); four ratchet rows went down and were lowered.
-Commit: COMMIT_D
+Commit: 70b58b99
 
 ## Validation Plan
 
