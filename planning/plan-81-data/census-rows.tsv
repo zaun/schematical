@@ -1,0 +1,96 @@
+category	maker	part	in_stock	controller	format	interface	display_type	datasheet_url
+107	Newhaven Display Intl	NHD-1.91-176176B	520	SSD1333	176 x 176	8-Bit, Parallel, I2C, SPI	OLED	https://newhavendisplay.com/content/specs/NHD-1.91-176176B.pdf
+107	Newhaven Display Intl	NHD-1.5-128128UGC3	288	SSD1351	128 x 128	Parallel/Serial	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-1.5-128128UGC3.pdf
+107	Newhaven Display Intl	NHD-1.8-160128UBC3	219	SSD1353	160 x 128	8-Bit, Parallel, SPI	OLED	https://newhavendisplay.com/content/specs/NHD-1.8-160128UBC3.pdf
+107	Newhaven Display Intl	NHD-1.91-176176UBC3	104	SSD1333	176 x 176	8-Bit, Parallel, I2C, SPI	OLED	https://newhavendisplay.com/content/specs/NHD-1.91-176176UBC3.pdf
+107	Newhaven Display Intl	NHD-2.23-12832UCB3	2785	SSD1305	128 x 32	I2C, Parallel, Serial	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-2.23-12832UCB3.pdf
+107	Newhaven Display Intl	NHD-2.23-12832UCW3	687	SSD1305	128 x 32	Parallel, Serial	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-2.23-12832UCW3.pdf
+107	Newhaven Display Intl	NHD-2.23-12832UCY3	257	SSD1305	128 x 32	I2C, Parallel 8-Bit, SPI	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-2.23-12832UCY3.pdf
+107	Newhaven Display Intl	NHD-2.8-25664UCY2	556	SSD1322	256 x 64	Parallel, 8-Bit, SPI	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-2.8-25664UCY2.pdf
+107	Newhaven Display Intl	NHD-2.8-25664UCB2	1702	SSD1322	256 x 64	Parallel/Serial	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-2.8-25664UCB2.pdf
+107	Newhaven Display Intl	NHD-2.7-12864WDW3	4004	SSD1322	128 x 64	Parallel/Serial	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-2.7-12864WDW3.pdf
+107	Newhaven Display Intl	NHD-3.12-25664UCY2	828	SSD1322	256 x 64	Parallel, 8-Bit, SPI	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-3.12-25664UCY2.pdf
+107	Newhaven Display Intl	NHD-3.12-25664UCB2	789	SSD1322	256 x 64	Parallel, 8-Bit, SPI	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-3.12-25664UCB2.pdf
+107	Newhaven Display Intl	NHD-2.7-12864WDW3-M	915	SSD1322	128 x 64	Parallel, 8-Bit, SPI	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-2.7-12864WDW3-M.pdf
+107	Newhaven Display Intl	NHD-3.12-25664UCW2	1249	SSD1322	256 x 64	Parallel, Serial	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-3.12-25664UCW2.pdf
+107	Display Visions	EA OLEDL128-6GGA	94	-	128 x 64	I2C, SPI	OLED - Passive Matrix	https://www.lcd-module.de/fileadmin/html-seiten/eng/pdf/grafik/oledl128-6e.pdf
+107	Orient Display	AOM12864A0-0.96WW-ANO	139	SSD1306, SSD1315	128 x 64	SPI	OLED	https://www.orientdisplay.com/wp-content/uploads/2021/02/AOM12864A0-0.96WW-ANO.pdf
+107	Orient Display	AOM12864A0-1.54WW-ANO	113	SPD0301, SSD1305, SSD1309	128 x 64	SPI	OLED	https://www.orientdisplay.com/wp-content/uploads/2021/05/AOM12864A0-1.54WW-ANO.pdf
+107	Newhaven Display Intl	NHD-2.7-12864WDY3-M	463	SSD1322	128 x 64	Parallel/Serial	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-2.7-12864WDY3-M.pdf
+107	Newhaven Display Intl	NHD-3.12-25664UMY3	111	SSD1322	256 x 64	Parallel/Serial	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-3.12-25664UMY3.pdf
+107	Display Visions	EA OLEDS102-6GGA	260	-	102 x 64	I2C, SPI	OLED - Passive Matrix	https://www.lcd-module.com/fileadmin/eng/pdf/grafik/oleds102-6e.pdf
+107	Display Visions	EA OLEDM128-6GGA	126	-	128 x 64	I2C, SPI	OLED - Passive Matrix	https://www.lcd-module.de/fileadmin/html-seiten/eng/pdf/grafik/oledm128-6e.pdf
+107	Newhaven Display Intl	NHD-2.7-12864WDY3-CTP	94	SSD1322	128 x 64	8-Bit, Parallel, I2C, SPI	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-2.7-12864WDY3-CTP.pdf
+107	Newhaven Display Intl	NHD-2.7-12864WDW3M-CTP	102	SSD1322	128 x 64	8-Bit, Parallel, I2C, SPI	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-2.7-12864WDW3M-CTP.pdf
+107	DLC Display Co.,Ltd	DLC0096DNOG-W-5	554	SSD1315	128 x 64	I2C, SPI	OLED - Passive Matrix	https://www.dlcdisplay.com/viewfilebizce/1760131013944299520/DLC0096DNOG-W-5.pdf
+107	Orient Display	AOM12864A0-0.96WW	50	SSD1306	128 x 64	I2C, Parallel, SPI	OLED	https://www.orientdisplay.com/wp-content/uploads/2020/07/AOM12864A0-0.96WW-datasheet.pdf
+107	Newhaven Display Intl	NHD-0.95-9664G	98	SSD1331	96 x 64	Parallel, Serial	OLED	https://newhavendisplay.com/content/specs/NHD-0.95-9664G.pdf
+107	Orient Display	AOM12864A0-1.3WW-ANO	28	SH1106, SSD1306	128 x 64	SPI	OLED	https://www.orientdisplay.com/wp-content/uploads/2021/02/AOM12864A0-1.3WW-ANO.pdf
+107	Newhaven Display Intl	NHD-1.27-12896G	19	SSD1351	128 x 96	Parallel, Serial	OLED	https://newhavendisplay.com/content/specs/NHD-1.27-12896G.pdf
+107	Orient Display	AOM12864A0-1.54WW	93	SSD1309	128 x 64	I2C, Parallel, SPI	OLED	https://www.orientdisplay.com/wp-content/uploads/2021/05/AOM12864A0-1.54WW-datasheet.pdf
+107	Newhaven Display Intl	NHD-1.8-160128B	40	SSD1353	160 x 128	8-Bit, Parallel, SPI	OLED	https://newhavendisplay.com/content/specs/NHD-1.8-160128B.pdf
+107	Orient Display	AOM12864A0-1.54BW-ANO	50	SPD0301, SSD1305, SSD1309	128 x 64	SPI	OLED	https://www.orientdisplay.com/wp-content/uploads/2021/05/AOM12864A0-1.54BW-ANO.pdf
+107	Orient Display	AOC128128A0-1.50W	57	SSD1351	128 x 128	Parallel, SPI	OLED	https://www.orientdisplay.com/wp-content/uploads/2020/08/AOC128128A0-1.50W-datasheet.pdf
+107	Display Visions	EA OLEDS102-6LWA	26	-	102 x 64	I2C, SPI	OLED - Passive Matrix	https://www.lcd-module.com/fileadmin/eng/pdf/grafik/oleds102-6e.pdf
+107	Display Visions	EA W128128-XALG	73	-	128 x 128	I2C, Parallel 8-Bit, SPI	OLED - Passive Matrix	https://www.lcd-module.de/fileadmin/html-seiten/eng/pdf/grafik/W128128-XALG.pdf
+107	Display Visions	EA W128064-XALG	56	-	128 x 64	I2C, Parallel 8-Bit, SPI	OLED - Passive Matrix	https://www.lcd-module.de/fileadmin/html-seiten/eng/pdf/grafik/W128064-XALG.pdf
+107	Newhaven Display Intl	NHD-5.5-25664UCG3	11	SSD1322	256 x 64	8-Bit, Parallel, SPI	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-5.5-25664UCG3.pdf
+107	Display Visions	EA W256064-XALG	19	-	256 x 64	I2C, Parallel 8-Bit, SPI	OLED - Passive Matrix	https://www.lcd-module.de/fileadmin/html-seiten/eng/pdf/grafik/W256064-XALG.pdf
+107	Display Visions	EA W256064-XGLG	9	-	256 x 64	I2C, Parallel 8-Bit, SPI	OLED - Passive Matrix	https://www.lcd-module.de/fileadmin/html-seiten/eng/pdf/grafik/W256064-XGLG.pdf
+107	Orient Display	AOM6448A0-0.66WW-ANO	9	SSD1306	64 x 48	SPI	OLED	https://www.orientdisplay.com/wp-content/uploads/2021/02/AOM6448A0-0.66WW-ANO.pdf
+107	Orient Display	AOM64128A0-1.3WW-ANO	6	SH1107	64 x 128	SPI	OLED	https://www.orientdisplay.com/wp-content/uploads/2021/02/AOM64128A0-1.3WW-ANO.pdf
+107	Orient Display	AOM9696A0-0.96WW-ANO	56	SSD1317	96 x 96	SPI	OLED	https://www.orientdisplay.com/wp-content/uploads/2021/02/AOM9696A0-0.96WW-ANO.pdf
+107	Orient Display	AOC9664A0-0.95W-ANO	24	SSD1311	96 x 64	SPI	OLED	https://www.orientdisplay.com/wp-content/uploads/2021/02/AOC9664A0-0.95W-ANO.pdf
+107	Newhaven Display Intl	NHD-1.27-12896UGC3	9	SSD1351	128 x 96	Parallel/Serial	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-1.27-12896UGC3.pdf
+107	Newhaven Display Intl	NHD-1.27-12896ASC3	71	SSD1351	128 x 96	SPI	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-1.27-12896ASC3.pdf
+107	Newhaven Display Intl	NHD-1.5-128128ASC3	41	SSD1351	128 x 128	SPI	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-1.5-128128ASC3.pdf
+107	Newhaven Display Intl	NHD-3.12-25664UMB3	89	SSD1322	256 x 64	Parallel/Serial	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-3.12-25664UMB3.pdf
+107	Orient Display	AOM25664A0-3.12WW	14	SSD1322	256 x 64	Parallel, SPI	OLED	https://www.orientdisplay.com/wp-content/uploads/2020/08/AOM25664A0-3.12WW-datasheet.pdf
+107	Display Visions	EA OLEDL128-6LWA	4	-	128 x 64	I2C, SPI	OLED - Passive Matrix	https://www.lcd-module.de/fileadmin/html-seiten/eng/pdf/grafik/oledl128-6e.pdf
+107	Display Visions	EA PLUGL128-6GTC	3	-	128 x 64	I2C, RS-232, SPI, USB	OLED - Passive Matrix	http://www.lcd-module.de/fileadmin/html-seiten/eng/pdf/grafik/plug-seriee.pdf
+107	Orient Display	AOC12896A0-1.27W	82	SSD1351	128 x 96	Parallel, SPI	OLED	https://www.orientdisplay.com/wp-content/uploads/2020/08/AOC12896A0-1.27W-datasheet.pdf
+107	Newhaven Display Intl	NHD-2.7-12864WDY3M-CTP	16	SSD1322	128 x 64	8-Bit, Parallel, I2C, SPI	OLED - Passive Matrix	https://newhavendisplay.com/content/specs/NHD-2.7-12864WDY3M-CTP.pdf
+107	DLC Display Co.,Ltd	DLC0091CNOG-W-1	67	SSD1306	128 x 32	SPI	OLED - Passive Matrix	https://www.dlcdisplay.com/viewfilebizce/1985908100034764800/DLC0091CNOG-W-1%20SPEC.pdf
+107	DLC Display Co.,Ltd	DLC-D1.54AGW#1	12	SSD1309	128 x 64	8-Bit, Parallel, I2C, SPI	OLED - Passive Matrix	https://www.dlcdisplay.com/viewfilebizce/2039152178070765568/DLC-D1.54AGW%231%20SPEC%20V1.0.pdf
+107	DLC Display Co.,Ltd	DLC0130ANOG-W	51	SH1106G	128 x 64	SPI	OLED - Passive Matrix	https://www.dlcdisplay.com/viewfilebizce/1985905858380603392/DLC0130ANOG-W%20SPEC%20V1.3.pdf
+107	DLC Display Co.,Ltd	DLC-D2.23AGW#1	15	SSD1305	128 x 32	I2C, SPI	OLED, Monochrome	https://www.dlcdisplay.com/viewfilebizce/1935597073931313152/DLC-D2.23AGW#1%20SPEC%20V1.0.pdf
+107	DLC Display Co.,Ltd	DLC-D1.12ABW#1	19	SH1107	128 x 128	I2C	OLED - Passive Matrix	https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/8897/DLC-D1.12ABW%231.pdf
+107	DLC Display Co.,Ltd	DLC0060AZOF	86	SSD1357Z	64 x 64	SPI	OLED - Passive Matrix	https://www.dlcdisplay.com/viewfilebizce/1760130910231744512/DLC0060AZOF.pdf
+107	DLC Display Co.,Ltd	DLC0095ANOB-1	95	SSD1331	96 x 64	SPI	OLED - Passive Matrix	https://www.dlcdisplay.com/viewfilebizce/1793559719094329344/DLC0095ANOB-1.pdf
+107	DLC Display Co.,Ltd	DLC0096DNOG-W-10	75	SSD1306	128 x 64	I2C	OLED - Passive Matrix	https://www.dlcdisplay.com/viewfilebizce/1793559811954421760/DLC0096DNOG-W-10.pdf
+107	DLC Display Co.,Ltd	DLC0130ANOB-W	44	CH1116	128 x 64	I2C	OLED - Passive Matrix	https://www.dlcdisplay.com/viewfilebizce/1793559811964485632/DLC0130ANOB-W.pdf
+107	DLC Display Co.,Ltd	DLC0130BEOG-3	74	SH8601	360 x 360	QSPI	OLED	https://www.dlcdisplay.com/viewfilebizce/1793559814181249024/DLC0130BEOG-3.pdf
+107	Newhaven Display Intl	NHD-1.69-160128UBC3	2	SSD1333	160 x 128	I2C, SPI	OLED	https://newhavendisplay.com/content/specs/NHD-1.69-160128UBC3.pdf
+107	Display Visions	EA OLEDS102-6LGA	1	-	102 x 64	I2C, SPI	OLED - Passive Matrix	https://www.lcd-module.com/fileadmin/eng/pdf/grafik/oleds102-6e.pdf
+107	Display Visions	EA W128128-XRLB	1	-	128 x 128	I2C, Parallel 8-Bit, SPI	OLED - Passive Matrix	https://www.lcd-module.de/fileadmin/html-seiten/eng/pdf/grafik/W128128-XR.pdf
+107	Display Visions	EA W128128-XRLW	1	-	128 x 128	I2C, Parallel 8-Bit, SPI	OLED - Passive Matrix	https://www.lcd-module.de/fileadmin/html-seiten/eng/pdf/grafik/W128128-XR.pdf
+107	Display Visions	EA OLEDL128-6LGA	1	-	128 x 64	I2C, SPI	OLED - Passive Matrix	https://www.lcd-module.de/fileadmin/html-seiten/eng/pdf/grafik/oledl128-6e.pdf
+107	Display Visions	EA PLUGS102-6GTC	1	-	102 x 64	I2C, RS-232, SPI, USB	OLED	http://www.lcd-module.de/fileadmin/html-seiten/eng/pdf/grafik/plug-seriee.pdf
+107	Display Visions	EA PLUGS102-6GTCZ	1	-	102 x 64	I2C, RS-232, SPI, USB	OLED	http://www.lcd-module.de/fileadmin/html-seiten/eng/pdf/grafik/plug-seriee.pdf
+107	Display Visions	EA PLUGL128-6GTCZ	1	-	128 x 64	I2C, RS-232, SPI, USB	OLED - Passive Matrix	http://www.lcd-module.de/fileadmin/html-seiten/eng/pdf/grafik/plug-seriee.pdf
+99	Display Visions	EA OLEDM204-LGA	152	-	20 x 4	I2C, SPI	OLED	https://www.lcd-module.de/fileadmin/html-seiten/eng/pdf/doma/oledm204-ae.pdf
+99	Newhaven Display Intl	NHD-0216CW-AB3	405	US2066	16 x 2	Parallel, 8-Bit, I2C, SPI	OLED	https://newhavendisplay.com/content/specs/NHD-0216CW-AB3.pdf
+99	Newhaven Display Intl	NHD-0216KZW-AG5	499	-	16 x 2	Parallel/Serial	OLED	https://newhavendisplay.com/content/specs/NHD-0216KZW-AG5.pdf
+99	Newhaven Display Intl	NHD-0216KZW-AY5	1372	-	16 x 2	Parallel/Serial	OLED	https://newhavendisplay.com/content/specs/NHD-0216KZW-AY5.pdf
+99	Newhaven Display Intl	NHD-0216KZW-AB5	729	-	16 x 2	Parallel/Serial	OLED	https://newhavendisplay.com/content/specs/NHD-0216KZW-AB5.pdf
+99	Newhaven Display Intl	NHD-0220CW-AB3	991	US2066	20 x 2	Parallel, 8-Bit, I2C, SPI	OLED	https://newhavendisplay.com/content/specs/NHD-0220CW-AB3.pdf
+99	Display Visions	EA OLEDM204-GGA	341	-	20 x 4	I2C, SPI	OLED	https://www.lcd-module.de/fileadmin/html-seiten/eng/pdf/doma/oledm204-ae.pdf
+99	Newhaven Display Intl	NHD-0220DZW-AB5	499	-	20 x 2	Parallel/Serial	OLED	https://newhavendisplay.com/content/specs/NHD-0220DZW-AB5.pdf
+99	Newhaven Display Intl	NHD-0420CW-AW3	675	US2066	20 x 4	Parallel, 8-Bit, I2C, SPI	OLED	https://newhavendisplay.com/content/specs/NHD-0420CW-AW3.pdf
+99	Newhaven Display Intl	NHD-0420CW-AB3	651	US2066	20 x 4	Parallel, 8-Bit, I2C, SPI	OLED	https://newhavendisplay.com/content/specs/NHD-0420CW-AB3.pdf
+99	Newhaven Display Intl	NHD-0420DZW-AY5	3464	-	20 x 4	Parallel/Serial	OLED	https://newhavendisplay.com/content/specs/NHD-0420DZW-AY5.pdf
+99	Newhaven Display Intl	NHD-0420DZW-AG5	1791	-	20 x 4	Parallel/Serial	OLED	https://newhavendisplay.com/content/specs/NHD-0420DZW-AG5.pdf
+99	Newhaven Display Intl	NHD-0420DZW-AB5	3525	-	20 x 4	Parallel/Serial	OLED	https://newhavendisplay.com/content/specs/NHD-0420DZW-AB5.pdf
+99	Newhaven Display Intl	NHD-0216MW-AB3	174	US2066	16 x 2	I2C, Parallel, Serial	OLED	https://newhavendisplay.com/content/specs/NHD-0216MW-AB3.pdf
+99	Newhaven Display Intl	NHD-0216AW-IB3	335	US2066	16 x 2	I2C	OLED	https://newhavendisplay.com/content/specs/NHD-0216AW-IB3.pdf
+99	Display Visions	EA W082-XLG	160	-	8 x 2	Parallel, 8-Bit	OLED	https://www.lcd-module.com/fileadmin/eng/pdf/doma/olede.pdf
+99	Newhaven Display Intl	NHD-0220DZW-AG5	291	-	20 x 2	Parallel/Serial	OLED	https://newhavendisplay.com/content/specs/NHD-0220DZW-AG5.pdf
+99	Newhaven Display Intl	NHD-0220DZW-AY5	102	-	20 x 2	Parallel/Serial	OLED	https://newhavendisplay.com/content/specs/NHD-0220DZW-AY5.pdf
+99	Newhaven Display Intl	NHD-0216SZW-BY5	942	-	16 x 2	Parallel/Serial	OLED	https://newhavendisplay.com/content/specs/NHD-0216SZW-BY5.pdf
+99	Newhaven Display Intl	NHD-0216SZW-BB5	187	-	16 x 2	Parallel/Serial	OLED	https://newhavendisplay.com/content/specs/NHD-0216SZW-BB5.pdf
+99	Newhaven Display Intl	NHD-0216AW-SB3	6	US2066	16 x 2	SPI	OLED	https://newhavendisplay.com/content/specs/NHD-0216AW-SB3.pdf
+99	Newhaven Display Intl	NHD-0216SZW-BG5	68	-	16 x 2	Parallel/Serial	OLED	https://newhavendisplay.com/content/specs/NHD-0216SZW-BG5.pdf
+99	Display Visions	EA OLEDM204-LWA	19	-	20 x 4	I2C, SPI	OLED	https://www.lcd-module.de/fileadmin/html-seiten/eng/pdf/doma/oledm204-ae.pdf
+99	Display Visions	EA W204-XLG	1	-	20 x 4	Parallel, 8-Bit	OLED	https://www.lcd-module.com/fileadmin/eng/pdf/doma/olede.pdf
+99	Display Visions	EA W162-XBLG	1	-	16 x 2	Parallel, 8-Bit	OLED	https://www.lcd-module.com/fileadmin/eng/pdf/doma/olede.pdf
+99	Display Visions	EA W096016-XBLW	2	SSD1306BZ	-	I2C, SPI	OLED	https://shop.lcd-module.de/DISPLAY_VISIONS_media/eng/pdf/grafik/W096016-XA-XB.pdf
