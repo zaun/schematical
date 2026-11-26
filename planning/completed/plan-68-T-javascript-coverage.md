@@ -159,7 +159,7 @@ window still edits.
   Observed: `node --test scripts/datasheet-edit.test.js` → pass 10, fail 0;
   `xcodebuild … -only-testing` MarkdownDatasheetTests,
   VerifyDatasheetLifetimeTests → 7 tests, 0 failures.
-Commit: COMMIT_T1
+Commit: 5f361dc3
 
 ### Phase 2 — the DOM editor and the renderer
 
@@ -176,7 +176,7 @@ Acceptance: both browser files fully covered.
   Check: `node --test --experimental-test-coverage scripts/*.test.js` →
   `datasheet-edit-model.js`, `datasheet-edit.js`, `datasheet.js` each
   `100.00` lines (est. 30 s).
-Commit: —
+Commit: 5f361dc3
 
 ### Phase 3 — the node scripts and tools
 
@@ -202,7 +202,7 @@ Commit: —
 Acceptance: every JavaScript file in § 2 at 100%.
   Check: `COV --scripts --only .js` → no uncovered line; `NT` → all pass
   (est. 1 min).
-Commit: —
+Commit: 5f361dc3
 
 ## Validation Plan
 

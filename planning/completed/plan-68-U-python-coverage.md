@@ -110,7 +110,7 @@ object. That one line is the only change to a script in this letter.
 Acceptance: every Python line in scope is run and checked.
   Check: `python3 -m unittest discover -s scripts/tests` → `OK`; `COV
   --scripts --only .py` → no uncovered line (est. 1 min).
-Commit: —
+Commit: 29322673
 
 ## Validation Plan
 
