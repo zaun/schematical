@@ -74,22 +74,7 @@ failing Python test does not fail the coverage command: run the plain
 
 Options:
 
-- `--only <path-prefix>`: print, check and write only files under the prefix.
+- `--only <path-prefix>`: print and check only files under the prefix.
 - `--tests <Class,…>` (app): run only those test classes. A scoped run can
   only under-count, so a file it shows fully covered is fully covered.
-- `--check`: fail when a file has more uncovered lines than allowed.
-- `--write-ratchet`: rewrite the ratchet rows from this run.
-
-## Ratchets (temporary, plan-68)
-
-While plan-68 brings the tree into line, the two checks read files of the
-violations that still exist:
-
-- `scripts/source-size-ratchet.tsv`: `<code lines>\t<path>` per over-limit file.
-- `scripts/coverage-ratchet.tsv`: `<uncovered lines>\t<path>` per file with
-  uncovered lines.
-
-A check fails when a file without a row violates the rule, when a listed file
-got worse than its row, or when a row is stale (the file got better or is
-gone): lower or remove the row in the same commit. Rows only ever go down.
-plan-68's last letter deletes both files and the code that reads them.
+- `--check`: fail when a measured file has any uncovered line.

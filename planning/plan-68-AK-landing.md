@@ -45,11 +45,22 @@ References:
 
 ### Phase 1 — strict checks
 
-- [ ] `scripts/source-size.js`: `--check` fails on any file over 1000; the
-  ratchet reading, the stale/grew messages and their tests removed.
-- [ ] `scripts/coverage.js`: `--check` fails on any uncovered line;
-  `--write-ratchet` and the ratchet compare removed with their tests.
-- [ ] Delete both `.tsv` files; `docs/testing.md`'s ratchet section removed.
+- [x] `scripts/source-size.js`: `--check` fails on any file over 1000; the
+  ratchet reading, the stale/grew messages and their tests removed (`check`
+  takes the files only; the test now shows a left-behind ratchet file
+  changes nothing).
+- [x] `scripts/coverage.js`: `--check` fails on any uncovered line;
+  `--write-ratchet` and the ratchet compare removed with their tests
+  (`--write-ratchet` is now an unknown argument, tested).
+- [x] Delete both `.tsv` files; `docs/testing.md`'s ratchet section removed
+  (and its `--check` / `--only` lines say what they do now). Observed:
+  `grep -c -i ratchet scripts/source-size.js scripts/coverage.js
+  docs/testing.md` → 0, 0, 0; `SZ` → exit 0; `node --test
+  --experimental-test-coverage scripts/source-size.test.js
+  scripts/coverage.test.js` → pass 25, fail 0, `coverage.js` and
+  `source-size.js` both 100.00 (lines, branches, functions). Prerequisite
+  re-checked first: `ls planning/plan-68-*.md` → only this file;
+  `grep -c .` on both ratchets → 0 and 0.
 
 Acceptance: the strict checks pass, and both tools stay fully covered.
   Check: `SZ` → exit 0; `node --test --experimental-test-coverage

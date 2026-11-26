@@ -5,8 +5,7 @@
 //   node scripts/coverage.js [--backend] [--app] [--scripts]   none = all three
 //     --only <prefix>      print, check and write only files under the prefix
 //     --tests <A,B,…>      app tier: run only these test classes
-//     --check              fail when a file has more uncovered lines than its ratchet row
-//     --write-ratchet      rewrite the ratchet rows of what was measured
+//     --check              fail when a measured file has an uncovered line
 'use strict';
 const fs = require('fs');
 const path = require('path');
@@ -15,7 +14,6 @@ const sizeRule = require('./source-size.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const WORK = process.env.LOGIC_COV_WORK || '/tmp/logic-cov';
-const RATCHET = 'scripts/coverage-ratchet.tsv';
 const TIERS = ['backend', 'app', 'scripts'];
 const APP_TIMEOUT_S = 3600;
 const SCRIPT_JS = ['schematical/schematical/Datasheet/Renderer/datasheet.js',
@@ -210,56 +208,22 @@ function scriptsTier(ctx) {
   return files;
 }
 
-function readRatchet(root) {
-  const rows = new Map();
-  const file = path.join(root, RATCHET);
-  if (!fs.existsSync(file)) return rows;
-  for (const line of fs.readFileSync(file, 'utf8').split('\n')) {
-    if (line.trim() === '') continue;
-    const [count, name] = line.split('\t');
-    rows.set(name, Number(count));
-  }
-  return rows;
-}
-
 const under = (prefix) => (file) => prefix === null || file.startsWith(prefix);
 
-// Failures of the measured files against the ratchet: `tiers` were measured,
-// `prefix` limits what is judged.
-function check(files, ratchet, tiers, prefix) {
-  const judged = (f) => tiers.includes(tierOf(f)) && under(prefix)(f);
-  const failures = [];
-  for (const [file, lines] of [...files].sort(([a], [b]) => a.localeCompare(b))) {
-    if (!judged(file)) continue;
-    const n = uncovered(lines).length;
-    const row = ratchet.has(file) ? ratchet.get(file) : 0;
-    if (n > row) failures.push(`worse: ${file} ${n} > ${row}`);
-    else if (n < row) failures.push(`stale: ${file} ${n} (row ${row})`);
-  }
-  for (const [file, row] of ratchet) {
-    if (judged(file) && !files.has(file)) failures.push(`stale: ${file} gone (row ${row})`);
-  }
-  return failures;
-}
-
-// The ratchet with the judged rows replaced by this run's numbers.
-function rewriteRatchet(files, ratchet, tiers, prefix) {
-  const judged = (f) => tiers.includes(tierOf(f)) && under(prefix)(f);
-  const rows = new Map([...ratchet].filter(([f]) => !judged(f)));
-  for (const [file, lines] of files) {
-    const n = uncovered(lines).length;
-    if (judged(file) && n > 0) rows.set(file, n);
-  }
-  return [...rows].sort(([a], [b]) => a.localeCompare(b)).map(([f, n]) => `${n}\t${f}\n`).join('');
+// The measured files (of `tiers`, under `prefix`) with an uncovered line, as
+// printable lines (plan-68-AK: no exclusion list).
+function check(files, tiers, prefix) {
+  return [...files].sort(([a], [b]) => a.localeCompare(b))
+    .filter(([file, lines]) => tiers.includes(tierOf(file)) && under(prefix)(file) && uncovered(lines).length > 0)
+    .map(([file, lines]) => `uncovered: ${file} ${uncovered(lines).length}`);
 }
 
 function parseArgs(argv) {
-  const opts = { tiers: [], only: null, tests: [], check: false, write: false };
+  const opts = { tiers: [], only: null, tests: [], check: false };
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (arg === '--backend' || arg === '--app' || arg === '--scripts') opts.tiers.push(arg.slice(2));
     else if (arg === '--check') opts.check = true;
-    else if (arg === '--write-ratchet') opts.write = true;
     else if (arg === '--only' && i + 1 < argv.length) opts.only = argv[++i];
     else if (arg === '--tests' && i + 1 < argv.length) opts.tests = argv[++i].split(',').filter(Boolean);
     else throw new TierError(`unknown argument ${arg}`);
@@ -281,7 +245,7 @@ function main(argv, deps = {}) {
   try {
     opts = parseArgs(argv);
   } catch (e) {
-    err.write(`coverage.js: ${e.message}\nusage: coverage.js [--backend] [--app] [--scripts] [--only <prefix>] [--tests <A,B>] [--check] [--write-ratchet]\n`);
+    err.write(`coverage.js: ${e.message}\nusage: coverage.js [--backend] [--app] [--scripts] [--only <prefix>] [--tests <A,B>] [--check]\n`);
     return 2;
   }
   const files = new Map();
@@ -311,10 +275,8 @@ function main(argv, deps = {}) {
     const pct = lines === 0 ? 100 : (100 * (lines - missed)) / lines;
     out.write(`${tier}: ${lines} lines, ${missed} uncovered, ${pct.toFixed(2)}%\n`);
   }
-  const ratchet = readRatchet(root);
-  if (opts.write) fs.writeFileSync(path.join(root, RATCHET), rewriteRatchet(files, ratchet, opts.tiers, opts.only));
   if (opts.check) {
-    const failures = check(files, opts.write ? readRatchet(root) : ratchet, opts.tiers, opts.only);
+    const failures = check(files, opts.tiers, opts.only);
     for (const line of failures) out.write(line + '\n');
     return failures.length === 0 ? 0 : 1;
   }
@@ -322,6 +284,6 @@ function main(argv, deps = {}) {
 }
 
 module.exports = { tierOf, parseLcov, parseXccovArchive, parseTraceCover, uncovered, check,
-  rewriteRatchet, readRatchet, parseArgs, main, TierError, defaultRun, PY_EXECUTABLE };
+  parseArgs, main, TierError, defaultRun, PY_EXECUTABLE };
 
 if (require.main === module) process.exitCode = main(process.argv.slice(2));

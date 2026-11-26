@@ -59,20 +59,11 @@ test('scope: the excluded folders, vendored files and other extensions are out',
   }
 });
 
-test('check: over, grew, stale and pass', () => {
-  const files = [{ file: 'a.c', code: 1001 }, { file: 'b.c', code: 1200 }, { file: 'c.c', code: 1100 },
-    { file: 'd.c', code: 900 }, { file: 'e.c', code: 1300 }, { file: 'f.c', code: 10 }];
-  const ratchet = new Map([['b.c', 1100], ['c.c', 1200], ['d.c', 1050], ['e.c', 1300], ['gone.c', 2000]]);
-  assert.deepStrictEqual(size.check(files, ratchet), [
-    'over: a.c 1001',
-    'grew: b.c 1200 > 1100',
-    'stale: c.c 1100 (row 1200)',
-    'stale: d.c 900 (row 1050)',
-    'stale: gone.c gone (row 2000)',
-  ]);
-  assert.deepStrictEqual(size.check([{ file: 'x.c', code: 1000 }], new Map()), []);
-  // A row at exactly its count but at or under the limit is stale.
-  assert.deepStrictEqual(size.check([{ file: 'y.c', code: 1000 }], new Map([['y.c', 1000]])), ['stale: y.c 1000 (row 1000)']);
+test('check: every file over the limit, and only those', () => {
+  const files = [{ file: 'a.c', code: 1001 }, { file: 'b.c', code: 1200 }, { file: 'c.c', code: 1000 },
+    { file: 'd.c', code: 10 }];
+  assert.deepStrictEqual(size.check(files), ['over: a.c 1001', 'over: b.c 1200']);
+  assert.deepStrictEqual(size.check([{ file: 'x.c', code: 1000 }]), []);
 });
 
 function repo(files) {
@@ -102,8 +93,13 @@ test('the command line: list, --all, --check, unknown argument', () => {
   r = run(['--check', '--root', root]);
   assert.strictEqual(r.status, 1);
   assert.strictEqual(r.stdout, 'over: src/big.c 1001\n');
+  // A ratchet file left behind changes nothing: there is no list to add a file to.
   fs.mkdirSync(path.join(root, 'scripts'));
-  fs.writeFileSync(path.join(root, 'scripts/source-size-ratchet.tsv'), '1001\tsrc/big.c\n\n');
+  fs.writeFileSync(path.join(root, 'scripts/source-size-ratchet.tsv'), '1001\tsrc/big.c\n');
+  r = run(['--check', '--root', root]);
+  assert.strictEqual(r.status, 1);
+  assert.strictEqual(r.stdout, 'over: src/big.c 1001\n');
+  fs.writeFileSync(path.join(root, 'src/big.c'), 'x();\n');
   r = run(['--check', '--root', root]);
   assert.strictEqual(r.status, 0, r.stdout);
   assert.strictEqual(r.stdout, '');
@@ -124,5 +120,4 @@ test('main writes to the streams it is given', () => {
   const code = size.main(['--all', '--root', root], { write: (s) => out.push(s) }, { write: () => {} });
   assert.strictEqual(code, 0);
   assert.deepStrictEqual(out, ['1\ta.c\n']);
-  assert.deepStrictEqual(size.readRatchet(root), new Map());
 });

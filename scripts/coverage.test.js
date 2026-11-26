@@ -72,32 +72,24 @@ test('parseTraceCover reads counted and missed lines', () => {
   assert.deepStrictEqual([...cov.parseTraceCover(fixture('sample.cover', '/r'))], [[3, 1], [5, 1], [6, 2], [8, 0], [9, 0]]);
 });
 
-test('check and rewriteRatchet judge only the measured tiers under the prefix', () => {
+test('check judges every uncovered line of the measured tiers under the prefix', () => {
   const files = new Map([
-    ['backend/src/a.c', new Map([[1, 0], [2, 0]])],
     ['backend/src/b.c', new Map([[1, 0]])],
+    ['backend/src/a.c', new Map([[1, 0], [2, 0]])],
     ['backend/src/c.c', new Map([[1, 1]])],
-    ['backend/src/d.c', new Map([[1, 0]])],
+    ['schematical/schematical/X.swift', new Map([[1, 0]])],
   ]);
-  const ratchet = new Map([['backend/src/a.c', 1], ['backend/src/b.c', 3], ['backend/src/d.c', 1],
-    ['backend/src/gone.c', 4], ['schematical/schematical/X.swift', 9]]);
-  assert.deepStrictEqual(cov.check(files, ratchet, ['backend'], null), [
-    'worse: backend/src/a.c 2 > 1',
-    'stale: backend/src/b.c 1 (row 3)',
-    'stale: backend/src/gone.c gone (row 4)',
-  ]);
-  assert.deepStrictEqual(cov.check(files, ratchet, ['backend'], 'backend/src/d'), []);
-  assert.deepStrictEqual(cov.check(files, ratchet, ['app'], null), ['stale: schematical/schematical/X.swift gone (row 9)']);
-  assert.strictEqual(cov.rewriteRatchet(files, ratchet, ['backend'], null),
-    '2\tbackend/src/a.c\n1\tbackend/src/b.c\n1\tbackend/src/d.c\n9\tschematical/schematical/X.swift\n');
-  assert.strictEqual(cov.rewriteRatchet(files, ratchet, ['backend'], 'backend/src/a'),
-    '2\tbackend/src/a.c\n3\tbackend/src/b.c\n1\tbackend/src/d.c\n4\tbackend/src/gone.c\n9\tschematical/schematical/X.swift\n');
+  assert.deepStrictEqual(cov.check(files, ['backend'], null), ['uncovered: backend/src/a.c 2', 'uncovered: backend/src/b.c 1']);
+  assert.deepStrictEqual(cov.check(files, ['backend'], 'backend/src/c'), []);
+  assert.deepStrictEqual(cov.check(files, ['app'], null), ['uncovered: schematical/schematical/X.swift 1']);
+  assert.deepStrictEqual(cov.check(files, ['scripts'], null), []);
 });
 
 test('parseArgs reads every option and defaults to all tiers', () => {
-  assert.deepStrictEqual(cov.parseArgs([]), { tiers: ['backend', 'app', 'scripts'], only: null, tests: [], check: false, write: false });
-  assert.deepStrictEqual(cov.parseArgs(['--app', '--backend', '--scripts', '--only', 'x/', '--tests', 'A,,B', '--check', '--write-ratchet']),
-    { tiers: ['app', 'backend', 'scripts'], only: 'x/', tests: ['A', 'B'], check: true, write: true });
+  assert.deepStrictEqual(cov.parseArgs([]), { tiers: ['backend', 'app', 'scripts'], only: null, tests: [], check: false });
+  assert.deepStrictEqual(cov.parseArgs(['--app', '--backend', '--scripts', '--only', 'x/', '--tests', 'A,,B', '--check']),
+    { tiers: ['app', 'backend', 'scripts'], only: 'x/', tests: ['A', 'B'], check: true });
+  assert.throws(() => cov.parseArgs(['--write-ratchet']), /unknown argument --write-ratchet/);
   assert.throws(() => cov.parseArgs(['--only']), cov.TierError);
   assert.throws(() => cov.parseArgs(['--nope']), /unknown argument --nope/);
 });
@@ -257,18 +249,18 @@ test('scripts tier: no Python tests folder, a run that wrote no counts, and no P
   assert.ok(!calls3.some((c) => c[0] === 'python3'));
 });
 
-test('--write-ratchet and --check: write then pass, worse fails, the empty tier is 100%', () => {
+test('--check: an uncovered line fails, even with a ratchet file left behind; the empty tier is 100%', () => {
   const root = scriptsRepo({ 'scripts/x.js': 'a();\n', 'scripts/x.test.js': '' });
   fs.mkdirSync(path.join(root, 'scripts'), { recursive: true });
   const run = fakeRun(scriptsAnswer(root));
   const deps = () => ({ root, work: tmp('cov-work-'), out: sink(), err: sink(), run });
+  let out = sink();
+  assert.strictEqual(cov.main(['--scripts', '--check'], { ...deps(), out }), 1);
+  assert.match(out.text(), /uncovered: scripts\/x\.js 1\n$/);
+  fs.writeFileSync(path.join(root, 'scripts/coverage-ratchet.tsv'), '1\tscripts/x.js\n');
   assert.strictEqual(cov.main(['--scripts', '--check'], deps()), 1);
-  assert.strictEqual(cov.main(['--scripts', '--write-ratchet', '--check'], deps()), 0);
-  assert.strictEqual(fs.readFileSync(path.join(root, 'scripts/coverage-ratchet.tsv'), 'utf8'), '1\tscripts/x.js\n');
-  fs.writeFileSync(path.join(root, 'scripts/coverage-ratchet.tsv'), '\n1\tscripts/x.js\n');
-  assert.deepStrictEqual(cov.readRatchet(root), new Map([['scripts/x.js', 1]]));
-  assert.strictEqual(cov.main(['--scripts', '--check'], deps()), 0);
-  const out = sink();
+  assert.strictEqual(cov.main(['--scripts', '--check', '--only', 'nothing/'], deps()), 0);
+  out = sink();
   assert.strictEqual(cov.main(['--scripts', '--only', 'nothing/'], { ...deps(), out }), 0);
   assert.strictEqual(out.text(), 'scripts: 0 lines, 0 uncovered, 100.00%\n');
 });
