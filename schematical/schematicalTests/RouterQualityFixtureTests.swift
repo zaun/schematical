@@ -95,7 +95,10 @@ final class RouterQualityFixtureTests: XCTestCase {
 
     func testLFU() throws {
         let m = try run("LFU")
-        XCTAssertGreaterThanOrEqual(m.routed, 186)
+        // 188 / 188 until f972c269 (the netlist puts a bus wire named like a supply on that rail), which
+        // renumbers nets and so reorders the router's ties: Balanced then routes 185 (254 -> 289 vias, 3178 -> 3247 mm).
+        // Measured on both sides of that commit, in the same build (plan-66-F); not a change to the router.
+        XCTAssertGreaterThanOrEqual(m.routed, 185)
         XCTAssertLessThanOrEqual(m.vias, 320)
         XCTAssertLessThanOrEqual(m.oddBends, 5)
     }

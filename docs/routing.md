@@ -319,6 +319,11 @@ no straight pad exits), measured the same day in the same build:
 | RegFile | 24 / 24, 31 vias, 96 (25), 314 mm | 24 / 24, 26 vias, 67 (26), 310 mm | 24 / 24, 16 vias, 99 (0), 292 mm |
 | LFU | 147 / 188, 246 vias, 776 (166), 2528 mm | 177 / 188, 386 vias, 981 (176), 3181 mm | 188 / 188, 254 vias, 1010 (1), 3178 mm |
 
+Since 2026-11-24 LFU's row differs (185 / 188, 289 vias, 1083 corners, 3247 mm): commit `f972c269` changed how
+the netlist numbers nets (a bus wire named like a supply is on that rail), which reorders the router's ties.
+Measured in the same Release build at its parent (188 / 188, 254 vias, 3178 mm) and at the commit (185 / 188,
+289 vias, 3247 mm); the router's code was not touched. AFU and RegFile did not move.
+
 What each stage adds, one run at via cost 12 unless said (AFU / RegFile):
 the smaller Default class alone 141 / 26 vias; + improvement 91 / 18;
 + plan 73 / 16; the best of the four runs 73 / 16 (the single runs range
