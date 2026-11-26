@@ -14,6 +14,8 @@ nonisolated enum SchematicItem: Hashable, Sendable {
     case label(UUID)
     /// A whole bus (`Bus`): its lines and ports.
     case bus(UUID)
+    /// The Document Info title block (plan-64-C): one per document.
+    case titleBlock
 }
 
 /// One thing that can be selected on the PCB page: a part's footprint (by
@@ -27,6 +29,8 @@ nonisolated enum BoardItem: Hashable, Sendable {
     /// A copper pour or a keep-out (plan-52).
     case pour(UUID)
     case keepout(UUID)
+    /// A cutout of the board (plan-65).
+    case cutout(UUID)
 }
 
 // MARK: - Selection set
@@ -138,6 +142,9 @@ nonisolated struct ItemSelection<Item: Hashable>: Equatable {
 /// The drag applies one snapped delta to all of it.
 nonisolated struct SchematicGroupBase: Equatable {
     var chips: [UUID: CGPoint] = [:]
+    /// The picked units of selected parts drawn as their units (plan-67):
+    /// where each unit's corner was. Such a part is not in `chips`.
+    var units: [UnitRef: CGPoint] = [:]
     var junctions: [UUID: CGPoint] = [:]
     /// Selected wires' stored bends. Their ends stay attached.
     var wires: [UUID: [CGPoint]] = [:]
@@ -159,9 +166,12 @@ nonisolated struct SchematicGroupBase: Equatable {
     var buses: [UUID: Bus] = [:]
     /// The ports of those buses: wire ends on their pins move with them.
     var ports: Set<UUID> = []
+    /// The title block's top-left, when it is selected.
+    var titleBlock: CGPoint?
 
     var isEmpty: Bool {
         chips.isEmpty && junctions.isEmpty && wires.isEmpty && notes.isEmpty && labels.isEmpty && buses.isEmpty
+            && titleBlock == nil
     }
 }
 
@@ -178,13 +188,15 @@ nonisolated struct BoardGroupBase: Equatable {
     /// Selected pours' and keep-outs' rectangles.
     var pours: [UUID: CGRect] = [:]
     var keepouts: [UUID: CGRect] = [:]
+    /// Selected cutouts' shapes (plan-65).
+    var cutouts: [UUID: BoardCutout.Shape] = [:]
     /// Where the drag took hold (board mm), if known. A lone trace snaps
     /// the end nearest it to the trace grid.
     var grab: CGPoint?
 
     var isEmpty: Bool { count == 0 }
     var count: Int {
-        footprints.count + texts.count + traces.count + vias.count + holes.count + pours.count + keepouts.count
+        footprints.count + texts.count + traces.count + vias.count + holes.count + pours.count + keepouts.count + cutouts.count
     }
 }
 

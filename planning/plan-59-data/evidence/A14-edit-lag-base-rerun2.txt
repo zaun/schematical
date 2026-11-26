@@ -1,0 +1,27 @@
+run 1
+parts 103 wires 411 labels 82 buses 4
+both
+  pan: median 7.7 ms  p90 16.7 ms
+  label name: median 14.6 ms  p90 16.7 ms
+  label type: median 13.6 ms  p90 15.5 ms
+  bus wire name: median 17.2 ms  p90 18.5 ms
+  add wire + undo: median 34.0 ms  p90 35.7 ms
+  model only: connect 35.0 ms, undo 0.8 ms
+run 2
+parts 103 wires 411 labels 82 buses 4
+both
+  pan: median 7.8 ms  p90 17.5 ms
+  label name: median 14.2 ms  p90 15.2 ms
+  label type: median 13.4 ms  p90 13.8 ms
+  bus wire name: median 17.0 ms  p90 17.5 ms
+  add wire + undo: median 35.0 ms  p90 35.7 ms
+  model only: connect 35.1 ms, undo 0.7 ms
+run 3
+parts 103 wires 411 labels 82 buses 4
+both
+  pan: median 7.6 ms  p90 16.0 ms
+  label name: median 14.6 ms  p90 17.0 ms
+  label type: median 13.6 ms  p90 14.1 ms
+  bus wire name: median 17.6 ms  p90 19.8 ms
+  add wire + undo: median 34.6 ms  p90 36.1 ms
+  model only: connect 35.6 ms, undo 0.8 ms

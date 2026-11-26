@@ -130,6 +130,17 @@ int part_pin_analog(const Part *part, size_t pin) {
     return internal->ops->pin_analog != NULL && internal->ops->pin_analog(part, pin);
 }
 
+int part_pin_tristate(const Part *part, size_t pin) {
+    const PartInternal *internal;
+
+    if (part == NULL || part->internal == NULL || pin >= part->pin_count ||
+        part->pins[pin].role != PIN_OUTPUT) {
+        return 0;
+    }
+    internal = part_internal(part);
+    return internal->ops->pin_tristate != NULL && internal->ops->pin_tristate(part, pin);
+}
+
 int part_pin_open_drain(const Part *part, size_t pin) {
     const PartInternal *internal;
 
@@ -139,4 +150,34 @@ int part_pin_open_drain(const Part *part, size_t pin) {
     }
     internal = part_internal(part);
     return internal->ops->pin_open_drain != NULL && internal->ops->pin_open_drain(part, pin);
+}
+
+size_t part_unit_count(const Part *part) {
+    const PartInternal *internal;
+    size_t count = 0;
+
+    if (part == NULL || part->internal == NULL) {
+        return 0;
+    }
+    internal = part_internal(part);
+    if (internal->ops->units == NULL || internal->ops->units(part, &count) == NULL) {
+        return 0;
+    }
+    return count;
+}
+
+const PartUnit *part_unit_at(const Part *part, size_t index) {
+    const PartInternal *internal;
+    const PartUnit *units;
+    size_t count = 0;
+
+    if (part == NULL || part->internal == NULL) {
+        return NULL;
+    }
+    internal = part_internal(part);
+    if (internal->ops->units == NULL) {
+        return NULL;
+    }
+    units = internal->ops->units(part, &count);
+    return units != NULL && index < count ? &units[index] : NULL;
 }

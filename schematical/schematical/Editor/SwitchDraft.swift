@@ -13,11 +13,13 @@ enum SwitchDraft {
     static let f5: Field = Field(key: "momentary", label: "Momentary", type: .bool)
     static let f6: Field = Field(key: "normallyClosed", label: "Normally Closed", type: .bool)
     static let f7: Field = Field(key: "ratedVolts", label: "Rated Volts", type: .number(unit: "V"), required: true)
+    static let f8: Field = Field(key: "rest", label: "Rest", type: .integer)
+    static let f9: Field = Field(key: "states", label: "States", type: .listOf(.numbers(unit: "")))
 
     static let schema = KindSchema(
         kind: "switch",
         variantKey: nil,
-        device: [f1, f2, f3, f4, f5, f6, f7],
+        device: [f1, f2, f3, f4, f5, f6, f7, f8, f9],
         part: []
     )
 }

@@ -141,8 +141,8 @@ final class BoardStackupTests: XCTestCase {
             let was = doc.board.stackup
             edit()
             XCTAssertNotEqual(doc.board.stackup, was, name)
-            XCTAssertEqual(doc.undoName(on: .pcb), name)
-            XCTAssertTrue(doc.undo(on: .pcb))
+            XCTAssertEqual(doc.undoName, name)
+            XCTAssertTrue(doc.undo())
             XCTAssertEqual(doc.board.stackup, was, "undo \(name)")
         }
         step("Change Stackup") { doc.setStackupFinish(.osp) }
@@ -159,14 +159,14 @@ final class BoardStackupTests: XCTestCase {
 
     func testAnEditToTheSameValueRecordsNoStep() {
         let doc = TestSupport.newDocument()
-        let name = doc.undoName(on: .pcb)
+        let name = doc.undoName
         doc.setStackupFinish(doc.board.stackup.finish)
         doc.setCopperThickness(doc.board.stackup.copper[0], at: 0)
         doc.setDielectric(at: 0, er: doc.board.stackup.dielectrics[0].er)
         doc.setStackupTemperatureRise(doc.board.stackup.temperatureRise)
         doc.resetStackup()
         doc.setCopperThickness(0.07, at: 9)
-        XCTAssertEqual(doc.undoName(on: .pcb), name)
+        XCTAssertEqual(doc.undoName, name)
     }
 
     func testEditsClampToTheirRanges() {
@@ -193,7 +193,7 @@ final class BoardStackupTests: XCTestCase {
         let two = doc.board.stackup
         doc.setLayerCount(4)
         XCTAssertEqual(doc.board.stackup, BoardStackup.standard(layers: 4, finish: .osp))
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.board.stackup, two)
         XCTAssertEqual(doc.board.layers, 2)
     }

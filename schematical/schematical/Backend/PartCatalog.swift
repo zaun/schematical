@@ -607,6 +607,59 @@ nonisolated struct Footprint: Hashable, Sendable {
 }
 
 /// One orderable part, copied from the backend's `Part` once at load.
+/// How one gate is drawn (plan-67): the body, which pins come in on the left
+/// and which leave on the right, and its marks. `PartUnit` in `parts.h`.
+nonisolated struct GateShape: Hashable, Sendable {
+    /// The outline. NAND is `.and` with an inverted output, an inverter is
+    /// `.buffer` with one.
+    enum Body: Hashable, Sendable { case and, or, xor, buffer }
+
+    struct Output: Hashable, Sendable {
+        /// `ChipPin.index`.
+        let pin: Int
+        /// Drawn with the inversion bubble.
+        let inverted: Bool
+    }
+
+    let body: Body
+    /// `ChipPin.index` of each input, top to bottom.
+    let inputs: [Int]
+    /// One or two; the true output first (CD4068B has both).
+    let outputs: [Output]
+    /// Schmitt-trigger inputs: the hysteresis mark.
+    let schmitt: Bool
+    /// Open-drain outputs: the diamond mark.
+    let openDrain: Bool
+}
+
+/// What a unit of a part is drawn as.
+nonisolated enum UnitShape: Hashable, Sendable {
+    case gate(GateShape)
+    /// A plain block of its pins, like a whole part's.
+    case block
+}
+
+/// One piece of a part the Schematic can draw as its own symbol (plan-67):
+/// a gate of a gate IC, or the block of the pins no gate owns.
+nonisolated struct PartUnit: Hashable, Sendable, Identifiable {
+    /// "A", "B", …; "P" for the block of leftover pins.
+    let key: String
+    /// `ChipPin.index` of every pin the unit draws. Never a hidden pin.
+    let pins: [Int]
+    let shape: UnitShape
+    var id: String { key }
+
+    /// The key of the block that holds the pins no gate owns.
+    static let blockKey = "P"
+
+    /// The key of gate unit `index`: A, B, … skipping P.
+    static func key(forGate index: Int) -> String {
+        let letters = "ABCDEFGHIJKLMNOQRSTUVWXYZ"
+        guard index < letters.count else { return "U\(index + 1)" }
+        return String(letters[letters.index(letters.startIndex, offsetBy: index)])
+    }
+}
+
 nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// One of a part's `footprintChoices`: the package name shown for it and
     /// its footprint.
@@ -636,6 +689,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// four-terminal switch, 0 on a two-terminal one); `body`: its
         /// nominal size, the drawer group it is listed under.
         case tactileSwitch(actuator: String, ratedMV: UInt32, normallyClosed: Bool, joined: Int, body: BodySize?)
+        /// A slide switch (plan-58): `circuit` the first word of its function
+        /// ("SPST", "SPDT", "DPST", "DPDT"); `positions` the knob positions
+        /// (2 or 3); `rest` the one a new chip starts in (1-based); `masks`
+        /// the contacts closed in each position, bit c - 1 for contact c.
+        case slideSwitch(circuit: String, positions: Int, rest: Int, masks: [UInt32], actuator: String, ratedMV: UInt32)
         /// An LED: the colors a placed one may have; the first is the default.
         case led(colors: [String])
         case display(DisplayInfo)
@@ -772,6 +830,10 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// datasheet hasn't been converted.
     let datasheetMarkdown: String?
     let pins: [ChipPin]
+    /// The pieces the Schematic can draw the part as (plan-67): a gate IC's
+    /// gates, then the block `P` of the pins no gate owns. Empty for a part
+    /// with no unit view.
+    let units: [PartUnit]
     let details: Details
     /// False for a part the backend has no model for (plan-36: the
     /// microcontrollers). Run is off while one is on the schematic.
@@ -832,7 +894,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .dekatron(info):
             return "\(VoltageCheck.volts(info.strikeMV)) V min"
         case let .dipSwitch(_, _, ratedMV) where ratedMV > 0,
-             let .tactileSwitch(_, ratedMV, _, _, _) where ratedMV > 0:
+             let .tactileSwitch(_, ratedMV, _, _, _) where ratedMV > 0,
+             let .slideSwitch(_, _, _, _, _, ratedMV) where ratedMV > 0:
             return "\(VoltageCheck.volts(ratedMV)) V max"
         case let .connector(_, ratedMV, _, _, _) where ratedMV > 0,
              let .wireConnector(_, _, _, ratedMV, _) where ratedMV > 0:
@@ -846,6 +909,31 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     var isTactileSwitch: Bool {
         if case .tactileSwitch = details { return true }
         return false
+    }
+
+    /// A slide switch (plan-58): a latching switch whose knob sits in one of
+    /// two or three positions.
+    var isSlideSwitch: Bool {
+        if case .slideSwitch = details { return true }
+        return false
+    }
+
+    /// A slide switch's circuit ("SPDT"), knob positions, starting position
+    /// (both 1-based counts) and the contacts closed in each position (bit
+    /// c - 1 for contact c); nil for other parts.
+    var slideStates: (circuit: String, positions: Int, rest: Int, masks: [UInt32])? {
+        if case let .slideSwitch(circuit, positions, rest, masks, _, _) = details {
+            return (circuit, positions, rest, masks)
+        }
+        return nil
+    }
+
+    /// How many contacts a slide switch has (`PlacedChip.switchesOn` has one
+    /// entry for each): the highest contact any of its positions closes; 0 for
+    /// other parts.
+    var slideContacts: Int {
+        guard let slide = slideStates else { return 0 }
+        return UInt32.bitWidth - slide.masks.reduce(0, |).leadingZeroBitCount
     }
 
     /// A terminal block or a JST board header (plan-45).
@@ -899,8 +987,20 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// SRAM or EEPROM: a part with a memory window.
     var isMemory: Bool { kind == PART_SRAM || kind == PART_EEPROM }
 
-    /// A processor: a part with a processor window.
+    /// A processor (the cpu kind: a CPU on a bus).
     var isCpu: Bool { kind == PART_CPU }
+
+    /// A microcontroller the backend runs (plan-62): it takes firmware and
+    /// has a processor window. One with no simulation model is facts only.
+    var isSimulatedMcu: Bool { kind == PART_MCU && isSimulated }
+
+    /// A part with a processor window: a processor, or a simulated
+    /// microcontroller.
+    var hasProcessorWindow: Bool { isCpu || isSimulatedMcu }
+
+    /// A part that takes a "load file on start": an EEPROM, or a simulated
+    /// microcontroller (its firmware).
+    var hasLoadFile: Bool { kind == PART_EEPROM || isSimulatedMcu }
 
     /// A converter, RTC or display driver: a part with a register window
     /// (plan-24-I, plan-56-G).
@@ -1045,6 +1145,16 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         }
     }
 
+    /// The memory a load file fills: an EEPROM's words, or a simulated
+    /// microcontroller's flash in bytes. Nil for a part with no load file.
+    var loadFileSize: MemorySize? {
+        if kind == PART_EEPROM { return memorySize }
+        if isSimulatedMcu, case let .mcu(_, _, flash, _, _, _) = details {
+            return MemorySize(words: Int(flash), bits: 8)
+        }
+        return nil
+    }
+
     var logicFamily: String? {
         if case let .logic(family, _) = details { return family }
         return nil
@@ -1143,6 +1253,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .sram(_, _, accessNs, _): return ["\(accessNs) ns"]
         case let .eeprom(_, _, accessNs, _, _, _): return ["\(accessNs) ns"]
         case let .dipSwitch(_, actuator, _): return [actuator]
+        case let .slideSwitch(_, _, _, _, actuator, _): return [actuator]
         case let .tactileSwitch(actuator, _, normallyClosed, _, _):
             return [actuator] + (normallyClosed ? ["Normal close"] : [])
         case let .led(colors): return colors.count == 1 ? colors : ["\(colors.count) colors"]
@@ -1299,6 +1410,45 @@ extension Footprint {
 }
 
 extension CatalogPart {
+    /// What the sidebar's View option calls the unit view: "Gate" for a part
+    /// whose units are gates; nil for a part with no unit view.
+    var unitViewName: String? {
+        units.contains { if case .gate = $0.shape { true } else { false } } ? "Gate" : nil
+    }
+
+    /// The part's units: the backend's (`part_unit_count`), keyed A, B, …,
+    /// then one block keyed P for every drawn pin none of them owns.
+    private nonisolated static func units(of part: Part, pins: [ChipPin]) -> [PartUnit] {
+        var units: [PartUnit] = []
+        withUnsafePointer(to: part) { pointer in
+            for index in 0..<part_unit_count(pointer) {
+                guard let unit = part_unit_at(pointer, index)?.pointee else { continue }
+                let body: GateShape.Body = switch unit.shape {
+                case UNIT_AND: .and
+                case UNIT_OR: .or
+                case UNIT_XOR: .xor
+                default: .buffer
+                }
+                let hidden = Set(pins.filter(\.isHidden).map(\.index))
+                let inputs = (0..<unit.input_count).compactMap { unit.inputs?[$0] }.map(Int.init)
+                    .filter { !hidden.contains($0) }
+                let both = [unit.outputs.0, unit.outputs.1]
+                let outputs = both.prefix(Int(unit.output_count))
+                    .map { GateShape.Output(pin: Int($0.pin), inverted: $0.inverted != 0) }
+                    .filter { !hidden.contains($0.pin) }
+                units.append(PartUnit(
+                    key: PartUnit.key(forGate: units.count), pins: inputs + outputs.map(\.pin),
+                    shape: .gate(GateShape(body: body, inputs: inputs, outputs: outputs,
+                                           schmitt: unit.schmitt != 0, openDrain: unit.open_drain != 0))))
+            }
+        }
+        guard !units.isEmpty else { return [] }
+        let owned = Set(units.flatMap(\.pins))
+        let rest = pins.filter { !$0.isHidden && !owned.contains($0.index) }.map(\.index)
+        if !rest.isEmpty { units.append(PartUnit(key: PartUnit.blockKey, pins: rest, shape: .block)) }
+        return units
+    }
+
     /// Copies one part out of the library. `footprint` and
     /// `connectorFootprint` are the Swift copies of `part.footprint` and
     /// `part.connector_footprint`, shared by every part that uses them.
@@ -1339,6 +1489,7 @@ extension CatalogPart {
                            role: pinRole(pin.role), group: string(pin.group),
                            side: pinSide(pin.side), activeLowMask: pin.active_low)
         }
+        units = Self.units(of: part, pins: pins)
 
         if let logic = part.logic?.pointee {
             details = .logic(family: string(logic.family), units: Int(logic.units))
@@ -1350,6 +1501,16 @@ extension CatalogPart {
                               accessNs: Int(eeprom.access_ps / 1000), grade: string(eeprom.grade),
                               pageBytes: Int(eeprom.page_bytes),
                               writeCycleUs: Int(eeprom.write_cycle_ps / 1_000_000))
+        } else if let dip = part.dip_switch?.pointee, dip.states > 0 {
+            // The contacts each knob position closes, from the backend (plan-58-B).
+            let masks: [UInt32] = (1...dip.states).map { state in
+                var mask: UInt32 = 0
+                let found = withUnsafePointer(to: part) { part_switch_state_contacts($0, state, &mask) }
+                return found != 0 ? mask : 0
+            }
+            details = .slideSwitch(circuit: String(string(part.function).prefix { $0 != " " }),
+                                   positions: Int(dip.states), rest: Int(dip.rest), masks: masks,
+                                   actuator: string(dip.actuator), ratedMV: dip.rated_mv)
         } else if let dip = part.dip_switch?.pointee, dip.momentary != 0 {
             details = .tactileSwitch(actuator: string(dip.actuator), ratedMV: dip.rated_mv,
                                      normallyClosed: dip.normally_closed != 0, joined: Int(dip.joined),
@@ -1866,7 +2027,7 @@ struct PartVisibility: Equatable {
 /// How a part is drawn on the canvas.
 func symbol(for part: CatalogPart) -> PartSymbol {
     switch part.kind {
-    case PART_SWITCH: return part.isTactileSwitch ? .tactileSwitch : .dipSwitch
+    case PART_SWITCH: return part.isTactileSwitch ? .tactileSwitch : part.isSlideSwitch ? .slideSwitch : .dipSwitch
     case PART_LED: return .diode
     case PART_7SEG, PART_LCD: return .sevenSegment
     case PART_NIXIE: return .nixie
@@ -2140,7 +2301,7 @@ final class PartCatalogStore {
                     if let family = part.logicFamily { familiesByCategory[category, default: []].insert(family) }
                     if let count = part.count { logicCountsByCategory[category, default: []].insert(count) }
                 }
-                if part.kind == PART_SWITCH, !part.isTactileSwitch, let count = part.count {
+                if part.kind == PART_SWITCH, !part.isTactileSwitch, !part.isSlideSwitch, let count = part.count {
                     switchPositionsByCategory[category, default: []].insert(count)
                 }
                 if !part.colors.isEmpty { colorsByCategory[category, default: []].formUnion(part.colors) }
@@ -2552,7 +2713,7 @@ final class PartCatalogStore {
 
     /// Called after a User Library part is replaced in place (plan-53-D), with
     /// its uuid and the new part, so open schematics can follow. Set by
-    /// `SchematicFileController`.
+    /// `SchematicEditorModel` (to `SchematicNSDocument.updateOpenDocuments`).
     @ObservationIgnored var partUpdated: ((String, CatalogPart) -> Void)?
 
     /// Replaces a User Library part's content under the same uuid, now
@@ -2698,7 +2859,7 @@ final class PartCatalogStore {
                 return false
             }
         }
-        if part.kind == PART_SWITCH, !part.isTactileSwitch, let count = filter.switchPositions, part.count != count {
+        if part.kind == PART_SWITCH, !part.isTactileSwitch, !part.isSlideSwitch, let count = filter.switchPositions, part.count != count {
             return false
         }
         if case let .converter(type, _, channels) = part.details,
@@ -2713,6 +2874,9 @@ final class PartCatalogStore {
                 return false
             }
             if case let .tactileSwitch(_, ratedMV, _, _, _) = part.details, ratedMV > 0, ratedMV < mv {
+                return false
+            }
+            if case let .slideSwitch(_, _, _, _, _, ratedMV) = part.details, ratedMV > 0, ratedMV < mv {
                 return false
             }
         }
@@ -2789,10 +2953,11 @@ final class PartCatalogStore {
 
     /// DIP switches, LEDs, 7-segment displays, character LCDs, nixie tubes and
     /// the generic header are listed with no function level. Tactile switches are grouped
-    /// by body size instead (`drawerLeaf`).
+    /// by body size instead (`drawerLeaf`), slide switches by circuit and action
+    /// (`SPDT On-On`, their function).
     private static func listsPartsDirectly(_ parts: [CatalogPart]) -> Bool {
         parts.allSatisfy {
-            ($0.kind == PART_SWITCH && !$0.isTactileSwitch) || $0.kind == PART_LED || $0.kind == PART_7SEG || $0.kind == PART_CHARLCD
+            ($0.kind == PART_SWITCH && !$0.isTactileSwitch && !$0.isSlideSwitch) || $0.kind == PART_LED || $0.kind == PART_7SEG || $0.kind == PART_CHARLCD
                 || $0.kind == PART_NIXIE || $0.kind == PART_DEKATRON || $0.kind == PART_LCD
                 || $0.kind == PART_HEADER
         }

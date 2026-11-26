@@ -3738,7 +3738,7 @@ void *cv_bind_pinout(KindContext *ctx, const void *device, const PartPin *pins, 
     const CvDevice *dev = device;
     CvBound *b = kind_alloc(ctx, sizeof(*b));
     size_t *idx;
-    uint8_t *analog, *od;
+    uint8_t *analog, *od, *tri;
     size_t i, j;
 
     if (b == NULL) {
@@ -3747,7 +3747,8 @@ void *cv_bind_pinout(KindContext *ctx, const void *device, const PartPin *pins, 
     idx = kind_alloc(ctx, (dev->name_count ? dev->name_count : 1) * sizeof(*idx));
     analog = kind_alloc(ctx, pin_count ? pin_count : 1);
     od = kind_alloc(ctx, pin_count ? pin_count : 1);
-    if (idx == NULL || analog == NULL || od == NULL) {
+    tri = kind_alloc(ctx, pin_count ? pin_count : 1);
+    if (idx == NULL || analog == NULL || od == NULL || tri == NULL) {
         return NULL;
     }
     for (i = 0; i < dev->name_count; i++) {
@@ -3787,12 +3788,19 @@ void *cv_bind_pinout(KindContext *ctx, const void *device, const PartPin *pins, 
             od[idx[dev->disp->open_drain[i]]] = 1;
         }
     }
+    /* A parallel bus with an "oe" releases its data pins (clocked_pin: release_data). */
+    for (i = 0; dev->bus.has_oe && i < dev->bus.data_count; i++) {
+        if (dev->bus.data[i] != CV_NONE && idx[dev->bus.data[i]] != SIZE_MAX) {
+            tri[idx[dev->bus.data[i]]] = 1;
+        }
+    }
     b->dev = dev;
     b->pin = idx;
     b->pins = pins;
     b->pin_count = pin_count;
     b->analog = analog;
     b->open_drain = od;
+    b->tristate = tri;
     return b;
 }
 

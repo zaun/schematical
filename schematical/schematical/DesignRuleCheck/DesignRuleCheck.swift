@@ -56,8 +56,13 @@ private struct DesignRuleChecker {
     let pours: [BoardPour]
     let copper: BoardConnectivity
     let layers: [CopperLayer]
+    /// The outline's own segments: where bodies and texts must stay (a body
+    /// may overhang a cutout, plan-65-C).
     let outline: [(CGPoint, CGPoint)]
     let outlinePoints: [CGPoint]
+    /// The outline and every cutout: what copper is held off.
+    let edge: BoardEdge
+    let cutouts: [BoardCutout]
     /// The layers each net with an Only layer rule may use, by net.
     let onlyLayers: [Int: EffectiveLayers]
     /// The clearance each net's class asks for, by net; a net in no class
@@ -87,6 +92,8 @@ private struct DesignRuleChecker {
         layers = board.copperLayers
         outlinePoints = board.outline
         outline = Array(zip(outlinePoints, outlinePoints.dropFirst() + outlinePoints.prefix(1)))
+        edge = document.boardEdge
+        cutouts = document.cutouts
         var onlyLayers: [Int: EffectiveLayers] = [:]
         if !board.netOverrides.isEmpty || board.netClasses.contains(where: { $0.layerRule != nil }) {
             for net in Set(copper.netOfPad.values) {
@@ -121,6 +128,7 @@ private struct DesignRuleChecker {
         checkLayerRules()
         checkClearance()
         checkEdge()
+        checkCutouts()
         checkNonPlatedHoles()
         checkHoles()
         checkVias()
@@ -365,19 +373,20 @@ private struct DesignRuleChecker {
     private func rectIsOnBoard(_ rect: CGRect) -> Bool {
         let corners = [CGPoint(x: rect.minX, y: rect.minY), CGPoint(x: rect.maxX, y: rect.minY),
                        CGPoint(x: rect.maxX, y: rect.maxY), CGPoint(x: rect.minX, y: rect.maxY)]
-        guard corners.allSatisfy(inside) else { return false }
+        guard corners.allSatisfy(insideOutline) else { return false }
         // A notch can cut into a rectangle whose corners are all inside.
         let inner = rect.insetBy(dx: Self.tolerance, dy: Self.tolerance)
         return !outline.contains { SchematicDocument.segment($0.0, $0.1, touches: inner) }
     }
 
     private func rectTouchesBoard(_ rect: CGRect) -> Bool {
-        inside(CGPoint(x: rect.midX, y: rect.midY))
+        insideOutline(CGPoint(x: rect.midX, y: rect.midY))
             || outline.contains { SchematicDocument.segment($0.0, $0.1, touches: rect) }
     }
 
-    /// Whether a point is inside the board outline (even-odd).
-    private func inside(_ point: CGPoint) -> Bool {
+    /// Whether a point is inside the board outline (even-odd), cutouts
+    /// ignored: what placement asks, since a body may overhang a cutout.
+    private func insideOutline(_ point: CGPoint) -> Bool {
         var result = false
         for (a, b) in outline where (a.y > point.y) != (b.y > point.y) {
             let x = a.x + (point.y - a.y) / (b.y - a.y) * (b.x - a.x)
@@ -532,8 +541,9 @@ private struct DesignRuleChecker {
     // MARK: Board edge
 
     private mutating func checkEdge() {
-        let edges = outline.map { CopperShape(core: .segment($0.0, $0.1), radius: 0, layers: nil, node: -1) }
-        var worst: [String: (gap: Double, node: Int, off: Bool)] = [:]
+        let edges = edge.segments.map { CopperShape(core: .segment($0.0, $0.1), radius: 0, layers: nil, node: -1) }
+        let edgeBounds = edges.map(\.bounds)
+        var worst: [String: (gap: Double, node: Int, off: Bool, cutout: Bool)] = [:]
         let offBoardChips = Set(chips.filter { chip in chip.boardBounds.map { !rectIsOnBoard($0) } ?? false }.map(\.reference))
         for shape in copperShapes() {
             // Fingers belong at the edge; a part already off the board is
@@ -544,23 +554,58 @@ private struct DesignRuleChecker {
                     continue
                 }
             }
-            let gap = edges.map { shape.gap(to: $0) }.min() ?? .infinity
+            // Only a segment within the minimum of the shape can give a gap under
+            // it, so the farther ones are skipped.
+            let reach = shape.bounds.insetBy(dx: -rules.minCopperToEdge, dy: -rules.minCopperToEdge)
+            var gap = Double.infinity
+            for (index, edgeShape) in edges.enumerated() where edgeBounds[index].intersects(reach) {
+                gap = min(gap, shape.gap(to: edgeShape))
+            }
             let centre = CGPoint(x: shape.bounds.midX, y: shape.bounds.midY)
-            let off = !inside(centre)
+            let off = !edge.contains(centre)
             guard off || gap < rules.minCopperToEdge - Self.tolerance else { continue }
             let key = owner(shape.node)
             // Off the board outranks close to its edge.
             if let found = worst[key], found.off || (!off && found.gap <= gap) { continue }
-            worst[key] = (gap, shape.node, off)
+            worst[key] = (gap, shape.node, off, off && edge.isInCutout(centre))
         }
         for (key, found) in worst.sorted(by: { $0.value.node < $1.value.node }) {
             let items = describe(node: found.node).items
             let name = found.node < copper.pads.count ? key : describe(node: found.node).name
             if found.off {
-                add(.edge, name, "Copper is off the board", items)
+                add(.edge, name, found.cutout ? "Copper is in a cutout" : "Copper is off the board", items)
             } else {
                 add(.edge, name, "Copper \(mm(max(0, found.gap))) from the board edge; min \(mm(rules.minCopperToEdge))",
                     items)
+            }
+        }
+    }
+
+    // MARK: Cutouts
+
+    /// A cutout that crosses the board's outline, and two that overlap
+    /// (plan-65-C): neither can be milled as drawn. Named by their place in
+    /// the drawing order, from 1.
+    private mutating func checkCutouts() {
+        let loops = cutouts.map { $0.shape.loop }
+        func segments(_ loop: [CGPoint]) -> [(CGPoint, CGPoint)] { Array(zip(loop, loop.dropFirst() + loop.prefix(1))) }
+        func cross(_ a: [(CGPoint, CGPoint)], _ b: [(CGPoint, CGPoint)]) -> Bool {
+            a.contains { s in b.contains { CopperGeometry.segmentsCross(s.0, s.1, $0.0, $0.1) } }
+        }
+        let outlineSegments = outline
+        for (i, loop) in loops.enumerated() where loop.count >= 3 {
+            if loop.contains(where: { !insideOutline($0) }) || cross(segments(loop), outlineSegments) {
+                add(.edge, "Cutout \(i + 1)", "Crosses the board edge", [.cutout(cutouts[i].id)])
+            }
+        }
+        for i in loops.indices {
+            for j in loops.indices where j > i {
+                guard loops[i].count >= 3, loops[j].count >= 3 else { continue }
+                let overlap = cross(segments(loops[i]), segments(loops[j]))
+                    || BoardEdge.contains(loops[i][0], in: loops[j]) || BoardEdge.contains(loops[j][0], in: loops[i])
+                if overlap {
+                    add(.edge, "Cutouts \(i + 1), \(j + 1)", "Overlap", [.cutout(cutouts[i].id), .cutout(cutouts[j].id)])
+                }
             }
         }
     }

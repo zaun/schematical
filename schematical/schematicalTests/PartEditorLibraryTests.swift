@@ -12,7 +12,6 @@ final class PartEditorLibraryTests: XCTestCase {
     /// process (freeing one inside a test aborts the host).
     private static var keptStores: [PartCatalogStore] = []
     private static var keptModels: [PartEditorModel] = []
-    private static var keptControllers: [SchematicFileController] = []
 
     override func setUp() async throws {
         directory = FileManager.default.temporaryDirectory.appendingPathComponent("editlib-\(UUID().uuidString)")
@@ -85,7 +84,7 @@ final class PartEditorLibraryTests: XCTestCase {
         let uuid = "F2000000-0000-4000-8000-000000000001"
         let v1 = try addPart(store, uuid, "ED-B")
         let doc = TestSupport.newDocument()
-        Self.keptControllers.append(SchematicFileController(document: doc, catalog: store, willReplaceDocument: {}))
+        TestSupport.openSystemDocument(of: doc, catalog: store, until: self)
         doc.placeChip(part: v1, symbol: symbol(for: v1), centeredAt: CGPoint(x: 200, y: 200))
         let chipID = try XCTUnwrap(doc.chips.last?.id)
 

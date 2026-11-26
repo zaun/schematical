@@ -1376,3 +1376,20 @@ took the place of an op-amp. Written by `planning/plan-48-data/census/final.py -
 | INA330AIDGST, TL084ACN, TL084BCN, TL084CN | Texas Instruments op-amps | `opamp` / Analog → Op-amps | the datasheet shows no pinout for the package, or the device is not a plain op-amp (no IN+ / IN- / OUT) |
 | LM6142BIMX-TI, LMV324M-TI, LMV721M5-TI, LMV821M7-TI, LMV931MF-TI, LT1013CPE4, TL33072ADR, TLC27L1ACP, TLC27L1CDR, TLC27L7IDR, TLC27M4IDR, TLC27M4IPWR | Texas Instruments op-amps | `opamp` / Analog → Op-amps | the part number is not in the datasheet's ordering table (plan-48-A § 4 rule 2) |
 | TLC3555QDDFRQ1, TLC555IP-P2 | Texas Instruments 555-type timers | `timer` / Analog → Timers | the part number is not in the datasheet's ordering table (plan-48-A § 4 rule 2) |
+
+## Slide switches (plan-58)
+
+In-stock Active SPST / SPDT / DPST / DPDT slide switches of C&K / Littelfuse, NKK, CIT Relay &
+Switch and E-Switch (`planning/plan-58-data/candidates.tsv`, DigiKey category Slide Switches)
+left out for want of a datasheet PDF. Written by `planning/plan-58-data/census/decide.py --skipped`.
+Rows left out by rule (panel mount, momentary, line-voltage, illuminated, no DigiKey stock) are
+`out` in that file and are not listed here.
+
+| Part(s) | Series | Would have gone into | Why skipped |
+|---|---|---|---|
+| 1101M2S3WBE2 | C&K 1000 | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |
+| L101011ML04Q, L102011ML04Q, L102021ML04Q, L201011MS02Q, L201011MS02QE, L202011MS02G, L202021MA04Q, L202021MA04QE, L202031MS02Q, L202121MA04Q, L202121MS02Q, L202121MS02QE | C&K L | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |
+| V80201MS02Q | C&K V | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |
+| EG1249, EG1257, EG1270, EG1271, EG1271A, EG2210A-REDACTUATOR, EG2219 | E-Switch EG | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |
+| AS11BW, AS12CV/A, AS13AW | NKK AS | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |
+| MSN12ANA03 | NKK M | `switch` / Switches & Relays → Slide | number does not fit the datasheet's part-number key |

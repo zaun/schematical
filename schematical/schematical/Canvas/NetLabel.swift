@@ -11,7 +11,10 @@ import SwiftUI
 /// an input points in at the wire (`---<__|`), an in/out points both ways
 /// (`---<__>`) and a passive one is a plain box (`---|__|`). A No Connect is not a label at all: an X on its point, with
 /// no name, that marks a pin as deliberately left unconnected. It joins
-/// nothing, not even the wires that end on it.
+/// nothing, not even the wires that end on it. A Power Flag (plan-63-A) is a
+/// small flag on a stem at its point: no name, and nothing joined but the wire
+/// that ends on it. It marks its net as driven for the electrical rules check
+/// (KiCad's `PWR_FLAG`).
 nonisolated struct NetLabel: Identifiable, Hashable, Sendable {
     enum Style: String, CaseIterable, Identifiable, Sendable {
         case input
@@ -19,6 +22,7 @@ nonisolated struct NetLabel: Identifiable, Hashable, Sendable {
         case `inout`
         case passive
         case noConnect
+        case powerFlag
 
         var id: String { rawValue }
 
@@ -29,6 +33,7 @@ nonisolated struct NetLabel: Identifiable, Hashable, Sendable {
             case .inout: "In/Out"
             case .passive: "Passive"
             case .noConnect: "No Connect"
+            case .powerFlag: "Power Flag"
             }
         }
 
@@ -36,8 +41,12 @@ nonisolated struct NetLabel: Identifiable, Hashable, Sendable {
         var pointsOut: Bool { self == .output || self == .inout }
         /// The end at the wire is a point.
         var pointsIn: Bool { self == .input || self == .inout }
-        /// A named net label; false for No Connect.
-        var isNet: Bool { self != .noConnect }
+        /// A named net label; false for No Connect and Power Flag.
+        var isNet: Bool { self != .noConnect && self != .powerFlag }
+        /// A No Connect: joins nothing, not even its wires.
+        var isNoConnect: Bool { self == .noConnect }
+        /// A Power Flag: no name, marks its net as driven.
+        var isPowerFlag: Bool { self == .powerFlag }
     }
 
     /// Half the size of a No Connect's X.
@@ -45,8 +54,17 @@ nonisolated struct NetLabel: Identifiable, Hashable, Sendable {
     /// What a press hits round a No Connect's point.
     static let crossHit: CGFloat = 10
 
-    /// The name is drawn and joins labels; not for a No Connect.
+    /// The name is drawn and joins labels; not for a No Connect or a Power Flag.
     var isNet: Bool { style.isNet }
+    var isNoConnect: Bool { style.isNoConnect }
+    var isPowerFlag: Bool { style.isPowerFlag }
+    /// What the Net Label panel and the selection list call it when it has no name.
+    var title: String { style.title }
+
+    /// A Power Flag's stem, up from its point, and its pennant.
+    static let flagStem: CGFloat = 20
+    static let flagWidth: CGFloat = 14
+    static let flagHeight: CGFloat = 10
 
     let id: UUID
     /// 1 to `maxNameLength` characters, no spaces.
@@ -81,9 +99,14 @@ nonisolated struct NetLabel: Identifiable, Hashable, Sendable {
     /// Where a wire meets it.
     var tip: CGPoint { origin }
 
-    /// The flag's bounds; a square round the point for a No Connect.
+    /// The flag's bounds; a square round the point for a No Connect; the stem
+    /// and pennant (and the No Connect's square) for a Power Flag.
     var rect: CGRect {
-        if !isNet {
+        if isPowerFlag {
+            return CGRect(x: origin.x - Self.crossHit, y: origin.y - Self.flagStem - 4,
+                          width: Self.crossHit + Self.flagWidth, height: Self.flagStem + 4 + Self.crossHit)
+        }
+        if isNoConnect {
             return CGRect(x: origin.x - Self.crossHit, y: origin.y - Self.crossHit,
                           width: 2 * Self.crossHit, height: 2 * Self.crossHit)
         }
@@ -123,11 +146,20 @@ nonisolated struct NetLabel: Identifiable, Hashable, Sendable {
         return local.map { CGPoint(x: origin.x + direction * $0.x, y: origin.y + $0.y) }
     }
 
-    /// The flag's outline, closed; a No Connect's X.
+    /// The flag's outline, closed; a No Connect's X; a Power Flag's stem with
+    /// its pennant (the one closed subpath, so a fill paints the pennant).
     var path: Path {
         Path { path in
             if isNet {
                 path.addLines(outline)
+                path.closeSubpath()
+            } else if isPowerFlag {
+                let top = origin.y - Self.flagStem
+                path.move(to: origin)
+                path.addLine(to: CGPoint(x: origin.x, y: top))
+                path.move(to: CGPoint(x: origin.x, y: top))
+                path.addLine(to: CGPoint(x: origin.x + Self.flagWidth, y: top + Self.flagHeight / 2))
+                path.addLine(to: CGPoint(x: origin.x, y: top + Self.flagHeight))
                 path.closeSubpath()
             } else {
                 let d = Self.crossSize
@@ -169,6 +201,12 @@ struct NetLabelLayer: View {
             let isSelected = selectedIDs.contains(label.id)
             if label.id == hoveredID, !isSelected {
                 painter.stroke(path, with: Ink.accent.opacity(0.35), lineWidth: 5)
+            }
+            if label.isPowerFlag {
+                // Power Flag: a stem and a solid pennant, no name.
+                painter.fill(path, with: isSelected ? .accent : .primary)
+                painter.stroke(path, with: isSelected ? .accent : .primary, lineWidth: isSelected ? 2.5 : 2)
+                continue
             }
             guard label.isNet else {
                 // No Connect: just the X, no name.

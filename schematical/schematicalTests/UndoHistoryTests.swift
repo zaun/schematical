@@ -23,21 +23,21 @@ final class UndoHistoryTests: XCTestCase {
         BoardTrace(id: UUID(), layer: .top, width: 10, points: [p(x, 0), p(x, 10)])
     }
 
-    /// A step holding the diff from `a` to `b`, on the pages its keys own
-    /// plus `page`.
-    private func step(_ name: String, _ a: DocumentState, _ b: DocumentState, page: EditorPage = .schematic,
-                      coalescing: String? = nil) -> UndoStep {
-        let changes = UndoDiff.changes(from: a, to: b)
-        let pages = changes.keys.reduce(into: Set([page])) { $0.formUnion($1.pages) }
-        return UndoStep(name: name, coalescing: coalescing, changes: changes, pages: pages)
-    }
+    // MARK: plan-64 — document info
 
-    /// A one-key step on `pages` (for the stack cases).
-    private func bare(_ name: String, pages: Set<EditorPage>, coalescing: String? = nil,
-                      before: Int = 1, after: Int = 2) -> UndoStep {
-        UndoStep(name: name, coalescing: coalescing,
-                 changes: [.nextReference: UndoChange(before: .nextReference(before), after: .nextReference(after))],
-                 pages: pages)
+    func testDocumentInfoDiffsAndAppliesAsOneKey() {
+        var info = DocumentInfo()
+        info.title = "Clock"
+        info.titleBlock = p(100, 200)
+        let changes = UndoDiff.changes(from: DocumentState(), to: DocumentState(documentInfo: info))
+        XCTAssertEqual(Set(changes.keys), [.documentInfo])
+        var state = DocumentState(documentInfo: info)
+        XCTAssertTrue(UndoDiff.apply(changes, backwards: true, to: &state))
+        XCTAssertEqual(state, DocumentState())
+        XCTAssertTrue(UndoDiff.apply(changes, backwards: false, to: &state))
+        XCTAssertEqual(state.documentInfo, info)
+        XCTAssertTrue(UndoDiff.changes(from: DocumentState(documentInfo: info),
+                                       to: DocumentState(documentInfo: info)).isEmpty)
     }
 
     // MARK: Phase 1 — diff
@@ -137,7 +137,7 @@ final class UndoHistoryTests: XCTestCase {
         XCTAssertEqual(state.traces.map(\.id), traces.map(\.id))
     }
 
-    /// The array shrank since (another page's edit): the item goes on the end.
+    /// The array shrank since (an edit recorded no step): the item goes on the end.
     func testDeletedItemGoesOnTheEndWhenTheArrayShrank() {
         let wires = [wire(0), wire(1), wire(2)]
         let traces = [trace(0), trace(1), trace(2)]
@@ -176,103 +176,82 @@ final class UndoHistoryTests: XCTestCase {
         XCTAssertEqual(state.chips[0].reference, "U5")
     }
 
-    // MARK: Phase 1 — stacks
+    // MARK: The document's one list (plan-61-A)
 
-    func testTwoPageStepUndoneFromOnePageLeavesBoth() {
-        var history = UndoHistory()
-        let shared = bare("Delete", pages: [.schematic, .pcb])
-        history.push(shared)
-        XCTAssertTrue(history.undoTop(on: .pcb) === shared)
-        let popped = history.popUndo(on: .schematic)
-        XCTAssertTrue(popped === shared)
-        history.pushRedo(shared)
-        XCTAssertNil(history.undoTop(on: .schematic))
-        XCTAssertNil(history.undoTop(on: .pcb))
-        XCTAssertTrue(history.redoTop(on: .schematic) === shared)
-        XCTAssertTrue(history.redoTop(on: .pcb) === shared)
-        // Redo from the other page puts it back on both.
-        XCTAssertTrue(history.popRedo(on: .pcb) === shared)
-        history.pushUndo(shared)
-        XCTAssertNil(history.redoTop(on: .schematic))
-        XCTAssertTrue(history.undoTop(on: .schematic) === shared)
-        XCTAssertTrue(history.undoTop(on: .pcb) === shared)
+    /// A new step ends redo, whichever page made the undone ones.
+    func testANewStepClearsRedo() throws {
+        let doc = TestSupport.newDocument()
+        let chip = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
+        doc.flipChip(chip.id)
+        doc.rotateFootprint(chip.id)
+        XCTAssertTrue(doc.undo())
+        XCTAssertTrue(doc.undo())
+        XCTAssertEqual(doc.redoName, "Flip")
+        doc.setBoardSize(width: 120, height: 90)
+        XCTAssertNil(doc.redoName)
+        XCTAssertFalse(doc.redo())
+        XCTAssertEqual(doc.undoName, "Change Board Size")
     }
 
-    func testNewSchematicStepClearsOnlySchematicRedo() {
-        var history = UndoHistory()
-        let s = bare("Move", pages: [.schematic]), b = bare("Move", pages: [.pcb])
-        history.push(s)
-        history.push(b)
-        history.pushRedo(history.popUndo(on: .schematic)!)
-        history.pushRedo(history.popUndo(on: .pcb)!)
-        history.push(bare("Flip", pages: [.schematic]))
-        XCTAssertNil(history.redoTop(on: .schematic))
-        XCTAssertTrue(history.redoTop(on: .pcb) === b)
-    }
-
-    func testNewSchematicStepClearsASharedRedoFromBothPages() {
-        var history = UndoHistory()
-        let pcbOnly = bare("Move", pages: [.pcb]), shared = bare("Delete", pages: [.schematic, .pcb])
-        history.push(pcbOnly)
-        history.push(shared)
-        history.pushRedo(history.popUndo(on: .pcb)!)   // shared
-        history.pushRedo(history.popUndo(on: .pcb)!)   // pcbOnly
-        history.push(bare("Flip", pages: [.schematic]))
-        XCTAssertEqual(history.redo[.pcb]?.map(\.name), ["Move"])
-        XCTAssertTrue(history.redoTop(on: .pcb) === pcbOnly)
-        XCTAssertNil(history.redoTop(on: .schematic))
+    /// How many steps `undo()` takes off before it has nothing left.
+    private func undoCount(_ doc: SchematicDocument) -> Int {
+        var count = 0
+        while doc.undo() { count += 1 }
+        return count
     }
 
     func testCoalescingMergesUntilEnded() {
-        var history = UndoHistory()
-        history.push(bare("Edit Text", pages: [.schematic], coalescing: "k", before: 1, after: 2))
-        history.push(bare("Edit Text", pages: [.schematic], coalescing: "k", before: 2, after: 3))
-        XCTAssertEqual(history.undo[.schematic]?.count, 1)
-        XCTAssertEqual(history.undoTop(on: .schematic)?.changes[.nextReference],
-                       UndoChange(before: .nextReference(1), after: .nextReference(3)))
-        history.endCoalescing()
-        history.push(bare("Edit Text", pages: [.schematic], coalescing: "k", before: 3, after: 4))
-        XCTAssertEqual(history.undo[.schematic]?.count, 2)
-        // Another key stops it too.
-        history.push(bare("Move", pages: [.schematic], before: 4, after: 5))
-        history.push(bare("Edit Text", pages: [.schematic], coalescing: "k", before: 5, after: 6))
-        XCTAssertEqual(history.undo[.schematic]?.count, 4)
+        let doc = TestSupport.newDocument()
+        let a = doc.addNote(at: p(100, 100)), b = doc.addNote(at: p(100, 300))
+        doc.setNoteText(a, "C")
+        doc.setNoteText(a, "Cl")
+        XCTAssertEqual(doc.undoName, "Edit Text")
+        doc.endCoalescing()
+        doc.setNoteText(a, "Clo")          // a second step: editing ended
+        // Another step stops it too.
+        doc.setNoteSize(a, 24)
+        doc.setNoteText(a, "Cloc")         // a third
         // A different coalescing key is its own step.
-        history.push(bare("Edit Text", pages: [.schematic], coalescing: "other", before: 6, after: 7))
-        XCTAssertEqual(history.undo[.schematic]?.count, 5)
+        doc.setNoteText(b, "D")            // a fourth
+        doc.setNoteText(b, "Da")
+        XCTAssertTrue(doc.undo())
+        XCTAssertEqual(doc.notes.first { $0.id == b }?.text, SchematicNote.placeholder)
+        XCTAssertTrue(doc.undo())
+        XCTAssertEqual(doc.notes.first { $0.id == a }?.text, "Clo")
+        XCTAssertEqual(doc.undoName, "Change Font Size")
+        XCTAssertTrue(doc.undo())
+        XCTAssertTrue(doc.undo())
+        XCTAssertEqual(doc.notes.first { $0.id == a }?.text, "Cl")
+        XCTAssertTrue(doc.undo())
+        XCTAssertEqual(doc.notes.first { $0.id == a }?.text, SchematicNote.placeholder)
+        XCTAssertEqual(undoCount(doc), 2, "the two Add Text steps are left")
     }
 
     func testCoalescingBackToTheStartDropsTheStep() {
-        var history = UndoHistory()
-        history.push(bare("Edit Text", pages: [.schematic], coalescing: "k", before: 1, after: 2))
-        history.push(bare("Edit Text", pages: [.schematic], coalescing: "k", before: 2, after: 1))
-        XCTAssertNil(history.undoTop(on: .schematic))
+        let doc = TestSupport.newDocument()
+        let id = doc.addNote(at: p(100, 100))
+        let added = doc.state
+        doc.setNoteText(id, "C")
+        XCTAssertEqual(doc.undoName, "Edit Text")
+        doc.setNoteText(id, SchematicNote.placeholder)
+        XCTAssertEqual(doc.state, added)
+        XCTAssertEqual(doc.undoName, "Add Text", "the typing step is gone")
+        XCTAssertNil(doc.redoName)
+        // The next character starts a new step.
+        doc.setNoteText(id, "D")
+        XCTAssertTrue(doc.undo())
+        XCTAssertEqual(doc.state, added)
+        XCTAssertEqual(doc.undoName, "Add Text")
     }
 
-    func testThe501stPushDropsTheOldest() {
-        var history = UndoHistory()
-        let first = bare("First", pages: [.schematic, .pcb])
-        history.push(first)
-        for n in 0..<UndoHistory.limit {
-            history.push(bare("S\(n)", pages: [.schematic]))
+    func testThe501stStepDropsTheOldest() {
+        let doc = TestSupport.newDocument()
+        XCTAssertEqual(doc.undoManager.levelsOfUndo, 500)
+        for n in 0...500 {
+            doc.setBoardSize(width: CGFloat(60 + n), height: 90)
         }
-        XCTAssertEqual(history.undo[.schematic]?.count, UndoHistory.limit)
-        XCTAssertEqual(history.undo[.schematic]?.first?.name, "S0")
-        // Still on the PCB list, now that page's alone.
-        XCTAssertTrue(history.undoTop(on: .pcb) === first)
-        XCTAssertEqual(first.pages, [.pcb])
-    }
-
-    func testClearEmptiesEverything() {
-        var history = UndoHistory()
-        history.push(bare("A", pages: [.schematic, .pcb]))
-        history.pushRedo(history.popUndo(on: .pcb)!)
-        history.push(bare("B", pages: [.pcb]))
-        history.clear()
-        for page in EditorPage.allCases {
-            XCTAssertNil(history.undoTop(on: page))
-            XCTAssertNil(history.redoTop(on: page))
-        }
+        XCTAssertEqual(undoCount(doc), 500)
+        XCTAssertEqual(doc.board.width, 60, "the first step, to 60, is no longer undoable")
     }
 
     // MARK: Phase 2 — the document API
@@ -290,16 +269,15 @@ final class UndoHistoryTests: XCTestCase {
         doc.recordEdit(.schematic, "Flip") { doc.flipChip(chip.id) }
         let after = doc.state
         XCTAssertNotEqual(before, after)
-        XCTAssertEqual(doc.undoName(on: .schematic), "Flip")
-        XCTAssertNil(doc.undoName(on: .pcb))
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.undoName, "Flip")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.state, before)
         XCTAssertEqual(file(doc), beforeFile)
-        XCTAssertNil(doc.undoName(on: .schematic))
-        XCTAssertEqual(doc.redoName(on: .schematic), "Flip")
-        XCTAssertTrue(doc.redo(on: .schematic))
+        XCTAssertNil(doc.undoName)
+        XCTAssertEqual(doc.redoName, "Flip")
+        XCTAssertTrue(doc.redo())
         XCTAssertEqual(doc.state, after)
-        XCTAssertFalse(doc.redo(on: .schematic))
+        XCTAssertFalse(doc.redo())
     }
 
     /// A gesture is one step, named by the first inner edit that changed
@@ -317,12 +295,12 @@ final class UndoHistoryTests: XCTestCase {
         doc.recordEdit(.schematic, "Move") { doc.moveSchematicGroup(base, by: .zero) }
         doc.recordEdit(.schematic, "Flip Switch") { _ = doc.toggleSwitch(chip.id, position: 1) }
         doc.recordEdit(.schematic, "Move") { doc.moveSchematicGroup(base, by: CGSize(width: 40, height: 0)) }
-        XCTAssertNil(doc.undoName(on: .schematic), "nothing is pushed while the gesture is open")
+        XCTAssertNil(doc.undoName, "nothing is pushed while the gesture is open")
         doc.endGesture()
-        XCTAssertEqual(doc.undoName(on: .schematic), "Flip Switch")
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.undoName, "Flip Switch")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.state, before)
-        XCTAssertNil(doc.undoName(on: .schematic))
+        XCTAssertNil(doc.undoName)
     }
 
     func testEditThatChangesNothingRecordsNothing() throws {
@@ -333,8 +311,8 @@ final class UndoHistoryTests: XCTestCase {
         doc.recordEdit(.schematic, "Change Color") { doc.setPartColor(chip.id, "red") }
         doc.beginGesture(.schematic)
         doc.endGesture()
-        XCTAssertNil(doc.undoName(on: .schematic))
-        XCTAssertFalse(doc.undo(on: .schematic))
+        XCTAssertNil(doc.undoName)
+        XCTAssertFalse(doc.undo())
     }
 
     func testPlayingRecordsNothingAndUndoIsOff() throws {
@@ -344,28 +322,30 @@ final class UndoHistoryTests: XCTestCase {
         doc.isPlaying = true
         _ = doc.renameChip(chip.id, prefix: "U", number: 9, page: .schematic)
         let playing = doc.state
-        XCTAssertFalse(doc.undo(on: .schematic))
-        XCTAssertFalse(doc.redo(on: .schematic))
+        XCTAssertFalse(doc.undo())
+        XCTAssertFalse(doc.redo())
         XCTAssertEqual(doc.state, playing)
         doc.isPlaying = false
         // Only the flip is on the list.
-        XCTAssertEqual(doc.undoName(on: .schematic), "Flip")
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.undoName, "Flip")
+        XCTAssertTrue(doc.undo())
         // Under it, the drop (recorded by placeChip since plan-31-B).
-        XCTAssertEqual(doc.undoName(on: .schematic), "Add Part")
+        XCTAssertEqual(doc.undoName, "Add Part")
     }
 
-    func testReplaceContentsEmptiesBothLists() throws {
+    func testReplaceContentsEmptiesTheUndoManager() throws {
         let doc = TestSupport.newDocument()
         try doc.recordEdit(.schematic, "Add Part") { try TestSupport.place(doc, "SN74HC00N", at: p(200, 200)) }
-        XCTAssertEqual(doc.undoName(on: .schematic), "Add Part")
-        XCTAssertEqual(doc.undoName(on: .pcb), "Add Part", "adding a part is on both lists")
+        doc.setBoardSize(width: 120, height: 90)
+        XCTAssertTrue(doc.undo())
+        XCTAssertEqual(doc.undoName, "Add Part")
+        XCTAssertEqual(doc.redoName, "Change Board Size")
         doc.replaceContents(chips: [], wires: [], junctions: [], buses: [], nextReference: 1,
                             board: BoardSettings(), texts: [], traces: [])
-        for page in EditorPage.allCases {
-            XCTAssertNil(doc.undoName(on: page))
-            XCTAssertNil(doc.redoName(on: page))
-        }
+        XCTAssertNil(doc.undoName)
+        XCTAssertNil(doc.redoName)
+        XCTAssertFalse(doc.undoManager.canUndo)
+        XCTAssertFalse(doc.undoManager.canRedo)
     }
 
     /// Undo back to the saved file clears "unsaved": the file compares equal.
@@ -375,7 +355,7 @@ final class UndoHistoryTests: XCTestCase {
         let saved = file(doc)
         _ = doc.renameChip(chip.id, prefix: "U", number: 42, page: .schematic)
         XCTAssertNotEqual(file(doc), saved)
-        doc.undo(on: .pcb)
+        doc.undo()
         XCTAssertEqual(file(doc), saved)
     }
 
@@ -384,7 +364,7 @@ final class UndoHistoryTests: XCTestCase {
         let chip = try doc.recordEdit(.schematic, "Add Part") { try TestSupport.place(doc, "SN74HC00N", at: p(200, 200)) }
         doc.select(.chip(chip.id))
         XCTAssertTrue(doc.isSelected(.chip(chip.id)))
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo())
         XCTAssertTrue(doc.chips.isEmpty)
         XCTAssertFalse(doc.isSelected(.chip(chip.id)))
         XCTAssertFalse(doc.isSelected(.footprint(chip.id)))
@@ -392,18 +372,23 @@ final class UndoHistoryTests: XCTestCase {
     }
 
     /// A step whose items are gone is skipped, and the one under it undone.
+    /// A part is deleted with no step (while playing): the rotate of its
+    /// footprint changes nothing any more.
     func testUndoSkipsAStepThatChangesNothing() throws {
         let doc = TestSupport.newDocument()
-        let chip = try doc.recordEdit(.schematic, "Add Part") { try TestSupport.place(doc, "SN74HC00N", at: p(200, 200)) }
-        doc.recordEdit(.pcb, "Rotate") { doc.rotateFootprint(chip.id) }
         doc.recordEdit(.pcb, "Change Board Size") { doc.setBoardSize(width: 120, height: 90) }
-        // Undo the board size, then the add from the Schematic: the PCB's
-        // rotate now has no part.
-        XCTAssertTrue(doc.undo(on: .pcb))
-        XCTAssertEqual(doc.undoName(on: .schematic), "Add Part")
-        XCTAssertTrue(doc.undo(on: .schematic))
-        XCTAssertEqual(doc.undoName(on: .pcb), "Rotate")
-        XCTAssertFalse(doc.undo(on: .pcb))
-        XCTAssertNil(doc.undoName(on: .pcb))
+        let chip = try doc.recordEdit(.schematic, "Add Part") { try TestSupport.place(doc, "SN74HC00N", at: p(200, 200)) }
+        doc.recordEdit(.pcb, "Change Board Color") { doc.setBoardColor(.red) }
+        doc.recordEdit(.pcb, "Rotate") { doc.rotateFootprint(chip.id) }
+        doc.isPlaying = true
+        doc.select(.chip(chip.id))
+        _ = doc.deleteSchematicSelection()
+        doc.isPlaying = false
+        XCTAssertTrue(doc.chips.isEmpty)
+        XCTAssertEqual(doc.undoName, "Rotate")
+        XCTAssertTrue(doc.undo())
+        XCTAssertNotEqual(doc.board.color, .red, "the color, under the skipped rotate, is undone")
+        XCTAssertEqual(doc.undoName, "Add Part")
+        XCTAssertEqual(doc.redoName, "Change Board Color", "the skipped rotate is on neither list")
     }
 }

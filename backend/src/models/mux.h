@@ -34,6 +34,8 @@ struct MuxModel {
     void (*eval)(Sim *sim, SimInstance *inst, MuxHeader *state, size_t pin,
                  LogicValue old_value, LogicValue new_value);
     int (*open_drain)(const void *bound, size_t pin);
+    /* 1 when pin is an output released to Z through an output enable (plan-63-C). */
+    int (*tristate)(const void *bound, size_t pin);
 };
 
 /* The models of mux_stored.c (plan-21-C). */
@@ -102,6 +104,10 @@ LogicValue mux_choose(const LogicValue *data, const int *sel, size_t select_coun
 void mux_drive_unit(Sim *sim, SimInstance *inst, const MuxSelectBound *b, size_t u,
                     MuxUnitOut *out, LogicValue v, int shared_oe, const SeqTiming *t);
 int mux_select_open_drain(const MuxSelectBound *b, size_t pin);
+/* 1 when pin is a Y or W of a unit that has an "oe", or whose strobe releases
+   it ("disabled": "z"); shared: the device has common output enables, which
+   release every unit's outputs. */
+int mux_select_tristate(const MuxSelectBound *b, int shared, size_t pin);
 
 /* ---- Small helpers -------------------------------------------------------- */
 

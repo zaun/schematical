@@ -3,8 +3,9 @@ import Foundation
 import XCTest
 @testable import schematical
 
-/// plan-31-C: every PCB edit is one undo step on the PCB list. One test per
-/// row of plan-31-C § Current State, plus the independence of the two lists.
+/// plan-31-C: every PCB edit is one undo step. One test per row of
+/// plan-31-C § Current State, plus the order of the document's one list
+/// across the two pages (plan-61-A).
 @MainActor
 final class PCBUndoTests: XCTestCase {
     private func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { CGPoint(x: x, y: y) }
@@ -13,24 +14,23 @@ final class PCBUndoTests: XCTestCase {
         SchematicFile(document: doc, fileURL: nil)
     }
 
-    /// Runs `edit`, which must change the file, then checks it is one PCB
-    /// step named `name`, not on the Schematic list: undo gives the file
+    /// Runs `edit`, which must change the file, then checks it is one step
+    /// named `name` on top of the step that was there: undo gives the file
     /// before, redo the file after.
     private func assertStep(_ doc: SchematicDocument, _ name: String,
                             file: StaticString = #filePath, line: UInt = #line,
                             _ edit: () throws -> Void) rethrows {
-        let schematic = doc.undoName(on: .schematic)
+        let under = doc.undoName
         let before = self.file(doc)
         try edit()
         let after = self.file(doc)
         XCTAssertNotEqual(before, after, "the edit changed nothing", file: file, line: line)
-        XCTAssertEqual(doc.undoName(on: .pcb), name, file: file, line: line)
-        XCTAssertEqual(doc.undoName(on: .schematic), schematic, "a PCB step is not on the Schematic list",
-                       file: file, line: line)
-        XCTAssertTrue(doc.undo(on: .pcb), file: file, line: line)
+        XCTAssertEqual(doc.undoName, name, file: file, line: line)
+        XCTAssertTrue(doc.undo(), file: file, line: line)
         XCTAssertEqual(self.file(doc), before, "undo", file: file, line: line)
-        XCTAssertEqual(doc.redoName(on: .pcb), name, file: file, line: line)
-        XCTAssertTrue(doc.redo(on: .pcb), file: file, line: line)
+        XCTAssertEqual(doc.undoName, under, "one step went on, and came off", file: file, line: line)
+        XCTAssertEqual(doc.redoName, name, file: file, line: line)
+        XCTAssertTrue(doc.redo(), file: file, line: line)
         XCTAssertEqual(self.file(doc), after, "redo", file: file, line: line)
     }
 
@@ -117,6 +117,21 @@ final class PCBUndoTests: XCTestCase {
         assertStep(doc, "Change Side") { doc.setSide(of: items, .bottom) }
         XCTAssertEqual(doc.chips.first { $0.id == a.id }?.board?.side, .bottom)
         XCTAssertEqual(doc.texts.first { $0.id == text }?.side, .bottom)
+    }
+
+    /// Several selected texts change layer and font size together, one undo
+    /// step each.
+    func testSetLayerAndSizeOfSeveralTexts() throws {
+        let doc = TestSupport.newDocument()
+        let a = doc.addText(at: p(20, 20))
+        let b = doc.addText(at: p(20, 60))
+        assertStep(doc, "Change Layer") { doc.setTextLayer([a, b], .document) }
+        assertStep(doc, "Change Font Size") { doc.setTextSize([a, b], 90) }
+        for id in [a, b] {
+            let text = try XCTUnwrap(doc.texts.first { $0.id == id })
+            XCTAssertEqual(text.layer, .document)
+            XCTAssertEqual(text.size, 90)
+        }
     }
 
     // MARK: Board
@@ -269,51 +284,74 @@ final class PCBUndoTests: XCTestCase {
         assertStep(c.doc, "Move") { c.doc.settleBoardGroup(base) }
     }
 
-    // MARK: Independence of the two lists
+    // MARK: One list for both pages
 
-    func testEachPageUndoesItsOwnSideOfAPart() throws {
+    /// A Schematic move, then a PCB move of the same part: undo takes them
+    /// back in reverse order and redo forward again, each leaving the other
+    /// side of the part alone.
+    func testBothSidesOfAPartUndoInReverseOrder() throws {
         let c = try withPart()
         let origin = c.chip.origin, centre = try board(c.doc, c.chip.id).centre
         c.doc.select(.chip(c.chip.id))
         c.doc.moveSchematicGroup(c.doc.schematicGroupBase(), by: CGSize(width: 100, height: 0))
         c.doc.moveFootprint(c.chip.id, to: p(60, 40))
         let movedOrigin = try XCTUnwrap(c.doc.chips.first?.origin)
+        let movedCentre = try board(c.doc, c.chip.id).centre
         XCTAssertNotEqual(movedOrigin, origin)
+        XCTAssertNotEqual(movedCentre, centre)
 
-        XCTAssertTrue(c.doc.undo(on: .pcb))
-        XCTAssertEqual(try board(c.doc, c.chip.id).centre, centre)
+        XCTAssertTrue(c.doc.undo())
+        XCTAssertEqual(try board(c.doc, c.chip.id).centre, centre, "the PCB move, made last, is undone first")
         XCTAssertEqual(c.doc.chips.first?.origin, movedOrigin, "the Schematic move stays")
 
-        XCTAssertTrue(c.doc.undo(on: .schematic))
+        XCTAssertTrue(c.doc.undo())
         XCTAssertEqual(c.doc.chips.first?.origin, origin)
-        XCTAssertEqual(try board(c.doc, c.chip.id).centre, centre, "the footprint stays where the PCB undo left it")
+        XCTAssertEqual(try board(c.doc, c.chip.id).centre, centre)
+
+        XCTAssertTrue(c.doc.redo())
+        XCTAssertEqual(c.doc.chips.first?.origin, movedOrigin, "the Schematic move, made first, is redone first")
+        XCTAssertEqual(try board(c.doc, c.chip.id).centre, centre)
+        XCTAssertTrue(c.doc.redo())
+        XCTAssertEqual(try board(c.doc, c.chip.id).centre, movedCentre)
+        XCTAssertFalse(c.doc.redo())
     }
 
-    func testPCBStepsAreNeverOnTheSchematicList() throws {
+    /// PCB steps go on the document's list, above the Schematic step made
+    /// before them, and come off in reverse order.
+    func testPCBStepsAreOnTheDocumentsList() throws {
         let c = try withPart()
         c.doc.rotateFootprint(c.chip.id)
         c.doc.setBoardSize(width: 120, height: 90)
         c.doc.addText(at: p(10, 10))
         _ = c.doc.addTrace(from: p(0, 0), to: p(10.16, 0), layer: .top, diagonalFirst: false)
         c.doc.setBoardColor(.red)
-        XCTAssertEqual(c.doc.undoName(on: .schematic), "Add Part")
-        XCTAssertEqual(c.doc.undoName(on: .pcb), "Change Board Color")
+        for name in ["Change Board Color", "Add Trace", "Add Text", "Change Board Size", "Rotate", "Add Part"] {
+            XCTAssertEqual(c.doc.undoName, name)
+            XCTAssertTrue(c.doc.undo())
+        }
+        XCTAssertNil(c.doc.undoName)
+        XCTAssertTrue(c.doc.chips.isEmpty)
+        XCTAssertFalse(c.doc.undo())
     }
 
-    /// The add undone from the Schematic takes the footprint with it, so the
-    /// PCB's move of it changes nothing: it is skipped and the step under it
-    /// undone.
-    func testAPCBStepOnARemovedPartIsSkipped() throws {
+    /// The PCB move of a part is undone before the step that added the part,
+    /// so it always has its part: nothing is skipped.
+    func testAPCBStepIsUndoneBeforeItsPartIsRemoved() throws {
         let doc = TestSupport.newDocument()
         doc.setBoardSize(width: 120, height: 90)
         let chip = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
+        let centre = try board(doc, chip.id).centre
         doc.moveFootprint(chip.id, to: p(60, 40))
-        XCTAssertEqual(doc.undoName(on: .pcb), "Move")
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.undoName, "Move")
+        XCTAssertTrue(doc.undo())
+        XCTAssertEqual(try board(doc, chip.id).centre, centre, "the move is undone, the part stays")
+        XCTAssertEqual(doc.undoName, "Add Part")
+        XCTAssertTrue(doc.undo())
         XCTAssertTrue(doc.chips.isEmpty)
-        XCTAssertTrue(doc.undo(on: .pcb))
-        XCTAssertEqual(doc.board.width, BoardSettings().width, "the board size, under the skipped move, is undone")
-        XCTAssertFalse(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.board.width, 120)
+        XCTAssertTrue(doc.undo())
+        XCTAssertEqual(doc.board.width, BoardSettings().width)
+        XCTAssertFalse(doc.undo())
     }
 
     func testTextToolGestureIsOneAddText() throws {
@@ -327,9 +365,9 @@ final class PCBUndoTests: XCTestCase {
         }
         doc.settleBoardGroup(base)
         doc.endGesture()
-        XCTAssertEqual(doc.undoName(on: .pcb), "Add Text")
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.undoName, "Add Text")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.state, before)
-        XCTAssertNil(doc.undoName(on: .pcb))
+        XCTAssertNil(doc.undoName)
     }
 }

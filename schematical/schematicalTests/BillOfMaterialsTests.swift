@@ -128,4 +128,33 @@ final class BillOfMaterialsTests: XCTestCase {
         XCTAssertEqual(BillOfMaterials.csv([first]).split(separator: "\r\n").last,
                        "3,\"R1, R2, R3\",RESISTOR,0805,4.7kΩ,,Resistor")
     }
+
+    /// plan-58-G: slide switches are S lines with their part number, package and
+    /// description (circuit and action), one line for the same part.
+    func testSlideSwitchesAreSLines() throws {
+        let doc = TestSupport.newDocument()
+        let part = try TestSupport.part("1103M2S3CBE2")
+        try TestSupport.place(doc, part.name, at: CGPoint(x: 100, y: 100))
+        try TestSupport.place(doc, part.name, at: CGPoint(x: 300, y: 100))
+        try TestSupport.place(doc, "1101M2S3CQE2", at: CGPoint(x: 500, y: 100))
+        let lines = BillOfMaterials.lines(for: doc.chips)
+        XCTAssertEqual(lines.count, 2)
+        let line = try XCTUnwrap(lines.first { $0.partNumber == part.name })
+        XCTAssertEqual(line.references, ["S1", "S2"])
+        XCTAssertEqual(line.quantity, 2)
+        XCTAssertEqual(line.package, part.package)
+        XCTAssertEqual(line.description, part.description)
+        XCTAssertTrue(line.description.contains("SPDT") && line.description.contains("On-Off-On"), line.description)
+        let other = try XCTUnwrap(lines.first { $0.partNumber == "1101M2S3CQE2" })
+        XCTAssertEqual(other.references, ["S3"])
+        XCTAssertTrue(other.description.contains("On-On"), other.description)
+        // The knob position is not part of the line.
+        doc.setSlideState(doc.chips[0].id, to: 3)
+        XCTAssertEqual(BillOfMaterials.lines(for: doc.chips).count, 2)
+        for slide in TestSupport.allParts.filter(\.isSlideSwitch) {
+            let words = slide.function.split(separator: " ").map(String.init)
+            XCTAssertTrue(slide.description.contains(words[0]) && slide.description.contains(words[1]),
+                          "\(slide.name): \(slide.description) / \(slide.function)")
+        }
+    }
 }

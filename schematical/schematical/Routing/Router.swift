@@ -54,6 +54,16 @@ nonisolated enum Router {
         var polishBend = 1.0
         /// The price per cell, while improving, of a way through other nets' copper (they are then routed again); 0 never tries one.
         var polishPresent = 3.0
+        /// Push and shove (plan-66-D): how far, mm, copper that gives way may move from where it was.
+        var pushReach = 1.0
+        /// The price, per cell of travel, of each cell of distance from the old line while a piece is re-laid.
+        var pushDeviation = 1.0
+        /// How deep pushes nest: the connection pushes copper, and that copper may push once more at 2.
+        var pushDepth = 2
+        /// The most pieces of copper one connection may push.
+        var pushMaxVictims = 12
+        /// Each search inside a push gives up after this many expansions.
+        var pushMaxExpansions = 200_000
 
         static func of(_ strategy: RoutingOptions.Strategy) -> Strategy {
             switch strategy {
@@ -109,8 +119,11 @@ nonisolated enum Router {
                     }, isCancelled: stop)
                     let copper = run.finishedCopper()
                     var result = run.result(traces: copper.traces, vias: copper.vias)
+                    result.moved = copper.moved
+                    result.stats.movedTraces = copper.moved.reduce(0) { $0 + $1.runs.count }
+                    result.stats.movedVias = copper.moved.reduce(0) { $0 + $1.vias.count }
                     if !problem.groups.isEmpty {
-                        result = Self.tuned(result, problem: problem, pairs: run.pairStatus)
+                        result = Self.tuned(result, problem: Self.withChainsAsObstacles(problem, copper), pairs: run.pairStatus)
                     }
                     result.stats.bends = Self.bends(result.traces)
                     result.stats.seconds = Date().timeIntervalSince(start)
@@ -131,9 +144,35 @@ nonisolated enum Router {
                     best = result
                 }
                 best?.stats.seconds = Date().timeIntervalSince(start)
+                // The pushes every run tried, not only the kept run's.
+                best?.stats.pushTried = results.compactMap { $0?.stats.pushTried }.reduce(0, +)
+                best?.stats.pushKept = results.compactMap { $0?.stats.pushKept }.reduce(0, +)
                 return best ?? RoutingResult()
             }
         }
+    }
+
+    /// `problem` with every chain of existing copper, as it stands after the run, among the obstacles
+    /// (what the tuning and its check must keep clear of).
+    static func withChainsAsObstacles(_ problem: RoutingProblem, _ copper: FinishedCopper) -> RoutingProblem {
+        guard !problem.movable.isEmpty else { return problem }
+        var problem = problem
+        for trace in copper.chainTraces {
+            for (a, b) in zip(trace.points, trace.points.dropFirst()) {
+                problem.obstacles.append(RoutingObstacle(shape: CopperShape(core: .segment(a, b), radius: trace.width / 2,
+                                                                            layers: [trace.layer], node: 30_000_000 + problem.obstacles.count),
+                                                         net: trace.net, kind: .trace))
+            }
+        }
+        for via in copper.chainVias {
+            let core = CopperShape.Core.segment(via.centre, via.centre)
+            problem.obstacles.append(RoutingObstacle(shape: CopperShape(core: core, radius: via.diameter / 2, layers: nil,
+                                                                        node: 30_000_000 + problem.obstacles.count),
+                                                     net: via.net, kind: .via,
+                                                     drill: CopperShape(core: core, radius: via.drill / 2, layers: nil, node: 0)))
+        }
+        problem.movable = []
+        return problem
     }
 
     /// `result` with its length-match groups tuned (plan-38-I): any tuned
@@ -171,7 +210,11 @@ nonisolated enum Router {
         func score(_ r: RoutingResult) -> Double {
             r.stats.wireLength + pitch * (strategy.polishVia * Double(r.stats.vias) + strategy.polishBend * Double(r.stats.bends))
         }
-        return a.stats.routed != b.stats.routed ? a.stats.routed > b.stats.routed : score(a) < score(b) - 1e-9
+        if a.stats.routed != b.stats.routed { return a.stats.routed > b.stats.routed }
+        let (sa, sb) = (score(a), score(b))
+        if abs(sa - sb) > 1e-9 { return sa < sb }
+        // Equal: the run that moved less existing copper (plan-66-E).
+        return a.stats.movedTraces + a.stats.movedVias < b.stats.movedTraces + b.stats.movedVias
     }
 
     /// The corners in `traces`: vertices where a trace changes direction.
@@ -237,6 +280,11 @@ nonisolated enum Router {
         /// Improvement moves tried and kept.
         var polishTried = 0
         var polishKept = 0
+        /// Pushes tried and kept (plan-66-D), and the scratch fields they search under.
+        var pushTried = 0
+        var pushKept = 0
+        var corridor = RoutingCorridor()
+        var avoid = RoutingCorridor(background: 0)
         var grid: RoutingGrid { state.grid }
 
         init(problem: RoutingProblem, strategy: Strategy = .of(.balanced), seed: UInt64 = 1) {
@@ -469,6 +517,13 @@ nonisolated enum Router {
                 let targets = state.nodes(components: target.0, entries: target.1, net: net.id)
                 if isCancelled() { stopped = true; break }
                 var path = find(hard, sources: sources, targets: targets, plan: prices, isCancelled: isCancelled)
+                // No legal way: with push and shove, the copper in the way gives way before anything is ripped up.
+                if path == nil, problem.options.pushAndShove, !stopped, !pairNets.contains(net.id), !pinned.contains(net.id),
+                   tryPush(net, sources: sources, targets: targets, mainComponents: main.0, targetComponents: target.0,
+                           plan: prices, blocked: true, isCancelled: isCancelled) {
+                    report(progress, round: round, net: net.name)
+                    continue
+                }
                 // An improvement move (`shove`) also looks through other nets'
                 // copper when the legal way needs a via, and takes that way
                 // when it needs fewer.
@@ -484,6 +539,10 @@ nonisolated enum Router {
                         all += state.ledger.filter { group.nets.contains($0.net) && !all.contains($0.id) }.map(\.id)
                     }
                     let nets = Set(all.compactMap { state.entries[$0]?.net })
+                    // Existing copper that may move is never ripped up: a way through it is no way.
+                    if all.contains(where: { state.entries[$0]?.chain != nil }) {
+                        all = []
+                    }
                     if polishing {
                         // A move is kept or undone whole (`attempt`): no budget, no
                         // history, and never a coupled pair's copper.
@@ -505,10 +564,7 @@ nonisolated enum Router {
                     skipped.insert(target.0[0])
                     continue
                 }
-                let startTie = state.tie(found[0], net: net.id, components: main.0)
-                let endTie = state.tie(found[found.count - 1], net: net.id, components: target.0)
-                let copper = Router.copper(found, startTie: startTie, endTie: endTie, net: net, grid: grid)
-                state.add(net: net.id, path: found, traces: copper.traces, vias: copper.vias, allowed: hard.allowed)
+                addConnection(found, net: net, mainComponents: main.0, targetComponents: target.0, allowed: hard.allowed)
                 report(progress, round: round, net: net.name)
             }
             return Array(Set(lost)).sorted()
@@ -531,17 +587,30 @@ nonisolated enum Router {
             if now.timeIntervalSince(lastSnapshot) >= Self.snapshotInterval {
                 lastSnapshot = now
                 let ledger = state.ledger
-                report.traces = ledger.flatMap(\.traces)
-                report.vias = ledger.flatMap(\.vias)
+                // The copper the run laid; existing copper is already on the board.
+                report.traces = ledger.filter { $0.chain == nil }.flatMap(\.traces)
+                report.vias = ledger.filter { $0.chain == nil }.flatMap(\.vias)
             }
             progress(report)
         }
 
+        /// Puts the connection a search found on the ledger: its path as copper, tied to the
+        /// terminals at both ends. Returns the entry's id.
+        @discardableResult
+        mutating func addConnection(_ found: [Int], net: RoutingNet, mainComponents: [Int], targetComponents: [Int],
+                                    allowed: [Bool]) -> Int {
+            let startTie = state.tie(found[0], net: net.id, components: mainComponents)
+            let endTie = state.tie(found[found.count - 1], net: net.id, components: targetComponents)
+            let copper = Router.copper(found, startTie: startTie, endTie: endTie, net: net, grid: grid)
+            return state.add(net: net.id, path: found, traces: copper.traces, vias: copper.vias, allowed: allowed)
+        }
+
         mutating func find(_ rules: SearchRules, sources: [Int], targets: [Int], plan: RoutingPlanCosts? = nil,
-                           isCancelled: () -> Bool) -> [Int]? {
+                           corridor: [Float]? = nil, isCancelled: () -> Bool) -> [Int]? {
             guard !sources.isEmpty, !targets.isEmpty else { return nil }
             switch search.search(grid, rules: rules, sources: sources, targets: targets, goal: grid.cellBox(targets),
-                                 history: rules.present > 0 ? state.history : nil, plan: plan, isCancelled: isCancelled) {
+                                 history: rules.present > 0 ? state.history : nil, plan: plan, corridor: corridor,
+                                 isCancelled: isCancelled) {
             case let .success(path): return path
             case .failure(.cancelled): stopped = true; return nil
             case .failure: return nil
@@ -616,7 +685,7 @@ nonisolated enum Router {
         /// net's outcome.
         var result: RoutingResult {
             var traces: [RoutedTrace] = [], vias: [RoutedVia] = []
-            for entry in state.ledger {
+            for entry in state.ledger where entry.chain == nil {
                 traces += entry.traces
                 vias += entry.vias
             }
@@ -643,6 +712,8 @@ nonisolated enum Router {
             result.stats.planOveruse = plan?.overuse ?? 0
             result.stats.polishTried = polishTried
             result.stats.polishKept = polishKept
+            result.stats.pushTried = pushTried
+            result.stats.pushKept = pushKept
             return result
         }
 

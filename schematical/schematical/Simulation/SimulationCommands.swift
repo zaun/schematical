@@ -18,10 +18,6 @@ struct SimulationTarget {
     var toggle: () -> Void
 }
 
-extension FocusedValues {
-    /// Set by each schematic window while it is key.
-    @Entry var schematicSimulation: SimulationTarget?
-}
 
 /// The Speed submenu's choices: circuit time per real time, from real time
 /// down to 1/1,000,000.
@@ -39,13 +35,26 @@ enum SimulationSpeed {
 }
 
 struct SimulationCommands: Commands {
-    @FocusedValue(\.schematicSimulation) private var target
-    /// An app preference; each schematic window follows it.
-    @AppStorage("simulationSpeed") private var speed = 1.0
+    @FocusedValue(\.schematicEditor) private var editor
 
     var body: some Commands {
         CommandGroup(replacing: .printItem) {}
         CommandMenu("Simulation") {
+            SimulationMenuItems(editor: editor)
+        }
+    }
+}
+
+/// A view, so Run / Stop and the reason under it are rendered again when the
+/// page, the parts or the run they read changes (`EditorMenus`).
+private struct SimulationMenuItems: View {
+    let editor: SchematicEditorModel?
+    /// An app preference; each schematic window follows it.
+    @AppStorage("simulationSpeed") private var speed = 1.0
+
+    var body: some View {
+        let target = editor?.menus.simulation?()
+        Group {
             Button(target?.isRunning == true ? "Stop" : "Run") { target?.toggle() }
                 // ⌘P is File › Print… (`SchematicFileCommands`).
                 .keyboardShortcut("p", modifiers: [.command, .option])

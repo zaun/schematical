@@ -20,5 +20,6 @@ static void *leddriver_load_device(KindContext *ctx, const cJSON *json) {
 
 const PartKindOps LEDDRIVER_KIND = {
     PART_LEDDRIVER, "leddriver", &CONVERTER_COMPONENT, DEVICE_KEYS, PART_KEYS,
-    leddriver_load_device, cv_bind_pinout, cv_load_part, cv_pin_open_drain, cv_pin_analog
+    leddriver_load_device, cv_bind_pinout, cv_load_part, cv_pin_open_drain, cv_pin_analog,
+    cv_pin_tristate
 };

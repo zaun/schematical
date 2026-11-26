@@ -23,6 +23,7 @@ final class RoutingOptionsTests: XCTestCase {
         options.widthOverride = 12
         options.clearanceOverride = 0.2
         options.fanoutPlanes = false
+        options.pushAndShove = true
         options.seed = 42
         options.timeLimit = 30
         let data = try JSONEncoder().encode(options)
@@ -30,6 +31,19 @@ final class RoutingOptionsTests: XCTestCase {
 
         options.scope = .connection(from: CGPoint(x: 1, y: 2), to: CGPoint(x: 3, y: 4))
         XCTAssertEqual(try JSONDecoder().decode(RoutingOptions.self, from: try JSONEncoder().encode(options)), options)
+    }
+
+    /// A value saved before plan-66 has no `pushAndShove` key: it decodes as off.
+    func testAnOldSavedValueHasPushAndShoveOff() throws {
+        let data = try JSONEncoder().encode(RoutingOptions.standard)
+        var json = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        XCTAssertNotNil(json["pushAndShove"], "the key is saved")
+        json["pushAndShove"] = nil
+        let old = try JSONSerialization.data(withJSONObject: json)
+        let decoded = try JSONDecoder().decode(RoutingOptions.self, from: old)
+        XCTAssertFalse(decoded.pushAndShove)
+        XCTAssertEqual(decoded, RoutingOptions.standard)
+        XCTAssertFalse(RoutingOptions.standard.pushAndShove, "off by default")
     }
 
     func testUnknownStrategyFails() {

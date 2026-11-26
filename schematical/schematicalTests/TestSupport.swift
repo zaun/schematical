@@ -1,3 +1,4 @@
+import AppKit
 import CoreGraphics
 import Foundation
 import XCTest
@@ -23,6 +24,39 @@ enum TestSupport {
         let doc = SchematicDocument()
         keptDocuments.append(doc)
         return doc
+    }
+
+    /// System documents made by tests, kept like `keptDocuments`.
+    private static var keptSystemDocuments: [SchematicNSDocument] = []
+
+    /// Keeps a system document for the life of the test process.
+    @discardableResult
+    static func keep(_ document: SchematicNSDocument) -> SchematicNSDocument {
+        keptSystemDocuments.append(document)
+        return document
+    }
+
+    /// The system document (`SchematicNSDocument`) of `doc`, as a window's
+    /// would be: its exporter is `model.file`. Kept like `newDocument()`.
+    static func systemDocument(of doc: SchematicDocument, catalog: PartCatalogStore? = nil) -> SchematicNSDocument {
+        keep(SchematicNSDocument(model: SchematicEditorModel(catalog: catalog ?? self.catalog, document: doc)))
+    }
+
+    /// `systemDocument(of:catalog:)`, listed among the app's open documents
+    /// until `test` ends (what follows a User Library update, plan-53-D).
+    @discardableResult
+    static func openSystemDocument(of doc: SchematicDocument, catalog: PartCatalogStore,
+                                   until test: XCTestCase) -> SchematicNSDocument {
+        let document = systemDocument(of: doc, catalog: catalog)
+        NSDocumentController.shared.addDocument(document)
+        test.addTeardownBlock { @MainActor in NSDocumentController.shared.removeDocument(document) }
+        return document
+    }
+
+    /// One turn of the run loop: `NSDocument` takes in its undo manager's
+    /// notifications (and so its Edited state) on the next turn.
+    static func turnRunLoop() {
+        RunLoop.main.run(until: Date().addingTimeInterval(0.05))
     }
 
     /// A document with the catalog's part library, so edits run the voltage

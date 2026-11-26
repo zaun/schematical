@@ -34,7 +34,7 @@ final class PourFillTests: XCTestCase {
             let net = nets.map { $0[i] } ?? ground
             if let net { map[pour.id] = net }
         }
-        return PourFiller.fill(pours: pours, nets: map, keepouts: keepouts, copper: copper, outline: outline,
+        return PourFiller.fill(pours: pours, nets: map, keepouts: keepouts, copper: copper, board: BoardEdge(outline: outline),
                                edge: rules.minCopperToEdge, rules: rules)
     }
 
@@ -243,7 +243,7 @@ final class PourFillTests: XCTestCase {
         let top = pour(rect, layer: .top, connection: .thermal), bottom = pour(rect, layer: .bottom, connection: .thermal)
         let started = Date()
         let result = PourFiller.fill(pours: [top, bottom], nets: [top.id: net, bottom.id: net], keepouts: [],
-                                     copper: read.items, outline: doc.board.outline, edge: doc.board.rules.minCopperToEdge,
+                                     copper: read.items, board: doc.boardEdge, edge: doc.board.rules.minCopperToEdge,
                                      rules: doc.board.rules)
         let elapsed = Date().timeIntervalSince(started)
         print("PourFillTests: real board fill took \(elapsed) s, pieces \(result.values.map(\.pieces.count))")

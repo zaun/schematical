@@ -151,6 +151,10 @@ struct VoiceSlots {
 /// Owns the audio engine of one simulation controller.
 @MainActor
 final class BuzzerSound {
+    /// As `SchematicDocument`'s: an isolated deinit aborts the runtime when
+    /// a closing document frees this.
+    nonisolated deinit {}
+
     private var engine: AVAudioEngine?
     private var renderer: ToneRenderer?
     private var slots = VoiceSlots()

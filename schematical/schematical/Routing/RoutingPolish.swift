@@ -14,7 +14,7 @@ nonisolated extension Router.Run {
     /// A net the improvement may take up: not fanned out to a Plane, not a
     /// coupled pair's (a pair is one piece, and stays as routed).
     func polishable(_ net: Int) -> Bool {
-        guard let routing = state.netsByID[net], routing.impossible == nil else { return false }
+        guard let routing = state.netsByID[net], routing.impossible == nil, !state.bystanders.contains(net) else { return false }
         return !pinned.contains(net) && !pairNets.contains(net) && !fansOut(routing)
     }
 
@@ -108,7 +108,7 @@ nonisolated extension Router.Run {
             // Each connection alone: the legal way first, then through others.
             for id in state.ledger.map(\.id) {
                 if stopped || isCancelled() { stopped = true; return }
-                guard let entry = state.entries[id], !stale(id, entry.box) else { continue }
+                guard let entry = state.entries[id], entry.chain == nil, !stale(id, entry.box) else { continue }
                 if let box = attempt(rip: [id], shove: false, round: pass, progress: progress, isCancelled: isCancelled) {
                     changes.append(box)
                     kept += 1

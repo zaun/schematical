@@ -78,6 +78,10 @@ nonisolated struct RoutingOptions: Codable, Hashable, Sendable {
     var fanoutPlanes = true
     var tuneGroups = true
     var routePairs = true
+    /// Move other nets' unlocked copper aside to make room for a connection
+    /// that has no legal way otherwise; locked copper never moves
+    /// (plan-66). Off by default: it can move copper the user drew.
+    var pushAndShove = false
     /// Kept in saved options. Every run of a route uses it unchanged, so it
     /// does not change the result: the runs of Balanced and Thorough differ
     /// by what a via costs the first routing (`Router.Strategy.viaCosts`).
@@ -95,7 +99,7 @@ nonisolated struct RoutingOptions: Codable, Hashable, Sendable {
 
     private enum CodingKeys: String, CodingKey {
         case scope, include, existing, layers, vias, angle, strategy, grid, widthOverride, clearanceOverride,
-             fanoutPlanes, tuneGroups, routePairs, seed, timeLimit
+             fanoutPlanes, tuneGroups, routePairs, pushAndShove, seed, timeLimit
     }
 
     init() {}
@@ -125,6 +129,7 @@ nonisolated struct RoutingOptions: Codable, Hashable, Sendable {
         fanoutPlanes = try c.decodeIfPresent(Bool.self, forKey: .fanoutPlanes) ?? true
         tuneGroups = try c.decodeIfPresent(Bool.self, forKey: .tuneGroups) ?? true
         routePairs = try c.decodeIfPresent(Bool.self, forKey: .routePairs) ?? true
+        pushAndShove = try c.decodeIfPresent(Bool.self, forKey: .pushAndShove) ?? false
         seed = try c.decodeIfPresent(UInt64.self, forKey: .seed) ?? 1
         timeLimit = try c.decodeIfPresent(Double.self, forKey: .timeLimit)
     }
@@ -144,6 +149,7 @@ nonisolated struct RoutingOptions: Codable, Hashable, Sendable {
         try c.encode(fanoutPlanes, forKey: .fanoutPlanes)
         try c.encode(tuneGroups, forKey: .tuneGroups)
         try c.encode(routePairs, forKey: .routePairs)
+        try c.encode(pushAndShove, forKey: .pushAndShove)
         try c.encode(seed, forKey: .seed)
         try c.encodeIfPresent(timeLimit, forKey: .timeLimit)
     }

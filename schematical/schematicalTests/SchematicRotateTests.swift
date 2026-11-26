@@ -3,8 +3,9 @@ import Foundation
 import XCTest
 @testable import schematical
 
-/// Rotate on the Schematic: LEDs, diodes, resistors and capacitors turn in
-/// quarter turns; nothing else does. The symbol's drawing follows the pins.
+/// Rotate on the Schematic: every part drawn as its own symbol turns in
+/// quarter turns; the parts drawn as a box and the supplies don't. The
+/// symbol's drawing follows the pins.
 @MainActor
 final class SchematicRotateTests: XCTestCase {
     private static let rotatable = ["GENERIC-LED", "1N4001-E3/54", "GENERIC-RESISTOR", "GENERIC-CAPACITOR"]
@@ -90,14 +91,14 @@ final class SchematicRotateTests: XCTestCase {
 
         doc.rotateChip(led.id)
         XCTAssertEqual(turn(led.id), 90)
-        XCTAssertEqual(doc.undoName(on: .schematic), "Rotate")
+        XCTAssertEqual(doc.undoName, "Rotate")
         doc.rotateChip(led.id, counterclockwise: true)
         doc.rotateChip(led.id, counterclockwise: true)
         XCTAssertEqual(turn(led.id), 270)
         XCTAssertEqual(doc.wires.count, 1, "the wire stays")
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(turn(led.id), 0)
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(turn(led.id), 90)
 
         // A wire end follows its pin.
@@ -108,7 +109,87 @@ final class SchematicRotateTests: XCTestCase {
         XCTAssertTrue(route.contains(tip), "the wire ends on the turned pin")
     }
 
-    /// Other parts don't rotate; the part symbols that can are the four.
+    /// Every symbol that turns: each pin's tip stays on the grid, and the
+    /// drawing's lead to it ends on it, for every flip and turn. The lead
+    /// ends are each symbol's own (the unturned pin rows of `ChipLayout`).
+    func testEverySymbolFollowsItsPins() throws {
+        let doc = TestSupport.newDocument()
+        var seen: Set<PartSymbol> = []
+        // One part of each shape: a crystal with and without `GND`, a barrel jack with and without a switch.
+        var shapes: Set<String> = []
+        for part in TestSupport.allParts {
+            let symbol = symbol(for: part)
+            guard symbol.canRotate else { continue }
+            let shape = ChipLayout(part: part, symbol: symbol)
+            guard shapes.insert("\(symbol) \(shape.size) \(shape.slots.count)").inserted else { continue }
+            seen.insert(symbol)
+            let chip = try TestSupport.place(doc, part.name, at: CGPoint(x: 200, y: 200))
+            let stub = ChipLayout.stubLength
+            // Unturned and unflipped: where each pin's lead ends.
+            var ends: [Int: CGPoint] = [:]
+            for slot in chip.layout.slots {
+                switch slot.side {
+                case .left: ends[slot.pin.index] = CGPoint(x: -stub, y: slot.centerY)
+                case .right: ends[slot.pin.index] = CGPoint(x: chip.unturnedSize.width + stub, y: slot.centerY)
+                case .top: ends[slot.pin.index] = CGPoint(x: slot.centerX, y: -stub)
+                case .bottom: ends[slot.pin.index] = CGPoint(x: slot.centerX, y: chip.unturnedSize.height + stub)
+                }
+            }
+            XCTAssertFalse(ends.isEmpty, part.name)
+            for flipped in [false, true] {
+                for degrees in [0, 90, 180, 270] {
+                    var turned = chip
+                    turned.isFlipped = flipped
+                    turned.rotation = degrees
+                    let label = "\(part.name) flipped=\(flipped) \(degrees)"
+                    let frame = CGRect(origin: .zero, size: turned.symbolFrameSize).insetBy(dx: -1e-9, dy: -1e-9)
+                    XCTAssertEqual(turned.layout.slots.count, ends.count, label)
+                    for slot in turned.layout.slots {
+                        let tip = turned.tip(of: slot)
+                        let end = try XCTUnwrap(ends[slot.pin.index])
+                        let drawn = turned.symbolPoint(end.x, end.y)
+                        XCTAssertEqual(turned.viewOrigin.x + drawn.x, tip.x, accuracy: 1e-9, label)
+                        XCTAssertEqual(turned.viewOrigin.y + drawn.y, tip.y, accuracy: 1e-9, label)
+                        XCTAssertTrue(frame.contains(drawn), label)
+                        if degrees != 0 {
+                            // Off the grid only where the unturned pin is (the barrel jack's sleeve).
+                            let onGrid = end.x.truncatingRemainder(dividingBy: 10) == 0
+                                && end.y.truncatingRemainder(dividingBy: 10) == 0
+                            if onGrid {
+                                XCTAssertEqual(tip.x.truncatingRemainder(dividingBy: 10), 0, label)
+                                XCTAssertEqual(tip.y.truncatingRemainder(dividingBy: 10), 0, label)
+                            }
+                        }
+                    }
+                    // The reference has a place, inside the frame's width.
+                    let anchor = try XCTUnwrap(ReferenceLabel.anchor(for: turned), label)
+                    XCTAssertTrue((0...turned.symbolFrameSize.width).contains(anchor.x), label)
+                }
+            }
+        }
+        let expected: Set<PartSymbol> = [.diode, .plainDiode, .capacitor, .resistor, .crystal, .inductor, .fuse,
+                                         .buzzer, .transistor, .testPoint, .barrelJack]
+        XCTAssertEqual(seen, expected, "a part of every symbol that turns is in the catalog")
+    }
+
+    /// A transistor turns with its wires: a quarter turn puts the base on
+    /// top and the collector and emitter below.
+    func testTransistorTurns() throws {
+        let doc = TestSupport.newDocument()
+        let name = try XCTUnwrap(TestSupport.allParts.first { symbol(for: $0) == .transistor }?.name)
+        let chip = try TestSupport.place(doc, name, at: CGPoint(x: 200, y: 200))
+        XCTAssertEqual(chip.layout.slots.map(\.side), [.left, .right, .right])
+        doc.rotateChip(chip.id)
+        let turned = try XCTUnwrap(doc.chips.first { $0.id == chip.id })
+        XCTAssertEqual(turned.rotation, 90)
+        XCTAssertEqual(turned.layout.slots.map(\.side), [.top, .bottom, .bottom])
+        XCTAssertEqual(turned.layout.size, CGSize(width: 60, height: 80))
+        XCTAssertEqual(doc.undoName, "Rotate")
+        doc.flipChip(chip.id)
+        XCTAssertEqual(doc.chips.first { $0.id == chip.id }?.layout.slots.map(\.side), [.bottom, .top, .top])
+    }
+
+    /// Parts drawn as a box and the supplies don't rotate.
     func testOnlyTwoTerminalPartsRotate() throws {
         let doc = TestSupport.newDocument()
         let gate = try TestSupport.place(doc, "SN74HC00D", at: CGPoint(x: 100, y: 100))
@@ -116,11 +197,13 @@ final class SchematicRotateTests: XCTestCase {
         doc.rotateChip(gate.id)
         doc.rotateChip(supply.id)
         XCTAssertEqual(doc.chips.map(\.rotation), [0, 0])
-        XCTAssertNotEqual(doc.undoName(on: .schematic), "Rotate")
-        for symbol in [PartSymbol.block, .vcc, .ground, .pullUp, .pullDown, .transistor, .dipSwitch, .header] {
+        XCTAssertNotEqual(doc.undoName, "Rotate")
+        for symbol in [PartSymbol.block, .oscillator, .vcc, .ground, .pullUp, .pullDown, .dipSwitch, .tactileSwitch,
+                       .slideSwitch, .sevenSegment, .nixie, .dekatron, .characterLCD, .relay, .header] {
             XCTAssertFalse(symbol.canRotate, "\(symbol)")
         }
-        for symbol in [PartSymbol.diode, .plainDiode, .capacitor, .resistor] {
+        for symbol in [PartSymbol.diode, .plainDiode, .capacitor, .resistor, .crystal, .inductor, .fuse, .buzzer,
+                       .transistor, .testPoint, .barrelJack] {
             XCTAssertTrue(symbol.canRotate, "\(symbol)")
         }
     }

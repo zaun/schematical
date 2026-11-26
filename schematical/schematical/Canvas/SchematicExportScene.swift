@@ -13,6 +13,8 @@ struct SchematicScene {
     /// Every junction that shows a dot (`showsDot`), none selected.
     var junctions: [JunctionDot]
     var notes: [SchematicNote]
+    /// The title block, when it is on the schematic (plan-64-C).
+    var titleBlock: TitleBlockLayout?
     var netLabels: [NetLabel]
     /// Per chip, the pins with a wire on them (no pin number drawn).
     var connectedPins: [UUID: Set<Int>]
@@ -24,27 +26,32 @@ struct SchematicScene {
         // A loose end gets a dot only where it branches, and it exports black.
         junctions = document.junctions.filter(document.showsDot).map { JunctionDot(point: $0.point) }
         notes = document.notes
+        titleBlock = document.titleBlockLayout
         netLabels = document.netLabels
         connectedPins = document.connectedPins
     }
 
     var isEmpty: Bool {
-        chips.isEmpty && buses.isEmpty && routes.isEmpty && notes.isEmpty && netLabels.isEmpty
+        chips.isEmpty && buses.isEmpty && routes.isEmpty && notes.isEmpty && netLabels.isEmpty && titleBlock == nil
     }
 
     func paint<P: SchematicPainter>(into painter: inout P) {
+        if let titleBlock { TitleBlockLayer.paint(&painter, layout: titleBlock) }
         NoteLayer.paint(&painter, notes: notes, selectedNoteIDs: [], hoveredNoteID: nil)
         BusLayer.paint(&painter, buses: buses, selectedBusIDs: [], hoveredBusID: nil, preview: nil)
         PortLayer.paint(&painter, buses: buses, selectedPortID: nil, hoveredPortID: nil)
         WireLayer.paint(&painter, routes: routes, junctions: junctions, selectedWireIDs: [],
                         hoveredWireID: nil, preview: nil)
         NetLabelLayer.paint(&painter, labels: netLabels, selectedIDs: [], hoveredID: nil)
-        for chip in chips {
+        // Each part, or each unit of a part drawn as its units (plan-67).
+        for chip in chips.flatMap(\.pieces) {
             var placed = painter
             let wired = connectedPins[chip.id] ?? []
             placed.translateBy(x: chip.viewOrigin.x, y: chip.viewOrigin.y)
             // No `default`: a new symbol must say how it exports.
             switch chip.symbol {
+            case .gate:
+                GateSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .block, .oscillator:
                 ChipBlockView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired)
             case .barrelJack:
@@ -80,6 +87,8 @@ struct SchematicScene {
                 DipSwitchSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired)
             case .tactileSwitch:
                 TactileSwitchSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired)
+            case .slideSwitch:
+                SlideSwitchSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired)
             case .sevenSegment:
                 SevenSegmentSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired, levels: [])
             case .nixie:

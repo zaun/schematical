@@ -67,6 +67,19 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var y: Double
     }
 
+    /// One unit of a part drawn as its units (`Part.units`).
+    struct Unit: Codable, Equatable, Sendable {
+        /// The unit's key: "A", "B", … or "P".
+        var unit: String
+        /// Top-left corner of the unit's body, in canvas units.
+        var x: Double
+        var y: Double
+        /// Left out unless true.
+        var flipped: Bool? = nil
+        /// 90, 180 or 270, gates only. Left out when 0.
+        var rotation: Int? = nil
+    }
+
     struct Part: Codable, Equatable, Sendable {
         var id: UUID
         var reference: String
@@ -75,9 +88,15 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var x: Double
         var y: Double
         var flipped: Bool
-        /// LEDs, diodes, resistors and capacitors only: how far the part is
+        /// Parts drawn as their own symbol only (`PartSymbol.canRotate`): how far the part is
         /// turned clockwise on the Schematic, 0, 90, 180 or 270. Left out when 0.
         var rotation: Int? = nil
+        /// A part drawn as its units only (plan-67; a gate IC in Gate view):
+        /// where each unit is, every unit of the part once. Then `x`, `y` are
+        /// the corner of the box around them, `flipped` is false and
+        /// `rotation` is left out. Left out for a part drawn as one block; a
+        /// list that does not name exactly the part's units is ignored.
+        var units: [Unit]? = nil
         /// DIP switches only: whether each position is ON, position 1 first.
         /// Left out for other parts.
         var switches: [Bool]? = nil
@@ -212,6 +231,13 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// Keep-outs the pours stay out of. Written only when there are
         /// some; missing means none.
         var keepouts: [KeepoutEntry]? = nil
+        /// A Custom board's free-form outline (plan-65): clockwise or not, its
+        /// bounds' top-left at (0, 0). Written only for such a board; it wins
+        /// over `width` and `height`.
+        var outline: [Point]? = nil
+        /// Cutouts of the board, in drawing order. Written only when there
+        /// are some; missing means none.
+        var cutouts: [CutoutEntry]? = nil
         /// Net classes, in priority order. Written only when there are
         /// some; missing means none (every net in the Default class).
         var netClasses: [NetClassEntry]? = nil
@@ -374,6 +400,21 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var locked: Bool? = nil
         }
 
+        /// A cutout (plan-65): `shape` "rounded" has `x`, `y`, `width`,
+        /// `height` and `radius` (mm; a missing radius is 0), "polygon" has
+        /// `points`.
+        struct CutoutEntry: Codable, Equatable, Sendable {
+            var id: UUID
+            var shape: String
+            var x: Double? = nil
+            var y: Double? = nil
+            var width: Double? = nil
+            var height: Double? = nil
+            var radius: Double? = nil
+            var points: [Point]? = nil
+            var locked: Bool? = nil
+        }
+
         /// A via: its centre, hole (`drill`) and metal (`diameter`), in mm.
         /// Missing sizes mean the defaults (0.4 and 0.8).
         struct ViaEntry: Codable, Equatable, Sendable {
@@ -443,6 +484,21 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var y: Double
         var size: Int? = nil
         var framed: Bool? = nil
+    }
+
+    /// The document's information (plan-64): every key optional. Dates are
+    /// ISO 8601, UTC. `titleBlock` is present exactly when the title block
+    /// is on the schematic.
+    struct DocumentInfoEntry: Codable, Equatable, Sendable {
+        var title: String? = nil
+        var author: String? = nil
+        var revision: String? = nil
+        var description: String? = nil
+        var created: String? = nil
+        var updated: String? = nil
+        /// Written only as `false`.
+        var automaticDates: Bool? = nil
+        var titleBlock: Point? = nil
     }
 
     /// A net label: its point (`x`, `y`, canvas units), net name, type
@@ -594,10 +650,27 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     /// Net labels, in drawing order. Written only when there are some;
     /// missing means none.
     var labels: [Label]? = nil
+    /// The document's title, author, dates and title block (plan-64).
+    /// Written only when it is not the default; missing means the default.
+    var documentInfo: DocumentInfoEntry? = nil
     /// Version 5: the single part files (plan-32-A) of the custom parts the
     /// schematic places, once each, in order of first placement. Written only
     /// when there are some.
     var customParts: [JSONValue]? = nil
+    /// The electrical rules check's settings (plan-63-E): written only when a
+    /// severity, the pin map or an exclusion differs from KiCad's defaults;
+    /// missing means the defaults.
+    var erc: ErcEntry? = nil
+
+    /// `erc`: what differs from the defaults. `severities` maps a rule name to
+    /// `error`, `warning` or `ignore`; `pinMap` is 12 rows of 12 numbers
+    /// 0 (ok), 1 (warning) or 2 (error), symmetric, in KiCad's pin-type order;
+    /// `exclusions` are `ErcViolation.key` strings.
+    struct ErcEntry: Codable, Equatable, Sendable {
+        var severities: [String: String]?
+        var pinMap: [[Int]]?
+        var exclusions: [String]?
+    }
 }
 
 /// Any JSON value, for the custom parts a schematic embeds whole.
@@ -666,12 +739,16 @@ nonisolated enum SchematicFileError: LocalizedError {
     case missingLabel(wire: UUID, label: UUID)
     /// A net label that isn't valid; the detail names it.
     case badLabel(String)
+    /// The electrical rules check's settings that aren't valid; the detail names the field.
+    case badErc(String)
     case badRotation(reference: String, rotation: Int)
     /// A board setting, footprint origin or mark, or board text that isn't
     /// valid; the detail names it.
     case badPCB(String)
     /// A schematic text block that isn't valid; the detail names it.
     case badNote(String)
+    /// A date in the document info that isn't ISO 8601; the detail names it.
+    case badDocumentInfo(String)
     /// A bus whose lines, joints or wires aren't valid; the detail names it.
     case badBus(String)
     /// A part's color, footprint or gender that the part doesn't offer.
@@ -709,6 +786,8 @@ nonisolated enum SchematicFileError: LocalizedError {
             "Wire \(wire.uuidString) connects to net label \(label.uuidString), which is not in the file."
         case let .badLabel(detail):
             "The net label is not valid: \(detail)."
+        case let .badErc(detail):
+            "The electrical rules check settings are not valid: \(detail)."
         case let .badRotation(reference, rotation):
             "\(reference) has PCB rotation \(rotation); it must be 0, 90, 180 or 270."
         case let .badPCB(detail):
@@ -717,6 +796,8 @@ nonisolated enum SchematicFileError: LocalizedError {
             "The bus is not valid: \(detail)."
         case let .badNote(detail):
             "The text block is not valid: \(detail)."
+        case let .badDocumentInfo(detail):
+            "The document info is not valid: \(detail)."
         case let .badPartOption(reference, detail):
             "\(reference): \(detail)"
         case let .badOhms(reference, ohms):
@@ -767,8 +848,13 @@ extension SchematicFile {
                 partNumber: chip.partNumber,
                 x: chip.origin.x,
                 y: chip.origin.y,
-                flipped: chip.isFlipped,
-                rotation: chip.rotation == 0 ? nil : chip.rotation,
+                flipped: chip.isFlipped && !chip.isSplit,
+                rotation: chip.rotation == 0 || chip.isSplit ? nil : chip.rotation,
+                units: chip.isSplit ? chip.unitPlacements.map {
+                    Unit(unit: $0.key, x: $0.origin.x, y: $0.origin.y, flipped: $0.isFlipped ? true : nil,
+                         rotation: $0.rotation == 0 ? nil : $0.rotation)
+                } : nil,
+                // DIP and slide switches save their contacts; a tactile switch never does.
                 switches: chip.switchesOn.isEmpty || chip.part.isTactileSwitch ? nil : chip.switchesOn,
                 pcb: chip.board.map {
                     Placement(x: $0.centre.x, y: $0.centre.y, rotation: $0.rotation,
@@ -826,10 +912,12 @@ extension SchematicFile {
             Note(id: note.id, text: note.text, x: note.origin.x, y: note.origin.y,
                  size: note.size, framed: note.framed)
         }
+        documentInfo = document.documentInfo == DocumentInfo() ? nil : Self.entry(document.documentInfo)
         labels = document.netLabels.isEmpty ? nil : document.netLabels.map { label in
             Label(id: label.id, name: label.name, x: label.origin.x, y: label.origin.y,
                   type: label.style.rawValue, flipped: label.isFlipped ? true : nil)
         }
+        erc = Self.entry(document.erc)
         let settings = document.board
         board = Board(
             width: settings.width,
@@ -879,6 +967,17 @@ extension SchematicFile {
                                    width: keepout.rect.width, height: keepout.rect.height,
                                    layers: keepout.layers.map { $0.map(\.rawValue).sorted() },
                                    locked: keepout.locked ? true : nil)
+            },
+            outline: settings.isFreeForm ? settings.customOutline?.map { Point(x: $0.x, y: $0.y) } : nil,
+            cutouts: document.cutouts.isEmpty ? nil : document.cutouts.map { cutout in
+                switch cutout.shape {
+                case let .rounded(rect, radius):
+                    Board.CutoutEntry(id: cutout.id, shape: "rounded", x: rect.minX, y: rect.minY, width: rect.width,
+                                      height: rect.height, radius: radius, locked: cutout.locked ? true : nil)
+                case let .polygon(points):
+                    Board.CutoutEntry(id: cutout.id, shape: "polygon", points: points.map { Point(x: $0.x, y: $0.y) },
+                                      locked: cutout.locked ? true : nil)
+                }
             },
             netClasses: settings.netClasses.isEmpty ? nil : settings.netClasses.map { netClass in
                 Board.NetClassEntry(id: netClass.id, name: netClass.name, width: netClass.width,
@@ -968,6 +1067,7 @@ extension SchematicFile {
         }
 
         let settings = try boardSettings()
+        let ercSettings = try Self.ercSettings(erc)
 
         // Custom parts first (plan-32-B), so placed parts can resolve to them.
         // Registering one is for the session, like File › Load Part….
@@ -1044,9 +1144,10 @@ extension SchematicFile {
                 }
                 socket = ChipSocket(part: socketPart, mode: mode)
             }
-            // A load file counts only on an EEPROM.
+            // A load file counts only on an EEPROM or a simulated
+            // microcontroller (its firmware).
             var memoryFile: MemoryFile?
-            if catalogPart.kind == PART_EEPROM, let entry = part.memoryFile {
+            if catalogPart.hasLoadFile, let entry = part.memoryFile {
                 memoryFile = MemoryFileAccess.file(path: entry.path, bookmark: entry.bookmark, schematic: fileURL)
             }
             // Built before its placement, which is snapped with the chosen footprint.
@@ -1068,6 +1169,14 @@ extension SchematicFile {
                 socket: socket
             )
             chip.showsReference = part.showReference ?? true
+            // Drawn as its units (plan-67) when the list names exactly the
+            // part's units; any other list is ignored and the part is a block.
+            if let units = part.units {
+                chip.setPlacements(units.map {
+                    UnitPlacement(key: $0.unit, origin: SchematicGrid.snap(CGPoint(x: $0.x, y: $0.y)),
+                                  isFlipped: $0.flipped ?? false, rotation: $0.rotation ?? 0)
+                })
+            }
             // A stored placement counts only for a part with a footprint.
             var board: BoardPlacement?
             if let pcb = part.pcb, catalogPart.footprint != nil {
@@ -1277,6 +1386,12 @@ extension SchematicFile {
             keepouts.append(try Self.boardKeepout(entry))
         }
 
+        var cutouts: [BoardCutout] = []
+        for entry in board?.cutouts ?? [] {
+            try claim(entry.id)
+            cutouts.append(try Self.boardCutout(entry))
+        }
+
         var placedNotes: [SchematicNote] = []
         for entry in notes ?? [] {
             try claim(entry.id)
@@ -1304,10 +1419,51 @@ extension SchematicFile {
             holes: holes,
             pours: pours,
             keepouts: keepouts,
+            cutouts: cutouts,
             notes: placedNotes,
-            netLabels: placedLabels
+            netLabels: placedLabels,
+            erc: ercSettings,
+            documentInfo: try Self.documentInfo(documentInfo)
         )
         return embedded
+    }
+
+    // MARK: Electrical rules check (plan-63-E)
+
+    /// The file form of a document's ERC settings; nil when they are the defaults.
+    private static func entry(_ settings: ErcSettings) -> ErcEntry? {
+        guard !settings.isDefault else { return nil }
+        return ErcEntry(
+            severities: settings.severities.isEmpty
+                ? nil : Dictionary(uniqueKeysWithValues: settings.severities.map { ($0.key.rawValue, $0.value.rawValue) }),
+            pinMap: settings.pinMap.map { $0.map { $0.map(Int.init) } },
+            exclusions: settings.exclusions.isEmpty ? nil : settings.exclusions.sorted())
+    }
+
+    /// The settings a file's `erc` says; the defaults when it has none. Throws
+    /// `badErc` for a rule or severity the app does not know, or a pin map that is
+    /// not 12 rows of 12 numbers 0 to 2, symmetric.
+    private static func ercSettings(_ entry: ErcEntry?) throws -> ErcSettings {
+        var settings = ErcSettings()
+        guard let entry else { return settings }
+        for (name, word) in entry.severities ?? [:] {
+            guard let rule = ErcRule(rawValue: name), rule.hasSeverity else {
+                throw SchematicFileError.badErc("erc.severities: \"\(name)\" is not a rule with a severity")
+            }
+            guard let severity = ErcSeverity(rawValue: word) else {
+                throw SchematicFileError.badErc("erc.severities.\(name): \"\(word)\" must be error, warning or ignore")
+            }
+            settings.set(severity, for: rule)
+        }
+        if let rows = entry.pinMap {
+            let map = rows.map { $0.map { UInt8(clamping: $0) } }
+            guard rows.allSatisfy({ $0.allSatisfy { (0...2).contains($0) } }), ErcSettings.isValid(pinMap: map) else {
+                throw SchematicFileError.badErc("erc.pinMap must be 12 rows of 12 numbers 0, 1 or 2, the same either side of the diagonal")
+            }
+            settings.setPinMap(map)
+        }
+        settings.exclusions = Set(entry.exclusions ?? [])
+        return settings
     }
 
     /// A stored net label, with defaults for missing keys. Its point is
@@ -1321,7 +1477,7 @@ extension SchematicFile {
         var style = NetLabel.Style.input
         if let type = entry.type {
             guard let parsed = NetLabel.Style(rawValue: type) else {
-                throw SchematicFileError.badLabel("\(name) type \"\(type)\" must be input, output, inout, passive or noConnect")
+                throw SchematicFileError.badLabel("\(name) type \"\(type)\" must be input, output, inout, passive, noConnect or powerFlag")
             }
             style = parsed
         }
@@ -1347,6 +1503,43 @@ extension SchematicFile {
         }
         result.framed = entry.framed ?? result.framed
         return result
+    }
+
+    /// The file form of the document info: empty text, unset dates, automatic
+    /// dates and a hidden title block are left out.
+    private static func entry(_ info: DocumentInfo) -> DocumentInfoEntry {
+        DocumentInfoEntry(
+            title: info.title.isEmpty ? nil : info.title,
+            author: info.author.isEmpty ? nil : info.author,
+            revision: info.revision.isEmpty ? nil : info.revision,
+            description: info.description.isEmpty ? nil : info.description,
+            created: info.created.map(DocumentInfo.isoText),
+            updated: info.updated.map(DocumentInfo.isoText),
+            automaticDates: info.automaticDates ? nil : false,
+            titleBlock: info.titleBlock.map { Point(x: $0.x, y: $0.y) })
+    }
+
+    /// The stored document info, with defaults for missing keys. The title
+    /// block's top-left is snapped to the grid.
+    private static func documentInfo(_ entry: DocumentInfoEntry?) throws -> DocumentInfo {
+        var info = DocumentInfo()
+        guard let entry else { return info }
+        info.title = entry.title ?? ""
+        info.author = entry.author ?? ""
+        info.revision = entry.revision ?? ""
+        info.description = entry.description ?? ""
+        func date(_ text: String?, _ key: String) throws -> Date? {
+            guard let text else { return nil }
+            guard let parsed = DocumentInfo.isoDate(text) else {
+                throw SchematicFileError.badDocumentInfo("\(key) \"\(text)\" is not a date")
+            }
+            return parsed
+        }
+        info.created = try date(entry.created, "created")
+        info.updated = try date(entry.updated, "updated")
+        info.automaticDates = entry.automaticDates ?? true
+        info.titleBlock = entry.titleBlock.map { SchematicGrid.snap(CGPoint(x: $0.x, y: $0.y)) }
+        return info
     }
 
     // MARK: PCB values
@@ -1424,6 +1617,20 @@ extension SchematicFile {
             // A card's height is its standard's; its length is at least the least.
             settings.height = card.height
             settings.width = min(max(settings.width, card.minimumLength), card.maximumLength)
+        }
+        if let entries = board.outline {
+            guard settings.type == .custom else {
+                throw SchematicFileError.badPCB("board outline needs the board type custom")
+            }
+            let points = entries.map { CGPoint(x: $0.x, y: $0.y) }
+            if let problem = BoardSettings.problem(outline: points) {
+                throw SchematicFileError.badPCB("board outline \(problem)")
+            }
+            // The outline wins over the width and height the file also has.
+            let bounds = BoardSettings.bounds(of: points)
+            settings.customOutline = BoardGeometry.clockwise(points)
+            settings.width = bounds.width
+            settings.height = bounds.height
         }
         return settings
     }
@@ -1680,6 +1887,29 @@ extension SchematicFile {
             throw SchematicFileError.badPCB("\(name) \(problem)")
         }
         return keepout
+    }
+
+    /// A stored cutout (plan-65). A polygon is kept clockwise.
+    private static func boardCutout(_ entry: Board.CutoutEntry) throws -> BoardCutout {
+        let name = "cutout \(entry.id.uuidString)"
+        let shape: BoardCutout.Shape
+        switch entry.shape {
+        case "rounded":
+            guard let x = entry.x, let y = entry.y, let width = entry.width, let height = entry.height else {
+                throw SchematicFileError.badPCB("\(name) needs x, y, width and height")
+            }
+            shape = .rounded(rect: CGRect(x: x, y: y, width: width, height: height), radius: entry.radius ?? 0)
+        case "polygon":
+            guard let points = entry.points else { throw SchematicFileError.badPCB("\(name) needs points") }
+            shape = .polygon(points.map { CGPoint(x: $0.x, y: $0.y) })
+        default:
+            throw SchematicFileError.badPCB("\(name) shape \"\(entry.shape)\" must be rounded or polygon")
+        }
+        if let problem = BoardCutout.problem(shape) { throw SchematicFileError.badPCB("\(name) \(problem)") }
+        var cutout = BoardCutout(id: entry.id, shape: shape)
+        if case let .polygon(points) = shape { cutout.shape = .polygon(BoardGeometry.clockwise(points)) }
+        cutout.locked = entry.locked ?? false
+        return cutout
     }
 
     /// A stored footprint placement, with defaults for missing keys.

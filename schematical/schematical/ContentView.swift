@@ -26,14 +26,21 @@ nonisolated enum EditorPage: String, CaseIterable, Identifiable, Codable, Sendab
 struct ContentView: View {
     /// The app-wide catalog, loaded once at launch.
     private let catalog = PartCatalogStore.shared
-    @State private var document: SchematicDocument
+    /// What this window edits (plan-61-B): made by the window's owner.
+    private let model: SchematicEditorModel
+    private var document: SchematicDocument { model.document }
     /// The schematic's pan and zoom. Its 100 % draws at 0.75 points per
     /// schematic unit (what used to be 75 %).
     @State private var viewport = CanvasViewport(baseScale: 0.75)
     /// The PCB page's own pan and zoom. It opens at 25 %, so a whole board
     /// fits.
     @State private var boardViewport = CanvasViewport(zoom: 0.25)
-    @State private var page = EditorPage.schematic
+    /// The page shown: the model's, so the menus and the document (which
+    /// restores it with the window) see it.
+    private var page: EditorPage {
+        get { model.page }
+        nonmutating set { model.page = newValue }
+    }
     @State private var tool: SchematicTool = .pointer
     @State private var pcbTool = PCBTool.select
     /// Layers the PCB page doesn't draw (the View popover). The hidden set,
@@ -43,20 +50,28 @@ struct ContentView: View {
     /// The net Board Details' Nets tab highlights on the canvas.
     /// Per window; not saved, not undone.
     @State private var highlightedNet: PlaneNet?
-    /// Route ▸ Autoroute…'s sheet, and its model (made on first use).
+    /// Route ▸ Autoroute…'s sheet, and its model (made on first use; kept by
+    /// the window's model, where the Route menu can follow it).
     @State private var isAutorouteOpen = false
-    @State private var autoroute: AutorouteModel?
+    private var autoroute: AutorouteModel? {
+        get { model.autoroute }
+        nonmutating set { model.autoroute = newValue }
+    }
     /// The layer the PCB Trace tool draws on (the trace layer menu).
     @State private var traceLayer: CopperLayer = .top
+    /// What the Cutout tool draws (plan-65).
+    @State private var cutoutShape: CutoutShape = .rectangle
     /// Whether the sidebar is shown: the parts drawer on the Schematic page,
     /// the inspector on the PCB page. One flag for both pages.
     @State private var isSidebarShown = true
-    @State private var simulation: SimulationController
-    @State private var file: SchematicFileController
-    /// Identifies this window to the memory windows it opens.
-    @State private var sessionID = UUID()
-    @Environment(\.openWindow) private var openWindow
-    @Environment(\.dismissWindow) private var dismissWindow
+    private var simulation: SimulationController { model.simulation }
+    private var file: SchematicExporter { model.file }
+    /// Identifies this window's document to the child windows it opens.
+    private var documentID: UUID { model.id }
+    /// The child windows are AppKit windows of the document
+    /// (`ChildWindowCenter`); these two have SwiftUI's call syntax.
+    private var openWindow: ChildWindowOpener { ChildWindowOpener(documentID: model.id) }
+    private var dismissWindow: ChildWindowCloser { ChildWindowCloser(documentID: model.id) }
     /// Memory windows opened from this window, closed along with it.
     @State private var memoryWindows: Set<MemoryWindowTarget> = []
     @State private var cpuWindows: Set<CpuWindowTarget> = []
@@ -64,12 +79,21 @@ struct ContentView: View {
     @State private var terminalWindows: Set<TerminalWindowTarget> = []
     @State private var isBillOfMaterialsOpen = false
     @State private var isDesignRuleCheckOpen = false
+    @State private var isElectricalRulesCheckOpen = false
+    @State private var isDocumentInfoOpen = false
     @State private var isBoardPreviewOpen = false
     /// Watches for the editing keys: ⌘R / ⇧⌘R rotate, A changes the trace
     /// angle and ⌘X / ⌘C / ⌘V cut, copy and paste traces on the PCB, ⌘F
     /// flips on the Schematic, ⌘X / ⌘C / ⌘V cut, copy and paste its
     /// selection, ⌘⌫ deletes and ⌘A selects all on both.
-    @State private var editKeyMonitor: Any?
+    /// Kept by the model, not in view state, and installed through the
+    /// model's monitors: the document empties those when it closes (a
+    /// hosted view gets no `onDisappear` then), and the monitor's closure
+    /// holds this view and so the model.
+    private var editKeyMonitor: UUID? {
+        get { model.editKeyMonitor }
+        nonmutating set { model.editKeyMonitor = newValue }
+    }
     /// Edit › Reset References is asking whether to go on.
     @State private var isConfirmingResetReferences = false
     /// The supply menu's Custom…: the dialog, what is typed in it, and
@@ -95,22 +119,8 @@ struct ContentView: View {
     /// The supply the VCC tool places (a `SupplyChoice` name), an app preference.
     @AppStorage("supplyVoltage") private var supplyVoltage = SupplyChoice.defaultName
 
-    init() {
-        let catalog = PartCatalogStore.shared
-        let document = SchematicDocument(library: catalog.library)
-        // A new schematic starts with Power (5V, 3V3, 12V, 24V) and Logic classes
-        // (an opened file replaces them with its own).
-        document.addStandardNetClasses()
-        let simulation = SimulationController(library: catalog.library)
-        _document = State(initialValue: document)
-        _simulation = State(initialValue: simulation)
-        // Opening a file stops any running simulation first, since the
-        // simulation was built from the old schematic.
-        _file = State(initialValue: SchematicFileController(
-            document: document,
-            catalog: catalog,
-            willReplaceDocument: { simulation.stop() }
-        ))
+    init(model: SchematicEditorModel) {
+        self.model = model
     }
 
     /// The zoom controls act on the page being shown.
@@ -127,10 +137,10 @@ struct ContentView: View {
 
     /// What Rotate would turn. On the PCB: exactly one footprint or board
     /// text selected (plan-15: never a group), not when it is locked; a trace
-    /// doesn't turn. On the Schematic: the sole selected LED, diode, resistor
-    /// or capacitor, while the simulation isn't running.
+    /// doesn't turn. On the Schematic: the sole selected part drawn as its
+    /// own symbol (`PartSymbol.canRotate`), while the simulation isn't running.
     private var canRotate: Bool {
-        if page == .schematic { return rotatableChipID != nil }
+        if page == .schematic { return rotateTarget != nil }
         if let id = document.selectedTextID { return !document.isLocked(.text(id)) }
         guard let id = document.selectedFootprintID,
               let board = document.chips.first(where: { $0.id == id })?.board else { return false }
@@ -143,8 +153,11 @@ struct ContentView: View {
     @discardableResult
     private func rotateSelection(counterclockwise: Bool = false) -> Bool {
         guard canRotate else { return false }
-        if page == .schematic, let id = rotatableChipID {
-            document.rotateChip(id, counterclockwise: counterclockwise)
+        if page == .schematic, let target = rotateTarget {
+            switch target {
+            case let .chip(id): document.rotateChip(id, counterclockwise: counterclockwise)
+            case let .unit(ref): document.rotateUnit(ref, counterclockwise: counterclockwise)
+            }
         } else if let id = document.selectedTextID {
             document.rotateText(id, counterclockwise: counterclockwise)
         } else if let id = document.selectedFootprintID {
@@ -160,35 +173,38 @@ struct ContentView: View {
             document.flipNetLabel(id)
             return true
         }
-        guard let id = flippableChipID else { return false }
-        document.flipChip(id)
+        guard let target = flipTarget else { return false }
+        switch target {
+        case let .chip(id): document.flipChip(id)
+        case let .unit(ref): document.flipUnit(ref)
+        }
         return true
     }
 
     /// Whether ⌘F has something to flip.
     private var canFlip: Bool {
-        (page == .schematic && !simulation.isRunning && document.selectedNetLabelID != nil) || flippableChipID != nil
+        (page == .schematic && !simulation.isRunning && document.selectedNetLabelID != nil) || flipTarget != nil
     }
 
-    /// The part Rotate would turn on the Schematic: the sole selected part,
-    /// when it can rotate and the simulation isn't running.
-    private var rotatableChipID: UUID? {
-        guard page == .schematic, !simulation.isRunning, let id = document.selectedChipID,
-              document.chips.first(where: { $0.id == id })?.symbol.canRotate == true else { return nil }
-        return id
+    /// What Rotate would turn on the Schematic: the sole selected part, or
+    /// the one picked unit of a part drawn as its units (plan-67), when it
+    /// can rotate and the simulation isn't running.
+    private var rotateTarget: SchematicDocument.EditTarget? {
+        guard page == .schematic, !simulation.isRunning else { return nil }
+        return document.rotateTarget
     }
 
-    /// The part Flip would turn: the sole selected part on the Schematic,
-    /// when it can flip and the simulation isn't running.
-    private var flippableChipID: UUID? {
-        guard page == .schematic, !simulation.isRunning, let id = document.selectedChipID,
-              document.chips.first(where: { $0.id == id })?.symbol.canFlip == true else { return nil }
-        return id
+    /// What Flip would mirror: the sole selected part on the Schematic, or
+    /// the one picked unit of a part drawn as its units, when it can flip
+    /// and the simulation isn't running.
+    private var flipTarget: SchematicDocument.EditTarget? {
+        guard page == .schematic, !simulation.isRunning else { return nil }
+        return document.flipTarget
     }
 
     /// The editing keys, in this window only and never while a text field
     /// is being typed in: ⌘R presses Rotate (when it is enabled: on the PCB,
-    /// or on the Schematic for an LED, diode, resistor or capacitor)
+    /// or on the Schematic for a part drawn as its own symbol)
     /// and ⇧⌘R turns the other way; A steps the Trace tool's angle while
     /// Trace is the PCB tool; ⌘F flips the selected part or net label on the
     /// Schematic; ⌘⌫ deletes the selection (on the PCB only its texts, traces, vias and holes);
@@ -201,7 +217,7 @@ struct ContentView: View {
     /// is left alone.
     private func installEditKeyMonitor() {
         guard editKeyMonitor == nil else { return }
-        editKeyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+        editKeyMonitor = model.eventMonitors.add(matching: .keyDown) { event in
             guard let window = file.window, event.window === window, !(window.firstResponder is NSText),
                   let key = Self.editKey(keyCode: event.keyCode, event.charactersIgnoringModifiers,
                                          event.modifierFlags, isRepeat: event.isARepeat) else { return event }
@@ -261,7 +277,7 @@ struct ContentView: View {
     private func cutSelection() -> Bool {
         if page == .schematic {
             guard !simulation.isRunning, copySelection() else { return false }
-            return document.deleteSchematicSelection(named: "Cut")
+            return document.deleteSchematicSelection(named: "Cut", includingTitleBlock: false)
         }
         guard copySelection() else { return false }
         return document.cutBoardSelection()
@@ -329,8 +345,34 @@ struct ContentView: View {
                     canResetReferences: !document.chips.isEmpty && !simulation.isRunning)
     }
 
+    /// Gives the app's menus this window's actions (`EditorMenus`). Each
+    /// closure reads the editor's state when a menu asks, so the menus
+    /// follow it; the document removes them when it closes.
+    private func installMenus() {
+        let menus = model.menus
+        menus.edit = { editActions }
+        menus.simulation = { simulationTarget }
+        menus.route = { RouteActions.available(page: page, isPlaying: document.isPlaying) ? routeActions : nil }
+        menus.openBillOfMaterials = {
+            isBillOfMaterialsOpen = true
+            openWindow(id: "bom", value: BillOfMaterialsTarget(documentID: documentID))
+        }
+        menus.openDocumentInfo = {
+            isDocumentInfoOpen = true
+            openWindow(id: "documentInfo", value: DocumentInfoTarget(documentID: documentID))
+        }
+        menus.openDesignRuleCheck = {
+            isDesignRuleCheckOpen = true
+            openWindow(id: "drc", value: DesignRuleCheckTarget(documentID: documentID))
+        }
+        menus.openElectricalRulesCheck = {
+            isElectricalRulesCheckOpen = true
+            openWindow(id: "erc", value: ElectricalRulesCheckTarget(documentID: documentID))
+        }
+    }
+
     private func removeEditKeyMonitor() {
-        if let editKeyMonitor { NSEvent.removeMonitor(editKeyMonitor) }
+        model.eventMonitors.remove(editKeyMonitor)
         editKeyMonitor = nil
     }
 
@@ -389,25 +431,26 @@ struct ContentView: View {
                 supplyVoltage: supplyVoltage,
                 simulation: simulation,
                 onOpenMemory: { chipID in
-                    let target = MemoryWindowTarget(sessionID: sessionID, chipID: chipID)
+                    let target = MemoryWindowTarget(documentID: documentID, chipID: chipID)
                     memoryWindows.insert(target)
                     openWindow(id: "memory", value: target)
                 },
                 onOpenCpu: { chipID in
-                    let target = CpuWindowTarget(sessionID: sessionID, chipID: chipID)
+                    let target = CpuWindowTarget(documentID: documentID, chipID: chipID)
                     cpuWindows.insert(target)
                     openWindow(id: "cpu", value: target)
                 },
                 onOpenTerminal: { chipID in
-                    let target = TerminalWindowTarget(sessionID: sessionID, chipID: chipID)
+                    let target = TerminalWindowTarget(documentID: documentID, chipID: chipID)
                     terminalWindows.insert(target)
                     openWindow(id: "terminal", value: target)
                 },
                 onOpenRegisters: { chipID in
-                    let target = RegisterWindowTarget(sessionID: sessionID, chipID: chipID)
+                    let target = RegisterWindowTarget(documentID: documentID, chipID: chipID)
                     registerWindows.insert(target)
                     openWindow(id: "registers", value: target)
                 },
+                onOpenDocumentInfo: { model.menus.openDocumentInfo?() },
                 pointer: schematicPointer
             ) {
                 // Placing a part from the drawer returns to the Pointer tool.
@@ -416,6 +459,7 @@ struct ContentView: View {
         case .pcb:
             PCBCanvasView(document: document, viewport: boardViewport, tool: pcbTool,
                           visible: BoardVisibility(hidden: hiddenLayers), traceLayer: traceLayer,
+                          cutoutShape: cutoutShape,
                           traceAngle: traceAngle, traceAssist: traceAssist,
                           onShowLayer: { hiddenLayers.remove(.copper($0)) },
                           onLayerChange: { layer in
@@ -460,8 +504,6 @@ struct ContentView: View {
     var body: some View {
         editor
             // Edit › Cut, Copy, Paste, Delete, Select All, Reset References.
-            .focusedSceneValue(\.schematicEdit, editActions)
-            .focusedSceneValue(\.schematicSimulation, simulationTarget)
             // The speed is an app preference: every window runs at it.
             .onChange(of: simulationSpeed) { _, speed in simulation.setSpeed(speed) }
             .alert("Reset References?", isPresented: $isConfirmingResetReferences) {
@@ -484,11 +526,10 @@ struct ContentView: View {
                                onHighlight: { highlightedNet = $0 },
                                onOpenDesignRuleCheck: {
                                    isDesignRuleCheckOpen = true
-                                   openWindow(id: "drc", value: DesignRuleCheckTarget(sessionID: sessionID))
+                                   openWindow(id: "drc", value: DesignRuleCheckTarget(documentID: documentID))
                                })
                 .interactiveDismissDisabled(autoroute?.session.isRunning == true)
             }
-            .focusedSceneValue(\.routeActions, RouteActions.available(page: page, isPlaying: document.isPlaying) ? routeActions : nil)
     }
 
     /// The window's Autoroute model, made the first time it is needed.
@@ -552,7 +593,7 @@ struct ContentView: View {
             .toolbar {
                 // The page picker on the left; the tools stay centred.
                 ToolbarItem(placement: .navigation) {
-                    Picker("Page", selection: $page) {
+                    Picker("Page", selection: Binding(get: { page }, set: { page = $0 })) {
                         ForEach(EditorPage.allCases) { page in
                             Text(page.title).tag(page)
                         }
@@ -623,6 +664,17 @@ struct ContentView: View {
                         }
                         .help("Layer for the Trace tool")
 
+                        // The Cutout tool's shape. Picking one also picks the tool.
+                        Menu(cutoutShape.title) {
+                            ForEach(CutoutShape.allCases) { shape in
+                                Button(shape.title) {
+                                    cutoutShape = shape
+                                    pcbTool = .cutout
+                                }
+                            }
+                        }
+                        .help("Shape for the Cutout tool")
+
                         // The Trace tool's router assist (plan-38-L), remembered.
                         Toggle(isOn: $traceAssist) {
                             Label("Assist", systemImage: "wand.and.rays")
@@ -663,7 +715,7 @@ struct ContentView: View {
                     ToolbarItem(placement: .primaryAction) {
                         Button {
                             isBoardPreviewOpen = true
-                            openWindow(id: "board-preview", value: BoardPreviewTarget(sessionID: sessionID))
+                            openWindow(id: "board-preview", value: BoardPreviewTarget(documentID: documentID))
                         } label: {
                             Label("Preview", systemImage: "photo")
                         }
@@ -752,24 +804,22 @@ struct ContentView: View {
                 Button("Cancel", role: .cancel) { document.cancelPendingRemoval() }
             }
             .onChange(of: page) { _, newPage in
+                // The page is restored with the window (plan-61-C).
+                model.platformDocument?.pageDidChange()
                 // The simulation never runs on the PCB page. Coming back to
                 // the Schematic does not restart it.
                 if newPage == .pcb {
                     simulation.stop()
                 }
             }
-            .task {
-                // A file opened from another window lands here, in a new tab.
-                file.loadClaimedOpen()
-            }
             .onAppear {
-                file.openNewWindow = { openWindow(id: "schematic") }
-                SchematicSessions.shared.register(sessionID, document: document, simulation: simulation, file: file)
                 simulation.setSpeed(simulationSpeed)
                 installEditKeyMonitor()
+                installMenus()
             }
             .onDisappear {
                 removeEditKeyMonitor()
+                model.menus.removeAll()
                 for target in memoryWindows {
                     dismissWindow(id: "memory", value: target)
                 }
@@ -787,33 +837,32 @@ struct ContentView: View {
                 }
                 terminalWindows = []
                 if isBillOfMaterialsOpen {
-                    dismissWindow(id: "bom", value: BillOfMaterialsTarget(sessionID: sessionID))
+                    dismissWindow(id: "bom", value: BillOfMaterialsTarget(documentID: documentID))
                     isBillOfMaterialsOpen = false
                 }
                 if isDesignRuleCheckOpen {
-                    dismissWindow(id: "drc", value: DesignRuleCheckTarget(sessionID: sessionID))
+                    dismissWindow(id: "drc", value: DesignRuleCheckTarget(documentID: documentID))
                     isDesignRuleCheckOpen = false
                 }
+                if isElectricalRulesCheckOpen {
+                    dismissWindow(id: "erc", value: ElectricalRulesCheckTarget(documentID: documentID))
+                    isElectricalRulesCheckOpen = false
+                }
+                if isDocumentInfoOpen {
+                    dismissWindow(id: "documentInfo", value: DocumentInfoTarget(documentID: documentID))
+                    isDocumentInfoOpen = false
+                }
                 if isBoardPreviewOpen {
-                    dismissWindow(id: "board-preview", value: BoardPreviewTarget(sessionID: sessionID))
+                    dismissWindow(id: "board-preview", value: BoardPreviewTarget(documentID: documentID))
                     isBoardPreviewOpen = false
                 }
             }
-            .focusedSceneValue(\.schematicFile, file)
-            .focusedSceneValue(\.editorPage, page)
-            // Edit › Undo / Redo act on the page shown (plan-31-D).
-            .focusedSceneValue(\.schematicUndo, UndoTarget(document: document, page: page))
-            .focusedSceneValue(\.openBillOfMaterials) {
-                isBillOfMaterialsOpen = true
-                openWindow(id: "bom", value: BillOfMaterialsTarget(sessionID: sessionID))
-            }
-            // The check is of the PCB, so it opens from the PCB page only.
-            .focusedSceneValue(\.openDesignRuleCheck, page == .pcb ? {
-                isDesignRuleCheckOpen = true
-                openWindow(id: "drc", value: DesignRuleCheckTarget(sessionID: sessionID))
-            } : nil)
-            .background(WindowReader { file.window = $0 })
-            .navigationTitle(file.displayName)
+            // The canvases install their key monitors through the model's.
+            .environment(\.editorEventMonitors, model.eventMonitors)
+            .focusedSceneValue(\.schematicExporter, file)
+            // The menus read the page, the selection and the rest through
+            // the model (`EditorMenus`), not through values published here.
+            .focusedSceneValue(\.schematicEditor, model)
     }
 
     /// A segmented picker over some of the schematic tools.
@@ -869,7 +918,7 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(model: SchematicEditorModel())
 }
 
 /// "running at 0.078×" while the simulation runs below 90 % of the chosen speed.

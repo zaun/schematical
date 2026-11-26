@@ -93,7 +93,7 @@ extension PartKinds {
                      blurb: "Microprocessors that run a program from memory on a bus: the 65C02 and 65C816.",
                      examples: ["W65C02S6TPG-14", "W65C816S6TPG-14"], group: .processors),
             KindInfo(kind: "mcu", name: "Microcontroller",
-                     blurb: "Single-chip computers (AVR, ESP32, RP2040). Symbol, footprint and facts only: they are not simulated.",
+                     blurb: "Single-chip computers (AVR, ESP32, RP2040). The ATmega48/88/168/328 family and the ATtiny25/45/85 run firmware; the others are symbol, footprint and facts only.",
                      examples: ["ATMEGA328P-PU", "ATTINY13A-PU", "SC0914(13)"], group: .processors, simulated: false),
             KindInfo(kind: "pio", name: "Parallel I/O",
                      blurb: "Port chips a processor reads and writes pins through: the 6521 PIA and 6522 VIA.",

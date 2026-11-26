@@ -31,6 +31,12 @@ struct SchematicNetlist {
     /// tactile switch's joined pairs are numbered after them and are the
     /// backend's own, never sent.
     var positionCounts: [Int] = []
+    /// A slide switch's knob position (1-based), per slide switch part index
+    /// (plan-58-G). `switchesOn` lists its closed contacts for the voltage
+    /// check; the simulation starts it with `circuit_set_switch_state`
+    /// (`positionCounts` is 0 for it), which also opens the rest position's
+    /// contacts the knob is not at.
+    var slideStates: [(part: Int, state: Int)] = []
     /// A placed `GENERIC-RESISTOR`'s own value in ohms, per part index (nil
     /// for every other part, and for a generic resistor still at its part
     /// value). The voltage check reads them for an adjustable regulator's
@@ -96,7 +102,7 @@ enum NetlistBuilder {
             }
         }
 
-        let noConnects = Set(labels.filter { !$0.isNet }.map(\.id))
+        let noConnects = Set(labels.filter(\.isNoConnect).map(\.id))
         func isNoConnect(_ end: WireEnd) -> Bool {
             if case let .label(id) = end { return noConnects.contains(id) }
             return false
@@ -236,7 +242,16 @@ enum NetlistBuilder {
         // a tactile switch's contact when closed, and its joined pairs.
         var switchesOn: [(part: Int, position: Int)] = []
         var positionCounts: [Int] = []
+        var slideStates: [(part: Int, state: Int)] = []
         for (index, chip) in chips.enumerated() {
+            if let state = chip.slidePosition {
+                for (contact, isOn) in chip.switchesOn.enumerated() where isOn {
+                    switchesOn.append((part: index, position: contact + 1))
+                }
+                slideStates.append((part: index, state: state))
+                positionCounts.append(0)
+                continue
+            }
             if case let .tactileSwitch(_, _, _, joined, _) = chip.part.details {
                 if chip.tactileContactClosed {
                     switchesOn.append((part: index, position: 1))
@@ -292,6 +307,7 @@ enum NetlistBuilder {
             connections: connections,
             switchesOn: switchesOn,
             positionCounts: positionCounts,
+            slideStates: slideStates,
             ohms: chips.map { $0.part.isGenericResistor ? $0.ohms : nil },
             chipIDs: chips.map(\.id),
             netOfWire: netOfWire,
@@ -336,6 +352,10 @@ enum WireStyle: Equatable {
 @MainActor
 @Observable
 final class SimulationController {
+    /// As `SchematicDocument`'s: an isolated deinit aborts the runtime when
+    /// a closing document frees this.
+    nonisolated deinit {}
+
     /// True while in play mode, including after the simulation has stopped with
     /// an error. Stop leaves play mode.
     private(set) var isRunning = false
@@ -400,15 +420,16 @@ final class SimulationController {
         }
     }
 
-    /// Starts the document's circuit. Each EEPROM with a load file gets the
-    /// file's contents first; a file that can't be read or parsed stops the
-    /// start with a message naming the part.
+    /// Starts the document's circuit. Each EEPROM, and each simulated
+    /// microcontroller (its flash), with a load file gets the file's contents
+    /// first; a file that can't be read or parsed stops the start with a
+    /// message naming the part.
     func start(document: SchematicDocument) {
         let netlist = NetlistBuilder.build(chips: document.chips, wires: document.wires, buses: document.buses,
                                            labels: document.netLabels)
         var loads: [(part: Int, values: [UInt32])] = []
-        for (index, chip) in document.chips.enumerated() where chip.part.kind == PART_EEPROM {
-            guard let file = chip.memoryFile, let size = chip.part.memorySize else { continue }
+        for (index, chip) in document.chips.enumerated() where chip.part.hasLoadFile {
+            guard let file = chip.memoryFile, let size = chip.part.loadFileSize else { continue }
             do {
                 loads.append((part: index, values: try MemoryFileAccess.image(file, size: size)))
             } catch {
@@ -504,6 +525,11 @@ final class SimulationController {
         // backend's default state; sending a closed one again is harmless.
         for item in netlist.switchesOn where item.position <= netlist.positionCounts[item.part] {
             if circuit_set_switch(circuit, item.part, UInt32(item.position), 1) != 0 { return false }
+        }
+        // Slide switches start in the knob position they are drawn in (the
+        // backend's own start is the part's rest position).
+        for item in netlist.slideStates {
+            if circuit_set_switch_state(circuit, item.part, UInt32(item.state)) != 0 { return false }
         }
         // Placed resistor values, for the voltage check's feedback divider
         // (plan-42-I). A value the backend refuses (outside 0–1e9 Ω) leaves
@@ -655,6 +681,14 @@ final class SimulationController {
     func setSwitch(_ chipID: UUID, position: Int, on: Bool) {
         guard let engine, let part = netlist?.chipIDs.firstIndex(of: chipID), position > 0 else { return }
         engine.setSwitch(part: part, position: position, on: on)
+    }
+
+    /// Moves a slide switch's knob to position `state` (1-based) in the running
+    /// simulation: the contacts it does not close open, then the ones it does
+    /// close (`circuit_set_switch_state`). Does nothing when not running.
+    func setSlide(_ chipID: UUID, state: Int) {
+        guard let engine, let part = netlist?.chipIDs.firstIndex(of: chipID), state > 0 else { return }
+        engine.setSlide(part: part, state: state)
     }
 
     /// Blows the fuse `chipID`, or restores it when it is blown, in the

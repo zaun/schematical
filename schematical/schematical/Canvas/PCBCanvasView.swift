@@ -56,6 +56,8 @@ struct PCBCanvasView: View {
     var visible = BoardVisibility()
     /// The layer the Trace tool draws on.
     var traceLayer: CopperLayer = .top
+    /// What the Cutout tool draws (plan-65).
+    var cutoutShape: CutoutShape = .rectangle
     /// The Trace tool's angle (`TraceRoute.angles`), between the straight
     /// run and the angled leg.
     var traceAngle = TraceRoute.defaultAngle
@@ -104,8 +106,10 @@ struct PCBCanvasView: View {
     @State private var pressLocation: CGPoint = .zero
     /// What the current press did to the selection; a click finishes it.
     @State private var selectionPress: SelectionPress<BoardItem>?
-    /// Space, `/` and Esc while a trace is being drawn.
-    @State private var drawingKeyMonitor: Any?
+    /// Space, `/` and Esc while a trace is being drawn. Installed through
+    /// the editor's monitors, which the document empties when it closes.
+    @State private var drawingKeyMonitor: UUID?
+    @Environment(\.editorEventMonitors) private var eventMonitors
     /// The Trace assist for the trace being drawn, built at its press.
     @State private var assist: AssistRouter?
     /// The layer the trace being drawn is on: `traceLayer` at the press,
@@ -244,13 +248,13 @@ struct PCBCanvasView: View {
 
     private func installDrawingKeyMonitor() {
         guard drawingKeyMonitor == nil else { return }
-        drawingKeyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+        drawingKeyMonitor = eventMonitors.add(matching: .keyDown) { event in
             handleDrawingKey(event) ? nil : event
         }
     }
 
     private func removeDrawingKeyMonitor() {
-        if let drawingKeyMonitor { NSEvent.removeMonitor(drawingKeyMonitor) }
+        eventMonitors.remove(drawingKeyMonitor)
         drawingKeyMonitor = nil
     }
 
@@ -343,8 +347,9 @@ struct PCBCanvasView: View {
         // The board, under the grid so the dots show on it: a rectangle,
         // or a card's outline with its edge tab. With the PCB layer hidden,
         // only its outline, so the Planes' shading shows on the canvas.
-        let boardShape = Path { path in path.addLines(board.outline); path.closeSubpath() }
-        if visible.shows(.board) { context.fill(boardShape, with: .color(colour.fill)) }
+        // The outline and every cutout, filled even-odd so a cutout is a hole (plan-65-E).
+        let boardShape = Self.boardPath(document.boardEdge)
+        if visible.shows(.board) { context.fill(boardShape, with: .color(colour.fill), style: FillStyle(eoFill: true)) }
         context.stroke(boardShape, with: .color(colour.silkscreen), lineWidth: 0.2)
         if !exporting { drawGrid(in: context, size: size) }
 
@@ -417,9 +422,13 @@ struct PCBCanvasView: View {
                 context.stroke(box, with: .color(.accentColor), lineWidth: 1.5 / scale)
             }
         }
-        if case let .drawRect(_, from, to) = interaction {
+        if case let .drawRect(kind, from, to) = interaction {
             let band = CGRect(x: min(from.x, to.x), y: min(from.y, to.y), width: abs(from.x - to.x), height: abs(from.y - to.y))
-            context.stroke(Path(band), with: .color(.accentColor),
+            // A cutout's preview is the shape it will make.
+            let preview = kind == .cutout && band.width > 0 && band.height > 0
+                ? Path { path in path.addLines(cutoutShape.shape(from: from, to: to).loop); path.closeSubpath() }
+                : Path(band)
+            context.stroke(preview, with: .color(.accentColor),
                            style: StrokeStyle(lineWidth: 1 / scale, dash: [4 / scale, 3 / scale]))
         }
 
@@ -490,6 +499,8 @@ struct PCBCanvasView: View {
                 selected = document.pours.first(where: { $0.id == id && visible.shows(.copper($0.layer)) })?.rect
             case let .keepout(id):
                 selected = document.keepouts.first(where: { $0.id == id })?.rect
+            case let .cutout(id):
+                selected = document.cutouts.first(where: { $0.id == id })?.shape.bounds
             }
             if let selected {
                 context.stroke(Path(selected.insetBy(dx: -margin, dy: -margin)),
@@ -497,6 +508,10 @@ struct PCBCanvasView: View {
             }
         }
     }
+
+    /// The board's shape: its outline and every cutout's loop, to be filled
+    /// even-odd so the cutouts are holes (plan-65-E).
+    static func boardPath(_ edge: BoardEdge) -> Path { Path(edge.path) }
 
     /// Each pour on a shown layer of the board with the path of its fill
     /// (empty with no net or no copper), for drawing.
@@ -513,11 +528,13 @@ struct PCBCanvasView: View {
     /// a drag (3 points or more) and each side is at least `BoardPour.minimumSide`.
     @discardableResult
     static func finishRect(_ document: SchematicDocument, kind: PCBTool, from: CGPoint, to: CGPoint, moved: CGFloat,
-                           layer: CopperLayer) -> Bool {
+                           layer: CopperLayer, cutoutShape: CutoutShape = .rectangle) -> Bool {
         guard moved >= 3 else { return false }
         let rect = CGRect(x: min(from.x, to.x), y: min(from.y, to.y), width: abs(from.x - to.x), height: abs(from.y - to.y))
         guard rect.width >= BoardPour.minimumSide, rect.height >= BoardPour.minimumSide else { return false }
         switch kind {
+        case .cutout:
+            return document.addCutout(cutoutShape.shape(from: from, to: to)) != nil
         case .pour: return document.addPour(rect: rect, layer: layer) != nil
         case .keepout:
             document.addKeepout(rect: rect)
@@ -589,7 +606,7 @@ struct PCBCanvasView: View {
                            clearance: Double, edge: Double, opacity: Double, in context: inout GraphicsContext) {
         let cuts = Self.planeCuts(on: layer, copper: copper)
         context.drawLayer { plane in
-            plane.fill(shape, with: .color(colour.opacity(opacity)))
+            plane.fill(shape, with: .color(colour.opacity(opacity)), style: FillStyle(eoFill: true))
             plane.blendMode = .clear
             // A clearance is the cut's outline grown by it all round: a
             // stroke twice as wide, with round joins, over the filled cut.
@@ -979,7 +996,7 @@ struct PCBCanvasView: View {
             // A press places a hole on the trace grid, and the drag moves it.
             document.addHole(at: point)
             return .moveGroup(base: document.boardGroupBase())
-        case .pour, .keepout:
+        case .pour, .keepout, .cutout:
             // The drag is the rectangle; a release without one makes nothing.
             return .drawRect(kind: tool, from: point, to: point)
         case .route:
@@ -1036,7 +1053,7 @@ struct PCBCanvasView: View {
         }
         if case let .drawRect(kind, from, to) = interaction {
             Self.finishRect(document, kind: kind, from: from, to: to,
-                            moved: hypot(translation.width, translation.height), layer: traceLayer)
+                            moved: hypot(translation.width, translation.height), layer: traceLayer, cutoutShape: cutoutShape)
         }
         assist = nil
         drawingLayer = nil
@@ -1164,6 +1181,9 @@ enum ReferenceDragging {
 @MainActor
 final class BoardPointer {
     var point: CGPoint?
+
+    /// As `TraceKeyContext`'s: an isolated deinit aborts the runtime.
+    nonisolated deinit {}
 }
 
 /// The Trace tool's layer and angle as they are now. The canvas's key
@@ -1293,6 +1313,8 @@ enum PCBTool: String, CaseIterable, Identifiable {
     case pour
     /// Drag a rectangle the pours stay out of (plan-52).
     case keepout
+    /// Drag a rectangle, circle or slot to cut out of the board (plan-65).
+    case cutout
     case delete
     /// Click a pad to route its net, a ratsnest line to route that one
     /// connection, with the last Autoroute options (plan-38-K).
@@ -1309,6 +1331,7 @@ enum PCBTool: String, CaseIterable, Identifiable {
         case .hole: "Hole"
         case .pour: "Pour"
         case .keepout: "Keep-out"
+        case .cutout: "Cutout"
         case .delete: "Delete"
         case .route: "Route"
         }
@@ -1322,7 +1345,8 @@ enum PCBTool: String, CaseIterable, Identifiable {
         case .hole: "Hole — click to place a mounting or drilled hole, drag to move it"
         case .pour: "Pour — drag a rectangle to flood it with copper on the Trace layer; it keeps its clearance from other nets"
         case .keepout: "Keep-out — drag a rectangle the pours stay out of"
-        case .delete: "Delete — click a trace, via, hole or text to delete it (footprints stay)"
+        case .cutout: "Cutout — drag a rectangle, circle or slot to cut out of the board"
+        case .delete: "Delete — click a trace, via, hole, text, pour, keep-out or cutout edge to delete it (footprints stay)"
         case .route: "Route — click a pad to route its net, a ratsnest line to route that one connection"
         default: title
         }
@@ -1337,9 +1361,46 @@ enum PCBTool: String, CaseIterable, Identifiable {
         case .hole: "smallcircle.circle"
         case .pour: "rectangle.fill"
         case .keepout: "rectangle.badge.xmark"
+        case .cutout: "rectangle.dashed"
         case .delete: "eraser"
         case .route: "point.topleft.down.curvedto.point.bottomright.up"
         }
+    }
+}
+
+/// What the Cutout tool draws (plan-65-E): a rectangle is the dragged box, a
+/// slot the box rounded to half its short side, a circle a square as long as
+/// the longer drag side, in the drag's direction.
+enum CutoutShape: String, CaseIterable, Identifiable {
+    case rectangle, circle, slot
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .rectangle: "Rectangle"
+        case .circle: "Circle"
+        case .slot: "Slot"
+        }
+    }
+
+    /// The shape a drag from `from` to `to` (board mm) makes.
+    func shape(from: CGPoint, to: CGPoint) -> BoardCutout.Shape {
+        switch self {
+        case .rectangle:
+            return .rounded(rect: Self.box(from, to), radius: 0)
+        case .slot:
+            return .slot(rect: Self.box(from, to))
+        case .circle:
+            let side = max(abs(to.x - from.x), abs(to.y - from.y))
+            let end = CGPoint(x: from.x + (to.x >= from.x ? side : -side), y: from.y + (to.y >= from.y ? side : -side))
+            let box = Self.box(from, end)
+            return .rounded(rect: box, radius: box.width / 2)
+        }
+    }
+
+    private static func box(_ a: CGPoint, _ b: CGPoint) -> CGRect {
+        CGRect(x: min(a.x, b.x), y: min(a.y, b.y), width: abs(a.x - b.x), height: abs(a.y - b.y))
     }
 }
 

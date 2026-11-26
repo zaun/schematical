@@ -48,6 +48,9 @@ struct CounterModel {
     void (*timer)(Sim *sim, SimInstance *inst, CounterHeader *state, uint32_t id);   /* may be NULL */
     /* 1 when the bound pin is an open-drain output (the voltage check); may be NULL (none are) */
     int (*open_drain)(const void *bound, size_t pin);
+    /* 1 when the bound pin is an output released to Z through an output
+       enable (plan-63-C); may be NULL (none are) */
+    int (*tristate)(const void *bound, size_t pin);
 };
 
 /* The models of counter_div.c (plan-10-E); counter.c lists them in its table. */

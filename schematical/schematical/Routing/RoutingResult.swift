@@ -46,8 +46,25 @@ nonisolated struct RoutingStats: Hashable, Sendable {
     /// Improvement moves tried and kept (`RoutingPolish`).
     var polishTried = 0
     var polishKept = 0
+    /// Push moves tried and kept, and the traces and vias they moved
+    /// (plan-66-D/E fill these; zero until then and whenever the option is off).
+    var pushTried = 0
+    var pushKept = 0
+    var movedTraces = 0
+    var movedVias = 0
     /// Whether the run stopped early (cancelled or out of time).
     var stopped = false
+}
+
+/// A chain of existing copper that push and shove moved (plan-66-C): its new
+/// geometry, with its ends where they were.
+nonisolated struct MovedChain: Hashable, Sendable {
+    /// `MovableChain.id`.
+    var chain: Int
+    /// The new points of each run, in chain order (the chain's own direction).
+    var runs: [[CGPoint]]
+    /// The new centre of each via, in chain order.
+    var vias: [CGPoint]
 }
 
 /// What a run produced: new copper (every piece tagged with its net) and
@@ -55,6 +72,8 @@ nonisolated struct RoutingStats: Hashable, Sendable {
 nonisolated struct RoutingResult: Hashable, Sendable {
     var traces: [RoutedTrace] = []
     var vias: [RoutedVia] = []
+    /// The existing chains the run moved, in chain order (plan-66).
+    var moved: [MovedChain] = []
     var nets: [NetOutcome] = []
     var stats = RoutingStats()
     /// Each length-match group's outcome (plan-38-I).

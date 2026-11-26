@@ -117,6 +117,8 @@ struct AutorouteSheet: View {
                 Toggle("Tune length groups", isOn: $model.options.tuneGroups)
                 Toggle("Route pairs side by side", isOn: $model.options.routePairs)
                 Toggle("Fan out to Planes", isOn: $model.options.fanoutPlanes)
+                Toggle("Push and shove", isOn: $model.options.pushAndShove)
+                    .help("Move other nets' unlocked traces and vias aside to make room. Locked copper never moves.")
             }
         }
         .formStyle(.grouped)
@@ -168,6 +170,7 @@ struct AutorouteSheet: View {
                      + (result.stats.stopped ? " (stopped)" : "")
                      + String(format: ", %d vias, %.0f mm, %.1f s", result.stats.vias, result.stats.wireLength,
                               result.stats.seconds))
+                if let line = model.movedLine { Text(line).foregroundStyle(.secondary) }
             }
             ForEach(model.results) { row in
                 Button {

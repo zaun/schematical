@@ -287,6 +287,7 @@ final class SelectionModelTests: XCTestCase {
             case let .note(id): XCTAssertTrue(doc.notes.contains { $0.id == id })
             case let .label(id): XCTAssertTrue(doc.netLabels.contains { $0.id == id })
             case let .bus(id): XCTAssertNotNil(doc.bus(id))
+            case .titleBlock: XCTAssertNotNil(doc.documentInfo.titleBlock)
             }
         }
         XCTAssertFalse(doc.isSelected(.chip(c.below.id)))

@@ -139,7 +139,7 @@ parts) last.
 | Microcontroller | AVR › AT90 / ATmega / ATtiny / Dx / Ex / Lx/Sx / XMEGA / megaAVR 0 / tinyAVR 0/1/2; ESP32; RP2040 |
 | Power | Regulators › Linear / Switching |
 | Processor | the bus CPUs (6502, 65816, Z80, …) |
-| Switches & Relays | DIP; Tactile; Relay (plan-47) |
+| Switches & Relays | DIP; Tactile; Relay (plan-47); Slide |
 | Vintage | Display tubes › Nixie / Numitron / VFD / Neon / Dekatron; Support ICs |
 
 **Vintage** is old technology that is no longer made, kept as its own
@@ -1853,6 +1853,7 @@ than the delay are filtered out.
 ```json
 "gates": [{"op": "nand", "inputs": ["1A", "1B"], "output": "1Y"}],
 "output": "push-pull",
+"input": "standard",
 "units": 1,
 "timing": {
   "HC": {"rise": 9, "fall": 9, "note": "Typical at 4.5 V, 50 pF"},
@@ -1866,8 +1867,19 @@ Device keys:
 |---|---|
 | `"gates"` | array of gates: `op` (`and`, `nand`, `or`, `nor`, `xor` = odd parity, `xnor` = even parity, `not` = inverter and `buf` = buffer (Y = A; X or Z in gives X), each exactly 1 input), `inputs` (1–13 pin names), `output` (a pin name). Each name must be exactly one pin in every pinout. |
 | `"output"` | optional: `push-pull` (default) or `open-drain` (a 1 releases the pin to Z after the rise delay; an external pull-up takes it high; 74x266, 74x05/06) |
+| `"input"` | optional: `standard` (default) or `schmitt` (the inputs are Schmitt triggers: 74x14, 74x17, CD4093B, CD40106B). A fact for the Schematic's gate symbol, which draws the hysteresis mark; the simulated gate is the same. Anything else: `"input" must be "standard" or "schmitt"` |
 | `"units"` | optional: gates per package as shown in the drawer (`PartLogic.units`); default the number of `gates`. Differs only where one gate has two outputs (CD4068B: NAND and AND of the same 8 inputs, 1 unit). |
 | `"timing"` | object: logic family → `{rise, fall}` (ns), or `{otherLow: {rise, fall}, otherHigh: {rise, fall}}`; either form also takes `vcc` and `inputMax` at its top level (not inside `otherLow`/`otherHigh`) |
+
+**Units** (plan-67). The gates are also the part's *units*, the pieces the
+Schematic can draw as separate gate symbols (`part_unit_count` /
+`part_unit_at`, `docs/backend.md`): one unit per gate, in file order. Two
+gates of the same shape on the same inputs, one true and one inverted
+(CD4068B: NAND and AND; CD4041UB: buffer and inverter), are one unit with two
+outputs, the true output first. A third gate on those inputs is `more than two
+gates share these inputs`; two that are both true or both inverted is `gates on
+the same inputs must be a true and an inverted output`. The number of units is
+what `"units"` says for every bundled device.
 
 `otherLow`/`otherHigh` (74x86): the delays depend on the input that did not
 change — 0 picks `otherLow`, 1 picks `otherHigh`, and X (also at start, when
@@ -1929,7 +1941,7 @@ timing entries are `{rise, fall}` plus `vcc` and `inputMax`. Part keys:
 
 ### `switch`
 
-DIP switches and tactile (push-button) switches. A switch drives nothing;
+DIP switches, tactile (push-button) switches and slide switches. A switch drives nothing;
 each position is a contact between two pins. While a position is ON the
 nets on its two pins act as one net (both ways; strong drivers that disagree
 across it short). Every position starts OFF, except on a normally-closed
@@ -1951,6 +1963,8 @@ closed).
 | `"normallyClosed"` | optional, default `false`, needs `"momentary": true`: the contact is closed at rest and opens while pressed. The circuit starts it closed. `PartSwitch.normally_closed` |
 | `"joined"` | optional, a non-empty array of `[pin name, pin name]`: pins connected inside the part (a four-terminal tactile switch's two pins per side). Always closed; numbered after the positions, not addressable by `circuit_set_switch`. `PartSwitch.joined` is their count |
 | `"bodySize"` | optional, `[length, width]`: the nominal body size in mm, the larger side first, each above 0 and at most 100. The drawer lists a tactile switch under its size (Switches & Relays → Tactile → 6 × 6 mm) and the sidebar shows it as Body. `PartSwitch.body_um` |
+| `"states"` | optional (plan-58-B): makes the device a **slide switch**. An array of 2 or 3 arrays, one per knob position (position 1 first); each lists the contact numbers (1 … the number of `"contacts"`, at most 8, each at most once) that are closed in that position, possibly none (the middle of an On-Off-On switch). `PartSwitch.states` is the count (0 without the key) and `part_switch_state_contacts` reads a position's contacts. Cannot be combined with `"momentary"`, `"normallyClosed"` or `"joined"`. Errors: `"states" must be 2 or 3 arrays of contact numbers`, `states[i]: contact N does not exist (the device has M contacts)`, `states[i]: contact N twice`. |
+| `"rest"` | optional, needs `"states"`: the knob position (1-based, at most the number of states, default 1) a new circuit starts in. `PartSwitch.rest`. Errors: `"rest" needs "states"`, `"rest" must be 1 … K`. |
 
 ```json
 "actuator": "Standard",
@@ -1964,6 +1978,27 @@ closed).
 
 `PartSwitch.positions` is the number of contacts (not counting joined
 pairs). Parts carry no kind keys.
+
+**Slide switches** (plan-58). A slide switch has one latching knob with two or
+three positions; each position closes the contacts `"states"` lists, so the
+contacts stay the primitive (`circuit_set_switch` still closes and opens
+one) and `circuit_set_switch_state(circuit, part, state)` moves the knob: it
+opens the contacts the position does not list, then closes the ones it does
+(break before make). A new circuit starts the knob in `"rest"`. The library's
+slide switches use these pin and contact names and states (position 1 is the
+one the datasheet's circuit table or diagram lists first, the `A` side; a
+switch with an Off position starts Off):
+
+| Circuit | Pins | `"contacts"` | `"states"` On-On | `"states"` On-Off-On | `"states"` On-Off | `"rest"` |
+|---|---|---|---|---|---|---|
+| SPST | `A`, `B` | `[["A","B"]]` | | | `[[1],[]]` | 2 |
+| SPDT | `C`, `A`, `B` | `[["C","A"],["C","B"]]` | `[[1],[2]]` | `[[1],[],[2]]` | | 1 (On-On), 2 (On-Off-On) |
+| DPST | `A1`, `B1`, `A2`, `B2` | `[["A1","B1"],["A2","B2"]]` | | | `[[1,2],[]]` | 2 |
+| DPDT | `C1`, `A1`, `B1`, `C2`, `A2`, `B2` | `[["C1","A1"],["C1","B1"],["C2","A2"],["C2","B2"]]` | `[[1,3],[2,4]]` | `[[1,3],[],[2,4]]` | | 1 (On-On), 2 (On-Off-On) |
+
+The drawer is `["Switches & Relays","Slide"]` (then the circuit and action,
+e.g. `SPDT On-On`). A slide switch's contact timing (DigiKey's "Shorting
+(MBB)" / "Non-Shorting (BBM)") is not modelled beyond break before make.
 
 The library's tactile switches are written by
 `planning/plan-27-data/gen-parts.py` (plan-27-E), which owns `switch.json`
@@ -1982,6 +2017,22 @@ editing the generated devices.
 The DIP switches before that region are hand-written devices, one per
 (series, position count): `te_<series>_<NN>` (TE Connectivity) and
 `cts_219_08` (CTS 219, plan-43).
+
+The library's slide switches are the devices whose id starts `slide_`, a
+contiguous run just before the first `tact_` device, written by
+`planning/plan-58-data/gen-parts.py` (plan-58-C, for C&K / Littelfuse; later
+letters add NKK, E-Switch and CIT Relay & Switch). One device per (circuit,
+action, rated volts, actuator): id `slide_<spst|spdt|dpst|dpdt>_<onon|onoffon|onoff>_<V>v_<actuator>`,
+function `<circuit> <action>`, drawer `["Switches & Relays","Slide"]`,
+`ratedVolts` DigiKey's DC voltage rating (else its AC rating), `contacts`,
+`states` and `rest` from the table above, one pinout per distinct terminal
+numbering (`p<N>_<designators>`: SPDT `2=C;1=A;3=B` is `p3_213`); the part's `footprint` is an `explicit`
+`SW-SLIDE-<MAKER>-<SERIES>-<mount>-<N>P` footprint drawn from the datasheet.
+Its inputs are `planning/plan-58-data/candidates.tsv`, `specs.tsv` and
+`schemes.tsv` (the datasheets' part-number keys); it also adds the
+`datasheets.json` entries and moves each footprint its parts name from
+`planning/plan-58-data/footprints-*.json` into `footprints.json`. Edit those
+inputs and re-run it rather than editing the generated devices.
 
 ### `relay`
 
@@ -2837,12 +2888,13 @@ Not modeled: the read data hold `tDHR`; timing at supply columns other than
 
 ### `mcu`
 
-Microcontrollers (plan-36; `backend/src/models/mcu.c`): 8-bit AVR, ESP32
-modules, RP2040. **Facts only**: no model of the core or its peripherals,
-so every `mcu` device says `"simulated": false` and a circuit refuses its
-parts; the app disables Simulation › Run while one is placed. The engine
-model is passive (no callbacks, like `header`), so the kind needs no
-special case anywhere the engine is used directly.
+Microcontrollers (plan-36, plan-62; `backend/src/models/mcu.c`): 8-bit AVR,
+ESP32 modules, RP2040. A device with a `"model"` is simulated: it runs
+firmware loaded into its flash (docs/backend.md § Microcontrollers). A
+device without one has **facts only**: no model of the core or its
+peripherals, so it says `"simulated": false` and a circuit refuses its
+parts; the app disables Simulation › Run while one is placed, and its
+engine model is passive (no callbacks, like `header`).
 
 ```json
 "simulated": false,
@@ -2850,9 +2902,25 @@ special case anywhere the engine is used directly.
 "vcc": [1.8, 5.5]
 ```
 
+and a simulated one (the ATmega328P):
+
+```json
+"model": "atmega328",
+"core": "avr", "clock": 20000000, "flash": 32768, "ram": 2048, "eeprom": 1024,
+"vcc": [1.8, 5.5]
+```
+
+The shipped devices with a model are the ATmega48/88/168/328 family, 18
+devices and 126 parts: `atmega328` on the 48, 88, 168 and 328 and their A, P
+and PA versions, `atmega168pb` on the 48PB, 88PB and 168PB, `atmega328pb` on
+the 328PB (`planning/plan-62-data/set_models.py`); and the ATtiny25, 45 and
+85, 3 devices and 42 parts, on `attiny85`. Every other `mcu` device is facts
+only.
+
 | Key | Value |
 |---|---|
-| `"simulated"` | required, `false` (`an mcu has no simulation model: "simulated" must be false`) |
+| `"simulated"` | without a `"model"`: required, `false` (`an mcu has no simulation model: "simulated" must be false`). With one: absent or `true` (`an mcu with a "model" is simulated: remove "simulated": false`) |
+| `"model"` | optional: the simulation model, a register layout of the AVR core. `"atmega328"` (the ATmega48/88/168/328 and their A, P and PA versions), `"atmega168pb"` (the ATmega48PB/88PB/168PB: the same plus port E), `"atmega328pb"` (the ATmega328PB: port E with PCINT3, timers 3 and 4, USART1, SPI1, TWI1), `"attiny85"` (the ATtiny25/45/85: port B's six pins, Timer0, Timer1, the USI, a 4-channel ADC); else `unknown mcu model "X"`. Needs core `"avr"` (`"model" needs core "avr"`) and a `"flash"` of 512 bytes or more, an even number. The sizes come from `"flash"`, `"ram"` and `"eeprom"`; a flash of 8192 bytes or less has one-word interrupt vectors, a larger one two-word vectors |
 | `"core"` | `"avr"`, `"avrrc"`, `"avrxt"`, `"avrxm"` (the AVR instruction-set variants), `"cortex-m0plus"`, `"xtensa-lx6"`, `"xtensa-lx7"` or `"riscv"`; else `unknown mcu core "X"` |
 | `"clock"` | the highest clock, Hz, above 0 (`"clock" must be above 0`) |
 | `"flash"`, `"ram"` | bytes, 0 to 4294967295. Flash 0 = external (RP2040) |
@@ -2865,12 +2933,18 @@ Part keys:
 |---|---|
 | `"vcc"`, `"inputMax"` | override the device's. Every part must end up with a `vcc` (`missing "vcc"`) |
 | `"clock"` | overrides the device's (a 10 MHz `V` grade, a 16 MHz ESP32 part of a 240 MHz device) |
-| `"flash"` | bytes, overrides the device's (an ESP32 module's `N4` / `N8` / `N16` flash) |
+| `"flash"` | bytes, overrides the device's (an ESP32 module's `N4` / `N8` / `N16` flash). Not on a part of a device with a `"model"` (`a part of an mcu with a "model" cannot override "flash"`) |
 | `"psram"` | bytes (an ESP32 module's `R2` / `R8` PSRAM); default 0 |
 
 Pins: any count, any roles and names; no key names a pin. Each pinout
 needs at least one `power` and one `ground` pin (`an mcu pinout needs a
-power pin` / `… a ground pin`).
+power pin` / `… a ground pin`). A device with a `"model"` is wired by pin
+name: `P<letter><bit>` (`PB0` … `PD7`, `PE0` … `PE3`) is that port pin and
+must be a port the model has (`mcu model "atmega328" has no pin "PE0"`);
+`ADC6` and `ADC7` are the two ADC-only inputs. `PB6`/`PB7` are also the
+clock pins XTAL1/XTAL2 and `PC6` is the reset pin; on `attiny85` those are
+`PB3`/`PB4` and `PB5`. Every other pin (`VCC`,
+`AVCC`, `AREF`, `GND`, `nc`) takes no part in the simulation.
 
 **Voltage.** The parts carry `vcc`, so the voltage check judges their
 supply pins and input levels as for any chip (a 3.3 V ESP32 module's `3V3`

@@ -116,6 +116,11 @@ int switch_contact_pins(const Part *part, unsigned position, size_t *a, size_t *
  */
 int part_pin_open_drain(const Part *part, size_t pin);
 
+/* 1 when pin is a PIN_OUTPUT the part releases to Z through an output enable
+   (3-state): the ERC's tri_state type (plan-63-B). Each kind answers for its
+   own parts through PartKindOps.pin_tristate; 0 for every kind without one. */
+int part_pin_tristate(const Part *part, size_t pin);
+
 /* 1 when pin is an analog pin of a converter or RTC part (plan-24-D): the
    voltage check ignores it, and a power pin among them is not the part's
    supply. 0 for every kind without the hook. */

@@ -41,7 +41,7 @@ import SwiftUI
 ///   edits its words.
 ///
 /// Clicking a DIP switch lever flips that position, with the Pointer tool or
-/// in play mode. A press that drags moves the part (or pans) instead.
+/// in play mode; clicking a slide switch moves its knob to the next position. A press that drags moves the part (or pans) instead.
 ///
 /// Parts dragged from the drawer are dropped here and centred on the drop point.
 /// The schematic is drawn in world coordinates and scaled by the viewport's zoom.
@@ -61,6 +61,8 @@ struct SchematicCanvasView: View {
     var onOpenCpu: (UUID) -> Void = { _ in }
     var onOpenTerminal: (UUID) -> Void = { _ in }
     var onOpenRegisters: (UUID) -> Void = { _ in }
+    /// Called when the title block is double-clicked, to show Document Info.
+    var onOpenDocumentInfo: () -> Void = {}
     /// Where the pointer is over the canvas (canvas units), for ⌘V; set as
     /// it moves.
     var pointer: BoardPointer?
@@ -80,15 +82,21 @@ struct SchematicCanvasView: View {
     @State private var selectionPress: SelectionPress<SchematicItem>?
     @State private var isDropTargeted = false
     @State private var hoveredChipID: UUID?
+    /// The unit of `hoveredChipID` under the pointer, for a part drawn as its units.
+    @State private var hoveredUnitKey: String?
     @State private var hoveredWireID: UUID?
     @State private var hoveredBusID: UUID?
     @State private var hoveredPortID: UUID?
     @State private var hoveredNoteID: UUID?
+    @State private var isTitleBlockHovered = false
     @State private var hoveredLabelID: UUID?
     /// The connection point under the pointer in Line mode, when not drawing.
     @State private var hoverAnchor: LineAnchor?
     /// Watches for Space, Esc and `/` while a wire or bus is being drawn.
-    @State private var drawingKeyMonitor: Any?
+    /// Installed through the editor's monitors, which the document empties
+    /// when it closes.
+    @State private var drawingKeyMonitor: UUID?
+    @Environment(\.editorEventMonitors) private var eventMonitors
 
     private enum Interaction {
         /// Moves every selected part, junction and wire bend from `base`.
@@ -150,6 +158,10 @@ struct SchematicCanvasView: View {
             } action: { newSize in
                 viewport.updateSize(newSize)
             }
+            .onChange(of: document.ercFocus) { _, focus in
+                // A line selected in the Electrical Rules Check: bring its mark into view.
+                if let focus { viewport.reveal(focus.point) }
+            }
             .gesture(canvasGesture)
             .simultaneousGesture(pinchGesture)
             .scrollPans(viewport) { scrolledMidPress(by: $0) }
@@ -185,8 +197,9 @@ struct SchematicCanvasView: View {
                         onOpenMemory(chip.id)
                         return
                     }
-                    // A processor opens its processor window the same way.
-                    if let chip = document.chip(at: point), chip.part.isCpu {
+                    // A processor, or a simulated microcontroller, opens its
+                    // processor window the same way.
+                    if let chip = document.chip(at: point), chip.part.hasProcessorWindow {
                         onOpenCpu(chip.id)
                         return
                     }
@@ -207,6 +220,14 @@ struct SchematicCanvasView: View {
                        let note = document.note(at: point) {
                         document.select(.note(note.id))
                         document.editingNoteID = note.id
+                        return
+                    }
+                    // The title block opens Document Info.
+                    if document.chip(at: point) == nil, document.netLabel(at: point) == nil,
+                       document.segmentHit(at: point, tolerance: lineTolerance) == nil,
+                       document.titleBlock(at: point) {
+                        document.select(.titleBlock)
+                        onOpenDocumentInfo()
                         return
                     }
                     document.insertNode(at: point, tolerance: lineTolerance)
@@ -253,6 +274,11 @@ struct SchematicCanvasView: View {
             GridBackground(rect: gridRect, step: gridStep)
                 .equatable()
 
+            // The title block is under the text blocks, so a note can sit on it.
+            TitleBlockLayer(layout: document.titleBlockLayout,
+                            isSelected: document.schematicSelection.contains(.titleBlock),
+                            isHovered: isTitleBlockHovered, area: gridRect)
+
             // Under everything else: wires and parts stay visible over a block.
             NoteLayer(
                 notes: document.notes,
@@ -295,13 +321,19 @@ struct SchematicCanvasView: View {
                 area: gridRect
             )
 
-            SchematicPartsLayer(document: document, simulation: simulation, hoveredChipID: hoveredChipID)
+            SchematicPartsLayer(document: document, simulation: simulation, hoveredChipID: hoveredChipID,
+                                hoveredUnitKey: hoveredUnitKey)
 
             PinMarkerLayer(
                 tips: tool == .line ? document.pinTips : [],
                 highlight: highlightPoint,
                 area: gridRect
             )
+
+            // The Electrical Rules Check's marks: on screen only, never in an export.
+            if !document.ercMarkers.isEmpty {
+                ErcMarkerLayer(markers: document.ercMarkers, selected: document.ercSelectedKeys, area: gridRect)
+            }
         }
         .scaleEffect(zoom, anchor: .topLeading)
         .offset(viewport.offset)
@@ -405,15 +437,13 @@ struct SchematicCanvasView: View {
 
     private func installDrawingKeyMonitor() {
         guard drawingKeyMonitor == nil else { return }
-        drawingKeyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+        drawingKeyMonitor = eventMonitors.add(matching: .keyDown) { event in
             handleDrawingKey(event) ? nil : event
         }
     }
 
     private func removeDrawingKeyMonitor() {
-        if let drawingKeyMonitor {
-            NSEvent.removeMonitor(drawingKeyMonitor)
-        }
+        eventMonitors.remove(drawingKeyMonitor)
         drawingKeyMonitor = nil
     }
 
@@ -715,10 +745,12 @@ struct SchematicCanvasView: View {
     /// In play mode, nothing is highlighted.
     private func clearHover() {
         hoveredChipID = nil
+        hoveredUnitKey = nil
         hoveredWireID = nil
         hoveredBusID = nil
         hoveredPortID = nil
         hoveredNoteID = nil
+        isTitleBlockHovered = false
         hoveredLabelID = nil
         hoverAnchor = nil
     }
@@ -732,8 +764,9 @@ struct SchematicCanvasView: View {
             hoverAnchor = lineAnchor(at: point)
             return
         }
-        if let chip = document.chip(at: point) {
+        if let chip = document.piece(at: point) {
             hoveredChipID = chip.id
+            hoveredUnitKey = chip.unitKey
         } else if let label = document.netLabel(at: point) {
             hoveredLabelID = label.id
         } else if let port = document.portHit(at: point) {
@@ -742,8 +775,10 @@ struct SchematicCanvasView: View {
             hoveredWireID = wire
         } else if let bus = document.busHit(at: point, tolerance: busTolerance)?.bus {
             hoveredBusID = bus
+        } else if let note = document.note(at: point) {
+            hoveredNoteID = note.id
         } else {
-            hoveredNoteID = document.note(at: point)?.id
+            isTitleBlockHovered = document.titleBlock(at: point)
         }
     }
 
@@ -751,8 +786,9 @@ struct SchematicCanvasView: View {
     /// start of the press. `screen` is the press in screen points.
     private func beginPointerInteraction(at point: CGPoint, screen: CGPoint) {
         let shift = NSEvent.modifierFlags.contains(.shift)
-        if let hit = document.chip(at: point) {
-            selectionPress = document.pressSelection(.chip(hit.id), shift: shift)
+        if let hit = document.piece(at: point) {
+            // A unit of a part drawn as its units is picked; the drag then moves the picked units.
+            selectionPress = document.pressPiece(hit, shift: shift)
             interaction = .moveGroup(base: document.schematicGroupBase(), lever: shift ? nil : hit.id)
         } else if let label = document.netLabel(at: point) {
             selectionPress = document.pressSelection(.label(label.id), shift: shift)
@@ -794,6 +830,9 @@ struct SchematicCanvasView: View {
                 : .dragBusLine(bus: line.bus, base: base, line: line.line, done: .zero)
         } else if let note = document.note(at: point) {
             selectionPress = document.pressSelection(.note(note.id), shift: shift)
+            interaction = .moveGroup(base: document.schematicGroupBase(), lever: nil)
+        } else if document.titleBlock(at: point) {
+            selectionPress = document.pressSelection(.titleBlock, shift: shift)
             interaction = .moveGroup(base: document.schematicGroupBase(), lever: nil)
         } else if shift {
             interaction = .boxSelect(base: document.schematicSelection.items, from: screen, to: screen)
@@ -879,6 +918,14 @@ struct SchematicCanvasView: View {
     /// document and, in play mode, in the running simulation. A position the
     /// document refuses to turn ON never reaches the simulation.
     private func toggleSwitchLever(at point: CGPoint) {
+        // A slide switch moves its knob to the next position on a click
+        // anywhere on its body (plan-58-G).
+        if let chip = document.chip(at: point), let next = chip.nextSlidePosition {
+            if let state = document.setSlideState(chip.id, to: next) {
+                simulation.setSlide(chip.id, state: state)
+            }
+            return
+        }
         guard let chip = document.chip(at: point),
               let position = chip.switchPosition(at: point),
               let isOn = document.toggleSwitch(chip.id, position: position) else { return }
@@ -1070,6 +1117,54 @@ struct NoteLayer: View {
     }
 }
 
+/// Draws the title block (plan-64-C): a framed table of the document's
+/// information. A selected block's frame is accent; the hovered one gets a
+/// soft accent underlay. Not private, so the export can draw it too.
+struct TitleBlockLayer: View {
+    let layout: TitleBlockLayout?
+    var isSelected = false
+    var isHovered = false
+    /// The visible world area; drawing outside it is not shown.
+    let area: CGRect
+
+    var body: some View {
+        Canvas { context, _ in
+            guard let layout else { return }
+            var shifted = context
+            shifted.shiftToWorld(area)
+            var painter = ScreenPainter(shifted)
+            Self.paint(&painter, layout: layout, isSelected: isSelected, isHovered: isHovered)
+        }
+        .worldCanvas(area)
+    }
+
+    /// Draws the block in world coordinates.
+    static func paint<P: SchematicPainter>(_ painter: inout P, layout: TitleBlockLayout,
+                                           isSelected: Bool = false, isHovered: Bool = false) {
+        let frame = Path(layout.rect)
+        if isHovered, !isSelected {
+            painter.stroke(frame, with: Ink.accent.opacity(0.35), lineWidth: 5)
+        }
+        painter.fill(frame, with: .paper)
+        for (a, b) in layout.separators {
+            var line = Path()
+            line.move(to: a)
+            line.addLine(to: b)
+            painter.stroke(line, with: .secondary, lineWidth: 1)
+        }
+        painter.stroke(frame, with: isSelected ? .accent : .primary, lineWidth: isSelected ? 2 : 1.5)
+        for cell in layout.cells {
+            painter.draw(PaintedText(cell.label, size: CGFloat(TitleBlockLayout.labelSize), ink: .secondary),
+                         at: cell.labelOrigin, anchor: .topLeading)
+            for (index, line) in cell.lines.enumerated() where !line.isEmpty {
+                painter.draw(PaintedText(line, size: CGFloat(cell.size), weight: cell.weight, monospaced: true),
+                             at: CGPoint(x: cell.textOrigin.x, y: cell.textOrigin.y + CGFloat(index) * cell.lineHeight),
+                             anchor: .topLeading)
+            }
+        }
+    }
+}
+
 /// A junction's dot, accent when it is selected.
 struct JunctionDot {
     let point: CGPoint
@@ -1119,155 +1214,179 @@ private struct SchematicPartsLayer: View {
     let document: SchematicDocument
     let simulation: SimulationController
     let hoveredChipID: UUID?
+    /// The unit under the pointer, when `hoveredChipID` is drawn as its units.
+    let hoveredUnitKey: String?
+
+    /// Whether the pointer is over this part, or this piece of one.
+    private func isHovered(_ chip: PlacedChip) -> Bool {
+        chip.id == hoveredChipID && (chip.unitKey == nil || chip.unitKey == hoveredUnitKey)
+    }
 
     var body: some View {
         Group {
             let connectedPins = document.connectedPins
-            ForEach(document.chips) { chip in
+            // What is drawn: each part, or each unit of a part drawn as its units (plan-67).
+            let pieces = document.chips.flatMap(\.pieces)
+            ForEach(pieces, id: \.drawID) { chip in
                 Group {
                     switch chip.symbol {
+                    case .gate:
+                        GateSymbolView(
+                            chip: chip,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
+                            isSibling: document.isSibling(chip)
+                        )
                     case .block, .oscillator:
                         ChipBlockView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             connectedPins: connectedPins[chip.id] ?? [],
                             timerWarning: simulation.isRunning
-                                ? TimerText.warning(simulation.timerSections[chip.id] ?? []) : nil
+                                ? TimerText.warning(simulation.timerSections[chip.id] ?? []) : nil,
+                            isSibling: document.isSibling(chip)
                         )
                     case .barrelJack:
                         BarrelJackSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip)
                         )
                     case .header:
                         HeaderSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip)
                         )
                     case .testPoint:
                         TestPointSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip)
                         )
                     case .diode:
                         DiodeSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             level: simulation.lights[chip.id]?.first ?? 0
                         )
                     case .plainDiode:
                         DiodeSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             mark: DiodeMark(part: chip.part)
                         )
                     case .capacitor:
                         CapacitorSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip)
                         )
                     case .crystal:
                         CrystalSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip)
                         )
                     case .resistor:
                         ResistorSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip)
                         )
                     case .inductor:
                         InductorSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip)
                         )
                     case .fuse:
                         FuseSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             isBlown: simulation.blownFuses.contains(chip.id)
                         )
                     case .relay:
                         RelaySymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             connectedPins: connectedPins[chip.id] ?? [],
                             levels: simulation.lights[chip.id] ?? []
                         )
                     case .buzzer:
                         BuzzerSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             level: simulation.lights[chip.id]?.first ?? 0
                         )
                     case .transistor:
                         TransistorSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip)
                         )
                     case .vcc, .ground, .pullUp, .pullDown:
                         SupplySymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip)
                         )
                     case .dipSwitch:
                         DipSwitchSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             connectedPins: connectedPins[chip.id] ?? []
                         )
                     case .tactileSwitch:
                         TactileSwitchSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
+                            connectedPins: connectedPins[chip.id] ?? []
+                        )
+                    case .slideSwitch:
+                        SlideSwitchSymbolView(
+                            chip: chip,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             connectedPins: connectedPins[chip.id] ?? []
                         )
                     case .sevenSegment:
                         SevenSegmentSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             connectedPins: connectedPins[chip.id] ?? [],
                             levels: simulation.lights[chip.id] ?? []
                         )
                     case .nixie:
                         NixieSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             connectedPins: connectedPins[chip.id] ?? [],
                             levels: simulation.lights[chip.id] ?? []
                         )
                     case .dekatron:
                         DekatronSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             connectedPins: connectedPins[chip.id] ?? [],
                             levels: simulation.lights[chip.id] ?? []
                         )
                     case .characterLCD:
                         CharacterLCDSymbolView(
                             chip: chip,
-                            isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID,
+                            isSelected: document.isPicked(chip),
+                            isHovered: isHovered(chip),
                             connectedPins: connectedPins[chip.id] ?? [],
                             frame: simulation.lcdFrames[chip.id],
                             backlights: simulation.lights[chip.id] ?? []
@@ -1278,11 +1397,11 @@ private struct SchematicPartsLayer: View {
             }
 
             // Every part's reference above it (Display Reference).
-            ForEach(document.chips) { chip in
+            ForEach(pieces, id: \.drawID) { chip in
                 if let top = ReferenceLabelView.offsetY(for: chip) {
                     ReferenceLabelView(
                         chip: chip,
-                        isHighlighted: document.isSelected(.chip(chip.id)) || chip.id == hoveredChipID
+                        isHighlighted: document.isPicked(chip) || isHovered(chip)
                     )
                     .offset(x: chip.viewOrigin.x, y: chip.viewOrigin.y + top)
                 }

@@ -1144,9 +1144,27 @@ static int sh_analog(const void *dev, const void *bound, size_t pin) {
     return 0;
 }
 
+/* A unit's storage outputs when its storage has an "outputEnable". */
+static int sh_tristate(const void *dev, const void *bound, size_t pin) {
+    const ShBound *b = bound;
+    size_t i, k;
+
+    (void)dev;
+    for (i = 0; i < b->unit_count; i++) {
+        const ShUnitDef *d = b->units[i].def;
+
+        for (k = 0; d->has_storage && b->units[i].st_oe.pin != SEQ_NO_PIN && k < d->st_output_count; k++) {
+            if (b->units[i].st_outputs[k] == pin) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 static const ShiftModel SHIFT_MODEL = {
     "shift", SHIFT_KEYS, NULL, sh_load, sh_bind, sh_create, sh_start, sh_changed, NULL,
-    sh_open_drain, sh_analog
+    sh_open_drain, sh_analog, sh_tristate
 };
 
 /* ---- The kind --------------------------------------------------------------------- */
@@ -1307,7 +1325,15 @@ static int shift_pin_analog(const Part *part, size_t pin) {
     return dev->model->analog != NULL && dev->model->analog(dev->dev, internal->bound, pin);
 }
 
+static int shift_pin_tristate(const Part *part, size_t pin) {
+    const PartInternal *internal = part_internal(part);
+    const ShiftDevice *dev = internal->device;
+
+    return dev->model->tristate != NULL && dev->model->tristate(dev->dev, internal->bound, pin);
+}
+
 const PartKindOps SHIFT_KIND = {
     PART_SHIFT, "shift", &SHIFT_SIM_MODEL, DEVICE_KEYS, PART_KEYS,
-    shift_load_device, shift_bind_pinout, shift_load_part, shift_pin_open_drain, shift_pin_analog
+    shift_load_device, shift_bind_pinout, shift_load_part, shift_pin_open_drain, shift_pin_analog,
+    shift_pin_tristate
 };

@@ -1,11 +1,14 @@
 # Export
 
-**File > Save As…** (and Save of a window with no file yet) has a **Format**
-menu: Schematical, **KiCad Project** ([KiCad](#kicad)) or **EasyEDA Pro
-Project** ([EasyEDA Pro](#easyeda-pro)). **File > Export** (after Save As…) has two items: **Image…** (⇧⌘E), a
+**File › Export** (after the document's Save, Duplicate, Rename…, Move To… and Revert To
+items) has five items. **KiCad Project…** ([KiCad](#kicad)) and **EasyEDA Pro
+Project…** ([EasyEDA Pro](#easyeda-pro)) write the whole design for another tool; the Save
+panel has no Format menu. **Image…** (⇧⌘E), a
 picture of the focused window's schematic, PCB page or made board, and
 **PDF…**, the schematic and each PCB layer at 1:1 (see [PDF and print](#pdf-and-print)), and
 **Gerber PCB…**, its board as Gerber files (see Gerber below). **File > Print…** (⌘P) prints the same pages.
+The exports and Print are `SchematicExporter`'s, one per document; an export is never a save, and
+does not mark the document edited.
 
 ## Image
 
@@ -16,7 +19,7 @@ the PCB layers.
 
 | Image | Formats | Backgrounds (first is the default) | 1× is | Extra options |
 |---|---|---|---|---|
-| Schematic | PNG, JPG, SVG | Transparent, White | 1 px per canvas point | — |
+| Schematic | PNG, JPG, SVG | Transparent, White | 1 px per canvas point | — (a shown title block, Window ▸ Document Info, is drawn with it) |
 | PCB | PNG, JPG | Dark (the PCB page's canvas), White, Transparent | 1 px per PCB page point (20 per mm) | Layers: PCB, each copper layer, Silkscreen, Document, Ratsnest (off by default) |
 | Front Render / Back Render | PNG, JPG | Backdrop (Board Preview's), White, Transparent | 1 px per render point (10 per mm) | View (Top, Angled) |
 
@@ -66,6 +69,9 @@ schematic, with anything but letters, digits, `-` and `_` turned into `_`
 | `.G1`…`.G4` | inner copper, in stack order | as above for the layer; a Plane is the board pulled back by the min copper-to-edge, less its clearances, as the PCB page draws it; a pour on a Wire layer as on Top |
 | `.GBL` | Bottom copper | as Top, for Bottom |
 
+  A Plane clears every cutout: after the board region, each cutout is a clear-polarity region and a clear stroke twice the min copper-to-edge wide round
+  its loop, so the Plane keeps the copper-to-edge band from a cutout as it does from the outline (plan-65). Nothing else in the set changes for a cutout.
+
   A **copper pour** (plan-52) is its fill as the PCB page computes it (`PourFiller`: the pour's rectangle, less the other nets' copper and the keep-outs
   grown by the clearance, the thermal rings less their spokes): one dark region (`G36`) per kept piece of the fill, then each hole of the piece as a
   clear-polarity region, drawn before the layer's traces, pads and vias so these sit on it. A pour on no net is not drawn. Keep-outs are not drawn: they
@@ -74,7 +80,7 @@ schematic, with anything but letters, digits, `-` and `_` turned into `_`
 | `.GTS` / `.GBS` | solder mask (`FilePolarity,Negative`: drawn = opening) | the side's surface-mount pads (an opposite-side pad is on the side opposite its part's) and fingers, every plated through-hole pad, every bare hole, each grown by the Mask expansion design rule. Vias are tented unless opened (Via ▸ Tented on Top / Bottom): an open side gets an opening the via's metal grown by the Mask expansion |
 | `.GTP` / `.GBP` | paste | the side's surface-mount part pads (not fingers) |
 | `.GTO` / `.GBO` | silkscreen | silkscreen texts, references (1 mm, centred on the body, or where the part's reference was moved to), pin-1 dots (0.4 mm), body outlines and cathode bands (0.15 mm pen), each only when its layer is Silkscreen |
-| `.GKO` | outline (`Profile,NP`) | the board outline, 0.1 mm pen |
+| `.GKO` | outline (`Profile,NP`) | the board outline, 0.1 mm pen, then each [cutout](file-format.md#cutouts) as a closed loop of its own (a fab routes the profile; a cutout is not in the drill files) |
 | `-PTH.drl` | plated drill (Excellon) | through-hole pads, vias, plated holes, header pads |
 | `-NPTH.drl` | non-plated drill (Excellon), only when the board has any | bare holes, a standard's mounting holes, non-plated footprint holes |
 | `-CPL.csv` | pick and place (CSV), only when the board has surface-mount parts | see [Pick and place](#pick-and-place) |
@@ -180,7 +186,10 @@ References, Part Number, Package, Value, Color, Description) and **Export JLCPCB
 
 **File > Print…** (⌘P) and **File > Export > PDF…** open one options sheet over the window, with a live
 preview of the PDF; its button is **Print…** (the system print panel, for the same PDF) or **Save PDF…** (the save
-panel, `<window name>.pdf`). Simulation's Run / Stop is ⌥⌘P. The paper, Mirror, Negative and Registration marks
+panel, `<window name>.pdf`). Printing goes through the document: after the sheet, Print… asks the document to
+print (`NSDocument.print`), and the document's `printOperation(withSettings:)` makes the operation from
+`PrintExport`'s PDF with the sheet's choices. The system's own print action (with no sheet) reaches the same
+method and prints every page with the saved paper and marks. Simulation's Run / Stop is ⌥⌘P. The paper, Mirror, Negative and Registration marks
 are remembered between prints (`PrintOptions.saved`); the page choices are not (a board's layers differ).
 
 **Paper** is Letter, Legal, Tabloid, A4 or A3 (Letter where the system measures in inches, else A4). Every page is
@@ -190,11 +199,11 @@ the same paper there.
 
 | Page | What is on it | On by default |
 |---|---|---|
-| Schematic | the schematic as the black line-art image (vector), scaled down to fit one sheet, never up past 1×; the footer says the scale | yes |
+| Schematic | the schematic as the black line-art image (vector, with its title block when shown), scaled down to fit one sheet, never up past 1×; the footer says the scale | yes |
 | `<Layer>` copper, one per layer | the layer's artwork as in its Gerber file: planes with their clearances, traces, pads, vias, black on white, seen from the layer's own side (a Bottom page is mirrored against the PCB page). A dot of at most 0.4 mm (`drillDot`) at each hole's centre, in the paper colour, for the bit | yes |
 | `<Side>` parts (footprint check) | pads (light gray, outlined), each drill hole at its true size outlined, and that side's silkscreen: lay a real part on it | yes |
 | `<Side>` silkscreen | the side's silkscreen alone | no |
-| Board outline and drills | the outline (0.2 mm) and every hole at its true size with a centre cross | yes |
+| Board outline and drills | the outline and every cutout's loop (0.2 mm) and every hole at its true size with a centre cross | yes |
 
 - **1:1**: a board page is in mm (72 / 25.4 points per mm), not scaled to fit. Its footer says "1:1, print at 100 %
   (Actual Size)" and draws a 50 mm ruler with ticks every 10 mm (`rulerLength`) to check the printer's scale.
@@ -216,12 +225,15 @@ board, `mirror`, `negative`, `marks`), see [agent-control.md](agent-control.md).
 
 ## KiCad
 
-**File > Save As…**, Format **KiCad Project**, writes the schematic and its
-board as a KiCad 8 project (KiCad 8 and later open it): next to the chosen
-file, `<name>.kicad_pro`, `<name>.kicad_sch` and `<name>.kicad_pcb`
-(`KiCadExport`). The panel's Format menu changes the file type and the
-extension of the name. Like any export it is not a save: the window's file and
-its unsaved-changes state do not change.
+**File › Export › KiCad Project…** writes the schematic and its
+board as a KiCad 8 project (KiCad 8 and later open it). It asks for a
+**folder** and writes three files into it, named after the schematic:
+`<name>.kicad_pro`, `<name>.kicad_sch` and `<name>.kicad_pcb`
+(`KiCadExport`). A folder, not a file name, because the app is sandboxed: a
+save panel lets it write only the one file named in it, and the other two
+were refused. When the folder already has any of the three, the app asks
+before replacing them. Like any export it is not a save: the document's file and
+its Edited state do not change.
 
 **Schematic** (`KiCadSchematicWriter`). One sheet, 0.127 mm per canvas unit, so
 the app's 10-unit grid is KiCad's 1.27 mm grid and every wire end lands on a pin
@@ -230,8 +242,12 @@ end.
 - Each part is a generated symbol in the file's own `Schematical` library: a
   rectangle with the pins on the sides the app draws them (a flipped or turned part is its
   own symbol; a two-terminal part's rectangle is just its pins' span). Pin names
-  keep their active-low bars (`~{CE}`), pin types follow the roles, and power and
-  ground pins are power inputs. Value is the part number (a resistor's or generic
+  keep their active-low bars (`~{CE}`), and a pin's type is the electrical rules
+  check's (plan-63; `docs/backend.md` § ERC pin types): `passive` for a resistor,
+  connector or transistor, `tri_state` for a 3-state output, `open_collector`,
+  `power_out` for a regulator's output, `bidirectional`, `input`, `output`, and
+  `power_in` for power and ground pins, so KiCad's own ERC on the export sees what
+  the app's sees (the pin's role when the document has no part library). Value is the part number (a resistor's or generic
   capacitor's value), Footprint is `Schematical:<footprint id>`, Datasheet is the
   datasheet URL.
 - VCC and GND symbols are power symbols named for the rail (`5V`, `3V3`, `GND`),
@@ -240,12 +256,39 @@ end.
   symbol of its rail.
 - Wires (one per straight run), junctions where 3 or more runs meet, net labels
   (local labels; the flag shape is not kept), No Connects and text blocks (framed
-  ones with a box). Buses are drawn as KiCad buses with each port as a box, and every
+  ones with a box). A Power Flag net label (plan-63-A) becomes a `PWR_FLAG` power
+  symbol (`#FLG<n>`, pin type `power_out`) at its point; EasyEDA Pro has no such
+  symbol, so the flag is left out there. A shown title block (Window ▸ Document Info) is lines and text the same way,
+  in the canvas's layout; and KiCad's own `(title_block …)` always carries the Document Info: its
+  title (the file's name when it has none), the updated date, revision, the author as the company
+  and the description as comment 1. Buses are drawn as KiCad buses with each port as a box, and every
   wired port pin carries a net label of its bus wire's name, so the nets are the
   same as the app's (linked buses share the label; unrelated wires of one name get
   `D0`, `D0_2`).
 - A card board's connector (`EDGE1`, `HEADER1`) is a symbol beside the drawing,
   one pin per connector pin, each on its net by a label or a power symbol.
+
+**Parts drawn as units** (plan-67). A part in Gate view (a gate IC drawn as
+separate gates) is written as a real KiCad multi-unit symbol: one library
+symbol, named after the part plus `_units` and each unit's flip and turn
+(`SN74HC00N_units_An0_Bf90_Cn0_Dn0_Pn0`), with one KiCad unit per drawn piece
+(`…_1_1`, `…_2_1`, …; no common `_0_1` graphics), each holding that piece's
+body rectangle and its pins. The sheet gets one instance per piece at the
+piece's place, `(unit 1)`, `(unit 2)`, … in the order of the part's units, all
+with the part's one reference, so KiCad shows `U1A`, `U1B`, … and still sees
+one part with one footprint. The first instance carries the part's own uuid,
+which the board's footprint points at. The block of leftover pins (`U1-P`
+here: power, ground, NC) is the last unit, so a quad gate's power unit reads
+`U1E` in KiCad. As for every part, each unit is a rectangle with pins: the
+gate outlines are not written. Checked with KiCad 10.0.8 on the app's own
+`ExportSamples.split()` (a quad NAND with one gate moved, flipped and turned):
+`kicad-cli sch export netlist` lists one component `U1` (SN74HC00N, footprint
+`Schematical:PDIP-14`) with units A–E holding pins 1 2 3 / 4 5 6 / 8 9 10 /
+11 12 13 / 7 14, and its pins on the app's nets (pin 3 with pin 4 and the
+LED, 14 on `5V`, 7 on `GND`, the ten unused pins each on their own
+`unconnected-(…)` net); `kicad-cli sch erc` reports none of `missing_unit`,
+`extra_units`, `different_unit_net` or `different_unit_footprint`. The outputs
+are in `planning/plan-67-data/kicad/`.
 
 **Board** (`KiCadBoardWriter`). Millimetres as on the PCB page, moved 30 mm inside
 the page. Footprints are written with the part's reference, value, body outline,
@@ -256,7 +299,7 @@ those of the other side), traces, vias (each with its two tenting flags, `(tenti
 zones (press B in KiCad to fill), each copper pour on a net as an unfilled zone over its rectangle (`connect_pads` with no keyword is thermal relief,
 `connect_pads yes` solid; `thermal_gap`, `thermal_bridge_width` and `min_thickness` are the pour's gap, spoke width and minimum width; KiCad fills it with Fill All Zones (B),
 so its fill differs from the app's in detail), each keep-out as a rule area on its layers that blocks only copper pour (`(keepout (tracks allowed) (vias allowed) (pads allowed)
-(copperpour not_allowed) (footprints allowed))`; a keep-out on no layer is not written), the outline on `Edge.Cuts`, board texts, the card's
+(copperpour not_allowed) (footprints allowed))`; a keep-out on no layer is not written), the outline on `Edge.Cuts` and each cutout's loop beside it (`gr_line`s, uuids `cutout/<n>/<i>`; the Plane zone's polygon stays the outline, and KiCad's fill keeps out of a cutout with its clearance: `planning/plan-65-data/probe_zone_edge_cuts.py`), board texts, the card's
 fingers or header pads, and holes. A 1-layer board has the two copper layers KiCad
 needs. Pads carry the net of their pin, named as KiCad names it: a rail's name, a net
 label as `/NAME` (a `/` in it as `{slash}`), else `Net-(U1-A0)` after the
@@ -283,7 +326,7 @@ file turns off KiCad's missing-library checks). Design rules go to the project's
 design settings.
 
 **Checking it.** `KiCadExportTests` checks the files' shape, that a footprint's pads
-land where the app puts them at every turn and side, and the Format menu. The rest was
+land where the app puts them at every turn and side, and the folder chooser and the three files it leads to. The rest was
 checked with KiCad 10's `kicad-cli`: `sch export netlist` gives the same pin groups
 and the same net names as the pads on the board (on `AFU`, `LFU` and `RegFile`), `pcb
 drc` finds no schematic parity difference, a board of DIP and SOIC parts at every
@@ -294,10 +337,10 @@ written (a track's or via's net is `(net <code>)`, not code and name, which KiCa
 
 ## EasyEDA Pro
 
-**File > Save As…**, Format **EasyEDA Pro Project**, writes the schematic and its
+**File › Export › EasyEDA Pro Project…** asks where to save and writes the schematic and its
 board as one `.epro` file (`EasyEDAProExport`), which EasyEDA Pro takes with **File ▸
 Import ▸ EasyEDA Professional**. Like the KiCad project it is an export: the
-window's file and its unsaved-changes state do not change.
+document's file and its Edited state do not change.
 
 The format is EasyEDA Pro's "V2" project archive (the one its published spec and
 KiCad's importer describe; EasyEDA Pro 3 still imports it, and older Pro versions open it,
@@ -328,12 +371,20 @@ with its device, designator, footprint and value; VCC and GND are net-flag symbo
 (`Global Net Name`), and a pull resistor has its far pin on a flag of its rail. Each wire is
 one `WIRE` with a `NET` attribute: a rail's name, a net label's text (shown at the
 label), a bus pin's wire name, or after its first pin. Bus lines and ports are plain lines,
-text blocks are `TEXT` (framed ones with a box), and a card board's connector is a
+text blocks and a shown title block are `TEXT` (framed ones with a box), and a card board's connector is a
 symbol beside the drawing with a named stub or a net flag on each pin.
+
+**Parts drawn as units** (plan-67). A part in Gate view stays one `COMPONENT`
+with one Designator. Its generated symbol holds one `RECT` per drawn piece and
+every pin where the app draws it, measured from the corner of the box around
+the pieces, so every wire still ends on its pin and the board link is
+unchanged. The pieces cannot be moved apart in EasyEDA: there is no
+multi-part symbol. The symbol's key includes each unit's place, flip and
+turn, so two differently arranged parts never share one.
 
 **Board** (`EasyEDAProBoardWriter`): `LAYER`s (a 1-layer board gets Top and Bottom, EasyEDA's
 minimum), the design rules' track width, a `NET` for every net a pad carries, the outline
-(`POLY` on the outline layer), a `POUR` for each inner Plane on a net and for each copper pour on a net (over its rectangle; keep-outs are not exported, the format's keep-out record can't be checked here), a `LINE` per trace
+(`POLY` on the outline layer, then one more `POLY` on the same layer for each cutout), a `POUR` for each inner Plane on a net and for each copper pour on a net (over its rectangle; keep-outs are not exported, the format's keep-out record can't be checked here), a `LINE` per trace
 segment, `VIA`s, a `PAD` for each card finger and hole, `STRING` for board texts, and each
 part as a `COMPONENT` with `Designator`, `Device` and `Footprint` attributes and a
 `PAD_NET` per pad on a net. A net of one pin is left without a net. A footprint file is the footprint as seen
@@ -343,6 +394,11 @@ from its own side: its pads are on layer 1, an opposite-side pad (plan-54-E) on 
 silkscreen marks (a footprint's body is on the assembly layer and its pin-1 dot on Top
 silkscreen whatever the part's marks say), cathode bands, a chamfered pad's chamfer, and
 3D models.
+
+**Cutouts** (plan-65) were checked with KiCad 10.0.8: the app's own `cutouts` board (a circle, a slot and a triangle on a 4-layer board with two Planes; `ExportSamples.cutouts()`,
+printed with `TEST_RUNNER_KICAD_OUT=1` by `CutoutExportTests.testPrintCutoutSamplesWhenAsked`) has the same 3 copper-edge and 2 silkscreen-edge findings from `kicad-cli pcb drc` as the same
+board without cutouts (the sample's own), `kicad-cli pcb export dxf -l Edge.Cuts` gives 73 `LINE`s (4 for the outline, 69 for the three loops: the file's `gr_line` count) and
+KiCad's EasyEDA Pro importer reads 73 `Edge.Cuts` segments from the `.epro`.
 
 **What was checked, and what was not.** `EasyEDAProExportTests` checks the files' shape and
 that every pad, at every turn and side, is where the app puts it. The rest was checked by
@@ -356,6 +412,21 @@ published layouts (the item fields KiCad's parser reads) and for being self-cons
 that is a pin lands on that pin's place under the convention above. **No file has been opened in EasyEDA
 Pro itself**, so a field the spec and KiCad's importer leave open may still differ
 (text alignment codes, which the spec and KiCad number differently, are the likely one).
+
+## Import
+
+**File › Import › DXF…** reads a 2D drawing and makes the board's edge and cutouts from its closed loops (plan-65). It asks for a `.dxf` file, then shows a sheet with a
+preview of the loops, which layers to use, the drawing's units (from `$INSUNITS`; the board's units when the file has none), and one of two modes:
+
+- **Board outline and cutouts**: the largest outer loop becomes the board's edge (a free-form Custom board whose width and height are its bounds), the loops inside it become cutouts, and
+  the board's old cutouts are replaced. The drawing is flipped (a DXF's y goes up) and moved so the outline's top-left is (0, 0). Parts and traces stay where they are.
+- **Cutouts only**: every outer loop is added as a cutout of the board the document has. The drawing's origin lands at the X and Y the sheet shows (mm from the board's
+  top-left; by default the board's bottom-left corner, so a drawing with its origin at the board's corner lines up).
+
+It is one undo step. What it reads: ASCII DXF with `LINE`, `ARC`, `CIRCLE`, `LWPOLYLINE`, `POLYLINE`, `ELLIPSE` and `SPLINE` entities; curves are cut into segments no more than 0.01 mm from the true
+curve, and pieces whose ends are within 0.01 mm are joined into loops. Everything else (`TEXT`, `HATCH`, `DIMENSION`, `INSERT` blocks, 3D) is left out and the sheet says how many; so are
+open chains, loops that cross themselves or another loop, loops outside the outline and loops inside a cutout. A binary DXF is refused. It was checked with files written by ezdxf (areas and
+bounding boxes match ezdxf's own) and by KiCad (`kicad-cli pcb export dxf` of the app's own board reads back as the same four loops): `planning/plan-65-data/`.
 
 ## Black line art
 
@@ -380,6 +451,10 @@ export every drawn thing is black at an alpha, or not drawn (`ExportPalette`).
 
 An ink's `opacity` multiplies the role's alpha (`Ink.secondary.opacity(0.5)`
 exports at 0.3).
+
+A part drawn as its units (plan-67, Gate view) is drawn in every picture export as it is on the canvas: each
+gate with its own symbol and label (`U1-A`, `U1-B`, …) and the block of leftover pins (`U1-P`); the export
+scene paints `PlacedChip.pieces`.
 
 ## Adding a part symbol
 
@@ -418,8 +493,9 @@ PNG puts them; the padding keeps a wider font from clipping. A turned label
 | `PrintPaper`, `PrintPageKind`, `PrintOptions`, `PrintPage`, `BoardArtwork`, `PrintExport` (pages, tiles, the PDF, the print operation) | `schematical/schematical/Document/PrintExport.swift` |
 | `PrintDialog` (the options sheet with its PDF preview) | `schematical/schematical/Document/PrintDialog.swift` |
 | `SchematicExportMenu` (the submenu; `SchematicFileCommands` adds it to File, with Print…) | `schematical/schematical/Document/SchematicExportCommands.swift` |
-| `exportImage()`, `writeImage(_:to:)`, `printPages()`, `exportPDF()`, `writePDF(_:to:)`, `exportGerber()`, `writeGerber(to:)`, `saveAs()`, `exportKiCad(to:)`, `writeKiCad(to:)` | `schematical/schematical/Document/SchematicFileController.swift` |
-| `SaveFormat`, `SaveFormatPicker` (Save As's Format menu) | `schematical/schematical/Document/SaveFormatPicker.swift` |
+| `exportImage()`, `writeImage(_:to:)`, `printPages()`, `exportPDF()`, `writePDF(_:to:)`, `exportGerber()`, `writeGerber(to:)`, `exportKiCadProject()`, `writeKiCadProject(into:)`, `writeKiCad(to:)`, `exportEasyEDAProProject()`, `writeEasyEDAPro(to:)`, `printOperation(_:jobTitle:)` (`SchematicExporter`) | `schematical/schematical/Document/SchematicExporter.swift` |
+| `printOperation(withSettings:)` (the document's print) | `schematical/schematical/Document/SchematicNSDocument.swift` |
+| `SaveFormat` (each written format's extension and content type) | `schematical/schematical/Document/SaveFormat.swift` |
 | `KiCadExport` (the three files, project file, shared names), `KiCad` (number, string, uuid formats) | `schematical/schematical/Document/KiCadExport.swift` |
 | `KiCadSchematicWriter` | `schematical/schematical/Document/KiCadSchematicWriter.swift` |
 | `KiCadBoardWriter` | `schematical/schematical/Document/KiCadBoardWriter.swift` |

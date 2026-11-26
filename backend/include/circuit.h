@@ -47,6 +47,14 @@ int circuit_connect(Circuit *circuit, size_t part, const char *pin, size_t net);
    (voltage.h) stops the run: circuit_advance returns 0 from then on and
    circuit_error is the "voltage: …" text. */
 int circuit_set_switch(Circuit *circuit, size_t part, unsigned position, int on);
+/* Slide switches (plan-58-B): moves the knob of a switch whose device has
+   "states" to `state` (1 … PartSwitch.states): the contacts the state does not
+   list open first, then the ones it lists close, each as circuit_set_switch
+   would, and one voltage check follows a closing contact during a run. A new
+   circuit starts the knob in the device's "rest" state. Returns -1 (circuit_error)
+   for a part that is not a slide switch or a state out of range. Works before
+   and after circuit_start, like circuit_set_switch. */
+int circuit_set_switch_state(Circuit *circuit, size_t part, unsigned state);
 
 /* The placed value of a resistor part whose manufacturer is "Generic"
    (GENERIC-RESISTOR), in ohms, more than 0 and at most 1e9: -1 with

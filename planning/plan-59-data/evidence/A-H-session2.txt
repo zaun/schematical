@@ -1,0 +1,54 @@
+== launch with no file and nothing to restore
+active=true documents=0 models=0
+== A8: open a file while the blank Untitled is there
+active=true documents=1 models=1
+[0] SchematicNSDocument name=6502.schematical url=/Users/jus
+== A1 File menu
+New, Open…, Open Recent, New Part…, missing value, Load Part…, User Library…, missing value, missing value, Print…, Export, missing value, Close, Close All, Save, Duplicate, Save As…, Rename…, Move To…, Revert To, missing value
+New [⌘n];Open… [⌘o];New Part… [⇧⌘n];Print… [⌘p];Image… [⇧⌘e];Close [⌘w];Close All [⌥⌘w];Save [⌘s];Duplicate [⇧⌘s];Save As… [⌥⇧⌘s];
+== A12 versions, Revert To, lock
+current=true otherVersions=8 2026-11-25T04:47:04Z 2026-11-25T04:47:12Z 2026-11-2
+Last Saved, Browse All Versions…, true, true
+lock: ok isLocked=false
+locked=false
+unlock: ok isLocked=false
+== A4 printDocument: (the system's File > Print flow)
+'6502.schematical' sheet=NSPanel 'Print'
+== A3 exports (document outside the container)
+clicked File > Export > KiCad Project…
+> sheet 0
+sheet NSOpenPanel title='Open' name='Untitled' prompt='Export' message='Choose the folder for 6502.kicad_pro, .kicad_sch and .kicad_pcb.' accessoryVie
+clicked File > Export > EasyEDA Pro Project…
+> sheet 0
+sheet NSSavePanel title='Save' name='6502.epro' prompt='Save' message='' accessoryView=none types=["dyn.ah62d4
+6502.epro 6502.kicad_pcb 6502.kicad_pro 6502.kicad_sch 6502.schematical AFU.schematical 
+== A13 automation tools
+> folder
+shared folder: exp
+> tool list_windows
+7C63CB4E  6502  parts=103 wires=411  (frontmost)
+> tool new_window
+opened window 90792DB8
+> tool open {"path":"AFU.schematical"}
+opened in window 611651DC
+> tool list_windows
+7C63CB4E  6502  parts=103 wires=411
+611651DC  AFU  parts=55 wires=193  (frontmost)
+> tool save
+saved to exp/AFU.schematical
+> tool save {"path":"copy.schematical"}
+saved to exp/copy.schematical
+> tool list_windows
+7C63CB4E  6502  parts=103 wires=411  unsaved
+611651DC  copy  parts=55 wires=193  (frontmost)
+> tool focus_window
+window 611651DC is frontmost
+== A11 close and quit
+cp: /Users/justinzaun/Library/Containers/jgz.schematical.spike59h/Data/fx/6502.schematical: Operation not permitted
+active=true documents=2 models=2
+[0] SchematicNSDocument name=6502.schematical;    model id=08B14DE3-80F0-47E1-9EF0-9549DE37A1C6;[1] SchematicNSDocument name=Untitled;    model id=A3BFB2CD-C578-425E-B700-B21E552377CF;parts=0 labels=0 lastLabel=- edited=false equalsSavedFile=no;
+sheet NSSavePanel title='Save' name='Untitled.schematical' prompt='Save' message='' accessoryView=none types=["jgz.schematical.schematic"]
+cancelled the save panel active=true documents=2 models=2 
+running=true playing=true
+   after ⌘Q: sheets: 
+   after Cancel: app still running; documents=2 playing=true playing=false 

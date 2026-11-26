@@ -7,7 +7,19 @@ schematic with no custom part is still written as version 4. Version 1, 2
 and 3 files open too (see [Older versions](#older-versions)).
 
 Code: `schematical/schematical/Document/SchematicFile.swift` (the format) and
-`SchematicFileController.swift` (Save, Save As, Open). Save As can also write a KiCad project or an EasyEDA Pro project instead (see [export.md](export.md#kicad) and [export.md](export.md#easyeda-pro)); that is an export and writes no `.schematical` file.
+`SchematicNSDocument.swift` (who reads and writes it).
+
+A schematic is a system document (`SchematicNSDocument`, an `NSDocument`):
+AppKit does Open, Save, Duplicate, Save As, Rename, Move To and Revert To,
+keeps the file's versions and the recent files, and asks at close or quit
+only about a schematic that has never been saved. A schematic with a file
+**autosaves in place**: edits are written to the file as you work, with no
+Save needed, and File › Revert To goes back to an earlier version. The
+document's `read(from:ofType:)` decodes the file and applies it
+(`SchematicFile.apply`); `data(ofType:)` encodes `SchematicFile(document:fileURL:)`.
+A KiCad or EasyEDA Pro project is an export, under File › Export (see
+[export.md](export.md#kicad) and [export.md](export.md#easyeda-pro)), and
+writes no `.schematical` file.
 
 ## Design rules
 
@@ -73,6 +85,8 @@ to the grid on open.
 | `board`         | object  | Optional. The PCB's settings and texts ([Board](#board)). Written by every build that has it; a file without it opens with the defaults. |
 | `notes`         | array   | Text blocks on the schematic, in drawing order ([Notes](#notes)). Always written, `[]` when there are none; missing means none. Older builds ignore it. |
 | `labels`        | array   | Net labels on the schematic, in drawing order ([Net labels](#net-labels)). Written only when there are some; missing means none. Older builds ignore it, but refuse a wire that ends on a label. |
+| `erc`           | object  | The electrical rules check's settings ([Electrical rules check](#electrical-rules-check)). Written only when a severity, the pin map or an exclusion differs from KiCad's defaults; missing means the defaults. Older builds ignore it. |
+| `documentInfo`  | object  | The document's title, author, revision, description, dates and title block ([Document info](#document-info)). Written only when it is not the default; missing means the default. Older builds ignore it. |
 | `customParts`   | array   | Version 5. The custom parts the schematic places ([Custom parts](#custom-parts)). Written only when there are some, and then `version` is 5; missing means none. |
 
 On open, `nextReference` is raised if needed so that it is higher than every
@@ -122,6 +136,16 @@ An EEPROM can name the file loaded into it when the simulation starts:
   "memoryFile": { "path": "roms/boot.bin", "bookmark": "Ym9va21hcms..." } }
 ```
 
+A simulated microcontroller names its firmware the same way; the file is
+loaded into its flash:
+
+```json
+{ "id": "...", "reference": "U1", "partNumber": "ATMEGA328P-PU",
+  "x": 420, "y": 300, "flipped": false,
+  "pcb": { "x": 40.64, "y": 0, "rotation": 0 },
+  "memoryFile": { "path": "firmware/blink.hex", "bookmark": "Ym9va21hcms..." } }
+```
+
 | Field        | Type    | Meaning                                                                 |
 |--------------|---------|-------------------------------------------------------------------------|
 | `id`         | UUID    | Unique within the file.                                                 |
@@ -129,8 +153,9 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `partNumber` | string  | A part name from the part library (`schematical/schematical/Parts/*.json`): a logic part, memory (SRAM, EEPROM), switch, LED, 7-segment display, character LCD module, oscillator, processor, capacitor (a ceramic, electrolytic or tantalum part, or `GENERIC-CAPACITOR`), generic pin header (one part per size, `GENERIC-HEADER-1X01` … `GENERIC-HEADER-2X40`: rows, then pins per row; the sidebar changes the size by changing this part number), or a supply: `5V`, `3V3`, `2V5`, `1V8`, `1V2`, `12V` or `GND`. `VCC` (a supply removed from the library) opens as `5V`, and is saved as `5V`. The 55 LED parts `LED-<COLOR>-<PACKAGE>` (such as `LED-GREEN-RADIAL`, `LED-AMBER-0603`) that `GENERIC-LED` replaced open as `GENERIC-LED` with that part's color and footprint, in a file of any version, and are saved as `GENERIC-LED` (see [Old LED part numbers](#old-led-part-numbers)). |
 | `x`, `y`     | number  | Top-left corner of the part body.                                       |
 | `flipped`    | boolean | Pins on the opposite sides. Ignored for the supplies.                   |
-| `rotation`   | integer | LEDs, diodes, resistors and capacitors only: the clockwise turn on the Schematic, `90`, `180` or `270` (the pins go to the top and bottom for 90 and 270). The flip is applied first. Default `0`; written only when not `0`; ignored for other parts. |
-| `switches`   | array of booleans | DIP switches only, optional: whether each position is ON, position 1 first. Missing positions are OFF; extra entries are ignored. Left out for other parts. A tactile switch never saves it (it starts released) and ignores it when read. |
+| `rotation`   | integer | Parts drawn as their own symbol only (LEDs, diodes, resistors, capacitors, crystals, inductors, fuses, buzzers, single transistors, test points and barrel jacks; not the parts drawn as a box, nor the supplies): the clockwise turn on the Schematic, `90`, `180` or `270` (the left and right pins go to the top and bottom for 90 and 270). The flip is applied first. Default `0`; written only when not `0`; ignored for other parts. |
+| `units`      | array of objects | Optional. Parts with units only (a gate IC, Logic → Gates), when the part is drawn as its units (the sidebar's View: Gate) rather than as one block. One object per unit, every unit of the part exactly once: `unit` (string: the unit's letter, `"A"`, `"B"`, … for the gates in the order of the part's `gates`, and `"P"` for the block of the pins no gate owns), `x`, `y` (numbers: the top-left corner of that unit's body), `flipped` (boolean, written only when `true`) and `rotation` (integer `90`, `180` or `270`, gates only, written only when not `0`; the `P` block does not turn). When `units` is written the part's own `x`, `y` are the top-left corner of the box around all its units, `flipped` is `false` and `rotation` is left out. Wires are unchanged: an end still names the part and a pin, and the pin is wherever its unit draws it. Left out for a part drawn as one block. A list that does not name exactly the part's units (one missing, one twice, an unknown letter, or a part with no units) is ignored and the part opens as a block at `x`, `y`; a `rotation` that is not a quarter turn, or on the `P` block, is `0`. Older builds ignore the key and show the block at `x`, `y`, its wires on the block's pins, and drop the key when they save. No version bump (an optional field). |
+| `switches`   | array of booleans | DIP and slide switches only, optional: whether each position (DIP) or each contact (slide switch, contact 1 first) is ON. Missing positions are OFF; extra entries are ignored. A slide switch is always in one knob position: an array that is not exactly one position's closed contacts (for example both contacts of an SPDT) opens it in the part's rest position. Left out for other parts. A tactile switch never saves it (it starts released) and ignores it when read. |
 | `pcb`        | object  | Optional. The footprint on the PCB: `x`, `y` (numbers, mm) are the footprint's centre, `rotation` (integer) is 0, 90, 180 or 270 degrees clockwise. `origin` (string; a missing one is `"topLeft"`, as files from before origins were; parts placed in the app start as `"pad1Center"`) is the footprint's origin point (see [Coordinates](#coordinates)): `"center"`, `"topLeft"`, `"centerLeft"`, `"bottomLeft"` (of the bounding box as rotated) or `"pad1Center"` (the centre of the pad of the part's first pin). `outline` (the body outline, default `"document"`), `pin1` (the pin-1 dot, default `"silkscreen"`; a part placed in the app that has no polarity, a single resistor, a pull resistor or a capacitor that isn't polarized, starts with `"hidden"`) and `reference` (the reference text, default `"silkscreen"`) say where each mark is drawn: `"hidden"`, `"document"` or `"silkscreen"`. The four strings are always written; a missing one takes its default. `style` (string, default `"module"`): `"module"` (Full Module) or `"connector"` (Connector Only), which of the part's two footprints is on the board. Written only for parts with a connector footprint (the character LCD modules); ignored on other parts. `side` (string, default `"top"`): `"top"` or `"bottom"`, the side of the board the footprint is on. A bottom footprint is drawn mirrored left to right about its body centre before it is turned, so `rotation` stays clockwise as seen from above; `x`, `y` stay the body centre. Always written; not allowed on a 1-layer board. Older builds ignore it and show the part unmirrored on top. `locked` (boolean, default `false`): the sidebar's Lock Position; a locked footprint can't be dragged, moved by X and Y, or rotated. Written only when `true`; older builds ignore it. `refX`, `refY` (numbers, mm, each within 1000 mm; default 0) are where the reference text is centred, measured from the body centre in the footprint's own frame (before the side's mirror and the rotation), so the reference keeps its place on the part when it moves, turns or changes side. Each is written only when not 0; a missing one is 0, which is the body centre; older builds ignore them and draw the reference on the body centre. Written for every part with a footprint, including the pull resistors; left out for VCC and GND, and ignored on a part without a footprint. A part with a footprint and no `pcb` (older files) is placed automatically when the file is opened: after the stored ones, in file order, each to the right of everything already placed. |
 | `color`      | string  | Version 4. LEDs only (`GENERIC-LED`): one of the part's colors, `"Red"`, `"Green"`, `"Blue"`, `"Amber"` or `"White"`. Used by the symbol's glow in play mode. Always written for an LED; missing means the part's default (`Red`). Ignored on other parts. |
 | `footprint`  | string  | Version 4. Parts with footprint choices only (`GENERIC-LED`, the pull resistors `PULLUP-…`/`PULLDOWN` and the headers `GENERIC-HEADER-…`): the id of the chosen footprint, one of the part's `footprintChoices` (`docs/parts-format.md`), such as `"LED-0805"`, `"RES-0805"` or `"PINHDR-1X08-RA"`. The PCB uses it. Always written for those parts; missing means the part's default footprint (`LED-RADIAL-5MM` for the LED, `RES-RADIAL-2.54` for a pull resistor, the `-V` (Straight) footprint for a header). Ignored on other parts. |
@@ -140,7 +165,7 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `gender`     | string  | Headers only (`GENERIC-HEADER-…`): one of the part's genders, `"Male"` or `"Female"`. The symbol draws pins or sockets; the footprint doesn't change. Always written for a header; missing means the part's default (`Male`). Ignored on other parts. An optional field, so the version stays 4 (a file with headers names parts an older build doesn't have, which it refuses anyway). |
 | `socket`     | object  | A DIP or PLCC chip in a socket mode only (plan-51): `{"part": "GENERIC-SOCKET-DIP-14-300", "mode": "withSocket"}`. `part` is the name of a bundled `socket` part whose `fits` hold the chip's footprint; `mode` is `"withSocket"` (the chip sits in the socket: the PCB carries the socket's footprint and the Bill of Materials lists the chip and the socket) or `"socketOnly"` (the socket is on the board, the chip is not inserted: the Bill of Materials lists the socket only). Run ignores the mode. Left out for a plain IC, so a file with no socket is byte for byte what it was. An optional field, so the version stays 4. |
 | `partUUID`   | string  | Version 5. Custom parts only: the part's `uuid`, one of the file's `customParts`. The placed part resolves by it, not by `partNumber`; `partNumber` is the name the part had when saved (with its suffix, such as `SN74HC00N.2`), so a reader that ignores custom parts still sees a name. Written exactly for custom parts. |
-| `memoryFile` | object  | EEPROMs only, optional: the file (raw binary, or Intel HEX for `.hex`/`.ihx`/`.ihex`) loaded into the chip at every start; without it the chip starts erased (every byte FF). `path` (string) is the file's path relative to the schematic's folder (`../roms/boot.bin`), or absolute for a schematic that had never been saved. `bookmark` (base64 string, optional) is an app-scoped security bookmark; on the Mac that wrote it, it is tried first, so the sandboxed app can read the file after a restart, and `path` is the fallback. Ignored on other parts. |
+| `memoryFile` | object  | EEPROMs and simulated microcontrollers only (the ATmega48/88/168/328 family and the ATtiny25/45/85: the firmware, loaded into flash), optional: the file (raw binary, or Intel HEX for `.hex`/`.ihx`/`.ihex`) loaded into the chip at every start; without it the chip starts erased (every byte FF). `path` (string) is the file's path relative to the folder of the file being written (`../roms/boot.bin`): each write (Save, Save As or Duplicate into another folder, an autosave) uses its own destination, so the path is right wherever the file lands. It is absolute for a schematic with no place of its own yet: one never saved, which AppKit autosaves into its `Autosave Information` folder. Read back, a relative path is resolved against the file's folder, and a file in that autosave folder is read with absolute paths. `bookmark` (base64 string, optional) is an app-scoped security bookmark; on the Mac that wrote it, it is tried first, so the sandboxed app can read the file after a restart, and `path` is the fallback. Ignored on other parts. |
 
 ## Board
 
@@ -170,6 +195,8 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `holes`  | array   | Drilled holes (mounting holes and others), in drawing order ([Holes](#holes)). Written only when there are some; missing means none. Older builds ignore it. |
 | `pours`  | array   | Copper pours, in drawing order ([Pours](#pours)). Written only when there are some; missing means none. Older builds ignore it. |
 | `keepouts` | array | Keep-outs the pours stay out of ([Keep-outs](#keep-outs)). Written only when there are some; missing means none. Older builds ignore it. |
+| `outline` | array | Optional. A Custom board's free-form edge (plan-65): a list of `{ "x", "y" }` points in mm, a simple polygon (at least 3 points, no crossing, either winding; opening stores it clockwise) whose bounds' top-left is (0, 0), each side 1 to 1000 mm. Only with `type` `"custom"` (or no `type`). It wins over `width` and `height`: they become its bounds. Written only for such a board. Older builds ignore it and draw the `width` × `height` rectangle. |
+| `cutouts` | array | Cutouts: regions with no material ([Cutouts](#cutouts)). Written only when there are some; missing means none. Older builds ignore it, and their next save drops it. |
 | `netClasses` | array | Net classes, in priority order ([Net classes](#net-classes)). Written only when there are some; missing means none, every net in the Default class. Older builds ignore it. |
 | `netLayerRules` | array | Layer rules set on single nets ([Net layer rules](#net-layer-rules)). Written only when there are some. Older builds ignore it. |
 | `netGroups` | array | Equal-length groups and differential pairs ([Net groups](#net-groups)). Written only when there are some. Older builds ignore it. |
@@ -183,7 +210,7 @@ A missing key takes its default. A text:
 | `id`       | UUID    | Unique within the file, across parts, junctions, wires and texts.    |
 | `text`     | string  | The words; may hold line breaks (`\n`). Never empty.                 |
 | `x`, `y`   | number  | mm: the text's top-left at rotation 0, which it rotates about. Snapped to the 0.635 mm grid on open. |
-| `size`     | integer | Font size in mil (1/1000 inch), 10 to 1000. Default 50.             |
+| `size`     | integer | Font size in mil (1/1000 inch), 10 to 1000. Default 60.             |
 | `layer`    | string  | `"silkscreen"` (default) or `"document"`.                           |
 | `rotation` | integer | 0 (default), 90, 180 or 270 degrees clockwise.                      |
 | `side`     | string  | `"top"` (default) or `"bottom"`. A bottom text is drawn mirrored inside its own box. Always written; not allowed on a 1-layer board. |
@@ -264,7 +291,8 @@ of and above the hole. In lists it is `H1`, `H2`, … in drawing order.
 ```
 
 A copper pour: a rectangle on one trace layer that is flooded with copper on one net. The app computes the fill
-(it is not stored): the rectangle, pulled back from the board's edge by the DRC's min copper to edge, less every pad,
+(it is not stored): the rectangle, pulled back from the board's edge by the DRC's min copper to edge (and from every
+[cutout](#cutouts) by the same distance), less every pad,
 via and trace on that layer that is not on the pour's net, grown by the pour's clearance; less every non-plated
 hole, grown by the min copper to edge; less every [keep-out](#keep-outs) that applies to the layer; less the
 rectangle (grown by the clearance) of an earlier pour of another net on the layer. Each pad of the pour's net gets
@@ -300,6 +328,30 @@ A rectangle that pours stay out of. It blocks copper pours only: traces, vias an
 | `x`, `y`, `width`, `height` | number | The rectangle in mm, as a pour's. |
 | `layers`   | array   | The layers it applies to, named as a pour's `layer`. A layer the board doesn't have is kept and ignored. Missing means every layer; an empty array means none (it blocks nothing). |
 | `locked`   | boolean | Lock Position. Default `false`. Written only when `true`. |
+
+### Cutouts
+
+```json
+"cutouts": [ { "id": "...", "shape": "rounded", "x": 10, "y": 8, "width": 6, "height": 2, "radius": 1 },
+             { "id": "...", "shape": "polygon", "points": [ {"x": 30, "y": 10}, {"x": 34, "y": 10}, {"x": 32, "y": 14} ], "locked": true } ]
+```
+
+A region of the board with no material: a window, a round hole too big to drill, a milled slot. It goes through the whole board, so it has no layer and no net. Copper (pads, traces, vias, holes, pours) keeps the board-edge clearance from it; a part's body may overhang it.
+
+| Field      | Type    | Meaning |
+|------------|---------|---------|
+| `id`       | UUID    | Unique within the file, across every other ID. |
+| `shape`    | string  | `"rounded"`: a rectangle with a corner radius (radius 0 a rectangle; a square with a radius of half its side a circle; a longer box with a radius of half its short side a slot). `"polygon"`: a closed loop. |
+| `x`, `y`, `width`, `height` | number | Only `"rounded"`: the box in mm from the top-left; each side at least 0.5. |
+| `radius`   | number  | Only `"rounded"`: the corner radius in mm, 0 to half the short side. Missing means 0. |
+| `points`   | array   | Only `"polygon"`: `{ "x", "y" }` points in mm, at least 3, no crossing, either winding (opening stores it clockwise). |
+| `locked`   | boolean | Lock Position. Default `false`. Written only when `true`. |
+
+A cutout may lie anywhere, overlap another or cross the board's edge: the file does not say it is wrong, the design rule check does.
+The check lists, under Edge: `Copper is in a cutout` (a pad, trace, via or pour edge whose centre is in one), `Copper 0.1 mm from the board edge; min 0.3 mm`
+(the board's min copper to edge, held from a cutout's edge as from the outline), `Cutout 1: Crosses the board edge` and `Cutouts 1, 2: Overlap`
+(numbered in drawing order). A part's body may overhang a cutout; only its copper may not be in one. Pour fills stay out of cutouts by the
+min copper to edge, as they do from the outline.
 
 ### Net classes
 
@@ -538,6 +590,33 @@ are drawn under everything else and never simulated.
 | `size`     | integer | Font size in points, 6 to 72. Default 12.                            |
 | `framed`   | boolean | Whether the block has a frame around it. Default `true`.             |
 
+## Document info
+
+What Window ▸ Document Info (⌘I) edits: the schematic's title, author,
+revision, description and dates, and whether, and where, a title block shows
+them on the Schematic page.
+
+```json
+"documentInfo": {
+  "title": "Clock board", "author": "J. Smith", "revision": "B",
+  "description": "Divides the 4 MHz clock.",
+  "created": "2026-11-25T14:07:00Z", "updated": "2026-11-25T16:30:12Z",
+  "automaticDates": false,
+  "titleBlock": { "x": 400, "y": 520 }
+}
+```
+
+| Field            | Type    | Meaning                                                              |
+|------------------|---------|----------------------------------------------------------------------|
+| `title`, `author`, `revision`, `description` | string | Free text; `description` may hold line breaks (`\n`). Left out when empty. |
+| `created`, `updated` | string | ISO 8601 date and time in UTC, whole seconds. Left out when not set. |
+| `automaticDates` | boolean | Written only as `false`. Missing or `true` means a save sets `updated` (and `created`, while it is not set) to the time of the write; `false` means the dates are the user's and a save leaves them. |
+| `titleBlock`     | object  | The title block's top-left (`x`, `y`, canvas units; snapped to the grid on open). Present exactly when the title block is on the schematic. |
+
+The whole key is left out when every field is at its default, so a schematic
+that was never given any information is byte for byte what it was. The
+version stays 4 (5 with custom parts): an older build ignores the key.
+
 ## Net labels
 
 Flags the schematic's Net Label tool places. Every label with the same
@@ -564,7 +643,7 @@ supply here. A label is never simulated itself.
 | `id`       | UUID    | Unique within the file, across every other ID.                       |
 | `name`     | string  | The net's name: 1 to 8 characters, no spaces.                        |
 | `x`, `y`   | number  | Canvas units: the label's point, where a wire ends. Snapped to the grid on open. |
-| `type`     | string  | `"input"` (default; the end at the wire points in at it), `"output"` (the far end points away from the wire), `"inout"` (both ends point), `"passive"` (a plain box) or `"noConnect"` (see below). |
+| `type`     | string  | `"input"` (default; the end at the wire points in at it), `"output"` (the far end points away from the wire), `"inout"` (both ends point), `"passive"` (a plain box), `"noConnect"` or `"powerFlag"` (see below). |
 | `flipped`  | boolean | The flag runs left of its point instead of right. Default `false`; written only when `true`. |
 
 The flag is 60 long and 20 high, centred on its point's row.
@@ -574,6 +653,14 @@ with no name and no flag, and marks a pin as left unconnected on purpose.
 It joins nothing, not even the wires that end on it, so a pin wired to
 one is on a net of its own and the PCB shows no unrouted line for it. It
 still stores a `name` (ignored), so it can turn back into a named label.
+
+A `"powerFlag"` label (plan-63-A) is not a net either: it is drawn as a small
+flag on a stem at its point, with no name. It joins nothing but the wire that
+ends on it (the wire's two ends are one net, as for any wire), so the netlist
+is the same with it as without it. It marks its net as driven, for the
+electrical rules check (KiCad's `PWR_FLAG`). It still stores a `name`
+(ignored). An older build refuses a file that holds one (`The net label is not
+valid`), and the file's `version` does not change.
 
 ## Custom parts
 
@@ -629,9 +716,14 @@ Opening fails, and the canvas is left unchanged, if:
 - an ID is used more than once across parts, junctions, wires, buses, bus
   lines, bus wires, ports, board texts, traces, pours, keep-outs, notes and net labels;
 - a note's `text` is empty, or its `size` is not 6 to 72;
+- `documentInfo`'s `created` or `updated` is not an ISO 8601 date and time ("The document info is not valid: …");
 - a net label's `name` is not 1 to 8 characters with no spaces, or its
-  `type` is not `input`, `output`, `inout`, `passive` or `noConnect` ("The net label is not valid:
+  `type` is not `input`, `output`, `inout`, `passive`, `noConnect` or `powerFlag` ("The net label is not valid:
   net label <id> …");
+- `erc.severities` names a rule that is not KiCad's or has no severity of its own
+  (`pin_to_pin`), or gives a word that is not `error`, `warning` or `ignore`, or
+  `erc.pinMap` is not 12 rows of 12 numbers 0 to 2 that are the same either side of
+  the diagonal ("The electrical rules check settings are not valid: erc.…");
 - a `partNumber` is not in the catalog (the error lists every missing one);
 - an LED's `color` is not one of its colors (`U3: "Purple" is not a color of
   GENERIC-LED`), or a `footprint` is not one of the part's footprint choices
@@ -713,6 +805,11 @@ Opening fails, and the canvas is left unchanged, if:
   - `pour <id> thermalGap 9 must be 0.1 to 5 mm` (same for `spokeWidth`; `minWidth` 0.05 to 2);
   - `keepout <id> layer "middle" must be top, inner2 to inner5, or bottom`;
   - `keepout <id> width 0.1 must be at least 0.5 mm` (same for `height`);
+  - `board outline needs the board type custom`, `board outline needs at least 3 points`, `board outline crosses itself`,
+    `board outline must start at (0, 0): its top-left is (5, 0)`, `board outline is 1200 mm wide; sizes are 1 to 1000 mm` (likewise `high`);
+  - `cutout <id> shape "oval" must be rounded or polygon`, `cutout <id> needs x, y, width and height`, `cutout <id> width 0.1 must be at least 0.5 mm`
+    (same for `height`), `cutout <id> radius 5 must be 0 to 2 mm`, `cutout <id> needs points`, `cutout <id> needs at least 3 points`,
+    `cutout <id> crosses itself`;
   - `board stackup copper has 2 entries; a 4-layer board needs 4` (likewise `dielectrics`);
   - `board stackup copper thickness 0.001 must be 0.005 to 0.2 mm`, `dielectric thickness … must be 0.02 to 5 mm`,
     `dielectric er … must be 1 to 20`, `temperatureRise … must be 1 to 100 °C`;
@@ -737,8 +834,9 @@ Opening fails, and the canvas is left unchanged, if:
   - `port <id> does not fit on its line` (off the line, overlapping another
     port on the same side, or over a T).
 
-A missing or unreadable EEPROM load file (`memoryFile`) does not fail Open:
-the memory window shows the problem, and Run stops with it
+A missing or unreadable load file (`memoryFile`: an EEPROM's contents, a
+microcontroller's firmware) does not fail Open: the part's memory or
+processor window shows the problem, and Run stops with it
 (`"U4: can't read boot.bin: …"`).
 
 ## Board design rules
@@ -768,7 +866,32 @@ with the Settings of the Mac opening it, and carries them from its next
 save. An older build ignores the key, uses its own Settings, and drops the
 key when it saves.
 
+## Electrical rules check
+
+```json
+"erc": { "severities": { "pin_not_connected": "warning" },
+         "pinMap": [[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2], "… 11 more rows"],
+         "exclusions": ["pin_not_connected|chip:6F1C2E8A-…:3"] }
+```
+
+The electrical rules check (plan-63, Window › Electrical Rules Check, ⌥⌘E)
+follows KiCad's ERC. Its settings are the file's, so the same file checks the
+same way on every Mac. A change is an undo step. Only what differs from KiCad's
+defaults is written, and the whole object is left out when nothing differs.
+
+| Field | Type | Meaning |
+|-------|------|---------|
+| `severities` | object | Rule name → `"error"`, `"warning"` or `"ignore"`, for the rules whose severity is not KiCad's default. The rule names are KiCad's: `pin_not_connected`, `pin_not_driven`, `power_pin_not_driven`, `no_connect_connected`, `no_connect_dangling`, `wire_dangling`, `unconnected_wire_endpoint`, `label_dangling`, `isolated_pin_label`, `multiple_net_names`, `similar_labels`, `similar_label_and_power`, `duplicate_reference`, `single_global_label` and `four_way_junction`. `pin_to_pin` has no severity of its own: the pin map's cell is its severity. A name that is not one of these, or a word that is not one of the three, is refused ("The electrical rules check settings are not valid: erc.severities: …"). |
+| `pinMap` | array | The pin-conflict map when it is not KiCad's: 12 rows of 12 numbers (0 ok, 1 warning, 2 error) in KiCad's pin-type order (input, output, bidirectional, tri-state, passive, free, unspecified, power input, power output, open collector, open emitter, unconnected), the same either side of the diagonal. Anything else is refused. |
+| `exclusions` | array of strings | The violations the user excluded, each by its key: the rule name, `\|`, then the sorted ids of what it names, joined by `\|`: `chip:<part id>:<pin designator>`, `wire:<id>`, `label:<id>`, `junction:<id>` or `part:<id>`. A key no violation has any more is ignored. |
+
+A file with no `erc` opens with KiCad's defaults. An older build ignores the
+key and drops it when it saves.
+
 ## Older versions
+
+A build from before cutouts (plan-65) opens a file with `board.cutouts` or `board.outline` and ignores both: it shows the board as its
+`width` × `height` rectangle with no cutouts, and its next save leaves them out. The file version did not change.
 
 Version 3 is version 4 without the part keys `color` and `footprint`. Its
 LEDs were separate parts per color and package; they open as described in

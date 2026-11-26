@@ -33,13 +33,16 @@ enum SelectionRows {
             rows.append(SelectionRow(item: .wire(wire.id), title: "Wire",
                                      detail: "\(end(wire.start, in: document)) – \(end(wire.end, in: document))"))
         }
+        if selection.contains(.titleBlock) {
+            rows.append(SelectionRow(item: .titleBlock, title: "Title Block", detail: preview(document.documentInfo.title)))
+        }
         for note in document.notes where selection.contains(.note(note.id)) {
             rows.append(SelectionRow(item: .note(note.id), title: "Text", detail: preview(note.text)))
         }
         for label in document.netLabels where selection.contains(.label(label.id)) {
             rows.append(label.isNet
                 ? SelectionRow(item: .label(label.id), title: "Net Label", detail: "\(label.name) (\(label.style.title))")
-                : SelectionRow(item: .label(label.id), title: "No Connect", detail: ""))
+                : SelectionRow(item: .label(label.id), title: label.style.title, detail: ""))
         }
         for bus in document.buses where selection.contains(.bus(bus.id)) {
             rows.append(SelectionRow(item: .bus(bus.id), title: "Bus", detail: "\(bus.name), \(bus.wires.count) wires"))
@@ -80,7 +83,21 @@ enum SelectionRows {
             rows.append(SelectionRow(item: .keepout(keepout.id), title: "Keep-out",
                                      detail: keepout.layers == nil ? "All layers" : "Some layers"))
         }
+        for cutout in document.cutouts where selection.contains(.cutout(cutout.id)) {
+            rows.append(SelectionRow(item: .cutout(cutout.id), title: "Cutout", detail: cutoutDetail(cutout)))
+        }
         return rows
+    }
+
+    /// A cutout's line in the list: "Rectangle 10 × 5 mm", "Circle ⌀3.2 mm", "Slot 8 × 2 mm", "Polygon, 24 points".
+    static func cutoutDetail(_ cutout: BoardCutout) -> String {
+        func n(_ value: CGFloat) -> String { String(format: "%g", (Double(value) * 100).rounded() / 100) }
+        let box = cutout.shape.bounds
+        switch cutout.kind {
+        case .circle: return "Circle ⌀\(n(box.width)) mm"
+        case .rectangle, .slot: return "\(cutout.kind.title) \(n(box.width)) × \(n(box.height)) mm"
+        case .polygon: return "Polygon, \(cutout.shape.loop.count) points"
+        }
     }
 
     /// "U1 K", "junction (250, 100)", "bus port B0".
@@ -96,7 +113,7 @@ enum SelectionRows {
             let name = document.port(ref.portID)?.bus.wires.first { $0.id == ref.wireID }?.name
             return name.map { "bus port \($0)" } ?? "bus port"
         case let .label(id):
-            return document.netLabels.first { $0.id == id }.map { $0.isNet ? "net \($0.name)" : "no connect" }
+            return document.netLabels.first { $0.id == id }.map { $0.isNet ? "net \($0.name)" : ($0.isPowerFlag ? "power flag" : "no connect") }
                 ?? "net label"
         }
     }

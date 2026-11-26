@@ -1,8 +1,9 @@
 import Foundation
+import UniformTypeIdentifiers
 import XCTest
 @testable import schematical
 
-/// File > Save As…, format EasyEDA Pro Project (`EasyEDAProExport`). The
+/// File › Export › EasyEDA Pro Project… (`EasyEDAProExport`). The
 /// files are checked for shape and for where things land here; that EasyEDA's
 /// format is what KiCad's EasyEDA Pro importer reads, with the same pads, nets,
 /// copper and zones, was checked by loading the output with it (see
@@ -52,6 +53,31 @@ final class EasyEDAProExportTests: XCTestCase {
             }
             _ = try JSONSerialization.jsonObject(with: try XCTUnwrap(entries.first).data)
         }
+    }
+
+    /// plan-63-A: a Power Flag has no EasyEDA symbol; an unwired one changes nothing.
+    func testAPowerFlagIsLeftOut() throws {
+        let doc = try Fixture.open("AFU")
+        let before = EasyEDAProExport.entries(for: doc, base: "AFU")
+        _ = doc.addNetLabel(at: CGPoint(x: 5000, y: 5000), style: .powerFlag)
+        let after = EasyEDAProExport.entries(for: doc, base: "AFU")
+        XCTAssertEqual(before.map(\.name), after.map(\.name))
+        for (b, a) in zip(before, after) where b.name.hasSuffix(".esch") || b.name.hasSuffix(".epcb") {
+            XCTAssertEqual(b.data, a.data, b.name)
+        }
+    }
+
+    /// plan-64-D: the title block is lines and text on the sheet.
+    func testTitleBlockIsOnTheSheet() throws {
+        let doc = try ExportSamples.titled()
+        let entries = EasyEDAProExport.entries(for: doc, base: "tb")
+        let sheet = try entry(entries, suffix: "/1.esch").text
+        for line in try lines(sheet) { XCTAssertTrue(line.first is String) }
+        for words in ["Clock board", "J. Smith", "Revision", "Divides the 4 MHz clock by 8."] {
+            XCTAssertTrue(sheet.contains("\"\(words)\""), words)
+        }
+        let plain = try entry(EasyEDAProExport.entries(for: TestSupport.newDocument(), base: "tb"), suffix: "/1.esch").text
+        XCTAssertFalse(plain.contains("Revision"))
     }
 
     func testSameDocumentGivesSameBytes() throws {
@@ -212,19 +238,40 @@ final class EasyEDAProExportTests: XCTestCase {
         XCTAssertEqual(found, expected)
     }
 
+    /// File › Export › EasyEDA Pro Project…'s save panel: one `.epro` file
+    /// named after the schematic, and no Format menu.
+    func testEasyEDAProExportPanel() throws {
+        let doc = try Fixture.open("AFU")
+        let document = TestSupport.systemDocument(of: doc)
+        let exporter = document.model.file
+        var panel = exporter.exportPanel(.easyEDAPro)
+        XCTAssertEqual(panel.nameFieldStringValue, "Untitled.epro")
+        XCTAssertEqual(panel.allowedContentTypes.first?.preferredFilenameExtension, "epro")
+        XCTAssertNil(panel.accessoryView, "no Format menu")
+        let folder = FileManager.default.temporaryDirectory
+        // The model's URL, which names the exports. Not the system document's:
+        // AppKit would then autosave this edited document to a file that is not there.
+        document.model.fileURL = folder.appendingPathComponent("My Board.schematical")
+        panel = exporter.exportPanel(.easyEDAPro)
+        XCTAssertEqual(panel.nameFieldStringValue, "My Board.epro")
+        XCTAssertEqual(panel.directoryURL?.standardizedFileURL, folder.standardizedFileURL)
+    }
+
     func testSaveAsEasyEDAProWritesOneFileAndLeavesTheWindowAlone() throws {
         let doc = try Fixture.open("AFU")
-        let controller = SchematicFileController(document: doc, catalog: TestSupport.catalog, willReplaceDocument: {})
-        Self.kept.append(controller)
+        let document = TestSupport.systemDocument(of: doc)
+        let controller = document.model.file
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent("epro-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: directory) }
-        let before = controller.hasUnsavedChanges
+        TestSupport.turnRunLoop()
+        let before = document.isDocumentEdited
         try controller.writeEasyEDAPro(to: directory.appendingPathComponent("Board.epro"))
         XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: directory.path), ["Board.epro"])
+        XCTAssertNil(document.fileURL)
         XCTAssertNil(controller.fileURL)
-        XCTAssertEqual(controller.hasUnsavedChanges, before)
+        TestSupport.turnRunLoop()
+        XCTAssertEqual(document.isDocumentEdited, before, "an export is not a save, and not an edit")
+        XCTAssertFalse(doc.undoManager.canUndo)
     }
-
-    private static var kept: [SchematicFileController] = []
 }

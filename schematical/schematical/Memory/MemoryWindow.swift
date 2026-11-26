@@ -14,55 +14,8 @@ import SwiftUI
 
 /// Which memory window to open: a part in one schematic window.
 nonisolated struct MemoryWindowTarget: Codable, Hashable, Sendable {
-    let sessionID: UUID
+    let documentID: UUID
     let chipID: UUID
-}
-
-/// The open schematic windows, so a memory window can find the document and
-/// simulation its part belongs to. Held weakly: closing the schematic window
-/// frees them.
-@MainActor
-final class SchematicSessions {
-    static let shared = SchematicSessions()
-
-    private struct Entry {
-        weak var document: SchematicDocument?
-        weak var simulation: SimulationController?
-        weak var file: SchematicFileController?
-    }
-
-    private var entries: [UUID: Entry] = [:]
-
-    func register(_ id: UUID, document: SchematicDocument, simulation: SimulationController,
-                  file: SchematicFileController? = nil) {
-        entries = entries.filter { $0.value.document != nil }
-        entries[id] = Entry(document: document, simulation: simulation, file: file)
-    }
-
-    /// Every open window's document and simulation. Used by the headless
-    /// harness that drives a window in the plan proofs.
-    var allSessions: [(document: SchematicDocument, simulation: SimulationController)] {
-        entries.values.compactMap { entry in
-            guard let document = entry.document, let simulation = entry.simulation else { return nil }
-            return (document, simulation)
-        }
-    }
-
-    /// Every open window with its session id and file controller
-    /// (automation: addresses a window).
-    var identifiedSessions: [(id: UUID, document: SchematicDocument, simulation: SimulationController,
-                              file: SchematicFileController?)] {
-        entries.compactMap { id, entry in
-            guard let document = entry.document, let simulation = entry.simulation else { return nil }
-            return (id, document, simulation, entry.file)
-        }
-    }
-
-    func session(_ id: UUID) -> (document: SchematicDocument, simulation: SimulationController)? {
-        guard let entry = entries[id], let document = entry.document,
-              let simulation = entry.simulation else { return nil }
-        return (document, simulation)
-    }
 }
 
 /// Root of a memory window.
@@ -70,7 +23,7 @@ struct MemoryWindowView: View {
     let target: MemoryWindowTarget
 
     var body: some View {
-        if let session = SchematicSessions.shared.session(target.sessionID) {
+        if let session = SchematicEditorModel.session(target.documentID) {
             MemoryInspector(
                 chipID: target.chipID,
                 document: session.document,
@@ -392,37 +345,6 @@ private struct MemoryInspector: View {
         if live.count != changedAt.count {
             changedAt = live
         }
-    }
-}
-
-/// An EEPROM's "Load file on start" setting. It can change only while the
-/// simulation is stopped.
-private struct LoadFileBar: View {
-    let file: MemoryFile?
-    let isRunning: Bool
-    let choose: () -> Void
-    let clear: () -> Void
-
-    var body: some View {
-        HStack(spacing: 8) {
-            Text("Load file on start:")
-            Text(file?.name ?? "None — starts erased (FF)")
-                .foregroundStyle(file == nil ? .secondary : .primary)
-                .lineLimit(1)
-                .truncationMode(.middle)
-                .help(file?.url.path ?? "The chip starts with every byte FF")
-            Spacer()
-            Button("Choose…", action: choose)
-                .disabled(isRunning)
-                .help(isRunning ? "Stop the simulation to change the load file"
-                                : "Choose a binary or Intel HEX file to load at every start")
-            Button("Clear", action: clear)
-                .disabled(isRunning || file == nil)
-                .help(isRunning ? "Stop the simulation to change the load file"
-                                : "Start erased (every byte FF)")
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 8)
     }
 }
 

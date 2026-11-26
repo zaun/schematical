@@ -112,16 +112,18 @@
 
 - [x] Add copper pours on the top/bottom layers (e.g. a GND pour with
       thermal reliefs), not only whole-layer planes. (plan-52)
-- [ ] Custom board outlines: rounded corners, cutouts, DXF import.
+- [x] Board cutouts (rectangle, circle, slot, polygon), a free-form board outline and File ▸ Import ▸ DXF… (plan-65).
+- [ ] Rounded corners of the board rectangle.
 - [x] Per-net trace widths (net classes): power nets wider by default. (plan-38)
 - [ ] Import footprints from KiCad's footprint libraries.
-- [ ] Later: teardrops, push-and-shove routing. (autorouter: plan-38)
+- [x] Push-and-shove routing in the autorouter. (plan-66)
+- [ ] Later: teardrops (a board option, not an autorouter option; not planned yet).
 
 ## Schematic
 
 - [ ] Multiple sheets per schematic, joined by net labels.
-- [ ] Electrical rule check (ERC): unconnected inputs, two outputs on one
-      net, missing power pins. Extends the voltage check.
+- [x] Electrical rule check (ERC): unconnected inputs, two outputs on one
+      net, missing power pins. Extends the voltage check. (plan-63: KiCad's rules, ⌥⌘E)
 - [ ] Renumber references (U1, U2… in order) before building the BOM.
 
 ## Examples (8-bit CPU, `examples/8bit-cpu`)

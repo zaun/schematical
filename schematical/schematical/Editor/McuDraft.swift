@@ -11,19 +11,20 @@ enum McuDraft {
     static let f3: Field = Field(key: "eeprom", label: "Eeprom", type: .integer)
     static let f4: Field = Field(key: "flash", label: "Flash", type: .integer, required: true)
     static let f5: Field = Field(key: "inputMax", label: "Input Max", type: .number(unit: "V"))
-    static let f6: Field = Field(key: "ram", label: "Ram", type: .integer, required: true)
-    static let f7: Field = Field(key: "simulated", label: "Simulated", type: .bool, required: true)
-    static let f8: Field = Field(key: "vcc", label: "Vcc", type: .voltRange, required: true)
-    static let f9: Field = Field(key: "clock", label: "Clock", type: .integer)
-    static let f10: Field = Field(key: "flash", label: "Flash", type: .integer)
-    static let f11: Field = Field(key: "inputMax", label: "Input Max", type: .number(unit: "V"))
-    static let f12: Field = Field(key: "psram", label: "Psram", type: .integer)
-    static let f13: Field = Field(key: "vcc", label: "Vcc", type: .voltRange)
+    static let f6: Field = Field(key: "model", label: "Model", type: .suggested(["atmega168pb", "atmega328", "atmega328pb", "attiny85"]))
+    static let f7: Field = Field(key: "ram", label: "Ram", type: .integer, required: true)
+    static let f8: Field = Field(key: "simulated", label: "Simulated", type: .bool)
+    static let f9: Field = Field(key: "vcc", label: "Vcc", type: .voltRange, required: true)
+    static let f10: Field = Field(key: "clock", label: "Clock", type: .integer)
+    static let f11: Field = Field(key: "flash", label: "Flash", type: .integer)
+    static let f12: Field = Field(key: "inputMax", label: "Input Max", type: .number(unit: "V"))
+    static let f13: Field = Field(key: "psram", label: "Psram", type: .integer)
+    static let f14: Field = Field(key: "vcc", label: "Vcc", type: .voltRange)
 
     static let schema = KindSchema(
         kind: "mcu",
         variantKey: nil,
-        device: [f1, f2, f3, f4, f5, f6, f7, f8],
-        part: [f9, f10, f11, f12, f13]
+        device: [f1, f2, f3, f4, f5, f6, f7, f8, f9],
+        part: [f10, f11, f12, f13, f14]
     )
 }

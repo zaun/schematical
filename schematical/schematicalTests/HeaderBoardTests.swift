@@ -164,7 +164,7 @@ final class HeaderBoardTests: XCTestCase {
         var options = doc.board.cardOptions
         options["icsp"] = .bool(true)
         doc.setCardOptions(options)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Card")
+        XCTAssertEqual(doc.undoName, "Change Card")
         let pads = doc.board.extraPads
         XCTAssertEqual(pads.map(\.name), (1...6).map { "ICSP.\($0)" })
         XCTAssertEqual(doc.board.pinCount, 32, "not on the bus")

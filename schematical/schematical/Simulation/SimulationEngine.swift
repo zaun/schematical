@@ -281,6 +281,14 @@ nonisolated final class SimulationEngine: @unchecked Sendable {
         }
     }
 
+    /// Moves a slide switch's knob to a position (1-based).
+    func setSlide(part: Int, state: Int) {
+        lock.lock()
+        defer { lock.unlock() }
+        guard !destroyed else { return }
+        circuit_set_switch_state(circuit, part, UInt32(state))
+    }
+
     func memorySize(part: Int) -> MemorySize? {
         lock.lock()
         defer { lock.unlock() }

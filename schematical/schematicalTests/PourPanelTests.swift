@@ -66,12 +66,12 @@ final class PourPanelTests: XCTestCase {
         let keepout = doc.addKeepout(rect: r(40, 10, 5, 5))
         let bounds = try XCTUnwrap(doc.boardOutlineBounds)
         doc.fitPourToBoard(pour)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Fit to Board")
+        XCTAssertEqual(doc.undoName, "Fit to Board")
         XCTAssertEqual(doc.pours[0].rect.width, bounds.width, accuracy: doc.board.traceGrid)
         XCTAssertEqual(doc.pours[0].rect.height, bounds.height, accuracy: doc.board.traceGrid)
         doc.fitKeepoutToBoard(keepout)
         XCTAssertEqual(doc.keepouts[0].rect.minX, bounds.minX, accuracy: doc.board.traceGrid)
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.keepouts[0].rect.width, 5, accuracy: doc.board.traceGrid)
     }
 

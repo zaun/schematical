@@ -36,6 +36,10 @@ nonisolated struct SearchRules: Sendable {
     /// A relaxed search's price per cell of other nets' routed copper
     /// (times 1 + the cell's history); 0 is a hard search (plan-38-F).
     var present: Double = 0
+    /// A relaxed search's price per cell of existing copper that push and
+    /// shove may move (a chain, plan-66); 0 never crosses it, whatever
+    /// `present` is.
+    var pushPrice: Double = 0
 
     init(net: Int, profile: Int, allowed: [Bool], preferred: [Bool], directions: [RoutingOptions.Direction]) {
         self.net = net
@@ -154,7 +158,7 @@ nonisolated struct RoutingSearch {
     /// (Dijkstra). `isCancelled` is polled every 4096 expansions.
     mutating func search(_ grid: RoutingGrid, rules: SearchRules, sources: [Int], targets: [Int],
                          goal: (x: ClosedRange<Int>, y: ClosedRange<Int>)?, history: [Float]? = nil, startCosts: [Int: Float]? = nil, targetCosts: [Int: Float]? = nil,
-                         plan: RoutingPlanCosts? = nil,
+                         plan: RoutingPlanCosts? = nil, corridor: [Float]? = nil,
                          isCancelled: () -> Bool) -> Result<[Int], SearchFailure> {
         for node in touched {
             cost[node] = .infinity
@@ -183,6 +187,7 @@ nonisolated struct RoutingSearch {
         let history = history ?? []
         let planDemand = plan?.demand ?? [], planHistory = plan?.history ?? []
         let planLambda = Float(plan?.lambda ?? 0)
+        let corridor = corridor ?? []
         let outcome: Result<[Int], SearchFailure> = cost.withUnsafeMutableBufferPointer { cost in
             came.withUnsafeMutableBufferPointer { came in
                 marks.withUnsafeBufferPointer { marks in
@@ -190,16 +195,24 @@ nonisolated struct RoutingSearch {
                         grid.viaMaps.withUnsafeBufferPointer { viaMaps in
                             grid.fixedTraceMaps.withUnsafeBufferPointer { fixedTrace in
                                 grid.fixedViaMaps.withUnsafeBufferPointer { fixedVia in
-                                    history.withUnsafeBufferPointer { history in
-                                        planDemand.withUnsafeBufferPointer { planDemand in
-                                            planHistory.withUnsafeBufferPointer { planHistory in
-                                                Self.explore(grid, rules: rules, sources: sources, startCosts: startCosts, targetCosts: targetCosts, goal: goal, cost: cost,
-                                                             came: came, marks: marks, generation: generation,
-                                                             maps: Maps(trace: traceMaps, via: viaMaps, fixedTrace: fixedTrace,
-                                                                        fixedVia: fixedVia, history: history, planDemand: planDemand,
-                                                                        planHistory: planHistory, planLambda: planLambda),
-                                                             touched: &touched, expanded: &local, found: &found,
-                                                             isCancelled: isCancelled)
+                                    grid.traceMask.withUnsafeBufferPointer { traceMask in
+                                        grid.viaMask.withUnsafeBufferPointer { viaMask in
+                                            history.withUnsafeBufferPointer { history in
+                                                planDemand.withUnsafeBufferPointer { planDemand in
+                                                    planHistory.withUnsafeBufferPointer { planHistory in
+                                                        corridor.withUnsafeBufferPointer { corridor in
+                                                        Self.explore(grid, rules: rules, sources: sources, startCosts: startCosts, targetCosts: targetCosts, goal: goal, cost: cost,
+                                                                     came: came, marks: marks, generation: generation,
+                                                                     maps: Maps(trace: traceMaps, via: viaMaps, fixedTrace: fixedTrace,
+                                                                                fixedVia: fixedVia, traceMask: traceMask, viaMask: viaMask,
+                                                                                history: history, planDemand: planDemand,
+                                                                                planHistory: planHistory, planLambda: planLambda,
+                                                                                corridor: corridor),
+                                                                     touched: &touched, expanded: &local, found: &found,
+                                                                     isCancelled: isCancelled)
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -221,12 +234,17 @@ nonisolated struct RoutingSearch {
         let via: UnsafeBufferPointer<Int32>
         let fixedTrace: UnsafeBufferPointer<Int32>
         let fixedVia: UnsafeBufferPointer<Int32>
+        /// Where a chain's copper stamped (`RoutingGrid.traceMask`); empty without chains.
+        let traceMask: UnsafeBufferPointer<UInt8>
+        let viaMask: UnsafeBufferPointer<UInt8>
         /// By node; empty outside a relaxed search.
         let history: UnsafeBufferPointer<Float>
         /// A plan's soft demand and remembered congestion (`RoutingPlanCosts`); both empty without one.
         let planDemand: UnsafeBufferPointer<Int16>
         let planHistory: UnsafeBufferPointer<Float>
         let planLambda: Float
+        /// A corridor's price by node (`RoutingCorridor`): negative is off limits; empty is none.
+        let corridor: UnsafeBufferPointer<Float>
     }
 
     private static func explore(_ grid: RoutingGrid, rules: SearchRules, sources: [Int], startCosts: [Int: Float]?, targetCosts: [Int: Float]?,
@@ -249,17 +267,36 @@ nonisolated struct RoutingSearch {
         }
         let relaxed = rules.present > 0 && maps.history.count == layerCount * cells
         let present = Float(rules.present)
+        let hasMask = maps.traceMask.count > 0
+        let pushing = rules.pushPrice > 0
+        let pushPrice = Float(rules.pushPrice)
         /// What entering a cell on a layer costs beyond the step: 0 when
         /// it is free or the net's own; in a relaxed search, the price of a
         /// cell only other nets' routed copper covers; -1 when it can't be
         /// entered at all (fixed copper, two nets, the edge).
+        let hasCorridor = maps.corridor.count == layerCount * cells
         @inline(__always) func price(_ layer: Int, _ cell: Int) -> Float {
+            let own = tracePrice(layer, cell)
+            guard hasCorridor, own >= 0 else { return own }
+            let inside = maps.corridor[layer * cells + cell]
+            return inside < 0 ? -1 : own + inside
+        }
+        @inline(__always) func tracePrice(_ layer: Int, _ cell: Int) -> Float {
             let index = base + layer * cells + cell
             let value = traceMaps[index]
             if value == -1 || value == net { return 0 }
             if relaxed {
                 let fixed = maps.fixedTrace[index]
-                if fixed == -1 || fixed == net { return present * (1 + maps.history[layer * cells + cell]) }
+                if fixed == -1 || fixed == net {
+                    let dearness = 1 + maps.history[layer * cells + cell]
+                    // A chain's copper is fixed copper unless a push is priced; another net's copper
+                    // sharing the cell (value -2) is paid for too.
+                    if hasMask, maps.traceMask[index] != 0 {
+                        guard pushing else { return -1 }
+                        return (pushPrice + (value == -2 ? present : 0)) * dearness
+                    }
+                    return present * dearness
+                }
             }
             return -1
         }
@@ -288,7 +325,13 @@ nonisolated struct RoutingSearch {
                     guard relaxed else { return -1 }
                     let fixed = maps.fixedVia[index]
                     guard fixed == -1 || fixed == net else { return -1 }
-                    total += present * (1 + maps.history[layer * cells + cell])
+                    let dearness = 1 + maps.history[layer * cells + cell]
+                    if hasMask, maps.viaMask[index] != 0 {
+                        guard pushing else { return -1 }
+                        total += (pushPrice + (value == -2 ? present : 0)) * dearness
+                    } else {
+                        total += present * dearness
+                    }
                 }
                 layer += 1
             }

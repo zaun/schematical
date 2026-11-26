@@ -9,9 +9,13 @@ nonisolated struct RoutingSummary: Hashable, Sendable {
     var removedVias = 0
     /// Each net left with unrouted connections: its name and how many.
     var unrouted: [UnroutedNet] = []
-    /// Traces the board refused (a plane or absent layer): only a stale
-    /// problem can have them.
+    /// Traces the board refused (a plane or absent layer), and chains of
+    /// existing copper not moved because the board changed since the problem
+    /// was made: only a stale problem can have them.
     var skipped = 0
+    /// Existing traces and vias push and shove moved (plan-66).
+    var movedTraces = 0
+    var movedVias = 0
     var stats = RoutingStats()
 
     struct UnroutedNet: Hashable, Sendable {
@@ -44,6 +48,7 @@ extension SchematicDocument {
             removeCopper(traces: traceIDs, vias: viaIDs)
             summary.removedTraces = traceIDs.count
             summary.removedVias = viaIDs.count
+            moveChains(result.moved, problem: problem, summary: &summary)
             var added: Set<BoardItem> = []
             for routed in result.vias {
                 let via = BoardVia(id: UUID(), centre: routed.centre, drill: routed.drill, diameter: routed.diameter,
@@ -68,6 +73,67 @@ extension SchematicDocument {
             if !added.isEmpty { selectBoardItems(added) }
         }
         return summary
+    }
+
+    /// Moves the chains of existing copper `moved` names (plan-66-C): each
+    /// run's vertices `first...last` of its trace are replaced by the new
+    /// points, each via's centre set. A chain is skipped, whole, and counted
+    /// in `summary.skipped`, when its copper is not as the problem recorded it
+    /// (a trace gone, locked or edited), or when an end that is not a trace's
+    /// own end would move (a vertex another chain of the trace shares).
+    /// Nothing is joined or selected: a chain keeps its anchors, so its contacts.
+    private func moveChains(_ moved: [MovedChain], problem: RoutingProblem, summary: inout RoutingSummary) {
+        struct Splice {
+            var trace: UUID
+            var first: Int
+            var last: Int
+            var points: [CGPoint]
+        }
+        var splices: [Splice] = []
+        var centres: [(via: UUID, centre: CGPoint)] = []
+        for move in moved.sorted(by: { $0.chain < $1.chain }) {
+            guard problem.movable.indices.contains(move.chain) else { summary.skipped += 1; continue }
+            let chain = problem.movable[move.chain]
+            var mine: [Splice] = [], mineVias: [(via: UUID, centre: CGPoint)] = []
+            var valid = move.runs.count == chain.runs.count && move.vias.count == chain.vias.count
+            for (k, run) in chain.runs.enumerated() where valid {
+                guard let trace = traces.first(where: { $0.id == run.trace }), !trace.locked,
+                      trace.points.indices.contains(run.last), run.first < run.last else { valid = false; break }
+                let recorded = Array(trace.points[run.first...run.last])
+                guard recorded == (run.reversed ? run.points.reversed() : run.points) else { valid = false; break }
+                var points = move.runs[k]
+                if run.reversed { points.reverse() }
+                guard points.count >= 2 else { valid = false; break }
+                // An end inside the trace is shared with the next chain along it: it stays where it is.
+                if run.first > 0, points.first != recorded.first { valid = false }
+                if run.last < trace.points.count - 1, points.last != recorded.last { valid = false }
+                mine.append(Splice(trace: run.trace, first: run.first, last: run.last, points: points))
+            }
+            for (k, via) in chain.vias.enumerated() where valid {
+                guard let real = vias.first(where: { $0.id == via.id }), !real.locked, real.centre == via.centre else {
+                    valid = false
+                    break
+                }
+                mineVias.append((via.id, move.vias[k]))
+            }
+            if valid { splices += mine; centres += mineVias } else { summary.skipped += 1 }
+        }
+        // Along each trace from its far end back, so the indices of the rest still hold.
+        for id in Set(splices.map(\.trace)).sorted(by: { $0.uuidString < $1.uuidString }) {
+            guard var points = traces.first(where: { $0.id == id })?.points else { continue }
+            for splice in splices.filter({ $0.trace == id }).sorted(by: { $0.first > $1.first }) {
+                points.replaceSubrange(splice.first...splice.last, with: splice.points)
+            }
+            if setTracePoints(id, TraceRoute.clean(points)) {
+                summary.movedTraces += splices.filter { $0.trace == id }.count
+            } else {
+                summary.skipped += 1
+            }
+        }
+        for (via, centre) in centres {
+            setViaCentre(via, centre)
+            summary.movedVias += 1
+        }
     }
 
     /// Deletes the unlocked traces and vias of the nets `nets` (as

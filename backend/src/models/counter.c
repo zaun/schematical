@@ -1549,9 +1549,32 @@ static void sync_changed(Sim *sim, SimInstance *inst, CounterHeader *h, size_t p
     sync_eval(sim, inst, (SyncState *)h, 0);
 }
 
+/* A unit's q pins when it has an "outputEnable", its register's outputs when the register has one. */
+static int sync_tristate(const void *bound, size_t pin) {
+    const SyncBound *b = bound;
+    size_t i, k;
+
+    for (i = 0; i < b->dev->unit_count; i++) {
+        const SyncUnit *u = &b->units[i];
+        const SyncUnitDef *d = u->def;
+
+        for (k = 0; u->oe.pin != SEQ_NO_PIN && k < d->q_count; k++) {
+            if (u->q[k] == pin) {
+                return 1;
+            }
+        }
+        for (k = 0; d->has_register && u->reg_oe.pin != SEQ_NO_PIN && k < d->reg_output_count; k++) {
+            if (u->reg_outputs[k] == pin) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 static const CounterModel SYNC_MODEL = {
     "sync", SYNC_KEYS, NULL, sync_load, sync_bind, sync_create, NULL, sync_start, sync_changed,
-    NULL
+    NULL, NULL, sync_tristate
 };
 
 /* ---- ripple ------------------------------------------------------------------ */
@@ -2099,7 +2122,15 @@ static int counter_pin_open_drain(const Part *part, size_t pin) {
     return dev->model->open_drain != NULL && dev->model->open_drain(internal->bound, pin);
 }
 
+static int counter_pin_tristate(const Part *part, size_t pin) {
+    const PartInternal *internal = part_internal(part);
+    const CounterDevice *dev = internal->device;
+
+    return dev->model->tristate != NULL && dev->model->tristate(internal->bound, pin);
+}
+
 const PartKindOps COUNTER_KIND = {
     PART_COUNTER, "counter", &COUNTER_SIM_MODEL, DEVICE_KEYS, PART_KEYS,
-    counter_load_device, counter_bind_pinout, counter_load_part, counter_pin_open_drain
+    counter_load_device, counter_bind_pinout, counter_load_part, counter_pin_open_drain, NULL,
+    counter_pin_tristate
 };

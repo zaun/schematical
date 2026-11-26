@@ -294,4 +294,42 @@ final class BoardPreviewTests: XCTestCase {
         doc.deletePour(id)
         XCTAssertLessThan(differing(try pixels(doc), before), change / 10, "deleted: as before")
     }
+
+    // MARK: Cutouts (plan-65-F)
+
+    /// The RGBA of the pixel at (`fx`, `fy`) of the picture, as fractions of its width and height.
+    private func pixel(_ doc: SchematicDocument, angle: BoardRenderAngle = .top, face: BoardRenderFace = .front,
+                       at fx: CGFloat, _ fy: CGFloat) throws -> [Int] {
+        let view = BoardPreviewView.canvas(document: doc, face: face, angle: angle).frame(width: 300, height: 220)
+        let image = try XCTUnwrap(ImageRenderer(content: view).cgImage)
+        let rep = NSBitmapImageRep(cgImage: image)
+        let color = try XCTUnwrap(rep.colorAt(x: Int(CGFloat(rep.pixelsWide) * fx), y: Int(CGFloat(rep.pixelsHigh) * fy))?
+            .usingColorSpace(.deviceRGB))
+        return [color.redComponent, color.greenComponent, color.blueComponent, color.alphaComponent].map { Int($0 * 255) }
+    }
+
+    func testACutoutIsAHoleInTheFrontRender() throws {
+        let doc = TestSupport.newDocument()
+        doc.setBoardSize(width: 60, height: 40)
+        let bare = try pixel(doc, at: 0.5, 0.5)
+        let nearBare = try pixel(doc, at: 0.25, 0.5)
+        _ = try XCTUnwrap(doc.addCutout(.rounded(rect: CGRect(x: 20, y: 10, width: 20, height: 20), radius: 0)))
+        let hole = try pixel(doc, at: 0.5, 0.5)
+        let nearHole = try pixel(doc, at: 0.25, 0.5)
+        let difference = zip(bare, hole).reduce(0) { $0 + abs($1.0 - $1.1) }
+        XCTAssertGreaterThanOrEqual(difference, 100, "the middle of the cutout is no longer board: \(bare) -> \(hole)")
+        XCTAssertEqual(nearHole, nearBare, "material beside the cutout is unchanged")
+    }
+
+    func testAnAngledRenderWithACutoutCompletesAndDiffers() throws {
+        let doc = TestSupport.newDocument()
+        doc.setBoardSize(width: 60, height: 40)
+        func angled() throws -> Data {
+            let view = BoardPreviewView.canvas(document: doc, face: .front, angle: .angled).frame(width: 300, height: 220)
+            return try XCTUnwrap(ImageRenderer(content: view).cgImage?.dataProvider?.data as Data?)
+        }
+        let before = try angled()
+        _ = try XCTUnwrap(doc.addCutout(.rounded(rect: CGRect(x: 20, y: 10, width: 20, height: 20), radius: 0)))
+        XCTAssertGreaterThan(differing(before, try angled()), 1000)
+    }
 }

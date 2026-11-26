@@ -2816,11 +2816,22 @@ static int ns_open_drain(const void *data, const void *pins, const void *options
     return ns_x_open_drain(data, pins, options, pin);   /* plan-12-E */
 }
 
+/* With a "tristate" pin (the TL16C552's TRI), every output floats while it is high. */
+static int ns_tristate(const void *data, const void *pins, const void *options, size_t pin) {
+    const NsPins *p = pins;
+
+    (void)data;
+    (void)options;
+    (void)pin;
+    return p->tri != SERIAL_NO_PIN;
+}
+
 static const char *const PART_KEYS[] = {"intPin" /* plan-12-E */, NULL};
 
 const SerialModel NS16550_MODEL = {
     "ns16550", KEYS, TIMING, PART_KEYS,
     ns_load_device, ns_bind, ns_x_load_part, ns_open_drain,
     ns_create, ns_destroy, ns_start, ns_pin_changed, ns_timer,
-    ns_channels, ns_line, ns_async
+    ns_channels, ns_line, ns_async,
+    NULL, NULL, NULL, ns_tristate
 };

@@ -18,7 +18,7 @@ struct NetLabelPanel: View {
 
     var body: some View {
         Section {
-            Text(label.isNet ? "Net Label" : "No Connect")
+            Text(label.isNet ? "Net Label" : label.title)
                 .font(.title2.bold())
             if label.isNet {
                 nameField
@@ -48,6 +48,9 @@ struct NetLabelPanel: View {
     }
 
     private var footer: String {
+        if label.isPowerFlag {
+            return "Marks the net it is on as driven, for the electrical rules check. It names nothing and joins nothing else."
+        }
         if !label.isNet {
             return "Marks a pin as left unconnected on purpose. It joins nothing, and the PCB shows no line for it."
         }

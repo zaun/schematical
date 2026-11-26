@@ -39,7 +39,7 @@ struct PartOptionsSection: View {
 
     /// Whether `part` has anything for this section to show.
     static func applies(to part: CatalogPart) -> Bool {
-        hasColorChoice(part) || !part.footprintChoices.isEmpty
+        hasColorChoice(part) || !part.footprintChoices.isEmpty || !part.units.isEmpty
     }
 
     /// Whether the section has anything to show for a placed chip: what `applies(to: part)` says, or
@@ -118,6 +118,19 @@ struct PartOptionsSection: View {
         // Read the chip again, so the pickers follow every change.
         let current = document.chips.first { $0.id == chip.id } ?? chip
         Section("Options") {
+            // A part with units (a gate IC): one block, or each unit its own symbol (plan-67).
+            if let unitView = current.part.unitViewName ?? (current.part.units.isEmpty ? nil : "Units") {
+                Picker("View", selection: Binding(
+                    get: { current.isSplit },
+                    set: { document.setPartSplit(chip.id, $0) }
+                )) {
+                    Text("Block").tag(false)
+                    Text(unitView).tag(true)
+                }
+                .pickerStyle(.segmented)
+                .help("Block: one box with every pin. \(unitView): each \(unitView.lowercased()) as its own symbol, placed, "
+                    + "flipped and turned on its own, plus a block for the power pins.")
+            }
             if let size = current.part.headerSize {
                 Picker("Rows", selection: Binding(
                     get: { size.rows },

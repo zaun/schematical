@@ -1,9 +1,9 @@
 import Foundation
 
-// Undo and redo (plan-31). The Schematic page and the PCB page each keep an
-// undo list and a redo list. A step is the per-item difference between the
-// document's saved state before and after one action, so undoing it on one
-// page never reverts what the other page did to other items since.
+// Undo and redo (plan-31, plan-61-A). A document has one undo manager. A step
+// is the per-item difference between the document's saved state before and
+// after one action; steps undo in the order they were made, whichever page
+// made them.
 
 /// The saved part of a document, as a value. Arrays are copy-on-write, so
 /// taking one is cheap.
@@ -22,24 +22,19 @@ struct DocumentState: Equatable {
     var holes: [BoardHole] = []
     var pours: [BoardPour] = []
     var keepouts: [BoardKeepout] = []
+    var cutouts: [BoardCutout] = []
+    /// The electrical rules check's settings (plan-63-E).
+    var erc = ErcSettings()
+    var documentInfo = DocumentInfo()
 }
 
-/// One thing a step can change. A part is split three ways, so the two pages
-/// can undo their own side of it apart: `.part` (everything the Schematic
+/// One thing a step can change. A part is split three ways, so a step holds
+/// only the side of it that it changed: `.part` (everything the Schematic
 /// shows), `.reference` (shown on both) and `.footprint` (what the PCB shows).
 enum UndoKey: Hashable {
     case part(UUID), reference(UUID), footprint(UUID)
     case wire(UUID), junction(UUID), bus(UUID), note(UUID), label(UUID), nextReference
-    case text(UUID), trace(UUID), via(UUID), hole(UUID), pour(UUID), keepout(UUID), board
-
-    /// The pages that show this key. A step goes on the list of each.
-    var pages: Set<EditorPage> {
-        switch self {
-        case .part, .wire, .junction, .bus, .note, .label, .nextReference: [.schematic]
-        case .reference: [.schematic, .pcb]
-        case .footprint, .text, .trace, .via, .hole, .pour, .keepout, .board: [.pcb]
-        }
-    }
+    case text(UUID), trace(UUID), via(UUID), hole(UUID), pour(UUID), keepout(UUID), cutout(UUID), board, erc, documentInfo
 }
 
 /// One key's value on one side of a step. Items carry their array index so a
@@ -51,8 +46,8 @@ enum UndoValue: Equatable {
     case bus(Bus, index: Int), note(SchematicNote, index: Int), label(NetLabel, index: Int)
     case text(BoardText, index: Int), trace(BoardTrace, index: Int), via(BoardVia, index: Int)
     case hole(BoardHole, index: Int)
-    case pour(BoardPour, index: Int), keepout(BoardKeepout, index: Int)
-    case nextReference(Int), board(BoardSettings)
+    case pour(BoardPour, index: Int), keepout(BoardKeepout, index: Int), cutout(BoardCutout, index: Int)
+    case nextReference(Int), board(BoardSettings), erc(ErcSettings), documentInfo(DocumentInfo)
 }
 
 /// A key's value before and after a step. Nil is "not there".
@@ -63,20 +58,18 @@ struct UndoChange: Equatable {
 
 typealias UndoChanges = [UndoKey: UndoChange]
 
-/// One undo step. A class, so a step on both pages is one object on both
-/// pages' stacks. Nonisolated: freeing a main-actor class goes through the
+/// One undo step. A class, so typing can fold into the step already on the
+/// undo manager. Nonisolated: freeing a main-actor class goes through the
 /// isolated-deinit path that aborts the test host (see `TestSupport`).
 nonisolated final class UndoStep {
     let name: String
     let coalescing: String?
     var changes: UndoChanges
-    var pages: Set<EditorPage>
 
-    init(name: String, coalescing: String? = nil, changes: UndoChanges, pages: Set<EditorPage>) {
+    init(name: String, coalescing: String? = nil, changes: UndoChanges) {
         self.name = name
         self.coalescing = coalescing
         self.changes = changes
-        self.pages = pages
     }
 }
 
@@ -132,12 +125,20 @@ enum UndoDiff {
         diff(old.holes, new.holes, key: UndoKey.hole, wrap: UndoValue.hole, into: &changes)
         diff(old.pours, new.pours, key: UndoKey.pour, wrap: UndoValue.pour, into: &changes)
         diff(old.keepouts, new.keepouts, key: UndoKey.keepout, wrap: UndoValue.keepout, into: &changes)
+        diff(old.cutouts, new.cutouts, key: UndoKey.cutout, wrap: UndoValue.cutout, into: &changes)
         if old.nextReference != new.nextReference {
             changes[.nextReference] = UndoChange(before: .nextReference(old.nextReference),
                                                  after: .nextReference(new.nextReference))
         }
         if old.board != new.board {
             changes[.board] = UndoChange(before: .board(old.board), after: .board(new.board))
+        }
+        if old.erc != new.erc {
+            changes[.erc] = UndoChange(before: .erc(old.erc), after: .erc(new.erc))
+        }
+        if old.documentInfo != new.documentInfo {
+            changes[.documentInfo] = UndoChange(before: .documentInfo(old.documentInfo),
+                                                after: .documentInfo(new.documentInfo))
         }
         return changes
     }
@@ -180,7 +181,7 @@ enum UndoDiff {
         var texts: [(UUID, UndoValue?)] = [], traces: [(UUID, UndoValue?)] = []
         var vias: [(UUID, UndoValue?)] = [], labels: [(UUID, UndoValue?)] = []
         var holes: [(UUID, UndoValue?)] = []
-        var pours: [(UUID, UndoValue?)] = [], keepouts: [(UUID, UndoValue?)] = []
+        var pours: [(UUID, UndoValue?)] = [], keepouts: [(UUID, UndoValue?)] = [], cutouts: [(UUID, UndoValue?)] = []
         for (key, change) in changes {
             let value = target(change)
             switch key {
@@ -200,10 +201,15 @@ enum UndoDiff {
             case let .hole(id): holes.append((id, value))
             case let .pour(id): pours.append((id, value))
             case let .keepout(id): keepouts.append((id, value))
+            case let .cutout(id): cutouts.append((id, value))
             case .nextReference:
                 if case let .nextReference(n)? = value { state.nextReference = n }
             case .board:
                 if case let .board(b)? = value { state.board = b }
+            case .erc:
+                if case let .erc(e)? = value { state.erc = e }
+            case .documentInfo:
+                if case let .documentInfo(i)? = value { state.documentInfo = i }
             }
         }
 
@@ -238,6 +244,7 @@ enum UndoDiff {
         place(holes, in: &state.holes, unwrap: { if case let .hole(h, i) = $0 { (h, i) } else { nil } })
         place(pours, in: &state.pours, unwrap: { if case let .pour(p, i) = $0 { (p, i) } else { nil } })
         place(keepouts, in: &state.keepouts, unwrap: { if case let .keepout(k, i) = $0 { (k, i) } else { nil } })
+        place(cutouts, in: &state.cutouts, unwrap: { if case let .cutout(c, i) = $0 { (c, i) } else { nil } })
         return state != original
     }
 
@@ -267,105 +274,41 @@ enum UndoDiff {
     }
 }
 
-// MARK: - The stacks
+// MARK: - The document's undo manager
 
-/// Each page's undo stack and redo stack. A step on two pages is on both
-/// pages' stacks of the same kind at once.
-struct UndoHistory {
-    private(set) var undo: [EditorPage: [UndoStep]] = [:]
-    private(set) var redo: [EditorPage: [UndoStep]] = [:]
-    /// Whether the top step may still take in a push with its coalescing key.
-    private(set) var coalescingOpen = false
+/// A document's undo manager (plan-61-A). One recorded step is one group
+/// (`groupsByEvent` is off, so no run loop turn is needed to close one). While
+/// the simulation runs it is locked: `canUndo` and `canRedo` are false, which
+/// disables any menu item validated against it. `undo()` and `redo()` skip a
+/// step that no longer changes anything and go on to the next.
+nonisolated final class SchematicUndoManager: UndoManager, @unchecked Sendable {
+    /// True while the simulation runs.
+    var isLocked = false
+    /// Set by a step's handler when it changed the document.
+    var applied = false
 
-    /// Steps kept per page undo stack.
-    static let limit = 500
-
-    func undoTop(on page: EditorPage) -> UndoStep? { undo[page]?.last }
-    func redoTop(on page: EditorPage) -> UndoStep? { redo[page]?.last }
-
-    /// Adds a step to the undo stack of each of its pages and clears those
-    /// pages' redo stacks (a shared step cleared this way leaves every
-    /// page's redo stack). A step with the same coalescing key as the top
-    /// step on its page, while coalescing is open, merges into it instead.
-    mutating func push(_ step: UndoStep) {
-        clearRedo(on: step.pages)
-        let tops = step.pages.compactMap { undo[$0]?.last }
-        if let key = step.coalescing, coalescingOpen, let top = tops.first(where: { $0.coalescing == key }) {
-            merge(step, into: top)
-            return
-        }
-        coalescingOpen = step.coalescing != nil
-        for page in step.pages {
-            undo[page, default: []].append(step)
-            if undo[page]!.count > Self.limit {
-                let dropped = undo[page]!.removeFirst()
-                // Kept on the other page, if it is on one; its keys are per item.
-                dropped.pages.remove(page)
-            }
-        }
+    override init() {
+        super.init()
+        groupsByEvent = false
+        levelsOfUndo = 500
     }
 
-    private mutating func merge(_ newer: UndoStep, into top: UndoStep) {
-        for (key, change) in newer.changes {
-            if let older = top.changes[key] {
-                top.changes[key] = UndoChange(before: older.before, after: change.after)
-            } else {
-                top.changes[key] = change
-            }
-        }
-        top.changes = top.changes.filter { $0.value.before != $0.value.after }
-        for page in newer.pages.subtracting(top.pages) {
-            top.pages.insert(page)
-            undo[page, default: []].append(top)
-        }
-        if top.changes.isEmpty { remove(top, from: \.undo) }
+    override var canUndo: Bool { !isLocked && super.canUndo }
+    override var canRedo: Bool { !isLocked && super.canRedo }
+
+    override func undo() {
+        applied = false
+        while !isLocked, !applied, super.canUndo { super.undo() }
     }
 
-    private mutating func clearRedo(on pages: Set<EditorPage>) {
-        let gone = pages.flatMap { redo[$0] ?? [] }
-        for step in gone { remove(step, from: \.redo) }
+    override func redo() {
+        applied = false
+        while !isLocked, !applied, super.canRedo { super.redo() }
     }
 
-    private mutating func remove(_ step: UndoStep, from stacks: WritableKeyPath<UndoHistory, [EditorPage: [UndoStep]]>) {
-        for page in step.pages {
-            self[keyPath: stacks][page]?.removeAll { $0 === step }
-        }
-    }
-
-    /// Takes the top undo step of `page` off the undo stack of each of its pages.
-    mutating func popUndo(on page: EditorPage) -> UndoStep? {
-        coalescingOpen = false
-        guard let step = undo[page]?.last else { return nil }
-        remove(step, from: \.undo)
-        return step
-    }
-
-    /// Takes the top redo step of `page` off the redo stack of each of its pages.
-    mutating func popRedo(on page: EditorPage) -> UndoStep? {
-        coalescingOpen = false
-        guard let step = redo[page]?.last else { return nil }
-        remove(step, from: \.redo)
-        return step
-    }
-
-    /// Puts an undone step on top of each of its pages' redo stacks.
-    mutating func pushRedo(_ step: UndoStep) {
-        for page in step.pages { redo[page, default: []].append(step) }
-    }
-
-    /// Puts a redone step back on top of each of its pages' undo stacks.
-    mutating func pushUndo(_ step: UndoStep) {
-        for page in step.pages { undo[page, default: []].append(step) }
-    }
-
-    /// The next push starts a new step even with the same coalescing key.
-    mutating func endCoalescing() {
-        coalescingOpen = false
-    }
-
-    mutating func clear() {
-        undo = [:]
-        redo = [:]
-        coalescingOpen = false
+    /// Takes the top undo step off, for one whose changes have become empty:
+    /// its handler changes nothing and registers nothing.
+    func dropTop() {
+        if super.canUndo { super.undo() }
     }
 }

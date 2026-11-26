@@ -3,7 +3,7 @@
 //  schematical
 //
 //  Exposes the backend (../backend/src, compiled into the app) to Swift:
-//  the part library, the circuit simulator, the voltage check and the
+//  the part library, the circuit simulator, the voltage check, the ERC pin types and the
 //  load-file parser.
 //
 
@@ -13,6 +13,7 @@
 #include "parts.h"
 #include "circuit.h"
 #include "voltage.h"
+#include "erc.h"
 #include "memory_image.h"
 
 #endif

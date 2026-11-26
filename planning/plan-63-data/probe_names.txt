@@ -1,0 +1,9 @@
+power +5V and label VCC on one wire:
+    ('power_pin_not_driven', 'error', 'Input Power pin not driven by any Output Power pins')
+    ('same_local_global_label', 'warning', 'Local and global labels have same name')
+power +5V and power +3V3 on one wire:
+    ('multiple_net_names', 'warning', 'Both +3V3 and +5V are attached to the same items; +3V3 will be used in the netlist')
+two labels X and Y on one wire (see probe_wires_labels):
+    ('multiple_net_names', 'warning', 'Both X and Y are attached to the same items; X will be used in the netlist')
+two labels of one name X on one wire:
+label +5V alone on a wire with a pin (the power symbol +5V is on another row):

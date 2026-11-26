@@ -8,6 +8,10 @@ import Observation
 @MainActor
 @Observable
 final class CanvasViewport {
+    /// As `SchematicDocument`'s: an isolated deinit aborts the runtime when
+    /// a closing document frees this.
+    nonisolated deinit {}
+
     static let zoomLevels: [CGFloat] = [0.25, 0.5, 0.75, 1, 1.5, 2, 3]
 
     private(set) var zoom: CGFloat = 1
@@ -88,5 +92,18 @@ final class CanvasViewport {
 
     func pan(to newOffset: CGSize) {
         offset = newOffset
+    }
+
+    /// Pans so the world point `point` is at the middle of the view; the zoom stays.
+    func centre(on point: CGPoint) {
+        pan(to: CGSize(width: size.width / 2 - point.x * scale, height: size.height / 2 - point.y * scale))
+    }
+
+    /// Brings `point` into view: nothing moves when it is already at least `margin`
+    /// screen points inside the view, else it is centred.
+    func reveal(_ point: CGPoint, margin: CGFloat = 40) {
+        guard size.width > 0, size.height > 0 else { return }
+        let inset = visibleWorldRect.insetBy(dx: margin / scale, dy: margin / scale)
+        if !inset.contains(point) { centre(on: point) }
     }
 }

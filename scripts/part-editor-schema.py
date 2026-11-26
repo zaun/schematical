@@ -61,7 +61,7 @@ BORROW = {"rtc": ("converter", CV_SHARED_DEVICE, CV_SHARED_PART),
 
 # Kinds whose `type` is not a model picker: plan-47-L (relay: three types and
 # no per-type key set beyond the solid-state rules, so no variantKey).
-NO_VARIANT = {"relay"}
+NO_VARIANT = {"relay", "mcu"}   # an mcu's "model" is optional: not a variant key
 
 PART_VARIANT_KEYS = {"diode": {"vz", "pd"}}
 

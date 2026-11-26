@@ -1,0 +1,15 @@
+run 1
+parts 103 wires 411; dragging UART1 ST16C550IQ48TR-F (48 pins)
+pan: median 2.12 ms  p90 16.01 ms  max 103.27 ms
+moveChip: median 23.72 ms  p90 25.58 ms  max 27.24 ms
+dragBusLine: median 11.97 ms  p90 13.35 ms  max 14.74 ms
+run 2
+parts 103 wires 411; dragging UART1 ST16C550IQ48TR-F (48 pins)
+pan: median 2.24 ms  p90 16.32 ms  max 117.76 ms
+moveChip: median 23.08 ms  p90 24.97 ms  max 27.46 ms
+dragBusLine: median 12.07 ms  p90 13.80 ms  max 15.06 ms
+run 3
+parts 103 wires 411; dragging UART1 ST16C550IQ48TR-F (48 pins)
+pan: median 1.99 ms  p90 15.47 ms  max 16.71 ms
+moveChip: median 22.56 ms  p90 24.63 ms  max 28.50 ms
+dragBusLine: median 11.71 ms  p90 12.03 ms  max 12.98 ms

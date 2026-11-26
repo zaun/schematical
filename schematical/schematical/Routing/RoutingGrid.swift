@@ -48,6 +48,11 @@ nonisolated struct RoutingGrid: Sendable {
     /// before anything is routed: what un-stamping restores (plan-38-F).
     private(set) var fixedTraceMaps: [Int32] = []
     private(set) var fixedViaMaps: [Int32] = []
+    /// Where a chain's copper (a bystander net's ledger entry, plan-66-C)
+    /// stamped each map: 1, else 0. Empty when the problem has no
+    /// bystanders. A relaxed search crosses such a cell only at a push price.
+    private(set) var traceMask: [UInt8] = []
+    private(set) var viaMask: [UInt8] = []
 
     init(problem: RoutingProblem) {
         let rules = problem.rules
@@ -64,7 +69,7 @@ nonisolated struct RoutingGrid: Sendable {
         var index: [RoutingProfile: Int] = [:]
         var profileOfNet: [Int: Int] = [:]
         var clearanceOfNet: [Int: Double] = [:]
-        for net in problem.nets.sorted(by: { $0.id < $1.id }) {
+        for net in (problem.nets + problem.bystanders).sorted(by: { $0.id < $1.id }) {
             let profile = RoutingProfile(halfWidth: net.width / 2, clearance: net.clearance,
                                          viaRadius: net.viaDiameter / 2, viaDrillRadius: net.viaDrill / 2)
             if index[profile] == nil {
@@ -88,6 +93,10 @@ nonisolated struct RoutingGrid: Sendable {
         let maps = profiles.count * max(layers.count, 1)
         traceMaps = Array(repeating: Self.free, count: count * maps)
         viaMaps = traceMaps
+        if !problem.bystanders.isEmpty {
+            traceMask = Array(repeating: 0, count: traceMaps.count)
+            viaMask = traceMask
+        }
 
         // Fixed copper and holes. The outline is the edge keep-out, below.
         for obstacle in problem.obstacles where obstacle.shape.node != -1 {
@@ -99,9 +108,26 @@ nonisolated struct RoutingGrid: Sendable {
                   layers: layerIndices(obstacle.shape.layers))
             if let drill = obstacle.drill { stampHole(drill.core, radius: drill.radius) }
         }
-        stampEdge(problem.outline)
+        stampEdge(problem.edge)
         fixedTraceMaps = traceMaps
         fixedViaMaps = viaMaps
+    }
+
+    /// Forgets the chains' stamps over the cells inside `range` on every map
+    /// (`restoreFixed` has put the fixed values back there).
+    mutating func clearMasks(in range: (x: ClosedRange<Int>, y: ClosedRange<Int>)) {
+        guard !traceMask.isEmpty else { return }
+        let maps = traceMaps.count / cellCount
+        for map in 0..<maps {
+            let base = map * cellCount
+            for y in range.y {
+                let row = base + y * nx
+                for x in range.x {
+                    traceMask[row + x] = 0
+                    viaMask[row + x] = 0
+                }
+            }
+        }
     }
 
     // MARK: Cells
@@ -196,7 +222,8 @@ nonisolated struct RoutingGrid: Sendable {
     /// `max(clearance, p.clearance) + radius + p.halfWidth` of the core,
     /// nor a via centre within `… + p.viaRadius` (strictly closer is
     /// covered).
-    mutating func stamp(_ core: CopperShape.Core, radius: Double, clearance: Double, owner: Int32, layers indices: [Int]) {
+    mutating func stamp(_ core: CopperShape.Core, radius: Double, clearance: Double, owner: Int32, layers indices: [Int],
+                        bystander: Bool = false) {
         guard !indices.isEmpty else { return }
         let box = CopperShape(core: core, radius: 0, layers: nil, node: 0).bounds
         let reach = profiles.map { max(clearance, $0.clearance) + radius + max($0.halfWidth, $0.viaRadius) }.max() ?? 0
@@ -212,8 +239,15 @@ nonisolated struct RoutingGrid: Sendable {
                     let onTrace = d < gap + profile.halfWidth, onVia = d < gap + profile.viaRadius
                     guard onTrace || onVia else { continue }
                     for layer in indices {
-                        if onTrace { Self.mark(&traceMaps, (p * count + layer) * cells + c, owner) }
-                        if onVia { Self.mark(&viaMaps, (p * count + layer) * cells + c, owner) }
+                        let at = (p * count + layer) * cells + c
+                        if onTrace {
+                            Self.mark(&traceMaps, at, owner)
+                            if bystander, !traceMask.isEmpty { traceMask[at] = 1 }
+                        }
+                        if onVia {
+                            Self.mark(&viaMaps, at, owner)
+                            if bystander, !viaMask.isEmpty { viaMask[at] = 1 }
+                        }
                     }
                 }
             }
@@ -225,21 +259,31 @@ nonisolated struct RoutingGrid: Sendable {
     /// distance of it. This holds at edge fingers too: the DRC exempts only
     /// the finger pad itself, never the trace that enters it (`checkEdge`),
     /// so a net reaches a finger through its inner part.
-    private mutating func stampEdge(_ outline: [CGPoint]) {
-        guard outline.count >= 3 else { return }
+    private mutating func stampEdge(_ boardEdge: BoardEdge) {
+        guard boardEdge.outline.count >= 3 else { return }
         let count = layers.count
-        let edges = Array(zip(outline, outline.dropFirst() + outline.prefix(1)))
-        // Outside: per row, the spans between the outline's crossings.
+        let edges = boardEdge.segments
+        let outlineEdges = Array(zip(boardEdge.outline, boardEdge.outline.dropFirst() + boardEdge.outline.prefix(1)))
+        let cutoutEdges = boardEdge.cutouts.filter { $0.count >= 3 }.map { loop in
+            Array(zip(loop, loop.dropFirst() + loop.prefix(1)))
+        }
+        /// The sorted x where a loop's edges cross the row at `py`.
+        func crossingsOf(_ loop: [(CGPoint, CGPoint)], at py: Double) -> [Double] {
+            var result: [Double] = []
+            for (a, b) in loop where (a.y > py) != (b.y > py) {
+                result.append(a.x + (py - a.y) * (b.x - a.x) / (b.y - a.y))
+            }
+            return result.sorted()
+        }
+        // Off the material: per row, the spans outside the outline and inside any cutout (plan-65-D).
         for y in 0..<ny {
             let py = origin.y + Double(y) * pitch
-            var crossings: [Double] = []
-            for (a, b) in edges where (a.y > py) != (b.y > py) {
-                crossings.append(a.x + (py - a.y) * (b.x - a.x) / (b.y - a.y))
-            }
-            crossings.sort()
+            let crossings = crossingsOf(outlineEdges, at: py)
+            let cutoutCrossings = cutoutEdges.map { crossingsOf($0, at: py) }
             for x in 0..<nx {
                 let px = origin.x + Double(x) * pitch
                 let inside = crossings.filter { $0 < px }.count % 2 == 1
+                    && !cutoutCrossings.contains { $0.filter { $0 < px }.count % 2 == 1 }
                 guard !inside else { continue }
                 let c = cell(x, y)
                 for map in 0..<(traceMaps.count / cellCount) {
@@ -270,26 +314,27 @@ nonisolated struct RoutingGrid: Sendable {
     }
 
     /// Stamps a routed trace of net `net` (width in mm) on `layer`.
-    mutating func stampTrace(_ points: [CGPoint], width: Double, layer: Int, net: Int) {
+    mutating func stampTrace(_ points: [CGPoint], width: Double, layer: Int, net: Int, bystander: Bool = false) {
         let clearance = clearanceOfNet[net] ?? rules.minClearance
         for (a, b) in zip(points, points.dropFirst()) {
-            stamp(.segment(a, b), radius: width / 2, clearance: clearance, owner: Int32(net), layers: [layer])
+            stamp(.segment(a, b), radius: width / 2, clearance: clearance, owner: Int32(net), layers: [layer],
+                  bystander: bystander)
         }
     }
 
     /// Stamps a routed via of net `net` on every layer, and its hole.
-    mutating func stampVia(_ centre: CGPoint, diameter: Double, drill: Double, net: Int) {
+    mutating func stampVia(_ centre: CGPoint, diameter: Double, drill: Double, net: Int, bystander: Bool = false) {
         let clearance = clearanceOfNet[net] ?? rules.minClearance
         stamp(.segment(centre, centre), radius: diameter / 2, clearance: clearance, owner: Int32(net),
-              layers: Array(layers.indices))
-        stampHole(.segment(centre, centre), radius: drill / 2)
+              layers: Array(layers.indices), bystander: bystander)
+        stampHole(.segment(centre, centre), radius: drill / 2, bystander: bystander)
     }
 
     /// Blocks, on every via map, the via centres whose hole would come
     /// within the DRC's hole-to-hole distance of a hole (a pad's drill, a
     /// via's) of any net: closer than `radius + minHoleToHole + the
     /// profile's via drill radius`.
-    mutating func stampHole(_ core: CopperShape.Core, radius: Double) {
+    mutating func stampHole(_ core: CopperShape.Core, radius: Double, bystander: Bool = false) {
         let box = CopperShape(core: core, radius: 0, layers: nil, node: 0).bounds
         let reach = radius + rules.minHoleToHole + (profiles.map(\.viaDrillRadius).max() ?? 0)
         guard let range = cellRange(box, margin: reach) else { return }
@@ -299,7 +344,10 @@ nonisolated struct RoutingGrid: Sendable {
                 let c = cell(x, y)
                 let d = Self.distance(point(c), core)
                 for (p, profile) in profiles.enumerated() where d < radius + rules.minHoleToHole + profile.viaDrillRadius {
-                    for layer in 0..<count { viaMaps[(p * count + layer) * cells + c] = Self.blocked }
+                    for layer in 0..<count {
+                        viaMaps[(p * count + layer) * cells + c] = Self.blocked
+                        if bystander, !viaMask.isEmpty { viaMask[(p * count + layer) * cells + c] = 1 }
+                    }
                 }
             }
         }

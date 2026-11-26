@@ -104,6 +104,21 @@ Notes:
   are not positions (`"<name> has no position N"`); `circuit_start` gives
   each of its unwired pins a net of its own so the chain A1–B1–B2 holds
   (plan-27-D).
+- `circuit_set_switch_state(circuit, part, state)` (plan-58-B): moves the knob
+  of a slide switch, a `switch` device with `"states"` (see `docs/parts-format.md`
+  § `switch`), to knob position `state` (1 … `PartSwitch.states`). The contacts
+  the state does not list open first, then the ones it lists close (break before
+  make), each exactly as `circuit_set_switch` would, and one voltage check
+  follows when a contact closed during a run (the run stops on a failure, like
+  a closing tactile switch). A new circuit starts the knob in the device's
+  `"rest"` position: `circuit_add_part` records that state's contacts closed
+  and `circuit_start` applies them once the nets exist, so the voltage check
+  at start sees them. Errors: `"<name> is not a slide switch"`, `"<name> has no
+  position N (1 … K)"`. `circuit_set_switch` still addresses single contacts of
+  every switch; the backend keeps no knob position of its own, only the
+  recorded contacts. A light is on when it was on at any time during the last
+  `circuit_advance`, so the advance right after a move still shows the old
+  state (`slide_test` settles with two).
 - `circuit_advance` returns 0 once the run has stopped (a short circuit is
   `"smoke: ..."`, and `circuit_shorted_net` names the net).
 - **Diodes** (plan-29-H). A diode part drives nothing; each of its
@@ -344,6 +359,9 @@ Notes:
   - A switch that closes during a run and makes the circuit fail stops the
     run like a short: `circuit_advance` returns 0 and `circuit_error` is the
     text (the contact is still applied).
+  - A slide switch's closed contacts (plan-58-B) are the same recorded
+    contacts: its rest state's are applied by `circuit_start` before the
+    check, and `circuit_set_switch_state` runs the check once after the move.
   - `circuit_voltage_problem` returns the first problem (net, part, pin,
     voltages) after either refusal.
   - A supply and GND on one net is still a short (`smoke:`), not a voltage
@@ -367,12 +385,111 @@ Notes:
   the last `circuit_advance`, so multiplexed digits show.
 - Memory contents (SRAM, EEPROM, serial memories): `circuit_memory_size`,
   `circuit_memory_read` (a 0 bit in `known` is X).
+- **Microcontrollers** (plan-62). An `mcu` device with a `"model"` runs
+  firmware: the model names a register layout of the AVR core
+  (`avr_chip.h`: `atmega328`, `atmega168pb`, `atmega328pb` for the
+  ATmega48/88/168/328, `attiny85` for the ATtiny25/45/85), a C port of
+  avr8js 0.21.1, and `mcu_avr.c` puts it on the engine.
+  - **Firmware.** The part's memory is its flash, in bytes:
+    `circuit_memory_size` gives the flash size and 8 bits,
+    `circuit_memory_load` writes it before `circuit_start` (build the image
+    with `memory_image_parse` from an Intel HEX or binary file), and
+    `circuit_memory_read` reads it back. An unloaded flash is FF; FF words
+    are no instruction and run as no-ops.
+  - **Startup.** For 1 ms after `circuit_start` the chip is in reset, every
+    port pin Z.
+  - **Clock**, chosen once at the end of startup (a real chip chooses with
+    fuses, which do not exist here). With 2 or more rising edges on XTAL1
+    (PB6; PB3 on an ATtiny25/45/85) during startup the chip takes that
+    clock: one CPU cycle per rising edge, XTAL1 and XTAL2 (PB7; PB4) are
+    clock pins (never driven; they read 0 in PINB), CLKPR resets to 0.
+    Otherwise it runs on its internal 8 MHz oscillator divided by 8 (CLKPR
+    resets to 3, the CKDIV8 fuse): 1 us per cycle until the firmware writes
+    CLKPR, and the two pins are port pins.
+  - **Reset.** The reset pin (PC6; PB5 on an ATtiny25/45/85) is never a
+    port pin: the chip pulls it up (weak 1), and while it reads 0 or X the
+    chip is in reset, every port pin Z; back at 1 the program starts over
+    (flash and SRAM kept). A watchdog reset restarts the chip the same way.
+  - **Pins.** An output drives strong 0 or 1; an input is Z, or weak 1 with
+    its pull-up. An input reads 1 for a 1 and 0 for 0, X and Z. A pin write
+    lands at the time of the instruction that made it. A timer's compare
+    output, and a pin toggled from a timer interrupt, change between
+    instructions, so one edge can be a CPU cycle early or late; a whole
+    period is exact (blink's 1000-cycle toggle comes at 1001, 999, 1001 …
+    cycles in avr8js too).
+  - **ADC.** There are no analog levels: an ADC input is 5 V when its net
+    reads 1 and 0 V otherwise, against AVCC = AREF = 5 V, so a conversion
+    gives 1023 or 0 (PC0–PC5; `ADC6`/`ADC7`, or PE2/PE3 on a PB device; on
+    an ATtiny25/45/85 ADC1 PB2, ADC2 PB4, ADC3 PB3, and ADC0 is the reset
+    pin).
+  - **ATtiny25/45/85** (`attiny85`). One port, PB0–PB5; the data space is
+    0x60 bytes of registers and then the SRAM. Timer0 is the ATmega's 8-bit
+    timer (OC0A PB0, OC0B PB1, T0 PB2). Timer1 (`avr_timer_tiny.c`, a port of
+    avr8js's `timer-attiny.ts`) is the 8-bit timer with prescalers from CK
+    to CK/16384, TOP in OCR1C, OC1A on PB1 and OC1B on PB4. The USI
+    (`avr_usi.c`) is **not** an avr8js port: avr8js's `usi.ts` reads the
+    clock source and wire mode from the wrong bits of USICR, so ours is
+    written from the datasheet and works on pins. Three-wire mode: DO (PB1)
+    shows the shift register's top bit, DI (PB0) is sampled, USCK is PB2.
+    Two-wire mode: SDA (PB0) and SCL (PB2) are open drain with no pull-up
+    (the bus needs resistors), with the start and stop detectors and the
+    SCL hold after a start (and, in mode 11, after a counter overflow). The
+    clock is the software strobe (USICLK), or the clock pin's edges with
+    the counter on the edges or on USITC writes; USITC toggles the clock
+    pin. Where avr8js disagrees with the datasheet the simulator follows
+    the datasheet, with a comment at each place and `exact` for the oracle
+    tests: Timer1's PWM mode counts 0 to OCR1C and starts over (avr8js
+    counts up and down, half the frequency), OCR1A and OCR1B are latched at
+    the end of a PWM period, /OC1A (PB0) and /OC1B (PB3) carry the inverse
+    with COM1x = 01, a 1 written to INTF0 in GIFR clears it (in avr8js the
+    pin-change hook on the shared register swallows the write), and REFS2
+    selects the 2.56 V reference. Not modeled: the 64 MHz PLL as Timer1's
+    clock (the timer counts the CPU clock; PLOCK reads 1 once PLLE is set,
+    so firmware waiting for the lock goes on), the dead time generator, the
+    analog comparator, the USI clocked by Timer0's compare match, bipolar
+    ADC conversions (BIN), and the fuses (RSTDISBL: PB5 is always reset).
+  - **Serial pins** (plan-62-F, `mcu_avr_serial.c`). avr8js stops at the
+    byte; this layer, ours, puts the bytes on pins, in engine time (a bit is
+    the peripheral's bit time in CPU cycles times the cycle's length).
+    *USART*: while TXEN is set TXD is 1 when idle and carries each byte
+    written to UDR as a frame (start, 5–9 data bits LSB first, parity, 1 or
+    2 stop bits); while RXEN is set a 1-to-0 change on RXD starts a frame,
+    sampled mid-bit, delivered after a stop bit that reads 1. *SPI*: master
+    only; a byte written to SPDR is clocked out on MOSI and SCK and in from
+    MISO in SPCR's mode and bit order, SCK idling at CPOL; SCK and MOSI are
+    driven only where their DDR bit is set, and SS is an ordinary port pin.
+    *TWI*: master only; while TWEN is set SDA and SCL are open drain (pulled
+    low or released: the bus needs pull-ups, resistors or the port's own),
+    with SDA changing a quarter bit away from every SCL edge and SCL waited
+    for after a release (a target may stretch it). Pins: USART0 RXD PD0, TXD
+    PD1; SPI SS PB2, MOSI PB3, MISO PB4, SCK PB5; TWI SDA PC4, SCL PC5; on
+    the ATmega328PB also USART1 RXD PB4, TXD PB3, SPI1 MISO PC0, SCK PC1,
+    MOSI PE3, and TWI1 SDA PE0, SCL PE1. Not modeled, as in avr8js: the
+    USART's synchronous mode and its frame, parity and overrun errors (a
+    frame with a bad stop bit is dropped), SPI slave mode (with MSTR clear a
+    transfer completes with 0 and no pin moves), TWI slave mode and
+    arbitration. A chip has no terminal of its own
+    (`circuit_serial_channels` is 0): wire a USB-to-UART bridge to TXD/RXD.
+  - **State.** `circuit_cpu_state` reports it as it does a processor:
+    `CPU_RESET` (startup, or the reset pin held) or `CPU_RUNNING`; the
+    cycles since reset; 35 registers: `PC` (the byte address), `SP`, `SREG`,
+    `R0`…`R31`; and the last instruction (byte address, its 2 or 4 bytes as
+    in the HEX file, `avr_dasm`'s text, e.g. `004C  RJMP .-2`).
+  - **Not modeled.** Fuses, lock bits, brown-out, sleep modes (SLEEP is a
+    no-op), self-programming (SPM), the analog comparator, timer 2's
+    asynchronous clock, the supply (the chip runs whatever VCC reads; the
+    voltage check judges it). Where avr8js's CPU disagrees with Microchip's instruction set
+    manual the simulator follows the manual (7 places, each commented in
+    `avr_instruction.c` / `avr_cpu.c`; `avr_core_test` § fixes).
+  - **Speed.** A chip on a 16 MHz crystal costs an engine event per clock
+    edge, and the crystal toggles its two nets besides.
 - Processors (`cpu` kind): `circuit_cpu_state` fills a `CpuState`
   (`cpu_state.h`): status (running, lost, reset, waiting, stopped, halted,
   jammed, bus released), cycles since the last reset ended, the registers
   (none while lost or in reset) and the last completed instruction
-  (address, bytes, disassembly). Any other kind: -1, `part N is not a
-  processor`. The app's processor window reads it on every simulation
+  (address, bytes, disassembly). A simulated microcontroller answers too
+  (above; up to `CPU_MAX_REGISTERS` = 40 registers). Any other part: -1,
+  `part N is not a processor`. The app's processor window reads it on every simulation
   frame, as the memory window reads `circuit_memory_read`.
 - Character LCDs (`charlcd` kind): `circuit_lcd_state` fills an
   `LcdState` (`lcd_state.h`): the dot image the display shows now
@@ -408,9 +525,9 @@ Notes:
   does not exist or is not asynchronous, and while another part's output,
   in/out or strong supply pin is on the RX net (pull parts are fine); the
   messages are in `circuit.h`. The app's terminal window is built on these.
-- Memory load: `circuit_memory_load` writes words into an EEPROM or serial memory before
-  `circuit_start` (refused after it, and on every other kind but a
-  simulated `serialmem` part, SRAM included); words it does not write stay
+- Memory load: `circuit_memory_load` writes words into an EEPROM, a serial
+  memory or a simulated microcontroller's flash before `circuit_start`
+  (refused after it, and on every other part, SRAM included); words it does not write stay
   erased (FF; an F-RAM's stay unknown). Build the words with
   `memory_image_parse` (`memory_image.h`): every rule and message is in
   `planning/completed/plan-04-B-memory-load.md` §4.3.
@@ -422,6 +539,103 @@ Notes:
 - Gate and flip-flop outputs are inertial: a newer drive cancels a pending
   one (pulses shorter than the delay vanish), except that a drive of the
   value already pending, no earlier than it, keeps the pending edge.
+
+## Units
+
+A part can have *units* (plan-67): the pieces the Schematic may draw as
+separate symbols instead of one block. `part_unit_count(part)` and
+`part_unit_at(part, i)` (`parts.h`) return them as `PartUnit`: the shape
+(`UNIT_AND`, `UNIT_OR`, `UNIT_XOR`, `UNIT_BUFFER`), the input pins, one or two
+outputs each marked inverted or not (the true output first), and the device's
+`schmitt` and `open_drain` marks. Pins are engine pin indexes. It is a kind
+hook, `PartKindOps.units` (NULL = the part has none); only the gate kind has
+one, built when a pinout is bound (`gate.c` `bind_units`): one unit per gate,
+two gates of the same shape on the same inputs merged into one unit with two
+outputs. The count equals `PartLogic.units` for every bundled gate part
+(`tests/part_unit_test.c` sweeps them all). The app adds one more unit, the
+block `P` of the pins no gate owns (`CatalogPart.units`). Nothing in the
+engine reads units.
+
+## ERC pin types
+
+The electrical rules check (plan-63) reasons about KiCad's twelve pin types;
+the part files give a pin one of seven roles. `include/erc.h`'s
+`erc_pin_type(part, pin, &type)` answers, for every pin, the KiCad type it
+stands for, and `erc_pin_drives_power(part, pin)` whether the pin is a supply
+symbol's rail pin (a driver on its own net, as a Power Flag would be). The
+types, in KiCad's pin-map order: `input`, `output`, `bidirectional`,
+`tri_state`, `passive`, `free`, `unspecified`, `power_in`, `power_out`,
+`open_collector`, `open_emitter`, `no_connect`; `erc_pin_type_name` gives
+KiCad's word. `free`, `unspecified` and `open_emitter` are never returned: no
+part file says so.
+
+| Pin | Type |
+|---|---|
+| role `absent` | none (the function returns 0) |
+| role `nc` | `no_connect` |
+| a supply's pull-up / pull-down pin | `passive` |
+| a supply's `power` / `ground` pin | `power_in`, and it drives its own net |
+| `input`, `output`, `inout` of a connector, header, socket, resistor, capacitor, inductor, diode, led, fuse, crystal, relay, buzzer, switch, transistor, 7seg, nixie, dekatron or lcd part | `passive` (KiCad's own symbols for these are all passive) |
+| any other `power` / `ground` | `power_in` |
+| `output` that is a regulator's or a power switch's output name | `power_out` |
+| `output`, open drain (`part_pin_open_drain`) | `open_collector` |
+| `output`, 3-state (`part_pin_tristate`) | `tri_state` |
+| any other `output` | `output` |
+| `inout`, open drain | `open_collector` |
+| any other `inout` | `bidirectional` |
+| `input` | `input` |
+
+`part_pin_tristate` (`models/model_pins.h`) is a kind hook, `PartKindOps.pin_tristate`,
+beside `pin_open_drain`: 1 for an `output`-role pin the part releases to Z
+through an output enable. The `buffer` kind answers for the `tristate` model's
+`y` pins of a unit with an `oe` (a transceiver's and a registered model's ports
+are `inout`, so `bidirectional`); the `latch` kind for the `transparent`
+model's `q` / `qn` of a unit with an `oe` and the `sr` model's `q` when the
+device has an `outputEnable`; the `dff` kind for every `q` / `qn` of a device
+with an `outputEnable`. The other kinds that gate outputs (plan-63-C), by the
+part-file key that does it:
+
+| Kind | Key | Pins it makes tri-state |
+|---|---|---|
+| `register` | `groups[].outputs[].oe` | the bank's `q` pins |
+| `shift` | `units[].storage.outputEnable` (the `shift` model); the `fifo` and `serial-in` models' `outputEnable` | the storage outputs; the FIFO's four data outputs; the eight parallel outputs |
+| `counter` | `units[].outputEnable`, `units[].register.outputEnable` (the `sync` model) | the `q` pins; the register's outputs (a carry is not gated) |
+| `mux` | `units[].oe`, a stored mux's common `oes`, a unit's strobe with `"disabled": "z"`, a register file's `re` | the unit's `y` and `w`; the file's read data |
+| `converter`, `lcddriver`, `leddriver` | `bus.oe` | the parallel bus's data pins |
+| `serial` | `tristate` (the `ns16550` model's TRI pin) | every output pin of the part |
+
+`python3 scripts/kicad-pin-types.py` compares these types with the pin types of
+KiCad's stock symbols for the parts that have one (`--pair OURS:KICAD` lists
+examples of a pair); its result is in `planning/completed/plan-63-C-tristate-remaining-kinds.md`.
+
+The HD-6406's `hd6406.oe` names an output pin (the chip's own OE strobe), not
+an enable, so it gates nothing.
+
+### The pin checks
+
+`erc_check(pins, pin_count, net_count, nets, pin_map, out, cap)` (`erc.h`,
+plan-63-D) reports five of KiCad's rules over typed pins, the way `voltage_check`
+works over parts: it returns the number of problems and writes up to `cap`,
+ordered by net (unwired pins last), then pin. Each `ErcPin` has its net
+(`SIZE_MAX` when no wire reaches it), its type, `drives_power` (a supply
+symbol's rail pin), and `no_connect_mark` (a No Connect flag on its wire group);
+a Power Flag is a pin of type `power_out` with no part; `ErcNet.has_attachment`
+says a label or a bus port is on the net. A net's members are its wired pins
+but not a `no_connect`-typed pin (never a connection).
+
+| Kind | Reported when |
+|---|---|
+| `ERC_NO_CONNECT_CONNECTED` | a wired pin of type `no_connect`; a pin with a No Connect flag whose net has another member |
+| `ERC_PIN_NOT_CONNECTED` | a pin (not `no_connect` or `free`, no flag) that is unwired, or alone on a net with no attachment |
+| `ERC_PIN_TO_PIN` | each member of a net that conflicts, by `pin_map`, with an earlier one, against the first earlier one it conflicts with; `level` 1 warning, 2 error |
+| `ERC_POWER_PIN_NOT_DRIVEN` | a net with a `power_in` member and no `power_out` (nor `drives_power`): one, on the first `power_in` |
+| `ERC_PIN_NOT_DRIVEN` | else a net with an `input` member and no `output`, `bidirectional`, `tri_state`, `passive` or `power_out` (nor `drives_power`): one, on the first input |
+
+An unwired pin is a net of its own; a net with a flagged pin is not checked for
+"not driven". `ERC_DEFAULT_PIN_MAP` is KiCad 10.0.8's. The counting is what
+`kicad-cli sch erc` reported (`planning/plan-63-data/`): `erc_test` checks all
+78 pairs of types and the 12 types alone against `tests/erc_pair_table.h`,
+generated by `python3 -I planning/plan-63-data/probe_pin_matrix.py <dir> --c-table`.
 
 ## Layout
 
@@ -471,6 +685,14 @@ backend/
                            clock-on-both-terminals model, plan-44-E);
                            pld.c (the programmable logic kind: loader,
                            passive model, facts only);
+                           mcu.c + mcu.h (the mcu kind: loader, the
+                           "model" key, the engine model that is passive
+                           for a device without a model and forwards to
+                           the adapter for one with), mcu_avr.c (the AVR
+                           engine adapter: startup, the clock, reset,
+                           GPIO, ADC, flash, the processor state),
+                           mcu_avr_serial.c (the USART, the SPI master and
+                           the TWI master on their pins);
                            socket.c (the IC socket kind: loader, passive
                            model, plan-51-A);
                            inductor.c, fuse.c, terminals.c + terminals.h and
@@ -512,6 +734,28 @@ backend/
                            table, the model that forwards to a pio model),
                            bus65.c + bus65.h (the 65xx peripheral bus the
                            pio models share)
+                           avr.h, avr_cpu.c, avr_instruction.c (plan-62: the
+                           AVR microcontroller core, a C port of avr8js
+                           0.21.1, MIT, LICENSE-avr8js; the CPU, its
+                           interrupt queue and clock events, and every
+                           instruction), avr_gpio.c (a port's PIN/DDR/PORT,
+                           external and pin-change interrupts), avr_clock.c
+                           (CLKPR), avr_timer.c (the 8- and 16-bit timers),
+                           avr_timer_tiny.c (the ATtiny25/45/85's Timer1),
+                           avr_usi.c (its USI: ours, from the datasheet,
+                           on pins),
+                           avr_usart.c, avr_spi.c, avr_twi.c (the serial
+                           peripherals at register level: a byte out and a
+                           byte in through callbacks, no pins), avr_adc.c,
+                           avr_eeprom.c, avr_watchdog.c; avr_dasm.c (our
+                           disassembler, for the processor window);
+                           avr_chip.c + avr_chip.h (a chip: a CPU and the
+                           peripherals of a register layout; the tables
+                           of the layouts atmega328, atmega168pb,
+                           atmega328pb and attiny85, with vectors as
+                           numbers that
+                           avr_layout_scale turns into word addresses for
+                           a chip's vector size);
                            buffer.c + buffer.h (the buffer kind: models
                            tristate, transceiver and translator, supply
                            domains; the port read-back rule),
@@ -540,6 +784,12 @@ backend/
                            and run.js, which regenerates
                            wdc65816_generated_opcodes.c (`node run.js`);
                            outside src/, so the app does not bundle it
+  tools/avr8js/            avr8js 0.21.1's JavaScript (MIT), unmodified:
+                           the oracle the AVR core is checked against;
+                           README.md names the tarball and its hash
+  tools/avr8js-oracle/     oracle.js, which runs it and prints its behavior
+                           in the tests' text formats; outside src/, so the
+                           app bundles neither
   tests/                   CTest programs; golden/ holds the regression
                            fixtures (one listing line and one trace hash
                            per part); cpu/ holds the SingleStepTests
@@ -626,7 +876,8 @@ passive model, the `capacitor.c` shape (no `pin_changed`, no `timer`) —
 `opamp.c` (plan-48-F): a placed part drives nothing and does not turn Run
 off, which `"simulated": false` would for the whole schematic.
 
-A kind with no simulation model (plan-36's `mcu`, plan-46's `generic`, `pld`)
+A kind with no simulation model (plan-46's `generic`, `pld`; an `mcu`
+device without a `"model"`, plan-36)
 sets `"simulated": false` on its devices, so `circuit_add_part` refuses its parts, and still
 ships a passive model (no callbacks, the `header.c` shape) so the engine
 never sees a NULL model.
@@ -660,6 +911,16 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   a regeneration that should only add flags: it fails unless every changed
   `parts.txt` line differs only by `:low` / `:low=…` and `traces.txt` and
   `footprints.txt` did not move.
+- `erc_pins_test`, `erc_pins_check` — the ERC pin types (§ ERC pin types):
+  named parts, and every part's pin types, one letter per pin, against
+  `tests/golden/erc_pins.txt` (`<name>|<kind>|<letters>`, letters `i o b t p f
+  u P O c e n` in `ErcPinType` order, `-` for an absent pin). After an intended
+  change: `/tmp/logic-build/erc_pins_check --print >
+  backend/tests/golden/erc_pins.txt`, then review the diff.
+- `erc_test` — `erc_check` (§ The pin checks): all 78 pairs of pin types and
+  the 12 types alone against what KiCad reported (`tests/erc_pair_table.h`),
+  three-pin nets, No Connect flags, attachments, Power Flags, rail pins, edits
+  of the pin map.
 - `footprint_check` — every footprint in `footprints.json`, expanded to
   pads, against `tests/golden/footprints.txt` (one line per footprint:
   `id|pins=N|body=WxH|pads=<designator>:x,y,wxh,shape[,d<drill>][,s<slotLength>][,npth][,opp][,r<radius>][,c<chamfer>:<corners>];…[|edge]`,
@@ -684,6 +945,10 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   missing, a part rejected after its footprint checked, an unknown key)
   reports its message and leaves the part and footprint counts unchanged.
 - `switch_test`, `sram_test`, `display7_test` — model benches.
+- `slide_test` (plan-58-B) — the switch kind's `states` / `rest` keys: the
+  loader and its error messages, and an SPDT On-On, a DPDT On-Off-On and an
+  SPST On-Off in a circuit (LEDs, nets), unwired pins, refused states, and the
+  voltage check on a move.
 - `nixie_test` — the `nixie` kind on fixture tubes: the loader's rules and
   rejections, the model (a glyph glows while the anode reads 1 and its
   cathode 0; two anode pins of one name are joined), and the voltage check
@@ -863,6 +1128,51 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   read back (the part's clock over the device's), its listing line ends
   `|unsimulated`, and `circuit_add_part` refuses it with `part "TESTMCU"
   is not simulated`. The kind's loader errors are in `library_check`.
+  Then the model devices (plan-62-E): `TESTAVR` and `TESTAVR48` (model
+  `atmega328`, the p28 pinout) run firmware from `tests/avr/<name>.hex`
+  (sources in `tests/avr/src/`, built by `build.sh`) in circuits of library
+  parts, with times in picoseconds: every port pin Z during the 1 ms
+  startup and PC6 at 1; `blink` toggling PB5 every 1000 cycles on average on
+  the internal clock (1 us per cycle), on a `GENERIC-CRYSTAL-16M` (62.5 ns)
+  and after CLKPR = 0 (125 ns), an LED on PB5 lit 50 ms of 100; a switch on
+  PD2 against the pull-up; OC0A high 64 and low 192 of 256 cycles; INT0 on
+  the falling edge; PC6 to GND releasing every pin and the program starting
+  over; one-word vectors on the 4 KB chip; the flash through
+  `circuit_memory_size` / `_read` / `_load` and an erased chip running; the
+  ADC reading 1023 and 0; `circuit_cpu_state` in reset and running.
+- `avr_serial_test` — the AVR's serial peripherals on their pins
+  (plan-62-F), against library parts that speak the same buses; each case
+  asserts on the partner's own state. USART with an `MCP2200-I/SO` bridge:
+  the bridge receives "HI", a typed 'a' comes back as 'b', the edges of 'H'
+  are 104 us x 4, 1, 2, 1, 1 apart (9600 baud on the 1 MHz clock), and a 7E2
+  frame of 0x55 has its parity and stop bits. SPI with an `AT25320B-SSHL-B`
+  EEPROM: A1 B2 C3 written at 0x0010 and read back in mode 0; mode 3 idles
+  SCK high with 16 edges per byte; with the DDR bits clear SCK and MOSI stay
+  Z. TWI with a `PCF8563T/5,518` clock: SDA falls while SCL is high, 0x25
+  written to the seconds register and read back, 9 clocks per byte (132 SCL
+  changes for the transaction), an address nobody answers (status 0x20),
+  and the same through TWI1 of the fixture `TESTAVR328PB`. The rig is
+  `tests/support/avr_rig.h` (also `mcu_test`'s).
+- `avr_tiny_test` — the ATtiny25/45/85 on the engine, as the shipped
+  `ATTINY85-20PU` and `ATTINY25-20PU`: the facts and the flash sizes; every
+  port pin Z during startup with the reset pin PB5 at 1; `t85_blink`
+  toggling PB0 every 1000 cycles by the Timer1 compare interrupt, on the
+  internal clock, on a 16 MHz crystal across PB3/PB4, and on the ATtiny25
+  (its stack at 0x00DF); PB5 to GND holding the chip in reset; and what
+  avr8js cannot check: Timer1's PWM as the datasheet has it (OC1A high 26
+  and OC1B high 60 of every 100 cycles, /OC1A the inverse) after a wait for
+  PLOCK, INTF0 cleared through GIFR, the ADC's pins (ADC1 PB2, ADC3 PB3),
+  the USI in three-wire mode writing A1 B2 C3 to an `AT25320B-SSHL-B`
+  EEPROM and reading them back, and in two-wire mode writing and reading a
+  `PCF8563T/5,518` clock's register on a bus with two resistors.
+- `avr_board_test` — the shipped ATmega48/88/168/328 parts (plan-62-G): an
+  `ATMEGA328P-PU` with a `GENERIC-CRYSTAL-16M` on PB6/PB7 blinks a
+  `GENERIC-LED` on PB5 (lit 10 ms of 20, PB5 changing every 62500000 ps on
+  average); an `ATMEGA48PA-PU` with no crystal runs the one-word-vector
+  build on its internal clock; an `ATMEGA328PB-AU` toggles PE0; and every
+  mcu part with a model, alone with its supply, loads blink (`t85_blink`
+  on an ATtiny), starts and runs 2 ms (`ok 168 parts run (126 ATmega, 42
+  ATtiny)`).
 - `pld_test` — the pld kind: the shipped ATF22V10C, ATF750C and ATF16V8B
   parts read back their `PartPld` facts (macrocells, the part's tpd, a
   commercial part's own `vcc`), single part files cover every loader rule
@@ -901,6 +1211,73 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   `tools/jsmooch-gen/run.js` reproduces the committed
   `wdc65816_generated_opcodes.c` (`65816: generator reproduces …`). Set
   `SST65816="<test name>"` to print one test's cycles side by side.
+- `avr_core_test` — the AVR CPU core (plan-62-A; `avr_cpu.c`,
+  `avr_instruction.c`) against avr8js. **step**: every opcode word 0…65535 in
+  4 random states each (one xorshift32 seed, the same in the test and in
+  `tools/avr8js-oracle/oracle.js step`), one instruction per state, one line
+  per vector (opcode, pc, cycles, SREG, SP, a hash of the data memory). The
+  lines must hash to the `step` line of `tests/avr/golden.txt` and, when
+  CMake found `node`, equal avr8js's own lines; the first difference prints
+  as `step: opcode XXXX state N: avr8js "…" ours "…"`. It prints `step:
+  262144 vectors match avr8js` and `step: 99 of 99 decode branches ran`. The
+  core runs in *exact* mode there (`AvrCpu.exact`): avr8js's behavior
+  everywhere. **fixes**: the 7 places where the simulator follows Microchip's
+  instruction set manual instead of avr8js, each against a reference written
+  from the manual: H from the low nibble's carry (ADD, ADC, SUB, SUBI, SBC,
+  SBCI, CP, CPC, CPI, NEG; avr8js uses bit 0), SBIW leaving H alone, Z of
+  CPC/SBC/SBCI when the result wraps to 0, V of NEG, Z of FMULSU, CBI's 2
+  cycles, an interrupt's 4 cycles (`fixes: 7 ok`). **unit**: clock events
+  (order, one per tick, update, clear, more than avr8js's pool of 10) and the
+  interrupt queue. `avr_core_test --print-golden` prints the golden line from
+  the oracle's output.
+- `avr_periph_test` — the AVR peripherals and the chip assembly (plan-62-B)
+  against avr8js. **layout**: the `atmega328` layout printed as JSON
+  (`avr_periph_test --layout atmega328 32768`) must equal avr8js's own
+  ATmega328P configs (`oracle.js layout-check`; `layout atmega328 equal`),
+  and the `attiny85` layout's Timer1 avr8js's `attinyTimer1Config`.
+  **scenarios**: `tests/avr/<name>.json` holds a program and pin stimuli; the
+  C chip runs it in exact mode and prints a trace, one line per instruction
+  (`i <pc> <cycles> <SREG> <SP> <hash of the data memory>`) and one per port
+  output change (`p <cycles> <port> <value> <DDR>`). The trace must hash to
+  the scenario's `run` line in `tests/avr/golden.txt` and, with `node`,
+  equal the trace `oracle.js run` prints from avr8js on the same layout; the
+  first differing line prints with its number. It prints `ok <name> (<lines>
+  lines, <n> port events, <n> interrupts, <n> serial events)`. Scenarios:
+  `gpio_out`, `gpio_int`, `clkpr`, `timer0`, `timer1`, `timer2`, `timer_ext`,
+  `usart`, `spi`, `twi`, `adc`, `eeprom`, `watchdog`, and for the other
+  devices `m48_vectors` (4 KB of flash: one word per vector), `m168pb_porte`
+  (layout `atmega168pb`: port E) and `m328pb_extras` (layout `atmega328pb`:
+  timers 3 and 4, USART1, SPI1, TWI1, PCINT3). A scenario may list vector
+  numbers that must be taken (`m328pb_extras`: 27, 28, 30, 33, 35, 39, 40,
+  42, 44). The ATtiny25/45/85 (layout `attiny85`; the oracle builds avr8js's
+  `ATtinyTimer1` after Timer0 and a CPU whose SRAM starts at 0x60): `t85_gpio`
+  (port B, INT0 in its four modes, the pin-change interrupt), `t85_timer0`,
+  `t85_timer1` (normal, CTC and PWM modes, every prescaler, both compare
+  outputs, the three interrupts, with Timer0 on the shared TIFR and TIMSK),
+  `t85_periph` (ADC, EEPROM, CLKPR, the watchdog's interrupt and reset) and
+  `t25_small` (an ATtiny25: 128 bytes of SRAM, the stack at 0xDF). The USI
+  has no scenario: avr8js is not its oracle. The serial peripherals'
+  outside is scripted the same way on both sides: a USART byte prints `u
+  <cycles> <n> <byte>`; an SPI byte prints `s …` and comes back XOR 0xA5
+  after the transfer time; a TWI request prints `t <cycles> <n> <event>
+  <argument>` and is answered 40 cycles later (address 0x50 acknowledges,
+  reads return 0x10, 0x11, …). Stimuli: `pin`, `rx` (a byte arrives at a
+  USART), `adc` (a channel's millivolts). One case runs outside exact mode:
+  `ok watchdog_full_reset` (a watchdog reset restarts the whole chip; avr8js
+  resets only the CPU). A scenario
+  is built from `tests/avr/src/<name>.asm` (avr8js's assembler: `_LOC
+  <byte address>`, labels, `;` comments) and `<name>.meta.json` (written by
+  `src/make_meta.py`: layout, sizes, steps, stimuli); `sh
+  backend/tests/avr/src/build.sh` rebuilds them all, `python3
+  backend/tests/avr/src/regen_golden.py <build dir>` rewrites the `run`
+  lines from the oracle, and with `node` the test fails when a committed
+  `.json` is not what `oracle.js build` makes of its sources.
+  `avr_periph_test --trace <name>` prints the C trace. **dasm**: `avr_dasm`'s
+  text for every opcode word (`avr_periph_test --dasm`) must assemble back to
+  the same word(s) in avr8js's assembler (`oracle.js dasm-check`) and hash to
+  the `dasm` golden line: `dasm: 63902 words round-trip` (1570 words are no
+  instruction and print `.DW 0x....`, erased flash 0xFFFF among them; 64 are
+  a JMP or CALL above the assembler's 4 MB limit and are not checked).
 - `cpu_test` — the cpu kind's bus adapters on inline fixture devices (the
   W65C02S and MOS 6502 data of `cpu.json`) and a bench that clocks the CPU
   at 1 MHz and serves a 64 KB memory (X where it was given nothing): the

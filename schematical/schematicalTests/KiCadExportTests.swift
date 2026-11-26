@@ -4,7 +4,7 @@ import UniformTypeIdentifiers
 import XCTest
 @testable import schematical
 
-/// File > Save As… with Format KiCad Project: the three files
+/// File › Export › KiCad Project…: the three files
 /// (`KiCadExport`). The files are checked for shape here; that KiCad itself
 /// reads them and finds the schematic's nets on the board is checked by
 /// running `kicad-cli` over the output (see `docs/export.md` § KiCad).
@@ -45,6 +45,51 @@ final class KiCadExportTests: XCTestCase {
         text.components(separatedBy: needle).count - 1
     }
 
+    /// plan-63-G: a library pin's type is the ERC pin type (`erc_pin_type`), so KiCad's own
+    /// ERC on the export sees what the app's sees.
+    func testLibraryPinsCarryTheErcPinTypes() throws {
+        func schematic(placing name: String) throws -> String {
+            let doc = TestSupport.newDocument(library: TestSupport.catalog.library)
+            try TestSupport.place(doc, name, at: CGPoint(x: 200, y: 200))
+            return try file(KiCadExport.files(for: doc, base: "t"), "kicad_sch")
+        }
+        let buffer = try schematic(placing: "SN74HC244N")
+        XCTAssertEqual(count("(pin tri_state line", in: buffer), 8, "the eight Y pins")
+        XCTAssertEqual(count("(pin input line", in: buffer), 10, "eight A pins and two OE pins")
+        XCTAssertEqual(count("(pin power_in line", in: buffer), 2)
+        XCTAssertEqual(count("(pin bidirectional line", in: buffer), 0)
+        XCTAssertTrue(try schematic(placing: "SN74LS07N").contains("(pin open_collector line"))
+        XCTAssertTrue(try schematic(placing: "GENERIC-RESISTOR").contains("(pin passive line"))
+        XCTAssertFalse(try schematic(placing: "GENERIC-RESISTOR").contains("(pin bidirectional line"))
+        XCTAssertTrue(try schematic(placing: "GENERIC-HEADER-1X02").contains("(pin passive line"))
+        XCTAssertTrue(try schematic(placing: "ATMEGA328P-PU").contains("(pin bidirectional line"))
+        XCTAssertTrue(try schematic(placing: "LM7805MPX/NOPB").contains("(pin power_out line"))
+        // Without the library, the pin's role: an output is an output.
+        let bare = TestSupport.newDocument()
+        try TestSupport.place(bare, "SN74HC244N", at: CGPoint(x: 200, y: 200))
+        let plain = try file(KiCadExport.files(for: bare, base: "t"), "kicad_sch")
+        XCTAssertEqual(count("(pin output line", in: plain), 8)
+    }
+
+    /// plan-63-A: a Power Flag net label is a `PWR_FLAG` power symbol with a `power_out` pin.
+    func testAPowerFlagExportsAsPWR_FLAG() throws {
+        let doc = TestSupport.newDocument()
+        let one = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let flag = doc.addNetLabel(at: CGPoint(x: 300, y: 100), style: .powerFlag)
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(one, "K")), .label(flag)))
+        let plain = try file(KiCadExport.files(for: TestSupport.newDocument(), base: "p"), "kicad_sch")
+        XCTAssertEqual(count("lib_id \"Schematical:PWR_FLAG\"", in: plain), 0)
+
+        let text = try file(KiCadExport.files(for: doc, base: "flag"), "kicad_sch")
+        XCTAssertTrue(balanced(text))
+        XCTAssertEqual(count("(lib_id \"Schematical:PWR_FLAG\")", in: text), 1)
+        XCTAssertEqual(count("(pin power_out line", in: text), 1)
+        XCTAssertEqual(count("(reference \"#FLG01\")", in: text), 1)
+        // Not a label and not a No Connect.
+        XCTAssertEqual(count("(no_connect", in: text), 0)
+        XCTAssertEqual(count("(label ", in: text), 0)
+    }
+
     func testThreeFilesNamedAfterTheProject() throws {
         let (_, files) = try files("AFU")
         XCTAssertEqual(files.map(\.name), ["AFU.kicad_pro", "AFU.kicad_sch", "AFU.kicad_pcb"])
@@ -76,6 +121,44 @@ final class KiCadExportTests: XCTestCase {
         XCTAssertTrue(board.contains("TP1"))
         XCTAssertEqual(count("(footprint ", in: board), 2)
         XCTAssertEqual(count("(pad ", in: board), 2)
+    }
+
+    /// plan-64-D: the Document Info goes into KiCad's own title block, and the
+    /// title block on the schematic is lines and text; a document with no
+    /// information exports as it did.
+    func testDocumentInfoAndTitleBlock() throws {
+        let doc = try ExportSamples.titled()
+        let sch = try file(KiCadExport.files(for: doc, base: "tb"), "kicad_sch")
+        XCTAssertTrue(balanced(sch))
+        for field in ["(title \"Clock board\")", "(rev \"B\")", "(company \"J. Smith\")",
+                      "(comment 1 \"Divides the 4 MHz clock by 8. Drives the counter.\")",
+                      "(date \"\(String(DocumentInfo.dateText(doc.documentInfo.updated).prefix(10)))\")"] {
+            XCTAssertTrue(sch.contains(field), field)
+        }
+        for words in ["Clock board", "J. Smith", "Author", "Revision", "Description", "Divides the 4 MHz clock by 8."] {
+            XCTAssertTrue(sch.contains("(text \"\(words)\""), words)
+        }
+        // The frame, and the lines inside it: 3 between rows and 2 between cells.
+        XCTAssertEqual(count("(polyline", in: sch), 1 + 5)
+        let again = try file(KiCadExport.files(for: doc, base: "tb"), "kicad_sch")
+        XCTAssertEqual(sch, again, "the same bytes twice")
+
+        let plain = TestSupport.newDocument()
+        let bare = try file(KiCadExport.files(for: plain, base: "tb"), "kicad_sch")
+        XCTAssertTrue(bare.contains("(title \"tb\")"))
+        for absent in ["(rev ", "(company ", "(comment ", "(date ", "(polyline"] {
+            XCTAssertFalse(bare.contains(absent), absent)
+        }
+    }
+
+    /// Hidden, the block is not drawn, but the information still goes to KiCad.
+    func testHiddenTitleBlockIsNotDrawnButTheInfoIsKept() throws {
+        let doc = try ExportSamples.titled()
+        doc.setTitleBlockShown(false)
+        let sch = try file(KiCadExport.files(for: doc, base: "tb"), "kicad_sch")
+        XCTAssertFalse(sch.contains("(polyline"))
+        XCTAssertFalse(sch.contains("(text \"Clock board\""))
+        XCTAssertTrue(sch.contains("(title \"Clock board\")"))
     }
 
     func testSameDocumentGivesSameBytes() throws {
@@ -142,20 +225,22 @@ final class KiCadExportTests: XCTestCase {
 
     func testSaveAsKiCadWritesNextToTheChosenFileAndLeavesTheWindowAlone() throws {
         let doc = try Fixture.open("AFU")
-        let controller = SchematicFileController(document: doc, catalog: TestSupport.catalog, willReplaceDocument: {})
-        Self.kept.append(controller)
+        let document = TestSupport.systemDocument(of: doc)
+        let controller = document.model.file
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent("kicad-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: directory) }
-        let before = controller.hasUnsavedChanges
+        TestSupport.turnRunLoop()
+        let before = document.isDocumentEdited
         try controller.writeKiCad(to: directory.appendingPathComponent("Board.kicad_pro"))
         let written = try FileManager.default.contentsOfDirectory(atPath: directory.path).sorted()
         XCTAssertEqual(written, ["Board.kicad_pcb", "Board.kicad_pro", "Board.kicad_sch"])
+        XCTAssertNil(document.fileURL)
         XCTAssertNil(controller.fileURL)
-        XCTAssertEqual(controller.hasUnsavedChanges, before)
+        TestSupport.turnRunLoop()
+        XCTAssertEqual(document.isDocumentEdited, before, "an export is not a save, and not an edit")
+        XCTAssertFalse(doc.undoManager.canUndo)
     }
-
-    private static var kept: [SchematicFileController] = []
 
     private func printRouted() throws {
         let doc = try ExportSamples.routed()
@@ -174,45 +259,40 @@ final class KiCadExportTests: XCTestCase {
         print("EPRO_FILE routed.epro \(EasyEDAProExport.data(for: doc, base: "routed").base64EncodedString())")
     }
 
-    /// The Save As panel's Format menu changes the file type and the extension of the name,
-    /// and keeps what was typed.
-    func testSaveFormatPickerSwitchesTypeAndExtension() throws {
-        let panel = NSSavePanel()
-        let picker = SaveFormatPicker(panel: panel, baseName: "Board")
-        XCTAssertEqual(picker.format, .schematical)
-        XCTAssertEqual(panel.nameFieldStringValue, "Board.schematical")
-        XCTAssertNotNil(panel.accessoryView)
-        panel.nameFieldStringValue = "Renamed.schematical"
-        let popup = try XCTUnwrap(findPopup(in: try XCTUnwrap(panel.accessoryView)))
-        XCTAssertEqual(popup.itemTitles, ["Schematical", "KiCad Project", "EasyEDA Pro Project"])
-        popup.selectItem(at: 1)
-        _ = popup.target?.perform(popup.action, with: popup)
-        XCTAssertEqual(picker.format, .kicad)
-        XCTAssertEqual(panel.nameFieldStringValue, "Renamed.kicad_pro")
-        XCTAssertEqual(panel.allowedContentTypes.first?.preferredFilenameExtension, "kicad_pro")
-        popup.selectItem(at: 2)
-        _ = popup.target?.perform(popup.action, with: popup)
-        XCTAssertEqual(picker.format, .easyEDAPro)
-        XCTAssertEqual(panel.nameFieldStringValue, "Renamed.epro")
-        popup.selectItem(at: 0)
-        _ = popup.target?.perform(popup.action, with: popup)
-        XCTAssertEqual(picker.format, .schematical)
-        XCTAssertEqual(panel.nameFieldStringValue, "Renamed.schematical")
-        // A dot in the name is not an extension.
-        let dotted = NSSavePanel()
-        let other = SaveFormatPicker(panel: dotted, baseName: "v1.2")
-        XCTAssertEqual(dotted.nameFieldStringValue, "v1.2.schematical")
-        let menu = try XCTUnwrap(findPopup(in: try XCTUnwrap(dotted.accessoryView)))
-        menu.selectItem(at: 1)
-        _ = menu.target?.perform(menu.action, with: menu)
-        XCTAssertEqual(dotted.nameFieldStringValue, "v1.2.kicad_pro")
-        XCTAssertEqual(other.format, .kicad)
-    }
+    /// File › Export › KiCad Project… asks for a folder (the sandbox lets the
+    /// app write only the one file a save panel names) and writes the three
+    /// files into it, named after the schematic.
+    func testKiCadProjectIsWrittenIntoTheChosenFolder() throws {
+        let doc = try Fixture.open("AFU")
+        let document = TestSupport.systemDocument(of: doc)
+        let exporter = document.model.file
+        let panel = exporter.kiCadFolderPanel()
+        XCTAssertTrue(panel.canChooseDirectories)
+        XCTAssertFalse(panel.canChooseFiles)
+        XCTAssertTrue(panel.canCreateDirectories)
+        XCTAssertEqual(panel.prompt, "Export")
+        XCTAssertNil(panel.accessoryView, "no Format menu")
+        XCTAssertEqual(panel.message, "Choose the folder for Untitled.kicad_pro, Untitled.kicad_sch, and Untitled.kicad_pcb.")
 
-    private func findPopup(in view: NSView) -> NSPopUpButton? {
-        if let popup = view as? NSPopUpButton { return popup }
-        for sub in view.subviews { if let found = findPopup(in: sub) { return found } }
-        return nil
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("kicad-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        // The model's URL, which names the exports. Not the system document's:
+        // AppKit would then autosave this edited document to a file that is not there.
+        document.model.fileURL = directory.appendingPathComponent("My Board.schematical")
+        XCTAssertEqual(exporter.kiCadFiles(in: directory).map(\.lastPathComponent),
+                       ["My Board.kicad_pro", "My Board.kicad_sch", "My Board.kicad_pcb"])
+        XCTAssertEqual(exporter.kiCadFolderPanel().directoryURL?.standardizedFileURL, directory.standardizedFileURL)
+        TestSupport.turnRunLoop()
+        let before = document.isDocumentEdited
+        try exporter.writeKiCadProject(into: directory)
+        let written = try FileManager.default.contentsOfDirectory(atPath: directory.path).sorted()
+        XCTAssertEqual(written, ["My Board.kicad_pcb", "My Board.kicad_pro", "My Board.kicad_sch"])
+        TestSupport.turnRunLoop()
+        XCTAssertEqual(document.isDocumentEdited, before, "an export is not a save, and not an edit")
+        // A second export replaces the files.
+        try exporter.writeKiCadProject(into: directory)
+        XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: directory.path).count, 3)
     }
 
     /// A pad's place in the file, turned the way KiCad turns it, is where
@@ -394,6 +474,13 @@ final class KiCadExportTests: XCTestCase {
             }
         }
         try printRouted()
+        for file in KiCadExport.files(for: try ExportSamples.titled(), base: "titleblock") {
+            print("KICAD_FILE titleblock/\(file.name) \(file.data.base64EncodedString())")
+        }
+        // plan-67-F: a part drawn as its units, a multi-unit symbol in KiCad.
+        for file in KiCadExport.files(for: try ExportSamples.split(), base: "split") {
+            print("KICAD_FILE split/\(file.name) \(file.data.base64EncodedString())")
+        }
         let doc = try ExportSamples.turned()
         // Every pad's box as the app has it, for the SVG check.
         for chip in doc.chips {
@@ -457,6 +544,48 @@ final class KiCadExportTests: XCTestCase {
 /// Boards the export tests (and `kicad-cli` / EasyEDA importer checks) use.
 @MainActor
 enum ExportSamples {
+    /// plan-67-F: a quad NAND drawn as its units. Unit B is moved, flipped and turned to 90;
+    /// 1Y drives an LED through a resistor to ground and unit B's 2A; VCC and GND are on rails.
+    static func split() throws -> SchematicDocument {
+        let doc = TestSupport.newDocument()
+        let gate = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 300, y: 300))
+        let led = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 700, y: 200))
+        let resistor = try TestSupport.place(doc, "GENERIC-RESISTOR", at: CGPoint(x: 900, y: 200))
+        let vcc = try TestSupport.place(doc, "5V", at: CGPoint(x: 100, y: 100))
+        let gnd = try TestSupport.place(doc, "GND", at: CGPoint(x: 1100, y: 400))
+        let low = try TestSupport.place(doc, "GND", at: CGPoint(x: 100, y: 700))
+        func pin(_ chip: PlacedChip, _ name: String) throws -> LineAnchor { .pin(try TestSupport.pin(chip, name)) }
+        doc.setPartSplit(gate.id, true)
+        let b = UnitRef(chipID: gate.id, key: "B")
+        let corner = try XCTUnwrap(doc.chips.first { $0.id == gate.id }?.unitPlacements.first { $0.key == "B" }).origin
+        doc.moveUnit(b, to: CGPoint(x: corner.x + 200, y: corner.y + 100))
+        doc.flipUnit(b)
+        doc.rotateUnit(b)
+        XCTAssertNil(doc.connect(try pin(gate, "1Y"), try pin(led, "A")))
+        XCTAssertNil(doc.connect(try pin(led, "K"), try pin(resistor, "1")))
+        XCTAssertNil(doc.connect(try pin(resistor, "2"), try pin(gnd, "GND")))
+        XCTAssertNil(doc.connect(try pin(gate, "1Y"), try pin(gate, "2A")))
+        XCTAssertNil(doc.connect(try pin(gate, "VCC"), try pin(vcc, "VCC")))
+        XCTAssertNil(doc.connect(try pin(gate, "GND"), try pin(low, "GND")))
+        doc.endCoalescing()
+        return doc
+    }
+
+    /// plan-64-D: two gates, a filled-in Document Info and its title block.
+    static func titled() throws -> SchematicDocument {
+        let doc = TestSupport.newDocument()
+        _ = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 100, y: 100))
+        _ = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 400, y: 100))
+        doc.setInfoTitle("Clock board")
+        doc.setInfoAuthor("J. Smith")
+        doc.setInfoRevision("B")
+        doc.setInfoDescription("Divides the 4 MHz clock by 8.\nDrives the counter.")
+        doc.setInfoCreated(Date(timeIntervalSince1970: 1_795_615_629))
+        doc.setInfoUpdated(Date(timeIntervalSince1970: 1_795_619_999))
+        doc.setTitleBlockShown(true)
+        return doc
+    }
+
     /// A board with a DIP at each turn on Top and on Bottom.
     static func turned() throws -> SchematicDocument {
         let doc = TestSupport.newDocument()
@@ -537,6 +666,16 @@ enum ExportSamples {
         doc.setLayerType(.inner(3), .plane)
         doc.setLayerNet(.inner(3), .rail(mv: 5000))
         _ = try TestSupport.place(doc, "SN74ABT125RGYR", at: CGPoint(x: 100, y: 500))
+        return doc
+    }
+
+    /// The `fourLayer()` board (inner Planes on ground and 5 V) with three cutouts in its far corners: a 6 mm circle, a 10 × 2 mm slot and a
+    /// triangle (plan-65-G).
+    static func cutouts() throws -> SchematicDocument {
+        let doc = try fourLayer()
+        _ = try XCTUnwrap(doc.addCutout(.circle(centre: CGPoint(x: 88, y: 12), diameter: 6)))
+        _ = try XCTUnwrap(doc.addCutout(.slot(rect: CGRect(x: 80, y: 40, width: 10, height: 2))))
+        _ = try XCTUnwrap(doc.addCutout(.polygon([CGPoint(x: 85, y: 60), CGPoint(x: 95, y: 60), CGPoint(x: 90, y: 70)])))
         return doc
     }
 

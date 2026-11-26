@@ -6,9 +6,6 @@ import XCTest
 /// The agent-control server's request checks and its tools (docs/agent-control.md).
 @MainActor
 final class AutomationTests: XCTestCase {
-    /// Simulations made by tests, kept like `TestSupport`'s documents.
-    private static var kept: [SimulationController] = []
-
     private struct Result {
         let text: String
         let isError: Bool
@@ -16,12 +13,10 @@ final class AutomationTests: XCTestCase {
     }
 
     private func newWindow() -> (id: String, doc: SchematicDocument) {
+        // An open document, as a window's is; gone from the list when the test ends.
         let doc = TestSupport.newDocument(library: TestSupport.catalog.library)
-        let simulation = SimulationController(library: TestSupport.catalog.library)
-        Self.kept.append(simulation)
-        let id = UUID()
-        SchematicSessions.shared.register(id, document: doc, simulation: simulation)
-        return (id.uuidString, doc)
+        let open = TestSupport.openSystemDocument(of: doc, catalog: TestSupport.catalog, until: self)
+        return (open.model.id.uuidString, doc)
     }
 
     private func call(_ tool: String, _ window: String, _ args: [String: Any] = [:]) async -> Result {
@@ -144,7 +139,7 @@ final class AutomationTests: XCTestCase {
             XCTAssertEqual(schema?["type"] as? String, "object")
             XCTAssertTrue(JSONSerialization.isValidJSONObject(definition), "\(definition["name"] ?? "?") isn't JSON")
         }
-        for expected in ["place_part", "connect", "route", "render", "run_drc", "batch", "undo", "simulation_start",
+        for expected in ["place_part", "connect", "route", "render", "run_drc", "run_erc", "batch", "undo", "simulation_start",
                          "set_switch", "get_nets", "move_footprint", "set_layer", "open", "save"] {
             XCTAssertTrue(names.contains(expected), "missing \(expected)")
         }
@@ -167,6 +162,26 @@ final class AutomationTests: XCTestCase {
         let design = await call("get_design", id)
         XCTAssertTrue(design.text.contains("D1 GENERIC-LED"), design.text)
         XCTAssertTrue(design.text.contains("D1.1 -> D2.2"), design.text)
+    }
+
+    /// plan-63-F: `run_erc` lists the electrical rules check's violations, one per line.
+    func testRunErcListsTheViolations() async {
+        let (id, doc) = newWindow()
+        var result = await call("run_erc", id)
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(result.text, "no violations")
+
+        result = await call("place_part", id, ["part": "SN74HC00N", "x": 200, "y": 200])
+        XCTAssertFalse(result.isError, result.text)
+        result = await call("run_erc", id)
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertTrue(result.text.hasPrefix("14 violations") || result.text.contains(" violations\n"), result.text)
+        XCTAssertTrue(result.text.contains("[error] [pin_not_connected] U1.1: Pin not connected"), result.text)
+
+        // The file's severities and exclusions are honoured.
+        doc.setErcSeverity(.pinNotConnected, .ignore)
+        result = await call("run_erc", id)
+        XCTAssertFalse(result.text.contains("pin_not_connected"), result.text)
     }
 
     func testAMistakeNamesTheValidChoices() async {
@@ -327,6 +342,72 @@ final class AutomationTests: XCTestCase {
         XCTAssertTrue(doc.wirePaths.allSatisfy(OrthogonalRoute.isOrthogonal), "via legs are right angles")
         result = await call("connect", id, ["from": "D1.K", "to": "bus:DB:B3"])
         XCTAssertTrue(result.isError, "B3 has no port pin")
+    }
+
+    /// plan-64-D: the Document Info and its title block through the tools.
+    func testDocumentInfoAndTheTitleBlock() async throws {
+        let (id, doc) = newWindow()
+        var result = await call("set_document_info", id, [:])
+        XCTAssertTrue(result.isError, "nothing to change")
+        result = await call("set_document_info", id, ["title": "Clock board", "author": "J. Smith", "revision": "B",
+                                                     "description": "Divides the clock.\nDrives the counter.",
+                                                     "title_block": true])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.documentInfo.title, "Clock board")
+        XCTAssertEqual(doc.documentInfo.description, "Divides the clock.\nDrives the counter.")
+        XCTAssertNotNil(doc.documentInfo.titleBlock)
+        XCTAssertEqual(doc.undoName, "Edit Document Info")
+
+        var text = await call("get_design", id).text
+        XCTAssertTrue(text.contains("DOCUMENT"), text)
+        XCTAssertTrue(text.contains("title: Clock board  author: J. Smith  revision: B"), text)
+        XCTAssertTrue(text.contains("description: Divides the clock. ⏎ Drives the counter."), text)
+        XCTAssertTrue(text.contains("title block: titleblock at ("), text)
+        let jsonText = await call("get_design", id, ["format": "json"]).text
+        let json = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(jsonText.utf8)) as? [String: Any])
+        let info = try XCTUnwrap(json["document"] as? [String: Any])
+        XCTAssertEqual(info["title"] as? String, "Clock board")
+        XCTAssertEqual(info["automatic_dates"] as? Bool, true)
+        XCTAssertNotNil((info["title_block"] as? [String: Any])?["bounds"])
+
+        // The whole call is one undo step.
+        result = await call("undo", id)
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.documentInfo, DocumentInfo())
+
+        // Dates: refused while automatic, kept when manual, checked for shape.
+        result = await call("set_document_info", id, ["created": "2026-11-25T14:07:00Z"])
+        XCTAssertTrue(result.isError, "dates are automatic")
+        XCTAssertTrue(result.text.contains("automatic_dates=false"), result.text)
+        result = await call("set_document_info", id, ["automatic_dates": false, "created": "yesterday"])
+        XCTAssertTrue(result.isError, "not a date")
+        XCTAssertTrue(doc.documentInfo.automaticDates, "a refused call changes nothing")
+        result = await call("set_document_info", id, ["automatic_dates": false, "created": "2026-11-25T14:07:00Z"])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.documentInfo.created, DocumentInfo.isoDate("2026-11-25T14:07:00Z"))
+        XCTAssertFalse(doc.documentInfo.automaticDates)
+
+        // The block is an item: it moves, selects and deletes (hides).
+        result = await call("select", id, ["items": ["titleblock"]])
+        XCTAssertTrue(result.isError, "it is not on the schematic")
+        XCTAssertTrue(result.text.contains("title_block=true"), result.text)
+        _ = await call("set_document_info", id, ["title": "T", "title_block": true])
+        let before = try XCTUnwrap(doc.documentInfo.titleBlock)
+        result = await call("move", id, ["items": ["titleblock"], "dx": 40, "dy": -20])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.documentInfo.titleBlock, CGPoint(x: before.x + 40, y: before.y - 20))
+        result = await call("select", id, ["items": ["titleblock"]])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertTrue(doc.selectedTitleBlock)
+        result = await call("delete", id, ["items": ["titleblock"]])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertNil(doc.documentInfo.titleBlock)
+        XCTAssertEqual(doc.documentInfo.title, "T", "delete only hides it")
+        text = await call("get_design", id).text
+        XCTAssertTrue(text.contains("title block: off"), text)
+        let offText = await call("get_design", id, ["format": "json"]).text
+        let off = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(offText.utf8)) as? [String: Any])
+        XCTAssertTrue(((off["document"] as? [String: Any])?["title_block"]) is NSNull)
     }
 
     func testMovingAndEditingLabelsNotesAndWireRoutes() async {
@@ -634,6 +715,64 @@ final class AutomationTests: XCTestCase {
         XCTAssertTrue(status.text.hasPrefix("not running"), status.text)
     }
 
+    /// plan-58-G: `set_switch` puts a slide switch's knob in a position.
+    func testSetSwitchOnASlideSwitch() async {
+        let (id, doc) = newWindow()
+        var result = await call("place_part", id, ["part": "1103M2S3CBE2", "x": 300, "y": 200])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.chips[0].slidePosition, 2)
+        // A position is required; a slide switch has no on / off.
+        result = await call("set_switch", id, ["reference": "S1"])
+        XCTAssertTrue(result.isError)
+        XCTAssertTrue(result.text.contains("S1 is a slide switch: give position 1 … 3"), result.text)
+        result = await call("set_switch", id, ["reference": "S1", "position": 4])
+        XCTAssertTrue(result.isError)
+        XCTAssertTrue(result.text.contains("S1 is a slide switch: give position 1 … 3"), result.text)
+        result = await call("set_switch", id, ["reference": "S1", "position": 1, "on": false])
+        XCTAssertTrue(result.isError)
+        XCTAssertTrue(result.text.contains("a slide switch is always in one position"), result.text)
+        XCTAssertEqual(doc.chips[0].slidePosition, 2, "refused calls change nothing")
+        // Selecting a position is an edit outside the simulation.
+        result = await call("set_switch", id, ["reference": "S1", "position": 3])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(result.text, "S1 position 3")
+        XCTAssertEqual(doc.chips[0].slidePosition, 3)
+        XCTAssertEqual(doc.chips[0].switchesOn, [false, true])
+        XCTAssertEqual(doc.undoName, "Move Switch")
+        result = await call("set_switch", id, ["reference": "S1", "position": 1, "on": true])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.chips[0].slidePosition, 1)
+        // The tool says so.
+        let summary = AutomationTools.all.first { $0.name == "set_switch" }?.summary ?? ""
+        XCTAssertTrue(summary.contains("slide switch"), summary)
+    }
+
+    /// While the simulation runs the move is an input, put back when it stops.
+    func testSetSwitchOnASlideSwitchWhileRunning() async {
+        let (id, doc) = newWindow()
+        for (part, x, y) in [("5V", 60, 60), ("1101M2S3CQE2", 250, 100), ("GENERIC-LED", 500, 60),
+                             ("GENERIC-LED", 500, 160), ("GND", 700, 120)] {
+            let result = await call("place_part", id, ["part": part, "x": x, "y": y])
+            XCTAssertFalse(result.isError, result.text)
+        }
+        for (from, to) in [("PWR1.VCC", "S1.C"), ("S1.A", "D1.A"), ("S1.B", "D2.A"), ("D1.K", "PWR2.GND"), ("D2.K", "PWR2.GND")] {
+            let result = await call("connect", id, ["from": from, "to": to])
+            XCTAssertFalse(result.isError, "\(from)→\(to): \(result.text)")
+        }
+        var result = await call("simulation_start", id)
+        XCTAssertFalse(result.isError, result.text)
+        result = await call("set_switch", id, ["reference": "S1", "position": 2])
+        XCTAssertEqual(result.text, "S1 position 2")
+        XCTAssertEqual(doc.chips.first { $0.reference == "S1" }?.slidePosition, 2)
+        _ = await call("wait", id, ["milliseconds": 600])
+        result = await call("read_pins", id, ["reference": "D2", "pins": ["A"]])
+        XCTAssertTrue(result.text.contains("A=1"), result.text)
+        result = await call("read_pins", id, ["reference": "D1", "pins": ["A"]])
+        XCTAssertFalse(result.text.contains("A=1"), result.text)
+        _ = await call("simulation_stop", id)
+        XCTAssertEqual(doc.chips.first { $0.reference == "S1" }?.slidePosition, 1, "Stop puts the knob back")
+    }
+
     // MARK: Windows
 
     func testWindowAddressing() async {
@@ -674,7 +813,7 @@ final class AutomationTests: XCTestCase {
         XCTAssertEqual(doc.pours.first?.layer, .top)
         let bounds = doc.boardOutlineBounds
         XCTAssertEqual(doc.pours.first?.rect.width ?? 0, bounds?.width ?? -1, accuracy: doc.board.traceGrid)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Add Pour")
+        XCTAssertEqual(doc.undoName, "Add Pour")
         let board = await call("get_board", id)
         XCTAssertTrue(board.text.contains("POURS"), board.text)
         XCTAssertTrue(board.text.contains("net=ground"), board.text)
@@ -719,7 +858,7 @@ final class AutomationTests: XCTestCase {
         result = await call("delete", id, ["items": ["pour:" + pour, "keepout:" + keepout]])
         XCTAssertFalse(result.isError, result.text)
         XCTAssertTrue(doc.pours.isEmpty && doc.keepouts.isEmpty)
-        XCTAssertTrue(doc.undo(on: .schematic) || doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.pours.count + doc.keepouts.count, 2, "undo of the delete restores both")
     }
 }

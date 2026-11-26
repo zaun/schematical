@@ -56,8 +56,13 @@ Every tool except the few marked *(no window)* takes an optional `window`
 
 **Read** — `get_design` (text, or `format=json`; `geometry=true` adds pin tips), `get_nets`,
 `search_parts`*(no window)*, `get_part`*(no window)*, `get_selection`,
-`get_board`, `run_drc`, `render` (schematic, pcb, front, back; `region`
-crops to zoom in).
+`get_board`, `run_erc` (the electrical rules check of the schematic, by KiCad's
+rules, one violation per line: `<n>. [error|warning] [rule] <reference>: <message>`;
+it honours the file's severities and exclusions, as Window › Electrical Rules
+Check does), `run_drc`, `render` (schematic, pcb, front, back; `region`
+crops to zoom in). `get_design` ends with a `DOCUMENT` section (JSON: `"document"`):
+title, author, revision, description, created and updated (ISO 8601), whether the dates are automatic,
+and the title block's place and bounds (`title_block` is `null` when it is off).
 
 A pin's active-low flag (the part file's `"activeLow"`, `docs/parts-format.md`
 § Pinouts and pins) is in `get_design`'s JSON: a pin dictionary has
@@ -67,26 +72,61 @@ the text form is unchanged. `get_part` prints it after a pin's role and
 group: ` low`, or ` low=CS` (alternatives `;` separated).
 
 **Schematic** — `place_part`, `connect` (pin, net label, bus pin or point on
-a wire; `via` waypoints), `disconnect`, `move_part`, `move`, `flip_part`, `rotate_part` (LEDs, diodes, resistors, capacitors), `set_part`
+a wire; `via` waypoints), `disconnect`, `move_part`, `move`, `flip_part`, `rotate_part` (parts drawn as their own symbol: LEDs, diodes, resistors, capacitors, crystals, inductors, fuses, buzzers, transistors, test points, barrel jacks), `set_part`
 (rename, color, ohms, farads, footprint, gender; `socket_mode` `ic`, `ic+socket` or `socket-only` and `socket`,
 the socket's part name, for a DIP or PLCC chip a socket fits: a mode alone picks the generic socket, and `get_design` shows
 `socket=<name> (<mode>)` on the part), `add_net_label`,
-`add_note`, `set_net_label`, `set_note`, `set_wire_route`, `add_bus`, `set_bus`, `add_bus_port`, `set_bus_port`, `delete`, `select`.
+`add_note`, `set_net_label`, `set_note`, `set_document_info` (title, author, revision, description, `created`/`updated`
+(ISO 8601, only with `automatic_dates` false: saves set them while it is on), `title_block` true/false to show or hide the
+title block), `set_wire_route`, `add_bus`, `set_bus`, `add_bus_port`, `set_bus_port`, `delete`, `select`.
 
-**PCB** — `set_board` (size, type, layers, grid, units, color), `set_layer`
+**Gate view** (plan-67). A part with units (a gate IC, Logic → Gates) is drawn as one block or as its
+units: `set_part reference=U1 view=gate` (back: `view=block`; `place_part` takes `view` too, in the same
+undo step). Its units are then addressed `U1-A`, `U1-B`, … (the gates, in the order of the part's gates)
+and `U1-P` (the block of the pins no gate owns: power, ground, NC). `move_part` moves one unit (`U1-A`)
+or the whole part (`U1`); `flip_part` and `rotate_part` take a unit (the `P` block flips but does not
+turn; a whole part in Gate view is refused with the list of its units); `select U1-A` selects the part
+with that unit picked, and `get_selection` then prints `U1 (U1-A)`. A pin is still `U1.3`; `U1-A.3` is
+accepted too and refused when the pin is not that unit's (`U1-A has no pin 6; its pins: 1=1A 2=1B 3=1Y`).
+`delete U1-A` is refused (`U1-A is one symbol of U1; delete U1 to remove the part`); `delete U1` removes
+the whole part without the question the app asks a person. `get_design` shows `view=gate` on the part's
+line and one indented line per unit (`U1-A centre=… size=… body=… [flipped] [rotation=90] pins=1,2,3`);
+its JSON has `"view"` (`"gate"` or `"block"`, on every part that has units) and, for a part in Gate view,
+`"units"`: `unit`, `reference`, `x`, `y` (centre), `width`, `height`, `flipped`, `rotation`, `bounds`
+and `pins` (designators). The part's own `x`, `y`, `width`, `height` and `bounds` are then the box around
+all its units, and each pin's tip is where its unit draws it. Nets, ERC, DRC and every PCB tool keep
+writing `U1.3`: the part is one part.
+
+**PCB** — `set_board` (size, type, layers, grid, units, color, `outline` for a free-form edge, `rectangle` to take it off), `set_layer`
 (plane or wire layers, plane net, clearance), `move_footprint` (position,
 rotation, side), `route` (pad to pad, with warnings when it crosses another
 pad), `add_trace`, `set_trace`, `add_via`, `add_hole`, `add_pour` (flood a rectangle with
 copper on one net, thermal reliefs or solid), `set_pour`, `add_keepout` (a rectangle the pours stay
-out of), `set_keepout`, `add_board_text`, `lock`. `get_board` lists `POURS` and `KEEPOUTS`.
+out of), `set_keepout`, `add_cutout` (a rectangle, slot, circle or polygon cut out of the board; copper keeps its
+distance from its edge), `set_cutout`, `add_board_text`, `lock`. `get_board` lists `POURS`, `KEEPOUTS` and `CUTOUTS`,
+and marks a free-form board `outline=free-form`.
 
 **Simulation** — `simulation_start`, `simulation_stop`, `simulation_status`,
-`wait`*(no window)*, `set_switch`, `read_pins` (levels and LED brightness),
+`wait`*(no window)*, `set_switch` (a DIP position on or off; a tactile button pressed or released; a slide switch's knob moved to `position` 1 … N, `on` not used), `read_pins` (levels and LED brightness),
 `read_memory`.
 
 **Session** — `list_windows`*(no window)*, `focus_window`, `new_window`,
 `open`, `save`, `export_gerber`, `export_pdf`, `list_files`*(no window)*, `undo`, `redo`,
 `batch`.
+
+A window is a document (`SchematicNSDocument`): `list_windows` lists the
+open documents, with `unsaved` on one whose changes are not in its file
+(a schematic with a file saves itself as it is edited, so this is mostly
+one never saved). `new_window` makes a new untitled document and `open`
+opens a file as the app's File › Open does; neither needs a window to be
+open, and a file that is already open is not opened twice (`open` names
+its window). `save` with no path saves the document to its own file, and
+fails for one that has none (`This window has no file yet; pass a path.`).
+`save` with a path is a **Save As**: the file is written there and the
+window is that file's from then on.
+
+`undo` and `redo` act on the document: they undo or redo its last edit,
+whichever page made it, and take no page.
 
 `batch` runs a list of tool calls as **one undo step** (it wraps them in the
 model's gesture), stops at the first error and reports which call failed.
@@ -100,8 +140,12 @@ The server sends these as MCP `instructions` on connect
 (`AutomationGuide.text`); keep the two in step.
 
 - Parts by reference (`U1`), pins by designator or name (`U1.14`, `D1.K`).
-  Wires, labels, notes, traces, vias, holes, pours (`pour:ID`), keep-outs (`keepout:ID`), texts by the 8-hex-digit id the
-  read tools print.
+  A gate IC can be drawn as separate gates: `set_part` `view=gate`. Its gates are then `U1-A`, `U1-B`, …,
+  and `U1-P` is the block with its power pins; move, flip and rotate them one at a time (`move_part`,
+  `flip_part`, `rotate_part`). Pins are still `U1.3` (`U1-A.3` also works). Deleting takes the whole part.
+  Wires, labels, notes, traces, vias, holes, pours (`pour:ID`), keep-outs (`keepout:ID`), cutouts (`cutout:ID`), texts by the 8-hex-digit id the
+  read tools print. The Document Info title block is the item `titleblock` (for `select`, `move`, `delete`; `delete`
+  only hides it, and it is an error while it is off: `set_document_info title_block=true` shows it).
 - Schematic: canvas units, y down, 10-unit grid, parts placed by centre.
   Wires take the shortest right-angle route and do not avoid parts: pass
   `via` waypoints, and `render` to check.
@@ -121,9 +165,11 @@ The server sends these as MCP `instructions` on connect
 | `AutomationFolder.swift` | The shared folder and path containment |
 | `Preferences/PreferencesView.swift` | Settings ▸ AI Agents |
 
-Hooks outside that folder: `SchematicSessions` (Memory/MemoryWindow.swift)
-lists windows with their file controller; `SchematicFileController` has
-`open(_:)` and `saveWithoutPanel(to:)`; `SimulationController.level(ofPin:on:)`;
+Hooks outside that folder: the open documents are
+`NSDocumentController.shared.documents`, each a `SchematicNSDocument` with
+its `SchematicEditorModel` (document, simulation, exporter); `new_window`,
+`open` and `save` call `NSDocumentController` and `NSDocument.save(to:ofType:for:)`;
+`SchematicExporter` writes the exports; `SimulationController.level(ofPin:on:)`;
 `PartCatalogStore.allParts`; the build setting
 `ENABLE_INCOMING_NETWORK_CONNECTIONS = YES` (the sandbox's server
 entitlement).

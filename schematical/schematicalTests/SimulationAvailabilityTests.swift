@@ -33,26 +33,26 @@ final class SimulationAvailabilityTests: XCTestCase {
     func testOneMicrocontrollerBlocksRun() throws {
         let doc = TestSupport.newDocument()
         try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 100, y: 100))
-        let mcu = try TestSupport.place(doc, "ATMEGA328P-PU", at: CGPoint(x: 400, y: 100))
+        let mcu = try TestSupport.place(doc, "ATTINY13A-PU", at: CGPoint(x: 400, y: 100))
         XCTAssertEqual(mcu.reference, "U2")
         let t = target(doc)
         XCTAssertFalse(t.isAvailable)
-        XCTAssertEqual(t.blockedReason, "U2 (ATMEGA328P-PU) is not simulated")
+        XCTAssertEqual(t.blockedReason, "U2 (ATTINY13A-PU) is not simulated")
         XCTAssertFalse(SimulationAvailability.canStart(doc))
     }
 
     func testThreeMicrocontrollersNameTheFirst() throws {
         let doc = TestSupport.newDocument()
-        try TestSupport.place(doc, "ATMEGA328P-PU", at: CGPoint(x: 100, y: 100))
+        try TestSupport.place(doc, "ATTINY13A-PU", at: CGPoint(x: 100, y: 100))
         try TestSupport.place(doc, "ESP32-WROOM-32E-N4", at: CGPoint(x: 400, y: 100))
         try TestSupport.place(doc, "SC0914(13)", at: CGPoint(x: 700, y: 100))
-        XCTAssertEqual(target(doc).blockedReason, "U1 (ATMEGA328P-PU) and 2 more are not simulated")
+        XCTAssertEqual(target(doc).blockedReason, "U1 (ATTINY13A-PU) and 2 more are not simulated")
     }
 
     /// The first in reference order, not placement order: U2 before U10.
     func testReasonFollowsReferenceOrder() throws {
         let doc = TestSupport.newDocument()
-        let late = try TestSupport.place(doc, "ATMEGA328P-PU", at: CGPoint(x: 100, y: 100))
+        let late = try TestSupport.place(doc, "ATTINY13A-PU", at: CGPoint(x: 100, y: 100))
         let early = try TestSupport.place(doc, "SC0914(13)", at: CGPoint(x: 400, y: 100))
         var chips = doc.chips
         chips[chips.firstIndex { $0.id == late.id }!].reference = "U10"
@@ -63,7 +63,7 @@ final class SimulationAvailabilityTests: XCTestCase {
     /// ⇧⌘R's path: toggling with a microcontroller placed does not start.
     func testToggleDoesNotStart() throws {
         let doc = TestSupport.newDocument()
-        try TestSupport.place(doc, "ATMEGA328P-PU", at: CGPoint(x: 100, y: 100))
+        try TestSupport.place(doc, "ATTINY13A-PU", at: CGPoint(x: 100, y: 100))
         let simulation = SimulationController(library: TestSupport.catalog.library)
         Self.keptSimulations.append(simulation)
         SimulationAvailability.toggle(simulation, document: doc)
@@ -87,7 +87,7 @@ final class SimulationAvailabilityTests: XCTestCase {
     func testPcbPageIsNotAvailable() throws {
         let doc = TestSupport.newDocument()
         XCTAssertFalse(target(doc, page: .pcb).isAvailable)
-        try TestSupport.place(doc, "ATMEGA328P-PU", at: CGPoint(x: 100, y: 100))
+        try TestSupport.place(doc, "ATTINY13A-PU", at: CGPoint(x: 100, y: 100))
         let t = target(doc, page: .pcb)
         XCTAssertFalse(t.isAvailable)
         XCTAssertNil(t.blockedReason)

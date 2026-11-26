@@ -76,6 +76,20 @@ extension AutomationTools {
                 return Out.text("\(issues.count) issues\n" + lines.joined(separator: "\n"))
             }),
         AutomationTool(
+            name: "run_erc",
+            summary: "Run the electrical rules check on the schematic, by KiCad's rules: unconnected pins, inputs "
+                + "nothing drives, output conflicts on a net, power pins no supply or Power Flag drives, dangling "
+                + "wires and labels, No Connect flags, similar names. One violation per line. Run it after wiring.",
+            readOnly: true,
+            run: { context, _ in
+                let violations = context!.document.electricalRulesCheck()
+                if violations.isEmpty { return Out.text("no violations") }
+                let lines = violations.map {
+                    "\($0.index). [\($0.severity.rawValue)] [\($0.rule.rawValue)] \($0.reference): \($0.message)"
+                }
+                return Out.text("\(violations.count) violations\n" + lines.joined(separator: "\n"))
+            }),
+        AutomationTool(
             name: "render",
             summary: "A picture of the design (PNG) so you can check your work. view: schematic, pcb (the editing "
                 + "page with ratsnest lines), front or back (the made board). region crops to a rectangle given as "
@@ -102,8 +116,12 @@ extension AutomationTools {
         if let socket = chip.socket {
             parts.append("socket=\(socket.part.name) (\(socket.mode == .withSocket ? "ic+socket" : "socket-only"))")
         }
-        if chip.isFlipped { parts.append("flipped") }
-        if chip.rotation != 0 { parts.append("rotation=\(chip.rotation)") }
+        if chip.isSplit {
+            parts.append("view=\((chip.part.unitViewName ?? "units").lowercased())")
+        } else {
+            if chip.isFlipped { parts.append("flipped") }
+            if chip.rotation != 0 { parts.append("rotation=\(chip.rotation)") }
+        }
         if !chip.switchesOn.isEmpty {
             parts.append("switches=" + chip.switchesOn.map { $0 ? "on" : "off" }.joined(separator: ","))
         }
@@ -147,6 +165,16 @@ extension AutomationTools {
             if !extra.isEmpty { line += " " + extra }
             out.append(line)
             out.append("    pins: \(pins)")
+            // A part drawn as its units (plan-67): where each unit is, and its pins.
+            for piece in chip.pieces where piece.unitKey != nil {
+                let spot = context.centre(of: piece)
+                var unit = "    \(piece.drawnReference) centre=(\(num(spot.x)),\(num(spot.y))) "
+                    + "size=\(num(piece.layout.size.width))x\(num(piece.layout.size.height)) body=\(box(bounds(of: piece)))"
+                if piece.isFlipped { unit += " flipped" }
+                if piece.rotation != 0 { unit += " rotation=\(piece.rotation)" }
+                unit += " pins=" + piece.layout.slots.map(\.pin.designator).joined(separator: ",")
+                out.append(unit)
+            }
         }
         out.append("WIRES")
         for wire in document.wires {
@@ -194,6 +222,17 @@ extension AutomationTools {
                 }
             }
         }
+        out.append("DOCUMENT")
+        let info = document.documentInfo
+        out.append("title: \(info.title)  author: \(info.author)  revision: \(info.revision)")
+        out.append("created: \(info.created.map(DocumentInfo.isoText) ?? "-")  updated: \(info.updated.map(DocumentInfo.isoText) ?? "-")"
+                   + "  dates: \(info.automaticDates ? "automatic" : "manual")")
+        if !info.description.isEmpty { out.append("description: " + info.description.replacingOccurrences(of: "\n", with: " ⏎ ")) }
+        if let rect = document.titleBlockRect {
+            out.append("title block: titleblock at (\(num(rect.minX)),\(num(rect.minY))) bounds=\(box(rect))")
+        } else {
+            out.append("title block: off")
+        }
         return out.joined(separator: "\n")
     }
 
@@ -232,7 +271,7 @@ extension AutomationTools {
                 "reference": chip.reference, "part": chip.part.name,
                 "x": centre.x, "y": centre.y,
                 "width": chip.layout.size.width, "height": chip.layout.size.height,
-                "flipped": chip.isFlipped, "rotation": chip.rotation,
+                "flipped": chip.isFlipped && !chip.isSplit, "rotation": chip.isSplit ? 0 : chip.rotation,
                 "bounds": rectJSON(bounds(of: chip)),
                 "pins": chip.part.pins.filter { !$0.isHidden }.map { pin -> [String: Any] in
                     var entry: [String: Any] = ["designator": pin.designator, "name": pin.name,
@@ -251,6 +290,21 @@ extension AutomationTools {
             if let board = chip.board {
                 part["pcb"] = ["x": board.centre.x, "y": board.centre.y, "rotation": board.rotation,
                                "side": board.side.rawValue, "locked": board.locked]
+            }
+            // A part with units (plan-67): how it is drawn, and each unit when drawn as its units.
+            if !chip.part.units.isEmpty {
+                part["view"] = chip.isSplit ? (chip.part.unitViewName ?? "units").lowercased() : "block"
+            }
+            if chip.isSplit {
+                part["units"] = chip.pieces.map { piece -> [String: Any] in
+                    let spot = context.centre(of: piece)
+                    return ["unit": piece.unitKey ?? "", "reference": piece.drawnReference,
+                            "x": spot.x, "y": spot.y,
+                            "width": piece.layout.size.width, "height": piece.layout.size.height,
+                            "flipped": piece.isFlipped, "rotation": piece.rotation,
+                            "bounds": rectJSON(bounds(of: piece)),
+                            "pins": piece.layout.slots.map(\.pin.designator)] as [String: Any]
+                }
             }
             if let color = chip.color { part["color"] = color }
             if let ohms = chip.ohms { part["ohms"] = ohms }
@@ -276,6 +330,16 @@ extension AutomationTools {
                  "x": $0.origin.x, "y": $0.origin.y, "flipped": $0.isFlipped,
                  "bounds": rectJSON($0.rect)] as [String: Any]
             },
+            "document": [
+                "title": document.documentInfo.title, "author": document.documentInfo.author,
+                "revision": document.documentInfo.revision, "description": document.documentInfo.description,
+                "created": document.documentInfo.created.map(DocumentInfo.isoText) as Any? ?? NSNull(),
+                "updated": document.documentInfo.updated.map(DocumentInfo.isoText) as Any? ?? NSNull(),
+                "automatic_dates": document.documentInfo.automaticDates,
+                "title_block": document.titleBlockRect.map { rect -> [String: Any] in
+                    ["x": rect.minX, "y": rect.minY, "bounds": rectJSON(rect)]
+                } as Any? ?? NSNull(),
+            ] as [String: Any],
             "notes": document.notes.map {
                 ["id": context.short($0.id), "text": $0.text, "x": $0.origin.x, "y": $0.origin.y,
                  "size": $0.size, "framed": $0.framed, "bounds": rectJSON($0.rect)] as [String: Any]
@@ -398,10 +462,17 @@ extension AutomationTools {
         let document = context.document
         func name(_ item: SchematicItem) -> String {
             switch item {
-            case let .chip(id): return document.chips.first { $0.id == id }?.reference ?? "part"
+            case let .chip(id):
+                guard let chip = document.chips.first(where: { $0.id == id }) else { return "part" }
+                // A part drawn as its units says which are picked, unless all are.
+                let picked = document.picked(chip)
+                guard chip.isSplit, picked.count < chip.unitPlacements.count else { return chip.reference }
+                let names = chip.unitPlacements.filter { picked.contains($0.key) }.map { "\(chip.reference)-\($0.key)" }
+                return "\(chip.reference) (\(names.joined(separator: " ")))"
             case let .wire(id): return "wire:\(context.short(id))"
             case let .junction(id): return "junction:\(context.short(id))"
             case let .note(id): return "note:\(context.short(id))"
+            case .titleBlock: return "titleblock"
             case let .label(id): return "label:" + (document.netLabels.first { $0.id == id }?.name ?? context.short(id))
             case let .bus(id): return "bus:" + (document.bus(id)?.name ?? context.short(id))
             }
@@ -415,6 +486,7 @@ extension AutomationTools {
             case let .hole(id): return "hole:\(context.short(id))"
             case let .pour(id): return "pour:\(context.short(id))"
             case let .keepout(id): return "keepout:\(context.short(id))"
+            case let .cutout(id): return "cutout:\(context.short(id))"
             }
         }
         let schematic = document.schematicSelection.items.map(name).sorted()
@@ -427,7 +499,8 @@ extension AutomationTools {
         let document = context.document
         let board = document.board
         var out = ["BOARD type=\(board.type.rawValue) size=\(num(board.width))x\(num(board.height))mm "
-                   + "layers=\(board.layers) grid=\(num(board.grid))mm units=\(board.units.rawValue) color=\(board.color.rawValue)"]
+                   + "layers=\(board.layers) grid=\(num(board.grid))mm units=\(board.units.rawValue) color=\(board.color.rawValue)"
+                   + (board.isFreeForm ? " outline=free-form" : "")]
         out.append("LAYERS")
         for layer in board.copperLayers {
             let style = board.style(of: layer)
@@ -474,6 +547,17 @@ extension AutomationTools {
                        + "\(num(keepout.rect.width))x\(num(keepout.rect.height)) layers="
                        + (keepout.layers.map { $0.map(\.rawValue).sorted().joined(separator: ",") } ?? "all")
                        + (keepout.locked ? " locked" : ""))
+        }
+        out.append("CUTOUTS")
+        for cutout in document.cutouts {
+            let box = cutout.shape.bounds
+            var line = "  \(context.short(cutout.id)) \(cutout.kind.rawValue) (\(num(box.minX)),\(num(box.minY))) "
+                + "\(num(box.width))x\(num(box.height))"
+            switch cutout.shape {
+            case let .rounded(_, radius): if cutout.kind == .rectangle, radius > 0 { line += " radius=\(num(radius))" }
+            case let .polygon(points): line += " points=\(points.count)"
+            }
+            out.append(line + (cutout.locked ? " locked" : ""))
         }
         out.append("TEXTS")
         for text in document.texts {

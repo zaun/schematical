@@ -150,7 +150,7 @@ final class TraceAngleTests: XCTestCase {
         let trace = try XCTUnwrap(doc.addTrace(from: p(0, 50), to: p(10, 50), layer: .top, diagonalFirst: false))
         XCTAssertTrue(doc.deleteBoardItem(at: p(5, 50), tolerance: tolerance))
         XCTAssertFalse(doc.traces.contains { $0.id == trace })
-        XCTAssertEqual(doc.undoName(on: .pcb), "Delete Trace")
+        XCTAssertEqual(doc.undoName, "Delete Trace")
 
         let text = doc.addText(at: p(0, 80))
         let rect = try XCTUnwrap(doc.texts.first { $0.id == text }).boardRect
@@ -176,7 +176,7 @@ final class TraceAngleTests: XCTestCase {
         XCTAssertEqual(doc.boardSelection.items, [.footprint(chip.id)])
 
         // One step brings both back.
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.traces.map(\.id), [trace])
         XCTAssertEqual(doc.texts.map(\.id), [text])
     }
@@ -201,7 +201,7 @@ final class TraceAngleTests: XCTestCase {
         guard case let .junction(id) = kept.end else { return XCTFail("end \(kept.end) is not loose") }
         XCTAssertEqual(doc.junctions.first { $0.id == id }?.isLoose, true)
 
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.chips.count, 2)
         XCTAssertEqual(doc.notes.count, 1)
 
@@ -228,7 +228,7 @@ final class TraceAngleTests: XCTestCase {
         XCTAssertEqual(ids.count, 2)
         XCTAssertEqual(doc.traces.count, 4)
         XCTAssertEqual(doc.boardSelection.items, Set(ids.map(BoardItem.trace)))
-        XCTAssertEqual(doc.undoName(on: .pcb), "Paste")
+        XCTAssertEqual(doc.undoName, "Paste")
         for (original, id) in zip(copied, ids) {
             let copy = try XCTUnwrap(doc.traces.first { $0.id == id })
             XCTAssertEqual(copy.width, original.width)
@@ -239,7 +239,7 @@ final class TraceAngleTests: XCTestCase {
         XCTAssertEqual(Set(doc.connectedRun(of: ids[0])), Set(ids))
 
         // One undo takes the whole paste back.
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.traces.map(\.id), [one, two])
     }
 

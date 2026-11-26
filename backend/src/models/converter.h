@@ -383,6 +383,7 @@ typedef struct {
     size_t pin_count;
     const uint8_t *analog;      /* per pin: 1 analog */
     const uint8_t *open_drain;  /* per pin: 1 open drain (SDA, open-drain ready pins) */
+    const uint8_t *tristate;    /* per pin: 1 a parallel data output the bus "oe" releases (plan-63-C) */
 } CvBound;
 
 /* Per-part data: the I2C address override and register reset overrides. */
@@ -409,6 +410,7 @@ int cv_load_part(KindContext *ctx, const void *device, const void *bound, const 
 
 /* The kinds on this engine share these for their PartKindOps. */
 int cv_pin_open_drain(const Part *part, size_t pin);
+int cv_pin_tristate(const Part *part, size_t pin);
 int cv_pin_analog(const Part *part, size_t pin);
 
 extern const SimComponentType CONVERTER_COMPONENT;

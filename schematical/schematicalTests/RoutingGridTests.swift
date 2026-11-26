@@ -118,4 +118,39 @@ final class RoutingGridTests: XCTestCase {
             XCTAssertTrue(grid.isPassable(cell(grid, 5.9, 5), layer: layer, net: 2, profile: p2))
         }
     }
+
+    /// plan-66-D: a corridor around a trace holds exactly the cells within reach of it.
+    func testACorridorAroundATraceIsWithinReach() throws {
+        var board = RoutingTestBoard(width: 20, height: 20)
+        board.options.grid = 0.1
+        let grid = RoutingGrid(problem: board.problem())
+        let trace = RoutedTrace(layer: .top, width: 0.254, points: [CGPoint(x: 5, y: 5), CGPoint(x: 9, y: 5), CGPoint(x: 12, y: 8)], net: 1)
+        let via = RoutedVia(centre: CGPoint(x: 15, y: 15), drill: 0.4, diameter: 0.8, net: 1)
+        var corridor = RoutingCorridor()
+        corridor.make(for: ([trace], [via]), grid: grid, reach: 1.0, deviation: 2.0)
+        XCTAssertFalse(corridor.isEmpty)
+        var set = 0
+        for layer in grid.layers.indices {
+            for cell in 0..<grid.cellCount {
+                let p = grid.point(cell)
+                var d = Double.infinity
+                if layer == 0 {
+                    for (a, b) in zip(trace.points, trace.points.dropFirst()) { d = min(d, RoutingGrid.distance(p, .segment(a, b))) }
+                }
+                d = min(d, hypot(p.x - via.centre.x, p.y - via.centre.y))
+                let value = corridor.values[layer * grid.cellCount + cell]
+                if d <= 1.0 {
+                    XCTAssertGreaterThanOrEqual(value, 0)
+                    XCTAssertEqual(Double(value), 2.0 * d / grid.pitch, accuracy: 1e-3)
+                    set += 1
+                } else {
+                    XCTAssertLessThan(value, 0)
+                }
+            }
+        }
+        XCTAssertGreaterThan(set, 0)
+        corridor.clear()
+        XCTAssertTrue(corridor.isEmpty)
+        XCTAssertTrue(corridor.values.allSatisfy { $0 == -1 })
+    }
 }

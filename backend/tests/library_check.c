@@ -504,6 +504,7 @@ static void check_capacitor_cases(void) {
     "'pinouts':{'p':[" MCU_PINS(GND_ROLE) "]}" KEYS "," \
     "'parts':[{'name':'M-1','package':'DIP','pinout':'p','footprint':'T4'" PART_KEYS "}]}" TAIL
 #define MCU_OK ",'simulated':false,'core':'avr','clock':20000000,'flash':8192,'ram':512"
+#define MCU_MODEL ",'model':'atmega328','core':'avr','clock':20000000,'flash':8192,'ram':512"
 
 static void check_mcu_cases(void) {
     PartLibrary *library = part_library_create();
@@ -539,7 +540,43 @@ static void check_mcu_cases(void) {
     expect_fail("mcu pinout with no ground", MCU_DEVICE(MCU_OK ",'vcc':[3,3.6]", "inout", ""),
                 "an mcu pinout needs a ground pin");
     expect_fail("mcu without vcc", MCU_DEVICE(MCU_OK, "ground", ""), "missing \"vcc\"");
+
+    /* plan-62-E: a device with a "model" is simulated. */
+    library = part_library_create();
+    error = NULL;
+    CHECK(load(library, MCU_DEVICE(MCU_MODEL ",'vcc':[1.8,5.5]", "ground", ""), &error) == 0);
+    part = part_library_find(library, "M-1");
+    CHECK(part != NULL && part->simulated == 1 && part->mcu != NULL && part->mcu->model != NULL &&
+          strcmp(part->mcu->model, "atmega328") == 0);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   valid mcu part with a model (simulated)\n");
+    expect_fail("mcu model with another core",
+                MCU_DEVICE(",'model':'atmega328','core':'avrxt','clock':1,'flash':8192,'ram':512,"
+                           "'vcc':[3,3.6]", "ground", ""),
+                "\"model\" needs core \"avr\"");
+    expect_fail("mcu unknown model",
+                MCU_DEVICE(",'model':'atmega4809','core':'avr','clock':1,'flash':8192,'ram':512,"
+                           "'vcc':[3,3.6]", "ground", ""),
+                "unknown mcu model \"atmega4809\"");
+    expect_fail("mcu model with simulated false",
+                MCU_DEVICE(MCU_MODEL ",'simulated':false,'vcc':[3,3.6]", "ground", ""),
+                "an mcu with a \"model\" is simulated: remove \"simulated\": false");
+    expect_fail("mcu model with a pin of a port it lacks",
+                HEAD("mcu") "{'id':'M','function':'MCU','description':'d','drawer':['Microcontroller'],"
+                "'pinouts':{'p':[" MCU_PINS("ground") ",{'number':5,'name':'PE0','role':'inout'}]}"
+                MCU_MODEL ",'vcc':[3,3.6],"
+                "'parts':[{'name':'M-1','package':'DIP','pinout':'p','footprint':'T4'}]}" TAIL,
+                "mcu model \"atmega328\" has no pin \"PE0\"");
+    expect_fail("mcu model with an odd flash size",
+                MCU_DEVICE(",'model':'atmega328','core':'avr','clock':1,'flash':8191,'ram':512,"
+                           "'vcc':[3,3.6]", "ground", ""),
+                "an mcu with a \"model\" needs \"flash\" of 512 bytes or more, an even number");
+    expect_fail("mcu model part overriding flash",
+                MCU_DEVICE(MCU_MODEL ",'vcc':[3,3.6]", "ground", ",'flash':4096"),
+                "a part of an mcu with a \"model\" cannot override \"flash\"");
 }
+#undef MCU_MODEL
 #undef MCU_OK
 #undef MCU_DEVICE
 #undef MCU_PINS

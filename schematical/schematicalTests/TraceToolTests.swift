@@ -271,7 +271,7 @@ final class TraceToolTests: XCTestCase {
         XCTAssertEqual(doc.traces.map(\.id), [wall])
         XCTAssertEqual(doc.editorMessage, TraceDrawing.noRouteMessage)
         // The drag recorded no step: one undo takes the wall away.
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertTrue(doc.traces.isEmpty)
     }
 
@@ -317,7 +317,7 @@ final class TraceToolTests: XCTestCase {
         XCTAssertTrue(TraceRoute.same(bottom.points.first!, corner))
         XCTAssertEqual(bottom.width, 20, "still the class width")
         // The whole drag is one step.
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertTrue(doc.traces.isEmpty)
         XCTAssertTrue(doc.vias.isEmpty)
     }

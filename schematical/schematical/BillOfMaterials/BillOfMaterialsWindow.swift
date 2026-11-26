@@ -16,7 +16,7 @@ import UniformTypeIdentifiers
 
 /// Which schematic window's Bill of Materials to open.
 nonisolated struct BillOfMaterialsTarget: Codable, Hashable, Sendable {
-    let sessionID: UUID
+    let documentID: UUID
 }
 
 /// One line of the Bill of Materials.
@@ -186,22 +186,28 @@ nonisolated enum BillOfMaterials {
 
 // MARK: - Menu command
 
-extension FocusedValues {
-    /// Opens the focused schematic window's Bill of Materials.
-    @Entry var openBillOfMaterials: (() -> Void)?
-}
-
 /// Window > Bill of Materials (⇧⌘B).
 struct BillOfMaterialsCommands: Commands {
-    @FocusedValue(\.openBillOfMaterials) private var open
+    @FocusedValue(\.schematicEditor) private var editor
 
     var body: some Commands {
         CommandGroup(before: .windowList) {
-            Button("Bill of Materials") { open?() }
-                .keyboardShortcut("b", modifiers: [.command, .shift])
-                .disabled(open == nil)
+            BillOfMaterialsMenuItem(editor: editor)
             Divider()
         }
+    }
+}
+
+/// A view, so it is rendered again when the editor's menus change
+/// (`EditorMenus`).
+private struct BillOfMaterialsMenuItem: View {
+    let editor: SchematicEditorModel?
+
+    var body: some View {
+        let open = editor?.menus.openBillOfMaterials
+        Button("Bill of Materials") { open?() }
+            .keyboardShortcut("b", modifiers: [.command, .shift])
+            .disabled(open == nil)
     }
 }
 
@@ -212,7 +218,7 @@ struct BillOfMaterialsWindowView: View {
     let target: BillOfMaterialsTarget
 
     var body: some View {
-        if let session = SchematicSessions.shared.session(target.sessionID) {
+        if let session = SchematicEditorModel.session(target.documentID) {
             BillOfMaterialsTable(document: session.document)
         } else {
             ContentUnavailableView(

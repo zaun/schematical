@@ -1,0 +1,39 @@
+== A9 two files in one open: 2 documents; recents: 6
+== A1 File menu (System Events)
+New, Open…, Open Recent, New Part…, missing value, Load Part…, User Library…, missing value, missing value, Print…, Export, missing value, Save, Duplicate, Rename…, Move To…, Revert To, missing value
+Image…, PDF…, Gerber PCB…, KiCad Project…, EasyEDA Pro Project…
+6502.schematical, nixie.schematical, design.schematical, design.schematical, design.schematical, 6502.schematical, missing value, Clear Menu
+   Save enabled: true
+   Duplicate enabled: true
+   Rename… enabled: true
+   Move To… enabled: true
+   Print… enabled: true
+   Close enabled: 77:84: execution error: System Events got an error: Can’t get menu item "Close" of menu "File" of menu bar 1 of process "SchematicalSpike59". (-1728)
+New [⌘n];Open… [⌘o];New Part… [⇧⌘n];Print… [⌘p];    Image… [⇧⌘e];Save [⌘s];Duplicate [⇧⌘s];
+== A2 Export Image from each document
+clicked File > Export > Image…
+'nixie.schematical' sheet=none
+'6502.schematical' sheet=NSWindow ''
+clicked File > Export > Image…
+'nixie.schematical' sheet=NSWindow ''
+'6502.schematical' sheet=none
+commands evaluated: focused document none
+commands evaluated: focused document A8607BED
+commands evaluated: focused document 858D6B8D
+commands evaluated: focused document A8607BED
+== A7 title bar
+title='nixie.schematical' subtitle='' titleVisibility=hidden toolbarStyle=4 representedURL=nixie.schematical documentIconButton=none isDocumentEdited=false closeButton=present tabs=1 tab.title='Optional("nixie.schematical")'
+== A8 tabs (system setting as is), open twice
+'nixie.schematical' tabGroupWindows=1 tabbingMode=0 userPref=2 id=NSWi
+'6502.schematical' tabGroupWindows=1 tabbingMode=0 userPref=2 id=NSWin
+opened nixie.schematical alreadyOpen=true
+active=true documents=2 models=2
+== A5 child windows
+#495425 NSWindow 'nixie.schematical' visible=true;#495428 NSWindow '6502.schematical' visible=true;#495431 NSWindow '' visible=false;#495433 NSWindow '' visible=false;#495435 NSWindow 'Untitled' visible=true;#495436 NSWindow 'Untitled' visible=true;#495438 NSWindow 'Untitled' visible=true;#495439 NSWindow 'Untitled' visible=true;#495440 NSWindow 'Untitled' visible=true;#495442 NSWindow 'Untitled' visible=true;
+child window resolved document A8607BED -> nixie.schematical parts=35
+child window resolved document 858D6B8D -> 6502.schematical parts=103
+4
+H child windows closed: 3 of document A8607BED
+H document close: simulation stopped, child windows closed
+== A15 other scenes
+'6502.schematical';'Untitled';'Untitled';'Untitled';'User Library';'New Part';'Schematic Help';'Part List';

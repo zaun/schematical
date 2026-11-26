@@ -3,7 +3,7 @@ import SwiftUI
 /// The Schematic page's inspector. It follows the selection: the parts
 /// library with nothing selected, the part's header, reference fields and
 /// details with only a part selected, the text panel with only a text block
-/// selected, the net label panel with only a net label selected, the bus or port panel with a bus or port selected, and a
+/// selected, the Document Info form with only the title block selected, the net label panel with only a net label selected, the bus or port panel with a bus or port selected, and a
 /// read-only `Selection (N)` list for several items or
 /// a lone wire or junction (plan-15). The library stays in the view tree under
 /// the part panel, so its search, filters, open groups and scroll position
@@ -20,6 +20,7 @@ struct SchematicSidebarView: View {
         case library
         case chip(UUID)
         case note(UUID)
+        case titleBlock
         case label(UUID)
         case port(UUID)
         case bus(UUID)
@@ -36,6 +37,7 @@ struct SchematicSidebarView: View {
         if let id = document.selectedNoteID, document.notes.contains(where: { $0.id == id }) {
             return .note(id)
         }
+        if document.selectedTitleBlock, document.documentInfo.titleBlock != nil { return .titleBlock }
         if let id = document.selectedNetLabelID, document.netLabels.contains(where: { $0.id == id }) {
             return .label(id)
         }
@@ -103,6 +105,11 @@ struct SchematicSidebarView: View {
                 .formStyle(.grouped)
                 // Fresh field state for each block.
                 .id(note.id)
+            } else if content == .titleBlock {
+                Form {
+                    DocumentInfoForm(document: document, isLocked: simulation.isRunning)
+                }
+                .formStyle(.grouped)
             } else if let label {
                 Form {
                     NetLabelPanel(document: document, label: label)
@@ -149,6 +156,7 @@ private struct NotePanel: View {
             TextEditor(text: $words)
                 .font(.body.monospaced())
                 .frame(minHeight: 80, maxHeight: 240)
+                .modelRecordsUndo()
                 .focused($isEditing)
                 .accessibilityLabel("Text")
                 .onChange(of: words) { _, value in

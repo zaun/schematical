@@ -1,0 +1,25 @@
+== give the load file an app-scoped bookmark, save, quit
+> bookmark 0
+bookmark=920 bytes
+> save 0
+save: ok -> fx/F6/design.schematical
+> close 0
+closed
+   bookmark in the saved file: 1
+== rom.bin moved to F6/moved/ (the stored path rom.bin no longer resolves); relaunch and open
+> mem 0
+U1 AT28C64B-15JU url=fx/F6/moved/rom.bin bookmark=960 bytes read=256 bytes first=00010203
+== another writer changes the file; the document has no unsaved changes
+[0] SchematicNSDocument name=design.schematical url=fx/F6/design.schematical edited=false unautosaved=false autosaveURL=nil locked=false type=jgz.schematical.schematic undo=can=false 'Undo' redo=false 'Redo'
+    window 'design.schematical' visible=true key=true main=true edited=false represented=design.schematical tabs=1 tabbingMode=0 sheet=none #495405
+> sheet 0
+no sheet
+== edit, another writer changes the file again, then File > Save (saveDocument:)
+> action 0 saveDocument:
+sent saveDocument: to the document: true
+> sheet 0
+sheet _NSAlertPanel texts=["The document “design.schematical” could not be saved. The file has been changed by another application.", "Click Save Anyway to keep your changes and save the changes made by the other application as a version, or click Revert to keep the changes from the other application and save your changes as a version. You can also click Save As to save your changes to a different
+> windows
+#495405 NSWindow 'design.schematical' visible=true key=false main=true edited=false doc=true tabs=1 sheet=_NSAlertPanel '' frame=1100x738
+#495406 TUINSWindow '' visible=false key=false main=false edited=false doc=false tabs=1 sheet=none frame=500x500
+#495409 _NSAlertPanel '' visible=true key=true main=false edited=false doc=false tabs=1 sheet=none frame=260x404

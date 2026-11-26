@@ -187,6 +187,18 @@ int circuit_add_part(Circuit *circuit, const char *part_name, size_t *index) {
                 return fail(circuit, "cannot initialize switch \"%s\"", part->name);
             }
         }
+        /* A slide switch starts with the contacts of its rest position closed
+           (plan-58-B). */
+        if (sw->states > 0) {
+            uint32_t mask = 0;
+            part_switch_state_contacts(part, sw->rest, &mask);
+            for (position = 1; position <= sw->positions; position++) {
+                if ((mask >> (position - 1) & 1u) &&
+                    record_contact(circuit, circuit->part_count, position, 1) != 0) {
+                    return fail(circuit, "cannot initialize switch \"%s\"", part->name);
+                }
+            }
+        }
     }
     if (index != NULL) {
         *index = circuit->part_count;
@@ -351,6 +363,52 @@ int circuit_set_switch(Circuit *circuit, size_t part, unsigned position, int on)
     return 0;
 }
 
+/* Moves a slide switch's knob to `state` (plan-58-B): break before make, each
+   contact through the model hook and record_contact, then one voltage check. */
+int circuit_set_switch_state(Circuit *circuit, size_t part, unsigned state) {
+    const Part *info;
+    SimInstance *instance;
+    const SimComponentType *type;
+    uint32_t mask = 0;
+    unsigned position;
+    int closed = 0;
+    int pass;
+
+    if (check_part(circuit, part) != 0) {
+        return -1;
+    }
+    info = circuit->parts[part];
+    if (info->kind != PART_SWITCH || info->dip_switch->states == 0) {
+        return fail(circuit, "%s is not a slide switch", info->name);
+    }
+    if (!part_switch_state_contacts(info, state, &mask)) {
+        return fail(circuit, "%s has no position %u (1 … %u)", info->name, state,
+                    info->dip_switch->states);
+    }
+    instance = circuit->instances[part];
+    type = sim_instance_type(instance);
+    for (pass = 0; pass < 2; pass++) {   /* pass 0 opens, pass 1 closes */
+        for (position = 1; position <= info->dip_switch->positions; position++) {
+            int on = (int)(mask >> (position - 1) & 1u);
+
+            if (on != pass) {
+                continue;
+            }
+            if (!type->set_switch(circuit->sim, instance, sim_instance_state(instance), position, on)) {
+                return fail(circuit, "%s has no position %u", info->name, position);
+            }
+            if (record_contact(circuit, part, position, on) != 0) {
+                return fail(circuit, "out of memory");
+            }
+            closed |= on;
+        }
+    }
+    if (circuit->started && closed && !circuit->voltage_stopped && voltage_failed(circuit)) {
+        circuit->voltage_stopped = 1;
+    }
+    return 0;
+}
+
 int circuit_set_resistance(Circuit *circuit, size_t part, double ohms) {
     const Part *info;
 
@@ -491,7 +549,8 @@ int circuit_start(Circuit *circuit) {
         SimInstance *instance = circuit->instances[part];
         unsigned position;
         if (info->kind == PART_SWITCH &&
-            (info->dip_switch->normally_closed || info->dip_switch->joined > 0)) {
+            (info->dip_switch->normally_closed || info->dip_switch->joined > 0 ||
+             info->dip_switch->states > 0)) {
             /* set_switch also closes the joined pairs. */
             for (position = 1; position <= info->dip_switch->positions; position++) {
                 if (!sim_instance_type(instance)->set_switch(circuit->sim, instance,

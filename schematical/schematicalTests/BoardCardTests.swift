@@ -27,7 +27,7 @@ final class BoardCardTests: XCTestCase {
         XCTAssertEqual(doc.board.width, 174.63)
         XCTAssertEqual(doc.board.height, 106.68)
         XCTAssertEqual(doc.board.layers, 2, "fingers are on both sides")
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Board Type")
+        XCTAssertEqual(doc.undoName, "Change Board Type")
         XCTAssertEqual(doc.canSetLayerCount(1), "A card has fingers on both sides.")
 
         // Length is editable within the standard; height is not.
@@ -50,8 +50,8 @@ final class BoardCardTests: XCTestCase {
         XCTAssertEqual(doc.board.height, 40)
         XCTAssertNil(doc.canSetLayerCount(1))
 
-        XCTAssertTrue(doc.undo(on: .pcb))
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.board.type, .isa16)
     }
 
@@ -200,7 +200,7 @@ final class BoardCardTests: XCTestCase {
         card.indent = 12
         card.margin = 3
         doc.setCustomCard(card)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Card Edge")
+        XCTAssertEqual(doc.undoName, "Change Card Edge")
         // Choosing the type grew it to the default 20-finger tab; a smaller
         // tab doesn't shrink it.
         XCTAssertEqual(doc.board.width, 10 + 2 * 2.54 + 19 * 2.54, accuracy: 1e-9)
@@ -421,7 +421,7 @@ final class BoardCardTests: XCTestCase {
             XCTAssertNotNil(doc.board.fingers.first { $0.name == "B\(pins)" })
             XCTAssertNil(doc.board.fingers.first { $0.name == "B\(pins + 1)" })
         }
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Card")
+        XCTAssertEqual(doc.undoName, "Change Card")
         let b1 = try finger(doc.board, "B1", .top), b11 = try finger(doc.board, "B11", .top)
         let b12 = try finger(doc.board, "B12", .top)
         XCTAssertEqual(b1.rect.midX, 45.65, accuracy: 1e-9)

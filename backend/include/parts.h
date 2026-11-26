@@ -55,6 +55,19 @@ typedef struct {
 
 /* Exactly one of these is set on a Part, matching its kind. */
 typedef struct { const char *family; unsigned units; } PartLogic;         /* gate, dff, jkff */
+
+/* A unit: a piece of a part the Schematic can draw as its own symbol
+   (plan-67): one gate of a gate part. Pins are engine pin indexes. Two gates
+   on the same inputs (CD4068B: NAND and AND) are one unit with two outputs. */
+typedef enum { UNIT_AND, UNIT_OR, UNIT_XOR, UNIT_BUFFER } PartUnitShape;
+typedef struct { uint16_t pin; uint8_t inverted; } PartUnitOutput;
+typedef struct {
+    PartUnitShape shape;
+    const uint16_t *inputs; size_t input_count;      /* in the gate's "inputs" order */
+    PartUnitOutput outputs[2]; size_t output_count;  /* 1 or 2; the true output first */
+    unsigned schmitt;                                /* inputs are Schmitt triggers */
+    unsigned open_drain;                             /* outputs are open drain */
+} PartUnit;
 typedef struct { uint32_t words; unsigned bits; uint64_t access_ps; const char *grade; } PartSram;
 /* rated_mv: the contacts' switching voltage rating. momentary: the button
    springs back (data for the app). normally_closed: positions start closed.
@@ -66,6 +79,11 @@ typedef struct {
     unsigned positions; const char *actuator; uint32_t rated_mv;
     unsigned momentary; unsigned normally_closed; unsigned joined;
     uint32_t body_um[2];
+    /* Slide switches (plan-58-B): "states" and "rest". states = the knob
+       positions (2 or 3), 0 for a switch without "states"; rest = the position
+       a new circuit starts in (1-based, 0 when states == 0); state_mask[n-1] =
+       the contacts closed in position n, bit c-1 for contact c. */
+    unsigned states; unsigned rest; uint8_t state_mask[3];
 } PartSwitch;
 /* colors: the LED's colors, in file order; colors[0] is the default. */
 typedef struct { const char *const *colors; size_t color_count; } PartLed;
@@ -326,7 +344,12 @@ typedef struct { const char *type; size_t amplifier_count; uint8_t rail_in, rail
    "cortex-m0plus", "xtensa-lx6", "xtensa-lx7" or "riscv". max_hz: the
    highest clock. Sizes in bytes; 0 = none (eeprom, psram) or external
    (RP2040 flash). A part may override clock, flash and psram. */
-typedef struct { const char *core; uint64_t max_hz; uint32_t flash, ram, eeprom, psram; } PartMcu;
+typedef struct {
+    const char *core; uint64_t max_hz; uint32_t flash, ram, eeprom, psram;
+    /* The simulation model's name ("atmega328", "atmega168pb", "atmega328pb";
+       plan-62-E), or NULL for a part with facts only (Part.simulated is 0). */
+    const char *model;
+} PartMcu;
 
 /* A programmable logic device (pld kind): facts only, no simulation model
    yet (its device says "simulated": false). macrocells: the device's output
@@ -540,5 +563,15 @@ const Part *part_library_at(const PartLibrary *library, size_t index);
 const Part *part_library_find(const PartLibrary *library, const char *name);
 /* The part load_part_file loaded with this "uuid"; NULL if none. */
 const Part *part_library_find_uuid(const PartLibrary *library, const char *uuid);
+
+/* The part's units (plan-67): its gates, for a gate part; 0 for every part
+   that has none. part_unit_at is NULL past the end. */
+size_t part_unit_count(const Part *part);
+const PartUnit *part_unit_at(const Part *part, size_t index);
+
+/* The contacts a slide switch (plan-58-B) has closed in knob position `state`
+   (1 … PartSwitch.states): returns 1 and sets bit c-1 of *mask for contact c;
+   0 for any other part, a switch without "states" or a state out of range. */
+int part_switch_state_contacts(const Part *part, unsigned state, uint32_t *mask);
 
 #endif

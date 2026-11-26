@@ -39,7 +39,7 @@ final class NetRulesTests: XCTestCase {
         doc.assignNet(member, to: power)
         let classRule = LayerRule(mode: .only, layers: [.bottom])
         doc.setNetClassLayerRule(power, classRule)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Layer Rule")
+        XCTAssertEqual(doc.undoName, "Change Layer Rule")
         (n, copper) = try net(doc, member)
         XCTAssertEqual(doc.layerRule(ofNet: n, in: copper), classRule)
         XCTAssertEqual(doc.effectiveLayers(ofNet: n, in: copper).allowed, [.bottom])
@@ -48,16 +48,16 @@ final class NetRulesTests: XCTestCase {
         doc.setNetLayerRule(member, own)
         XCTAssertEqual(doc.layerRule(ofNet: n, in: copper), own)
         XCTAssertEqual(doc.effectiveLayers(ofNet: n, in: copper).allowed, [.top])
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Layer Rule")
+        XCTAssertEqual(doc.undoName, "Change Layer Rule")
 
         doc.setNetLayerRule(member, nil)
         XCTAssertTrue(doc.board.netOverrides.isEmpty)
         XCTAssertEqual(doc.layerRule(ofNet: n, in: copper), classRule)
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.layerRule(ofNet: n, in: copper), own)
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.layerRule(ofNet: n, in: copper), classRule)
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertNil(doc.layerRule(ofNet: n, in: copper))
     }
 
@@ -89,7 +89,7 @@ final class NetRulesTests: XCTestCase {
         let doc = TestSupport.newDocument()
         let nets = (0..<3).map { _ in PlaneNet.pin(chip: UUID(), designator: "1") }
         let pair = doc.addNetGroup(named: "USB", mode: .diffPair)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Add Net Group")
+        XCTAssertEqual(doc.undoName, "Add Net Group")
         XCTAssertTrue(doc.assignNet(nets[0], toGroup: pair))
         XCTAssertTrue(doc.assignNet(nets[1], toGroup: pair))
         XCTAssertFalse(doc.assignNet(nets[2], toGroup: pair))
@@ -106,7 +106,7 @@ final class NetRulesTests: XCTestCase {
         doc.unassignNet(nets[2])
         XCTAssertTrue(doc.setNetGroupMode(bus, .diffPair))
         XCTAssertEqual(try group(doc, bus).mode, .diffPair)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Change Net Group")
+        XCTAssertEqual(doc.undoName, "Change Net Group")
     }
 
     func testAssigningToASecondGroupRemovesItFromTheFirst() throws {
@@ -120,7 +120,7 @@ final class NetRulesTests: XCTestCase {
         XCTAssertTrue(try group(doc, one).members.isEmpty)
         XCTAssertEqual(try group(doc, two).members, [member])
         XCTAssertEqual(doc.group(ofNet: n, in: copper)?.id, two)
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(try group(doc, one).members, [member])
         XCTAssertTrue(try group(doc, two).members.isEmpty)
     }
@@ -145,15 +145,15 @@ final class NetRulesTests: XCTestCase {
             let before = try group(doc, id)
             edit()
             XCTAssertTrue(holds(try group(doc, id)), name)
-            XCTAssertEqual(doc.undoName(on: .pcb), name)
-            XCTAssertTrue(doc.undo(on: .pcb))
+            XCTAssertEqual(doc.undoName, name)
+            XCTAssertTrue(doc.undo())
             XCTAssertEqual(try group(doc, id), before, name)
-            XCTAssertTrue(doc.redo(on: .pcb))
+            XCTAssertTrue(doc.redo())
         }
         doc.removeNetGroup(id)
         XCTAssertTrue(doc.board.netGroups.isEmpty)
-        XCTAssertEqual(doc.undoName(on: .pcb), "Delete Net Group")
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.undoName, "Delete Net Group")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(doc.board.netGroups.map(\.id), [id])
     }
 
@@ -231,7 +231,7 @@ final class NetRulesTests: XCTestCase {
             rails.append(n == 0 ? .ground : .rail(mv: 5000))
         }
         let id = doc.addPowerClass()
-        XCTAssertEqual(doc.undoName(on: .pcb), "Add Power Class")
+        XCTAssertEqual(doc.undoName, "Add Power Class")
         XCTAssertEqual(doc.board.netClasses.count, 1)
         let power = try XCTUnwrap(doc.board.netClasses.first)
         XCTAssertEqual(power.id, id)
@@ -246,7 +246,7 @@ final class NetRulesTests: XCTestCase {
         XCTAssertEqual(doc.addPowerClass(), id)
         XCTAssertEqual(doc.board, before, "a second press changes nothing")
 
-        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.undo())
         XCTAssertTrue(doc.board.netClasses.isEmpty, "one undo step")
     }
 

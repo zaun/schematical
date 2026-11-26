@@ -48,14 +48,18 @@ nonisolated enum KeyboardHelp {
 
     /// Shared by both pages.
     static let window = HelpSection(title: "Window", entries: [
-        entry("⌘N", "New Project"),
+        entry("⌘N", "New schematic"),
         entry("⌘O", "Open a schematic"),
-        entry("⌘S / ⇧⌘S", "Save / Save As"),
+        entry("⌘S", "Save (a schematic with a file also saves itself as you work)"),
+        entry("⇧⌘S / ⌥⇧⌘S", "Duplicate / Save As"),
+        entry("⌘W / ⌥⌘W", "Close / Close All"),
         entry("⌘P", "Print: the schematic and each PCB layer at 1:1 (File › Export › PDF… saves the same pages)"),
-        entry("⌘Z / ⇧⌘Z", "Undo / Redo on the page shown"),
+        entry("⌘Z / ⇧⌘Z", "Undo / Redo the schematic's last change, on either page"),
         entry("⌘= / ⌘-", "Zoom in / out"),
         entry("⌘0", "Actual size (100 %)"),
         entry("⇧⌘B", "Bill of Materials"),
+        entry("⌥⌘E", "Electrical Rules Check (the Schematic page)"),
+        entry("⌘I", "Document Info: title, author, revision, dates and description"),
         entry("⌘?", "This help, for the page shown"),
     ])
 
@@ -152,7 +156,8 @@ nonisolated enum KeyboardHelp {
             entry("Hole", "Click to place a drilled or mounting hole, drag to move it"),
             entry("Pour", "Drag a rectangle to flood it with copper on the layer the menu picks; it keeps clear of other nets"),
             entry("Keep-out", "Drag a rectangle the pours stay out of"),
-            entry("Delete", "Click a trace, via, hole, text, pour or keep-out edge to delete it"),
+            entry("Cutout", "Drag a rectangle, circle or slot (the menu beside the Trace layer) to cut it out of the board"),
+            entry("Delete", "Click a trace, via, hole, text, pour, keep-out or cutout edge to delete it"),
             entry("Route", "Click a pad to route its net, an unrouted line to route that connection"),
         ]),
         HelpSection(title: "Route", entries: [
@@ -174,19 +179,16 @@ nonisolated enum KeyboardHelp {
 
 // MARK: - Menu commands
 
-extension FocusedValues {
-    /// The page the front schematic window shows, for ⌘?.
-    @Entry var editorPage: EditorPage?
-}
-
 /// Help › Schematic Help, PCB Help, and ⌘? for the page shown.
 struct KeyboardHelpCommands: Commands {
-    @FocusedValue(\.editorPage) private var page
+    @FocusedValue(\.schematicEditor) private var editor
     @Environment(\.openWindow) private var openWindow
 
     var body: some Commands {
         CommandGroup(replacing: .help) {
-            Button("Help for This Page") { openWindow(id: "help", value: page ?? .schematic) }
+            // The page the front schematic window shows, when the item is
+            // chosen (the model's page is current; a published copy was not).
+            Button("Help for This Page") { openWindow(id: "help", value: editor?.page ?? .schematic) }
                 .keyboardShortcut("?", modifiers: .command)
             Divider()
             ForEach(EditorPage.allCases) { page in

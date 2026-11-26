@@ -106,9 +106,23 @@ nonisolated final class EasyEDAProSchematicWriter {
         return (designator, CGPoint(x: chip.origin.x + slot.centerX, y: chip.origin.y + size.height + stub), .bottom)
     }
 
+    /// Each unit of a part drawn as its units (plan-67), with its body rectangle
+    /// relative to the part's origin (the corner of the box around them all).
+    @MainActor private static func unitBoxes(of chip: PlacedChip) -> [(piece: PlacedChip, box: CGRect)] {
+        let origin = chip.origin
+        return chip.pieces.map { piece in
+            (piece, bodyBox(of: piece).offsetBy(dx: piece.origin.x - origin.x, dy: piece.origin.y - origin.y))
+        }
+    }
+
     /// A part's body rectangle relative to its origin: a two-terminal part is just its
     /// pins' span (the app draws it smaller than its box).
     @MainActor private static func bodyBox(of chip: PlacedChip) -> CGRect {
+        if chip.isSplit {
+            // Drawn as its units (plan-67): the box around every unit's body.
+            let boxes = unitBoxes(of: chip).map(\.box)
+            return boxes.dropFirst().reduce(boxes.first ?? .zero) { $0.union($1) }
+        }
         let size = chip.layout.size
         switch chip.symbol {
         case .diode, .plainDiode, .capacitor, .resistor, .inductor, .fuse, .buzzer:
@@ -132,8 +146,16 @@ nonisolated final class EasyEDAProSchematicWriter {
             return netFlagSymbol(rail: rail, build: build)
         }
         var key = chip.partNumber + (chip.part.uuid.map { "|" + $0 } ?? "")
-        if chip.isFlipped { key += "|flipped" }
-        if chip.rotation != 0 { key += "|r\(chip.rotation)" }
+        if chip.isSplit {
+            // One symbol holding every unit where it is (plan-67): the arrangement is part of the key.
+            key += "|units" + chip.unitPlacements.map {
+                let dx = Int($0.origin.x - chip.origin.x), dy = Int($0.origin.y - chip.origin.y)
+                return "|\($0.key)\($0.isFlipped ? "f" : "n")\($0.rotation)@\(dx),\(dy)"
+            }.joined()
+        } else {
+            if chip.isFlipped { key += "|flipped" }
+            if chip.rotation != 0 { key += "|r\(chip.rotation)" }
+        }
         return build.symbol(key, title: chip.partNumber, type: 2) {
             EasyEDAProSchematicWriter(build).partSymbolFile(chip)
         }
@@ -211,6 +233,20 @@ nonisolated final class EasyEDAProSchematicWriter {
         out += attribute("Designator", (prefix.isEmpty ? "U" : prefix) + "?", visible: true,
                          at: CGPoint(x: box.minX, y: box.minY - 8))
         out += attribute("Name", chip.partNumber)
+        if chip.isSplit {
+            // Drawn as its units (plan-67): a rectangle per unit, each unit's pins on its own rectangle.
+            for (piece, unitBox) in Self.unitBoxes(of: chip) {
+                out += EProJSON.line("RECT", .string(ids.id()), .num(unitBox.minX), .num(unitBox.minY), .num(unitBox.maxX),
+                                     .num(unitBox.maxY), 0, 0, 0, .string(Self.bodyStyle), 0)
+                for slot in piece.layout.slots {
+                    let tip = piece.tip(of: slot)
+                    out += pinLines(designator: slot.pin.designator, name: Self.pinName(slot.pin), role: slot.pin.role,
+                                    at: CGPoint(x: tip.x - chip.origin.x, y: tip.y - chip.origin.y), side: slot.side,
+                                    box: unitBox)
+                }
+            }
+            return out
+        }
         out += EProJSON.line("RECT", .string(ids.id()), .num(box.minX), .num(box.minY), .num(box.maxX), .num(box.maxY),
                              0, 0, 0, .string(Self.bodyStyle), 0)
         for slot in chip.layout.slots {
@@ -358,6 +394,24 @@ nonisolated final class EasyEDAProSchematicWriter {
             }
             out += EProJSON.line("TEXT", .string(ids.id()), .num(rect.minX + SchematicNote.padding),
                                  .num(-(rect.minY + SchematicNote.padding)), 0, .string(note.text), .string(Self.noteStyle), 0)
+        }
+        // The title block (plan-64-D): the frame, the lines inside it, and each cell's label and value.
+        if let layout = document.titleBlockLayout {
+            let rect = layout.rect
+            out += poly([CGPoint(x: rect.minX, y: rect.minY), CGPoint(x: rect.maxX, y: rect.minY),
+                         CGPoint(x: rect.maxX, y: rect.maxY), CGPoint(x: rect.minX, y: rect.maxY)],
+                        closed: true, style: Self.wireStyle)
+            for line in layout.separators { out += poly([line.0, line.1], closed: false, style: Self.wireStyle) }
+            func text(_ string: String, at point: CGPoint) -> String {
+                EProJSON.line("TEXT", .string(ids.id()), .num(point.x), .num(-point.y), 0, .string(string),
+                              .string(Self.noteStyle), 0)
+            }
+            for cell in layout.cells {
+                out += text(cell.label, at: cell.labelOrigin)
+                for (index, line) in cell.lines.enumerated() where !line.isEmpty {
+                    out += text(line, at: CGPoint(x: cell.textOrigin.x, y: cell.textOrigin.y + CGFloat(index) * cell.lineHeight))
+                }
+            }
         }
         return out
     }

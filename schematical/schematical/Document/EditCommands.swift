@@ -19,7 +19,7 @@ struct EditActions {
     var canFlip: Bool
     /// Rotate, counterclockwise when passed true; `canRotate` with a
     /// rotatable selection (on the PCB a footprint or text; on the Schematic
-    /// an LED, diode, resistor or capacitor).
+    /// a part drawn as its own symbol, `PartSymbol.canRotate`).
     var rotate: (_ counterclockwise: Bool) -> Bool
     var canRotate: Bool
     /// Asks first; see `SchematicDocument.resetReferences`.
@@ -29,10 +29,6 @@ struct EditActions {
     var canResetReferences: Bool
 }
 
-extension FocusedValues {
-    /// Set by each schematic window while it is key.
-    @Entry var schematicEdit: EditActions?
-}
 
 /// One of the text-editing Edit menu items.
 enum EditMenuItem: CaseIterable {
@@ -49,6 +45,17 @@ enum EditMenuItem: CaseIterable {
         case .selectAll: #selector(NSText.selectAll(_:))
         }
     }
+
+    /// Whether the focused text gets this item instead of the schematic: a
+    /// field being edited gets them all; text that can only be selected (a
+    /// name in the sidebar, which SwiftUI shows in a text view that isn't
+    /// editable) gets Copy while some of it is selected.
+    @MainActor
+    func goesToText(_ firstResponder: NSResponder?) -> Bool {
+        guard let text = firstResponder as? NSText else { return false }
+        if text.isEditable { return true }
+        return self == .copy && text.isSelectable && text.selectedRange.length > 0
+    }
 }
 
 /// Replaces the Edit menu's pasteboard items. As with Undo, they are never
@@ -58,23 +65,38 @@ enum EditMenuItem: CaseIterable {
 /// takes these keys first while no text field is being edited, so the
 /// items here run from a menu click, or for a text field.
 struct EditCommands: Commands {
-    @FocusedValue(\.schematicEdit) private var target
+    @FocusedValue(\.schematicEditor) private var editor
 
     var body: some Commands {
         CommandGroup(replacing: .pasteboard) {
-            Button("Cut") { perform(.cut) }
+            EditMenuItems(editor: editor)
+        }
+        // No Find, Spelling, Substitutions, Transformations or Speech.
+        CommandGroup(replacing: .textEditing) {}
+    }
+}
+
+/// A view, so Flip, Rotate and Reset References are rendered again when the
+/// selection, the page or the simulation they read changes (`EditorMenus`).
+private struct EditMenuItems: View {
+    let editor: SchematicEditorModel?
+
+    var body: some View {
+        let target = editor?.menus.edit?()
+        Group {
+            Button("Cut") { perform(.cut, target) }
                 .keyboardShortcut("x", modifiers: .command)
-            Button("Copy") { perform(.copy) }
+            Button("Copy") { perform(.copy, target) }
                 .keyboardShortcut("c", modifiers: .command)
-            Button("Paste") { perform(.paste) }
+            Button("Paste") { perform(.paste, target) }
                 .keyboardShortcut("v", modifiers: .command)
-            Button("Delete") { perform(.delete) }
+            Button("Delete") { perform(.delete, target) }
                 .keyboardShortcut(.delete, modifiers: .command)
-            Button("Select All") { perform(.selectAll) }
+            Button("Select All") { perform(.selectAll, target) }
                 .keyboardShortcut("a", modifiers: .command)
             Divider()
             // Flip is the Schematic's; Rotate is the PCB's, and the Schematic's
-            // for LEDs, diodes, resistors and capacitors.
+            // for the parts drawn as their own symbol.
             Button("Flip") { _ = target?.flip() }
                 .keyboardShortcut("f", modifiers: .command)
                 .disabled(target?.canFlip != true)
@@ -88,13 +110,10 @@ struct EditCommands: Commands {
             Button("Reset References…") { target?.resetReferences() }
                 .disabled(target?.canResetReferences != true)
         }
-        // No Find, Spelling, Substitutions, Transformations or Speech.
-        CommandGroup(replacing: .textEditing) {}
     }
 
-    private func perform(_ item: EditMenuItem) {
-        let textIsEditing = (NSApp.keyWindow?.firstResponder as? NSTextView)?.isEditable == true
-        guard !textIsEditing, let target else {
+    private func perform(_ item: EditMenuItem, _ target: EditActions?) {
+        guard !item.goesToText(NSApp.keyWindow?.firstResponder), let target else {
             NSApp.sendAction(item.selector, to: nil, from: nil)
             return
         }

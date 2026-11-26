@@ -1,0 +1,60 @@
+== autosave in place (A/design.schematical), after one edit
+> autosave 0
+autosave: ok
+   stored in A/design.schematical: "path":"rom.bin"
+== Save As into B (B2 value: ../A/rom.bin)
+> saveas 0 fx/B/design.schematical
+saveas: ok -> fx/B/design.schematical
+> mem 0
+U1 AT28C64B-15JU url=fx/A/rom.bin bookmark=none read=256 bytes first=00010203
+   stored in B/design.schematical: "path":"rom.bin"
+== the next autosave after Save As (one more edit)
+> autosave 0
+autosave: ok
+   stored in B/design.schematical: "path":"../A/rom.bin"
+== Save To into B3 (a copy; the document stays at B)
+> saveto 0 fx/B3/design.schematical
+saveto: ok -> fx/B3/design.schematical
+   stored in B3/design.schematical: "path":"../A/rom.bin"
+== with the re-save workaround on: Save As into B2, then the autosave it causes
+> resave on
+resavesAfterMove=true
+> saveas 0 fx/B2/design.schematical
+saveas: ok -> fx/B2/design.schematical
+   stored in B2/design.schematical: "path":"../A/rom.bin"
+   document edited=true unautosaved=true
+> autosave 0
+autosave: ok
+   stored in B2/design.schematical: "path":"../A/rom.bin"
+== Duplicate (load file without a bookmark)
+> duplicate 0
+duplicate: design copy url=nil autosave=Library/Autosave Information/Unsaved SchematicalSpike59 Document.schematical
+> mem 1
+U1 AT28C64B-15JU url=/Users/justinzaun/Library/Containers/jgz.schematical.spike59/A/rom.bin bookmark=none read FAILED: can't read rom.bin: The file “rom.bin” couldn’t be opened because there is no such file.
+== Duplicate (load file with an app-scoped bookmark, as the open panel gives)
+> close 1
+closed
+> bookmark 0
+bookmark=920 bytes
+> duplicate 0
+duplicate: design copy url=nil autosave=Library/Autosave Information/Unsaved SchematicalSpike59 Document.schematical
+> mem 1
+U1 AT28C64B-15JU url=fx/A/rom.bin bookmark=920 bytes read=256 bytes first=00010203
+> close 1
+closed
+f2.sh:31: no matches found: Library/Autosave Information/*.schematical
+== log
+model.attach applied file url=fx/A/design.schematical parts=1 catalog=loaded
+model.snapshot ms=0.121 url=fx/A/design.schematical memoryPaths=["rom.bin"]
+model.snapshot ms=0.364 url=fx/A/design.schematical memoryPaths=["rom.bin"]
+model.attach url changed to fx/B/design.schematical
+model.snapshot ms=0.109 url=fx/B/design.schematical memoryPaths=["../A/rom.bin"]
+model.snapshot ms=0.344 url=fx/B/design.schematical memoryPaths=["../A/rom.bin"]
+model.snapshot ms=0.281 url=fx/B/design.schematical memoryPaths=["../A/rom.bin"]
+model.attach url changed to fx/B2/design.schematical
+model.attach marked edited so load-file paths are rewritten
+model.snapshot ms=0.439 url=fx/B2/design.schematical memoryPaths=["../A/rom.bin"]
+model.snapshot ms=0.339 url=fx/B2/design.schematical memoryPaths=["../A/rom.bin"]
+model.attach applied file url=nil parts=1 catalog=loaded
+model.snapshot ms=0.128 url=fx/B2/design.schematical memoryPaths=["../A/rom.bin"]
+model.attach applied file url=nil parts=1 catalog=loaded

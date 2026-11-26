@@ -51,22 +51,10 @@ final class RoutingPolishTests: XCTestCase {
         XCTAssertTrue(polished.traces.allSatisfy { $0.layer == .top })
     }
 
-    /// Eight nets from a left column to a right column in the opposite
-    /// order: every pair crosses.
-    private func crossing() -> RoutingTestBoard {
-        var board = RoutingTestBoard(width: 30, height: 24)
-        board.options.grid = 0.127
-        for i in 0..<8 {
-            board.pad(4, 5 + 2 * Double(i), 1.2, 0.8, net: i + 1)
-            board.pad(26, 19 - 2 * Double(i), 1.2, 0.8, net: i + 1)
-        }
-        return board
-    }
-
     func testPolishNeverRoutesLessNorScoresWorseAndStaysLegal() {
         let plain = strategy(polish: 0), better = strategy(polish: 10)
-        let (first, problem) = routed(crossing(), plain)
-        let (polished, _) = routed(crossing(), better)
+        let (first, problem) = routed(RoutingTestBoard.crossing(), plain)
+        let (polished, _) = routed(RoutingTestBoard.crossing(), better)
         XCTAssertEqual(RoutingCheck.violations(polished, problem).count, 0)
         XCTAssertGreaterThanOrEqual(polished.stats.routed, first.stats.routed)
         XCTAssertEqual(polished.stats.routed, 8)
@@ -78,7 +66,7 @@ final class RoutingPolishTests: XCTestCase {
     }
 
     func testAStoppedPolishLeavesALegalResult() {
-        let problem = crossing().problem()
+        let problem = RoutingTestBoard.crossing().problem()
         // How often a whole run asks, and how often before the improvement starts.
         var whole = 0, first = 0
         var full = Router.Run(problem: problem, strategy: strategy(polish: 10), seed: 1)
@@ -179,7 +167,7 @@ final class RoutingPolishTests: XCTestCase {
     }
 
     func testTheSameBoardGivesTheSameCopperEveryTime() {
-        let problem = crossing().problem()
+        let problem = RoutingTestBoard.crossing().problem()
         let a = Router.route(problem), b = Router.route(problem)
         XCTAssertEqual(a.traces, b.traces)
         XCTAssertEqual(a.vias, b.vias)
@@ -189,7 +177,7 @@ final class RoutingPolishTests: XCTestCase {
     }
 
     func testTheRouteKeepsTheBestOfItsRuns() {
-        let problem = crossing().problem()
+        let problem = RoutingTestBoard.crossing().problem()
         let chosen = Router.route(problem)
         let balanced = Router.Strategy.of(.balanced)
         for cost in balanced.viaCosts {
@@ -222,7 +210,7 @@ final class RoutingPolishTests: XCTestCase {
     }
 
     func testProgressComesFromOneRunAtATimeAndInOrder() {
-        let problem = crossing().problem()
+        let problem = RoutingTestBoard.crossing().problem()
         var totals: [Int] = []
         _ = Router.route(problem, progress: { totals.append($0.routed) })
         XCTAssertFalse(totals.isEmpty)

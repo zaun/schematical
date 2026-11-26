@@ -16,6 +16,9 @@ struct ChipBlockView: View {
     /// Why a running timer is not timing (plan-48-H): a warning mark at the block's top right
     /// corner, with the reason as its tooltip. Nil draws no mark.
     var timerWarning: String?
+    /// The chip is a piece (plan-67) and another unit of its selected part is
+    /// picked: drawn faintly marked.
+    var isSibling = false
 
     var body: some View {
         let layout = chip.layout
@@ -24,7 +27,7 @@ struct ChipBlockView: View {
         Canvas { context, _ in
             var painter = ScreenPainter(context)
             Self.paint(&painter, chip: chip, isSelected: isSelected, isHovered: isHovered,
-                       connectedPins: connectedPins)
+                       connectedPins: connectedPins, isSibling: isSibling)
         }
         .frame(width: layout.size.width + 2 * margin, height: layout.size.height)
         .overlay(alignment: .topTrailing) {
@@ -42,12 +45,12 @@ struct ChipBlockView: View {
 
     /// Draws the chip, its top-left corner at the view's (0, 0).
     static func paint<P: SchematicPainter>(_ painter: inout P, chip: PlacedChip, isSelected: Bool, isHovered: Bool,
-                                           connectedPins: Set<Int> = []) {
+                                           connectedPins: Set<Int> = [], isSibling: Bool = false) {
         let layout = chip.layout
         let margin = ChipLayout.labelMargin
         let stub = ChipLayout.stubLength
         let highlighted = isSelected || isHovered
-        let outline: Ink = highlighted ? .accent : .primary
+        let outline: Ink = highlighted ? .accent : isSibling ? Ink.accent.opacity(0.5) : .primary
         let box = CGRect(x: margin, y: 0, width: layout.size.width, height: layout.size.height)
 
         painter.fill(Path(box), with: .paper)
@@ -85,9 +88,11 @@ struct ChipBlockView: View {
         } else if chip.symbol == .barrelJack {
             let radius = min(14, (box.maxY - ChipLayout.headerHeight) / 2 - 4)
             drawBarrelGlyph(&painter, centre: bodyCentre, radius: radius, ink: outline)
-        } else {
+        } else if chip.unitKey == nil {
             // One line per word ("Bridge UART" is "Bridge" over "UART"),
-            // the lines centred on the body.
+            // the lines centred on the body. Not on a piece (plan-67): the
+            // block of a part's leftover pins is too short, and the function
+            // is its gates'.
             let words = chip.part.function.split(separator: " ")
             let lineHeight: CGFloat = 15
             let top = bodyCentre.y - lineHeight * CGFloat(words.count - 1) / 2

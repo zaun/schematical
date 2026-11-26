@@ -213,7 +213,7 @@ final class NetLabelTests: XCTestCase {
         XCTAssertTrue(doc.hasLooseEnd(kept))
         XCTAssertTrue([kept.start, kept.end].contains(.pin(k)))
 
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo())
         XCTAssertTrue(doc.netLabels.contains { $0.id == left })
         XCTAssertEqual(doc.wires.first { $0.id == wire.id }, wire)
 
@@ -239,14 +239,14 @@ final class NetLabelTests: XCTestCase {
         let id = doc.addNetLabel(at: .zero)
         doc.endCoalescing()
         doc.setNetLabelStyle(id, .inout)
-        XCTAssertEqual(doc.undoName(on: .schematic), "Change Net Label Type")
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.undoName, "Change Net Label Type")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(try label(doc, id).style, .input)
         XCTAssertTrue(doc.setNetLabelName(id, "A"))
         XCTAssertTrue(doc.setNetLabelName(id, "AB"))
         doc.endCoalescing()
-        XCTAssertEqual(doc.undoName(on: .schematic), "Rename Net Label")
-        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.undoName, "Rename Net Label")
+        XCTAssertTrue(doc.undo())
         XCTAssertEqual(try label(doc, id).name, "N1")
     }
 

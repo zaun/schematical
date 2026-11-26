@@ -74,6 +74,8 @@ nonisolated struct RoutingCleanup {
     private let clearanceOf: [Int: Double]
     private let maxClearance: Double
     private let edges: [CopperShape]
+    private let boardEdge: BoardEdge
+    private let cutoutLoops: [[(CGPoint, CGPoint)]]
 
     init(problem: RoutingProblem, traces: [RoutedTrace], vias: [RoutedVia], traceEntry: [Int], viaEntry: [Int]) {
         self.problem = problem
@@ -82,13 +84,14 @@ nonisolated struct RoutingCleanup {
         self.traceEntry = traceEntry
         self.viaEntry = viaEntry
         var clearance: [Int: Double] = [:]
-        for net in problem.nets { clearance[net.id] = max(net.clearance, problem.rules.minClearance) }
+        for net in problem.nets + problem.bystanders { clearance[net.id] = max(net.clearance, problem.rules.minClearance) }
         clearanceOf = clearance
         maxClearance = max(clearance.values.max() ?? 0, problem.rules.minClearance)
-        let outline = problem.outline
-        edges = zip(outline, outline.dropFirst() + outline.prefix(1)).map {
+        boardEdge = problem.edge
+        edges = boardEdge.segments.map {
             CopperShape(core: .segment($0, $1), radius: 0, layers: nil, node: -1)
         }
+        cutoutLoops = boardEdge.cutouts.map { loop in Array(zip(loop, loop.dropFirst() + loop.prefix(1))) }
         for obstacle in problem.obstacles where [.pad, .trace, .via].contains(obstacle.kind) {
             index.insert(obstacle.shape, net: obstacle.net, owner: -1)
         }
@@ -145,7 +148,9 @@ nonisolated struct RoutingCleanup {
             }
             for edge in edges where shape.gap(to: edge) < problem.rules.minCopperToEdge { return false }
             let mid = CGPoint(x: (a.x + b.x) / 2, y: (a.y + b.y) / 2)
-            if !RoutingVerifier.inside(mid, problem.outline) { return false }
+            if !boardEdge.contains(mid) { return false }
+            // A shortcut can jump a thin cutout whose body its midpoint misses.
+            for loop in cutoutLoops where loop.contains(where: { CopperGeometry.segmentsCross(a, b, $0.0, $0.1) }) { return false }
         }
         return true
     }

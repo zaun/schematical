@@ -186,6 +186,20 @@ final class AutorouteModel {
         }.sorted { $0.name.compare($1.name, options: .numeric) == .orderedAscending }
     }
 
+    /// What the last run moved of the board's existing copper ("Moved 3 traces and 1 via aside"), or
+    /// nil when it moved none (push and shove, plan-66).
+    var movedLine: String? {
+        guard let stats = session.result?.stats else { return nil }
+        return Self.movedLine(traces: stats.movedTraces, vias: stats.movedVias)
+    }
+
+    static func movedLine(traces: Int, vias: Int) -> String? {
+        var parts: [String] = []
+        if traces > 0 { parts.append("\(traces) \(traces == 1 ? "trace" : "traces")") }
+        if vias > 0 { parts.append("\(vias) \(vias == 1 ? "via" : "vias")") }
+        return parts.isEmpty ? nil : "Moved \(parts.joined(separator: " and ")) aside"
+    }
+
     /// Each group's outcome, as a line of text.
     var groupLines: [String] {
         (session.result?.groups ?? []).map { group in

@@ -35,11 +35,24 @@ final class RouterFixtureTests: XCTestCase {
     /// caused; unrouted lines equal the connections not routed; cleaning
     /// made no net longer and added no via.
     func testNegotiationOnTheFixtures() throws {
+        try negotiate(Fixture.names, push: false)
+    }
+
+    /// plan-66-E: the same with push and shove on (AFU and RegFile; LFU is the Release test's): the same
+    /// floors, and nothing the router caused in the DRC. The fixtures hold no copper, so what is pushed
+    /// is what the run itself has laid.
+    func testPushOnTheFixtures() throws {
+        try negotiate(["AFU", "RegFile"], push: true)
+    }
+
+    private func negotiate(_ names: [String], push: Bool) throws {
         let floors = ["AFU": 115, "LFU": 127, "RegFile": 12]
         let silkscreen = ["AFU": 16, "LFU": 0, "RegFile": 8]
-        for name in Fixture.names {
+        for name in names {
             let doc = try Fixture.open(name)
-            let problem = doc.routingProblem(options: .standard, rules: .customDefault)
+            var options = RoutingOptions.standard
+            options.pushAndShove = push
+            let problem = doc.routingProblem(options: options, rules: .customDefault)
             let started = Date()
             // Negotiation alone in an unoptimised build (see `RoutingOptions.fixture`).
             #if DEBUG
@@ -74,6 +87,11 @@ final class RouterFixtureTests: XCTestCase {
             XCTAssertEqual(issues.filter { $0.kind == .silkscreen }.count, silkscreen[name], name)
             report("balanced \(name)", result)
             print("ROUTER rounds \(result.stats.rounds) rips \(result.stats.rips)")
+            if push {
+                print("PUSH \(name) routed \(result.stats.routed)/\(result.stats.connections), pushTried \(result.stats.pushTried), "
+                      + "pushKept \(result.stats.pushKept), rips \(result.stats.rips), vias \(result.stats.vias), "
+                      + String(format: "wire %.1f mm", result.stats.wireLength))
+            }
             checkShapes(result, name)
             XCTAssertEqual(RoutingCheck.violations(result, problem).count, 0, name)
             XCTAssertGreaterThanOrEqual(result.stats.routed, floors[name] ?? 0, name)

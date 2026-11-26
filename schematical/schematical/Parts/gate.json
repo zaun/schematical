@@ -2011,6 +2011,7 @@
         {"op":"nand","inputs":["E","F"],"output":"L"},
         {"op":"nand","inputs":["G","H"],"output":"M"}
       ],
+      "input": "schmitt",
       "timing": {"C":{"rise":190,"fall":190,"vcc":[3,18],"note": "VCC 3-18 V (cd4093b p.1 (Q1 parts: cd4093b-q1 p.6, same 3-18))"}},
       "parts": [
         {"name":"7704602CA","manufacturer":"Texas Instruments","datasheet":"cd4093b","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"C","flags":["military","ceramic"]},
@@ -5428,6 +5429,7 @@
         {"op":"not","inputs":["5A"],"output":"5Y"},
         {"op":"not","inputs":["6A"],"output":"6Y"}
       ],
+      "input": "schmitt",
       "timing": {
         "HC": {"rise":12,"fall":12,"vcc":[2,6],"note": "Typical at 4.5 V and 25 C (50 pF load), SN74HC14 (sn74hc14 p.6). VCC 2-6 V (sn74hc14 p.4; cd74hc14 p.4, sn74hc14-q1 p.4 same)"},
         "HCT": {"rise":20,"fall":20,"vcc":[4.5,5.5],"note": "Typical at 4.5 V and 25 C (50 pF load), SN74HCT14 (sn74hct14 p.6). VCC 4.5-5.5 V (sn74hct14 p.4; cd74hct14 p.4, sn74hct14-q1 p.2 same)"},
@@ -6135,6 +6137,7 @@
         {"op":"not","inputs":["5A"],"output":"5Y"},
         {"op":"not","inputs":["6A"],"output":"6Y"}
       ],
+      "input": "schmitt",
       "timing": {
         "LV": {"rise":7.8,"fall":10.2,"vcc":[1.6,5.5],"note": "Typical at 3.3 V and 25 C (50 pF load), SN74LV6T14-EP (sn74lv6t14-ep p.6). VCC 1.6-5.5 V, inputs to 5.5 V (sn74lv6t14-ep p.4)"}
       },
@@ -6174,6 +6177,7 @@
         {"op":"not","inputs":["5A"],"output":"5Y"},
         {"op":"not","inputs":["6A"],"output":"6Y"}
       ],
+      "input": "schmitt",
       "timing": {
         "LS": {"rise":13,"fall":18,"vcc":[4.75,5.25],"note": "Typical at 5 V and 25 C (15 pF, RL 2 kohm), SN74LS19A (sn74ls19a p.3). VCC 4.75-5.25 V (sn74ls19a p.2)"}
       },
@@ -6416,6 +6420,7 @@
       "gates": [
         {"op":"not","inputs":["A"],"output":"Y"}
       ],
+      "input": "schmitt",
       "timing": {
         "AHC": {"rise":7,"fall":7,"vcc":[2,5.5],"note": "sn74ahc1g14 typ at 5 V, 50 pF (p.6). VCC 2-5.5 V (sn74ahc1g14 p.4 (Q1: sn74ahc1g14-q1 p.4, same))"},
         "AHCT": {"rise":5.5,"fall":5.5,"vcc":[4.5,5.5],"note": "sn74ahct1g14 typ at 5 V, 50 pF (p.6). VCC 4.5-5.5 V (sn74ahct1g14 p.4; Q1: sn74ahct1g14-q1 p.4, 3-5.5 V)"},
@@ -6478,6 +6483,7 @@
       "gates": [
         {"op":"not","inputs":["A"],"output":"Y"}
       ],
+      "input": "schmitt",
       "timing": {
         "AUP": {"rise":3.9,"fall":3.9,"vcc":[0.8,3.6],"note": "sn74aup1g14 typ at 3.3 V, 15 pF (p.8). VCC 0.8-3.6 V (sn74aup1g14 p.4)"},
         "LVC": {"rise":5.5,"fall":5.5,"vcc":[1.65,5.5],"note": "sn74lvc1g14 max at 3.3 V, 50 pF (p.8). VCC 1.65-5.5 V (sn74lvc1g14 p.6 (Q1: sn74lvc1g14-q1 p.4, same))"}
@@ -6622,6 +6628,7 @@
       "gates": [
         {"op":"not","inputs":["A"],"output":"Y"}
       ],
+      "input": "schmitt",
       "timing": {
         "AUP": {"rise":2.7,"fall":2.7,"vcc":[2.3,3.6],"note": "sn74aup1t14 typ at 3.3 V (VI 3.3 V), 15 pF (p.7). VCC 2.3-3.6 V (sn74aup1t14 p.4)"}
       },
@@ -6757,6 +6764,7 @@
         {"op":"not","inputs":["1A"],"output":"1Y"},
         {"op":"not","inputs":["2A"],"output":"2Y"}
       ],
+      "input": "schmitt",
       "timing": {
         "AUP": {"rise":3.4,"fall":3.4,"vcc":[0.8,3.6],"note": "sn74aup2g14 typ at 3.3 V, 15 pF. VCC 0.8-3.6 V (sn74aup2g14 p.5, p.7)"},
         "LVC": {"rise":5.4,"fall":5.4,"vcc":[1.65,5.5],"note": "sn74lvc2g14 max at 3.3 V, 50 pF. VCC 1.65-5.5 V (sn74lvc2g14 p.4, p.6 (Q1: sn74lvc2g14-q1 p.5, same))"}
@@ -6944,6 +6952,7 @@
         {"op":"not","inputs":["2A"],"output":"2Y"},
         {"op":"not","inputs":["3A"],"output":"3Y"}
       ],
+      "input": "schmitt",
       "timing": {
         "AUP": {"rise":3.4,"fall":3.4,"vcc":[0.8,3.6],"note": "sn74aup3g14 typ at 3.3 V, 15 pF. VCC 0.8-3.6 V (sn74aup3g14 p.4, p.6)"},
         "LVC": {"rise":5.4,"fall":5.4,"vcc":[1.65,5.5],"note": "sn74lvc3g14 max at 3.3 V, 50 pF. VCC 1.65-5.5 V (sn74lvc3g14 p.3, p.4)"}
@@ -6981,6 +6990,7 @@
         {"op":"not","inputs":["2A"],"output":"2Y"},
         {"op":"not","inputs":["1A"],"output":"1Y"}
       ],
+      "input": "schmitt",
       "timing": {
         "AUP": {"rise":3.4,"fall":3.4,"vcc":[0.8,3.6],"note": "sn74aup3g14 typ at 3.3 V, 15 pF. VCC 0.8-3.6 V (sn74aup3g14 p.4, p.6)"}
       },
@@ -7139,6 +7149,7 @@
         {"op":"not","inputs":["E"],"output":"K"},
         {"op":"not","inputs":["F"],"output":"L"}
       ],
+      "input": "schmitt",
       "timing": {
         "C": {"rise":140,"fall":140,"vcc":[3,18],"note": "Typical at VDD 5 V and 25 C (50 pF load) (cd40106b p.8). VDD 3-18 V (cd40106b p.4)"}
       },
@@ -7388,6 +7399,7 @@
       "gates": [
         {"op":"not","inputs":["A"],"output":"Y"}
       ],
+      "input": "schmitt",
       "output": "open-drain",
       "timing": {
         "LVC": {"rise":6.5,"fall":6.5,"vcc":[1.65,5.5],"note":"Max tpd at 3.3 V, 50 pF, -40 to 125 C (no typical printed; 15 pF max 4.6), SN74LVC1G16 (sn74lvc1g16 p.6). VCC 1.65-5.5 V, VI 0-5.5 V (sn74lvc1g16 p.4)"}
@@ -7438,6 +7450,7 @@
       "gates": [
         {"op":"buf","inputs":["A"],"output":"Y"}
       ],
+      "input": "schmitt",
       "timing": {
         "AUC": {"rise":1.1,"fall":1.1,"vcc":[0.8,2.7],"inputMax":3.6,"note":"typ tpd A->Y at 1.8 V, 15 pF (sn74auc1g17 p.6). VCC 0.8-2.7 V, inputs to 3.6 V (sn74auc1g17 p.4)"},
         "AUP": {"rise":4.1,"fall":4.1,"vcc":[0.8,3.6],"note":"typ tpd A->Y at 3.3 V, 15 pF, 25 C (sn74aup1g17 p.8). VCC 0.8-3.6 V, VI 0-3.6 V (sn74aup1g17 p.4; sn74aup1g17-ep same)"},
@@ -7559,6 +7572,7 @@
       "gates": [
         {"op":"buf","inputs":["A"],"output":"Y"}
       ],
+      "input": "schmitt",
       "output": "open-drain",
       "timing": {
         "LVC": {"rise":4,"fall":4,"vcc":[1.65,5.5],"note":"typ tpd A->Y at 3.3 V, 50 pF (sn74lvc1g37 p.6); VCC 1.65-5.5 V, VI to 5.5 V (sn74lvc1g37 p.4; -Q1 p.4 same range, faster typ 1.8 ns)"}
@@ -7588,6 +7602,7 @@
       "gates": [
         {"op":"buf","inputs":["A"],"output":"Y"}
       ],
+      "input": "schmitt",
       "timing": {
         "AUP": {"rise":2.7,"fall":2.7,"vcc":[2.3,3.6],"note":"typ tpd at VCC 3.3 V, VI 3.3 V, 15 pF (sn74aup1t17 p.6); VCC 2.3-3.6 V, VI 0-3.6 V (p.4)"}
       },
@@ -7641,6 +7656,7 @@
       "gates": [
         {"op":"buf","inputs":["A"],"output":"Y"}
       ],
+      "input": "schmitt",
       "timing": {
         "AUP": {"rise":2.7,"fall":2.7,"vcc":[2.3,3.6],"note":"Typical tpd A->Y at VCC 3.3 V, VI 3.3 V, 15 pF, 25 C (sn74aup1t50 p.7). VCC 2.3-3.6 V, VI 0-3.6 V (sn74aup1t50 p.4)"}
       },
@@ -7727,6 +7743,7 @@
         {"op":"buf","inputs":["1A"],"output":"1Y"},
         {"op":"buf","inputs":["2A"],"output":"2Y"}
       ],
+      "input": "schmitt",
       "timing": {
         "AUP": {"rise":4.1,"fall":4.1,"vcc":[0.8,3.6],"note":"sn74aup2g17 typ tpd at 3.3 V, 15 pF (p.6). VCC 0.8-3.6 V, VI to 3.6 V (p.4)"},
         "LVC": {"rise":5.4,"fall":5.4,"vcc":[1.65,5.5],"note":"sn74lvc2g17 max tpd at 3.3 V, -40 to 85 C (p.6; no typical given). VCC 1.65-5.5 V, VI to 5.5 V (p.4; sn74lvc2g17-ep p.2 same)"}
@@ -7894,6 +7911,7 @@
         {"op":"buf","inputs":["2A"],"output":"2Y"},
         {"op":"buf","inputs":["3A"],"output":"3Y"}
       ],
+      "input": "schmitt",
       "timing": {
         "AUP": {"rise":4.1,"fall":4.1,"vcc":[0.8,3.6],"note":"typ tpd A->Y at 3.3 V, 15 pF, 25 C (sn74aup3g17 p.6); VCC 0.8-3.6 V, VI to 3.6 V (p.4)"},
         "LVC": {"rise":5.4,"fall":5.4,"vcc":[1.65,5.5],"note":"max tpd A->Y at 3.3 V, 30/50 pF (no typical printed) (sn74lvc3g17 p.6); VCC 1.65-5.5 V, VI 0-5.5 V (p.4)"}
@@ -8205,6 +8223,7 @@
         {"op":"buf","inputs":["5A"],"output":"5Y"},
         {"op":"buf","inputs":["6A"],"output":"6Y"}
       ],
+      "input": "schmitt",
       "timing": {
         "AC": {"rise":4.6,"fall":6,"vcc":[1.5,6],"note":"Typical tPLH/tPHL A->Y at 5 V, 50 pF, SN74AC17 (sn74ac17 p.6). VCC 1.5-6 V (sn74ac17 p.4; sn74ac17-q1 same)"},
         "ACT": {"rise":4.7,"fall":6.9,"vcc":[4.5,5.5],"note":"Typical tPLH/tPHL A->Y at 5 V, 50 pF, SN74ACT17 (sn74act17 p.5). VCC 4.5-5.5 V (sn74act17 p.4; sn74act17-q1 same)"},
@@ -8464,6 +8483,7 @@
         {"op":"buf","inputs":["5A"],"output":"5Y"},
         {"op":"buf","inputs":["6A"],"output":"6Y"}
       ],
+      "input": "schmitt",
       "timing": {
         "LV": {"rise":8.5,"fall":8.5,"vcc":[1.6,5.5],"note":"Typical tPD A->Y at 3.3 V, 25 C, 50 pF (sn74lv6t17 p.7). VCC 1.6-5.5 V, VI 0-5.5 V (sn74lv6t17 p.5; -Q1 and -EP p.5 same)"}
       },

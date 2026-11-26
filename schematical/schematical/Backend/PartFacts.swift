@@ -45,6 +45,12 @@ nonisolated enum PartFacts {
             add("Positions", String(positions))
             add("Actuator", actuator)
             if ratedMV > 0 { add("Rating", "\(VoltageCheck.volts(ratedMV)) V max") }
+        case let .slideSwitch(circuit, positions, _, _, actuator, ratedMV):
+            add("Circuit", circuit)
+            add("Action", part.function.split(separator: " ").dropFirst().joined(separator: " "))
+            if let position = chip.slidePosition { add("Position", "\(position) of \(positions)") }
+            add("Actuator", actuator)
+            if ratedMV > 0 { add("Rating", "\(VoltageCheck.volts(ratedMV)) V max") }
         case let .tactileSwitch(actuator, ratedMV, normallyClosed, _, body):
             add("Contact", normallyClosed ? "Normal close, momentary" : "Normal open, momentary")
             add("Terminals", String(part.pins.filter { !$0.isHidden }.count))
@@ -471,6 +477,7 @@ nonisolated enum PartFacts {
 
     static func kindName(_ part: CatalogPart) -> String {
         if part.isTactileSwitch { return "Tactile switch" }
+        if part.isSlideSwitch { return "Slide switch" }
         if case let .resistor(_, _, _, resistors) = part.details, resistors > 1 { return "Resistor array" }
         if let info = part.transistor, info.elements > 1 { return "Transistor array" }
         if let info = part.regulator {

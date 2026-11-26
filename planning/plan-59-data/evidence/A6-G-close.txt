@@ -1,0 +1,38 @@
+documents=["6502.schematical"]
+== control: a Part Editor window (a plain WindowGroup scene) opened and closed
+   open:    2 4096 2048.0 PartEditorModel Swift SchematicalSpike59.debug.dylib
+performClose sent; still visible=false
+   closed: 
+== the document: a second (Untitled) document keeps the app running; run the simulation; close the 6502 window
+[0] FileWrapperPlatformDocument name=6502.schematical url=/Users/justi
+[1] FileWrapperPlatformDocument name=Untitled url=nil edited=false una
+watching 4 objects
+> play 0
+running=true playing=true
+> child 0 memory
+opened memory for ROM1
+> child 0 bom
+opened bom for the document
+> sleep 600
+slept
+NSDocument: alive
+SchematicDocument: alive
+SimulationController: alive
+model: alive
+> closewindow 6502.schematical
+performClose sent; still visible=false
+> weak
+NSDocument: freed
+SchematicDocument: alive
+SimulationController: alive
+model: alive
+> weak
+NSDocument: freed
+SchematicDocument: alive
+SimulationController: alive
+model: alive
+   Simulation threads: 0
+model.deinit id=55D7F52A-4AD2-4FF6-A9DF-6284DD98B7E0
+editor disappeared: dismissing 0 child windows of 706C0451
+editor disappeared: dismissing 2 child windows of 9FC29F74
+editor disappeared: simulation stopped

@@ -131,6 +131,8 @@ struct BoardArtwork {
     var silkscreen: [BoardSide: [GerberWriter.Mark]]
     var holes: [DrillExport.Hole]
     var outline: [CGPoint]
+    /// Each cutout's loop, mm (plan-65-G).
+    var cutouts: [[CGPoint]] = []
     /// The board's rectangle, mm.
     var bounds: CGRect
     var layers: [CopperLayer]
@@ -288,7 +290,8 @@ enum PrintExport {
         }
         let holes = DrillExport.holes(copper)
         return BoardArtwork(copper: layers, silkscreen: silkscreen, holes: holes.plated + holes.bare,
-                            outline: board.outline, bounds: boardBounds(document), layers: board.copperLayers)
+                            outline: board.outline, cutouts: document.boardEdge.cutouts, bounds: boardBounds(document),
+                            layers: board.copperLayers)
     }
 
     // MARK: PDF
@@ -422,6 +425,11 @@ enum PrintExport {
                 ctx.addLines(between: artwork.outline)
                 ctx.closePath()
                 ctx.strokePath()
+                for loop in artwork.cutouts where loop.count > 1 {
+                    ctx.addLines(between: loop)
+                    ctx.closePath()
+                    ctx.strokePath()
+                }
             } else {
                 ctx.stroke(artwork.bounds)
             }

@@ -95,20 +95,28 @@ nonisolated enum PourFiller {
     /// drawing order: each pour gives way to the rectangle of an earlier pour
     /// of another net on its layer.
     static func fill(pours: [BoardPour], nets: [UUID: Int], keepouts: [BoardKeepout], copper: [PourCopper],
-                     outline: [CGPoint], edge: Double, rules: DesignRules) -> [UUID: PourFill] {
+                     board boardEdge: BoardEdge, edge: Double, rules: DesignRules) -> [UUID: PourFill] {
         fillCount += 1
         var result: [UUID: PourFill] = [:]
-        guard outline.count >= 3, pours.contains(where: { nets[$0.id] != nil }) else { return result }
+        guard boardEdge.outline.count >= 3, pours.contains(where: { nets[$0.id] != nil }) else { return result }
 
-        // The board, pulled back from its edge.
+        // The board, pulled back from its edge; then every cutout, grown by
+        // the same distance, taken out of that (plan-65-C).
         let board = CGMutablePath()
-        board.addLines(between: outline)
+        board.addLines(between: boardEdge.outline)
         board.closeSubpath()
         var inner: CGPath = board
         if edge > 0 {
             let ring = board.copy(strokingWithWidth: 2 * edge, lineCap: .butt, lineJoin: .round, miterLimit: 1)
             inner = board.subtracting(ring, using: .winding)
         }
+        let cutoutPaths = boardEdge.cutouts.filter { $0.count >= 3 }.map { loop -> CGPath in
+            let path = CGMutablePath()
+            path.addLines(between: loop)
+            path.closeSubpath()
+            return grown(path, by: edge)
+        }
+        if !cutoutPaths.isEmpty { inner = inner.subtracting(combine(cutoutPaths), using: .winding) }
 
         var earlier: [(rect: CGRect, net: Int, layer: CopperLayer)] = []
         for pour in pours {

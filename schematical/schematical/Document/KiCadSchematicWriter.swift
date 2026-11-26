@@ -57,6 +57,7 @@ struct KiCadSchematicWriter {
         }
         for label in document.netLabels { add(label.tip); add(CGPoint(x: label.tip.x + NetLabel.length, y: label.tip.y)) }
         for note in document.notes { add(note.rect) }
+        if let block = document.titleBlockRect { add(block) }
         for bus in document.buses {
             for line in bus.lines {
                 add(line.a); add(line.b)
@@ -100,11 +101,18 @@ struct KiCadSchematicWriter {
         var drawing: [String] = []
         let edge = edgeConnector(symbols: &symbols, powerNumber: &powerNumber, flagged: &flagged)
         body += edge.symbol
+        // The drawing's own Power Flags (plan-63-A), numbered after the rails'.
+        var flagNumber = flagged.count
+        for label in document.netLabels where label.isPowerFlag {
+            flagNumber += 1
+            body.append(flagInstance(at: label.tip, number: flagNumber, rail: "label/\(label.id)", symbols: &symbols))
+        }
         drawing += edge.drawing
         drawing += wires()
         drawing += labels()
         drawing += buses()
         drawing += notes()
+        drawing += titleBlock()
 
         let page = KiCad.paper(width: sheet.width, height: sheet.height)
         var out = """
@@ -115,7 +123,7 @@ struct KiCadSchematicWriter {
         \t(uuid \(KiCad.q(context.rootUUID)))
         \t\(page)
         \t(title_block
-        \t\t(title \(KiCad.q(context.base)))
+        \(titleBlockFields())
         \t)
         \t(lib_symbols
 
@@ -259,9 +267,28 @@ struct KiCadSchematicWriter {
     private func libraryName(of chip: PlacedChip) -> String {
         var name = KiCad.libraryName(chip.partNumber)
         if chip.part.uuid != nil { name += "_" + String((chip.part.uuid ?? "").prefix(8)) }
+        if chip.isSplit {
+            // Drawn as its units (plan-67): a multi-unit symbol, each unit's
+            // flip and turn baked in, so two arrangements never share one.
+            return name + "_units" + chip.unitPlacements
+                .map { "_\($0.key)\($0.isFlipped ? "f" : "n")\($0.rotation)" }.joined()
+        }
         if chip.isFlipped { name += "_flipped" }
         if chip.rotation != 0 { name += "_r\(chip.rotation)" }
         return name
+    }
+
+    /// The KiCad pin type of a part's pin: the electrical rules check's type
+    /// (`erc_pin_type`: passive, tri_state, open_collector, power_out, …) when the
+    /// document has the part library, else the pin's role.
+    private func pinType(of chip: PlacedChip, _ pin: ChipPin) -> String {
+        if let library = document.library, let part = part_library_find(library.pointer, chip.partNumber) {
+            var type = ERC_INPUT
+            if erc_pin_type(part, pin.index, &type) != 0 {
+                return String(cString: erc_pin_type_name(type))
+            }
+        }
+        return pinType(pin.role)
     }
 
     private func pinType(_ role: ChipPinRole) -> String {
@@ -304,6 +331,92 @@ struct KiCadSchematicWriter {
             + "\t\t\t(effects (font (size \(KiCad.n(size)) \(KiCad.n(size))))\(justification)\(hide ? " hide" : ""))\n\t\t)"
     }
 
+    /// The library definition of a part drawn as its units (plan-67): one
+    /// KiCad unit per piece (`<name>_<n>_1`), each with its own body
+    /// rectangle and its own pins, placed from that piece's corner. No common
+    /// `_0_1` graphics. Written once.
+    private func defineUnits(_ chip: PlacedChip, name: String, in symbols: inout SymbolLibrary) {
+        guard symbols.names.insert(name).inserted else { return }
+        let pieces = chip.pieces
+        var units: [String] = []
+        for (index, piece) in pieces.enumerated() {
+            let box = bodyBox(of: piece)
+            let pins = piece.layout.slots.map { slot -> String in
+                let tip = piece.tip(of: slot)
+                return pin(type: pinType(of: piece, slot.pin),
+                           at: CGPoint(x: tip.x - piece.origin.x, y: tip.y - piece.origin.y),
+                           side: slot.side, name: KiCad.pinName(slot.pin), number: slot.pin.designator)
+            }
+            units.append("""
+            \t\t\t(symbol \(KiCad.q("\(name)_\(index + 1)_1"))
+            \t\t\t\t(rectangle
+            \t\t\t\t\t(start \(local(CGPoint(x: box.minX, y: box.minY))))
+            \t\t\t\t\t(end \(local(CGPoint(x: box.maxX, y: box.maxY))))
+            \t\t\t\t\t(stroke (width 0.254) (type default))
+            \t\t\t\t\t(fill (type background))
+            \t\t\t\t)
+            \(pins.joined(separator: "\n"))
+            \t\t\t)
+            """)
+        }
+        let height = pieces.first?.layout.size.height ?? 0
+        symbols.definitions.append("""
+        \t\t(symbol \(KiCad.q("\(KiCadExport.library):\(name)"))
+        \t\t\t(pin_names (offset 0.508))
+        \t\t\t(exclude_from_sim no)
+        \t\t\t(in_bom yes)
+        \t\t\t(on_board yes)
+        \(property("Reference", referencePrefix(of: chip), at: CGPoint(x: 0, y: 1.27)))
+        \(property("Value", chip.partNumber, at: CGPoint(x: 0, y: -(height * k + 1.27))))
+        \(property("Footprint", "", at: .zero, hide: true))
+        \(property("Datasheet", "", at: .zero, hide: true))
+        \(units.joined(separator: "\n"))
+        \t\t)
+        """)
+    }
+
+    /// The instances of a part drawn as its units: one per piece, all with
+    /// the part's reference, KiCad unit 1, 2, … in the order of the pieces.
+    /// The first carries the part's own uuid, which the board's footprint
+    /// points at.
+    private func unitInstances(of chip: PlacedChip, symbols: inout SymbolLibrary) -> String {
+        let name = libraryName(of: chip)
+        defineUnits(chip, name: name, in: &symbols)
+        let footprint = chip.footprint.map { "\(KiCadExport.library):\(KiCad.libraryName($0.id))" } ?? ""
+        var out: [String] = []
+        for (index, piece) in chip.pieces.enumerated() {
+            let unit = index + 1
+            let origin = CGPoint(x: (piece.origin.x + shift.x) * k, y: (piece.origin.y + shift.y) * k)
+            let box = bodyBox(of: piece)
+            let referenceAt = CGPoint(x: origin.x, y: origin.y + (box.minY - 20) * k)
+            let valueAt = CGPoint(x: origin.x, y: origin.y + (box.maxY + 20) * k)
+            let uuid = index == 0 ? chip.id.uuidString.lowercased() : id("unit/\(chip.id)/\(piece.unitKey ?? "")")
+            var text = """
+            \t(symbol
+            \t\t(lib_id \(KiCad.q("\(KiCadExport.library):\(name)")))
+            \t\t(at \(KiCad.n(origin.x)) \(KiCad.n(origin.y)) 0)
+            \t\t(unit \(unit))
+            \t\t(exclude_from_sim no)
+            \t\t(in_bom yes)
+            \t\t(on_board \(chip.footprint == nil ? "no" : "yes"))
+            \t\t(dnp no)
+            \t\t(uuid \(KiCad.q(uuid)))
+            \(property("Reference", chip.reference, at: referenceAt, hide: !chip.showsReference, justify: "left bottom"))
+            \(property("Value", chip.partNumber, at: valueAt, justify: "left top"))
+            \(property("Footprint", footprint, at: origin, hide: true))
+            \(property("Datasheet", chip.part.datasheetURL?.absoluteString ?? "", at: origin, hide: true))
+
+            """
+            for slot in piece.layout.slots {
+                text += "\t\t(pin \(KiCad.q(slot.pin.designator)) (uuid \(KiCad.q(id("pin/\(chip.id)/\(slot.pin.designator)")))))\n"
+            }
+            text += instances(reference: chip.reference, unit: unit)
+            text += "\t)"
+            out.append(text)
+        }
+        return out.joined(separator: "\n")
+    }
+
     /// The library definition of a part's symbol, written once.
     private func define(_ chip: PlacedChip, name: String, in symbols: inout SymbolLibrary) {
         guard symbols.names.insert(name).inserted else { return }
@@ -312,7 +425,7 @@ struct KiCadSchematicWriter {
         var pins: [String] = []
         for slot in chip.layout.slots {
             let tip = chip.tip(of: slot)
-            pins.append(pin(type: pinType(slot.pin.role), at: CGPoint(x: tip.x - chip.origin.x, y: tip.y - chip.origin.y),
+            pins.append(pin(type: pinType(of: chip, slot.pin), at: CGPoint(x: tip.x - chip.origin.x, y: tip.y - chip.origin.y),
                             side: slot.side, name: KiCad.pinName(slot.pin), number: slot.pin.designator))
         }
         if let far = farPin(of: chip) {
@@ -373,6 +486,7 @@ struct KiCadSchematicWriter {
 
     /// A part's instance on the sheet.
     private func instance(of chip: PlacedChip, symbols: inout SymbolLibrary) -> String {
+        if chip.isSplit { return unitInstances(of: chip, symbols: &symbols) }
         let name = libraryName(of: chip)
         define(chip, name: name, in: &symbols)
         let value: String
@@ -415,12 +529,12 @@ struct KiCadSchematicWriter {
         return out
     }
 
-    private func instances(reference: String) -> String {
+    private func instances(reference: String, unit: Int = 1) -> String {
         """
         \t\t(instances
         \t\t\t(project \(KiCad.q(context.base))
         \t\t\t\t(path \(KiCad.q("/" + context.rootUUID))
-        \t\t\t\t\t(reference \(KiCad.q(reference))) (unit 1)
+        \t\t\t\t\t(reference \(KiCad.q(reference))) (unit \(unit))
         \t\t\t\t)
         \t\t\t)
         \t\t)
@@ -492,6 +606,7 @@ struct KiCadSchematicWriter {
     }
 
     /// A power flag (`#FLG<n>`) with its pin at `point`, on the net of `rail`.
+    /// For a Power Flag label (plan-63-A) `rail` is `label/<its id>`, only a seed for the ids.
     private func flagInstance(at point: CGPoint, number: Int, rail: String, symbols: inout SymbolLibrary) -> String {
         let name = "PWR_FLAG"
         if symbols.names.insert(name).inserted {
@@ -586,7 +701,7 @@ struct KiCadSchematicWriter {
                 \t\t(uuid \(KiCad.q(id("label/\(label.id)"))))
                 \t)
                 """)
-            } else {
+            } else if label.isNoConnect {
                 out.append("\t(no_connect\n\t\t(at \(xy(label.tip)))\n\t\t(uuid \(KiCad.q(id("nc/\(label.id)"))))\n\t)")
             }
         }
@@ -651,6 +766,47 @@ struct KiCadSchematicWriter {
         \t\t(uuid \(KiCad.q(id(key))))
         \t)
         """
+    }
+
+    /// The fields of KiCad's own title block (plan-64-D): the document's title
+    /// (the file's name when it has none), updated date, revision, author as
+    /// the company, and description as the first comment. Empty ones are left
+    /// out.
+    private func titleBlockFields() -> String {
+        let info = document.documentInfo
+        var fields = ["\t\t(title \(KiCad.q(info.title.isEmpty ? context.base : info.title)))"]
+        if let updated = info.updated {
+            fields.append("\t\t(date \(KiCad.q(String(DocumentInfo.dateText(updated).prefix(10)))))")
+        }
+        if !info.revision.isEmpty { fields.append("\t\t(rev \(KiCad.q(info.revision)))") }
+        if !info.author.isEmpty { fields.append("\t\t(company \(KiCad.q(info.author)))") }
+        if !info.description.isEmpty {
+            let flat = info.description.replacingOccurrences(of: "\n", with: " ")
+            fields.append("\t\t(comment 1 \(KiCad.q(flat)))")
+        }
+        return fields.joined(separator: "\n")
+    }
+
+    /// The title block, when it is on the schematic: its frame and lines, and
+    /// each cell's label and wrapped value, from the canvas's layout.
+    private func titleBlock() -> [String] {
+        guard let layout = document.titleBlockLayout else { return [] }
+        let rect = layout.rect
+        var out = [polyline([CGPoint(x: rect.minX, y: rect.minY), CGPoint(x: rect.maxX, y: rect.minY),
+                             CGPoint(x: rect.maxX, y: rect.maxY), CGPoint(x: rect.minX, y: rect.maxY),
+                             CGPoint(x: rect.minX, y: rect.minY)], key: "titleblock/frame")]
+        for (index, line) in layout.separators.enumerated() {
+            out.append(polyline([line.0, line.1], key: "titleblock/line/\(index)"))
+        }
+        for cell in layout.cells {
+            out.append(text(cell.label, at: cell.labelOrigin, size: CGFloat(TitleBlockLayout.labelSize),
+                            key: "titleblock/\(cell.label)/label", justify: "left top"))
+            for (index, line) in cell.lines.enumerated() where !line.isEmpty {
+                out.append(text(line, at: CGPoint(x: cell.textOrigin.x, y: cell.textOrigin.y + CGFloat(index) * cell.lineHeight),
+                                size: CGFloat(cell.size), key: "titleblock/\(cell.label)/\(index)", justify: "left top"))
+            }
+        }
+        return out
     }
 
     /// Text blocks: the words, and a frame round them when the app draws one.

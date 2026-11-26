@@ -194,6 +194,10 @@ nonisolated enum PartSymbol: Hashable {
     /// A tactile (push-button) switch, plan-27: side A's pins on the left,
     /// side B's on the right, a button in the middle.
     case tactileSwitch
+    /// A slide switch (plan-58): the common terminal on the left, the throws
+    /// on the right, a blade for each pole and a knob on a slot under them
+    /// (`SlideSwitchSymbolView`).
+    case slideSwitch
     case sevenSegment
     /// A nixie tube: cathodes on the left, the anode on the right, the tube
     /// in the middle (`NixieSymbolView`).
@@ -209,6 +213,10 @@ nonisolated enum PartSymbol: Hashable {
     /// A test point (plan-57): one pin on the left of a 40 x 20 body, drawn as
     /// a small circle on the end of its lead (`TestPointSymbolView`).
     case testPoint
+    /// One gate of a part drawn as its units (plan-67): the standard logic
+    /// symbol, `GateSymbolView`. Only a piece (`PlacedChip.piece`) has it; no
+    /// whole part does.
+    case gate
 
     /// Supplies have their pin on the top or bottom edge, so their view needs
     /// room above and below the body for the pin stub.
@@ -222,13 +230,19 @@ nonisolated enum PartSymbol: Hashable {
         !hasVerticalPins
     }
 
-    /// Rotate turns LEDs, diodes, resistors and capacitors in quarter turns
-    /// (`PlacedChip.rotation`), which puts their pins on the top and bottom.
-    /// Nothing else on the Schematic rotates.
+    /// Rotate turns every part drawn as its own symbol in quarter turns
+    /// (`PlacedChip.rotation`): LEDs, diodes, resistors, capacitors,
+    /// crystals, inductors, fuses, buzzers, transistors, test points and
+    /// barrel jacks, and a gate of a part drawn as its units. Parts drawn as a
+    /// box (logic chips, switches, displays, relays, headers) and the supplies
+    /// don't rotate.
     var canRotate: Bool {
         switch self {
-        case .diode, .plainDiode, .capacitor, .resistor: true
-        default: false
+        case .diode, .plainDiode, .capacitor, .resistor, .crystal, .inductor, .fuse, .buzzer, .transistor,
+             .testPoint, .barrelJack, .gate:
+            true
+        default:
+            false
         }
     }
 }
@@ -313,7 +327,8 @@ nonisolated struct ChipLayout: Hashable {
     init(part: CatalogPart, symbol: PartSymbol) {
         let pins = part.pins.filter { !$0.isHidden }
         switch symbol {
-        case .block, .oscillator:
+        case .block, .oscillator, .gate:
+            // A whole part is never a gate; a gate piece's layout is `init(gate:pins:)`.
             self = ChipLayout(pins: pins)
         case .barrelJack:
             self = Self.barrelJack(pins)
@@ -347,6 +362,8 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.dipSwitch(pins)
         case .tactileSwitch:
             self = Self.tactileSwitch(pins)
+        case .slideSwitch:
+            self = Self.slideSwitch(pins, circuit: part.slideStates?.circuit ?? "SPDT")
         case .sevenSegment:
             self = Self.sevenSegment(pins, display: part.display)
         case .nixie:
@@ -574,6 +591,47 @@ nonisolated struct ChipLayout: Hashable {
         )
     }
 
+    /// Slide switch body width, and the height of the strip under the poles
+    /// that holds the knob's slot (`SlideSwitchSymbolView`).
+    static let slideBodyWidth: CGFloat = 120
+    static let slideKnobStrip: CGFloat = 20
+
+    /// A slide switch (plan-58): per pole, the common terminal (`C`, `C1`, …) on
+    /// the left, midway between its two throws (`A` above `B`) on the right;
+    /// SPST and DPST poles have `A` on the left and `B` on the right, one row
+    /// each. Pins are placed by name, so the pinout's order does not matter.
+    private static func slideSwitch(_ pins: [ChipPin], circuit: String) -> ChipLayout {
+        let poles = circuit.hasPrefix("D") ? 2 : 1
+        let hasCommon = circuit.hasSuffix("DT")
+        func pin(_ base: String, _ pole: Int) -> ChipPin? {
+            let names = poles == 1 ? [base] : ["\(base)\(pole + 1)"]
+            return pins.first { names.contains($0.name) }
+        }
+        var slots: [PinSlot] = []
+        let rows = hasCommon ? 2 * poles : poles
+        for pole in 0..<poles {
+            if hasCommon {
+                let top = centerY(forRow: 2 * pole), bottom = centerY(forRow: 2 * pole + 1)
+                if let common = pin("C", pole) { slots.append(PinSlot(pin: common, side: .left, centerY: (top + bottom) / 2)) }
+                if let a = pin("A", pole) { slots.append(PinSlot(pin: a, side: .right, centerY: top)) }
+                if let b = pin("B", pole) { slots.append(PinSlot(pin: b, side: .right, centerY: bottom)) }
+            } else {
+                if let a = pin("A", pole) { slots.append(PinSlot(pin: a, side: .left, centerY: centerY(forRow: pole))) }
+                if let b = pin("B", pole) { slots.append(PinSlot(pin: b, side: .right, centerY: centerY(forRow: pole))) }
+            }
+        }
+        // Any other pin the part has keeps a place on the right below the poles.
+        let placed = Set(slots.map(\.pin.index))
+        for (offset, pin) in pins.filter({ !placed.contains($0.index) }).enumerated() {
+            slots.append(PinSlot(pin: pin, side: .right, centerY: centerY(forRow: rows + offset)))
+        }
+        let total = rows + slots.filter { $0.centerY > centerY(forRow: rows - 1) }.count
+        return ChipLayout(
+            size: CGSize(width: slideBodyWidth, height: headerHeight + pitch * CGFloat(total) + slideKnobStrip),
+            slots: slots
+        )
+    }
+
     /// A tactile switch's button: the middle third of the body, below the header.
     static func tactileButtonRect(bodySize: CGSize) -> CGRect {
         CGRect(x: bodySize.width / 3, y: headerHeight,
@@ -640,35 +698,46 @@ nonisolated struct ChipLayout: Hashable {
         )
     }
 
-    private init(size: CGSize, slots: [PinSlot]) {
+    fileprivate init(size: CGSize, slots: [PinSlot]) {
         self.size = size
         self.slots = slots
     }
 
-    /// The same body with every pin moved to the opposite side. Pin rows stay
-    /// where they are.
+    /// The same body mirrored left to right: every left or right pin moves to
+    /// the opposite side, its row unchanged, and a top or bottom pin (a
+    /// resonator's `GND`) stays on its edge, mirrored along it.
     func flipped() -> ChipLayout {
         ChipLayout(
             size: size,
             slots: slots.map { slot in
-                PinSlot(
+                let sideways = slot.side == .left || slot.side == .right
+                return PinSlot(
                     pin: slot.pin,
-                    side: slot.side.opposite,
+                    side: sideways ? slot.side.opposite : slot.side,
                     centerY: slot.centerY,
-                    centerX: slot.centerX
+                    centerX: sideways ? slot.centerX : size.width - slot.centerX
                 )
             }
         )
     }
 
+    /// The box a body turns in: its size, each side rounded up to the grid
+    /// (two `pitch` halves), so a pin on the grid stays on it when the part
+    /// turns. Only the switched barrel jack (95 tall) is not its own box.
+    static func turnBox(_ size: CGSize) -> CGSize {
+        let grid = pitch / 2
+        return CGSize(width: (size.width / grid).rounded(.up) * grid, height: (size.height / grid).rounded(.up) * grid)
+    }
+
     /// The same body turned clockwise by `degrees` (0, 90, 180 or 270): the
-    /// size swaps for a quarter turn and every pin moves to the side and
-    /// position its point on the body edge turns to.
+    /// size (its `turnBox`) swaps for a quarter turn and every pin moves to
+    /// the side and position its point on the body edge turns to.
     func rotated(by degrees: Int) -> ChipLayout {
         let turns = ((degrees / 90) % 4 + 4) % 4
         guard turns != 0 else { return self }
-        let width = size.width, height = size.height
-        let newSize = turns == 2 ? size : CGSize(width: height, height: width)
+        let box = Self.turnBox(size)
+        let width = box.width, height = box.height
+        let newSize = turns == 2 ? box : CGSize(width: height, height: width)
         return ChipLayout(
             size: newSize,
             slots: slots.map { slot in
@@ -676,7 +745,7 @@ nonisolated struct ChipLayout: Hashable {
                 let edge: CGPoint
                 switch slot.side {
                 case .left: edge = CGPoint(x: 0, y: slot.centerY)
-                case .right: edge = CGPoint(x: width, y: slot.centerY)
+                case .right: edge = CGPoint(x: size.width, y: slot.centerY)
                 case .top: edge = CGPoint(x: slot.centerX, y: 0)
                 case .bottom: edge = CGPoint(x: slot.centerX, y: height)
                 }
@@ -836,6 +905,44 @@ nonisolated struct ChipLayout: Hashable {
         )
     }
 
+    /// A gate symbol's body is 60 wide and 20 per input tall, at least 40.
+    static let gateWidth: CGFloat = 60
+
+    static func gateHeight(inputs: Int) -> CGFloat {
+        max(40, pitch * CGFloat(inputs))
+    }
+
+    /// Where a gate's output `index` of `count` leaves, down the body: one in
+    /// the middle; two a grid step above (the true one) and below it.
+    static func gateOutputY(_ index: Int, of count: Int, height: CGFloat) -> CGFloat {
+        count == 1 ? height / 2 : height / 2 - 10 + 20 * CGFloat(index)
+    }
+
+    /// Where a gate's input `index` of `count` enters: 20 apart, centred.
+    static func gateInputY(_ index: Int, of count: Int, height: CGFloat) -> CGFloat {
+        height / 2 - 10 * CGFloat(count - 1) + 20 * CGFloat(index)
+    }
+
+    /// One gate (plan-67): its inputs down the left side, its one or two
+    /// outputs on the right. `pins` are the part's; a pin of the shape that is
+    /// not among them is left out.
+    init(gate shape: GateShape, pins: [ChipPin]) {
+        let inputs = shape.inputs.compactMap { index in pins.first { $0.index == index } }
+        let outputs = shape.outputs.compactMap { output in pins.first { $0.index == output.pin } }
+        let height = Self.gateHeight(inputs: inputs.count)
+        var slots: [PinSlot] = []
+        for (index, pin) in inputs.enumerated() {
+            slots.append(PinSlot(pin: pin, side: .left,
+                                 centerY: Self.gateInputY(index, of: inputs.count, height: height)))
+        }
+        for (index, pin) in outputs.enumerated() {
+            slots.append(PinSlot(pin: pin, side: .right,
+                                 centerY: Self.gateOutputY(index, of: outputs.count, height: height)))
+        }
+        self.slots = slots
+        self.size = CGSize(width: Self.gateWidth, height: height)
+    }
+
     init(pins allPins: [ChipPin]) {
         func pins(_ roles: ChipPinRole...) -> [ChipPin] {
             allPins.filter { roles.contains($0.role) }.sorted(by: Self.byName)
@@ -960,6 +1067,25 @@ nonisolated struct ChipSocket: Hashable, Sendable {
     }
 }
 
+/// Where one unit of a part drawn as its units is (plan-67): its own
+/// position, flip and turn.
+nonisolated struct UnitPlacement: Hashable, Sendable {
+    /// `PartUnit.key`.
+    let key: String
+    /// Top-left corner of the unit's body. Always on the grid.
+    var origin: CGPoint
+    var isFlipped = false
+    /// 0, 90, 180 or 270; 0 unless the unit's symbol turns (a gate does, a
+    /// block does not).
+    var rotation = 0
+}
+
+/// One unit of a placed part.
+nonisolated struct UnitRef: Hashable, Sendable {
+    let chipID: UUID
+    let key: String
+}
+
 nonisolated struct PlacedChip: Identifiable, Hashable {
     let id: UUID
     /// "U1", "R3": letters then a number. Changed through
@@ -967,19 +1093,30 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     var reference: String
     /// The library part, copied from the backend at launch.
     let part: CatalogPart
-    let symbol: PartSymbol
-    /// Top-left corner of the body. Always on the grid.
-    var origin: CGPoint
+    private(set) var symbol: PartSymbol
+    /// Set on a piece only (`piece`): which unit of the part it stands for
+    /// ("A", "P"). Nil for a whole part, and for every chip a document holds.
+    private(set) var unitKey: String?
+    /// Top-left corner of the body while the part is one block. Always on
+    /// the grid.
+    private var blockOrigin: CGPoint
+    /// Where each unit is, in `part.units` order, when the part is drawn as
+    /// its units (plan-67); empty = one block. Changed through `split`,
+    /// `join`, `setPlacements` and `updatePlacement`.
+    private(set) var unitPlacements: [UnitPlacement] = []
     /// Flipped parts have their pins on the opposite sides. For an LED the
     /// whole symbol is also mirrored; see `DiodeSymbolView`.
     var isFlipped = false
-    /// How far an LED, diode, resistor or capacitor is turned clockwise on
-    /// the Schematic: 0, 90, 180 or 270 (`PartSymbol.canRotate`; 0 for every
+    /// How far a part drawn as its own symbol is turned clockwise on the
+    /// Schematic: 0, 90, 180 or 270 (`PartSymbol.canRotate`; 0 for every
     /// other part). The flip is applied first, then the turn.
     var rotation = 0
     /// For a DIP switch, whether each position is ON, position 1 first. Empty
     /// for every other part.
     var switchesOn: [Bool] = []
+    /// Which way a click moves a slide switch's knob along its positions: 1
+    /// toward the last, -1 toward the first. Not saved.
+    var slideDirection = 1
     /// Where the footprint sits on the PCB. Set exactly when the part has a
     /// footprint (every part but VCC and GND).
     var board: BoardPlacement?
@@ -1008,7 +1145,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// sidebar's Display Reference. On unless turned off.
     var showsReference = true
 
-    private let baseLayout: ChipLayout
+    private var baseLayout: ChipLayout
 
     init(
         id: UUID = UUID(),
@@ -1033,11 +1170,11 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         self.part = part
         self.symbol = symbol
         self.baseLayout = ChipLayout(part: part, symbol: symbol)
-        self.origin = origin
+        self.blockOrigin = origin
         self.isFlipped = isFlipped
         self.rotation = symbol.canRotate ? PlacedChip.normalized(rotation) : 0
         self.board = part.footprint == nil ? nil : board
-        self.memoryFile = part.kind == PART_EEPROM ? memoryFile : nil
+        self.memoryFile = part.hasLoadFile ? memoryFile : nil
         // A nil or unknown option is the part's default; parts without the
         // option have none.
         if part.kind == PART_LED, !part.colors.isEmpty {
@@ -1071,12 +1208,20 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         self.socket = socket.flatMap { ChipSocket.fits($0.part, part) ? $0 : nil }
         // A switch has one state per position, OFF unless given; others none.
         // A tactile switch has one, "pressed", and always starts released
-        // (the file never stores it; plan-27-J).
+        // (the file never stores it; plan-27-J). A slide switch has one per
+        // contact, and always is in one of its knob positions: the one the
+        // given contacts are, else its rest position (plan-58-G).
         var positions = 0
         if case let .dipSwitch(count, _, _) = part.details {
             positions = count
         }
-        if part.isTactileSwitch {
+        if let slide = part.slideStates {
+            let contacts = part.slideContacts
+            let given = (0..<contacts).map { $0 < switchesOn.count && switchesOn[$0] }
+            let mask = given.enumerated().reduce(UInt32(0)) { $1.element ? $0 | (1 << UInt32($1.offset)) : $0 }
+            let state = switchesOn.count == contacts ? slide.masks.firstIndex(of: mask) : nil
+            self.switchesOn = Self.contacts(mask: slide.masks[state ?? slide.rest - 1], count: contacts)
+        } else if part.isTactileSwitch {
             self.switchesOn = [false]
         } else {
             self.switchesOn = (0..<positions).map { $0 < switchesOn.count && switchesOn[$0] }
@@ -1085,6 +1230,71 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
 
     /// The orderable part number, as saved in a file.
     var partNumber: String { part.name }
+
+    /// What tells drawn things apart: a part's id, and a piece's unit.
+    struct DrawID: Hashable {
+        let id: UUID
+        let unitKey: String?
+    }
+
+    var drawID: DrawID { DrawID(id: id, unitKey: unitKey) }
+
+    /// The reference as the Schematic draws it: a piece adds its unit ("U1-A").
+    var drawnReference: String {
+        unitKey.map { "\(reference)-\($0)" } ?? reference
+    }
+
+    /// The unit a piece stands for; nil for a whole part.
+    var unit: PartUnit? {
+        guard let unitKey else { return nil }
+        return part.units.first { $0.key == unitKey }
+    }
+
+    /// One unit of the part as its own chip value (plan-67): the same part
+    /// and id, a layout of only that unit's pins, the gate symbol for a gate
+    /// and a plain block otherwise. For drawing and geometry only: no
+    /// document stores a piece. A turn is kept only where the symbol turns.
+    func piece(_ unit: PartUnit, origin: CGPoint, isFlipped: Bool, rotation: Int) -> PlacedChip {
+        var piece = self
+        let pins = part.pins.filter { unit.pins.contains($0.index) && !$0.isHidden }
+        switch unit.shape {
+        case let .gate(shape):
+            piece.symbol = .gate
+            piece.baseLayout = ChipLayout(gate: shape, pins: pins)
+        case .block:
+            piece.symbol = .block
+            piece.baseLayout = ChipLayout(pins: pins)
+        }
+        piece.unitKey = unit.key
+        piece.unitPlacements = []
+        piece.blockOrigin = origin
+        piece.isFlipped = isFlipped
+        piece.rotation = piece.symbol.canRotate ? Self.normalized(rotation) : 0
+        return piece
+    }
+
+    /// A slide switch's contacts closed by the knob position whose mask is `mask`,
+    /// contact 1 first.
+    static func contacts(mask: UInt32, count: Int) -> [Bool] {
+        (0..<count).map { mask & (1 << UInt32($0)) != 0 }
+    }
+
+    /// A slide switch's knob position (1-based): the one whose closed contacts
+    /// are exactly `switchesOn`. Nil for any other part.
+    var slidePosition: Int? {
+        guard let slide = part.slideStates else { return nil }
+        let mask = switchesOn.enumerated().reduce(UInt32(0)) { $1.element ? $0 | (1 << UInt32($1.offset)) : $0 }
+        return slide.masks.firstIndex(of: mask).map { $0 + 1 }
+    }
+
+    /// The knob position a click moves a slide switch to: the next one in the
+    /// order 1 → 2 → … → N → N-1 → … → 1, by `slideDirection`. Nil for any
+    /// other part.
+    var nextSlidePosition: Int? {
+        guard let slide = part.slideStates, let position = slidePosition else { return nil }
+        let next = position + slideDirection
+        return (1...slide.positions).contains(next) ? next : position - slideDirection
+    }
 
     /// The same chip on another part (a header's new size): id, reference,
     /// symbol, origin, flip, board placement, gender, memory file and
@@ -1101,6 +1311,8 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
                               memoryFile: memoryFile, color: color, footprintID: footprint, gender: gender,
                               ohms: ohms, farads: farads, socket: socket)
         chip.showsReference = showsReference
+        // Still drawn as its units when the new part has the same ones.
+        if isSplit { chip.setPlacements(unitPlacements) }
         return chip
     }
 
@@ -1145,8 +1357,122 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     }
 
     var layout: ChipLayout {
+        if isSplit {
+            let pieces = pieces
+            return ChipLayout(size: Self.union(pieces.map(\.bodyRect)).size, slots: pieces.flatMap { $0.layout.slots })
+        }
         let flipped = isFlipped ? baseLayout.flipped() : baseLayout
         return rotation == 0 ? flipped : flipped.rotated(by: rotation)
+    }
+
+    // MARK: Units (plan-67)
+
+    /// Drawn as its units rather than one block.
+    var isSplit: Bool { !unitPlacements.isEmpty }
+
+    /// Top-left corner of the body, always on the grid. For a part drawn as
+    /// its units, the corner of the box around them: setting it moves every
+    /// unit together.
+    var origin: CGPoint {
+        get { isSplit ? Self.union(pieces.map(\.bodyRect)).origin : blockOrigin }
+        set {
+            guard isSplit else {
+                blockOrigin = newValue
+                return
+            }
+            let old = origin
+            let dx = newValue.x - old.x, dy = newValue.y - old.y
+            for index in unitPlacements.indices {
+                unitPlacements[index].origin.x += dx
+                unitPlacements[index].origin.y += dy
+            }
+        }
+    }
+
+    private static func union(_ rects: [CGRect]) -> CGRect {
+        guard let first = rects.first else { return .zero }
+        return rects.dropFirst().reduce(first) { $0.union($1) }
+    }
+
+    /// What the Schematic draws: the part itself, or one piece per unit.
+    var pieces: [PlacedChip] {
+        guard isSplit else { return [self] }
+        return unitPlacements.compactMap { placement in
+            guard let unit = part.units.first(where: { $0.key == placement.key }) else { return nil }
+            return piece(unit, origin: placement.origin, isFlipped: placement.isFlipped, rotation: placement.rotation)
+        }
+    }
+
+    /// The piece a unit is drawn as; nil when the part is not split or has
+    /// no such unit.
+    func piece(forUnit key: String) -> PlacedChip? {
+        pieces.first { $0.unitKey == key }
+    }
+
+    /// The key of the unit that draws a pin (`ChipPin.index`).
+    func unitKey(ofPin index: Int) -> String? {
+        part.units.first { $0.pins.contains(index) }?.key
+    }
+
+    /// The last-drawn piece under a point (body and pin stubs).
+    func piece(at point: CGPoint) -> PlacedChip? {
+        pieces.last { $0.hitRect.contains(point) }
+    }
+
+    /// The pieces a box touches.
+    func pieces(in rect: CGRect) -> [PlacedChip] {
+        pieces.filter { $0.hitRect.intersects(rect) }
+    }
+
+    /// Draws the part as its units, in a column from where the block was:
+    /// each unit a grid step below the one before. Nothing for a part with
+    /// no units or one already split.
+    mutating func split() {
+        guard !isSplit, !part.units.isEmpty else { return }
+        var placements: [UnitPlacement] = []
+        var corner = SchematicGrid.snap(blockOrigin)
+        for unit in part.units {
+            placements.append(UnitPlacement(key: unit.key, origin: corner))
+            let size = piece(unit, origin: corner, isFlipped: false, rotation: 0).layout.size
+            corner.y = SchematicGrid.snap(corner.y + size.height + 2 * SchematicGrid.spacing)
+        }
+        unitPlacements = placements
+    }
+
+    /// Back to one block, at the corner of the box around the units.
+    mutating func join() {
+        guard isSplit else { return }
+        let corner = SchematicGrid.snap(origin)
+        unitPlacements = []
+        blockOrigin = corner
+    }
+
+    /// Takes a whole arrangement (a file's, a copy's): accepted only when it
+    /// names every unit of the part exactly once. Kept in unit order; a turn
+    /// is kept only where the unit's symbol turns. Returns whether it was
+    /// accepted; a refused list changes nothing.
+    @discardableResult
+    mutating func setPlacements(_ placements: [UnitPlacement]) -> Bool {
+        let keys = part.units.map(\.key)
+        guard !keys.isEmpty, placements.count == keys.count, Set(placements.map(\.key)) == Set(keys) else { return false }
+        unitPlacements = part.units.compactMap { unit in
+            guard var placement = placements.first(where: { $0.key == unit.key }) else { return nil }
+            let turns = if case .gate = unit.shape { true } else { false }
+            placement.rotation = turns ? Self.normalized(placement.rotation) : 0
+            return placement
+        }
+        return true
+    }
+
+    /// Changes one unit's placement; nothing when the part is not split or
+    /// has no such unit. A turn is kept only where the unit's symbol turns.
+    mutating func updatePlacement(_ key: String, _ body: (inout UnitPlacement) -> Void) {
+        guard let index = unitPlacements.firstIndex(where: { $0.key == key }) else { return }
+        var placement = unitPlacements[index]
+        body(&placement)
+        let turns = if case .gate? = part.units.first(where: { $0.key == key })?.shape { true } else { false }
+        placement.rotation = turns ? Self.normalized(placement.rotation) : 0
+        unitPlacements[index] = placement
     }
 
     /// 0, 90, 180 or 270 for any whole number of degrees.
@@ -1167,6 +1493,14 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
 
     /// Where a pin's wire leaves the body: the end of its stub.
     func tip(of slot: ChipLayout.PinSlot) -> CGPoint {
+        if isSplit {
+            // The unit that draws the pin says where it is.
+            for piece in pieces {
+                if let own = piece.layout.slots.first(where: { $0.pin.index == slot.pin.index }) {
+                    return piece.tip(of: own)
+                }
+            }
+        }
         let stub = ChipLayout.stubLength
         let size = layout.size
         switch slot.side {
@@ -1185,7 +1519,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// the body, so their view starts one stub higher.
     var viewOrigin: CGPoint {
         CGPoint(
-            x: origin.x - ChipLayout.labelMargin,
+            x: origin.x - sideMargin,
             y: origin.y - (hasVerticalPins ? ChipLayout.stubLength : 0)
         )
     }
@@ -1198,6 +1532,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// The body plus its pin stubs, used for hit testing and hover. Vertical
     /// supplies also have stubs above and below, so those are included too.
     var hitRect: CGRect {
+        if isSplit { return Self.union(pieces.map(\.hitRect)) }
         let stub = ChipLayout.stubLength
         let verticalStub = hasVerticalPins ? stub : 0
         return bodyRect.insetBy(dx: -stub, dy: -verticalStub)
@@ -1526,6 +1861,12 @@ nonisolated enum OrthogonalRoute {
 @MainActor
 @Observable
 final class SchematicDocument {
+    /// Not isolated: closing a document frees this while SwiftUI tears the
+    /// editor down, and an isolated deinit there aborts in the concurrency
+    /// runtime (`StopLookupScope`; see `VerifyDatasheetLifetimeTests`).
+    /// Nothing here needs the main actor to be freed.
+    nonisolated deinit {}
+
     private(set) var chips: [PlacedChip] = [] {
         didSet {
             chipsRevision &+= 1
@@ -1548,9 +1889,9 @@ final class SchematicDocument {
     /// The last `connectivity()` and `ratsnest()`, and the `copperRevision`
     /// they were built at (see Ratsnest.swift).
     @ObservationIgnored var keptConnectivity: (revision: Int, copper: BoardConnectivity)?
-    /// The last pour fills, with the pours and keep-outs they were made for (plan-52-D).
+    /// The last pour fills, with the pours, keep-outs and board edge they were made for (plan-52-D, plan-65-C).
     @ObservationIgnored var keptPourFills: (revision: Int, pours: [BoardPour], keepouts: [BoardKeepout],
-                                            fills: [UUID: PourFill])?
+                                            edge: BoardEdge, fills: [UUID: PourFill])?
     @ObservationIgnored var keptRatsnest: (revision: Int, lines: [(CGPoint, CGPoint)])?
     @ObservationIgnored private var keptChipPads: (revision: Int, pads: [[PlacedPad]])?
     @ObservationIgnored private var keptVoltageIssues: (revision: Int, issues: Set<VoltageIssue>)?
@@ -1593,6 +1934,8 @@ final class SchematicDocument {
     }
     /// Text blocks, in drawing order. Drawn under everything else.
     private(set) var notes: [SchematicNote] = []
+    /// The document's title, author, dates and title block (plan-64).
+    private(set) var documentInfo = DocumentInfo()
     /// Net labels, in drawing order. Labels with the same name are one net.
     private(set) var netLabels: [NetLabel] = [] { didSet { copperRevision &+= 1 } }
     /// A text block whose words the sidebar should start editing: one just
@@ -1604,6 +1947,7 @@ final class SchematicDocument {
     private(set) var schematicSelection = ItemSelection<SchematicItem>() {
         didSet {
             if !schematicSelection.isEmpty { clearSelection(except: .items) }
+            prunePicks()
             mirrorSchematicSelectionToBoard()
         }
     }
@@ -1700,6 +2044,9 @@ final class SchematicDocument {
         return nil
     }
 
+    /// Whether the title block is the only thing selected on the Schematic page.
+    var selectedTitleBlock: Bool { schematicSelection.sole == .titleBlock }
+
     /// The text block, when it is the only thing selected on the Schematic page.
     var selectedNoteID: UUID? {
         if case let .note(id)? = schematicSelection.sole { return id }
@@ -1776,6 +2123,9 @@ final class SchematicDocument {
 
     func releaseSelection(_ press: SelectionPress<SchematicItem>, wasClick: Bool) {
         schematicSelection.release(press, wasClick: wasClick)
+        // A click on one of several picked units keeps only that one.
+        if wasClick, let pick = pendingPick, isSelected(.chip(pick.chipID)) { pickedUnits[pick.chipID] = [pick.key] }
+        pendingPick = nil
     }
 
     func releaseSelection(_ press: SelectionPress<BoardItem>, wasClick: Bool) {
@@ -1801,7 +2151,7 @@ final class SchematicDocument {
     /// is.
     func schematicItems(in rect: CGRect) -> Set<SchematicItem> {
         var items = Set<SchematicItem>()
-        for chip in chips where chip.hitRect.intersects(rect) {
+        for chip in chips where !chip.pieces(in: rect).isEmpty {
             items.insert(.chip(chip.id))
         }
         for junction in junctions where rect.contains(junction.point) {
@@ -1810,6 +2160,7 @@ final class SchematicDocument {
         for note in notes where note.rect.intersects(rect) {
             items.insert(.note(note.id))
         }
+        if let block = titleBlockRect, block.intersects(rect) { items.insert(.titleBlock) }
         for label in netLabels where label.rect.intersects(rect) {
             items.insert(.label(label.id))
         }
@@ -1851,6 +2202,8 @@ final class SchematicDocument {
         for keepout in keepouts where keepoutIsShown(keepout, visible) && rect.contains(keepout.rect) {
             items.insert(.keepout(keepout.id))
         }
+        // A cutout likewise: its bounds inside the box.
+        for cutout in cutouts where rect.contains(cutout.shape.bounds) { items.insert(.cutout(cutout.id)) }
         return items
     }
 
@@ -1859,6 +2212,12 @@ final class SchematicDocument {
     func boxSelectSchematic(_ rect: CGRect, base: Set<SchematicItem>) {
         let items = base.union(schematicItems(in: rect))
         if items != schematicSelection.items { schematicSelection.set(items) }
+        // Of a part drawn as its units, the box picks the units it touches
+        // (plan-67). A part that was selected before the box keeps its picks.
+        for chip in chips where chip.isSplit && items.contains(.chip(chip.id)) && !base.contains(.chip(chip.id)) {
+            let touched = Set(chip.pieces(in: rect).compactMap(\.unitKey))
+            if pickedUnits[chip.id] != touched { pickedUnits[chip.id] = touched }
+        }
     }
 
     /// A Shift-drag on empty board: as `boxSelectSchematic`, on the PCB page.
@@ -1872,6 +2231,11 @@ final class SchematicDocument {
         if items != boardSelection.items { boardSelection.set(items) }
     }
 
+    /// Selects exactly `items` on the Schematic page (an Electrical Rules Check line).
+    func selectSchematicItems(_ items: Set<SchematicItem>) {
+        if items != schematicSelection.items { schematicSelection.set(items) }
+    }
+
     /// Edit › Select All on the Schematic: every part, wire, junction, text
     /// block, net label and bus.
     func selectAllSchematic() {
@@ -1882,6 +2246,7 @@ final class SchematicDocument {
         items.formUnion(notes.map { .note($0.id) })
         items.formUnion(netLabels.map { .label($0.id) })
         items.formUnion(buses.map { .bus($0.id) })
+        if documentInfo.titleBlock != nil { items.insert(.titleBlock) }
         if items != schematicSelection.items { schematicSelection.set(items) }
     }
 
@@ -1902,6 +2267,7 @@ final class SchematicDocument {
         }
         for pour in pours where visible.shows(.copper(pour.layer)) { items.insert(.pour(pour.id)) }
         for keepout in keepouts where keepoutIsShown(keepout, visible) { items.insert(.keepout(keepout.id)) }
+        for cutout in cutouts { items.insert(.cutout(cutout.id)) }
         if items != boardSelection.items { boardSelection.set(items) }
     }
 
@@ -1936,11 +2302,12 @@ final class SchematicDocument {
             case let .note(id): noteIDs.contains(id)
             case let .label(id): labelIDs.contains(id)
             case let .bus(id): busIDs.contains(id)
+            case .titleBlock: documentInfo.titleBlock != nil
             }
         }
         let footprints = Set(chips.filter { $0.board != nil }.map(\.id))
         let traceIDs = Set(traces.map(\.id)), viaIDs = Set(vias.map(\.id)), holeIDs = Set(holes.map(\.id))
-        let pourIDs = Set(pours.map(\.id)), keepoutIDs = Set(keepouts.map(\.id))
+        let pourIDs = Set(pours.map(\.id)), keepoutIDs = Set(keepouts.map(\.id)), cutoutIDs = Set(cutouts.map(\.id))
         boardSelection.filter { item in
             switch item {
             case let .footprint(id): footprints.contains(id)
@@ -1950,6 +2317,7 @@ final class SchematicDocument {
             case let .hole(id): holeIDs.contains(id)
             case let .pour(id): pourIDs.contains(id)
             case let .keepout(id): keepoutIDs.contains(id)
+            case let .cutout(id): cutoutIDs.contains(id)
             }
         }
     }
@@ -1957,6 +2325,10 @@ final class SchematicDocument {
     /// The PCB's size, layers, colour and units. Changed through the edit
     /// functions, so every change is an undo step.
     private(set) var board = BoardSettings() { didSet { copperRevision &+= 1 } }
+    /// The electrical rules check's settings (plan-63-E): severities, the pin
+    /// map and the excluded violations. Changed through the edit functions
+    /// (`setErcSeverity` …), so every change is an undo step.
+    private(set) var erc = ErcSettings()
     /// Free texts on the PCB, in drawing order.
     private(set) var texts: [BoardText] = []
     /// Copper traces on the PCB, in drawing order (plan-16).
@@ -1971,6 +2343,14 @@ final class SchematicDocument {
     private(set) var pours: [BoardPour] = [] { didSet { copperRevision &+= 1 } }
     /// Keep-outs (plan-52): rectangles the pours stay out of.
     private(set) var keepouts: [BoardKeepout] = [] { didSet { copperRevision &+= 1 } }
+    /// Cutouts (plan-65): regions of the board with no material, in drawing order.
+    private(set) var cutouts: [BoardCutout] = [] { didSet { copperRevision &+= 1 } }
+
+    /// The board's edge: its outline and every cutout's loop (plan-65). What
+    /// every reader of the edge asks.
+    var boardEdge: BoardEdge {
+        BoardEdge(outline: board.outline, cutouts: cutouts.map { $0.shape.loop })
+    }
 
     /// Lowest number tried for the next part's reference ("U" plus a number).
     private(set) var nextReference = 1
@@ -1980,9 +2360,25 @@ final class SchematicDocument {
     /// few seconds.
     var editorMessage: String?
 
+    /// The Electrical Rules Check window's marks on the schematic (plan-63-F):
+    /// editor state like the selection, never saved and not an undo step.
+    var ercMarkers: [ErcMarker] = []
+    /// The keys of the violations whose lines are selected in that window.
+    var ercSelectedKeys: Set<String> = []
+    /// The point a selected line asks the canvas to bring into view.
+    private(set) var ercFocus: ErcFocus?
+    private var ercFocusSerial = 0
+
+    /// Asks the canvas to bring `point` into view.
+    func focusErc(on point: CGPoint) {
+        ercFocusSerial += 1
+        ercFocus = ErcFocus(point: point, serial: ercFocusSerial)
+    }
+
     /// The part library, for the voltage check. With none, no edit is
     /// refused.
-    private let library: PartLibraryHandle?
+    /// The backend library (nil in some tests); the voltage check and the ERC read it.
+    let library: PartLibraryHandle?
 
     init(library: PartLibraryHandle? = nil) {
         self.library = library
@@ -2005,10 +2401,14 @@ final class SchematicDocument {
     func replaceContents(chips: [PlacedChip], wires: [Wire], junctions: [Junction], buses: [Bus],
                          nextReference: Int, board: BoardSettings, texts: [BoardText],
                          traces: [BoardTrace], vias: [BoardVia] = [], holes: [BoardHole] = [],
-                         pours: [BoardPour] = [], keepouts: [BoardKeepout] = [],
-                         notes: [SchematicNote] = [], netLabels: [NetLabel] = []) {
+                         pours: [BoardPour] = [], keepouts: [BoardKeepout] = [], cutouts: [BoardCutout] = [],
+                         notes: [SchematicNote] = [], netLabels: [NetLabel] = [],
+                         erc: ErcSettings = ErcSettings(),
+                         documentInfo: DocumentInfo = DocumentInfo()) {
+        self.erc = erc
         self.chips = chips
         self.notes = notes
+        self.documentInfo = documentInfo
         self.netLabels = netLabels
         self.wires = wires
         self.junctions = junctions
@@ -2028,10 +2428,11 @@ final class SchematicDocument {
         self.holes = holes
         self.pours = pours
         self.keepouts = keepouts
+        self.cutouts = cutouts
         editingNoteID = nil
         clearAllSelections()
         editorMessage = nil
-        history.clear()
+        clearUndoManager()
         recordingDepth = 0
         recordingStart = nil
         recordingName = nil
@@ -2041,14 +2442,19 @@ final class SchematicDocument {
 
     // MARK: Undo
 
-    /// Each page's undo and redo lists (plan-31). Observed, so the Edit
-    /// menu's titles follow it.
-    private var history = UndoHistory()
+    /// The document's one undo manager (plan-61-A). One recorded step is one
+    /// undo group on it. An `NSDocument` showing this document is given it.
+    @ObservationIgnored let undoManager = SchematicUndoManager()
+    /// The step on top of the manager's undo stack while typing may still
+    /// merge into it (`UndoStep.coalescing`).
+    @ObservationIgnored private var openStep: UndoStep?
+    /// Bumped when the manager's stacks change, so views reading `undoName`
+    /// and `redoName` follow (an `UndoManager` is not observable).
+    private var undoRevision = 0
     /// How many `recordEdit` calls (and an open gesture) are running. Only
     /// the outermost records.
     private var recordingDepth = 0
     private var recordingStart: DocumentState?
-    private var recordingPage: EditorPage = .schematic
     /// The name of the step: of the outermost edit that changed something,
     /// the first one (a gesture's edits are siblings, the first names it).
     private var recordingName: String?
@@ -2059,7 +2465,9 @@ final class SchematicDocument {
     private var outerCoalescing: String?
     /// True while the simulation runs: edits are not recorded and undo/redo
     /// do nothing. Set by `SimulationController`.
-    var isPlaying = false
+    var isPlaying = false {
+        didSet { undoManager.isLocked = isPlaying }
+    }
     /// A mouse drag is being recorded as one step.
     private(set) var isGestureOpen = false
 
@@ -2067,7 +2475,7 @@ final class SchematicDocument {
     var state: DocumentState {
         DocumentState(chips: chips, wires: wires, junctions: junctions, buses: buses, notes: notes,
                       netLabels: netLabels, nextReference: nextReference, board: board, texts: texts, traces: traces, vias: vias, holes: holes,
-                      pours: pours, keepouts: keepouts)
+                      pours: pours, keepouts: keepouts, cutouts: cutouts, erc: erc, documentInfo: documentInfo)
     }
 
     /// Writes a state back (undo, redo), then drops selections and editor
@@ -2087,14 +2495,18 @@ final class SchematicDocument {
         if holes != s.holes { holes = s.holes }
         if pours != s.pours { pours = s.pours }
         if keepouts != s.keepouts { keepouts = s.keepouts }
+        if cutouts != s.cutouts { cutouts = s.cutouts }
+        if erc != s.erc { erc = s.erc }
+        if documentInfo != s.documentInfo { documentInfo = s.documentInfo }
         pruneSelection()
         if let id = editingNoteID, !notes.contains(where: { $0.id == id }) { editingNoteID = nil }
         if let id = selectedBusID, bus(id) == nil { selectedBusID = nil }
         if let id = selectedPortID, portLocation(id) == nil { selectedPortID = nil }
     }
 
-    /// Runs `body` as one undo step named `name` on `page` (and on every page
-    /// that shows what it changed). Nested calls are part of the outermost
+    /// Runs `body` as one undo step named `name` on the document's undo
+    /// manager (`page` says where the edit was made; the step is the
+    /// document's). Nested calls are part of the outermost
     /// one. The step is named by the outermost call that changed something
     /// (the first such, among a gesture's calls). An edit
     /// that changes nothing records nothing. Pushes with the same
@@ -2103,7 +2515,7 @@ final class SchematicDocument {
     func recordEdit<T>(_ page: EditorPage, _ name: String, coalescing: String? = nil,
                        _ body: () throws -> T) rethrows -> T {
         guard !isPlaying else { return try body() }
-        if recordingDepth == 0 { startRecording(page, coalescing: coalescing) }
+        if recordingDepth == 0 { startRecording(coalescing: coalescing) }
         recordingDepth += 1
         let before = state
         defer {
@@ -2118,9 +2530,8 @@ final class SchematicDocument {
         return try body()
     }
 
-    private func startRecording(_ page: EditorPage, coalescing: String?) {
+    private func startRecording(coalescing: String?) {
         recordingStart = state
-        recordingPage = page
         recordingName = nil
         recordingCoalescing = nil
         outerCoalescing = coalescing
@@ -2140,9 +2551,102 @@ final class SchematicDocument {
         if board.edgeBus != nil, edgeBusID == nil { board.edgeBus = nil }
         let changes = UndoDiff.changes(from: start, to: state)
         guard !changes.isEmpty else { return }
-        let pages = changes.keys.reduce(into: Set([recordingPage])) { $0.formUnion($1.pages) }
-        history.push(UndoStep(name: recordingName ?? "Edit", coalescing: outerCoalescing ?? recordingCoalescing,
-                              changes: changes, pages: pages))
+        record(UndoStep(name: recordingName ?? "Edit", coalescing: outerCoalescing ?? recordingCoalescing,
+                        changes: changes))
+    }
+
+    /// Puts a recorded step on the undo manager, or folds it into the step
+    /// on top while typing with the same coalescing key.
+    private func record(_ step: UndoStep) {
+        if let key = step.coalescing, let top = openStep, top.coalescing == key {
+            // The registered handler reads `top.changes` when it runs, so
+            // nothing new is registered.
+            for (item, change) in step.changes {
+                if let older = top.changes[item] {
+                    top.changes[item] = UndoChange(before: older.before, after: change.after)
+                } else {
+                    top.changes[item] = change
+                }
+            }
+            top.changes = top.changes.filter { $0.value.before != $0.value.after }
+            if top.changes.isEmpty {
+                // Typed back to where it started: the step goes, as its
+                // handler registers nothing for a step that changes nothing.
+                openStep = nil
+                undoManager.dropTop()
+                undoRevision &+= 1
+            }
+            return
+        }
+        openStep = step.coalescing == nil ? nil : step
+        register(step, backwards: true)
+    }
+
+    /// One undo group holding one action: apply the step's diff `backwards`
+    /// (undo) or forwards (redo), then register the other direction. A step
+    /// that changes nothing any more (its items are gone) registers nothing,
+    /// so it leaves the stacks.
+    private func register(_ step: UndoStep, backwards: Bool) {
+        undoManager.beginUndoGrouping()
+        undoManager.registerUndo(withTarget: self) { document in
+            document.openStep = nil
+            var s = document.state
+            guard UndoDiff.apply(step.changes, backwards: backwards, to: &s) else { return }
+            document.setState(s)
+            document.undoManager.applied = true
+            document.register(step, backwards: !backwards)
+        }
+        undoManager.setActionName(step.name)
+        undoManager.endUndoGrouping()
+        undoRevision &+= 1
+    }
+
+    private func clearUndoManager() {
+        undoManager.removeAllActions()
+        openStep = nil
+        undoRevision &+= 1
+    }
+
+    /// Undoes the document's last step, whichever page made it. A step that
+    /// changes nothing any more is dropped and the next one undone. False
+    /// when there is nothing to undo, or while playing.
+    @discardableResult
+    func undo() -> Bool {
+        if isGestureOpen { endGesture() }
+        openStep = nil
+        guard !isPlaying, undoManager.canUndo else { return false }
+        undoManager.undo()
+        undoRevision &+= 1
+        return undoManager.applied
+    }
+
+    /// Redoes the last undone step, as `undo()`.
+    @discardableResult
+    func redo() -> Bool {
+        if isGestureOpen { endGesture() }
+        openStep = nil
+        guard !isPlaying, undoManager.canRedo else { return false }
+        undoManager.redo()
+        undoRevision &+= 1
+        return undoManager.applied
+    }
+
+    /// The name of the step `undo()` would undo ("Move"), or nil.
+    var undoName: String? {
+        _ = undoRevision
+        return undoManager.canUndo ? undoManager.undoActionName : nil
+    }
+
+    /// The name of the step `redo()` would redo, or nil.
+    var redoName: String? {
+        _ = undoRevision
+        return undoManager.canRedo ? undoManager.redoActionName : nil
+    }
+
+    /// The document is about to be written: the next typed character starts
+    /// a new step, so a save never splits a step in two states.
+    func willSave() {
+        openStep = nil
     }
 
     /// Starts recording a whole mouse drag on `page` as one step. A gesture
@@ -2151,7 +2655,7 @@ final class SchematicDocument {
         guard !isPlaying else { return }
         if isGestureOpen { endGesture() }
         isGestureOpen = true
-        if recordingDepth == 0 { startRecording(page, coalescing: nil) }
+        if recordingDepth == 0 { startRecording(coalescing: nil) }
         recordingDepth += 1
     }
 
@@ -2168,51 +2672,7 @@ final class SchematicDocument {
     /// The next edit starts a new step even with the same coalescing key
     /// (a note editor lost focus).
     func endCoalescing() {
-        history.endCoalescing()
-    }
-
-    /// Undoes the last step on `page`. A step that changes nothing any more
-    /// (its items are gone) is dropped and the next one undone. False when
-    /// there is nothing to undo, or while playing.
-    @discardableResult
-    func undo(on page: EditorPage) -> Bool {
-        if isGestureOpen { endGesture() }
-        guard !isPlaying else { return false }
-        while let step = history.popUndo(on: page) {
-            var s = state
-            if UndoDiff.apply(step.changes, backwards: true, to: &s) {
-                setState(s)
-                history.pushRedo(step)
-                return true
-            }
-        }
-        return false
-    }
-
-    /// Redoes the last undone step on `page`, as `undo(on:)`.
-    @discardableResult
-    func redo(on page: EditorPage) -> Bool {
-        if isGestureOpen { endGesture() }
-        guard !isPlaying else { return false }
-        while let step = history.popRedo(on: page) {
-            var s = state
-            if UndoDiff.apply(step.changes, backwards: false, to: &s) {
-                setState(s)
-                history.pushUndo(step)
-                return true
-            }
-        }
-        return false
-    }
-
-    /// The name of the step `undo(on:)` would undo ("Move"), or nil.
-    func undoName(on page: EditorPage) -> String? {
-        history.undoTop(on: page)?.name
-    }
-
-    /// The name of the step `redo(on:)` would redo, or nil.
-    func redoName(on page: EditorPage) -> String? {
-        history.redoTop(on: page)?.name
+        openStep = nil
     }
 
     // MARK: Chips
@@ -2362,7 +2822,7 @@ final class SchematicDocument {
         guard !ids.isEmpty else { return false }
         let newSymbol = symbol(for: newPart)
         for id in ids { swapPart(of: id, to: newPart, symbol: newSymbol) }
-        history.clear()
+        clearUndoManager()
         return true
     }
 
@@ -2507,27 +2967,211 @@ final class SchematicDocument {
     func flipChip(_ id: UUID) {
         recordEdit(.schematic, "Flip") {
             guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].symbol.canFlip else { return }
+                  chips[index].symbol.canFlip, !chips[index].isSplit else { return }
             chips[index].isFlipped.toggle()
             settleWires(attachedTo: id)
             adoptLooseEnds(chips: [id])
         }
     }
 
-    /// Turns an LED, diode, resistor or capacitor a quarter turn, clockwise
-    /// or not, and re-fits the wires attached to it.
+    /// Turns a part that can rotate (`PartSymbol.canRotate`) a quarter turn,
+    /// clockwise or not, and re-fits the wires attached to it.
     func rotateChip(_ id: UUID, counterclockwise: Bool = false) {
         recordEdit(.schematic, "Rotate") {
             guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].symbol.canRotate else { return }
+                  chips[index].symbol.canRotate, !chips[index].isSplit else { return }
             chips[index].rotation = PlacedChip.normalized(chips[index].rotation + (counterclockwise ? 270 : 90))
             settleWires(attachedTo: id)
             adoptLooseEnds(chips: [id])
         }
     }
 
+    // MARK: Units (plan-67)
+
+    /// The sidebar's View option: draws a part as its units (a gate IC as
+    /// separate gates) or as one block again. The wires stay on their pins.
+    /// Nothing for a part with no units, or one already drawn that way.
+    func setPartSplit(_ id: UUID, _ split: Bool) {
+        guard let index = chips.firstIndex(where: { $0.id == id }),
+              !chips[index].part.units.isEmpty, chips[index].isSplit != split else { return }
+        recordEdit(.schematic, "Change View") {
+            if split { chips[index].split() } else { chips[index].join() }
+            settleWires(attachedTo: id)
+            adoptLooseEnds(chips: [id])
+        }
+    }
+
+    /// Whether `ref` names a unit of a part drawn as its units.
+    private func placementIndex(_ ref: UnitRef) -> Int? {
+        guard let index = chips.firstIndex(where: { $0.id == ref.chipID }),
+              chips[index].unitPlacements.contains(where: { $0.key == ref.key }) else { return nil }
+        return index
+    }
+
+    /// Moves one unit's body corner to `origin` (snapped to the grid).
+    func moveUnit(_ ref: UnitRef, to origin: CGPoint) {
+        guard let index = placementIndex(ref) else { return }
+        recordEdit(.schematic, "Move") {
+            chips[index].updatePlacement(ref.key) { $0.origin = SchematicGrid.snap(origin) }
+            settleWires(attachedTo: ref.chipID)
+            adoptLooseEnds(chips: [ref.chipID])
+        }
+    }
+
+    /// Mirrors one unit left to right.
+    func flipUnit(_ ref: UnitRef) {
+        guard let index = placementIndex(ref) else { return }
+        recordEdit(.schematic, "Flip") {
+            chips[index].updatePlacement(ref.key) { $0.isFlipped.toggle() }
+            settleWires(attachedTo: ref.chipID)
+            adoptLooseEnds(chips: [ref.chipID])
+        }
+    }
+
+    /// Turns one unit a quarter turn. Nothing for a unit drawn as a block.
+    func rotateUnit(_ ref: UnitRef, counterclockwise: Bool = false) {
+        guard let index = placementIndex(ref),
+              chips[index].piece(forUnit: ref.key)?.symbol.canRotate == true else { return }
+        recordEdit(.schematic, "Rotate") {
+            chips[index].updatePlacement(ref.key) {
+                $0.rotation = PlacedChip.normalized($0.rotation + (counterclockwise ? 270 : 90))
+            }
+            settleWires(attachedTo: ref.chipID)
+            adoptLooseEnds(chips: [ref.chipID])
+        }
+    }
+
+    /// What Rotate or Flip acts on: a part, or one unit of a part drawn as
+    /// its units.
+    enum EditTarget: Equatable {
+        case chip(UUID)
+        case unit(UnitRef)
+    }
+
+    /// What Rotate would turn on the Schematic: the sole selected part when
+    /// its symbol turns, or, of a part drawn as its units, the one picked
+    /// unit when that turns (a gate; not the block of leftover pins).
+    var rotateTarget: EditTarget? { editTarget { $0.symbol.canRotate } }
+
+    /// What Flip would mirror: as `rotateTarget`, for symbols that flip.
+    var flipTarget: EditTarget? { editTarget { $0.symbol.canFlip } }
+
+    private func editTarget(_ can: (PlacedChip) -> Bool) -> EditTarget? {
+        guard let id = selectedChipID, let chip = chips.first(where: { $0.id == id }) else { return nil }
+        guard chip.isSplit else { return can(chip) ? .chip(id) : nil }
+        let keys = picked(chip)
+        guard keys.count == 1, let key = keys.first, let piece = chip.piece(forUnit: key), can(piece) else { return nil }
+        return .unit(UnitRef(chipID: id, key: key))
+    }
+
+    /// Which units of selected parts drawn as their units are picked: the
+    /// ones a drag, Flip or Rotate acts on, drawn fully marked (their
+    /// siblings faintly). A part with no entry has every unit picked. Editor
+    /// state like the selection: never saved, not part of undo.
+    private(set) var pickedUnits: [UUID: Set<String>] = [:]
+
+    /// The picked units of a part: every unit unless some were picked.
+    func picked(_ chip: PlacedChip) -> Set<String> {
+        let all = Set(chip.unitPlacements.map(\.key))
+        guard isSelected(.chip(chip.id)), let some = pickedUnits[chip.id]?.intersection(all), !some.isEmpty else { return all }
+        return some
+    }
+
+    /// A click on a unit: it alone is picked; with `extend` (Shift) it is
+    /// added to, or taken out of, the picked ones.
+    func pick(_ ref: UnitRef, extend: Bool) {
+        guard extend, var some = pickedUnits[ref.chipID] else {
+            pickedUnits[ref.chipID] = [ref.key]
+            return
+        }
+        if some.contains(ref.key) { some.remove(ref.key) } else { some.insert(ref.key) }
+        pickedUnits[ref.chipID] = some.isEmpty ? nil : some
+    }
+
+    /// Whether a drawn thing is shown selected: a selected part, or a picked
+    /// unit of one (`piece` is a part or a piece of one).
+    func isPicked(_ piece: PlacedChip) -> Bool {
+        guard isSelected(.chip(piece.id)) else { return false }
+        guard let key = piece.unitKey, let some = pickedUnits[piece.id], !some.isEmpty else { return true }
+        return some.contains(key)
+    }
+
+    /// A unit of a selected part that is not itself picked: shown faintly,
+    /// so it reads as part of the same IC.
+    func isSibling(_ piece: PlacedChip) -> Bool {
+        piece.unitKey != nil && isSelected(.chip(piece.id)) && !isPicked(piece)
+    }
+
+    /// The unit a click will leave as the only picked one, when the press
+    /// was on one of several picked things (see `pressPiece`).
+    private var pendingPick: UnitRef?
+
+    /// A Select press on what is drawn at a point (`piece(at:)`): a part, as
+    /// `pressSelection`; or a unit of a part drawn as its units, which picks
+    /// that unit.
+    ///
+    /// - No Shift: the unit becomes the only picked one, unless it is one of
+    ///   several picked things: then the drag moves them all and a click
+    ///   keeps only it.
+    /// - Shift: the unit joins the picked ones; a click on a picked unit
+    ///   takes it out again, and the part with it when it was the last.
+    func pressPiece(_ piece: PlacedChip, shift: Bool) -> SelectionPress<SchematicItem> {
+        guard let key = piece.unitKey, let chip = chips.first(where: { $0.id == piece.id }) else {
+            return pressSelection(.chip(piece.id), shift: shift)
+        }
+        let item = SchematicItem.chip(piece.id)
+        let wasSelected = isSelected(item)
+        let before = picked(chip)
+        pendingPick = nil
+        if shift {
+            if !wasSelected {
+                let press = schematicSelection.press(item, shift: true)
+                pickedUnits[piece.id] = [key]
+                return press
+            }
+            if before == [key] {
+                // The last picked unit: a click takes the part out of the selection.
+                return schematicSelection.press(item, shift: true)
+            }
+            var some = before
+            if some.contains(key) { some.remove(key) } else { some.insert(key) }
+            pickedUnits[piece.id] = some
+            return SelectionPress(dragsGroup: true, onClick: .none)
+        }
+        if wasSelected, before.contains(key), before.count > 1 || schematicSelection.count > 1 {
+            pendingPick = UnitRef(chipID: piece.id, key: key)
+            let press = schematicSelection.press(item, shift: false)
+            return SelectionPress(dragsGroup: true, onClick: press.onClick)
+        }
+        let press = schematicSelection.press(item, shift: false)
+        pickedUnits[piece.id] = [key]
+        return press
+    }
+
+    /// Picks exactly these units of their parts (a box select).
+    func pickUnits(_ refs: Set<UnitRef>) {
+        for chipID in Set(refs.map(\.chipID)) {
+            pickedUnits[chipID] = Set(refs.filter { $0.chipID == chipID }.map(\.key))
+        }
+    }
+
+    /// Forgets the picks of parts that are no longer selected, so a part
+    /// selected again starts with every unit picked.
+    private func prunePicks() {
+        guard !pickedUnits.isEmpty else { return }
+        let selected = schematicSelectedParts
+        let kept = pickedUnits.filter { selected.contains($0.key) }
+        if kept.count != pickedUnits.count { pickedUnits = kept }
+    }
+
     func chip(at point: CGPoint) -> PlacedChip? {
-        chips.last { $0.hitRect.contains(point) }
+        chips.last { $0.piece(at: point) != nil }
+    }
+
+    /// What is drawn under a point: a part, or the piece of a part drawn as
+    /// its units (plan-67; `PlacedChip.unitKey` says which).
+    func piece(at point: CGPoint) -> PlacedChip? {
+        chips.last { $0.piece(at: point) != nil }?.piece(at: point)
     }
 
     /// The junction within `tolerance` of `point`, if any.
@@ -2543,7 +3187,16 @@ final class SchematicDocument {
         for item in schematicSelection.items {
             switch item {
             case let .chip(id):
-                if let chip = chips.first(where: { $0.id == id }) { base.chips[id] = chip.origin }
+                guard let chip = chips.first(where: { $0.id == id }) else { break }
+                if chip.isSplit {
+                    // Only the picked units move (plan-67).
+                    let keys = picked(chip)
+                    for placement in chip.unitPlacements where keys.contains(placement.key) {
+                        base.units[UnitRef(chipID: id, key: placement.key)] = placement.origin
+                    }
+                } else {
+                    base.chips[id] = chip.origin
+                }
             case let .junction(id):
                 if let junction = junctions.first(where: { $0.id == id }) { base.junctions[id] = junction.point }
             case let .wire(id):
@@ -2552,6 +3205,8 @@ final class SchematicDocument {
                 if let note = notes.first(where: { $0.id == id }) { base.notes[id] = note.origin }
             case let .label(id):
                 if let label = netLabels.first(where: { $0.id == id }) { base.labels[id] = label.origin }
+            case .titleBlock:
+                base.titleBlock = documentInfo.titleBlock
             case let .bus(id):
                 if let bus = bus(id) {
                     base.buses[id] = bus
@@ -2574,10 +3229,14 @@ final class SchematicDocument {
     /// moved junction or a moved net label.
     private func moves(_ end: WireEnd, in base: SchematicGroupBase) -> Bool {
         switch end {
-        case let .pin(ref): base.chips[ref.chipID] != nil
-        case let .junction(id): base.junctions[id] != nil
-        case let .busPin(ref): base.ports.contains(ref.portID)
-        case let .label(id): base.labels[id] != nil
+        case let .pin(ref):
+            if base.chips[ref.chipID] != nil { return true }
+            guard !base.units.isEmpty, let chip = chips.first(where: { $0.id == ref.chipID }),
+                  let key = chip.unitKey(ofPin: ref.index) else { return false }
+            return base.units[UnitRef(chipID: ref.chipID, key: key)] != nil
+        case let .junction(id): return base.junctions[id] != nil
+        case let .busPin(ref): return base.ports.contains(ref.portID)
+        case let .label(id): return base.labels[id] != nil
         }
     }
 
@@ -2618,6 +3277,13 @@ final class SchematicDocument {
                 let moved = shifted(origin)
                 if chips[index].origin != moved { chips[index].origin = moved }
             }
+            for (ref, origin) in base.units {
+                guard let index = chips.firstIndex(where: { $0.id == ref.chipID }) else { continue }
+                let moved = shifted(origin)
+                if chips[index].unitPlacements.first(where: { $0.key == ref.key })?.origin != moved {
+                    chips[index].updatePlacement(ref.key) { $0.origin = moved }
+                }
+            }
             for index in junctions.indices {
                 guard let point = base.junctions[junctions[index].id] else { continue }
                 let moved = shifted(point)
@@ -2637,6 +3303,10 @@ final class SchematicDocument {
                 guard let origin = base.labels[netLabels[index].id] else { continue }
                 let moved = shifted(origin)
                 if netLabels[index].origin != moved { netLabels[index].origin = moved }
+            }
+            if let origin = base.titleBlock {
+                let moved = shifted(origin)
+                if documentInfo.titleBlock != moved { documentInfo.titleBlock = moved }
             }
             for index in wires.indices {
                 guard let route = base.paths[wires[index].id],
@@ -2660,8 +3330,8 @@ final class SchematicDocument {
                 }
                 wires[index].interior = interior
             }
-            adoptLooseEnds(chips: Set(base.chips.keys), ports: base.ports, junctions: Set(base.junctions.keys),
-                           labels: Set(base.labels.keys))
+            adoptLooseEnds(chips: Set(base.chips.keys).union(base.units.keys.map(\.chipID)), ports: base.ports,
+                           junctions: Set(base.junctions.keys), labels: Set(base.labels.keys))
         }
     }
 
@@ -2708,6 +3378,11 @@ final class SchematicDocument {
                     socket: chip.socket
                 )
                 placed.showsReference = chip.showsReference
+                if chip.isSplit {
+                    placed.setPlacements(chip.unitPlacements.map {
+                        UnitPlacement(key: $0.key, origin: shifted($0.origin), isFlipped: $0.isFlipped, rotation: $0.rotation)
+                    })
+                }
                 placed.board = placed.footprint.map {
                     BoardLayout.nextSpot(for: $0, among: chips + pastedChips, pad1: placed.part.firstPinDesignator,
                                          hasPinOneMark: placed.part.hasPinOneMark, grid: self.board.grid)
@@ -2864,7 +3539,7 @@ final class SchematicDocument {
             var changed = netLabels
             changed[index].style = style
             // Only becoming or leaving No Connect changes what joins what.
-            if netLabels[index].isNet != style.isNet, let library,
+            if netLabels[index].isNoConnect != style.isNoConnect, let library,
                let issue = VoltageCheck.firstNew(before: chips, wires, after: chips, wires, buses: buses,
                                                  labels: netLabels, afterLabels: changed,
                                                  known: currentVoltageIssues(library), library: library) {
@@ -2906,6 +3581,90 @@ final class SchematicDocument {
 
     func netLabelTip(_ id: UUID) -> CGPoint? {
         netLabels.first { $0.id == id }?.tip
+    }
+
+    // MARK: Document info (plan-64)
+
+    /// Runs `change` on the document info as one undo step named `name`.
+    /// Nothing is recorded when it changes nothing. Typing in one field
+    /// merges into one step through `coalescing`.
+    func editDocumentInfo(_ name: String, coalescing: String? = nil, _ change: (inout DocumentInfo) -> Void) {
+        recordEdit(.schematic, name, coalescing: coalescing) {
+            var edited = documentInfo
+            change(&edited)
+            if edited != documentInfo { documentInfo = edited }
+        }
+    }
+
+    func setInfoTitle(_ value: String) {
+        editDocumentInfo("Edit Title", coalescing: "info-title") { $0.title = value }
+    }
+
+    func setInfoAuthor(_ value: String) {
+        editDocumentInfo("Edit Author", coalescing: "info-author") { $0.author = value }
+    }
+
+    func setInfoRevision(_ value: String) {
+        editDocumentInfo("Edit Revision", coalescing: "info-revision") { $0.revision = value }
+    }
+
+    func setInfoDescription(_ value: String) {
+        editDocumentInfo("Edit Description", coalescing: "info-description") { $0.description = value }
+    }
+
+    func setInfoCreated(_ date: Date?) {
+        editDocumentInfo("Edit Created Date") { $0.created = date }
+    }
+
+    func setInfoUpdated(_ date: Date?) {
+        editDocumentInfo("Edit Updated Date") { $0.updated = date }
+    }
+
+    func setAutomaticDates(_ on: Bool) {
+        editDocumentInfo("Change Automatic Dates") { $0.automaticDates = on }
+    }
+
+    /// What a write of the file does to the dates (`DocumentInfo.stamp`).
+    /// Not an undo step, and it does not mark the document edited.
+    func stampDates(now: Date = Date()) {
+        var stamped = documentInfo
+        stamped.stamp(now: now)
+        if stamped != documentInfo { documentInfo = stamped }
+    }
+
+    // MARK: Title block (plan-64-C)
+
+    /// The title block as drawn, nil when it is not on the schematic.
+    var titleBlockLayout: TitleBlockLayout? {
+        documentInfo.titleBlock.map { TitleBlockLayout(documentInfo, origin: $0) }
+    }
+
+    /// The title block's frame, nil when it is not on the schematic.
+    var titleBlockRect: CGRect? { titleBlockLayout?.rect }
+
+    /// Whether the title block is shown and covers `point`.
+    func titleBlock(at point: CGPoint) -> Bool {
+        titleBlockRect?.contains(point) ?? false
+    }
+
+    /// Shows or hides the title block (one undo step). Turned on, it goes at
+    /// the bottom-right of the drawing: its right edge on the drawing's, a
+    /// little below it; an empty schematic puts it at (0, 0). Turned off, the
+    /// information stays. It is not selected when shown.
+    func setTitleBlockShown(_ on: Bool) {
+        guard on != (documentInfo.titleBlock != nil) else { return }
+        if !on {
+            editDocumentInfo("Hide Title Block") { $0.titleBlock = nil }
+            pruneSelection()
+            return
+        }
+        var origin = CGPoint.zero
+        var painter = BoundsPainter()
+        SchematicScene(self).paint(into: &painter)
+        if let bounds = painter.bounds {
+            origin = SchematicGrid.snap(CGPoint(x: bounds.maxX - TitleBlockLayout.width, y: bounds.maxY + 20))
+        }
+        editDocumentInfo("Show Title Block") { $0.titleBlock = origin }
     }
 
     // MARK: Text blocks (Schematic)
@@ -3124,6 +3883,8 @@ final class SchematicDocument {
     /// Sets the board's size in mm, each side clamped to `BoardSettings.sizeRange`.
     func setBoardSize(width: Double, height: Double) {
         recordEdit(.pcb, "Change Board Size") {
+            // A free-form outline fixes the size: it is the outline's bounds.
+            if board.isFreeForm { return }
             let range = BoardSettings.sizeRange
             if board.type == .customCard {
                 // A custom card is as high as you like above its tab, and at
@@ -3179,6 +3940,8 @@ final class SchematicDocument {
         recordEdit(.pcb, "Change Board Type") {
             guard board.type != type else { return }
             board.type = type
+            // A free-form outline belongs to the Custom type alone.
+            board.customOutline = nil
             if type != .customCard, let card = board.card {
                 board.width = card.length
                 board.height = card.height
@@ -3190,6 +3953,55 @@ final class SchematicDocument {
                 board.height = max(board.height, card.depth + 1)
             }
             if board.needsTwoLayers, board.layers < 2 { board.layers = 2 }
+        }
+    }
+
+    /// Makes the board a free-form Custom board with this outline (plan-65):
+    /// its bounds' top-left at (0, 0), no crossing, each side 1 to 1000 mm. It
+    /// is stored clockwise and sets the board's width and height to its
+    /// bounds; parts, cutouts and everything else stay where they are.
+    /// False, with no undo step, when `BoardSettings.problem(outline:)` refuses it.
+    @discardableResult
+    func setBoardOutline(_ points: [CGPoint]) -> Bool {
+        guard BoardSettings.problem(outline: points) == nil else { return false }
+        recordEdit(.pcb, "Change Board Outline") {
+            let outline = BoardGeometry.clockwise(points)
+            let bounds = BoardSettings.bounds(of: outline)
+            board.type = .custom
+            board.customOutline = outline
+            board.width = bounds.width
+            board.height = bounds.height
+        }
+        return true
+    }
+
+    /// File ▸ Import ▸ DXF… (plan-65-I), one undo step named `Import DXF`. *Outline and
+    /// cutouts*: the board takes the outline (a free-form Custom board), every cutout it had
+    /// is replaced by the DXF's, and nothing else moves. *Cutouts only*: the DXF's loops are added.
+    /// The new cutouts are the selection. Does nothing, with no step, when the outline is
+    /// refused (`BoardSettings.problem(outline:)`) or there is nothing to import.
+    func applyDXFImport(_ placed: DXFPlacedImport, mode: DXFImportMode) {
+        recordEdit(.pcb, "Import DXF") {
+            if mode == .outlineAndCutouts {
+                guard let outline = placed.outline, setBoardOutline(outline) else { return }
+                cutouts.removeAll()
+            }
+            guard mode == .outlineAndCutouts || !placed.cutouts.isEmpty else { return }
+            var added: [BoardItem] = []
+            for loop in placed.cutouts {
+                if let id = addCutout(.polygon(loop)) { added.append(.cutout(id)) }
+            }
+            boardSelection.set(Set(added))
+            pruneSelection()
+        }
+    }
+
+    /// Puts the rectangle back: the free-form outline is dropped and the
+    /// board keeps its width and height (the old bounds).
+    func resetBoardOutline() {
+        recordEdit(.pcb, "Reset Board Outline") {
+            guard board.customOutline != nil else { return }
+            board.customOutline = nil
         }
     }
 
@@ -3450,6 +4262,20 @@ final class SchematicDocument {
         }
     }
 
+    /// Sets the layer of every text in `ids`, as one undo step.
+    func setTextLayer(_ ids: some Collection<UUID>, _ layer: TextLayer) {
+        recordEdit(.pcb, "Change Layer") {
+            for id in ids { setTextLayer(id, layer) }
+        }
+    }
+
+    /// Sets the font size (mil) of every text in `ids`, as one undo step.
+    func setTextSize(_ ids: some Collection<UUID>, _ size: Int) {
+        recordEdit(.pcb, "Change Font Size") {
+            for id in ids { setTextSize(id, size) }
+        }
+    }
+
     /// Puts a text on the top or bottom of the board. Its box stays where it
     /// is. Does nothing on a 1-layer board, except to bring a text back to Top.
     func setTextSide(_ id: UUID, _ side: BoardSide) {
@@ -3691,6 +4517,19 @@ final class SchematicDocument {
         }
     }
 
+    /// Replaces the vertices of an unlocked trace with `points` (legal: at
+    /// least two, none of zero length), keeping its id, layer, width and
+    /// flags; the router's push moves existing copper this way (plan-66-C).
+    /// Not joined to anything: the caller keeps the trace's contacts.
+    @discardableResult
+    func setTracePoints(_ id: UUID, _ points: [CGPoint]) -> Bool {
+        guard let index = traces.firstIndex(where: { $0.id == id }), !traces[index].locked,
+              TraceRoute.isLegal(points) else { return false }
+        guard traces[index].points != points else { return true }
+        recordEdit(.pcb, "Move Trace") { traces[index].points = points }
+        return true
+    }
+
     /// The traces on the same layer reachable from `id` through shared
     /// vertices, `id` first.
     func connectedRun(of id: UUID) -> [UUID] {
@@ -3826,6 +4665,9 @@ final class SchematicDocument {
         case let .keepout(id)?:
             deleteKeepout(id)
             return true
+        case let .cutout(id)?:
+            deleteCutout(id)
+            return true
         default:
             return false
         }
@@ -3924,7 +4766,7 @@ final class SchematicDocument {
     @discardableResult
     func deleteBoardSelection() -> Bool {
         var textIDs: Set<UUID> = [], traceIDs: Set<UUID> = [], viaIDs: Set<UUID> = [], holeIDs: Set<UUID> = []
-        var pourIDs: Set<UUID> = [], keepoutIDs: Set<UUID> = []
+        var pourIDs: Set<UUID> = [], keepoutIDs: Set<UUID> = [], cutoutIDs: Set<UUID> = []
         for item in boardSelection.items {
             switch item {
             case let .text(id): textIDs.insert(id)
@@ -3933,11 +4775,12 @@ final class SchematicDocument {
             case let .hole(id): holeIDs.insert(id)
             case let .pour(id): pourIDs.insert(id)
             case let .keepout(id): keepoutIDs.insert(id)
+            case let .cutout(id): cutoutIDs.insert(id)
             case .footprint: break
             }
         }
         guard !textIDs.isEmpty || !traceIDs.isEmpty || !viaIDs.isEmpty || !holeIDs.isEmpty || !pourIDs.isEmpty
-                || !keepoutIDs.isEmpty else { return false }
+                || !keepoutIDs.isEmpty || !cutoutIDs.isEmpty else { return false }
         recordEdit(.pcb, "Delete") {
             texts.removeAll { textIDs.contains($0.id) }
             traces.removeAll { traceIDs.contains($0.id) }
@@ -3945,6 +4788,7 @@ final class SchematicDocument {
             holes.removeAll { holeIDs.contains($0.id) }
             pours.removeAll { pourIDs.contains($0.id) }
             keepouts.removeAll { keepoutIDs.contains($0.id) }
+            cutouts.removeAll { cutoutIDs.contains($0.id) }
             pruneSelection()
         }
         return true
@@ -4090,6 +4934,55 @@ final class SchematicDocument {
             case .top: if vias[index].tentedTop != tented { vias[index].tentedTop = tented }
             case .bottom: if vias[index].tentedBottom != tented { vias[index].tentedBottom = tented }
             }
+        }
+    }
+
+    // MARK: Electrical rules check settings (plan-63-E)
+
+    /// Sets a rule's severity (the default clears the change). One undo step.
+    func setErcSeverity(_ rule: ErcRule, _ severity: ErcSeverity) {
+        guard rule.hasSeverity else { return }
+        recordEdit(.schematic, "Change ERC Settings") {
+            var next = erc
+            next.set(severity, for: rule)
+            if next != erc { erc = next }
+        }
+    }
+
+    /// Sets one cell of the pin map and its mirror. One undo step.
+    func setErcPinMap(_ a: Int, _ b: Int, to level: UInt8) {
+        recordEdit(.schematic, "Change ERC Settings") {
+            var next = erc
+            next.setPinMap(a, b, to: level)
+            if next != erc { erc = next }
+        }
+    }
+
+    /// Back to KiCad's severities and pin map; the exclusions stay. One undo step.
+    func resetErcSettings() {
+        recordEdit(.schematic, "Reset ERC Settings") {
+            var next = erc
+            next.severities = [:]
+            next.pinMap = nil
+            if next != erc { erc = next }
+        }
+    }
+
+    /// Excludes violations by key (`ErcViolation.key`). One undo step.
+    func excludeErc(_ keys: Set<String>) {
+        recordEdit(.schematic, "Exclude Violation") {
+            var next = erc
+            next.exclusions.formUnion(keys)
+            if next != erc { erc = next }
+        }
+    }
+
+    /// Puts excluded violations back. One undo step.
+    func includeErc(_ keys: Set<String>) {
+        recordEdit(.schematic, "Include Violation") {
+            var next = erc
+            next.exclusions.subtract(keys)
+            if next != erc { erc = next }
         }
     }
 
@@ -4632,6 +5525,80 @@ final class SchematicDocument {
         }
     }
 
+    // MARK: Cutouts (PCB)
+
+    /// Adds a cutout of `shape` and selects it. A rounded shape's box is
+    /// snapped to the trace grid (and kept within the allowed sizes); a polygon
+    /// is stored clockwise. Nil, with no undo step, when `BoardCutout.problem`
+    /// refuses the shape.
+    @discardableResult
+    func addCutout(_ shape: BoardCutout.Shape) -> UUID? {
+        guard BoardCutout.problem(shape) == nil else { return nil }
+        return recordEdit(.pcb, "Add Cutout") { () -> UUID in
+            let stored: BoardCutout.Shape
+            switch shape {
+            case let .rounded(rect, radius):
+                // A circle or slot stays one when the grid moves its sides: fully rounded, and a circle square.
+                let full = BoardCutout(id: UUID(), shape: shape).kind != .rectangle
+                let square = BoardCutout(id: UUID(), shape: shape).kind == .circle
+                var box = snappedRect(rect)
+                if square { let side = max(box.width, box.height); box.size = CGSize(width: side, height: side) }
+                let fitted = BoardCutout.normalized(box, radius: radius)
+                stored = .rounded(rect: fitted.rect, radius: full ? min(fitted.rect.width, fitted.rect.height) / 2 : fitted.radius)
+            case let .polygon(points):
+                stored = .polygon(BoardGeometry.clockwise(points))
+            }
+            let cutout = BoardCutout(id: UUID(), shape: stored)
+            cutouts.append(cutout)
+            boardSelection.replace(with: .cutout(cutout.id))
+            return cutout.id
+        }
+    }
+
+    /// Moves a cutout so its bounds' top-left corner is at `origin`, snapped to the trace grid.
+    func moveCutout(_ id: UUID, to origin: CGPoint) {
+        recordEdit(.pcb, "Move") {
+            guard let index = cutouts.firstIndex(where: { $0.id == id }), !cutouts[index].locked else { return }
+            let target = BoardGrid.snap(origin, spacing: board.traceGrid)
+            let from = cutouts[index].shape.bounds.origin
+            let moved = cutouts[index].shape.translated(by: CGSize(width: target.x - from.x, height: target.y - from.y))
+            if cutouts[index].shape != moved { cutouts[index].shape = moved }
+        }
+    }
+
+    /// Sets a rounded cutout's box (snapped to the trace grid, at least 0.5 mm a side); its radius
+    /// stays within the new box. Does nothing to a polygon or a locked cutout.
+    func setCutoutRect(_ id: UUID, _ rect: CGRect, name: String = "Resize") {
+        recordEdit(.pcb, name) {
+            guard let index = cutouts.firstIndex(where: { $0.id == id }), !cutouts[index].locked,
+                  case let .rounded(_, radius) = cutouts[index].shape else { return }
+            // A circle or slot stays fully rounded when it is resized.
+            let full = cutouts[index].kind != .rectangle
+            let fitted = BoardCutout.normalized(snappedRect(rect), radius: radius)
+            let target = BoardCutout.Shape.rounded(
+                rect: fitted.rect, radius: full ? min(fitted.rect.width, fitted.rect.height) / 2 : fitted.radius)
+            if cutouts[index].shape != target { cutouts[index].shape = target }
+        }
+    }
+
+    /// Sets a rounded cutout's corner radius, within 0 to half its short side.
+    func setCutoutRadius(_ id: UUID, _ radius: Double) {
+        recordEdit(.pcb, "Change Cutout") {
+            guard let index = cutouts.firstIndex(where: { $0.id == id }), !cutouts[index].locked,
+                  case let .rounded(rect, _) = cutouts[index].shape else { return }
+            let fitted = BoardCutout.normalized(rect, radius: radius)
+            let target = BoardCutout.Shape.rounded(rect: fitted.rect, radius: fitted.radius)
+            if cutouts[index].shape != target { cutouts[index].shape = target }
+        }
+    }
+
+    func deleteCutout(_ id: UUID) {
+        recordEdit(.pcb, "Delete") {
+            cutouts.removeAll { $0.id == id }
+            pruneSelection()
+        }
+    }
+
     /// Whether a keep-out is drawn with `visible`: any layer it applies to shows.
     func keepoutIsShown(_ keepout: BoardKeepout, _ visible: BoardVisibility) -> Bool {
         guard let layers = keepout.layers else { return visible.showsAnyCopper }
@@ -4649,6 +5616,10 @@ final class SchematicDocument {
         if let keepout = keepouts.last(where: {
             keepoutIsShown($0, visible) && Self.distance(from: point, toBoundaryOf: $0.rect) <= tolerance
         }) { return .keepout(keepout.id) }
+        // A cutout, by its edge (a polygon's or a rounded one's own, not its box).
+        if let cutout = cutouts.last(where: { Double($0.shape.distance(to: point)) <= Double(tolerance) }) {
+            return .cutout(cutout.id)
+        }
         return nil
     }
 
@@ -4857,6 +5828,7 @@ final class SchematicDocument {
         case let .hole(id): holes.first { $0.id == id }?.locked ?? false
         case let .pour(id): pours.first { $0.id == id }?.locked ?? false
         case let .keepout(id): keepouts.first { $0.id == id }?.locked ?? false
+        case let .cutout(id): cutouts.first { $0.id == id }?.locked ?? false
         }
     }
 
@@ -4881,6 +5853,8 @@ final class SchematicDocument {
                 if let index = pours.firstIndex(where: { $0.id == id }) { pours[index].locked = locked }
             case let .keepout(id):
                 if let index = keepouts.firstIndex(where: { $0.id == id }) { keepouts[index].locked = locked }
+            case let .cutout(id):
+                if let index = cutouts.firstIndex(where: { $0.id == id }) { cutouts[index].locked = locked }
             }
         }
     }
@@ -4930,6 +5904,8 @@ final class SchematicDocument {
                 if let rect = pours.first(where: { $0.id == id })?.rect { base.pours[id] = rect }
             case let .keepout(id):
                 if let rect = keepouts.first(where: { $0.id == id })?.rect { base.keepouts[id] = rect }
+            case let .cutout(id):
+                if let shape = cutouts.first(where: { $0.id == id })?.shape { base.cutouts[id] = shape }
             }
         }
         return base
@@ -4973,6 +5949,7 @@ final class SchematicDocument {
                 if let (id, centre) = base.holes.first { moveHole(id, to: moved(centre, by: delta)) }
                 if let (id, rect) = base.pours.first { movePour(id, to: moved(rect.origin, by: delta)) }
                 if let (id, rect) = base.keepouts.first { moveKeepout(id, to: moved(rect.origin, by: delta)) }
+                if let (id, shape) = base.cutouts.first { moveCutout(id, to: moved(shape.bounds.origin, by: delta)) }
                 return
             }
             for index in pours.indices {
@@ -4984,6 +5961,11 @@ final class SchematicDocument {
                 guard let rect = base.keepouts[keepouts[index].id] else { continue }
                 let target = CGRect(origin: moved(rect.origin, by: offset), size: rect.size)
                 if keepouts[index].rect != target { keepouts[index].rect = target }
+            }
+            for index in cutouts.indices {
+                guard let shape = base.cutouts[cutouts[index].id] else { continue }
+                let target = shape.translated(by: offset)
+                if cutouts[index].shape != target { cutouts[index].shape = target }
             }
             for index in holes.indices {
                 guard let centre = base.holes[holes[index].id] else { continue }
@@ -5083,12 +6065,14 @@ final class SchematicDocument {
         return pourItem(at: point, tolerance: tolerance, visible: visible)
     }
 
-    /// Sets or clears an EEPROM's load file. Does nothing for other parts.
-    /// The memory window calls it only while the simulation is stopped.
+    /// Sets or clears a part's load file: an EEPROM's contents, or a
+    /// simulated microcontroller's firmware (plan-62-H). Does nothing for
+    /// other parts. The memory and processor windows call it only while the
+    /// simulation is stopped.
     func setMemoryFile(_ id: UUID, _ file: MemoryFile?) {
         recordEdit(.schematic, "Change Load File") {
             guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].part.kind == PART_EEPROM else { return }
+                  chips[index].part.hasLoadFile else { return }
             chips[index].memoryFile = file
         }
     }
@@ -5164,6 +6148,39 @@ final class SchematicDocument {
             editorMessage = nil
             chips[index].switchesOn[position - 1].toggle()
             return chips[index].switchesOn[position - 1]
+        }
+    }
+
+    /// Moves a slide switch's knob to position `state` (1-based): its contacts
+    /// become exactly those the position closes. Returns the position, or nil
+    /// when the chip is not a slide switch, has no such position, or the move
+    /// would close a contact the voltage check refuses (the knob stays and
+    /// `editorMessage` says why). Outside play mode a recorded edit ("Move
+    /// Switch"); in play mode an input, put back by `restoreSwitches`.
+    @discardableResult
+    func setSlideState(_ id: UUID, to state: Int) -> Int? {
+        return recordEdit(.schematic, "Move Switch") { () -> Int? in
+            guard let index = chips.firstIndex(where: { $0.id == id }),
+                  let slide = chips[index].part.slideStates,
+                  (1...slide.positions).contains(state) else { return nil }
+            let contacts = chips[index].part.slideContacts
+            let closed = PlacedChip.contacts(mask: slide.masks[state - 1], count: contacts)
+            if closed.indices.contains(where: { closed[$0] && !chips[index].switchesOn[$0] }), let library {
+                var candidate = chips
+                candidate[index].switchesOn = closed
+                if let issue = VoltageCheck.firstNew(before: chips, wires, after: candidate, wires,
+                                                     buses: buses, labels: netLabels,
+                                                     known: currentVoltageIssues(library), library: library) {
+                    editorMessage = VoltageCheck.message(issue, chips: chips, edit: .turnOn)
+                    return nil
+                }
+            }
+            editorMessage = nil
+            if let before = chips[index].slidePosition, before != state {
+                chips[index].slideDirection = state > before ? 1 : -1
+            }
+            chips[index].switchesOn = closed
+            return state
         }
     }
 
@@ -6334,6 +7351,9 @@ final class SchematicDocument {
             case port(UUID)
             case busLine(bus: UUID, line: UUID)
             case untick(port: UUID, keeping: Set<UUID>)
+            /// A selection with a part drawn as its units (plan-67): the
+            /// items, and what `deleteSchematicSelection` was asked.
+            case parts(items: Set<SchematicItem>, name: String, includingTitleBlock: Bool)
         }
     }
 
@@ -6342,6 +7362,12 @@ final class SchematicDocument {
     private(set) var pendingRemoval: PendingRemoval?
 
     func confirmPendingRemoval() {
+        if case let .parts(items, name, includingTitleBlock)? = pendingRemoval?.action {
+            pendingRemoval = nil
+            if items != schematicSelection.items { schematicSelection.set(items) }
+            deleteSchematicSelection(named: name, includingTitleBlock: includingTitleBlock, confirmed: true)
+            return
+        }
         recordEdit(.schematic, "Delete") {
             guard let pending = pendingRemoval else { return }
             pendingRemoval = nil
@@ -6349,8 +7375,25 @@ final class SchematicDocument {
             case let .port(id): removePort(id)
             case let .busLine(bus, line): removeBusLine(bus: bus, line: line)
             case let .untick(port, keeping): _ = setPortWires(port, keeping)
+            case .parts: break
             }
         }
+    }
+
+    /// What the confirm asks before parts drawn as several symbols go: a
+    /// click on one gate would otherwise take the whole IC unannounced.
+    /// `split` are those parts, of `count` selected parts.
+    static func removalQuestion(split: [PlacedChip], of count: Int) -> String {
+        if count == 1, let chip = split.first {
+            return "Delete \(chip.reference) and all \(chip.unitPlacements.count) of its symbols?"
+        }
+        let names = split.map(\.reference).sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+        let shown = names.prefix(3)
+        var list = shown.dropLast().joined(separator: ", ")
+        if let last = shown.last { list = list.isEmpty ? last : "\(list) and \(last)" }
+        if names.count > shown.count { list = shown.joined(separator: ", ") + " and \(names.count - shown.count) more" }
+        let verb = names.count == 1 ? "is" : "are"
+        return "Delete the \(count) selected parts? \(list) \(verb) drawn as several symbols; all of them go."
     }
 
     func cancelPendingRemoval() {
@@ -6472,6 +7515,14 @@ final class SchematicDocument {
         recordEdit(.schematic, "Delete") {
             guard pendingRemoval == nil else { return }
             if let hit = chip(at: point) {
+                if hit.isSplit {
+                    // Every symbol of the part would go: ask first (plan-67).
+                    schematicSelection.replace(with: .chip(hit.id))
+                    pendingRemoval = PendingRemoval(
+                        message: Self.removalQuestion(split: [hit], of: 1),
+                        action: .parts(items: [.chip(hit.id)], name: "Delete", includingTitleBlock: true))
+                    return
+                }
                 loosen { attaches($0, to: hit.id) }
                 chips.removeAll { $0.id == hit.id }
             } else if let hit = netLabel(at: point) {
@@ -6507,6 +7558,11 @@ final class SchematicDocument {
             } else if let hit = note(at: point) {
                 deleteNote(hit.id)
                 return
+            } else if titleBlock(at: point) {
+                // Only switches it off: the information stays.
+                documentInfo.titleBlock = nil
+                pruneSelection()
+                return
             } else {
                 return
             }
@@ -6523,8 +7579,15 @@ final class SchematicDocument {
     /// (`editorMessage` says why). Returns whether anything was deleted or
     /// asked.
     /// ⌘X passes `name` "Cut" (with no port selected: a port isn't copied).
+    /// A selected title block is only switched off (the information stays),
+    /// unless `includingTitleBlock` is false: ⌘X doesn't take it, so it stays
+    /// shown.
+    /// A selection with a part drawn as its units asks first
+    /// (`pendingRemoval`), unless `confirmed`: the agent's delete, and the
+    /// confirm itself.
     @discardableResult
-    func deleteSchematicSelection(named name: String = "Delete") -> Bool {
+    func deleteSchematicSelection(named name: String = "Delete", includingTitleBlock: Bool = true,
+                                  confirmed: Bool = false) -> Bool {
         guard pendingRemoval == nil else { return false }
         if let portID = selectedPortID {
             recordEdit(.schematic, "Delete") {
@@ -6541,6 +7604,7 @@ final class SchematicDocument {
         }
         var chipIDs: Set<UUID> = [], wireIDs: Set<UUID> = [], noteIDs: Set<UUID> = []
         var labelIDs: Set<UUID> = [], busIDs: Set<UUID> = []
+        var hidesTitleBlock = false
         for item in schematicSelection.items {
             switch item {
             case let .chip(id): chipIDs.insert(id)
@@ -6548,6 +7612,7 @@ final class SchematicDocument {
             case let .note(id): noteIDs.insert(id)
             case let .label(id): labelIDs.insert(id)
             case let .bus(id): busIDs.insert(id)
+            case .titleBlock: hidesTitleBlock = includingTitleBlock
             case .junction: break
             }
         }
@@ -6556,9 +7621,17 @@ final class SchematicDocument {
             busIDs.remove(edge)
             message = edgeBusUndeletable(bus)
         }
-        guard !chipIDs.isEmpty || !wireIDs.isEmpty || !noteIDs.isEmpty || !labelIDs.isEmpty || !busIDs.isEmpty else {
+        guard !chipIDs.isEmpty || !wireIDs.isEmpty || !noteIDs.isEmpty || !labelIDs.isEmpty || !busIDs.isEmpty
+            || hidesTitleBlock else {
             if let message { editorMessage = message }
             return false
+        }
+        let split = chips.filter { chipIDs.contains($0.id) && $0.isSplit }
+        if !confirmed, !split.isEmpty {
+            pendingRemoval = PendingRemoval(
+                message: Self.removalQuestion(split: split, of: chipIDs.count),
+                action: .parts(items: schematicSelection.items, name: name, includingTitleBlock: includingTitleBlock))
+            return true
         }
         let portIDs = Set(buses.filter { busIDs.contains($0.id) }.flatMap { $0.ports.map(\.id) })
         recordEdit(.schematic, name) {
@@ -6576,6 +7649,7 @@ final class SchematicDocument {
             netLabels.removeAll { labelIDs.contains($0.id) }
             notes.removeAll { noteIDs.contains($0.id) }
             if let editing = editingNoteID, noteIDs.contains(editing) { editingNoteID = nil }
+            if hidesTitleBlock { documentInfo.titleBlock = nil }
             pruneJunctions()
         }
         return true

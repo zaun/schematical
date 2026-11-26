@@ -1,0 +1,1197 @@
+diff --git a/schematical/Info.plist b/schematical/Info.plist
+index 9ae534e3..0df990f4 100644
+--- a/schematical/Info.plist
++++ b/schematical/Info.plist
+@@ -2,6 +2,33 @@
+ <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+ <plist version="1.0">
+ <dict>
++	<key>CFBundleDocumentTypes</key>
++	<array>
++		<dict>
++			<key>CFBundleTypeName</key>
++			<string>Schematical Schematic</string>
++			<key>CFBundleTypeRole</key>
++			<string>Editor</string>
++			<key>LSHandlerRank</key>
++			<string>Owner</string>
++			<key>LSItemContentTypes</key>
++			<array>
++				<string>jgz.schematical.schematic</string>
++			</array>
++		</dict>
++		<dict>
++			<key>CFBundleTypeName</key>
++			<string>Schematical Part</string>
++			<key>CFBundleTypeRole</key>
++			<string>Viewer</string>
++			<key>LSHandlerRank</key>
++			<string>Owner</string>
++			<key>LSItemContentTypes</key>
++			<array>
++				<string>jgz.schematical.part</string>
++			</array>
++		</dict>
++	</array>
+ 	<key>UTExportedTypeDeclarations</key>
+ 	<array>
+ 		<dict>
+diff --git a/schematical/schematical.xcodeproj/project.pbxproj b/schematical/schematical.xcodeproj/project.pbxproj
+index e6fea417..30e3d42e 100644
+--- a/schematical/schematical.xcodeproj/project.pbxproj
++++ b/schematical/schematical.xcodeproj/project.pbxproj
+@@ -334,10 +334,11 @@
+ 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+ 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+ 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+-				CODE_SIGN_STYLE = Automatic;
++				CODE_SIGN_IDENTITY = "-";
++				CODE_SIGN_STYLE = Manual;
+ 				COMBINE_HIDPI_IMAGES = YES;
+ 				CURRENT_PROJECT_VERSION = 1;
+-				DEVELOPMENT_TEAM = 8BU2Y8C5J7;
++				DEVELOPMENT_TEAM = "";
+ 				ENABLE_APP_SANDBOX = YES;
+ 				ENABLE_HARDENED_RUNTIME = YES;
+ 				ENABLE_INCOMING_NETWORK_CONNECTIONS = YES;
+@@ -362,8 +363,9 @@
+ 					"@executable_path/../Frameworks",
+ 				);
+ 				MARKETING_VERSION = 1.0;
+-				PRODUCT_BUNDLE_IDENTIFIER = jgz.schematical;
+-				PRODUCT_NAME = "$(TARGET_NAME)";
++				PRODUCT_BUNDLE_IDENTIFIER = jgz.schematical.spike59;
++				PRODUCT_MODULE_NAME = schematical;
++				PRODUCT_NAME = SchematicalSpike59;
+ 				REGISTER_APP_GROUPS = YES;
+ 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+ 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+@@ -381,10 +383,11 @@
+ 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+ 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+ 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+-				CODE_SIGN_STYLE = Automatic;
++				CODE_SIGN_IDENTITY = "-";
++				CODE_SIGN_STYLE = Manual;
+ 				COMBINE_HIDPI_IMAGES = YES;
+ 				CURRENT_PROJECT_VERSION = 1;
+-				DEVELOPMENT_TEAM = 8BU2Y8C5J7;
++				DEVELOPMENT_TEAM = "";
+ 				ENABLE_APP_SANDBOX = YES;
+ 				ENABLE_HARDENED_RUNTIME = YES;
+ 				ENABLE_INCOMING_NETWORK_CONNECTIONS = YES;
+@@ -409,8 +412,9 @@
+ 					"@executable_path/../Frameworks",
+ 				);
+ 				MARKETING_VERSION = 1.0;
+-				PRODUCT_BUNDLE_IDENTIFIER = jgz.schematical;
+-				PRODUCT_NAME = "$(TARGET_NAME)";
++				PRODUCT_BUNDLE_IDENTIFIER = jgz.schematical.spike59;
++				PRODUCT_MODULE_NAME = schematical;
++				PRODUCT_NAME = SchematicalSpike59;
+ 				REGISTER_APP_GROUPS = YES;
+ 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+ 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+diff --git a/schematical/schematical/Canvas/SchematicModel.swift b/schematical/schematical/Canvas/SchematicModel.swift
+index ee9aa681..782e413b 100644
+--- a/schematical/schematical/Canvas/SchematicModel.swift
++++ b/schematical/schematical/Canvas/SchematicModel.swift
+@@ -1950,6 +1950,7 @@ final class SchematicDocument {
+         clearAllSelections()
+         editorMessage = nil
+         history.clear()
++        onHistoryCleared?()
+         recordingDepth = 0
+         recordingStart = nil
+         recordingName = nil
+@@ -1962,6 +1963,11 @@ final class SchematicDocument {
+     /// Each page's undo and redo lists (plan-31). Observed, so the Edit
+     /// menu's titles follow it.
+     private var history = UndoHistory()
++    /// plan-59 spike: when set, each recorded step goes here (to the
++    /// document's NSUndoManager) and not onto the per-page lists.
++    @ObservationIgnored var onStep: ((UndoStep, EditorPage) -> Void)?
++    @ObservationIgnored var onEndCoalescing: (() -> Void)?
++    @ObservationIgnored var onHistoryCleared: (() -> Void)?
+     /// How many `recordEdit` calls (and an open gesture) are running. Only
+     /// the outermost records.
+     private var recordingDepth = 0
+@@ -2059,8 +2065,9 @@ final class SchematicDocument {
+         let changes = UndoDiff.changes(from: start, to: state)
+         guard !changes.isEmpty else { return }
+         let pages = changes.keys.reduce(into: Set([recordingPage])) { $0.formUnion($1.pages) }
+-        history.push(UndoStep(name: recordingName ?? "Edit", coalescing: outerCoalescing ?? recordingCoalescing,
+-                              changes: changes, pages: pages))
++        let step = UndoStep(name: recordingName ?? "Edit", coalescing: outerCoalescing ?? recordingCoalescing,
++                            changes: changes, pages: pages)
++        if let onStep { onStep(step, recordingPage) } else { history.push(step) }
+     }
+ 
+     /// Starts recording a whole mouse drag on `page` as one step. A gesture
+@@ -2087,6 +2094,19 @@ final class SchematicDocument {
+     /// (a note editor lost focus).
+     func endCoalescing() {
+         history.endCoalescing()
++        onEndCoalescing?()
++    }
++
++    /// Applies one step's diff, backwards (undo) or forwards (redo), as
++    /// `undo(on:)` and `redo(on:)` do. False when it changes nothing any
++    /// more, or while playing. For the NSUndoManager bridge.
++    func applyStep(_ step: UndoStep, backwards: Bool) -> Bool {
++        if isGestureOpen { endGesture() }
++        guard !isPlaying else { return false }
++        var s = state
++        guard UndoDiff.apply(step.changes, backwards: backwards, to: &s) else { return false }
++        setState(s)
++        return true
+     }
+ 
+     /// Undoes the last step on `page`. A step that changes nothing any more
+@@ -2281,6 +2301,7 @@ final class SchematicDocument {
+         let newSymbol = symbol(for: newPart)
+         for id in ids { swapPart(of: id, to: newPart, symbol: newSymbol) }
+         history.clear()
++        onHistoryCleared?()
+         return true
+     }
+ 
+diff --git a/schematical/schematical/ContentView.swift b/schematical/schematical/ContentView.swift
+index b14e648c..a7538bf0 100644
+--- a/schematical/schematical/ContentView.swift
++++ b/schematical/schematical/ContentView.swift
+@@ -95,13 +95,20 @@ struct ContentView: View {
+     /// The supply the VCC tool places (a `SupplyChoice` name), an app preference.
+     @AppStorage("supplyVoltage") private var supplyVoltage = SupplyChoice.defaultName
+ 
+-    init() {
++    /// The DocumentGroup document this window edits, and the URL SwiftUI
++    /// reports for it (plan-59 spike).
++    private let model: SchematicDocumentModel
++    private let documentURL: URL?
++
++    init(model: SchematicDocumentModel, fileURL: URL?) {
++        self.model = model
++        self.documentURL = fileURL
++        // The reader gets no URL from SwiftUI; the view has it. The first
++        // call applies the file that was read.
++        model.attach(fileURL: fileURL)
+         let catalog = PartCatalogStore.shared
+-        let document = SchematicDocument(library: catalog.library)
+-        // A new schematic starts with Power (5V, 3V3, 12V, 24V) and Logic classes
+-        // (an opened file replaces them with its own).
+-        document.addStandardNetClasses()
+-        let simulation = SimulationController(library: catalog.library)
++        let document = model.document
++        let simulation = model.simulation
+         _document = State(initialValue: document)
+         _simulation = State(initialValue: simulation)
+         // Opening a file stops any running simulation first, since the
+@@ -760,7 +767,7 @@ struct ContentView: View {
+                 file.loadClaimedOpen()
+             }
+             .onAppear {
+-                file.openNewWindow = { openWindow(id: "schematic") }
++                model.attach(fileURL: documentURL)
+                 SchematicSessions.shared.register(sessionID, document: document, simulation: simulation, file: file)
+                 simulation.setSpeed(simulationSpeed)
+                 installEditKeyMonitor()
+@@ -809,7 +816,7 @@ struct ContentView: View {
+                 isDesignRuleCheckOpen = true
+                 openWindow(id: "drc", value: DesignRuleCheckTarget(sessionID: sessionID))
+             } : nil)
+-            .background(WindowReader { file.window = $0 })
++            .background(WindowReader { file.window = $0; model.window = $0 })
+             .navigationTitle(file.displayName)
+     }
+ 
+@@ -866,7 +873,7 @@ struct ContentView: View {
+ }
+ 
+ #Preview {
+-    ContentView()
++    ContentView(model: SchematicDocumentModel(), fileURL: nil)
+ }
+ 
+ /// "running at 0.078×" while the simulation runs below 90 % of the chosen speed.
+diff --git a/schematical/schematical/Document/SchematicDocumentModel.swift b/schematical/schematical/Document/SchematicDocumentModel.swift
+new file mode 100644
+index 00000000..cc06217e
+--- /dev/null
++++ b/schematical/schematical/Document/SchematicDocumentModel.swift
+@@ -0,0 +1,251 @@
++//
++//  SchematicDocumentModel.swift
++//  schematical — plan-59 spike, candidate G
++//
++//  The DocumentGroup document: a ReferenceFileDocument that owns what
++//  ContentView.init used to build (SchematicDocument, SimulationController)
++//  and reads and writes it through the unchanged SchematicFile.
++//
++
++import AppKit
++import Combine
++import Foundation
++import QuartzCore
++import SwiftUI
++import UniformTypeIdentifiers
++
++/// One line per event, in the app's container (`~/Library/Containers/<id>/Data/spike59.log`),
++/// so a probe's evidence can be read from the shell.
++nonisolated enum SpikeLog {
++    static let url = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("spike59.log")
++    private static let lock = NSLock()
++
++    static func log(_ text: String) {
++        lock.lock()
++        defer { lock.unlock() }
++        let line = String(format: "%.3f ", Date().timeIntervalSince1970) + text + "\n"
++        if let handle = try? FileHandle(forWritingTo: url) {
++            handle.seekToEndOfFile()
++            handle.write(Data(line.utf8))
++            try? handle.close()
++        } else {
++            try? Data(line.utf8).write(to: url)
++        }
++    }
++}
++
++/// Nonisolated: the protocol is `Sendable` with nonisolated requirements, and
++/// SwiftUI calls `init(configuration:)` and `fileWrapper(snapshot:configuration:)`
++/// off the main thread. Everything that touches the document is `@MainActor`.
++nonisolated final class SchematicDocumentModel: ReferenceFileDocument, @unchecked Sendable {
++    typealias Snapshot = SchematicFile
++
++    static var readableContentTypes: [UTType] { [SchematicFile.contentType] }
++
++    /// Identifies this document to its child windows (plan-59-B).
++    let id = UUID()
++
++    /// The decoded file, read off the main thread, waiting for the main actor
++    /// (and the file's URL) to be applied.
++    private let pendingLock = NSLock()
++    private var pending: SchematicFile?
++
++    @MainActor private var built: (document: SchematicDocument, simulation: SimulationController)?
++    /// The file's URL, handed over by the editor view: SwiftUI gives it to
++    /// neither the reader nor the writer.
++    @MainActor private(set) var fileURL: URL?
++    @MainActor private(set) var loadError: String?
++    /// The undo manager SwiftUI gives the editor view (plan-59-A phase 4),
++    /// and the bridge that turns each document step into a registration on it.
++    @MainActor weak var undoManager: UndoManager?
++    @MainActor private(set) var undoBridge: SchematicUndoBridge?
++    /// Probe F2: after the URL changes, mark the document edited so the next
++    /// autosave rewrites load-file paths relative to the new folder.
++    @MainActor static var resavesAfterMove = false
++
++    @MainActor
++    func connectUndo(_ manager: UndoManager?) {
++        undoManager = manager
++        _ = document
++        undoBridge?.connect(manager)
++    }
++
++    /// The AppKit document SwiftUI made for this model, found through the
++    /// window (public API: NSWindowController.document).
++    @MainActor var platformDocument: NSDocument? {
++        window?.windowController?.document as? NSDocument
++    }
++
++    /// The window showing this document, set by the editor view.
++    @MainActor weak var window: NSWindow?
++
++    /// Every live model, held weakly: a child window finds its document here
++    /// by id without keeping it alive (plan-59-B § 4).
++    private static let registryLock = NSLock()
++    private static let registry = NSHashTable<SchematicDocumentModel>.weakObjects()
++
++    static var all: [SchematicDocumentModel] {
++        registryLock.lock()
++        defer { registryLock.unlock() }
++        return registry.allObjects
++    }
++
++    static func model(id: UUID) -> SchematicDocumentModel? {
++        all.first { $0.id == id }
++    }
++
++    private func register() {
++        Self.registryLock.lock()
++        Self.registry.add(self)
++        Self.registryLock.unlock()
++    }
++
++    deinit {
++        SpikeLog.log("model.deinit id=\(id)")
++    }
++
++    /// A new, untitled document.
++    init() {
++        register()
++        SpikeLog.log("model.init() main=\(Thread.isMainThread) id=\(id)")
++    }
++
++    init(configuration: ReadConfiguration) throws {
++        guard let data = configuration.file.regularFileContents else {
++            throw CocoaError(.fileReadCorruptFile)
++        }
++        pending = try SchematicFile.decode(data)
++        register()
++        SpikeLog.log("model.init(configuration:) main=\(Thread.isMainThread) bytes=\(data.count) "
++            + "filename=\(configuration.file.filename ?? "nil") id=\(id)")
++    }
++
++    // MARK: The document
++
++    @MainActor var document: SchematicDocument { build().document }
++    @MainActor var simulation: SimulationController { build().simulation }
++
++    @MainActor
++    private func build() -> (document: SchematicDocument, simulation: SimulationController) {
++        if let built { return built }
++        let catalog = PartCatalogStore.shared
++        let document = SchematicDocument(library: catalog.library)
++        // A new schematic starts with the standard net classes (an opened
++        // file replaces them with its own), as ContentView.init did.
++        document.addStandardNetClasses()
++        let simulation = SimulationController(library: catalog.library)
++        let pair = (document, simulation)
++        built = pair
++        undoBridge = SchematicUndoBridge(document: document)
++        return pair
++    }
++
++    /// The editor view calls this with `configuration.fileURL` when it is made
++    /// and when the URL changes. The first call applies a read file, so its
++    /// relative load-file paths resolve against the real URL.
++    @MainActor
++    func attach(fileURL url: URL?) {
++        let changed = url != fileURL
++        fileURL = url
++        pendingLock.lock()
++        let file = pending
++        pending = nil
++        pendingLock.unlock()
++        if let file {
++            do {
++                try load(file, fileURL: url)
++                SpikeLog.log("model.attach applied file url=\(url?.path ?? "nil") parts=\(document.chips.count) "
++                    + "catalog=\(PartCatalogStore.shared.loadState)")
++            } catch {
++                loadError = error.localizedDescription
++                SpikeLog.log("model.attach apply FAILED \(error)")
++            }
++        } else if changed {
++            SpikeLog.log("model.attach url changed to \(url?.path ?? "nil")")
++            if Self.resavesAfterMove, document.chips.contains(where: { $0.memoryFile != nil }) {
++                platformDocument?.updateChangeCount(.changeDone)
++                SpikeLog.log("model.attach marked edited so load-file paths are rewritten")
++            }
++        }
++    }
++
++    /// Decodes and applies file bytes; callable from the harness
++    /// (`FileDocumentReadConfiguration` has no public initializer).
++    @MainActor
++    func load(_ data: Data, fileURL url: URL?) throws {
++        fileURL = url
++        try load(SchematicFile.decode(data), fileURL: url)
++    }
++
++    @MainActor
++    private func load(_ file: SchematicFile, fileURL url: URL?) throws {
++        simulation.stop()
++        try file.apply(to: document, catalog: PartCatalogStore.shared, fileURL: url)
++    }
++
++    // MARK: Writing
++
++    /// The snapshot step, on the main actor; times itself for probe F4.
++    @MainActor
++    func makeSnapshot() -> SchematicFile {
++        let start = CACurrentMediaTime()
++        undoBridge?.endCoalescing()
++        let file = SchematicFile(document: document, fileURL: fileURL)
++        SpikeLog.log(String(format: "model.snapshot ms=%.3f url=%@ memoryPaths=%@",
++                            (CACurrentMediaTime() - start) * 1000, fileURL?.path ?? "nil",
++                            file.parts.compactMap { $0.memoryFile?.path }.description))
++        return file
++    }
++
++    func snapshot(contentType: UTType) throws -> SchematicFile {
++        let onMain = Thread.isMainThread
++        SpikeLog.log("model.snapshot(contentType:) main=\(onMain)")
++        if onMain {
++            return MainActor.assumeIsolated { makeSnapshot() }
++        }
++        // SwiftUI calls this on a background queue while the main thread waits
++        // in -[NSDocument _waitForUserInteractionUnblocking]; a hop to the
++        // main queue deadlocks (evidence/F4-G-snapshot-thread.txt). The
++        // document is read here, in place, with the main thread parked.
++        return Self.withMainActorParked { makeSnapshot() }
++    }
++
++    /// Runs main-actor code on the current thread. Only correct while the
++    /// main thread is blocked waiting for this thread, as it is during
++    /// `snapshot(contentType:)`.
++    private static func withMainActorParked<T>(_ body: @MainActor () -> T) -> T {
++        withoutActuallyEscaping(body) { isolated in
++            unsafeBitCast(isolated, to: (() -> T).self)()
++        }
++    }
++
++    func fileWrapper(snapshot: SchematicFile, configuration: WriteConfiguration) throws -> FileWrapper {
++        SpikeLog.log("model.fileWrapper main=\(Thread.isMainThread) "
++            + "existing=\(configuration.existingFile?.filename ?? "nil")")
++        return FileWrapper(regularFileWithContents: try snapshot.encoded())
++    }
++
++    /// The bytes a save writes, callable from the harness.
++    @MainActor
++    func encodedSnapshot() throws -> Data {
++        try makeSnapshot().encoded()
++    }
++}
++
++/// Hands the model what only the scene knows: the file's URL and the
++/// document's undo manager (`EnvironmentValues.undoManager`).
++struct DocumentWiring: ViewModifier {
++    let model: SchematicDocumentModel
++    let fileURL: URL?
++    @Environment(\.undoManager) private var undoManager
++
++    func body(content: Content) -> some View {
++        content
++            .onChange(of: undoManager, initial: true) { _, manager in
++                model.connectUndo(manager)
++            }
++            .onChange(of: fileURL) { _, url in
++                model.attach(fileURL: url)
++            }
++    }
++}
+diff --git a/schematical/schematical/Document/SchematicFileController.swift b/schematical/schematical/Document/SchematicFileController.swift
+index edec9bde..1df629b2 100644
+--- a/schematical/schematical/Document/SchematicFileController.swift
++++ b/schematical/schematical/Document/SchematicFileController.swift
+@@ -713,10 +713,6 @@ struct SchematicFileCommands: Commands {
+         // SwiftUI fills File › New with a submenu naming every WindowGroup
+         // (Memory, Processor, Terminal, …); those open from their parts, so
+         // the File menu offers only a new schematic window.
+-        CommandGroup(replacing: .newItem) {
+-            NewProjectMenuItem(file: file)
+-        }
+-
+         CommandGroup(after: .newItem) {
+             PartEditorCommands(editor: editor)
+ 
+@@ -727,12 +723,6 @@ struct SchematicFileCommands: Commands {
+                     Task { await editor.open() }
+                 }
+                 .keyboardShortcut("o", modifiers: .command)
+-            } else {
+-                Button("Open…") {
+-                    Task { await file?.open() }
+-                }
+-                .keyboardShortcut("o", modifiers: .command)
+-                .disabled(file == nil)
+             }
+ 
+             PartFileMenuItems()
+@@ -748,20 +738,8 @@ struct SchematicFileCommands: Commands {
+                 }
+                 .keyboardShortcut("s", modifiers: .command)
+                 .disabled(!editor.isValid)
+-            } else {
+-                Button("Save") {
+-                    Task { await file?.save() }
+-                }
+-                .keyboardShortcut("s", modifiers: .command)
+-                .disabled(file == nil)
+             }
+ 
+-            Button("Save As…") {
+-                Task { await file?.saveAs() }
+-            }
+-            .keyboardShortcut("s", modifiers: [.command, .shift])
+-            .disabled(file == nil)
+-
+             Divider()
+ 
+             // The app's own Print: the system's is removed (`SimulationCommands`).
+diff --git a/schematical/schematical/Document/SchematicUndoBridge.swift b/schematical/schematical/Document/SchematicUndoBridge.swift
+new file mode 100644
+index 00000000..c2bfb9f6
+--- /dev/null
++++ b/schematical/schematical/Document/SchematicUndoBridge.swift
+@@ -0,0 +1,103 @@
++//
++//  SchematicUndoBridge.swift
++//  schematical — plan-59 spike (probe U3)
++//
++//  One NSUndoManager per document. Each UndoStep the document records becomes
++//  one undo registration on the document's manager; its handler applies the
++//  step's diff and registers the opposite direction. The per-page lists in
++//  UndoHistory are not used.
++//
++
++import AppKit
++import Foundation
++
++@MainActor
++final class SchematicUndoBridge {
++    private weak var document: SchematicDocument?
++    private(set) weak var manager: UndoManager?
++    /// The step on top of the manager's undo stack while typing may still
++    /// merge into it (`UndoStep.coalescing`).
++    private var open: UndoStep?
++    /// Counts for the probes.
++    private(set) var registrations = 0
++    private(set) var merges = 0
++
++    init(document: SchematicDocument) {
++        self.document = document
++        document.onStep = { [weak self] step, _ in self?.record(step) }
++        document.onEndCoalescing = { [weak self] in self?.open = nil }
++        document.onHistoryCleared = { [weak self] in
++            guard let self, let manager = self.manager else { return }
++            manager.removeAllActions(withTarget: self)
++            self.open = nil
++        }
++    }
++
++    func connect(_ manager: UndoManager?) {
++        guard manager !== self.manager else { return }
++        self.manager = manager
++        open = nil
++        SpikeLog.log("undo bridge connected manager=\(manager.map { "\(Unmanaged.passUnretained($0).toOpaque())" } ?? "nil") "
++            + "groupsByEvent=\(manager?.groupsByEvent ?? false) levels=\(manager?.levelsOfUndo ?? -1)")
++    }
++
++    /// The next step starts a new registration (a save happened, or the
++    /// field lost focus).
++    func endCoalescing() { open = nil }
++
++    private func record(_ step: UndoStep) {
++        guard let manager, !manager.isUndoing, !manager.isRedoing else { return }
++        if let key = step.coalescing, let top = open, top.coalescing == key {
++            // Typing: fold into the step already registered. The handler
++            // reads `top.changes` when it runs, so no new registration.
++            for (item, change) in step.changes {
++                if let older = top.changes[item] {
++                    top.changes[item] = UndoChange(before: older.before, after: change.after)
++                } else {
++                    top.changes[item] = change
++                }
++            }
++            top.changes = top.changes.filter { $0.value.before != $0.value.after }
++            merges += 1
++            return
++        }
++        open = step.coalescing == nil ? nil : step
++        register(step, backwards: true)
++    }
++
++    private func register(_ step: UndoStep, backwards: Bool) {
++        guard let manager else { return }
++        registrations += 1
++        manager.registerUndo(withTarget: self) { bridge in
++            bridge.open = nil
++            guard let document = bridge.document else { return }
++            if document.applyStep(step, backwards: backwards) {
++                bridge.register(step, backwards: !backwards)
++            } else if document.isPlaying {
++                // Nothing is undone while the simulation runs (probe U5).
++                // The action is already off the stack; put it back where it
++                // was once this undo or redo has finished.
++                SpikeLog.log("undo refused while playing: \(step.name)")
++                bridge.restore(step, backwards: backwards, wasUndo: manager.isUndoing)
++            } else {
++                SpikeLog.log("undo step no longer applies: \(step.name)")
++            }
++        }
++        manager.setActionName(step.name)
++    }
++
++    /// Puts a refused action back: registering during an undo lands on the
++    /// redo stack, so the opposite operation moves it home, with the
++    /// handler told to do nothing on the way.
++    private var returning = false
++    private func restore(_ step: UndoStep, backwards: Bool, wasUndo: Bool) {
++        guard let manager else { return }
++        manager.registerUndo(withTarget: self) { bridge in
++            bridge.register(step, backwards: backwards)
++        }
++        manager.setActionName(step.name)
++        DispatchQueue.main.async {
++            if wasUndo { manager.redo() } else { manager.undo() }
++        }
++    }
++}
+diff --git a/schematical/schematical/Document/SpikeProbe.swift b/schematical/schematical/Document/SpikeProbe.swift
+new file mode 100644
+index 00000000..1e6dd2dc
+--- /dev/null
++++ b/schematical/schematical/Document/SpikeProbe.swift
+@@ -0,0 +1,421 @@
++//
++//  SpikeProbe.swift
++//  schematical — plan-59 spike
++//
++//  Drives the running app from the shell, with no screen and no pointer: the
++//  app polls `<container>/spike-cmd.txt`, runs each line and appends the
++//  result to `<container>/spike-out.txt`. Everything it calls is the public
++//  AppKit / SwiftUI surface a user action reaches (menu item actions,
++//  NSDocument, NSDocumentController, the responder chain).
++//
++
++import AppKit
++import SwiftUI
++
++@MainActor
++enum SpikeProbe {
++    private static let home = URL(fileURLWithPath: NSHomeDirectory())
++    private static let commandURL = home.appendingPathComponent("spike-cmd.txt")
++    private static let outputURL = home.appendingPathComponent("spike-out.txt")
++    private static var timer: Timer?
++    private static var busy = false
++    static var weakRefs: [String: () -> AnyObject?] = [:]
++
++    static func install() {
++        timer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { _ in
++            MainActor.assumeIsolated { poll() }
++        }
++        RunLoop.main.add(timer!, forMode: .common)
++        SpikeLog.log("probe installed pid=\(ProcessInfo.processInfo.processIdentifier)")
++    }
++
++    private static func poll() {
++        guard !busy, let text = try? String(contentsOf: commandURL, encoding: .utf8) else { return }
++        try? FileManager.default.removeItem(at: commandURL)
++        busy = true
++        Task { @MainActor in
++            for line in text.split(separator: "\n").map(String.init) where !line.isEmpty {
++                let result = await run(line)
++                append("> \(line)\n\(result)\n")
++                await endEvent()
++            }
++            append("<done>\n")
++            busy = false
++        }
++    }
++
++    /// A user action is one NSEvent, and AppKit closes the undo manager's
++    /// by-event group when that event has been handled. Commands arrive on a
++    /// timer, so each is followed by one application-defined event to give
++    /// it the same end-of-event processing.
++    private static func endEvent() async {
++        if let event = NSEvent.otherEvent(with: .applicationDefined, location: .zero, modifierFlags: [], timestamp: 0,
++                                          windowNumber: 0, context: nil, subtype: 0, data1: 5959, data2: 0) {
++            NSApp.postEvent(event, atStart: false)
++        }
++        try? await Task.sleep(for: .milliseconds(60))
++    }
++
++    private static func append(_ text: String) {
++        if let handle = try? FileHandle(forWritingTo: outputURL) {
++            handle.seekToEndOfFile()
++            handle.write(Data(text.utf8))
++            try? handle.close()
++        } else {
++            try? Data(text.utf8).write(to: outputURL)
++        }
++    }
++
++    // MARK: Lookup
++
++    static var documents: [NSDocument] { NSDocumentController.shared.documents }
++
++    static func model(of document: NSDocument) -> SchematicDocumentModel? {
++        let windows = document.windowControllers.compactMap(\.window)
++        return SchematicDocumentModel.all.first { model in windows.contains { $0 === model.window } }
++    }
++
++    private static func document(_ index: String?) -> NSDocument? {
++        guard let i = Int(index ?? "0"), documents.indices.contains(i) else { return nil }
++        return documents[i]
++    }
++
++    private static func item(path: String) -> (NSMenu, Int)? {
++        var menu = NSApp.mainMenu
++        let names = path.components(separatedBy: ">")
++        for (depth, name) in names.enumerated() {
++            guard let current = menu else { return nil }
++            current.update()
++            guard let index = current.items.firstIndex(where: { $0.title == name || $0.title.hasPrefix(name) && name.hasSuffix("*") == false && $0.title == name })
++                ?? current.items.firstIndex(where: { name.hasSuffix("*") && $0.title.hasPrefix(String(name.dropLast())) }) else { return nil }
++            if depth == names.count - 1 { return (current, index) }
++            menu = current.items[index].submenu
++        }
++        return nil
++    }
++
++    private static func describe(_ menu: NSMenu, indent: String = "") -> String {
++        menu.update()
++        var lines: [String] = []
++        for item in menu.items {
++            if item.isSeparatorItem { lines.append("\(indent)---"); continue }
++            var key = ""
++            if !item.keyEquivalent.isEmpty {
++                let m = item.keyEquivalentModifierMask
++                key = " [" + (m.contains(.control) ? "⌃" : "") + (m.contains(.option) ? "⌥" : "")
++                    + (m.contains(.shift) ? "⇧" : "") + (m.contains(.command) ? "⌘" : "") + item.keyEquivalent + "]"
++            }
++            let flags = (item.isEnabled ? "" : " (disabled)") + (item.isHidden ? " (hidden)" : "")
++                + (item.isAlternate ? " (alternate)" : "")
++            let action = item.action.map { " -> \(NSStringFromSelector($0))" } ?? ""
++            lines.append("\(indent)\(item.title)\(key)\(flags)\(action)")
++            if let sub = item.submenu { lines.append(describe(sub, indent: indent + "    ")) }
++        }
++        return lines.joined(separator: "\n")
++    }
++
++    private static func describe(_ document: NSDocument, _ index: Int) -> String {
++        let model = model(of: document)
++        let windows = document.windowControllers.compactMap(\.window)
++        var text = "[\(index)] \(type(of: document)) name=\(document.displayName ?? "nil") url=\(document.fileURL?.path ?? "nil")"
++        text += " edited=\(document.isDocumentEdited) unautosaved=\(document.hasUnautosavedChanges)"
++        text += " autosaveURL=\(document.autosavedContentsFileURL?.lastPathComponent ?? "nil") locked=\(document.isLocked)"
++        text += " type=\(document.fileType ?? "nil") undo=\(document.undoManager.map { "can=\($0.canUndo) '\($0.undoMenuItemTitle)' redo=\($0.canRedo) '\($0.redoMenuItemTitle)'" } ?? "nil")"
++        for window in windows {
++            text += "\n    window '\(window.title)' visible=\(window.isVisible) key=\(window.isKeyWindow) main=\(window.isMainWindow)"
++                + " edited=\(window.isDocumentEdited) represented=\(window.representedURL?.lastPathComponent ?? "nil")"
++                + " tabs=\(window.tabbedWindows?.count ?? 1) tabbingMode=\(window.tabbingMode.rawValue)"
++                + " sheet=\(window.attachedSheet.map { "\(type(of: $0)) '\($0.title)'" } ?? "none") #\(window.windowNumber)"
++        }
++        if let model {
++            text += "\n    model id=\(model.id) url=\(model.fileURL?.path ?? "nil") parts=\(model.document.chips.count)"
++                + " labels=\(model.document.netLabels.count) playing=\(model.document.isPlaying)"
++                + " sameUndoManager=\(model.undoManager === document.undoManager)"
++        } else {
++            text += "\n    model: none found"
++        }
++        return text
++    }
++
++    // MARK: Commands
++
++    private static func run(_ line: String) async -> String {
++        let parts = line.split(separator: " ", maxSplits: 1).map(String.init)
++        let command = parts[0]
++        let rest = parts.count > 1 ? parts[1] : ""
++        let args = rest.split(separator: " ").map(String.init)
++        switch command {
++        case "docs":
++            let list = documents.enumerated().map { describe($1, $0) }.joined(separator: "\n")
++            return "active=\(NSApp.isActive) documents=\(documents.count) models=\(SchematicDocumentModel.all.count)\n\(list)"
++        case "windows":
++            return NSApp.windows.map { w in
++                "#\(w.windowNumber) \(type(of: w)) '\(w.title)' visible=\(w.isVisible) key=\(w.isKeyWindow) main=\(w.isMainWindow)"
++                    + " edited=\(w.isDocumentEdited) doc=\(w.windowController?.document != nil) tabs=\(w.tabbedWindows?.count ?? 1)"
++                    + " sheet=\(w.attachedSheet.map { "\(type(of: $0)) '\($0.title)'" } ?? "none") frame=\(Int(w.frame.width))x\(Int(w.frame.height))"
++            }.joined(separator: "\n")
++        case "menu":
++            guard let menu = NSApp.mainMenu else { return "no main menu" }
++            if rest.isEmpty { return menu.items.map(\.title).joined(separator: " | ") }
++            guard let top = menu.items.first(where: { $0.title == rest })?.submenu else { return "no menu \(rest)" }
++            return describe(top)
++        case "click":
++            guard let (menu, index) = item(path: rest) else { return "no item \(rest)" }
++            let item = menu.items[index]
++            guard item.isEnabled else { return "item '\(item.title)' is disabled" }
++            menu.performActionForItem(at: index)
++            return "clicked '\(item.title)' -> \(item.action.map { NSStringFromSelector($0) } ?? "nil")"
++        case "activate":
++            NSApp.activate(ignoringOtherApps: true)
++            if let i = Int(rest), documents.indices.contains(i) {
++                documents[i].windowControllers.first?.window?.makeKeyAndOrderFront(nil)
++            }
++            try? await Task.sleep(for: .milliseconds(300))
++            return "active=\(NSApp.isActive) key=\(NSApp.keyWindow?.title ?? "nil") main=\(NSApp.mainWindow?.title ?? "nil")"
++        case "new":
++            NSDocumentController.shared.newDocument(nil)
++            return "newDocument sent"
++        case "open":
++            let url = URL(fileURLWithPath: rest)
++            do {
++                let (document, already) = try await NSDocumentController.shared.openDocument(withContentsOf: url, display: true)
++                return "opened \(document.displayName ?? "?") alreadyOpen=\(already)"
++            } catch { return "open failed: \(error.localizedDescription)" }
++        case "saveto", "saveas", "save", "autosave":
++            guard let document = document(args.first) else { return "no document" }
++            let url = command == "save" || command == "autosave" ? document.fileURL : args.count > 1 ? URL(fileURLWithPath: args[1]) : nil
++            if command == "autosave" {
++                return await withCheckedContinuation { c in
++                    document.autosave(withImplicitCancellability: false) { error in
++                        c.resume(returning: "autosave: \(error?.localizedDescription ?? "ok")")
++                    }
++                }
++            }
++            guard let url, let type = document.fileType else { return "no url or type" }
++            let operation: NSDocument.SaveOperationType = command == "save" ? .saveOperation
++                : command == "saveto" ? .saveToOperation : .saveAsOperation
++            return await withCheckedContinuation { c in
++                document.save(to: url, ofType: type, for: operation) { error in
++                    c.resume(returning: "\(command): \(error?.localizedDescription ?? "ok") -> \(url.path)")
++                }
++            }
++        case "duplicate":
++            guard let document = document(args.first) else { return "no document" }
++            do {
++                let copy = try document.duplicate()
++                return "duplicate: \(copy.displayName ?? "?") url=\(copy.fileURL?.path ?? "nil") autosave=\(copy.autosavedContentsFileURL?.path ?? "nil")"
++            } catch { return "duplicate failed: \(error.localizedDescription)" }
++        case "close":
++            guard let document = document(args.first) else { return "no document" }
++            document.close()
++            return "closed"
++        case "performclose":
++            guard let window = document(args.first)?.windowControllers.first?.window else { return "no window" }
++            window.performClose(nil)
++            return "performClose sent"
++        case "revert":
++            guard let document = document(args.first), let url = document.fileURL, let type = document.fileType else { return "no document" }
++            do { try document.revert(toContentsOf: url, ofType: type); return "reverted" }
++            catch { return "revert failed: \(error.localizedDescription)" }
++        case "mem":
++            guard let document = document(args.first), let model = model(of: document) else { return "no model" }
++            return model.document.chips.filter { $0.memoryFile != nil }.map { chip in
++                let file = chip.memoryFile!
++                var text = "\(chip.reference) \(chip.partNumber) url=\(file.url.path) bookmark=\(file.bookmark == nil ? "none" : "\(file.bookmark!.count) bytes")"
++                do {
++                    let data = try MemoryFileAccess.read(file)
++                    text += " read=\(data.count) bytes first=\(data.prefix(4).map { String(format: "%02X", $0) }.joined())"
++                } catch { text += " read FAILED: \(error.localizedDescription)" }
++                return text
++            }.joined(separator: "\n")
++        case "bookmark":
++            // Gives the first EEPROM's load file an app-scoped bookmark, as choosing it in the open panel does.
++            guard let document = document(args.first), let model = model(of: document),
++                  let chip = model.document.chips.first(where: { $0.memoryFile != nil }) else { return "no chip" }
++            let url = chip.memoryFile!.url
++            let bookmark = MemoryFileAccess.bookmark(for: url)
++            model.document.setMemoryFile(chip.id, MemoryFile(url: url, bookmark: bookmark))
++            return "bookmark=\(bookmark.map { "\($0.count) bytes" } ?? "none")"
++        case "edit":
++            guard let document = document(args.first), let model = model(of: document) else { return "no model" }
++            let doc = model.document
++            let kind = args.count > 1 ? args[1] : "label"
++            switch kind {
++            case "label":
++                let id = doc.addNetLabel(at: CGPoint(x: 100 + doc.netLabels.count * 20, y: 100))
++                return "added label \(id) labels=\(doc.netLabels.count)"
++            case "rename":
++                guard let label = doc.netLabels.last else { return "no label" }
++                let text = args.count > 2 ? args[2] : "ABC"
++                var typed = ""
++                for character in text { typed.append(character); doc.setNetLabelName(label.id, typed) }
++                return "renamed to \(doc.netLabels.last?.name ?? "?") in \(text.count) keystrokes"
++            case "endcoalescing":
++                doc.endCoalescing()
++                return "ended coalescing"
++            case "pcbmove":
++                guard let chip = doc.chips.first(where: { $0.board != nil && $0.board?.locked == false }) else { return "no placed footprint" }
++                let centre = chip.board!.centre
++                doc.moveFootprint(chip.id, to: CGPoint(x: centre.x + 5, y: centre.y))
++                return "moved \(chip.reference) from \(centre) to \(doc.chips.first { $0.id == chip.id }!.board!.centre)"
++            case "pcbdrag":
++                guard let chip = doc.chips.first(where: { $0.board != nil && $0.board?.locked == false }) else { return "no placed footprint" }
++                let centre = chip.board!.centre
++                doc.beginGesture(.pcb)
++                for step in 1...5 { doc.moveFootprint(chip.id, to: CGPoint(x: centre.x + CGFloat(step) * 2, y: centre.y)) }
++                doc.endGesture()
++                return "dragged \(chip.reference) in 5 frames from \(centre) to \(doc.chips.first { $0.id == chip.id }!.board!.centre)"
++            case "hole":
++                return "unsupported"
++            default:
++                return "unknown edit \(kind)"
++            }
++        case "state":
++            guard let document = document(args.first), let model = model(of: document) else { return "no model" }
++            let doc = model.document
++            let boards = doc.chips.compactMap { chip in chip.board.map { "\(chip.reference)@\(Int($0.centre.x)),\(Int($0.centre.y))" } }.prefix(2)
++            let saved: String
++            if let url = document.fileURL, let data = try? Data(contentsOf: url), let file = try? SchematicFile.decode(data) {
++                saved = "\(file == SchematicFile(document: doc, fileURL: url))"
++            } else { saved = "no file" }
++            return "parts=\(doc.chips.count) labels=\(doc.netLabels.count) lastLabel=\(doc.netLabels.last?.name ?? "-") boards=\(boards.joined(separator: " "))"
++                + " edited=\(document.isDocumentEdited) equalsSavedFile=\(saved)"
++                + " undo='\(document.undoManager?.undoMenuItemTitle ?? "nil")' redo='\(document.undoManager?.redoMenuItemTitle ?? "nil")'"
++                + " registrations=\(model.undoBridge?.registrations ?? -1) merges=\(model.undoBridge?.merges ?? -1)"
++                + " groupingLevel=\(document.undoManager?.groupingLevel ?? -1)"
++        case "undo", "redo":
++            let sent = NSApp.sendAction(Selector((command) + ":"), to: nil, from: nil)
++            return "sendAction(\(command):) handled=\(sent)"
++        case "docundo", "docredo":
++            guard let document = document(args.first), let manager = document.undoManager else { return "no undo manager" }
++            if command == "docundo" { guard manager.canUndo else { return "cannot undo" }; manager.undo() }
++            else { guard manager.canRedo else { return "cannot redo" }; manager.redo() }
++            return "\(command) done"
++        case "play", "stop":
++            guard let document = document(args.first), let model = model(of: document) else { return "no model" }
++            if command == "play" { model.simulation.start(document: model.document) } else { model.simulation.stop() }
++            return "running=\(model.simulation.isRunning) playing=\(model.document.isPlaying)"
++        case "snapshottime":
++            guard let document = document(args.first), let model = model(of: document) else { return "no model" }
++            var times: [Double] = []
++            for _ in 0..<20 {
++                let start = CACurrentMediaTime()
++                _ = SchematicFile(document: model.document, fileURL: model.fileURL)
++                times.append((CACurrentMediaTime() - start) * 1000)
++            }
++            times.sort()
++            return String(format: "snapshot ms: median %.3f min %.3f max %.3f (n=20, parts %d)",
++                          (times[9] + times[10]) / 2, times[0], times[19], model.document.chips.count)
++        case "shot":
++            guard args.count > 1, let window = document(args.first)?.windowControllers.first?.window,
++                  let view = window.contentView?.superview ?? window.contentView,
++                  let rep = view.bitmapImageRepForCachingDisplay(in: view.bounds) else { return "no window" }
++            view.cacheDisplay(in: view.bounds, to: rep)
++            let url = home.appendingPathComponent(args[1])
++            do { try rep.representation(using: .png, properties: [:])?.write(to: url); return "wrote \(url.path)" }
++            catch { return "shot failed: \(error.localizedDescription)" }
++        case "weak":
++            return weakRefs.map { "\($0.key): \($0.value() == nil ? "freed" : "alive")" }.sorted().joined(separator: "\n")
++        case "recents":
++            return NSDocumentController.shared.recentDocumentURLs.map(\.path).joined(separator: "\n")
++        case "sheet":
++            // Presses a button of the sheet (or alert) attached to a document's window.
++            guard let window = document(args.first)?.windowControllers.first?.window, let sheet = window.attachedSheet else { return "no sheet" }
++            let buttons = allSubviews(of: sheet.contentView).compactMap { $0 as? NSButton }.filter { !$0.title.isEmpty }
++            let texts = allSubviews(of: sheet.contentView).compactMap { ($0 as? NSTextField)?.stringValue }.filter { !$0.isEmpty }
++            guard args.count > 1 else {
++                return "sheet \(type(of: sheet)) texts=\(texts) buttons=\(buttons.map(\.title))"
++            }
++            let title = args.dropFirst().joined(separator: " ")
++            guard let button = buttons.first(where: { $0.title == title }) else { return "no button \(title) in \(buttons.map(\.title))" }
++            button.performClick(nil)
++            return "pressed \(title)"
++        case "action":
++            // A document action as its menu item sends it (saveDocument:, revertDocumentToSaved:, …).
++            guard args.count > 1, let document = document(args.first) else { return "no document" }
++            let sent = NSApp.sendAction(Selector(args[1]), to: document, from: nil)
++            return "sent \(args[1]) to the document: \(sent)"
++        case "typing":
++            // Probe F4: 30 keystrokes in a net label's name while autosaves run.
++            guard let document = document(args.first), let model = model(of: document) else { return "no model" }
++            let doc = model.document
++            let id = doc.addNetLabel(at: CGPoint(x: 40, y: 40))
++            await endEvent()
++            var gaps: [Double] = []
++            var typed = "", accepted = 0
++            for index in 0..<30 {
++                let start = CACurrentMediaTime()
++                if index % 10 == 5 { document.autosave(withImplicitCancellability: true) { _ in } }
++                typed = index % 8 == 0 ? "T" : typed + String(index % 8)
++                if doc.setNetLabelName(id, typed), doc.netLabels.first(where: { $0.id == id })?.name == typed { accepted += 1 }
++                await endEvent()
++                gaps.append((CACurrentMediaTime() - start) * 1000 - 60)
++            }
++            gaps.sort()
++            return String(format: "30 keystrokes, %d accepted, final '%@'; per-keystroke main-thread time beyond the 60 ms pause: median %.1f ms p90 %.1f ms max %.1f ms",
++                          accepted, doc.netLabels.first(where: { $0.id == id })?.name ?? "?", gaps[15], gaps[26], gaps[29])
++        case "select":
++            guard let document = document(args.first), let model = model(of: document),
++                  let label = model.document.netLabels.last else { return "no label" }
++            model.document.select(.label(label.id))
++            return "selected label \(label.name)"
++        case "fields":
++            guard let window = document(args.first)?.windowControllers.first?.window else { return "no window" }
++            let fields = allSubviews(of: window.contentView).compactMap { $0 as? NSTextField }.filter(\.isEditable)
++            return fields.enumerated().map { "[\($0)] \(type(of: $1)) placeholder='\($1.placeholderString ?? "")' value='\($1.stringValue)'" }.joined(separator: "\n")
++        case "focus":
++            guard args.count > 1, let window = document(args.first)?.windowControllers.first?.window else { return "no window" }
++            let fields = allSubviews(of: window.contentView).compactMap { $0 as? NSTextField }.filter(\.isEditable)
++            guard let field = fields.first(where: { $0.placeholderString == args[1] }) ?? Int(args[1]).flatMap({ fields.indices.contains($0) ? fields[$0] : nil }) else { return "no field \(args[1])" }
++            let made = window.makeFirstResponder(field)
++            return "makeFirstResponder=\(made) " + responder(window, document(args.first))
++        case "unfocus":
++            guard let window = document(args.first)?.windowControllers.first?.window else { return "no window" }
++            return "makeFirstResponder(nil)=\(window.makeFirstResponder(nil)) " + responder(window, document(args.first))
++        case "responder":
++            guard let window = document(args.first)?.windowControllers.first?.window else { return "no window" }
++            return responder(window, document(args.first))
++        case "type":
++            // Types into the first responder as key presses do: insertText on the field editor.
++            guard args.count > 1, let window = document(args.first)?.windowControllers.first?.window,
++                  let editor = window.firstResponder as? NSTextView else { return "first responder is not a text editor" }
++            for character in args[1] {
++                editor.insertText(String(character), replacementRange: editor.selectedRange())
++                await endEvent()
++            }
++            return "typed \(args[1]); editor text='\(editor.string)' " + responder(window, document(args.first))
++        case "chain":
++            // Sends an action up the responder chain from the window's first responder, as a key window's menu item does.
++            guard args.count > 1, let window = document(args.first)?.windowControllers.first?.window else { return "no window" }
++            let selector = Selector(args[1])
++            let target = NSApp.target(forAction: selector, to: nil, from: nil)
++            let done = (window.firstResponder ?? window).tryToPerform(selector, with: nil)
++            return "tryToPerform(\(args[1])) from \(type(of: window.firstResponder ?? window)): \(done) (NSApp target with no key window: \(target.map { "\(type(of: $0))" } ?? "nil"))"
++        case "resave":
++            SchematicDocumentModel.resavesAfterMove = rest == "on"
++            return "resavesAfterMove=\(SchematicDocumentModel.resavesAfterMove)"
++        case "quit":
++            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { NSApp.terminate(nil) }
++            return "terminate sent"
++        case "sleep":
++            try? await Task.sleep(for: .milliseconds(Int(rest) ?? 500))
++            return "slept"
++        default:
++            return "unknown command"
++        }
++    }
++
++    private static func responder(_ window: NSWindow, _ document: NSDocument?) -> String {
++        let first = window.firstResponder
++        let editor = first as? NSTextView
++        let manager = first?.undoManager
++        return "firstResponder=\(first.map { "\(type(of: $0))" } ?? "nil") text='\(editor?.string ?? "-")'"
++            + " responderUndoManagerIsDocuments=\(manager != nil && manager === document?.undoManager)"
++            + " canUndo=\(manager?.canUndo ?? false) title='\(manager?.undoMenuItemTitle ?? "-")'"
++    }
++
++    private static func allSubviews(of view: NSView?) -> [NSView] {
++        guard let view else { return [] }
++        return [view] + view.subviews.flatMap { allSubviews(of: $0) }
++    }
++}
+diff --git a/schematical/schematical/schematicalApp.swift b/schematical/schematical/schematicalApp.swift
+index 4adebd19..07868e1e 100644
+--- a/schematical/schematical/schematicalApp.swift
++++ b/schematical/schematical/schematicalApp.swift
+@@ -18,6 +18,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
+         OptionOnlyMenuItems.install()
+     }
+ 
++    func applicationDidFinishLaunching(_ notification: Notification) {
++        SpikeProbe.install()
++    }
++
+     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+         true
+     }
+@@ -45,8 +49,9 @@ struct schematicalApp: App {
+     var body: some Scene {
+         // Opening a file from a window that isn't blank opens a new one of
+         // these, as a tab of that window.
+-        WindowGroup(id: "schematic") {
+-            ContentView()
++        DocumentGroup(newDocument: { SchematicDocumentModel() }) { configuration in
++            ContentView(model: configuration.document, fileURL: configuration.fileURL)
++                .modifier(DocumentWiring(model: configuration.document, fileURL: configuration.fileURL))
+         }
+         .windowToolbarStyle(.unifiedCompact(showsTitle: false))
+         .commands {
+@@ -55,7 +60,6 @@ struct schematicalApp: App {
+             BillOfMaterialsCommands()
+             DesignRuleCheckCommands()
+             RouteCommands()
+-            UndoCommands()
+             EditCommands()
+             SimulationCommands()
+             KeyboardHelpCommands()
+@@ -71,6 +75,7 @@ struct schematicalApp: App {
+         // A memory window belongs to a schematic window and its running
+         // simulation, so it is not reopened at launch.
+         .restorationBehavior(.disabled)
++        .handlesExternalEvents(matching: [])
+ 
+         WindowGroup("Processor", id: "cpu", for: CpuWindowTarget.self) { $target in
+             if let target {
+@@ -80,6 +85,7 @@ struct schematicalApp: App {
+         .defaultSize(width: 420, height: 360)
+         // Like a memory window: tied to a schematic window's simulation.
+         .restorationBehavior(.disabled)
++        .handlesExternalEvents(matching: [])
+ 
+         // One register window per converter, RTC or display driver part (plan-24-I).
+         WindowGroup("Registers", id: "registers", for: RegisterWindowTarget.self) { $target in
+@@ -89,6 +95,7 @@ struct schematicalApp: App {
+         }
+         .defaultSize(width: 440, height: 420)
+         .restorationBehavior(.disabled)
++        .handlesExternalEvents(matching: [])
+ 
+         // One terminal per serial part (plan-12-K).
+         WindowGroup("Terminal", id: "terminal", for: TerminalWindowTarget.self) { $target in
+@@ -98,6 +105,7 @@ struct schematicalApp: App {
+         }
+         .defaultSize(width: 640, height: 420)
+         .restorationBehavior(.disabled)
++        .handlesExternalEvents(matching: [])
+ 
+         // One Bill of Materials per schematic window (Window menu, ⇧⌘B).
+         WindowGroup("Bill of Materials", id: "bom", for: BillOfMaterialsTarget.self) { $target in
+@@ -107,6 +115,7 @@ struct schematicalApp: App {
+         }
+         .defaultSize(width: 760, height: 420)
+         .restorationBehavior(.disabled)
++        .handlesExternalEvents(matching: [])
+ 
+         // One Design Rule Check per schematic window (Window menu, ⇧⌘D).
+         WindowGroup("Design Rule Check", id: "drc", for: DesignRuleCheckTarget.self) { $target in
+@@ -116,6 +125,7 @@ struct schematicalApp: App {
+         }
+         .defaultSize(width: 720, height: 420)
+         .restorationBehavior(.disabled)
++        .handlesExternalEvents(matching: [])
+ 
+         // One Board Preview per schematic window (the PCB page's Preview button).
+         WindowGroup("Board Preview", id: "board-preview", for: BoardPreviewTarget.self) { $target in
+@@ -125,6 +135,7 @@ struct schematicalApp: App {
+         }
+         .defaultSize(width: 1000, height: 720)
+         .restorationBehavior(.disabled)
++        .handlesExternalEvents(matching: [])
+ 
+         // One window per datasheet, opened from a part's Open Datasheet button.
+         WindowGroup("Datasheet", id: "datasheet", for: DatasheetWindowTarget.self) { $target in
+@@ -134,6 +145,7 @@ struct schematicalApp: App {
+         }
+         .defaultSize(width: 820, height: 1000)
+         .restorationBehavior(.disabled)
++        .handlesExternalEvents(matching: [])
+ 
+         // One window per Markdown datasheet, opened from Show Datasheet.
+         WindowGroup("Datasheet", id: "datasheet-md", for: MarkdownDatasheetTarget.self) { $target in
+@@ -143,6 +155,7 @@ struct schematicalApp: App {
+         }
+         .defaultSize(width: 1040, height: 1000)
+         .restorationBehavior(.disabled)
++        .handlesExternalEvents(matching: [])
+ 
+         // Window › Verify Datasheet, shown only while Option is held: the
+         // converted datasheet beside the PDF, with its citations.
+@@ -151,6 +164,7 @@ struct schematicalApp: App {
+         }
+         .defaultSize(width: 1500, height: 950)
+         .restorationBehavior(.disabled)
++        .handlesExternalEvents(matching: [])
+ 
+         // The User Library (plan-53-F): one window, File › User Library….
+         Window("User Library", id: UserLibraryScene.id) {
+@@ -158,6 +172,7 @@ struct schematicalApp: App {
+         }
+         .defaultSize(width: 760, height: 420)
+         .restorationBehavior(.disabled)
++        .handlesExternalEvents(matching: [])
+ 
+         // One Part Editor per part being made (plan-32-C). File › New Part…
+         // opens one on the Part Wizard's first step (plan-46-F).
+@@ -169,6 +184,7 @@ struct schematicalApp: App {
+         // Wide enough for the Part Wizard's step list, step and preview.
+         .defaultSize(width: 1120, height: 760)
+         .restorationBehavior(.disabled)
++        .handlesExternalEvents(matching: [])
+ 
+         // Help › Schematic Help and PCB Help: one window per page.
+         WindowGroup("Help", id: "help", for: EditorPage.self) { $page in
+@@ -176,6 +192,7 @@ struct schematicalApp: App {
+         }
+         .defaultSize(width: 620, height: 640)
+         .restorationBehavior(.disabled)
++        .handlesExternalEvents(matching: [])
+ 
+         Settings {
+             PreferencesView()
