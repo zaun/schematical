@@ -99,7 +99,7 @@ Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
   names> --only <file>` → no `path:line` for each file; `XB -only-testing`
   those classes → pass (est. 10 min: one scoped coverage build and run).
-Commit: —
+Commit: e437c77c
 
 ### Phase 2 — 8 files, `AutomationBoard.swift` … `AutomationTools.swift`
 
@@ -120,7 +120,7 @@ Commit: —
 
 Acceptance: as Phase 1.
   Check: as Phase 1; `SZ` → exit 0 (est. 10 min).
-Commit: —
+Commit: e437c77c
 
 ## Validation Plan
 
@@ -161,6 +161,8 @@ Commit: —
   draw" throw (merged with the first: `data` is nil only when `pixelSize` is).
   `set_pour`'s properties no longer use `merging` with a closure no key
   reached (`pourProperties(needsPlace:id:)`).
+- (parent) **One commit.** The letter's phases landed together, so its Commit lines
+  name the same commit.
 
 ## Summary
 

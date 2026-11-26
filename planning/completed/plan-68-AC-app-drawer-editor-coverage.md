@@ -90,7 +90,7 @@ Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
   names> --only <file>` → no `path:line` for each file; `XB -only-testing`
   those classes → pass (est. 10 min: one scoped coverage build and run).
-Commit: —
+Commit: fd6c2af2
 
 ### Phase 2 — `SocketPickerSheet.swift`, `UserLibraryWindow.swift`, `BlockPreviewView.swift`, `BundledPartFile.swift`, `CustomFootprintDraft.swift`, `CustomFootprintEditor.swift`
 
@@ -107,7 +107,7 @@ Commit: —
 
 Acceptance: as Phase 1.
   Check: as Phase 1; `SZ` → exit 0 (est. 10 min).
-Commit: —
+Commit: fd6c2af2
 
 ## Validation Plan
 
@@ -156,6 +156,8 @@ Commit: —
 - (2026-11-26) The shared tree did not compile for long stretches (other letters' files mid-edit), so the
   scoped runs were made in a private rsync snapshot of the worktree (`/tmp/p68-AC-src`) with only those
   other letters' non-compiling *test* files left out of the snapshot.
+- (parent) **One commit.** The letter's phases landed together, so its Commit lines
+  name the same commit.
 
 ## Summary
 

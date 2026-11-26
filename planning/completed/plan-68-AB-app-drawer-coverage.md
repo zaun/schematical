@@ -96,7 +96,7 @@ Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
   names> --only <file>` → no `path:line` for each file; `XB -only-testing`
   those classes → pass (est. 10 min: one scoped coverage build and run).
-Commit: —
+Commit: ae4d4587
 
 ### Phase 2 — `ChipDrawerView.swift`, `NetLabelPanel.swift`
 
@@ -122,7 +122,7 @@ Commit: —
 
 Acceptance: as Phase 1.
   Check: as Phase 1; `SZ` → exit 0 (est. 10 min).
-Commit: —
+Commit: ae4d4587
 
 ## Validation Plan
 
@@ -177,6 +177,8 @@ Commit: —
 - New test classes that open windows set
   `AppDelegate.quitsAfterLastWindowCloses = false` (as the other render
   tests do): without it the host quit when a test closed its last window.
+- (parent) **One commit.** The letter's phases landed together, so its Commit lines
+  name the same commit.
 
 ## Summary
 

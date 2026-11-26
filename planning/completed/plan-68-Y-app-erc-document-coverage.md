@@ -126,7 +126,7 @@ Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
   names> --only <file>` → no `path:line` for each file; `XB -only-testing`
   those classes → pass (est. 10 min: one scoped coverage build and run).
-Commit: —
+Commit: 4546d7f4
 
 ### Phase 2 — 9 files, `KiCadBoardWriter.swift` … `SchematicFile.swift`
 
@@ -142,7 +142,7 @@ Commit: —
 
 Acceptance: as Phase 1.
   Check: as Phase 1; `SZ` → exit 0 (est. 10 min).
-Commit: —
+Commit: 4546d7f4
 
 ## Validation Plan
 
@@ -215,6 +215,8 @@ Commit: —
 - `PrintExport.drawBoard` and `PrintExport.path(of:)` are internal (were
   `private`) so the schematic page's no-op and a stroke's nil path are
   tested directly.
+- (parent) **One commit.** The letter's phases landed together, so its Commit lines
+  name the same commit.
 
 ## Summary
 

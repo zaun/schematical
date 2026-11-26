@@ -102,7 +102,7 @@ Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
   names> --only <file>` → no `path:line` for each file; `XB -only-testing`
   those classes → pass (est. 10 min: one scoped coverage build and run).
-Commit: —
+Commit: d686bdd4
 
 ### Phase 2 — `BoardPreviewWindow.swift`, `BoardRenderer.swift`, `PartLook.swift`
 
@@ -121,7 +121,7 @@ Commit: —
 
 Acceptance: as Phase 1.
   Check: as Phase 1; `SZ` → exit 0 (est. 10 min).
-Commit: —
+Commit: d686bdd4
 
 ## Validation Plan
 
@@ -177,6 +177,8 @@ Commit: —
   `closeAll`, and Open Recent's items in `RecentDocumentsMenu`;
   `SchematicNSDocument.autosaves` (false in the test host) in place of the
   inline test-host check; `WindowReader`'s view is `WindowReaderView`.
+- (parent) **One commit.** The letter's phases landed together, so its Commit lines
+  name the same commit.
 
 ## Summary
 
