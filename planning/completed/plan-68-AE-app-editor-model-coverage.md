@@ -89,7 +89,7 @@ Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
   names> --only <file>` → no `path:line` for each file; `XB -only-testing`
   those classes → pass (est. 10 min: one scoped coverage build and run).
-Commit: —
+Commit: d68b6f4a
 
 ### Phase 2 — `PartValidator.swift`, `DatasheetStepPage.swift`
 
@@ -107,7 +107,7 @@ Commit: —
 
 Acceptance: as Phase 1.
   Check: as Phase 1; `SZ` → exit 0 (est. 10 min).
-Commit: —
+Commit: d68b6f4a
 
 ## Validation Plan
 
@@ -162,6 +162,8 @@ Commit: —
   alerts []). It is an `async` test: a button whose action starts a `Task`
   cannot run it while the test holds the main actor in `settle()`. The same
   pattern made this letter's first Open-a-PDF test fail; it is a sync test now.
+- (parent) **One commit.** The letter's phases landed together, so its Commit lines
+  name the same commit.
 
 ## Summary
 

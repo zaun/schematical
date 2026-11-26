@@ -87,7 +87,7 @@ Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
   names> --only <file>` → no `path:line` for each file; `XB -only-testing`
   those classes → pass (est. 10 min: one scoped coverage build and run).
-Commit: —
+Commit: ee1e7aec
 
 ### Phase 2 — `FootprintPreviewView.swift`, `KindSchema.swift`, `ParametricFootprintDraft.swift`, `PartDraft.swift`, `PartEditorCommands.swift`, `PartEditorModel.swift`
 
@@ -102,7 +102,7 @@ Commit: —
 
 Acceptance: as Phase 1.
   Check: as Phase 1; `SZ` → exit 0 (est. 10 min).
-Commit: —
+Commit: ee1e7aec
 
 ## Validation Plan
 
@@ -159,6 +159,8 @@ Commit: —
   loop while holding the main actor, so the menu buttons' `Task`s never ran; it
   now waits with `try await Task.sleep`, which frees the main actor (passes
   alone: 18/18 `PartEditorModelTests`, and in the final 215-test run).
+- (parent) **One commit.** The letter's phases landed together, so its Commit lines
+  name the same commit.
 
 ## Summary
 

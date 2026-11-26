@@ -100,7 +100,7 @@ Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
   names> --only <file>` → no `path:line` for each file; `XB -only-testing`
   those classes → pass (est. 10 min: one scoped coverage build and run).
-Commit: —
+Commit: 72c041a3
 
 ### Phase 2 — 9 files, `DffGuide.swift` … `PinoutStepPage.swift`
 
@@ -122,7 +122,7 @@ Commit: —
 
 Acceptance: as Phase 1.
   Check: as Phase 1; `SZ` → exit 0 (est. 10 min).
-Commit: —
+Commit: 72c041a3
 
 ## Validation Plan
 
@@ -171,6 +171,8 @@ Commit: —
   shown, deterministically, for a valid part with no footprint (a copy of
   the 5V supply); otherwise it showed only while the first check ran.
 - No bug found.
+- (parent) **One commit.** The letter's phases landed together, so its Commit lines
+  name the same commit.
 
 ## Summary
 

@@ -95,7 +95,7 @@ Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
   names> --only <file>` → no `path:line` for each file; `XB -only-testing`
   those classes → pass (est. 10 min: one scoped coverage build and run).
-Commit: —
+Commit: 74f1314c
 
 ### Phase 2 — `NixieSymbolView.swift`, `PCBCanvasView.swift`
 
@@ -133,7 +133,7 @@ Commit: —
 
 Acceptance: as Phase 1.
   Check: as Phase 1; `SZ` → exit 0 (est. 10 min).
-Commit: —
+Commit: 74f1314c
 
 ## Validation Plan
 
@@ -168,6 +168,8 @@ Commit: —
   this letter's) failed once before any change here and once after, passing
   in between: two renders of the same board gave PNGs 85559 and 85562 bytes
   long. Left to its owner; it passed in the final gate.
+- (parent) **One commit.** The letter's phases landed together, so its Commit lines
+  name the same commit.
 
 ## Summary
 

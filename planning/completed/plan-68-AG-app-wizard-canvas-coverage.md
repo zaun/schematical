@@ -131,7 +131,7 @@ Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
   names> --only <file>` → no `path:line` for each file; `XB -only-testing`
   those classes → pass (est. 10 min: one scoped coverage build and run).
-Commit: —
+Commit: 77706107
 
 ### Phase 2 — 33 files, `WizardSteps.swift` … `NetRules.swift`
 
@@ -164,7 +164,7 @@ Commit: —
 
 Acceptance: as Phase 1.
   Check: as Phase 1; `SZ` → exit 0 (est. 10 min).
-Commit: —
+Commit: 77706107
 
 ## Validation Plan
 
@@ -204,6 +204,8 @@ Commit: —
   no frequency" branch is folded into the one path (the loader keeps every
   oscillator's `defaultHz` at least `minHz` ≥ 1), drawing the same.
 - (2026-11-26) No bug found.
+- (parent) **One commit.** The letter's phases landed together, so its Commit lines
+  name the same commit.
 
 ## Summary
 
