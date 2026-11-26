@@ -270,9 +270,16 @@ struct TextPanel: View {
     let document: SchematicDocument
     let text: BoardText
 
-    @State private var words = ""
-    @State private var size = ""
+    @State private var words: String
+    @State private var size: String
     @FocusState private var focus: Field?
+
+    init(document: SchematicDocument, text: BoardText) {
+        self.document = document
+        self.text = text
+        _words = State(initialValue: "")
+        _size = State(initialValue: "")
+    }
 
     private enum Field { case words, size }
 
@@ -376,7 +383,7 @@ struct TextPanel: View {
     }
 
     private func commitSize() {
-        if let value = Int(size.trimmingCharacters(in: .whitespaces)) {
+        if let value = PCBSidebarView.mil(size) {
             document.setTextSize(text.id, value)
         }
         showSize()
@@ -549,9 +556,16 @@ struct TracePanel: View {
     let document: SchematicDocument
     let trace: BoardTrace
 
-    @State private var width = ""
-    @State private var calculating = false
+    @State private var width: String
+    @State private var calculating: Bool
     @FocusState private var isWidthFocused: Bool
+
+    init(document: SchematicDocument, trace: BoardTrace) {
+        self.document = document
+        self.trace = trace
+        _width = State(initialValue: "")
+        _calculating = State(initialValue: false)
+    }
 
     /// The layers the Layer picker offers: never a Plane.
     static func layers(for board: BoardSettings) -> [CopperLayer] { board.traceLayers }
@@ -629,7 +643,7 @@ struct TracePanel: View {
 
     /// A typed width is clamped by the document; the field shows the result.
     private func commitWidth() {
-        if let value = Int(width.trimmingCharacters(in: .whitespaces)) {
+        if let value = PCBSidebarView.mil(width) {
             document.setTraceWidth(trace.id, value)
         }
         showWidth()

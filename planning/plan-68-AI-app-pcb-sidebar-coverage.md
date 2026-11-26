@@ -1,6 +1,6 @@
 # plan-68-AI: App coverage — Canvas
 
-Last updated: 2026-11-25
+Last updated: 2026-11-26
 Effort: large (3h–1d)
 Depends on: plan-68-AH
 
@@ -70,7 +70,25 @@ controller tests both run in the phase gate.
 
 ### Phase 1 — `PCBSidebarView.swift`
 
-- [ ] Close every uncovered line of these files per § 3; ratchet rows removed.
+- [x] Close every uncovered line of these files per § 3. Step 1 under the
+  existing classes (`BoardDetailsSheetTests,SelectionSidebarTests,StackupAnalysisTests`):
+  724 of 990 lines uncovered (`PCBSidebarPanels.swift` 447, `PCBSidebarView.swift` 277).
+  New classes `PCBSidebarViewTests` (16 tests: units, grid, size, type, layer
+  count and layer type menus with their refusals, colour swatches and wells,
+  Board Details…, card bus, fixed-size and free-form boards, routing of every
+  single selection, several texts, several footprints with marks and Reset
+  Reference, the selection list, `CardOptionsSection`, `CustomCardSection`,
+  the extracted helpers) and `PCBSidebarPanelsTests` (8 tests: the text, via,
+  hole, trace, lone trace, footprint, connector-style and Planes panels), plus
+  additive helpers in `schematicalTests/Support/ViewProbe+AI.swift`.
+  `LOGIC_COV_WORK=/tmp/logic-cov-AI node scripts/coverage.js --app --tests
+  PCBSidebarViewTests,PCBSidebarPanelsTests,BoardDetailsSheetTests,SelectionSidebarTests,StackupAnalysisTests
+  --only schematical/schematical/Canvas/PCBSidebar` → `app: 1016 lines, 0
+  uncovered, 100.00%` (no `path:line`).
+- [x] ratchet rows: parent (both files at 0).
+  Ratchet rows: removed by the parent in this letter's commit (2 rows). Re-measured in the
+  shared tree by the parent with this letter's classes: no `path:line` for any of its files,
+  no failed test.
 
 Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
@@ -94,7 +112,28 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- (AI) A menu-style `Picker` inside a `.formStyle(.grouped)` Form never fills
+  its `NSPopUpButton` menu in the test host (`menuNeedsUpdate`,
+  `menuWillOpen`, `attachPopUp` and `willOpenMenu` all leave it empty); the
+  same picker under `.formStyle(.columns)` or in a `VStack` fills. The
+  sidebar's own Form is grouped, so the tests that choose from a menu host
+  the panel (`BoardPanel` + `LayersSection`, `HolePanel`, `TracePanel`,
+  `FootprintPanel`, `PlanesSection`, `CardOptionsSection`) in a columns Form;
+  the sidebar itself is still rendered for routing and the grouped-only
+  controls. (`NetsSidebarViewTests` and `CanvasPanelsViewTests` choose from
+  grouped-Form pop-ups and fail the same way in today's tree.)
+- (AI) Logic out of the views, keeping behaviour: `PCBSidebarView.shared(_:)`
+  (the one value a selection shares, nil when mixed: the side, layer, size and
+  mark pickers), `PCBSidebarView.mil(_:)` (a typed size or width, used by
+  `MultiTextSection`, `TextPanel`, `TracePanel`),
+  `PCBSidebarView.footprintIDs(of:)` (the selection's placed footprints, was
+  inline in `body`) and `MultiPositionSection.side(of:in:)` (was a private
+  method); unit-tested in `testSharedMilAndSideHelpers`.
+- (AI) xccov never counts a `@State` (or stored property) default value, so
+  `PCBSidebarView`, `MultiPositionSection`, `MultiTextSection`, `TextPanel` and
+  `TracePanel` set their initial state in an explicit `init` (same values and
+  parameter defaults as before).
+- (AI) No bug found.
 
 ## Summary
 

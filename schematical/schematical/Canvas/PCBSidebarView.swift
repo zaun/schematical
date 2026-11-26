@@ -11,12 +11,20 @@ import SwiftUI
 struct PCBSidebarView: View {
     @Bindable var document: SchematicDocument
     /// The net the Nets section highlights on the canvas (window state).
-    var highlightedNet: Binding<PlaneNet?> = .constant(nil)
+    var highlightedNet: Binding<PlaneNet?>
     /// Routes a net from its row (Route Net).
-    var onRoute: (RoutingOptions.Scope) -> Void = { _ in }
+    var onRoute: (RoutingOptions.Scope) -> Void
 
     /// The Board Details sheet is open.
-    @State private var isDetailsOpen = false
+    @State private var isDetailsOpen: Bool
+
+    init(document: SchematicDocument, highlightedNet: Binding<PlaneNet?> = .constant(nil),
+         onRoute: @escaping (RoutingOptions.Scope) -> Void = { _ in }) {
+        self.document = document
+        self.highlightedNet = highlightedNet
+        self.onRoute = onRoute
+        _isDetailsOpen = State(initialValue: false)
+    }
 
     /// What the inspector shows.
     enum Content: Equatable {
@@ -69,6 +77,27 @@ struct PCBSidebarView: View {
             ids.append(id)
         }
         return ids
+    }
+
+    /// The ids of the selected footprints that are on the board, in selection order.
+    static func footprintIDs(of document: SchematicDocument) -> [UUID] {
+        document.boardSelection.items.compactMap { item -> UUID? in
+            if case let .footprint(id) = item, document.chips.contains(where: { $0.id == id && $0.board != nil }) {
+                return id
+            }
+            return nil
+        }
+    }
+
+    /// The one value every selected item shares, or nil when they differ
+    /// (or there are none): a picker then shows no segment selected.
+    static func shared<Value: Hashable>(_ values: Set<Value>) -> Value? {
+        values.count == 1 ? values.first : nil
+    }
+
+    /// A size or width typed in mil: a whole number, spaces round it allowed; nil otherwise.
+    static func mil(_ text: String) -> Int? {
+        Int(text.trimmingCharacters(in: .whitespaces))
     }
 
     var body: some View {
@@ -128,12 +157,7 @@ struct PCBSidebarView: View {
                 let textIDs = Self.textIDs(of: document)
                 if !textIDs.isEmpty { MultiTextSection(document: document, ids: textIDs) }
                 MultiPositionSection(document: document, showsSide: textIDs.isEmpty)
-                let footprints = document.boardSelection.items.compactMap { item -> UUID? in
-                    if case let .footprint(id) = item, document.chips.contains(where: { $0.id == id && $0.board != nil }) {
-                        return id
-                    }
-                    return nil
-                }
+                let footprints = Self.footprintIDs(of: document)
                 if !footprints.isEmpty {
                     MarksSection(document: document, ids: footprints)
                 }
@@ -172,15 +196,20 @@ struct PCBSidebarView: View {
 struct MultiPositionSection: View {
     let document: SchematicDocument
     /// False when the Text section (all texts) already offers the side.
-    var showsSide = true
+    let showsSide: Bool
+
+    init(document: SchematicDocument, showsSide: Bool = true) {
+        self.document = document
+        self.showsSide = showsSide
+    }
 
     var body: some View {
         let items = Array(document.boardSelection.items)
-        let sides = Set(items.compactMap { side(of: $0) })
+        let sides = Set(items.compactMap { Self.side(of: $0, in: document) })
         Section("Position") {
             if showsSide, !sides.isEmpty {
                 Picker("Layer", selection: Binding<BoardSide?>(
-                    get: { sides.count == 1 ? sides.first : nil },
+                    get: { PCBSidebarView.shared(sides) },
                     set: { if let side = $0 { document.setSide(of: items, side) } }
                 )) {
                     ForEach(BoardSide.allCases, id: \.self) { side in
@@ -199,7 +228,7 @@ struct MultiPositionSection: View {
     }
 
     /// The side a footprint or board text is on; nil for any other item.
-    private func side(of item: BoardItem) -> BoardSide? {
+    static func side(of item: BoardItem, in document: SchematicDocument) -> BoardSide? {
         switch item {
         case let .footprint(id): document.chips.first { $0.id == id }?.board?.side
         case let .text(id): document.texts.first { $0.id == id }?.side
@@ -218,8 +247,14 @@ struct MultiTextSection: View {
     let document: SchematicDocument
     let ids: [UUID]
 
-    @State private var size = ""
+    @State private var size: String
     @FocusState private var sizeFocused: Bool
+
+    init(document: SchematicDocument, ids: [UUID]) {
+        self.document = document
+        self.ids = ids
+        _size = State(initialValue: "")
+    }
 
     private var texts: [BoardText] { document.texts.filter { ids.contains($0.id) } }
 
@@ -230,7 +265,7 @@ struct MultiTextSection: View {
         let sizes = Set(texts.map(\.size))
         Section("Text") {
             Picker("Side", selection: Binding<BoardSide?>(
-                get: { sides.count == 1 ? sides.first : nil },
+                get: { PCBSidebarView.shared(sides) },
                 set: { if let side = $0 { document.setSide(of: ids.map { BoardItem.text($0) }, side) } }
             )) {
                 ForEach(BoardSide.allCases, id: \.self) { side in
@@ -240,7 +275,7 @@ struct MultiTextSection: View {
             .pickerStyle(.segmented)
             .disabled(document.board.layers == 1)
             Picker("Layer", selection: Binding<TextLayer?>(
-                get: { layers.count == 1 ? layers.first : nil },
+                get: { PCBSidebarView.shared(layers) },
                 set: { if let layer = $0 { document.setTextLayer(ids, layer) } }
             )) {
                 ForEach(TextLayer.allCases, id: \.self) { layer in
@@ -258,7 +293,7 @@ struct MultiTextSection: View {
                     Text("mil")
                         .foregroundStyle(.secondary)
                     Stepper("Font Size", value: Binding(
-                        get: { sizes.count == 1 ? sizes.first! : BoardText.defaultSize },
+                        get: { PCBSidebarView.shared(sizes) ?? BoardText.defaultSize },
                         set: { document.setTextSize(ids, $0); showSize() }
                     ), in: BoardText.sizeRange, step: 5)
                     .labelsHidden()
@@ -271,7 +306,7 @@ struct MultiTextSection: View {
     }
 
     private func commitSize() {
-        if let value = Int(size.trimmingCharacters(in: .whitespaces)) {
+        if let value = PCBSidebarView.mil(size) {
             document.setTextSize(ids, value)
         }
         showSize()
@@ -279,8 +314,7 @@ struct MultiTextSection: View {
 
     /// The shared size, or empty (the "Mixed" prompt) when they differ.
     private func showSize() {
-        let sizes = Set(texts.map(\.size))
-        size = sizes.count == 1 ? String(sizes.first!) : ""
+        size = PCBSidebarView.shared(Set(texts.map(\.size))).map(String.init) ?? ""
     }
 }
 
@@ -317,7 +351,7 @@ struct MarksSection: View {
                             set: @escaping (MarkLayer) -> Void) -> some View {
         let layers = Set(placements.map { $0[keyPath: mark] })
         return Picker(title, selection: Binding<MarkLayer?>(
-            get: { layers.count == 1 ? layers.first : nil },
+            get: { PCBSidebarView.shared(layers) },
             set: { if let layer = $0 { set(layer) } }
         )) {
             ForEach(MarkLayer.allCases, id: \.self) { layer in
