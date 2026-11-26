@@ -1,0 +1,37 @@
+PASS: 1 74_373 power-on: all Q = 0 (LE low, D high)
+PASS: 2 74_373 LE high: Q follows D (each bit)
+PASS: 3 74_373 LE falls: Q holds while D changes
+PASS: 4 74_373 OE high: Q = Z; LE high meanwhile loads; OE low shows the new data
+PASS: 5 74_373 LE = X: Q = X where D differs from the stored bit, unchanged where equal
+PASS: 6 74_373 OE = X -> Q = X; OE = Z -> Q = X
+PASS: 7 74_533 outputs are NOT D
+PASS: 8 74_843 CLR low -> 0 regardless of LE; PRE low -> 1; both low -> 1 (presetWins)
+PASS: 9 74_16373 bank 1 LE (and OE) do not move bank 2
+PASS: 10 74_75 Q and QBAR complementary; pair enables independent
+PASS: 11 4042B POLARITY 0: transparent at CLOCK 0; POLARITY 1 at CLOCK 1; POLARITY change with CLOCK steady opens/closes
+PASS: 12 4508B RESET high -> 0 and clears the stored bit; DISABLE high -> Z, storage intact
+PASS: 13 74_259 addressable mode: only the addressed latch follows D
+PASS: 14 74_259 memory mode: G high holds all
+PASS: 15 74_259 demux mode: CLR low, G low -> addressed = D, others 0
+PASS: 16 74_259 clear mode: CLR low, G high -> all 0
+PASS: 17 74_259 address change with G low moves the transparent latch; the old one keeps its value
+PASS: 18 4099B RESET high + WD high clears all; RESET high + WD low = demux
+PASS: 19 TPIC6259 bit 1 -> DRAIN 0; bit 0 -> DRAIN Z (open drain, inverted)
+PASS: 20 74_279 set, reset, both low -> 1, release S first -> 0, release R first -> 1
+PASS: 21 4043B S=R=1 -> 1; ENABLE 0 -> Z while S/R still act
+PASS: 22 4044B S=R=0 -> 0
+PASS: 23 74_4511 codes 0-15 -> the glyph table; LT low -> all 1; BL low -> all 0; LT beats BL
+PASS: 24 74_4511 LE high holds the code while inputs change
+PASS: 25 74_16260 A->B: LEA1B high loads the 1B latch from A; OE1B low drives 1B
+PASS: 26 74_16260 B->A: SEL selects the 1B / 2B latch onto A when OEA low
+PASS: 27 loader: unknown model, another model's key, enableActive with polarity are errors
+PASS: 28 voltage: FX-TPIC6259 DRAIN0 is open drain; FX-74_259 Q0 is not
+PASS: 29 SN74HC373N: LE high follows D, LE low holds, OE high Z while loading
+PASS: 30 SN74LVC1G373DBVR: transparent, then holds
+PASS: 31 SN74HC259N demux mode: addressed = D, others 0
+PASS: 32 TPIC6B259N: stored 1 pulls DRAIN low, stored 0 releases it
+PASS: 33 CD74HC4511E: code 7 -> segments 1110000
+PASS: 34 SN74ALVCH16260DL: SEL selects the 1B latch onto A (and the 2B latch when low)
+PASS: 35 CD4511BE: 6 has no top segment, 9 no bottom, code 11 blank
+PASS: 36 CD4054BE: DF inverts the held or passed bit; a low strobe holds IN
+latch_test: all passed

@@ -1,0 +1,227 @@
+PASS: 20 loader: the fixture loads
+PASS: 20 loader: facts (16x2, ST7066U, A00, blue-negative, White)
+PASS: 20 loader: bus pins RS, R/W, E, DB0-DB7
+PASS: 20 loader: vcc 4.5-5.5 V
+PASS: 20 loader: a device without a backlight has no backlight color
+PASS: 20 loader: columns 41 -> "columns" must be 1 to 40 (got: bad.json: devices[0] (B): "columns" must be 1 to 40)
+PASS: 20 loader: columns 0 -> "columns" must be 1 to 40 (got: bad.json: devices[0] (B): "columns" must be 1 to 40)
+PASS: 20 loader: rows 3 -> "rows" must be 1, 2 or 4 (got: bad.json: devices[0] (B): "rows" must be 1, 2 or 4)
+PASS: 20 loader: rom A02 -> unknown rom "A02" (got: bad.json: devices[0] (B): unknown rom "A02")
+PASS: 20 loader: panel green -> "panel" must be yellow-green, blue-negative, gray or white (got: bad.json: devices[0] (B): "panel" must be yellow-green, blue-negative, gray or white)
+PASS: 20 loader: 7 data pins -> "data" must be 8 pin names, DB0 first (got: bad.json: devices[0] (B): "data" must be 8 pin names, DB0 first)
+PASS: 20 loader: data pin with no pin -> no pin named "DB9" (got: bad.json: devices[0] (B): pinouts.p16: no pin named "DB9")
+PASS: 20 loader: backlight anode with no pin -> no pin named "A" (got: bad.json: devices[0] (B): pinouts.p16: no pin named "A")
+PASS: 20 loader: exec powerOn 0 -> "exec.powerOn" must be more than 0 (got: bad.json: devices[0] (B): "exec.powerOn" must be more than 0)
+PASS: 20 loader: timing tpw 0 -> "timing.tpw" must be more than 0 (got: bad.json: devices[0] (B): "timing.tpw" must be more than 0)
+PASS: 20 loader: timing tc 0 -> "timing.tc" must be more than 0 (got: bad.json: devices[0] (B): "timing.tc" must be more than 0)
+PASS: 20 loader: timing without tdhr -> missing "timing.tdhr" (got: bad.json: devices[0] (B): missing "timing.tdhr")
+PASS: 20 loader: no vcc -> missing "vcc" (got: bad.json: devices[0] (B): parts[0] (B): missing "vcc")
+PASS: D1 loader: 20x4 on one E loads (rows 4, panel gray, enables 1, 1 LED, bus of 11)
+PASS: D1 loader: 40x4 with two enables loads (enables 2, panel white, bus RS R/W E1 E2 DB0-7: 12)
+PASS: D1 loader: a 3-LED backlight loads (backlight_count 3: Red, Green, Blue; color = [0])
+PASS: D1 loader: the 16x2 fixture has enables 1, one LED, the same 11 bus pins
+PASS: D1 loader: no backlight: backlight_count 0, backlight_colors NULL
+PASS: 20 loader: rows 4, one E, 21 columns -> 4 rows on one controller need "columns" of 20 or less (got: bad.json: devices[0] (B): 4 rows on one controller need "columns" of 20 or less)
+PASS: 20 loader: rows 3 -> "rows" must be 1, 2 or 4 (got: bad.json: devices[0] (B): "rows" must be 1, 2 or 4)
+PASS: 20 loader: two enables on 2 rows -> two enables need "rows": 4 (got: bad.json: devices[0] (B): two enables need "rows": 4)
+PASS: 20 loader: three enables -> "e" must be a pin name or 2 pin names (got: bad.json: devices[0] (B): "e" must be a pin name or 2 pin names)
+PASS: 20 loader: one enable in an array -> "e" must be a pin name or 2 pin names (got: bad.json: devices[0] (B): "e" must be a pin name or 2 pin names)
+PASS: 20 loader: e a number -> "e" must be a pin name or 2 pin names (got: bad.json: devices[0] (B): "e" must be a pin name or 2 pin names)
+PASS: 20 loader: E2 with no pin -> no pin named "E3" (got: bad.json: devices[0] (B): pinouts.p18-dual: no pin named "E3")
+PASS: 20 loader: panel black -> "panel" must be yellow-green, blue-negative, gray or white (got: bad.json: devices[0] (B): "panel" must be yellow-green, blue-negative, gray or white)
+PASS: 20 loader: backlight of 4 LEDs -> "backlight" must be an object or 1 to 3 objects (got: bad.json: devices[0] (B): "backlight" must be an object or 1 to 3 objects)
+PASS: 20 loader: backlight empty array -> "backlight" must be an object or 1 to 3 objects (got: bad.json: devices[0] (B): "backlight" must be an object or 1 to 3 objects)
+PASS: 20 loader: backlight a string -> "backlight" must be an object or 1 to 3 objects (got: bad.json: devices[0] (B): "backlight" must be an object or 1 to 3 objects)
+PASS: 20 loader: backlight array of a string -> "backlight" must be an object or 1 to 3 objects (got: bad.json: devices[0] (B): "backlight" must be an object or 1 to 3 objects)
+PASS: 20 loader: backlight LED without a color -> backlight[1] (got: bad.json: devices[0] (B): backlight[1]: missing "color")
+PASS: 20 loader: backlight cathode with no pin -> no pin named "K(W)" (got: bad.json: devices[0] (B): pinouts.p18-rgb: no pin named "K(W)")
+PASS: rom: A (41) = 0E 11 11 11 1F 11 11 00
+PASS: rom: 0 (30) = 0E 11 13 15 19 11 0E 00
+PASS: rom: yen (5C) = 11 0A 1F 04 1F 04 04 00
+PASS: rom: right arrow (7E) = 00 04 02 1F 02 04 00 00
+PASS: rom: left arrow (7F) = 00 04 08 1F 08 04 00 00
+PASS: rom: space (20) is blank
+PASS: rom: FF is all 1F
+PASS: rom: 00-1F and 80-A0 are blank
+PASS: 1 power-up: at 1 ms BF = 1
+PASS: 1 power-up: at 41 ms BF = 0 and AC = 0
+PASS: 1 power-up: the write at 1 ms was not accepted (DDRAM all 20)
+PASS: 1 power-up: display off (D = 0): every dot off
+PASS: 2 8-bit init: AC = 67 after the example (10 wraps from 00)
+PASS: 2 8-bit init: ddram[0..4] = 48 45 4C 4C 4F
+PASS: 2 8-bit init: AC = 05
+PASS: 2 8-bit init: cell 0 shows ROM 48, cell 4 ROM 4F
+PASS: 2 8-bit init: row 1 all off (spaces)
+PASS: 3 4-bit init: BF/AC read in two nibbles gives 0 then 2
+PASS: 3 4-bit init: DB0-3 stay Z through every read
+PASS: 3 4-bit init: "Hi" in ddram[0..1] and on the face
+PASS: 3 4-bit init: 0F made cell 2 blink (all on, then the cursor line)
+PASS: 4 busy: a data write 10 us after another is not accepted
+PASS: 4 busy: Clear: BF = 1 at + 1.5 ms
+PASS: 4 busy: Clear: BF = 0 at + 1.53 ms
+PASS: 5 clear: DDRAM all 20, AC 0
+PASS: 5 clear: I/D = 1 again (two writes go right, AC 2)
+PASS: 5 home: after a shift, column 0 shows address 01
+PASS: 5 home: shift back to 0, AC 0, DDRAM unchanged
+PASS: 6 entry mode: I/D = 0 writes go leftward (05, 04; AC 03)
+PASS: 6 entry mode: S = 1, 3 writes: column 0 shows address 03
+PASS: 7 2-line wrap: 27 then 40 (indices 39, 40), AC 41
+PASS: 7 2-line wrap: decrement from 00 lands at 67
+PASS: 8 no-cell address: a write at 28 changes no cell
+PASS: 8 no-cell address: AC = 29
+PASS: 8 no-cell address: a data read there drives X
+PASS: 9 CGRAM: codes 00 and 08 both render CGRAM glyph 0
+PASS: 9 CGRAM: a row with an X bit renders that dot X, the rest as written
+PASS: 10 cursor: C = 1: cell AC's row 7 is on
+PASS: 10 blink: B = 1: all dots on in the even phase, the glyph in the odd
+PASS: 11 display off: every dot off, DDRAM kept
+PASS: 12 1-line: row 0 shows 16 cells from address 00
+PASS: 12 1-line: row 1 off
+PASS: 12 1-line: AC wraps 4F -> 00
+PASS: 13 read timing: DB X from E rise (at + 50 ns)
+PASS: 13 read timing: BF/AC data from + 100 ns (00 at + 110 ns)
+PASS: 13 read timing: data held at E fall + 5 ns
+PASS: 13 read timing: Z after E fall + 10 ns
+PASS: 14 violation: E high 100 ns (< tpw 140): the cell is X, AC moves
+PASS: 14 violation: data changing 20 ns before E fall (< tdsw 40): the cell is X
+PASS: 14 violation: data changing 5 ns after E fall (< th 10): the cell is X
+PASS: 14 violation: RS changing 5 ns after E fall (< tah 10): the cell is X
+PASS: 14 violation: E rising 1000 ns after the last rise (< tc 1200): the cell is X
+PASS: 15 LOST: an instruction write with RS X: every dot X, BF reads X
+PASS: 15 resync: after the init sequence BF is known; the X DDRAM cells show X
+PASS: 15 resync: after Clear every dot is off
+PASS: 15 resync: HELLO shows
+PASS: 15 LOST: E reading X makes every field X
+PASS: 15 E X with R/W 1 (a possible read): BF and RAM known, only AC X
+PASS: 15 E X with R/W 1: Set DDRAM Address makes AC known again
+PASS: 15 power-on: E X before exec.powerOn does not make the controller LOST
+PASS: 16 partial X: 0000 11X0 makes only C X: the cursor cell's row 7 is X, every other dot right
+PASS: D2 20x4 map: 80 writes from 00 wrap 27 -> 40 and 67 -> 00 (AC 00 after)
+PASS: D2 20x4 map: row 0 shows bytes 0-19 (addresses 00-13)
+PASS: D2 20x4 map: row 1 shows bytes 40-59 (addresses 40-53)
+PASS: D2 20x4 map: row 2 shows bytes 20-39 (addresses 14-27)
+PASS: D2 20x4 map: row 3 shows bytes 60-79 (addresses 54-67)
+PASS: D3 20x4 shift: after one left shift row 2 column 0 shows address 15, row 0 column 19 address 14
+PASS: D3 20x4 shift: row 1 column 0 shows address 41, row 3 column 19 wraps to address 40
+PASS: D4 20x4 1-line: N = 0: rows 1 and 3 are off
+PASS: D4 20x4 1-line: row 0 shows addresses 00-13, row 2 addresses 14-27
+PASS: D5 40x4: E1 init + TOP shows on row 0
+PASS: D5 40x4: rows 2-3 stay blank while E2 is not initialised (its display is off)
+PASS: D5 40x4: then E2 init + LOW shows on row 2; row 0 keeps TOP
+PASS: D5 40x4: LcdState.controllers 2, ddram[0][0] = T, ddram[1][0] = L
+PASS: D5 40x4: busy[] are separate: E2 busy after its Clear, E1 not
+PASS: D5 40x4: a BF/AC read through E1 meanwhile: BF 0, AC 03
+PASS: D5 40x4: a BF read through E2 meanwhile: BF 1
+PASS: D5 40x4: at 1 ms a BF read through E2: BF 1 (power-on)
+PASS: D5 40x4: E2 never initialised: its writes at 1 ms were ignored (DDRAM spaces), rows 2-3 blank
+PASS: D6 40x4 read clash: BF read with E1 and E2 high, busy flags differ: DB7 X, DB6-0 = AC 00
+PASS: D6 40x4 read clash: both BF 0 and AC 00: every DB bit known (00)
+PASS: D6 40x4 read clash: after both reads end, DB is released (Z)
+PASS: D6 40x4 read clash: AC 03 and 00: DB1-0 X, the agreeing bits known
+PASS: D7 40x4 timing: an E2 write rising 5 ns after an E1 write's fall: both take effect
+PASS: D7 40x4 timing: an E2 pulse shorter than tpw makes controller 2 LOST (BF, RAM, rows 2-3 X)
+PASS: D7 40x4 timing: controller 1 stays known (BF 0, TOP on row 0)
+PASS: D7 40x4 timing: E1 reads BF 0, AC 04
+PASS: D8 RGB lights: three lights; K(G) low, K(R) and K(B) high: lights R, G, B = 0/1/0
+PASS: D8 RGB lights: light times per LED: green on ~20 us, red and blue 0
+PASS: D8 RGB lights: K(R) and K(B) low, K(G) high: 1/0/1
+PASS: D9 RGB voltage: LED+ on 5V carries 5 V to all three cathode nets (3 INPUT_OVER on the probe)
+PASS: D9 RGB voltage: GND on K(G)'s net overrides the carried level (2 problems: K(R), K(B))
+PASS: 17 backlight: anode 1, cathode 0: 1 light, on
+PASS: 17 backlight: anode 0: off
+PASS: 17 backlight: a module without a backlight has 0 lights
+PASS: 18 voltage: VDD on 3V3 is refused: voltage: 3.3 V on pin 2 (VDD) of FX-LCD; it needs 4.5-5.5 V (got: voltage: 3.3 V on pin 2 (VDD) of FX-LCD; it needs 4.5-5.5 V)
+PASS: 18 voltage: VDD on 5V starts
+PASS: 18 voltage: backlight anode on 5V, cathode on GND starts (no voltage problem)
+PASS: 19 api: circuit_lcd_state on a gate: -1, "part 0 is not a character LCD"
+PASS: 19 api: circuit_lcd_state on the LCD: 0, 16x2, busy at power-up
+PASS: E 4.1 every part: NHD-0216BZ-FL-YBW (16x2, enable E, tPW 140 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: NHD-0216K1Z-FL-YBW (16x2, enable E, tPW 140 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: NHD-0216K1Z-NSW-BBW-L (16x2, enable E, tPW 140 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: 162H BC BW (16x2, enable E, tPW 140 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: AMC1602GR-B-Y6WFDY (16x2, enable E, tPW 140 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: MC42004A6W-FPTLW-V2 (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: MC42004A6W-SPR-V2 (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: MC42005A6W-FPTLW-V2 (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: MC42005A6W-SPTLY-V2 (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: MC42008A6W-FPTLW (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: MC42008A6W-SPTLY (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: MC44005A6W-BNMLW-V2 (40x4, enable E1+E2, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at E1 DDRAM 14 = (0,20), WORLD through E2 at (2,0)
+PASS: E 4.1 every part: MC44005A6W-FPTLW-V2 (40x4, enable E1+E2, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at E1 DDRAM 14 = (0,20), WORLD through E2 at (2,0)
+PASS: E 4.1 every part: MC44005A6W-SPTLY-V2 (40x4, enable E1+E2, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at E1 DDRAM 14 = (0,20), WORLD through E2 at (2,0)
+PASS: E 4.1 every part: MD24005A6W-FPTLRGB (40x2, enable E, tPW 140 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: MD42004A6W-FPTLRGB (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: MD42005C6W-FPTLRGB (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: MD44005A6W-FPTLRGB (40x4, enable E1+E2, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at E1 DDRAM 14 = (0,20), WORLD through E2 at (2,0)
+PASS: E 4.1 every part: NHD-0240AZ-FL-GBW (40x2, enable E, tPW 140 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: NHD-0240AZ-FL-YBW (40x2, enable E, tPW 140 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: NHD-0240AZ-FSW-FBW (40x2, enable E, tPW 140 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: NHD-0240AZ-NSW-BBW (40x2, enable E, tPW 140 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: NHD-0420AZ-FL-GBW-33V3 (20x4, enable E, tPW 480 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: NHD-0420AZ-FL-YBW-33V3 (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: NHD-0420AZ-FSW-GBW-33V3 (20x4, enable E, tPW 480 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: NHD-0420DZ-FL-GBW (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: NHD-0420DZ-FL-YBW (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: NHD-0420DZ-FL-YBW-33V3 (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: NHD-0420DZ-FSW-FBW (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: NHD-0420DZ-NSW-BBW (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: NHD-0420E2Z-FL-GBW (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: NHD-0420E2Z-FL-YBW (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: NHD-0420E2Z-FSW-GBW (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: NHD-0420E2Z-NSW-BBW (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: NHD-0420H1Z-FL-GBW-33V3 (20x4, enable E, tPW 480 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: NHD-0420H1Z-FSW-GBW (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: NHD-0420H1Z-FSW-GBW-33V3 (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: NHD-0440AZ-RN-FBW (40x4, enable E1+E2, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at E1 DDRAM 14 = (0,20), WORLD through E2 at (2,0)
+PASS: E 4.1 every part: NHD-0440WH-ATFH-JT# (40x4, enable E1+E2, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at E1 DDRAM 14 = (0,20), WORLD through E2 at (2,0)
+PASS: E 4.1 every part: NHD-0440WH-ATMI-JT# (40x4, enable E1+E2, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at E1 DDRAM 14 = (0,20), WORLD through E2 at (2,0)
+PASS: E 4.1 every part: C204A-BW-LW25 (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: C204ABBSYSY6WT55PAB (20x4, enable E, tPW 150 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: C204ADBFGSW6WT55PAB (20x4, enable E, tPW 220 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: C204ALBFWSW6WT33XAA (20x4, enable E, tPW 300 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: C204ALBSBSW6WN33XAA (20x4, enable E, tPW 300 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: C204ALBSYLY6WM55PAA (20x4, enable E, tPW 300 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: C204ALBSYLY6WT33XAA (20x4, enable E, tPW 300 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: C204AXBSGN06WR50XAA (20x4, enable E, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: C204AXBSYLY6WT (20x4, enable E, tPW 230 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: C204BLBFWSW6WT33XAA (20x4, enable E, tPW 300 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: C204BLBSBSW6WN33PAB (20x4, enable E, tPW 300 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: C204BLBSBSW6WN55XAA (20x4, enable E, tPW 300 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: C204BLBSYLY6WT33PAB (20x4, enable E, tPW 300 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: C204BLBSYLY6WT55XAA (20x4, enable E, tPW 300 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: C204CXBSGSW6WT33XAA (20x4, enable E, tPW 480 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: C204CXBSGSW6WT55XAA (20x4, enable E, tPW 450 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: C204DLBSBSW6WN55XAA (20x4, enable E, tPW 300 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: C204HLBSYLY6WM (20x4, enable E, tPW 300 ns): init, clear, HELLO at (0,0), ROW3 at DDRAM 14 = (2,0)
+PASS: E 4.1 every part: C402A3-BW-LW65 (40x2, enable E, tPW 300 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: C402ALBFKSW6WT55XAA (40x2, enable E, tPW 300 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: C402ALBFWSW6WT33XAA (40x2, enable E, tPW 300 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: C402ALBSBSW6WN33XAA (40x2, enable E, tPW 300 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: C402ALBSBSW6WN55XAA (40x2, enable E, tPW 300 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: C402ALBSGN06WT50PAB (40x2, enable E, tPW 300 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: C402ALBSYLY6WT33XAA (40x2, enable E, tPW 300 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: C402ALBSYLY6WT55XAA (40x2, enable E, tPW 300 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: C402ASBSYLY6WT55PAB (40x2, enable E, tPW 150 ns): init, clear, HELLO at (0,0)
+PASS: E 4.1 every part: C404ALBFKSW6WT55PAB (40x4, enable E1+E2, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at E1 DDRAM 14 = (0,20), WORLD through E2 at (2,0)
+PASS: E 4.1 every part: C404ALBFWSW6WT33PAB (40x4, enable E1+E2, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at E1 DDRAM 14 = (0,20), WORLD through E2 at (2,0)
+PASS: E 4.1 every part: C404ALBSBSW6WF33PAB (40x4, enable E1+E2, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at E1 DDRAM 14 = (0,20), WORLD through E2 at (2,0)
+PASS: E 4.1 every part: C404ALBSBSW6WN55PAB (40x4, enable E1+E2, tPW 140 ns): init, clear, HELLO at (0,0), ROW3 at E1 DDRAM 14 = (0,20), WORLD through E2 at (2,0)
+PASS: E 4.1 every part: C404ALBSYLY6WT33PAB (40x4, enable E1+E2, tPW 300 ns): init, clear, HELLO at (0,0), ROW3 at E1 DDRAM 14 = (0,20), WORLD through E2 at (2,0)
+PASS: E 4.1 every part: 72 charlcd parts run (40 at plan-35-E)
+PASS: C 4.5 exec: a data write 40 us after another is accepted on NHD-0216K1Z-NSW-BBW-L (data 37 us)
+PASS: C 4.5 exec: a data write 40 us after another is not accepted on 162H BC BW (data 43 us)
+PASS: C 4.5 exec: a data write 40 us after another is accepted on NHD-0420DZ-FL-YBW (20x4, data 37 us)
+PASS: C 4.5 exec: a data write 40 us after another is accepted on MC44005A6W-FPTLW-V2 (40x4 through E1, ST7066U data 37 us)
+PASS: C 4.5 facts: NHD-0216K1Z-NSW-BBW-L: blue-negative, White, LCM-NHD-0216K1Z with two pads "1", connector HDR-1X16-P2.54
+PASS: C 4.6 MPS6502 board: HELLO in ddram[0..4], ddram[5] = 20, cells 0-4 = ROM, BF 0
+     cpu: status 0, last "JMP $8029"
+PASS: C 4.6 MPS6502 board: the CPU is RUNNING, last instruction JMP $8029
+PASS: C 4.6 MPS6502 board, reset held 100 ms: HELLO, BF 0, the CPU RUNNING at JMP $8029
+PASS: C 4.6 W65C02S board: the first STA $4000 broke the hold time: every dot X, BF X (LOST)
+     cpu: status 1, last "BEQ $8017"
+PASS: C 4.6 W65C02S board: the CPU is LOST (its BIT $4000 read an X busy flag)
+     cpu: status 0, last "JMP $8022"
+PASS: E 4.3 MPS6502 + NHD-0420DZ-FL-YBW board: DDRAM 00/40/14/54 = LINE1-4 on rows 0-3 (ROM cells), BF 0, the CPU RUNNING at its JMP
+     cpu: status 0, last "JMP $8042"
+PASS: E 4.3 MPS6502 + NHD-0440WH-ATFH-JT# board: TOP through E1 on row 0, BOTTOM through E2 on row 2, rows 1 and 3 blank, both BF 0, the CPU RUNNING at its JMP
+charlcd_test: all passed

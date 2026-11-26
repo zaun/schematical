@@ -1,0 +1,157 @@
+PASS: FIXTURE-W65C02S6TPG-14 1: power-up address, R/W, SYNC read X
+PASS: FIXTURE-W65C02S6TPG-14 1: power-up status LOST, no registers
+PASS: FIXTURE-W65C02S6TPG-14 2: reset reads 0000 0100 01FF 01FE FFFC FFFD, then SYNC C000
+PASS: FIXTURE-W65C02S6TPG-14 2: running after X at 0000 and 01xx
+PASS: FIXTURE-W65C02S6TPG-14 3: RES low for 1 cycle stays LOST
+PASS: FIXTURE-W65C02S6TPG-14 3: RES released inside tPCS: reset ends one cycle later, CPU runs
+PASS: FIXTURE-W65C02S6TPG-14 4: cycle 6 is the SYNC fetch at C000
+PASS: FIXTURE-W65C02S6TPG-14 4: A0 still 0 just before tAH
+PASS: FIXTURE-W65C02S6TPG-14 4: A0 X just after tAH
+PASS: FIXTURE-W65C02S6TPG-14 4: address C001 at tADS
+PASS: FIXTURE-W65C02S6TPG-14 5: R/W 0 at tADS
+PASS: FIXTURE-W65C02S6TPG-14 5: data X from PHI2 rise
+PASS: FIXTURE-W65C02S6TPG-14 5: data 41 at rise + tMDS
+PASS: FIXTURE-W65C02S6TPG-14 5: data held to fall + tDHW, then Z
+PASS: FIXTURE-W65C02S6TPG-14 5: the bench stores 41 at 0200
+PASS: FIXTURE-W65C02S6TPG-14 6: LDA $0300 with X at 0300 goes LOST
+PASS: FIXTURE-W65C02S6TPG-14 7: opcode change tDSR - 1 ns before the fall: LOST
+PASS: FIXTURE-W65C02S6TPG-14 7: opcode change tDSR + 1 ns before the fall: runs EA (NOP)
+PASS: FIXTURE-W65C02S6TPG-14 8: IRQ reads the vector at FFFE/FFFF
+PASS: FIXTURE-W65C02S6TPG-14 8: the P pushed by IRQ has B = 0
+PASS: FIXTURE-W65C02S6TPG-14 8: NMI 1->0 reads the vector at FFFA/FFFB
+PASS: FIXTURE-W65C02S6TPG-14 8: NMI held at 0 does not re-trigger
+PASS: FIXTURE-W65C02S6TPG-14 9: the read of 0300 repeats while RDY is low
+PASS: FIXTURE-W65C02S6TPG-14 9: the cycle count grows while held
+PASS: FIXTURE-W65C02S6TPG-14 9: released, the next fetch is C003
+PASS: FIXTURE-W65C02S6TPG-14 10: SO 1->0 sets V
+PASS: FIXTURE-W65C02S6TPG-14 11: registers A 41, X 05, Y 07
+PASS: FIXTURE-W65C02S6TPG-14 11: last instruction LDY #$07 at C004, bytes A0 07
+PASS: FIXTURE-W65C02S6TPG-14 11: the cycle count equals the logged cycles since reset
+PASS: FIXTURE-W65C02S6TPG-14 11: last instruction JSR $C100, bytes 20 00 C1
+PASS: FIXTURE-W65C02S6TPG-14 12: a high phase below tPWH: LOST
+PASS: FIXTURE-W65C02S6TPG-14 12: a period below tCYC: LOST
+PASS: FIXTURE-MPS6502 1: power-up address, R/W, SYNC read X
+PASS: FIXTURE-MPS6502 1: power-up status LOST, no registers
+PASS: FIXTURE-MPS6502 2: reset reads 0000 0100 01FF 01FE FFFC FFFD, then SYNC C000
+PASS: FIXTURE-MPS6502 2: running after X at 0000 and 01xx
+PASS: FIXTURE-MPS6502 3: RES low for 1 cycle stays LOST
+PASS: FIXTURE-MPS6502 3: RES released inside tPCS: reset ends one cycle later, CPU runs
+PASS: FIXTURE-MPS6502 4: cycle 6 is the SYNC fetch at C000
+PASS: FIXTURE-MPS6502 4: A0 still 0 just before tAH
+PASS: FIXTURE-MPS6502 4: A0 X just after tAH
+PASS: FIXTURE-MPS6502 4: address C001 at tADS
+PASS: FIXTURE-MPS6502 5: R/W 0 at tADS
+PASS: FIXTURE-MPS6502 5: data X from PHI2 rise
+PASS: FIXTURE-MPS6502 5: data 41 at rise + tMDS
+PASS: FIXTURE-MPS6502 5: data held to fall + tDHW, then Z
+PASS: FIXTURE-MPS6502 5: the bench stores 41 at 0200
+PASS: FIXTURE-MPS6502 6: LDA $0300 with X at 0300 goes LOST
+PASS: FIXTURE-MPS6502 7: opcode change tDSR - 1 ns before the fall: LOST
+PASS: FIXTURE-MPS6502 7: opcode change tDSR + 1 ns before the fall: runs EA (NOP)
+PASS: FIXTURE-MPS6502 8: IRQ reads the vector at FFFE/FFFF
+PASS: FIXTURE-MPS6502 8: the P pushed by IRQ has B = 0
+PASS: FIXTURE-MPS6502 8: NMI 1->0 reads the vector at FFFA/FFFB
+PASS: FIXTURE-MPS6502 8: NMI held at 0 does not re-trigger
+PASS: FIXTURE-MPS6502 9: the read of 0300 repeats while RDY is low
+PASS: FIXTURE-MPS6502 9: the cycle count grows while held
+PASS: FIXTURE-MPS6502 9: released, the next fetch is C003
+PASS: FIXTURE-MPS6502 10: SO 1->0 sets V
+PASS: FIXTURE-MPS6502 11: registers A 41, X 05, Y 07
+PASS: FIXTURE-MPS6502 11: last instruction LDY #$07 at C004, bytes A0 07
+PASS: FIXTURE-MPS6502 11: the cycle count equals the logged cycles since reset
+PASS: FIXTURE-MPS6502 11: last instruction JSR $C100, bytes 20 00 C1
+PASS: FIXTURE-MPS6502 12: a high phase below tPWH: LOST
+PASS: FIXTURE-MPS6502 12: a period below tCYC: LOST
+PASS: W65C02S 13: RDY low holds the write: 0200, R/W 0, data 41 on every held cycle
+PASS: W65C02S 13: released, the write completes and the next fetch is C005
+PASS: W65C02S 14: VPB low exactly on the FFFC/FFFD and FFFE/FFFF reads
+PASS: W65C02S 15: MLB low on exactly the read, repeat read and write of 0300
+PASS: W65C02S 16: BE 0: address, data and RWB Z after tBVD
+PASS: W65C02S 16: the CPU keeps running with BE low (cycles +3)
+PASS: W65C02S 16: BE 1 restores address and RWB
+PASS: W65C02S 17: WAI: status WAITING, RDY driven 0
+PASS: W65C02S 17: IRQ with I set resumes at the next instruction, no vector, RDY released
+PASS: W65C02S 17: STP: STOPPED, and IRQ/NMI do not leave it
+PASS: W65C02S 17: a reset leaves STOPPED
+PASS: W65C02S 18: the bench sees the write of 41 to 0200
+PASS: W65C02S 18: A = 41, status Stopped
+PASS: W65C02S 18: last instruction STP
+PASS: MPS6502 19: RDY low during the write: it completes in one cycle
+PASS: MPS6502 20: opcode 02: JAMMED
+PASS: Z80 1: power-up outputs X, status LOST
+PASS: Z80 2: after reset the first MC is a fetch at 0000; RUNNING
+PASS: Z80 3: RESET# low for 2 clocks: LOST
+PASS: Z80 3: RESET# released inside tSRESET: the first fetch one T later, CPU runs
+PASS: Z80 4: A valid at T1 rise + tDCRA
+PASS: Z80 4: M1# low at T1 rise + tDCRM1F
+PASS: Z80 4: MREQ# and RD# low after T1 fall (RD# at + tDCFRDF)
+PASS: Z80 4: T3 rise: RD#, MREQ#, M1# high, A = I:R = 0000, RFSH# low
+PASS: Z80 4: refresh MREQ# low at T3 fall, high at T4 fall
+PASS: Z80 5: LD A,(8000h): a 3-T read, RD# from T1 fall to T3 fall, A = AB
+PASS: Z80 5: LD (8001h),A: D valid at T1 fall + tDCFD, WR# T2 fall to T3 fall, stored AB
+PASS: Z80 6: OUT (10h),A: a 4-T write of 12 to port 1210, WR# low from T2 rise
+PASS: Z80 6: IN A,(20h): a 4-T read of port 1220, A = 5A
+PASS: Z80 7: WAIT# low across T2 fall for 2 clocks: a 5-T read, RD# low through Tw
+PASS: Z80 7: WAIT# X at the T2 fall that checks it: LOST
+PASS: Z80 8: opcode change tSDCR - 1 ns before T3 rise: LOST
+PASS: Z80 8: opcode change tSDCR + 1 ns before T3 rise: HALT executes
+PASS: Z80 9: int-ack: M1# low from T1 rise, IORQ# from TW*1 fall, both high at T3 rise (6 T)
+PASS: Z80 9: the int-ack puts PC on the address bus
+PASS: Z80 9: then PC pushed (two writes) and a fetch at 0038
+PASS: Z80 10: IM 2: reads at 1234/1235, then a fetch at 0500
+PASS: Z80 10: IM 0 with FF on the bus: RST 38h (two pushes, a fetch at 0038)
+PASS: Z80 11: NMI# 1->0: a 5-T fetch, two pushes, a fetch at 0066
+PASS: Z80 11: NMI# held low does not re-trigger
+PASS: Z80 11: an NMI# pulse shorter than tWNMI: LOST
+PASS: Z80 12: HALT# low at the HALT fetch's T4 fall + tDCFHALT
+PASS: Z80 12: the halted M1 cycles keep refreshing (R advances)
+PASS: Z80 12: INT# with EI exits: HALT# high, an int-ack
+PASS: Z80 13: BUSREQ# low: BUSACK# low, bus Z, status BUS_RELEASED
+PASS: Z80 13: no MC while the bus is released
+PASS: Z80 13: released: BUSACK# high at the next fall
+PASS: Z80 13: then the pending MC runs
+PASS: Z80 14: a high phase below tWCH: LOST
+PASS: Z80 15: MCs of 4,3 / 4,3,3 / 4,3,3,3 / 4,3,4 / 4 T-states
+PASS: Z80 15: the write of 12 to 8000 and the I/O write of 12 to port 1210
+PASS: Z80 15: BC = 3456, status HALTED, last instruction HALT
+PASS: Z80 15: the instruction before it reads back as OUT (10h),A
+PASS: W65C02S6TPG-14 board: SRAM 0010 = 10 and 0200 = 10
+PASS: W65C02S6TPG-14 board: A = 10, X = FF, S = FF
+PASS: W65C02S6TPG-14 board: status STOPPED, last instruction STP
+PASS: MPS6502 board: SRAM 0010 = 10 and 0200 = 10
+PASS: MPS6502 board: A = 10, X = FF, S = FF
+PASS: MPS6502 board: RUNNING with PC in 8012-8015, last instruction JMP $8012
+PASS: Z84C0010PEG board: SRAM 0200 = 10 and 0201 = 10 (the CALLed store)
+PASS: Z84C0010PEG board: SRAM 7FFE-7FFF = 10 00 (the return address)
+PASS: Z84C0010PEG board: HALTED, A = 10, last instruction HALT
+PASS: W65C816S board: BRA at 8029, LDA # at 8022
+PASS: W65C816S board: RUNNING
+PASS: W65C816S board: SRAM 00100 = 11, 08100 = 22 (bank 1 -> A15)
+PASS: W65C816S board: SRAM 00200..00203 = 11 22 44 33
+PASS: W65C816S board: E 0, PBR 00, PC in the loop, C 3344
+board_w65c816s ok
+PASS: io_board: IRQ at 8061, DELAY at 806C
+PASS: io_board: CPU RUNNING
+PASS: io_board: SRAM 0200 = 01, 0201 = 01 (the T1 interrupt ran)
+PASS: io_board: VIA PB = 55
+PASS: io_board: PIA PA = AA
+PASS: io_board: the ACIA sent HI
+PASS: io_board: SRAM 0202 = 'I' (the ACIA's RDR, looped back)
+io_board ok
+ok w65c816s_h1_reset
+ok w65c816s_h2_bank
+ok w65c816s_h3_write
+ok w65c816s_h4_flags
+ok w65c816s_h5_mx
+ok w65c816s_h6_e
+ok w65c816s_h7_mlb
+ok w65c816s_h8_abort
+ok w65c816s_h9_rdy
+ok w65c816s_h10_wai_stp
+ok w65c816s_h11_be
+ok w65c816s_h12_setup
+ok w65c816s_h13_state
+PASS: 1: circuit with a W65C02S starts
+PASS: 1: circuit_cpu_state reports LOST
+PASS: 1: circuit_cpu_state on a gate: "part 1 is not a processor"
+cpu_test: all passed

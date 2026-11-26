@@ -1,0 +1,42 @@
+ok A1 read
+ok A2 write
+ok A3 setup
+ok A4 hold
+ok A5 not selected
+ok A6 PHI2 X
+ok A7 cycle hook
+ok A8 PHI2 widths
+ok B1 reset
+ok B2 DDR/OR select
+ok B3 port A out
+ok B4 port B mixed
+ok B5 CA1 edge + IRQ
+ok B6 CA1 narrow pulse
+ok B7 CA2 handshake
+ok B8 CB2 pulse
+ok B9 manual outputs
+ok B10 inputs as interrupts
+ok C1 reset
+ok C2 ports
+ok C3 latching
+ok C4 RS 1 vs RS F
+ok C5 CA2 read handshake
+ok C6 CB2 write handshake
+ok C7 pulse outputs
+ok C8 independent input
+ok C9 T1 one-shot
+ok C10 T1 free-run PB7
+ok C11 T2 one-shot
+ok C12 T2 pulse count
+ok C13 IER/IFR/IRQB (N)
+ok C13 IER/IFR/IRQB (S)
+ok C14 bus hold
+ok D1 SR disabled (000)
+ok D2 SR in, T2 (001)
+ok D3 SR in, PHI2 (010)
+ok D4 SR in, external (011)
+ok D5 SR out, free-running T2 (100)
+ok D6 SR out, T2 (101)
+ok D7 SR out, PHI2 (110)
+ok D8 SR out, external (111)
+ok open-drain IRQ pins

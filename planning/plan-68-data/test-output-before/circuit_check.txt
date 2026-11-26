@@ -1,0 +1,153 @@
+PASS: LED circuit runs
+PASS: LED with anode high and cathode low is lit
+PASS: GENERIC-HEADER-2X20 is added
+PASS: header circuit runs
+PASS: LED wired from header pin 1 (A) to pin 40 (K) is lit
+PASS: LED with an unconnected anode is dark
+PASS: a short stops the run
+PASS: a short is a smoke error
+PASS: the shorted net is reported
+PASS: advance stays stopped
+PASS: pull-up circuit runs
+PASS: a net with only a pull-up reads 1
+PASS: pull-up against GND runs without smoke
+PASS: a strong 0 beats a pull-up
+PASS: a pull-up against GND is no short
+PASS: a pull-up and a pull-down read X
+PASS: a UART has 1 serial channel
+PASS: a supply has no serial channel
+PASS: send before start is refused
+PASS: UART rig starts
+PASS: 8N1 at 115200 sends H and i: 0x48 0x69
+PASS: circuit_serial_sent from frame 1
+PASS: typing OK is accepted (only a pull-up on RX)
+PASS: the RBR reads 0x4F, then 0x4B
+PASS: send to a channel out of range is refused
+PASS: send to a part that is not serial is refused
+PASS: send onto an RX net another part drives is refused
+PASS: 8251A rig starts
+PASS: send to an 8251A in synchronous mode: channel 0 of part 0 is not asynchronous
+PASS: after IR and an async mode the same 8251A takes the terminal
+PASS: unknown part name fails with a message
+PASS: the unsimulated header's footprint loads
+PASS: a header device with "simulated": false loads
+PASS: an unsimulated part is refused: part "UNSIM-HDR" is not simulated
+PASS: the same device without "simulated" is added
+PASS: LED blinks while the oscillator runs
+PASS: a switch position turns ON before start
+PASS: switch circuit runs
+PASS: a switch that starts ON passes VCC and lights the LED
+PASS: the switch turns OFF while running
+PASS: runs after turning OFF
+PASS: turning the switch OFF lets the net float
+PASS: the LED counts as lit for the step it went out in
+PASS: the next step it is dark
+PASS: the switch turns back ON
+PASS: turning it back ON lights the LED
+PASS: an LED is not a switch
+PASS: position 9 is out of range
+PASS: a missing position is rejected
+PASS: circuit with an SRAM runs
+PASS: circuit_memory_size reports 32768 x 8
+PASS: a supply is not a memory
+PASS: memory_read clips at the end of memory
+PASS: unwritten words are X
+PASS: reading past the end reads nothing
+PASS: an SRAM has no lights
+PASS: memory load: two words at 0x7FFE
+PASS: memory load: read back 12 34, every bit known
+PASS: memory load: word 0 still erased (FF)
+PASS: memory load: count 0 succeeds
+PASS: memory load: part 99
+PASS: memory load: an SRAM is not loadable
+PASS: memory load: past the end
+PASS: memory load: a value wider than the word
+PASS: memory load: circuit starts
+PASS: memory load: the loaded words survive circuit_start
+PASS: memory load: refused after start
+PASS: connecting an absent pin is rejected
+PASS: a pin number past the end is rejected
+PASS: a missing net is rejected
+PASS: a NULL pin is rejected
+PASS: the circuit starts
+PASS: adding a part after start is rejected
+PASS: adding a net after start is rejected
+PASS: connecting after start is rejected
+PASS: a ball LED footprint loads
+PASS: a ball-pinout LED loads
+PASS: an unknown ball is rejected
+PASS: a ball LED connects by ball name
+PASS: a ball LED with VCC on B2 and GND on A1 is lit
+PASS: oscillator and LED run 10 us
+PASS: 1 MHz clock net changed 21 times in 10 us
+PASS: LED has one light-time value
+PASS: LED on for 5 000 000 ps of 10 us
+PASS: VCC has no lights
+PASS: net changes for a bad index is 0
+PASS: 5V on a 0.8-2.7 V part's VCC is refused at start
+PASS: the start refusal names the pin and the range
+PASS: circuit_voltage_problem returns the POWER_RANGE problem
+PASS: a refused circuit does not run
+PASS: 3V3 on a 2-6 V part starts and runs
+PASS: a running circuit has no voltage problem
+PASS: 3V3 and 5V on two nets run while the switch is open
+PASS: the contact closes
+PASS: closing 3V3 onto 5V stops the run
+PASS: the stop is a voltage error
+PASS: circuit_voltage_problem returns the CLASH
+PASS: advance stays stopped
+PASS: a contact closed before start is checked at start
+PASS: opened again, the circuit starts
+PASS: adc board: the program loads
+PASS: adc board: the circuit starts
+PASS: adc board: the CPU runs
+  9499 cycles, at 80F0 JMP $80F0
+PASS: adc board: the results read back
+  results: 00 05 03 85 00 00 00 AA
+PASS: adc board: the program finishes
+PASS: adc board: the ADS1115 acknowledges every byte
+PASS: adc board: the first poll reads CONFIG 05xx (OS = 0, converting)
+PASS: adc board: the program polls while OS = 0
+PASS: adc board: OS reads 1 when the conversion is done (CONFIG 85xx)
+PASS: adc board: CONVERSION reads 0x0000 (0 V)
+PASS: registers: 4, CONVERSION at 0, 16 bits, 0x0000
+PASS: registers: CONFIG holds the written 0x85A3 (OS = 1: done)
+  registers: CONVERSION=0000 CONFIG=85A3 LO_THRESH=8000 HI_THRESH=7FFF
+PASS: registers: the thresholds keep their reset values
+PASS: registers: the count with no room, or room for one
+PASS: registers: a CPU has none
+PASS: registers: no part 999
+PASS: rtc time: an ADC is not an RTC
+  rtc part BQ32000DR
+PASS: rtc time: refused before start
+PASS: rtc: the circuit starts
+PASS: rtc time: 2000-01-01 00:00:00, a Saturday, running
+PASS: rtc time: 2 s later at 2.5 s
+PASS: rtc time: a minute later 00:01:02
+  rtc 2000-01-01 00:01:02 weekday 6
+PASS: rtc registers: seconds 02, minutes 01 (BCD)
+  rtc registers: 13, SECONDS=02 MINUTES=81
+  rtc part DS3231MZ+TRL
+PASS: rtc time: refused before start
+PASS: rtc: the circuit starts
+PASS: rtc time: 2000-01-01 00:00:00, a Saturday, running
+PASS: rtc time: 2 s later at 2.5 s
+PASS: rtc time: a minute later 00:01:02
+  rtc 2000-01-01 00:01:02 weekday 6
+PASS: rtc registers: seconds 02, minutes 01 (BCD)
+  rtc registers: 19, SECONDS=02 MINUTES=01
+  rtc part PCF8563T/5,518
+PASS: rtc time: refused before start
+PASS: rtc: the circuit starts
+PASS: rtc time: 2000-01-01 00:00:00, a Saturday, running
+PASS: rtc time: 2 s later at 2.5 s
+PASS: rtc time: a minute later 00:01:02
+  rtc 2000-01-01 00:01:02 weekday 6
+PASS: rtc registers: seconds 02, minutes 01 (BCD)
+  rtc registers: 16, VL_SECONDS=82 MINUTES=01
+PASS: reference converters: the circuit starts (no smoke, no voltage problem)
+  MCP3428 CONFIG=90 DS4432 F8=00 F9=00 AD5621 DAC=000
+PASS: MCP3428: channel 1, continuous, 240 SPS, gain 1 at power on (90h; RDY is the status bit)
+PASS: DS4432: F8h and F9h are 00h at power on (zero current)
+PASS: AD5621: the DAC register is zero at power on
+0 failure(s)

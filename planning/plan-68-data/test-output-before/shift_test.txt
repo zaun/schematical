@@ -1,0 +1,65 @@
+PASS: 1 74_164 shifts A AND B in on CLK rising; CLR low async clears
+PASS: 2 74_264 outputs inverted; after clear all 1
+PASS: 3 74_165 SH/LD low loads and is transparent; CLK INH rising with CLK low shifts; CLK INH high blocks
+PASS: 4 74_166 SH/LD low loads at the edge; CLR async
+PASS: 5 74_194 each S1 S0 row: hold, right, left, load
+PASS: 6 74_195 J/K' rows: set, reset, toggle, keep; PE low loads
+PASS: 7 74_299 I/O pins driven only with OE1 = OE2 = 0 and not both S high; load reads the pins; QA'/QH' always driven
+PASS: 8 74_323 MR clears only at the edge
+PASS: 9 4014B / 4021B synchronous vs asynchronous parallel load
+PASS: 10 4015B two independent units; RESET high clears
+PASS: 11 4035B T/C low inverts the outputs at once
+PASS: 12 4031B 64-clock delay to Q; Q' half a clock later; CLD follows CL; MODE 1 recirculates
+PASS: 13 74_595 shift and storage separate; OE high -> Z, QH' still driven; SRCLR clears the shift register only
+PASS: 14 74_595 SRCLK and RCLK tied: storage one clock behind
+PASS: 15 74_594 RCLR clears the storage only
+PASS: 16 74_596 storage bit 0 -> output 0, bit 1 -> Z (open drain)
+PASS: 17 74_597 RCK rising loads the input register; SRLOAD low copies it; clear beats load
+PASS: 18 74_598 DS selects SER0/SER1; SRCKEN high blocks shifting; G low drives the stages onto the pins
+PASS: 19 TPIC6B595 DRAIN low exactly when G is low and the storage bit is 1; SRCLR clears the shift register, not the storage
+PASS: 20 TPIC6B596 SER OUT changes on SRCK falling; SRCLR clears the storage too
+PASS: 21 4094B STROBE high: storage follows; OE low -> Z; QS on CLOCK rising, Q'S on CLOCK falling
+PASS: 22 loader: serial with serialJK, a storage with both clock and latch, and 65 stages are errors
+PASS: 23 voltage: open drain on FX-TPIC6B595 DRAIN0 and FX-74_596 QA, not FX-74_595 QA
+PASS: 24 74_673 write mode shifts the SER pin in on the gated clock's falling edge
+PASS: 25 74_673 the store clock (R/W 0) copies Q to Y; STRCLR clears Y with CS high
+PASS: 26 74_673 read mode MODE 1 loads Q from Y; MODE 0 recirculates; SER/Q15 driven only in read with CS 0
+PASS: 27 74_673 CS rising with the clock high is a falling gated-clock edge (the datasheet's warning)
+PASS: 28 74_674 MODE 1 in read mode loads P0-P15
+PASS: 29 4517B 64 clocks from D to Q64 (and 16 to Q16)
+PASS: 30 4517B WE 1: the taps are Z; the tap-16 pin feeds stage 17
+PASS: 31 4034B serial shift into the B outputs (A/B 1)
+PASS: 32 4034B sync parallel load from A on the edge; async load follows A; AE 0 recirculates
+PASS: 33 4034B A/B 0: B is the input, A driven only with AE 1
+PASS: 34 40105B one word into an empty FIFO: DOR high and Q valid after the fall-through time
+PASS: 35 40105B 16 writes fill it: DIR stays low; a 17th SI is ignored
+PASS: 36 40105B SO falling unloads; DOR low, then high when the next word arrives
+PASS: 37 40105B MR empties it: DIR 1, DOR 0
+PASS: 38 40105B output disable blocks unloading; enabling with SO low unloads
+PASS: 39 74_40105 SO unloads while disabled; SI held high loads when position 1 frees
+PASS: 40 74_8153 two frames at 9600 bit/s, A = 5: Y = the byte at the D7 sample point; SOUT low for one bit
+PASS: 41 74_8153 a frame with another address is ignored; the pair completes with the next matching frame
+PASS: 42 74_8153 OUTSEL 0: Y = 0 for 1 bits, Z for 0 bits; OE high -> Z; RESET low -> 0
+PASS: 43 74_8153 the bit rate is measured per frame (a 2400 then a 19200 bit/s frame)
+PASS: [SN74HC595N] 13 74_595 shift and storage separate; OE high -> Z, QH' still driven; SRCLR clears the shift register only
+PASS: [SN74HC595N] 14 74_595 SRCLK and RCLK tied: storage one clock behind
+PASS: [SN74HC165N] 3 74_165 SH/LD low loads and is transparent; CLK INH rising with CLK low shifts; CLK INH high blocks
+PASS: [SN74LS299N] 7 74_299 I/O pins driven only with OE1 = OE2 = 0 and not both S high; load reads the pins; QA'/QH' always driven
+PASS: [TPIC6B595N] 19 TPIC6B595 DRAIN low exactly when G is low and the storage bit is 1; SRCLR clears the shift register, not the storage
+PASS: [CD4094BE] 21 4094B STROBE high: storage follows; OE low -> Z; QS on CLOCK rising, Q'S on CLOCK falling
+PASS: [CD74HC40105E] 34 one word into an empty FIFO: DOR high and Q valid after the fall-through time
+PASS: [SN74LV8153PW] 40 74_8153 two frames at 9600 bit/s, A = 5: Y = the byte at the D7 sample point; SOUT low for one bit
+PASS: [SN74LV8153PW] 41 74_8153 a frame with another address is ignored; the pair completes with the next matching frame
+PASS: [SN74LV8153PW] 42 74_8153 OUTSEL 0: Y = 0 for 1 bits, Z for 0 bits; OE high -> Z; RESET low -> 0
+PASS: [SN74LV8153PW] 43 74_8153 the bit rate is measured per frame (a 2400 then a 19200 bit/s frame)
+PASS: [SN74LS673DW] 24 74_673 write mode shifts the SER pin in on the gated clock's falling edge
+PASS: [SN74LS673DW] 25 74_673 the store clock (R/W 0) copies Q to Y; STRCLR clears Y with CS high
+PASS: [SN74LS673DW] 26 74_673 read mode MODE 1 loads Q from Y; MODE 0 recirculates; SER/Q15 driven only in read with CS 0
+PASS: [SN74LS673DW] 27 74_673 CS rising with the clock high is a falling gated-clock edge (the datasheet's warning)
+PASS: [HV5122PJ-G] 40 HV5122 an output sinks for a 1 while OE is high; OE low turns all off, STR low all on; shifts on CLK falling, DATA OUT is stage 32
+PASS: [HV5222PG-G] 40 HV5122 an output sinks for a 1 while OE is high; OE low turns all off, STR low all on; shifts on CLK falling, DATA OUT is stage 32
+PASS: [HV5622PG-G] 41 HV5622 latches follow the stages while LE is high; POL low inverts; BL low is all off (POL high) or all on (POL low)
+PASS: [HV5812P-G] 42 HV5812 push-pull outputs follow the latches (STROBE high: transparent); BLANKING high drives all low
+PASS: [MAX6921AWI+] 43 MAX6921 the first bit in ends at OUT19 and DOUT; BLANK high drives the outputs low
+PASS: [MAX6921AUI+] 43 MAX6921 the first bit in ends at OUT19 and DOUT; BLANK high drives the outputs low
+shift_test: all passed

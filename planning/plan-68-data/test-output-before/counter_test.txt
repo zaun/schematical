@@ -1,0 +1,66 @@
+PASS: 1 74_161 power-on 0; counts 0->15->0 on CLK rising with ENP = ENT = 1; RCO high only at 15
+PASS: 2 74_161 CLR low clears at once (no clock); RCO falls with it
+PASS: 3 74_161 LOAD low loads at the edge regardless of ENP/ENT
+PASS: 4 74_161 ENP low holds, RCO still follows ENT; ENT low holds and RCO low
+PASS: 5 74_163 CLR low clears only at the edge; beats LOAD
+PASS: 6 74_169 down count 0 -> 15; RCO low at 0 down, at 15 up, only with ENT low
+PASS: 7 74_190 9 -> 0 up, 0 -> 9 down; loaded 12, counts up to 9 then 0 (the illegal table)
+PASS: 8 74_191 LOAD low is transparent (data changes follow); RCO low only during CLK low at max with CTEN low
+PASS: 9 74_193 UP rising counts with DOWN high; CO low while UP low at 15; BO low while DOWN low at 0; CLR high beats LOAD
+PASS: 10 74_561 ACLR > ALOAD > SCLR > SLOAD > count; OE high -> Q = Z, RCO driven; CCO high only during CLK low
+PASS: 11 74_569 SCLR at the edge; CCO low pulse at terminal with both enables low
+PASS: 12 74_867 modes: 00 clears at once (869: at the edge); 10 loads; 01/11 count; RCO only in count modes; AS: RCO needs ENP low too
+PASS: 13 74_590 count and register separate; RCK rising copies; tied clocks -> register one behind; G high -> Z; CCLR clears the counter only
+PASS: 14 74_592 CLOAD low copies the input register continuously; RCK rising during CLOAD low passes through; CCLR wins over CLOAD
+PASS: 15 74_593 bus driven only with G high and GBAR low; register loads from the pins with RCKEN low; counts with CCKEN high or CCKENBAR low
+PASS: 16 74_697 R/C high shows the register, low the counter; LOAD at the edge ignores the enables
+PASS: 17 74_8154 GAL shows A low byte, GBU B upper; RCOA low at FFFF; RCOA -> CLKBEN cascade counts 32 bits; CCLR clears both counters, not the register
+PASS: 18 4029B binary/decade by the pin; up/down; PRESET ENABLE async; CARRY OUT low at terminal with CARRY IN low
+PASS: 19 4510B RESET beats PRESET ENABLE
+PASS: 20 4518B counts on CLOCK rising with ENABLE high and on ENABLE falling with CLOCK low; not on CLOCK rising with ENABLE low
+PASS: 21 40103B CLR -> 255; APE async load; SPE at the edge; CO/ZD low at 0 with CI/CE low; wraps 0 -> 255
+PASS: 22 40102B CLR -> 99; BCD down count 10 -> 09 -> ... -> 0
+PASS: 23 40193B as 74_193 with an active-low PRESET ENABLE
+PASS: 24 4522B N = 5 with ZERO tied to PE: one ZERO pulse per 5 clocks, each during the clock's high time
+PASS: 25 74_393 falling-edge ripple; Q3 changes 3 x stage after Q0; CLR high async
+PASS: 26 74_90 BCD with QA -> CKB (an external wire); R9 sets 9; R9 beats R0
+PASS: 27 74_92 divide-by-12 sequence (0-5, 8-13 in QD QC QB QA)
+PASS: 28 4020B Q2/Q3 have no pins: Q4 toggles every 8 clocks
+PASS: 29 loader: stages 0, bcd with 6 stages and illegal on a binary unit are errors; codeSelect with no code loads
+PASS: 30 4017B each output high for one clock in order 0-9; carry high for 0-4
+PASS: 31 4017B INHIBIT high blocks; INHIBIT falling with CLOCK high advances
+PASS: 32 4017B RESET async -> output 0 high
+PASS: 33 4018B illegal preset 00100 reaches the legal cycle within 10 clocks (anti-lock)
+PASS: 36 4018B DATA from Q5: divide by 10; DATA from Q4 AND Q5: divide by 9 skipping 11111
+PASS: 37 4018B RESET beats PRESET ENABLE
+PASS: 34 4022B 8 decoded outputs; carry high for 0-3
+PASS: 35 74_4017 CE low counts; MR high resets
+PASS: 38 4026B glyph per count 0-9; DEI low -> segments 0, ungated C still follows
+PASS: 39 4033B RBI low at 0 -> blank and RBO low; LAMP TEST high -> all 1
+PASS: 40 40110B CLOCK UP and CLOCK DOWN count; 9->0 gives a 230 ns CARRY low pulse; 0->9 a 275 ns BORROW pulse
+PASS: 41 40110B LATCH ENABLE high holds the display while the count moves; TOGGLE ENABLE high blocks counting
+PASS: 42 4059A divide-by-8 mode, N = 3: master preset, release, first pulse on the 4th edge, then every 3rd
+PASS: 43 4059A datasheet example A: mode 5, J = 0011 1010 1001 0110 -> pulses 8479 edges apart
+PASS: 44 4059A latch enable 1 keeps the output high after a pulse
+PASS: 45 4059A divide-by-10 mode, N = 25: pulses every 25 edges
+PASS: 46 4089B rate 13 -> 13 OUT pulses per 16 clocks, each during clock low
+PASS: 47 4089B STROBE high -> no pulses, OUTBAR high; CASCADE high -> OUT high
+PASS: 48 4089B SET -> count 15, "15" high, INHIBIT OUT low; CLEAR -> 0
+PASS: 49 4527B rate 8 -> 8 pulses per 10; rates 10-15 -> 8 or 9 per the truth table
+PASS: 50 74_97 M = 40 -> 40 Y pulses per 64 clocks; UNITY/CAS low -> Y high
+PASS: 51 74_97 ENABLE out low at count 63 with EN low
+PASS: 52 loader: divn with 15 jam pins and rate variant "x" are errors
+PASS: 53 loader: seg7 with 9 glyphs is an error
+PASS: 54 loader: seg7 segmentsActive/segmentsOutput/rbi+rbo/latchOutputs/toggleEnable/maxCount/decimalPoint rules
+PASS: [SN74HC161N] 1 74_161 power-on 0; counts 0->15->0 on CLK rising with ENP = ENT = 1; RCO high only at 15
+PASS: [SN74HC161N] 2 74_161 CLR low clears at once (no clock); RCO falls with it
+PASS: [SN74HC161N] 3 74_161 LOAD low loads at the edge regardless of ENP/ENT
+PASS: [SN74HC161N] 4 74_161 ENP low holds, RCO still follows ENT; ENT low holds and RCO low
+PASS: [SN74LS193N] 9 UP rising counts with DOWN high; CO low while UP low at 15; BO low while DOWN low at 0; CLR high beats LOAD
+PASS: [SN74HC590AN] 13 74_590 count and register separate; RCK rising copies; tied clocks -> register one behind; G high -> Z; CCLR clears the counter only
+PASS: [SN74LV8154N] 17 74_8154 GAL shows A low byte, GBU B upper; RCOA low at FFFF; RCOA -> CLKBEN cascade counts 32 bits; CCLR clears both counters, not the register
+PASS: [CD4040BE] Q12 toggles every 2048 clocks
+PASS: [CD4017BE] 30 each output high for one clock in order 0-9; carry high for 0-4
+PASS: [CD4059AM] 42 4059A divide-by-8 mode, N = 3: master preset, release, first pulse on the 4th edge, then every 3rd
+PASS: [SN7497N] 50 74_97 M = 40 -> 40 Y pulses per 64 clocks; UNITY/CAS low -> Y high
+counter_test: all passed

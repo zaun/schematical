@@ -1,0 +1,547 @@
+ok   datasheets file and the manufacturer/datasheet part keys
+ok   datasheet md path
+ok   Generic and keyless parts
+ok   datasheets: wrong format: datasheets.json: "format" must be "schematical-datasheets", not "x"
+ok   datasheets: duplicate id: datasheets.json: datasheets[1]: duplicate datasheet id "a"
+ok   datasheets: http url: datasheets.json: datasheets[0]: datasheet "a": "url" must start with https://
+ok   datasheets: empty id: datasheets.json: datasheets[0]: empty datasheet id
+ok   datasheets: md not .md: datasheets.json: datasheets[0]: datasheet "a": "md" must be a relative path to a .md file
+ok   datasheets: md absolute: datasheets.json: datasheets[0]: datasheet "a": "md" must be a relative path to a .md file
+ok   datasheets: md parent: datasheets.json: datasheets[0]: datasheet "a": "md" must be a relative path to a .md file
+ok   datasheets: md empty: datasheets.json: datasheets[0]: datasheet "a": "md" must be a relative path to a .md file
+ok   datasheets: unknown key: datasheets.json: datasheets[0]: unknown key "title"
+ok   part: unknown datasheet: test.json: devices[0] (5V): parts[0] (5V): unknown datasheet "zz"
+ok   part: datasheet without manufacturer: test.json: devices[0] (5V): parts[0] (5V): "datasheet" needs a "manufacturer"
+ok   part: Generic with datasheet: test.json: devices[0] (5V): parts[0] (5V): a Generic part has no datasheet
+ok   part: empty manufacturer: test.json: devices[0] (5V): parts[0] (5V): empty "manufacturer"
+ok   footprint id repeated across calls: fp.json: footprints[0] (BGA-4): duplicate footprint id "BGA-4"
+ok   footprints of every style expand to the expected pads
+ok   explicit: pin repeated loads as 1, 1, 2
+ok   explicit: pin 1 at x -1 and 1 comes out pads[0], pads[1], file order
+ok   explicit: pin 1 twice, pin 2 missing: fp.json: footprints[0] (F): pin 2 has no pad
+ok   explicit ball pads: B2, B2, A1, then the unnumbered pad
+ok   a ball-pinout part loads on an explicit footprint with ball pads A1 B2
+ok   explicit balls: a ball missing: fp.json: footprints[0] (EB): 1 balls for 2 pins
+ok   explicit balls: one ball too many: fp.json: footprints[0] (EB): pads[2]: more than 2 balls
+ok   explicit balls: mixed with numbered pads: fp.json: footprints[0] (EB): pads[1]: "ball" pads and numbered pads in one footprint
+ok   explicit balls: pin and ball: fp.json: footprints[0] (EB): pads[0]: a pad has "pin" or "ball", not both
+ok   explicit balls: not a ball name: fp.json: footprints[0] (EB): pads[0]: "I1" is not a ball name
+ok   explicit: slotted and non-plated holes load
+ok   explicit: slot without drill: fp.json: footprints[0] (F): pads[1]: "slotLength" needs a "drill"
+ok   explicit: slot not longer than drill: fp.json: footprints[0] (F): pads[1]: "slotLength" 0.6 must be more than the drill 0.6
+ok   explicit: slot past the pad: fp.json: footprints[0] (F): pads[1]: "slotLength" 2 must be smaller than the pad's long side 2
+ok   explicit: slot in a square pad: fp.json: footprints[0] (F): pads[1]: a slotted pad must be longer along its slot (not square)
+ok   explicit: plated true: fp.json: footprints[0] (F): pads[2]: "plated" may only be false
+ok   explicit: non-plated pin: fp.json: footprints[0] (F): pads[1]: a non-plated hole is a "pin": 0 pad
+ok   explicit: non-plated without drill: fp.json: footprints[0] (F): pads[2]: a non-plated hole needs a "drill"
+ok   explicit: non-plated pad bigger than its hole: fp.json: footprints[0] (F): pads[2]: a non-plated pad is the hole itself: round, its short side the drill and its long side the slotLength (or the drill)
+ok   explicit: opposite-side pads and edge mount load
+ok   explicit: a footprint without the keys has edge_mount 0 and opposite 0
+ok   explicit: opposite false: fp.json: footprints[0] (F): pads[1]: "opposite" may only be true
+ok   explicit: opposite 1: fp.json: footprints[0] (F): pads[1]: "opposite" may only be true
+ok   explicit: opposite with a drill: fp.json: footprints[0] (F): pads[1]: an opposite pad is surface mount
+ok   explicit: opposite with a slot: fp.json: footprints[0] (F): pads[1]: an opposite pad is surface mount
+ok   explicit: opposite non-plated: fp.json: footprints[0] (F): pads[2]: an opposite pad is surface mount
+ok   footprint: edgeMount false: fp.json: footprints[0] (F): "edgeMount" may only be true
+ok   footprint: edgeMount yes: fp.json: footprints[0] (F): "edgeMount" may only be true
+ok   footprint: opposite on a dual footprint's pad: fp.json: footprints[0] (F): pad: unknown key "opposite"
+ok   USB connector loads; ratings optional
+ok   usb: bad type: test.json: devices[0] (u): "usb" must be "A", "B" or "C"
+ok   usb: centre pin: test.json: devices[0] (u): a USB connector has no "centerPin"
+ok   usb: contacts: test.json: devices[0] (u): a USB connector has no "contacts"
+ok   usb: zero amps: test.json: devices[0] (u): "ratedAmps" must be above 0 and at most 100
+ok   barrel: still needs its centre pin: test.json: devices[0] (u): missing "centerPin"
+ok   card slot connectors load; malformed ones fail
+ok   card: a number: test.json: devices[0] (c): "card" must be a string of 1 to 40 characters
+ok   card: empty: test.json: devices[0] (c): "card" must be a string of 1 to 40 characters
+ok   card: 41 bytes: test.json: devices[0] (c): "card" must be a string of 1 to 40 characters
+ok   card: pitch 0: test.json: devices[0] (c): "cardPitch" must be above 0 and at most 20 mm
+ok   card: pitch 21: test.json: devices[0] (c): "cardPitch" must be above 0 and at most 20 mm
+ok   card: pitch without card: test.json: devices[0] (c): "cardPitch" is only for card slots
+ok   card: usb: test.json: devices[0] (c): a card slot has no "usb"
+ok   card: centre pin: test.json: devices[0] (c): a card slot has no "centerPin"
+ok   card: contacts: test.json: devices[0] (c): a card slot has no "contacts"
+ok   card: rated volts: test.json: devices[0] (c): a card slot has no "ratedVolts"
+ok   card: rated amps: test.json: devices[0] (c): a card slot has no "ratedAmps"
+ok   test point connectors load; malformed ones fail
+ok   test point: false: test.json: devices[0] (tp): "testPoint" must be true
+ok   test point: a string: test.json: devices[0] (tp): "testPoint" must be true
+ok   test point: usb: test.json: devices[0] (tp): a test point has no "usb"
+ok   test point: centre pin: test.json: devices[0] (tp): a test point has no "centerPin"
+ok   test point: contacts: test.json: devices[0] (tp): a test point has no "contacts"
+ok   test point: rated volts: test.json: devices[0] (tp): a test point has no "ratedVolts"
+ok   test point: rated amps: test.json: devices[0] (tp): a test point has no "ratedAmps"
+ok   test point: card: test.json: devices[0] (tp): a test point has no "card"
+ok   test point: card pitch: test.json: devices[0] (tp): a test point has no "cardPitch"
+ok   test point: two pins: test.json: devices[0] (tp): pinouts.p: a test point has exactly one pin
+ok   connector: one pin without testPoint: test.json: devices[0] (tp): pinouts.p: a connector has at least two pins
+ok   terminal block and JST header connectors load; malformed ones fail
+ok   terminal and jst: test.json: devices[0] (t): a connector is one of "usb", "terminal" and "jst"
+ok   terminal and usb: test.json: devices[0] (t): a connector is one of "usb", "terminal" and "jst"
+ok   jst and usb: test.json: devices[0] (t): a connector is one of "usb", "terminal" and "jst"
+ok   terminal: unknown clamp: test.json: devices[0] (t): "terminal" must be "screw", "spring", "push-in" or "pluggable"
+ok   jst: unknown series: test.json: devices[0] (t): "jst" must be "XH", "PH", "EH", "ZH", "SH", "GH" or "VH"
+ok   terminal: no pitch: test.json: devices[0] (t): a terminal block needs "pitch"
+ok   jst: no pitch: test.json: devices[0] (t): a JST connector needs "pitch"
+ok   terminal: pitch 0: test.json: devices[0] (t): "pitch" must be above 0 and at most 20 mm
+ok   terminal: pitch 21: test.json: devices[0] (t): "pitch" must be above 0 and at most 20 mm
+ok   jst: pitch 21: test.json: devices[0] (t): "pitch" must be above 0 and at most 20 mm
+ok   usb: pitch: test.json: devices[0] (t): "pitch" is only for terminal blocks and JST connectors
+ok   barrel: pitch: test.json: devices[0] (t): "pitch" is only for terminal blocks and JST connectors
+ok   terminal: centre pin: test.json: devices[0] (t): a terminal block has no "centerPin"
+ok   terminal: contacts: test.json: devices[0] (t): a terminal block has no "contacts"
+ok   jst: centre pin: test.json: devices[0] (t): a JST connector has no "centerPin"
+ok   jst: contacts: test.json: devices[0] (t): a JST connector has no "contacts"
+ok   terminal: zero amps: test.json: devices[0] (t): "ratedAmps" must be above 0 and at most 100
+ok   jst: zero volts: test.json: devices[0] (t): ratings must be above 0
+ok   card: terminal: test.json: devices[0] (c): a card slot has no "terminal"
+ok   card: pitch: test.json: devices[0] (c): a card slot has no "pitch"
+ok   test point: jst: test.json: devices[0] (tp): a test point has no "jst"
+ok   barrel: still needs its centre pin: test.json: devices[0] (t): missing "centerPin"
+ok   rounded and cut pad corners expand as named and mirrored
+ok   pad corners: radius on a round pad: fp.json: footprints[0] (F): centre: "radius" needs a "rect" pad
+ok   pad corners: chamfer on a round pad: fp.json: footprints[0] (F): centre: "chamfer" needs a "rect" pad
+ok   pad corners: both: fp.json: footprints[0] (F): centre: a pad takes "radius" or "chamfer", not both
+ok   pad corners: radius too big: fp.json: footprints[0] (F): centre: "radius" 0.11 is more than half the pad's shorter side (0.1)
+ok   pad corners: radius 0: fp.json: footprints[0] (F): centre: "radius" must be greater than 0
+ok   pad corners: chamfer past an edge: fp.json: footprints[0] (F): centre: "chamfer" 0.25 cuts past the left edge (0.2 long)
+ok   pad corners: cuts meet on an edge: fp.json: footprints[0] (F): centre: "chamfer" 0.15 cuts both ends of the left edge (0.2 long)
+ok   pad corners: chamfer without corners: fp.json: footprints[0] (F): centre: "chamfer" needs "corners"
+ok   pad corners: corners without chamfer: fp.json: footprints[0] (F): centre: "corners" needs "chamfer"
+ok   pad corners: corners with radius: fp.json: footprints[0] (F): centre: "corners" needs "chamfer"; "radius" rounds every corner
+ok   pad corners: empty corners: fp.json: footprints[0] (F): centre: "corners" must be a non-empty array of "tl", "tr", "br", "bl"
+ok   pad corners: unknown corner: fp.json: footprints[0] (F): centre: "corners" must be a non-empty array of "tl", "tr", "br", "bl"
+ok   pad corners: corner twice: fp.json: footprints[0] (F): centre: corner "tl" is named twice
+ok   pad corners: mirrored onto the centre line: fp.json: footprints[0] (F): pad 2 (mirrored corners): "chamfer" 0.15 cuts both ends of the right edge (0.2 long)
+ok   pad corners: explicit pad: fp.json: footprints[0] (F): pads[1]: "radius" needs a "rect" pad
+ok   footprints: bad JSON: fp.json: invalid JSON at byte 255
+ok   footprints: wrong format: fp.json: "format" must be "schematical-footprints", not "schematical-parts"
+ok   footprints: version 2: fp.json: unsupported version 2 (expected 1)
+ok   footprints: unknown file key: fp.json: unknown key "kind"
+ok   footprint: unknown key: fp.json: footprints[0] (F): unknown key "colour"
+ok   footprint: another style's key: fp.json: footprints[0] (F): unknown key "rows"
+ok   footprint: duplicate key: fp.json: footprints[0] (F): duplicate key "span"
+ok   footprint: missing span: fp.json: footprints[0] (F): missing "span"
+ok   footprint: missing body: fp.json: footprints[0] (F): missing "body"
+ok   footprint: unknown style: fp.json: footprints[0] (F): unknown style "radial"
+ok   footprint: bad id: fp.json: footprints[0] (soic 14): "id" must use only A-Z, 0-9, '.' and '-'
+ok   footprint: duplicate id in one file: fp.json: footprints[1] (SOT-5): duplicate footprint id "SOT-5"
+ok   footprint: pins 0: fp.json: footprints[0] (F): "pins" must be at least 1
+ok   footprint: body width 0: fp.json: footprints[0] (F): body: "width" must be greater than 0
+ok   footprint: pad height -1: fp.json: footprints[0] (F): pad: "height" must be greater than 0
+ok   footprint: pad shape oval: fp.json: footprints[0] (F): pad: "shape" must be "rect" or "round", not "oval"
+ok   footprint: pitch 0: fp.json: footprints[0] (F): "pitch" must be greater than 0
+ok   footprint: span -1: fp.json: footprints[0] (F): "span" must be greater than 0
+ok   footprint: drill as wide as the pad: fp.json: footprints[0] (F): "drill" 0.5 must be smaller than the pad (0.5 x 0.5)
+ok   footprint: pin1Shape square: fp.json: footprints[0] (F): "pin1Shape" must be "rect" or "round", not "square"
+ok   dual: odd pins without perSide: fp.json: footprints[0] (F): an odd "pins" (5) needs "perSide"
+ok   dual: perSide 0: fp.json: footprints[0] (F): "perSide" must be at least 1
+ok   dual: perSide x 2 < pins without slots: fp.json: footprints[0] (F): 5 pins do not fit on 4 slots; add "slots" or more slots
+ok   quad: slot total < pins without slots: fp.json: footprints[0] (F): 5 pins do not fit on 4 slots; add "slots" or more slots
+ok   quad: three sides: fp.json: footprints[0] (F): "sides" must be 4 slot counts [left, bottom, right, top]
+ok   slots: wrong length: fp.json: footprints[0] (F): slots: "slots" must be an array of 3 slots, one per pin
+ok   slots: duplicate: fp.json: footprints[0] (F): slots: slot 2 is used twice
+ok   slots: beyond the slot count: fp.json: footprints[0] (F): slots: slot 7 is beyond 6 slots
+ok   slots: not a whole number: fp.json: footprints[0] (F): slots: slots[2] must be a whole number
+ok   slots: 0 without centre: fp.json: footprints[0] (F): slots: slot 0 (the centre pad) needs "centre"
+ok   slots: two 0s: fp.json: footprints[0] (F): slots: two pins are on slot 0 (the centre pad)
+ok   grid: centre: fp.json: footprints[0] (F): "centre" is not allowed on a grid footprint
+ok   grid: slots: fp.json: footprints[0] (F): "slots" is not allowed on a grid footprint
+ok   grid: pin1Shape: fp.json: footprints[0] (F): "pin1Shape" is not allowed on a grid footprint
+ok   grid: rows 21: fp.json: footprints[0] (F): "rows" must be a whole number from 0 to 20
+ok   grid: ball outside the grid (row): fp.json: footprints[0] (F): balls: ball "C1" is outside the 2-row, 2-column grid
+ok   grid: ball outside the grid (column): fp.json: footprints[0] (F): balls: ball "B3" is outside the 2-row, 2-column grid
+ok   grid: two-letter row: fp.json: footprints[0] (F): balls: ball "AA1" is outside the 2-row, 2-column grid
+ok   grid: duplicate ball: fp.json: footprints[0] (F): balls: ball "A1" is used twice
+ok   grid: wrong balls length: fp.json: footprints[0] (F): balls: "balls" must be an array of 3 ball names, one per pin
+ok   grid: not a ball name: fp.json: footprints[0] (F): balls: "I1" is not a ball name
+ok   explicit: pin missing: fp.json: footprints[0] (F): pin 2 has no pad
+ok   explicit: pin beyond pins: fp.json: footprints[0] (F): pads[1]: "pin" must be a whole number from 0 to 2
+ok   explicit: parametric pad: fp.json: footprints[0] (F): "pad" is not allowed on an explicit footprint
+ok   explicit: parametric pitch: fp.json: footprints[0] (F): unknown key "pitch"
+ok   explicit: pad drill too big: fp.json: footprints[0] (F): pads[1]: "drill" 0.4 must be smaller than the pad (0.4 x 0.4)
+ok   header 2x3: zigzag pads, pin 1 rect
+ok   header 1x3: one row at firstRowY -2.77
+ok   header: rows 3: fp.json: footprints[0] (H): "rows" must be 1 or 2
+ok   header: pins not a multiple of rows: fp.json: footprints[0] (H): "pins" 7 is not a multiple of "rows" 2
+ok   header: 2 rows without rowPitch: fp.json: footprints[0] (H): "rowPitch" is required with 2 rows
+ok   header: 1 row with rowPitch: fp.json: footprints[0] (H): "rowPitch" is not allowed with 1 row
+ok   valid 2-row header with parts of 2 and 4 pins
+ok   header rows 3: test.json: devices[0] (header-2row): "rows" must be 1 or 2
+ok   header empty genders: test.json: devices[0] (header-2row): "genders" must not be empty
+ok   header 3 pins on 2 rows: test.json: devices[0] (header-2row): pinouts.p: a header's pin count must be a multiple of its rows
+ok   header with "simulated": false loads unsimulated parts; true and absent simulate
+ok   header simulated 1: test.json: devices[0] (header-2row): "simulated" must be true or false
+ok   a part's "footprint" resolves; a part without one has none
+ok   part: unknown footprint: test.json: devices[0] (led-fp): parts[0] (LED-FP): unknown footprint "CHIP-3"
+ok   part: pad count mismatch: test.json: devices[0] (led-fp): parts[0] (LED-FP): footprint "SOT-5" has 5 pads, pinout "p" has 2 pins
+ok   part: pin without a pad: test.json: devices[0] (led-fp): parts[0] (LED-FP): pin "B2" has no pad in footprint "BGA-2"
+ok   part: numbered pins on a grid footprint: test.json: devices[0] (led-fp): parts[0] (LED-FP): pin "1" has no pad in footprint "BGA-2"
+ok   part: footprint not a string: test.json: devices[0] (led-fp): parts[0] (LED-FP): "footprint" must be a string
+ok   a part's "connectorFootprint" resolves
+ok   part: unknown connectorFootprint: test.json: devices[0] (led-fp): parts[0] (LED-FP): unknown connectorFootprint "HDR-1X17"
+ok   part: connectorFootprint pad count mismatch: test.json: devices[0] (led-fp): parts[0] (LED-FP): connectorFootprint "SOT-5" has 5 pads, pinout "p" has 2 pins
+ok   part: pin without a pad in connectorFootprint: test.json: devices[0] (led-fp): parts[0] (LED-FP): pin "1" has no pad in connectorFootprint "BGA-2"
+ok   supply part with connectorFootprint: test.json: devices[0] (VCC): parts[0] (VCC): a supply has no footprint
+ok   non-supply part without footprint: test.json: devices[0] (led-nf): parts[0] (LED-NF): missing "footprint"
+ok   supply part with footprint: test.json: devices[0] (VCC): parts[0] (VCC): a supply has no footprint
+ok   ball pinout beside a numbered one
+ok   ball oscillator with enablePin "A2"
+ok   ball pin with both keys: test.json: devices[0] (led-ball): pinouts.bga: pin 1: a pin has "number" or "ball", not both
+ok   ball pinout pin with neither key: test.json: devices[0] (led-ball): pinouts.bga: pin 2: a pin needs "number" or "ball"
+ok   ball and number mixed in one pinout: test.json: devices[0] (led-ball): pinouts.bga: pin 2: every pin of a pinout uses "number", or every pin uses "ball"
+ok   ball row I: test.json: devices[0] (led-ball): pinouts.bga: pin 1: "I1" is not a ball name
+ok   ball column 0: test.json: devices[0] (led-ball): pinouts.bga: pin 1: "A0" is not a ball name
+ok   ball column with a leading zero: test.json: devices[0] (led-ball): pinouts.bga: pin 1: "A01" is not a ball name
+ok   ball row of three letters: test.json: devices[0] (led-ball): pinouts.bga: pin 1: "AAA1" is not a ball name
+ok   ball used twice: test.json: devices[0] (led-ball): pinouts.bga: pin 2: ball "A1" is used twice
+ok   absent ball in a ball pinout: test.json: devices[0] (led-ball): pinouts.bga: pin 3: a ball pinout lists only real balls; leave "absent" positions out
+ok   ball oscillator enablePin Z9: test.json: devices[0] (o): parts[0] (O1): "enablePin" Z9 is not a pin of pinout "bga"
+ok   ball oscillator enablePin true: test.json: devices[0] (o): parts[0] (O1): "enablePin" must be a pin number or a ball name
+ok   valid 7seg file
+ok   7seg common extras misspelled: test.json: devices[0] (LTS-X): commonPins.L: a common pin is a digit from 1 to 1 or "extras"
+ok   7seg segmentSide naming a non-segment pin: test.json: devices[0] (LTS-X): pinouts.p4: segmentSide[1]: "CC" is not a segment pin
+ok   valid sram file
+ok   sram grade missing from grades: test.json: devices[0] (m): parts[0] (M1): grade "70" is not in "grades"
+ok   pin side
+ok   unknown pin side: test.json: devices[0] (m): pinouts.p6: pin 2: unknown side "left" (in or out)
+ok   side on a power pin: test.json: devices[0] (m): pinouts.p6: pin 6: "side" is for input, output and inout pins
+ok   activeLow absent
+ok   activeLow true, one alternative
+ok   activeLow true, two alternatives
+ok   activeLow list
+ok   activeLow list, four alternatives
+ok   activeLow list matches every equal alternative
+ok   activeLow true, 33 alternatives
+ok   activeLow on a power pin: test.json: devices[0] (m): pinouts.p6: pin 6: "activeLow" is for input, output and inout pins
+ok   activeLow false: test.json: devices[0] (m): pinouts.p6: pin 3: "activeLow" must be true or a list of the name's alternatives
+ok   activeLow string: test.json: devices[0] (m): pinouts.p6: pin 3: "activeLow" must be true or a list of the name's alternatives
+ok   activeLow number: test.json: devices[0] (m): pinouts.p6: pin 3: "activeLow" must be true or a list of the name's alternatives
+ok   activeLow object: test.json: devices[0] (m): pinouts.p6: pin 3: "activeLow" must be true or a list of the name's alternatives
+ok   activeLow list holding a number: test.json: devices[0] (m): pinouts.p6: pin 1: "activeLow" must be true or a list of the name's alternatives
+ok   activeLow empty: test.json: devices[0] (m): pinouts.p6: pin 1: "activeLow" is empty
+ok   activeLow unknown alternative: test.json: devices[0] (m): pinouts.p6: pin 1: "activeLow" has no alternative "CE" in "A0/CS"
+ok   activeLow repeat: test.json: devices[0] (m): pinouts.p6: pin 1: "activeLow" lists "CS" twice
+ok   activeLow every alternative: test.json: devices[0] (m): pinouts.p6: pin 1: "activeLow" lists every alternative of "A0/CS"; write true
+ok   activeLow list on a one-alternative name: test.json: devices[0] (m): pinouts.p6: pin 3: "activeLow" lists every alternative of "CE#"; write true
+ok   activeLow list on 33 alternatives: test.json: devices[0] (m): pinouts.p6: pin 1: "activeLow" is for names of at most 32 alternatives
+ok   valid eeprom file
+ok   eeprom data count 7: test.json: devices[0] (E): "data" needs exactly 8 pin names
+ok   eeprom pageSize 48: test.json: devices[0] (E): "pageSize" must be a power of two
+ok   eeprom pageSize twice the words: test.json: devices[0] (E): "pageSize" 65536 is more than the 32768 words
+ok   eeprom command address past the end: test.json: devices[0] (E): commandAddresses[0] "8000" is past the last address (7FFF)
+ok   eeprom command address not hex: test.json: devices[0] (E): commandAddresses[0] "55G5" is not a hex address (0-9, A-F)
+ok   eeprom protection sometimes: test.json: devices[0] (E): "protection" must be "off" or "always", not "sometimes"
+ok   eeprom twc 0: test.json: devices[0] (E): grades.15: "twc" must be more than 0
+ok   eeprom unknown timing name: test.json: devices[0] (E): grades.15: unknown key "trc"
+ok   eeprom grade missing from grades: test.json: devices[0] (E): parts[0] (E1): grade "70" is not in "grades"
+ok   valid cpu file
+ok   valid 6502 cpu file
+ok   cpu unknown core: test.json: devices[0] (C): unknown core "6809"
+ok   cpu vectorPull on a 6502: test.json: devices[0] (C): "vectorPull" is not a key of core "6502"
+ok   cpu abort on a 65c02: test.json: devices[0] (C): "abort" is not a key of core "65c02"
+ok   cpu sync on a 65816: test.json: devices[0] (C): "sync" is not a key of core "65816"
+ok   cpu missing sync: test.json: devices[0] (C): missing "sync"
+ok   cpu 15 address names: test.json: devices[0] (C): "address" needs exactly 16 pin names
+ok   cpu 7 data names: test.json: devices[0] (C): "data" needs exactly 8 pin names
+ok   cpu control pin absent from one pinout: test.json: devices[0] (C): pinouts.p40b: so: no pin named "SOB"
+ok   cpu tcyc 0: test.json: devices[0] (C): grades.14: "tcyc" must be more than 0
+ok   cpu grade missing from grades: test.json: devices[0] (C): parts[0] (C1): grade "8" is not in "grades"
+ok   cpu inputMax below the grade's vcc max: test.json: devices[0] (C): parts[0] (C1): "inputMax" 5 is below the "vcc" max 5.25
+ok   valid z80 cpu file
+ok   z80 with a sync key: test.json: devices[0] (C): "sync" is not a key of core "z80"
+ok   z80 missing busack: test.json: devices[0] (C): missing "busack"
+ok   z80 tcc 0: test.json: devices[0] (C): grades.14: "tcc" must be more than 0
+ok   z80 m1 naming two pins: test.json: devices[0] (C): pinouts.p40: m1: pin name "M1#" is used by 2 pins; one is needed
+ok   switch contact naming one pin twice: test.json: devices[0] (s): contacts[1]: a contact joins two different pins, not "2A" twice
+ok   momentary not a bool: test.json: devices[0] (t): "momentary" must be true or false
+ok   normallyClosed not a bool: test.json: devices[0] (t): "normallyClosed" must be true or false
+ok   normallyClosed without momentary: test.json: devices[0] (t): "normallyClosed" needs "momentary"
+ok   joined empty: test.json: devices[0] (t): "joined" must be a non-empty array of [pin, pin]
+ok   joined not an array: test.json: devices[0] (t): "joined" must be a non-empty array of [pin, pin]
+ok   joined pair names one pin twice: test.json: devices[0] (t): joined[0]: a joined pair joins two different pins, not "A1" twice
+ok   joined names a missing pin: test.json: devices[0] (t): pinouts.p4: joined[0]: no pin named "A9"
+ok   joined names a pin used by two pins: test.json: devices[0] (t): pinouts.p4: joined[0]: pin name "A" is used by 2 pins; one is needed
+ok   bodySize not a pair: test.json: devices[0] (t): "bodySize" must be [length, width] in mm, each above 0 and at most 100
+ok   bodySize zero: test.json: devices[0] (t): "bodySize" must be [length, width] in mm, each above 0 and at most 100
+ok   bodySize width first: test.json: devices[0] (t): "bodySize" gives the length (the larger side) first
+ok   tactile switch keys
+ok   tactile switch momentary, normallyClosed, joined, bodySize
+ok   dip switch without the keys
+ok   dip switch has no tactile keys
+ok   valid dff file
+ok   dff with "output": "open-drain"
+ok   dff output x: test.json: devices[0] (d): "output" must be "push-pull" or "open-drain"
+ok   dff unit naming a missing pin: test.json: devices[0] (d): pinouts.p6: units[0]: no pin named "PRE"
+ok   dff clockEdge up: test.json: devices[0] (d): "clockEdge" must be "rising" or "falling", not "up"
+ok   jkff with 3 units: test.json: devices[0] (j): "units" must be an array of 1 to 2 units
+ok   jkff timing with clearWins: test.json: devices[0] (j): timing.HC: unknown key "clearWins"
+ok   valid gate file with two pinouts
+ok   gate part with family TPIC
+ok   gate part with family FCT
+ok   families L and ALV
+ok   gate part with family AXC
+ok   gate part with family LXC
+ok   gate part with family TXU
+ok   gate part with family TXV
+ok   gate otherLow on a 3-input device: test.json: devices[0] (g): timing.HC: otherLow/otherHigh timing needs every gate to have exactly 2 inputs
+ok   gate family missing from timing: test.json: devices[0] (g): parts[0] (G1): family "LS" has no timing entry
+ok   gate input absent from the second pinout: test.json: devices[0] (g): pinouts.p5: gates[0]: no pin named "A"
+ok   gate op nandd: test.json: devices[0] (g): gates[0]: unknown op "nandd"
+ok   gate not with 2 inputs: test.json: devices[0] (g): gates[0]: a "not" gate has exactly 1 input
+ok   gate buf with 2 inputs: test.json: devices[0] (g): gates[0]: a "buf" gate has exactly 1 input
+ok   gate unknown family: test.json: devices[0] (g): timing.HX: unknown family "HX"
+ok   valid supply file
+ok   valid pull part
+ok   pull part without footprint: test.json: devices[0] (PULLDOWN): parts[0] (PULLDOWN): missing "footprint"
+ok   pull part with connectorFootprint: test.json: devices[0] (PULLDOWN): parts[0] (PULLDOWN): a pull part has no connectorFootprint
+ok   pull part footprint with fewer pads than pins: test.json: devices[0] (PULLDOWN): parts[0] (PULLDOWN): pin "1" has no pad in footprint "BGA2"
+ok   valid serial part
+ok   serial unknown model: test.json: devices[0] (U): unknown model "x"
+ok   serial missing grades: test.json: devices[0] (U): missing "grades"
+ok   serial grade not in grades: test.json: devices[0] (U): parts[0] (U-DIP): grade "Z" is not in "grades"
+ok   serial bad fifo: test.json: devices[0] (U): "fifo" must be 0, 16, 32, 64, 128 or "750"
+ok   pio unknown model: test.json: devices[0] (U): unknown pio model "nope"
+ok   pio missing model: test.json: devices[0] (U): "model" is required
+ok   pia6521 missing ca2: test.json: devices[0] (U): missing "ca2"
+ok   pia6521 pa of 7: test.json: devices[0] (U): "pa" needs exactly 8 pin names
+ok   via6522 missing irqOpenDrain: test.json: devices[0] (U): missing "irqOpenDrain"
+ok   via6522 rs of 3: test.json: devices[0] (U): "rs" needs exactly 4 pin names
+ok   valid converter part
+ok   converter unknown action: test.json: devices[0] (C): protocol: commands[0]: unknown action "fly"
+ok   converter field outside its register: test.json: devices[0] (C): registers[0]: field "A" is outside the register's 8 bits
+ok   converter overlapping fields: test.json: devices[0] (C): registers[0]: field "B" overlaps another field
+ok   converter registers sharing an address: test.json: devices[0] (C): registers[1]: registers "CFG" and "CFG2" share address 1
+ok   converter unknown field in a pattern: test.json: devices[0] (C): protocol: commands[0]: register "CFG" has no field "Q"
+ok   converter capture not in the pattern: test.json: devices[0] (C): protocol: commands[0]: "address" 'b' is not a capture of "in"
+ok   converter parallel bus with too few data pins: test.json: devices[0] (P): bus: "data" needs 4-24 pins
+ok   converter clocked bus without a clock: test.json: devices[0] (K): bus: "clock" needs a pin
+ok   valid rtc part
+ok   rtc without a clock: test.json: devices[0] (R): an RTC needs "clock"
+ok   rtc unknown unit: test.json: devices[0] (R): clock: fields[0]: unknown unit "fortnight"
+ok   rtc without an hour field: test.json: devices[0] (R): clock: "fields" need second, minute and hour
+ok   rtc alarm on an unknown register: test.json: devices[0] (R): clock: alarms[0]: unknown register "ASEC"
+ok   valid leddriver part
+ok   valid lcddriver part
+ok   leddriver without a display: test.json: devices[0] (L): a display driver needs "display"
+ok   leddriver unknown driver: test.json: devices[0] (L): display: unknown driver "blink" (digits, static, matrix, ports, lcd, clock, ccsi)
+ok   leddriver unknown register in a group: test.json: devices[0] (L): display: groups[0]: unknown register "NOPE"
+ok   leddriver unknown field in a decodeField: test.json: devices[0] (L): display: groups[0]: register "V" has no field "Q"
+ok   leddriver pin missing from the pinout: test.json: devices[0] (L): pinouts.p: no pin "O9" in this pinout
+ok   lcddriver unknown key in display: test.json: devices[0] (L): display: unknown key "blink"
+ok   converter device with a display: test.json: devices[0]: unknown key "display"
+ok   rtc device with a display: test.json: devices[0]: unknown key "display"
+ok   leddriver device with a conversion: test.json: devices[0]: unknown key "conversion"
+ok   valid diode parts
+ok   diode unknown type: test.json: devices[0] (D): unknown diode type "tunnel"
+ok   diode empty diodes: test.json: devices[0] (D): "diodes" must be a non-empty array of {"anode", "cathode"}
+ok   diode unknown pin name: test.json: devices[0] (D): pinouts.p: no pin named "C"
+ok   diode input pin: test.json: devices[0] (D): pinouts.p: diode pin "A" must be inout
+ok   diode inout pin in no diode: test.json: devices[0] (D): pinouts.p: pin "X" is in no diode
+ok   diode vz on a rectifier: test.json: devices[0] (D): parts[0] (D-1): "vz" is only for a zener
+ok   diode missing vr: test.json: devices[0] (D): parts[0] (D-1): missing "vr"
+ok   diode vr out of range: test.json: devices[0] (D): parts[0] (D-1): "vr" must be above 0 and at most 10000
+ok   zener with vr: test.json: devices[0] (D): parts[0] (D-1): "vr" is not a zener key
+ok   valid capacitor parts
+ok   capacitor unknown type: test.json: devices[0] (C): unknown capacitor type "film"
+ok   capacitor farads 0: test.json: devices[0] (C): "farads" must be above 0 and at most 10
+ok   capacitor farads 11: test.json: devices[0] (C): "farads" must be above 0 and at most 10
+ok   ceramic capacitor with positive: test.json: devices[0] (C): a ceramic capacitor has no polarity
+ok   tantalum capacitor without positive: test.json: devices[0] (C): missing "positive"
+ok   capacitor with 3 pins: test.json: devices[0] (C): pinouts.p: a capacitor has 2 pins
+ok   capacitor inout pin: test.json: devices[0] (C): pinouts.p: capacitor pin "2" must be input
+ok   dielectric on a tantalum part: test.json: devices[0] (C): parts[0] (C-1): "dielectric" is only for a ceramic capacitor
+ok   capacitor volts 0: test.json: devices[0] (C): parts[0] (C-1): "volts" must be above 0 and at most 10000
+ok   valid mcu part (part clock and psram override the device)
+ok   mcu unknown core: test.json: devices[0] (M): unknown mcu core "z80"
+ok   mcu clock 0: test.json: devices[0] (M): "clock" must be above 0
+ok   mcu without simulated: test.json: devices[0] (M): an mcu has no simulation model: "simulated" must be false
+ok   mcu simulated true: test.json: devices[0] (M): an mcu has no simulation model: "simulated" must be false
+ok   mcu pinout with no ground: test.json: devices[0] (M): pinouts.p: an mcu pinout needs a ground pin
+ok   mcu without vcc: test.json: devices[0] (M): parts[0] (M-1): missing "vcc"
+ok   valid mcu part with a model (simulated)
+ok   mcu model with another core: test.json: devices[0] (M): "model" needs core "avr"
+ok   mcu unknown model: test.json: devices[0] (M): unknown mcu model "atmega4809"
+ok   mcu model with simulated false: test.json: devices[0] (M): an mcu with a "model" is simulated: remove "simulated": false
+ok   mcu model with a pin of a port it lacks: test.json: devices[0] (M): pinouts.p: mcu model "atmega328" has no pin "PE0"
+ok   mcu model with an odd flash size: test.json: devices[0] (M): an mcu with a "model" needs "flash" of 512 bytes or more, an even number
+ok   mcu model part overriding flash: test.json: devices[0] (M): parts[0] (M-1): a part of an mcu with a "model" cannot override "flash"
+ok   valid LED file with two pinouts
+ok   valid LED with 2 colors and 2 footprintChoices
+ok   LED empty colors: test.json: devices[0] (led-c): "colors" must not be empty
+ok   LED device with the old color key: test.json: devices[0]: unknown key "color"
+ok   footprintChoices empty: test.json: devices[0] (led-c): parts[0] (LED-C): "footprintChoices" must be a non-empty array of {"package", "footprint"}
+ok   footprintChoices extra key: test.json: devices[0] (led-c): parts[0] (LED-C): "footprintChoices" must be a non-empty array of {"package", "footprint"}
+ok   footprintChoices unknown footprint: test.json: devices[0] (led-c): parts[0] (LED-C): unknown footprintChoices footprint "NOPE"
+ok   footprintChoices pin without a pad: test.json: devices[0] (led-c): parts[0] (LED-C): pin "2" has no pad in footprintChoices footprint "T1"
+ok   footprintChoices listed twice: test.json: devices[0] (led-c): parts[0] (LED-C): footprintChoices footprint "T2" listed twice
+ok   footprintChoices without the default: test.json: devices[0] (led-c): parts[0] (LED-C): "footprint" "T2" is not in footprintChoices
+ok   footprintChoices package mismatch: test.json: devices[0] (led-c): parts[0] (LED-C): "package" "X" does not match footprintChoices "T2" ("0603")
+ok   supply part with footprintChoices: test.json: devices[0] (VCC): parts[0] (VCC): a supply has no footprint
+ok   duplicate across calls: test.json: devices[1] (5V-2): parts[0] (5V): duplicate part name "5V"
+ok   kind_logic_family: test.json: unknown family "HX"
+ok   valid decoder (binary, 2 units)
+ok   decoder unknown model: test.json: devices[0] (d): unknown model "ternary"
+ok   decoder key of another model: test.json: devices[0] (d): "segments" is not a key of model "binary"
+ok   decoder no units: test.json: devices[0] (d): "units" must be an array of 1 to 4 units
+ok   decoder 5 address pins: test.json: devices[0] (d): units[0]: "address" must have 1 to 4 names
+ok   decoder no outputs: test.json: devices[0] (d): units[0]: "outputs" must have 1 to 16 names
+ok   decoder more outputs than codes: test.json: devices[0] (d): units[0]: "outputs" must have at most 2 names (2 to the number of address pins)
+ok   decoder latch and clock: test.json: devices[0] (d): units[0]: a unit cannot have both "latch" and "clock"
+ok   decoder 4 enables: test.json: devices[0] (d): units[0]: "enables" must be an array of 0 to 3 controls
+ok   decoder enable without active: test.json: devices[0] (d): units[0]: enables[0]: missing "active"
+ok   decoder outputsActive: test.json: devices[0] (d): "outputsActive" must be "high" or "low", not "up"
+ok   decoder unselected: test.json: devices[0] (d): "unselected" must be "inactive" or "z", not "off"
+ok   decoder disabled: test.json: devices[0] (d): "disabled" must be "inactive" or "z", not "float"
+ok   decoder latch without latchActive: test.json: devices[0] (d): missing "latchActive"
+ok   decoder latchActive without latch: test.json: devices[0] (d): "latchActive" needs a unit with "latch"
+ok   decoder output style: test.json: devices[0] (d): "output" must be "push-pull" or "open-drain"
+ok   decoder unknown address pin: test.json: devices[0] (d): pinouts.p26: units[0]: no pin named "Q"
+ok   decoder priority 3 inputs: test.json: devices[0] (d): "inputs" must have 4 to 10 names
+ok   decoder priority 1 code pin: test.json: devices[0] (d): "code" must have 2 to 4 names
+ok   decoder priority offset: test.json: devices[0] (d): "offset" plus the number of inputs must be at most 4 (2 to the number of code pins)
+ok   decoder priority idle: test.json: devices[0] (d): "idle" must be below 4 (2 to the number of code pins)
+ok   decoder seg7 glyph length: test.json: devices[0] (d): glyphs[0]: must be 7 characters 0 or 1 (segments a to g)
+ok   decoder seg7 glyph character: test.json: devices[0] (d): glyphs[0]: must be 7 characters 0 or 1 (segments a to g)
+ok   decoder seg7 6 segments: test.json: devices[0] (d): "segments" must have 7 names
+ok   decoder seg7 rbi without rbo: test.json: devices[0] (d): "rbi" and "rbo" go together
+ok   decoder seg7 rbo not inout: test.json: devices[0] (d): pinouts.p26: "rbo" pin "Y13" must have role inout
+ok   valid mux (select, 2 units)
+ok   mux unknown model: test.json: devices[0] (d): unknown model "crossbar"
+ok   mux key of another kind: test.json: devices[0]: unknown key "outputsActive"
+ok   mux no units: test.json: devices[0] (d): "units" must be an array of 1 to 6 units
+ok   mux 7 units: test.json: devices[0] (d): "units" must be an array of 1 to 6 units
+ok   mux unknown unit key: test.json: devices[0] (d): units[0]: unknown key "q"
+ok   mux 5 select pins: test.json: devices[0] (d): units[0]: "select" must have 1 to 4 names
+ok   mux 1 data pin: test.json: devices[0] (d): units[0]: "data" must have 2 to 16 names
+ok   mux data not 2^select: test.json: devices[0] (d): units[0]: "data" must have 4 names (2 to the number of select pins)
+ok   mux no y or w: test.json: devices[0] (d): units[0]: a unit needs "y" or "w"
+ok   mux strobe without active: test.json: devices[0] (d): units[0]: strobe: missing "active"
+ok   mux disabled: test.json: devices[0] (d): "disabled" must be "low" or "z", not "high"
+ok   mux invert not bool: test.json: devices[0] (d): "invert" must be true or false
+ok   mux output style: test.json: devices[0] (d): "output" must be "push-pull" or "open-drain"
+ok   mux unknown data pin: test.json: devices[0] (d): pinouts.p26: units[0]: no pin named "Q"
+ok   mux selectLatch without active: test.json: devices[0] (d): selectLatch: missing "active"
+ok   mux key of another model: test.json: devices[0] (d): "words" is not a key of model "select"
+ok   valid mux (stored)
+ok   valid mux (regfile, 2 files)
+ok   mux stored without storage: test.json: devices[0] (d): model "stored" needs "selectLatch", "dataLatch", "dataClock" or "outputClock"
+ok   mux stored dataLatch and dataClock: test.json: devices[0] (d): a device cannot have both "dataLatch" and "dataClock"
+ok   mux stored bad edge: test.json: devices[0] (d): outputClock: "edge" must be "rising" or "falling", not "up"
+ok   mux stored 4 oes: test.json: devices[0] (d): "oes" must be an array of 1 to 3 controls
+ok   mux stored oe without active: test.json: devices[0] (d): oes[0]: missing "active"
+ok   mux stored unknown clock pin: test.json: devices[0] (d): pinouts.p26: no pin named "Q"
+ok   mux regfile 3 words: test.json: devices[0] (d): "words" must be 2, 4, 8 or 16 and "bits" 1 to 8
+ok   mux regfile 9 bits: test.json: devices[0] (d): "bits" must be a whole number from 0 to 8
+ok   mux regfile no files: test.json: devices[0] (d): "files" must be an array of 1 to 2 files
+ok   mux regfile 3 files: test.json: devices[0] (d): "files" must be an array of 1 to 2 files
+ok   mux regfile q count: test.json: devices[0] (d): files[0]: "q" must have 2 names
+ok   mux regfile address count: test.json: devices[0] (d): files[0]: "wa" must have 3 names
+ok   mux regfile missing we: test.json: devices[0] (d): files[0]: missing "we"
+ok   mux regfile unknown file key: test.json: devices[0] (d): files[0]: unknown key "oe"
+ok   valid arith (compare)
+ok   valid arith (parity)
+ok   arith unknown model: test.json: devices[0] (d): unknown model "divider"
+ok   arith key of another kind: test.json: devices[0]: unknown key "units"
+ok   arith key of another model: test.json: devices[0] (d): "errorOn" is not a key of model "compare"
+ok   arith compare a and b lengths: test.json: devices[0] (d): "a" and "b" must have the same number of names
+ok   arith compare 13 bits: test.json: devices[0] (d): "a" must have 1 to 12 names
+ok   arith compare no outputs: test.json: devices[0] (d): missing "outputs"
+ok   arith compare outputs not object: test.json: devices[0] (d): outputs: must be an object of "gt", "eq", "lt"
+ok   arith compare unknown output: test.json: devices[0] (d): outputs: unknown key "ne"
+ok   arith compare empty outputs: test.json: devices[0] (d): "outputs" needs at least one of "gt", "eq", "lt"
+ok   arith compare output without active: test.json: devices[0] (d): outputs: eq: missing "active"
+ok   arith compare cascade not object: test.json: devices[0] (d): cascade: must be an object of "gt", "eq", "lt"
+ok   arith compare cascade unknown key: test.json: devices[0] (d): cascade: unknown key "ge"
+ok   arith compare empty cascade: test.json: devices[0] (d): "cascade" needs at least one of "gt", "eq", "lt"
+ok   arith compare cascade output without input: test.json: devices[0] (d): output "eq" has no cascade input of its name: give "cascadeTable"
+ok   arith compare table without cascade: test.json: devices[0] (d): "cascadeTable" needs "cascade"
+ok   arith compare table not array: test.json: devices[0] (d): "cascadeTable" must be an array of 1 to 24 rows
+ok   arith compare table row key: test.json: devices[0] (d): cascadeTable[0]: unknown key "if"
+ok   arith compare table in length: test.json: devices[0] (d): cascadeTable[0]: "in" must have 2 levels
+ok   arith compare table out level: test.json: devices[0] (d): cascadeTable[0]: "out" levels must be H, L
+ok   arith compare table in level: test.json: devices[0] (d): cascadeTable[0]: "in" levels must be H, L or X
+ok   arith compare table when: test.json: devices[0] (d): cascadeTable[0]: "when" must be "gt", "eq" or "lt", not "ne"
+ok   arith compare table gap: test.json: devices[0] (d): "cascadeTable" rows for "eq" miss a cascade level combination
+ok   arith compare table 25 rows: test.json: devices[0] (d): "cascadeTable" must be an array of 1 to 24 rows
+ok   arith compare latch without active: test.json: devices[0] (d): latch: missing "active"
+ok   arith compare unknown pin: test.json: devices[0] (d): pinouts.p26: no pin named "Q"
+ok   arith output style: test.json: devices[0] (d): "output" must be "push-pull" or "open-drain"
+ok   arith openDrain not an output: test.json: devices[0] (d): pinouts.p26: "openDrain": "Y5" is not an output of the model
+ok   arith parity no inputs: test.json: devices[0] (d): missing "inputs"
+ok   arith parity 10 inputs: test.json: devices[0] (d): "inputs" must have 1 to 9 names
+ok   arith parity no outputs: test.json: devices[0] (d): a parity device needs "even", "odd" or "bus"
+ok   arith parity bus not object: test.json: devices[0] (d): bus: must be an object {"pin", "xmit", "drives"}
+ok   arith parity bus without xmit: test.json: devices[0] (d): bus: missing "xmit"
+ok   arith parity bus drives: test.json: devices[0] (d): bus: "drives" must be "even" or "odd", not "none"
+ok   arith parity bus not inout: test.json: devices[0] (d): pinouts.p26: "bus": pin "Y3" must have role inout
+ok   arith parity error without bus: test.json: devices[0] (d): "error" needs "bus"
+ok   arith parity errorOn: test.json: devices[0] (d): "errorOn" must be "even" or "odd", not "both"
+ok   arith parity errorOn without error: test.json: devices[0] (d): "errorOn" needs "error"
+ok   valid arith (adder)
+ok   valid arith (alu181)
+ok   valid arith (wallace)
+ok   arith adder key of another model: test.json: devices[0] (d): "cascade" is not a key of model "adder"
+ok   arith adder lengths: test.json: devices[0] (d): "a", "b" and "sum" must have the same number of names
+ok   arith adder 9 bits: test.json: devices[0] (d): "a" must have 1 to 8 names
+ok   arith adder unknown pin: test.json: devices[0] (d): pinouts.p26: no pin named "Q"
+ok   arith alu181 s count: test.json: devices[0] (d): "s" must have 4 names
+ok   arith alu181 missing aeqb: test.json: devices[0] (d): missing "aeqb"
+ok   arith wallace no adders: test.json: devices[0] (d): missing "adders"
+ok   arith wallace 9 adders: test.json: devices[0] (d): "adders" must be an array of 1 to 8 full adders
+ok   arith wallace adder key: test.json: devices[0] (d): adders[0]: unknown key "d"
+ok   arith wallace node reused: test.json: devices[0] (d): adders[1]: "sum" and "carry" must be new node names
+ok   arith wallace outputs not array: test.json: devices[0] (d): "outputs" must be an array of 1 to 8 {"pin", "node"}
+ok   arith wallace output node: test.json: devices[0] (d): outputs[0]: "node" "q" is not an adder's sum or carry
+ok   arith wallace input pin: test.json: devices[0] (d): pinouts.p26: adders[0]: no pin named "Q"
+ok   arith wallace enable without active: test.json: devices[0] (d): enable: missing "active"
+ok   bad JSON: test.json: invalid JSON at byte 249
+ok   wrong format: test.json: "format" must be "schematical-parts", not "parts"
+ok   version 2: test.json: unsupported version 2 (expected 1)
+ok   unknown kind: test.json: unknown kind "no-such-kind"
+ok   unknown file key: test.json: unknown key "x"
+ok   unknown device key: test.json: devices[0]: unknown key "colour"
+ok   unknown part key: test.json: devices[0] (VCC): parts[0] (VCC): unknown key "family"
+ok   pin numbers 1,3: test.json: devices[0] (led-red): pinouts.two-pin: pin 2: pin numbers must be 1..N in order (found 3)
+ok   unknown role: test.json: devices[0] (VCC): pinouts.pin: pin 1: unknown role "hidden"
+ok   part names a missing pinout: test.json: devices[0] (VCC): parts[0] (VCC): no pinout "dip8"
+ok   LED anode missing from the second pinout: test.json: devices[0] (led-red): pinouts.dip4: no pin named "A"
+ok   duplicate part in one file: test.json: devices[1] (5V-2): parts[0] (5V): duplicate part name "5V"
+ok   duplicate device id: test.json: devices[1] (5V): duplicate device id "5V"
+ok   bad flag: test.json: devices[0] (VCC): parts[0] (VCC): unknown flag "vintage"
+ok   drawer too deep: test.json: devices[0] (VCC): "drawer" has at most 3 levels
+ok   supply volts -1: test.json: devices[0] (VCC): "volts" must be from 0 to 500
+ok   supply volts 501: test.json: devices[0] (VCC): "volts" must be from 0 to 500
+ok   supply pull not a boolean: test.json: devices[0] (PU): "pull" must be true or false
+ok   oscillator defaultHz out of range: test.json: devices[0] (o): parts[0] (O1): defaultHz 30 is outside minHz..maxHz
+ok   oscillator output naming a shared pin: test.json: devices[0] (o): pinouts.p: pin name "OUT" is used by 2 pins; one is needed
+ok   three-level drawer
+ok   entry vcc inherited by two parts
+ok   part vcc override keeps the entry inputMax
+ok   part vcc override with no inputMax anywhere
+ok   split entry vcc next to a plain entry's
+ok   sram grade with vcc, inputMax and timings
+ok   dff entry vcc and a part inputMax
+ok   jkff entry vcc; oscillator device vcc and part override
+ok   7seg vf
+ok   switch ratedVolts
+ok   vcc not an array of 2: test.json: devices[0] (g): timing.HC: "vcc" must be [min, max] in volts
+ok   vcc a number: test.json: devices[0] (g): timing.HC: "vcc" must be [min, max] in volts
+ok   vcc min >= max: test.json: devices[0] (g): timing.HC: "vcc": min must be below max
+ok   vcc max > 100: test.json: devices[0] (g): timing.HC: "vcc": each value must be from 0 to 100
+ok   vcc min 0: test.json: devices[0] (g): timing.HC: "vcc": min must be above 0
+ok   inputMax below the entry max: test.json: devices[0] (g): timing.HC: "inputMax" 3.3 is below the "vcc" max 3.6
+ok   inputMax below the part max: test.json: devices[0] (g): parts[1] (G2): "inputMax" 5 is below the "vcc" max 5.5
+ok   part inputMax without vcc: test.json: devices[0] (g): parts[0] (G1): "inputMax" without "vcc"
+ok   entry inputMax without vcc: test.json: devices[0] (g): timing.HC: "inputMax" without "vcc"
+ok   vcc inside otherLow: test.json: devices[0] (x): timing.LS: otherLow: unknown key "vcc"
+ok   unknown key next to vcc in a grade: test.json: devices[0] (m): grades.55: unknown key "vccMax"
+ok   vf min > max: test.json: devices[0] (LTS-X): "vf": min must be at most max
+ok   ratedVolts 0: test.json: devices[0] (s): "ratedVolts" must be above 0
+ok   gate part with no vcc: test.json: devices[0] (g): parts[0] (G1): missing "vcc"
+ok   dff part with no vcc: test.json: devices[0] (d): parts[0] (D1): missing "vcc"
+ok   sram part with no vcc: test.json: devices[0] (m): parts[0] (M1): missing "vcc"
+ok   oscillator part with no vcc: test.json: devices[0] (o): parts[0] (O1): missing "vcc"
+ok   7seg with no vf: test.json: devices[0] (LTS-X): missing "vf"
+ok   switch with no ratedVolts: test.json: devices[0] (s): missing "ratedVolts"
+library_check: all passed

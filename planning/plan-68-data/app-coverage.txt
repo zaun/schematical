@@ -1,0 +1,42 @@
+App tier at e2f6811a, 2026-11-25: bash scov.sh (xcodebuild test -enableCodeCoverage YES CODE_SIGNING_ALLOWED=NO, skipping AutorouteModelTests/testTheSummaryOnAFU)
+exit 65 after 1634s
+	 Executed 2078 tests, with 8 tests skipped and 10 failures (1 unexpected) in 1613.613 (1614.175) seconds
+	 Executed 2078 tests, with 8 tests skipped and 10 failures (1 unexpected) in 1613.613 (1614.177) seconds
+** TEST FAILED **
+
+Failures on the measured tree (the working copy had the owner's uncommitted edits to examples/*.schematical):
+  AcknowledgementsTests.testEveryLicenceIsInTheBundle
+  AcknowledgementsTests.testNamesTheThirdPartyCode
+  CustomFootprintDraftTests.testEveryExplicitFootprintRoundTrips
+  DrawerCategoriesTests.testInterfaceAnalogAndClocks
+  ParametricFootprintDraftTests.testEachStyleReadsAndWritesItsEntry
+  ParametricFootprintDraftTests.testEveryBundledParametricEntryRoundTrips
+  PourFillTests.testFillOfARealRoutedBoard
+  SchematicNSDocumentTests.testEachExampleReadsAndWritesAsBefore
+  UserLibraryCatalogTests.testAddListsUnderUserLibraryAndWritesTheFile
+  UserPartLibraryTests.testWriteThenFilesReturnsTheFile
+
+Swift under schematical/schematical (python3 appcov.py app.json app-missed.tsv):
+files 246 executable 74819 uncovered 22860 cover 69.45%
+   6230   25226   75 Canvas
+   5881    8934   44 Editor
+   2591    3797    8 Drawer
+   1226    9486   34 Document
+   1166    1438    4 Preferences
+    892    1259    5 Datasheet
+    652    3632    8 Automation
+    577    1611    3 BoardPreview
+    566    1870    2 (root)
+    550    1229    5 ElectricalRulesCheck
+    501    6812   29 Routing
+    381    3170    6 Backend
+    343     444    1 Cpu
+    319     345    2 Terminal
+    255    1534    7 Simulation
+    239     258    1 Registers
+    159     759    3 Memory
+    137    1338    2 DesignRuleCheck
+    122     433    1 BillOfMaterials
+     43     831    3 Boards
+     23     156    1 DocumentInfo
+      7     257    2 Help

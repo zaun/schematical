@@ -1,0 +1,294 @@
+PASS: FX-E40 facts: eeprom, 512 bytes, 1 address byte, 8-byte page, 5 ms write, endurance, retention
+PASS: FX-E40: the part's maxClock (5 MHz) overrides the device's (10 MHz); vcc from the part
+PASS: FX-FL facts: flash, 64 KB, 256-byte page, page program 2 ms, 4K erase 45 ms, chip erase 2.4 s, id
+PASS: the dataflash and pageeeprom fixtures load as facts with simulated 0
+PASS: the listing line names the facts
+     FX-E40|serialmem|SOIC||fixture|||type=eeprom size=512 addr=1 page=8 write_ps=5000000000 clock_khz=5000|1:CS#:input:spi:low,2:SO:output:spi,3:WP#:input:control:low,4:GND:ground:default,5:SI:input:spi,6:SCK:input:spi,7:HOLD#:input:control:low,8:VCC:power:default|footprint=SOIC-8|vcc=1800-5500,in=5500
+PASS: an unsimulated part's listing line ends |unsimulated
+PASS: E40 powers up erased: READ gives FF FF FF FF
+PASS: E40 power-up status 00 (RDY 0, WEL 0, BP 00)
+PASS: SO is Z while CS# is high
+PASS: a WRITE without WREN stores nothing and starts no cycle
+PASS: WREN sets WEL (status 02)
+PASS: during the write cycle RDSR reads RDY 1, WEL 1 and the busy ones (F3)
+PASS: READ is ignored during the write cycle (SO stays Z)
+PASS: WRITE and WRDI during the cycle are ignored
+PASS: still busy 4.9 ms after the write started
+PASS: the cycle ends after writeCycle (5 ms): RDY 0 and WEL 0
+PASS: the byte is stored
+PASS: the WRITE sent during the cycle was ignored
+PASS: opcode 0A/0B carries address bit 8: byte 1A5 written and read
+PASS: opcode 03 with the same address byte reads 0A5 (still erased)
+PASS: a sequential READ from 1FE wraps from 1FF to 000
+PASS: E40 powers up erased: READ gives FF FF FF FF
+PASS: E40 power-up status 00 (RDY 0, WEL 0, BP 00)
+PASS: SO is Z while CS# is high
+PASS: a WRITE without WREN stores nothing and starts no cycle
+PASS: WREN sets WEL (status 02)
+PASS: during the write cycle RDSR reads RDY 1, WEL 1 and the busy ones (F3)
+PASS: READ is ignored during the write cycle (SO stays Z)
+PASS: WRITE and WRDI during the cycle are ignored
+PASS: still busy 4.9 ms after the write started
+PASS: the cycle ends after writeCycle (5 ms): RDY 0 and WEL 0
+PASS: the byte is stored
+PASS: the WRITE sent during the cycle was ignored
+PASS: opcode 0A/0B carries address bit 8: byte 1A5 written and read
+PASS: opcode 03 with the same address byte reads 0A5 (still erased)
+PASS: a sequential READ from 1FE wraps from 1FF to 000
+PASS: a page write wraps inside its 8-byte page; later bytes overwrite earlier ones
+PASS: the page reads back over the SPI
+PASS: WRSR starts a write cycle too
+PASS: BP0 is set; WEL cleared by the end of the WRSR cycle
+PASS: a write into the protected quarter is ignored (no cycle; WEL stays 1)
+PASS: a write just below the quarter is stored
+PASS: WRSR writes only BP1, BP0 (the other bits read 0): FF gives 0C
+PASS: BP = 3 protects the whole array
+PASS: BP = 2 protects 100-1FF only: 0FF is written, 100 is not
+PASS: WRSR 00 unprotects
+PASS: WREN is ignored while WP# is low (protection "wp")
+PASS: a WRITE with WP# low is dropped (WEL stays)
+PASS: WP# falling between CS# falling and rising drops the WRITE
+PASS: CS# rising 1 bit short of the data byte drops the WRITE (no cycle, WEL stays)
+PASS: a WRITE with no data byte starts no cycle
+PASS: WRDI clears WEL
+PASS: WREN followed by a stray bit (CS# off a byte boundary) is ignored
+PASS: bit 3 of the WREN opcode is a don't care (0E)
+PASS: bit 3 of the WRDI opcode is a don't care (0C)
+PASS: an unknown opcode: SO stays Z
+PASS: ...and nothing changed
+PASS: RDSR repeats the status byte while CS# stays low
+PASS: HOLD# low with SCK low pauses the read: SO Z, clocks ignored; C6 read intact
+PASS: the chip is back in order after the hold
+PASS: an X on HOLD# makes the open transaction X (SO drives X)
+PASS: after an opcode with an unknown bit SO drives X
+PASS: ...and WEL reads X (status bit 1 unknown, the rest 0)
+PASS: a WRITE with WEL unknown stores X; WEL is 0 after the cycle
+PASS: a READ with an unknown address bit reads X
+PASS: a WRITE with an unknown address bit makes the pages it could name unknown
+PASS: an unknown data bit is stored as an unknown bit
+PASS: an X on CS# during a WRITE leaves the byte unknown
+PASS: E320 powers up erased
+PASS: E320: RDSR is all ones during the write cycle (busyOnes 255)
+PASS: address bits above the array are ignored (F010 = 010)
+PASS: E320: a page write wraps inside its 32-byte page
+PASS: E320: WRSR 80 sets WPEN
+PASS: E320: with WPEN 1 and WP# low, WRSR is ignored (WEL stays 1)
+PASS: E320: WP# low does not stop an array write
+PASS: E320: with WP# high WRSR works, and clears WPEN
+PASS: E320: with WPEN 0 WP# low does not block WRSR
+PASS: E320: BP = 2 protects 800-FFF: 7FF is written, A00 is not
+PASS: E320: WRSR with WPEN 1 and WP# unknown leaves WPEN and BP unknown
+PASS: E320 powers up erased
+PASS: E320: RDSR is all ones during the write cycle (busyOnes 255)
+PASS: address bits above the array are ignored (F010 = 010)
+PASS: E320: a page write wraps inside its 32-byte page
+PASS: E320: WRSR 80 sets WPEN
+PASS: E320: with WPEN 1 and WP# low, WRSR is ignored (WEL stays 1)
+PASS: E320: WP# low does not stop an array write
+PASS: E320: with WP# high WRSR works, and clears WPEN
+PASS: E320: with WPEN 0 WP# low does not block WRSR
+PASS: E320: BP = 2 protects 800-FFF: 7FF is written, A00 is not
+PASS: E320: WRSR with WPEN 1 and WP# unknown leaves WPEN and BP unknown
+PASS: F-RAM powers up unknown: READ gives X
+PASS: F-RAM status 40: bit 6 reads 1 (statusOnes), RDY always 0
+PASS: a WRITE without WREN stores nothing
+PASS: WREN sets WEL (42)
+PASS: no write cycle: status 40 at once, WEL cleared by the WRITE
+PASS: the bytes are stored at bus speed and read back
+PASS: a second WRITE needs a new WREN
+PASS: an F-RAM burst has no page boundary
+PASS: the address wraps from 7FF to 000
+PASS: ...and a READ wraps likewise
+PASS: WRSR applies at once (BP0)
+PASS: a burst reaching the protected quarter (600-7FF) stops there
+PASS: a write into the protected quarter is ignored; WEL cleared
+PASS: WPEN set
+PASS: WPEN with WP# low: WRSR ignored (WEL stays)
+PASS: WRDI clears WEL
+PASS: with WP# high WRSR works
+PASS: RDID gives 7F7F7F7F7F7FC225C8, then SO Z
+PASS: FSTRD: address, a dummy byte, then data
+PASS: the transaction after SLEEP is the wake-up and is ignored
+PASS: ...and so is every transaction within tREC
+PASS: after the wake time the chip answers again
+PASS: an unknown opcode is ignored
+PASS: F-RAM powers up unknown: READ gives X
+PASS: F-RAM status 40: bit 6 reads 1 (statusOnes), RDY always 0
+PASS: a WRITE without WREN stores nothing
+PASS: WREN sets WEL (42)
+PASS: no write cycle: status 40 at once, WEL cleared by the WRITE
+PASS: the bytes are stored at bus speed and read back
+PASS: a second WRITE needs a new WREN
+PASS: an F-RAM burst has no page boundary
+PASS: the address wraps from 7FF to 000
+PASS: ...and a READ wraps likewise
+PASS: WRSR applies at once (BP0)
+PASS: a burst reaching the protected quarter (600-7FF) stops there
+PASS: a write into the protected quarter is ignored; WEL cleared
+PASS: WPEN set
+PASS: WPEN with WP# low: WRSR ignored (WEL stays)
+PASS: WRDI clears WEL
+PASS: with WP# high WRSR works
+PASS: RDID gives 7F7F7F7F7F7FC225C8, then SO Z
+PASS: FSTRD: address, a dummy byte, then data
+PASS: the transaction after SLEEP is the wake-up and is ignored
+PASS: ...and so is every transaction within tREC
+PASS: after the wake time the chip answers again
+PASS: an unknown opcode is ignored
+PASS: JEDEC ID 1F 43 01 00, then SO Z
+PASS: status: SPRL 0, WPP 1, SWP 11 (all protected), byte 2 = 00, then byte 1 again
+PASS: flash powers up erased
+PASS: READ 0B: three address bytes, a dummy byte, data
+PASS: a program into a protected sector is ignored; WEL is cleared
+PASS: an erase of a protected sector is ignored
+PASS: WEL set (1E)
+PASS: WRSR 00 is a global unprotect: SWP 00, WEL cleared
+PASS: busy during the program (RDY 1, WEL already 0)
+PASS: WREN is ignored while busy
+PASS: the byte is stored and RDY clears after byteProgram
+PASS: a program ANDs with what is there: F0 and 3C = 30
+PASS: page program: still busy after 1.9 ms
+PASS: the page program stored 5 bytes with wrap inside the page
+PASS: CS# 3 bits short of the data byte drops the program; WEL cleared
+PASS: a program with a cut address does nothing; WEL cleared
+PASS: page erase is busy
+PASS: a page erase erases the 256 bytes of 0100-01FF only
+PASS: 4 KB erase still busy at 40 ms
+PASS: 20: the 4-KB block 1000-1FFF is erased, 0FFF is not
+PASS: 32 KB erase is still busy at 359 ms
+PASS: 52: the 32-KB block 0000-7FFF is erased, 8000 is not
+PASS: D8: the 64-KB block (the whole chip) is erased
+PASS: chip erase (60): busy at 2.399 s, the data is still there
+PASS: chip erase ends after chipErase
+PASS: C7 is chip erase too
+PASS: an erase without WREN does nothing
+PASS: dual output read (3B) is not modeled: ignored
+PASS: the OTP register read (77) is not modeled: ignored
+PASS: JEDEC ID 1F 43 01 00, then SO Z
+PASS: status: SPRL 0, WPP 1, SWP 11 (all protected), byte 2 = 00, then byte 1 again
+PASS: flash powers up erased
+PASS: READ 0B: three address bytes, a dummy byte, data
+PASS: a program into a protected sector is ignored; WEL is cleared
+PASS: an erase of a protected sector is ignored
+PASS: WEL set (1E)
+PASS: WRSR 00 is a global unprotect: SWP 00, WEL cleared
+PASS: busy during the program (RDY 1, WEL already 0)
+PASS: WREN is ignored while busy
+PASS: the byte is stored and RDY clears after byteProgram
+PASS: a program ANDs with what is there: F0 and 3C = 30
+PASS: page program: still busy after 1.9 ms
+PASS: the page program stored 5 bytes with wrap inside the page
+PASS: CS# 3 bits short of the data byte drops the program; WEL cleared
+PASS: a program with a cut address does nothing; WEL cleared
+PASS: page erase is busy
+PASS: a page erase erases the 256 bytes of 0100-01FF only
+PASS: 4 KB erase still busy at 40 ms
+PASS: 20: the 4-KB block 1000-1FFF is erased, 0FFF is not
+PASS: 32 KB erase is still busy at 359 ms
+PASS: 52: the 32-KB block 0000-7FFF is erased, 8000 is not
+PASS: D8: the 64-KB block (the whole chip) is erased
+PASS: chip erase (60): busy at 2.399 s, the data is still there
+PASS: chip erase ends after chipErase
+PASS: C7 is chip erase too
+PASS: an erase without WREN does nothing
+PASS: dual output read (3B) is not modeled: ignored
+PASS: the OTP register read (77) is not modeled: ignored
+PASS: unprotected
+PASS: 36: one sector protected, SWP 01; WEL cleared
+PASS: 3C reads FF for a protected sector
+PASS: 3C reads 00 for an unprotected sector
+PASS: a program into the protected sector is ignored, one into its neighbor is stored
+PASS: chip erase is ignored while any sector is protected
+PASS: 39: the sector is unprotected again (SWP 00)
+PASS: WRSR 80 sets SPRL (and global unprotect)
+PASS: 36 is ignored while SPRL = 1; WEL cleared
+PASS: with WP# high and SPRL = 1 WRSR can clear SPRL, but a global protect does not run (SWP 00)
+PASS: with SPRL = 0 WRSR 7C protects every sector (SWP 11)
+PASS: WRSR 80 with SPRL = 0: SPRL set and the (all-zero) global bits unprotect every sector
+PASS: SPRL set
+PASS: WPP reads 0 with WP# low; WP# low and SPRL = 1: WRSR ignored (hard lock), WEL cleared
+PASS: WP# high: SPRL cleared by WRSR (soft lock)
+PASS: WP# low and SPRL = 0: SPRL can be set (and the global unprotect runs)
+PASS: a floating WP# reads high (internal pull-up): WPP 1
+PASS: WRSR byte 2 sets RSTE (status byte 2 = 10)
+PASS: SPRL set, all unprotected
+PASS: F0 D0 with RSTE 1: SPRL cleared and every sector protected again
+PASS: F0 with a data byte other than D0 does nothing
+PASS: in deep power-down RDSR is ignored (SO Z)
+PASS: ...and so is the JEDEC read
+PASS: AB resumes
+PASS: an opcode with an unknown bit leaves WEL unknown
+PASS: a program with WEL unknown stores X in the byte it writes
+PASS: ...and WEL is 0 after it
+PASS: an erase with an unknown address bit makes the blocks it could name unknown
+PASS: mode 3 read with a HOLD# pause in the middle of a byte keeps its place (A9)
+PASS: flash is fine after the hold
+PASS: JEDEC ID 1F 65 01
+PASS: block scheme power-up status 10 (WPP only): nothing is protected
+PASS: a program works at power-up (BP0 = 0)
+PASS: WRSR is busy for writeStatus (20 ms)
+PASS: BP0 set: status 14
+PASS: with BP0 program, block erase and chip erase are ignored
+PASS: WRSR 80: BPL set, BP0 cleared (WP# high)
+PASS: WP# low with BPL = 1: WRSR is ignored (hard lock)
+PASS: WP# high: WRSR 04 sets BP0 and clears BPL
+PASS: D8 erases a 32-KB block here (no blockErase64)
+PASS: 81 (page erase) is not a command of this chip
+PASS: the sector protection commands do not exist here
+PASS: circuit_add_part refuses an unsimulated device: part "FX-DF" is not simulated
+PASS: ...also the page EEPROM
+PASS: circuit_memory_size: 4096 words of 8 bits
+PASS: circuit_memory_load works before start
+PASS: the circuit starts (5 V is inside 1.8-5.5 V)
+PASS: circuit_memory_read: the loaded bytes between erased ones (FF)
+PASS: FX-E40 survives 60000 random pin changes
+PASS: FX-E320 survives 60000 random pin changes
+PASS: FX-FR survives 60000 random pin changes
+PASS: FX-FL survives 60000 random pin changes
+PASS: FX-FB survives 60000 random pin changes
+PASS: a minimal eeprom device loads (protection defaults to wpen)
+PASS: unknown type: refused with "unknown type "rom"" (got: reject.json: devices[0] (rej0): unknown type "rom")
+PASS: dataflash simulated: refused with "a "dataflash" device has no simulation model: "simulated" must be false" (got: reject.json: devices[0] (rej1): a "dataflash" device has no simulation model: "simulated" must be false)
+PASS: pageeeprom simulated: refused with "a "pageeeprom" device has no simulation model" (got: reject.json: devices[0] (rej2): a "pageeeprom" device has no simulation model: "simulated" must be false)
+PASS: size 0: refused with ""size" must be more than 0" (got: reject.json: devices[0] (rej3): "size" must be more than 0)
+PASS: size not a power of two: refused with ""size" must be a power of two from 4 to 16777216 bytes" (got: reject.json: devices[0] (rej4): "size" must be a power of two from 4 to 16777216 bytes)
+PASS: size too big: refused with ""size" must be a power of two" (got: reject.json: devices[0] (rej5): "size" must be a power of two from 4 to 16777216 bytes)
+PASS: eeprom without pageSize: refused with "missing "pageSize"" (got: reject.json: devices[0] (rej6): missing "pageSize")
+PASS: eeprom without writeCycle: refused with "needs "writeCycle"" (got: reject.json: devices[0] (rej7): an eeprom device needs "writeCycle" (more than 0))
+PASS: eeprom page above a quarter: refused with ""pageSize" must be a power of two, at most a quarter" (got: reject.json: devices[0] (rej8): "pageSize" must be a power of two, at most a quarter of the array)
+PASS: eeprom page not a power of two: refused with ""pageSize" must be a power of two" (got: reject.json: devices[0] (rej9): "pageSize" must be a power of two, at most a quarter of the array)
+PASS: no addressBytes: refused with "missing "addressBytes"" (got: reject.json: devices[0] (rej10): missing "addressBytes")
+PASS: addressBytes 4: refused with ""addressBytes" must be a whole number from 0 to 3" (got: reject.json: devices[0] (rej11): "addressBytes" must be a whole number from 0 to 3)
+PASS: size over one address byte: refused with ""size" 1024 does not fit 1 address byte" (got: reject.json: devices[0] (rej12): "size" 1024 does not fit 1 address byte)
+PASS: a8InOpcode with 2 address bytes: refused with ""a8InOpcode" needs "addressBytes" 1" (got: reject.json: devices[0] (rej13): "a8InOpcode" needs "addressBytes" 1)
+PASS: eeprom protection sector: refused with "an eeprom or fram device's "protection" is "wpen" or "wp"" (got: reject.json: devices[0] (rej14): an eeprom or fram device's "protection" is "wpen" or "wp")
+PASS: unknown protection: refused with "unknown protection "fuse"" (got: reject.json: devices[0] (rej15): unknown protection "fuse")
+PASS: fram with writeCycle: refused with "a fram device has no write cycle" (got: reject.json: devices[0] (rej16): a fram device has no write cycle: leave out "writeCycle")
+PASS: fram with pageSize: refused with "a fram device has no write page" (got: reject.json: devices[0] (rej17): a fram device has no write page: leave out "pageSize")
+PASS: eeprom with sleep: refused with ""sleep" and "fastRead" are for a fram device" (got: reject.json: devices[0] (rej18): "sleep" and "fastRead" are for a fram device)
+PASS: sleep without wake: refused with ""sleep" needs "wake"" (got: reject.json: devices[0] (rej19): "sleep" needs "wake" (more than 0))
+PASS: flash timing on an eeprom: refused with "the flash timing keys and "protectSize" are for a flash device" (got: reject.json: devices[0] (rej20): the flash timing keys and "protectSize" are for a flash device)
+PASS: a pin the pinout lacks: refused with "no pin named "NOPE"" (got: reject.json: devices[0] (rej21): pinouts.p8: dataOut: no pin named "NOPE")
+PASS: dataOut an input: refused with "pin "SCK" must be an output or inout pin" (got: reject.json: devices[0] (rej22): pinouts.p8: dataOut: pin "SCK" must be an output or inout pin)
+PASS: clock an output: refused with "pin "SO" must be an input or inout pin" (got: reject.json: devices[0] (rej23): pinouts.p8: clock: pin "SO" must be an input or inout pin)
+PASS: missing pin keys: refused with "a simulated device needs "chipSelect"" (got: reject.json: devices[0] (rej24): a simulated device needs "chipSelect", "clock", "dataIn" and "dataOut")
+PASS: reset on a simulated device: refused with ""reset" is only for a device with "simulated": false" (got: reject.json: devices[0] (rej25): "reset" is only for a device with "simulated": false (no simulated chip has a RESET# pin))
+PASS: bad jedecId length: refused with ""jedecId" must be 1 to 16 bytes" (got: reject.json: devices[0] (rej26): "jedecId" must be 1 to 16 bytes of hex digits)
+PASS: bad jedecId digits: refused with "is not hex digits" (got: reject.json: devices[0] (rej27): "jedecId" "1F4G" is not hex digits)
+PASS: maxClock 0: refused with ""maxClock" must be a clock in MHz" (got: reject.json: devices[0] (rej28): "maxClock" must be a clock in MHz above 0 and at most 4000)
+PASS: part maxClock bad: refused with ""maxClock" must be a clock in MHz" (got: reject.json: devices[0] (rej29): parts[0] (REJ29): "maxClock" must be a clock in MHz above 0 and at most 4000)
+PASS: part without vcc: refused with "missing "vcc"" (got: reject.json: devices[0] (rej30): parts[0] (REJ30): missing "vcc")
+PASS: negative time: refused with ""writeCycle" must be a time in ns" (got: reject.json: devices[0] (rej31): "writeCycle" must be a time in ns from 0 to 1e11)
+PASS: unknown key: refused with "bogus" (got: reject.json: devices[0]: unknown key "bogus")
+PASS: busyOnes 256: refused with ""busyOnes" must be a whole number from 0 to 255" (got: reject.json: devices[0] (rej33): "busyOnes" must be a whole number from 0 to 255)
+PASS: flash without protection: refused with "missing "protection"" (got: reject.json: devices[0] (rej34): missing "protection")
+PASS: flash without jedecId: refused with "a flash device needs "jedecId"" (got: reject.json: devices[0] (rej35): a flash device needs "jedecId")
+PASS: flash sector without protectSize: refused with "missing "protectSize"" (got: reject.json: devices[0] (rej36): missing "protectSize")
+PASS: flash without erase times: refused with "a flash device needs "pageProgram"" (got: reject.json: devices[0] (rej37): a flash device needs "pageProgram", "byteProgram", "sectorErase", "blockErase32" and "chipErase" (more than 0))
+PASS: flash protectSize not a power of two: refused with ""protectSize" must be a power of two" (got: reject.json: devices[0] (rej38): "protectSize" must be a power of two from the page size to the array size)
+PASS: flash with 2 address bytes: refused with "a flash device takes 3 address bytes" (got: reject.json: devices[0] (rej39): a flash device takes 3 address bytes)
+PASS: flash with fastRead: refused with "are not flash keys" (got: reject.json: devices[0] (rej40): "sleep", "fastRead" and "writeCycle" are not flash keys)
+PASS: flash protection wpen: refused with "a flash device's "protection" is "sector" or "block"" (got: reject.json: devices[0] (rej41): a flash device's "protection" is "sector" or "block")
+PASS: an unsimulated device loads with only type and size (any size, no pin keys)
+PASS: unsimulated with a bad pin: refused with "no pin named "NOPE"" (got: reject.json: devices[0] (rej42): pinouts.p8: chipSelect: no pin named "NOPE")
+all serialmem tests passed

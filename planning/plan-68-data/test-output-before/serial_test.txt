@@ -1,0 +1,115 @@
+ok   1 reset values and outputs after MR
+ok   2 divisor latch, BAUDOUT period, divisor 0
+ok   3 transmit 8N1, 7E2, 5O1.5, stick parity; bit time; sent log
+ok   4 receive: data, false start, framing error and resync, parity, break
+ok   5 FIFO: trigger levels 1/4/8/14, overrun on the 17th, LSR[7], FCR[1]
+ok   6 timeout after 4 character times, cleared by an RBR read
+ok   7 interrupt priority, IIR codes, THRE clears, transmitter interrupt delay
+ok   8 modem: delta bits, TERI on the trailing RI edge, MSR read clears, interrupt
+ok   9 loopback: SOUT 1, TX to RX, MSR from MCR
+ok   10 DMA modes 0 and 1 on TXRDY and RXRDY
+ok   11 bus: trvd, thz, DDIS, ADS latch, X and double read strobes, WR
+ok   12 16450: no FCR, no FIFO, no timeout
+ok   C outcome: 8N1 at 115200 sends H i; typed OK arrives as 0x4F 0x4B
+ok   D1 TL16C550C afe: auto-RTS at the trigger, auto-CTS holds TX, no ΔCTS
+ok   D2 TL16C550D: timeout delay 9 RCLKs; bga24 without modem inputs
+ok   D3 TL16C750: 16/64-byte FIFO by FCR[5], rxTrigger64, IER[4] sleep
+ok   D4 TL16C750E: LCR 0x1D, DLF fraction n/64, TLR access, IOW-only MODE
+ok   D5 TL16C754B: TCR auto-RTS, Xon/Xoff, INTSEL, CLKSEL, 752 bank
+ok   D6 TL16C754C: rxTrigger [1,4,56,60]; Xon/SPR power-up values
+ok   D7 TL16C752C: AFR CONC, IrDA 3/16 pulses, RS-485 DTR with DLY 3
+ok   D8 TL16C554: four channels, shared AND TXRDY, INTN both levels
+ok   D9 TL16C554A: the same on the AFE part
+ok   D10 TL16C552: printer port (PEMD, STB, status, INT2), TRI
+ok   D11 TL16C552A: the same
+ok   D12 TL16C451: 16450 channel, single CLK, OUT2-gated INT, printer port
+ok   D13 TL16C452: two 16450 channels, printer port with LPTOE
+ok   D14 TL16C450: driven INTRPT, CSOUT, BAUDOUT low for 2 clocks, no FIFO
+ok   D15 TL16C550B: DMA class B (TXRDY back as soon as a slot is free)
+ok   D16 TL16C2550: per-channel chip selects
+ok   D17 TL16C2552: channelSelect, AFR MF select, MCR reset 0x08
+ok   D18 NS16C2552: channel pin, DREV 0x31, RTS table (trigger 4: off at 8)
+ok   D19 NS16C2752: DREV 0x21, RTS table (trigger 16: off at 56)
+ok   D20 82C50A: both stop bits checked, deferred status, driven INTRPT
+ok   D21 COM92C451: divisor 0 = 3, PIA IRQ0, INIT after reset
+ok   D22 SC16C650B: 650 bank, open-source INT, LSR[7] on read, DLAB hides
+ok   D23 SC16C752B: LCR 0x1D, 752 decode X rule, FIFO Rdy, IrDA
+-- C's cases on SFX-PC16550D:
+ok   1 reset values and outputs after MR
+ok   2 divisor latch, BAUDOUT period, divisor 0
+ok   3 transmit 8N1, 7E2, 5O1.5, stick parity; bit time; sent log
+ok   4 receive: data, false start, framing error and resync, parity, break
+ok   5 FIFO: trigger levels 1/4/8/14, overrun on the 17th, LSR[7], FCR[1]
+ok   6 timeout after 4 character times, cleared by an RBR read
+ok   7 interrupt priority, IIR codes, THRE clears, transmitter interrupt delay
+ok   8 modem: delta bits, TERI on the trailing RI edge, MSR read clears, interrupt
+ok   9 loopback: SOUT 1, TX to RX, MSR from MCR
+ok   10 DMA modes 0 and 1 on TXRDY and RXRDY
+ok   11 bus: trvd, thz, DDIS, ADS latch, X and double read strobes, WR
+ok   C outcome: 8N1 at 115200 sends H i; typed OK arrives as 0x4F 0x4B
+ok   D24 PC16550D: the C cases on the shipped device object
+   compared: 52 ns16550, 8 bridges, 13 classic, 6 maxim
+ok   shipped: the fixture devices are the shipped device objects
+ok   JF1 SPI target: MISO Z while CS is high, bytes both ways, X on CS
+ok   JF2 I2C target: START, repeated START, STOP, ACK/NACK, reads, straps on SCL/SDA
+ok   J1 MAX3100: commands, baud table, FIFO, IRQ masks, T latch, loopback, 9-bit, shutdown
+ok   J2 MAX3140: J1 registers, Y/Z true/complement and Z, A/B fail-safe receive, test mode TX low
+ok   J3 MAX3107: SPI and I2C command bytes, bursts, FIFO levels, flow control, special characters, IrDA
+ok   J4 MAX3107 clocking: bypass counts XIN, PLL x6 and x48 measure it; fraction, 2x
+ok   J5 MAX3109: U bit, per-channel registers, GlobalIRQ, fast read, extended map, triggers
+ok   J6 MAX14830 U1:U0 channels and I2C offsets; MAX3108 WLP balls and its address table
+ok   H1 AY-5-1013A: control latch, every TX format, DAV/RDAV, OR/FE/PE, RDE/SWE, reset, terminal
+ok   H1 (COM2017, HD-6402): pin names, 5-bit 1.5 stops, receive, reset keeps RD, terminal
+ok   H2 COM1863/COM8018: HIACC 32x clocks, 5-bit 1.5 stops, RDA/ROR rule, terminal
+ok   H3 CDP1854A: mode 0 as H1; mode 1 registers, TR/RTS, INT sources, break, CTS, terminal
+ok   H4 8251A: async 1x/16x/64x, every command bit, errors, break; sync hunt, SYNDET, fill, double sync, external sync; terminal
+ok   H5 82510: every bank's registers, both BRGs and a timer, FIFOs, interrupt blocks and priority, hold state, control characters, break, stops, 9-bit, soft parity, handshake, loopbacks, echo, PMD, ack modes, power down, terminal
+ok   H6 CDP65C51: baud table at 1.8432 MHz, TDRE level IRQ, RX/errors, programmed reset, DCD/DSR, echo, CTS, break, terminal
+ok   E1 W65C51N: TDRE reads 1 after reset, during and after a frame
+ok   E2 W65C51N: a TDR write mid-frame cuts it off at the next bit boundary
+ok   E3 W65C51N: no parity: 10-bit frames, PE reads 0
+ok   E4 W65C51N: TIC 01 interrupts at once and again after every status read
+ok   E5 W65C51N: CTSB high stops the transmitter at once
+ok   E6 W65C51N: 19200 (0x1F) and XTLI/16 = 115200 (0x10) bit times
+ok   E7 W65C51N: the terminal types OK into RxD; a sent A is logged
+ok   E8 W65C51N: an overrun transfers the new byte; an RDR read clears OVR
+ok   H7 82C52, HD-6406: baud select, USR, interrupts, errors, parity modes, MSR, echo/loop/break; ALE, CS1, DMA acks, status pins, SIE/SFD; terminal
+ok   H8 COM78C804/802/78804: MR pointer, per-line rates and formats, FIFO/ORR/FER/PER/RERR, scanner and summaries, DSCHNG, break, echo and loopbacks, 2-line variant, terminal
+ok   I1 SC16IS750 I2C: 16-entry address table, LCR/DLL/THR -> TX frame, RX -> RHR, IRQ, NACK for a wrong address and for SRESET, 25 ms SDA timeout
+ok   I2 SC16IS750 SPI: command byte R/W, register, channel bits; SO 3-state; burst FIFO write and read; EFCR TX/RX disable, RS-485 RTSCON/RTSINVER, 9-bit multidrop and auto address
+ok   I3 SC16IS752: two channels by sub-address, GPIO change interrupt in channel A's IIR, IOLATCH, IODir clear, GPIO outputs, IOControl modem pins
+ok   I4 SC16IS740: no GPIO (IODir, IOState, IOIntEna, IOControl read X), software reset
+ok   I5 PI7C9X760, PI7C9X762: SFR bank (SFREN 0x5A, SFR, ASR, CPR M/N, TRCTL, RFD/RLS, TFD), TIDLE stored only, NACK on a full TX FIFO, SFR[4] bursts, per-channel bank
+ok   I6 XR20M1170: 8-address table (A1 = SCL as VCC, SDA as GND), DLD fraction and 8x, TCR 0x0F, NACK on a full TX FIFO, tssop16
+ok   I7 XR20M1280: 3-bit sub-address map, LCR 0x00, SPR 0xFF, independent TX/RX baud generators, FC, FCTR table D with TRG, GPIO set with ISR[6]
+ok   I8 SC18IS604: commands 0x00-0x03, 0x06, 0x18, 0x20/0x21, 0x30, 0xFE; START, STOP and repeated START at the target; ACK/NACK and 0xF0-0xF9 status codes; I2CClock rates; arbitration; timeout; GPIO; RESET filter
+ok   I9 SC18IS604 -> SC16IS750: SPI commands, I2C with PULLUP-3V3 on SDA/SCL, the SC16IS750 sends 0x55; read after write; data NACK 0xF2
+ok   E1 ST16C550: SPR 0xFF, start at 7.5, DMA class N, 4w12 timeout, driven INT
+ok   E2 ST16C450: 16450 Exar (SPR 0xFF, CSOUT, DDIS, IOR/IORBAR, start at 7.5)
+ok   E3 ST16C1450: IER[5] mode (ISR[5:4], RST, MCR[7] power-down), ier1Rewrite THR rule
+ok   E4 ST16C1550: IER[5] TX trigger (bytes), inverted ISR[5:4], MCR[7] power-down
+ok   E5 ST16C2550: dual, per-channel CS (broadcast write, X read), OP2, timeout over RX data, break hold
+ok   E6 ST16C554: four channels; part key intPin: CQ64 3-state, DCQ64 driven
+ok   E7 XR16C2550: the ST16C2550 keys, the same checks
+ok   E8 XR16L580: exar650 bank, DREV/DVID 01/01, write-only Xon, auto flow in loopback
+ok   E9 XR16L2551: Intel and Motorola (A3 channel, IRQ, RESET low), PowerSave isolation
+ok   E10 XR16L2552: AFR[0] broadcast per channel, DREV/DVID 01/02, MF pin
+ok   E11 XR16M2550: exar650 + DLD (fraction, 8x), DVID 0x02, auto-RTS table
+ok   E12 XR16M2551: CLKSEL ÷4 and the MCR[7] override, Motorola, PowerSave
+ok   E13 XR16M2650: 32-byte FIFOs, RX trigger 8 by default, DVID 0x06, Xoff 2 chars late
+ok   E14 XR16M2651: the same with 32-byte FIFOs (CLKSEL, Motorola, PowerSave)
+ok   E15 XR16M752: m752 TCR/TLR, FIFO Rdy, DLD[7] IrDA, DLD[6] RS-485, Motorola IRQ
+ok   E16 XR16V2550: exar650 + DLD, DVID 0x02, IrDA with the MCR[2] RX polarity
+ok   E17 XR16V2551: DVID 0x02, Motorola, PowerSave with the wake-up indicator
+ok   E18 XR16V2552: MF (BAUDOUT by AFR[2:1]), AFR vs DLD by EFR[4], shared AFR[0]
+ok   E19 XR16V2650: 32-byte tables (TX trigger 16 by default), DVID 0x06
+ok   E20 XR16V2651: DVID 0x06, Motorola, PowerSave with the wake-up indicator
+ok   E21 XR16V2652: the 2552 wrapper with 32-byte FIFOs (MF, AFR/DLD, AFR[0])
+ok   E22 XR16V554: quad, INTSEL, shared AND RXRDY, LSR X with DLAB, Motorola A4:A3
+ok   E23 XR16V564: 32-byte FIFO, CLKSEL ÷4, DIV part, 100-111 X with DLAB, sleep
+ok   E24 XR16V654: 64-byte FIFO, CLKSEL ÷4, DIV part, read-only LSR, sleep
+ok   E25 XR16C854: tables A-D, TRG (0 = X), FC, FLVL/EMSR, Exar-or Xon/Xoff, FSTAT, IRTX, CHCCLK, DIV
+ok   E26 XR16C864: 128-byte FIFO, FCTR[3] RS-485 on OP1, BCLK, DRQ/DACK/AEN/TC
+ok   E27 XR16V798: 5G map, global block (INT0-3, DVID, REGB, RESET, 8XMODE, SLEEP), timer, send-immediate, TX disable, DTR/DSR flow, RS-485 delay
+ok   E28 XR16L784: 5G map with 4 channels, reserved 0x40, RS-485 on RTS, bit-mapped timer (TMRCK), timeout and wake-up clear rules
+PASS
