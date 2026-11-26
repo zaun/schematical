@@ -149,4 +149,19 @@ final class RatsnestTests: XCTestCase {
         try TestSupport.place(doc, "PULLUP-5V", at: CGPoint(x: 700, y: 100))
         XCTAssertEqual(doc.ratsnest().count, 2)
     }
+
+    /// plan-68-AJ: a pull-up's far pad (one no pin names) is on its rail
+    /// even with no supply symbol of that voltage on the schematic.
+    func testAPullUpsFarPadIsOnItsRailAlone() throws {
+        let doc = TestSupport.newDocument()
+        let pull = try TestSupport.place(doc, "PULLUP-5V", at: CGPoint(x: 200, y: 200))
+        let placed = try XCTUnwrap(doc.chips.first { $0.id == pull.id })
+        let pins = Set(placed.part.pins.map(\.designator))
+        let far = try XCTUnwrap(placed.boardPads.first { $0.designator.map { !pins.contains($0) } ?? false },
+                                "a pad no pin names")
+        let copper = doc.connectivity()
+        let rail = try XCTUnwrap(copper.railNets[5000], "the 5 V rail has a net: \(copper.railNets)")
+        let index = try XCTUnwrap(copper.pads.indices.first { copper.pads[$0].chip == 0 && copper.pads[$0].pad.designator == far.designator })
+        XCTAssertEqual(copper.netOfPad[index], rail)
+    }
 }

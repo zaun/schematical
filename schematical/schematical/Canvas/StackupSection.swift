@@ -184,9 +184,19 @@ struct ValueField: View {
     var live = false
     let commit: (Double) -> Double
 
-    @State private var text = ""
-    @State private var shown = ""
+    @State private var text: String
+    @State private var shown: String
     @FocusState private var isFocused: Bool
+
+    init(title: String, value: Double, places: Int, live: Bool = false, commit: @escaping (Double) -> Double) {
+        self.title = title
+        self.value = value
+        self.places = places
+        self.live = live
+        self.commit = commit
+        _text = State(initialValue: "")
+        _shown = State(initialValue: "")
+    }
 
     var body: some View {
         TextField(title, text: $text)

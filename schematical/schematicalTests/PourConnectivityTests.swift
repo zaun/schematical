@@ -184,4 +184,32 @@ final class PourConnectivityTests: XCTestCase {
         XCTAssertEqual(ground(.unrouted), unrouted - 1)
         XCTAssertEqual(ground(.short), 0)
     }
+
+    /// plan-68-AJ: what a pour fills around: a bare hole as a hole, every
+    /// trace and via with its net; and a build that is not plain reuses the
+    /// fills a plain one kept.
+    func testPourCopperHasHolesTracesAndVias() throws {
+        let (doc, _, _) = try board()
+        XCTAssertNotNil(doc.addPour(rect: wholeBoard(doc), layer: .top))
+        let hole = doc.addHole(at: CGPoint(x: 10, y: 10))
+        XCTAssertFalse(try XCTUnwrap(doc.holes.first { $0.id == hole }).plated)
+        let trace = try XCTUnwrap(doc.addTrace(points: [CGPoint(x: 5, y: 30), CGPoint(x: 20, y: 30)], layer: .top))
+        let via = try XCTUnwrap(doc.addVia(at: CGPoint(x: 25, y: 30)))
+        let copper = doc.connectivity()
+        let items = doc.pourCopper(for: copper)
+        XCTAssertTrue(items.contains { $0.isHole }, "the bare hole")
+        XCTAssertTrue(items.contains { $0.node == .trace(trace) })
+        XCTAssertTrue(items.contains { $0.node == .via(via) })
+        // A keep-out added since the kept fills: a build that is not plain
+        // fills again and keeps nothing.
+        doc.addKeepout(rect: CGRect(x: 1, y: 1, width: 2, height: 2))
+        let first = doc.pourFills(for: copper, plain: false)
+        XCTAssertEqual(doc.keptPourFills?.keepouts.count, 0, "the kept fills are still the old ones")
+        let plain = doc.pourFills(for: copper, plain: true)
+        XCTAssertEqual(doc.keptPourFills?.keepouts.count, 1)
+        XCTAssertEqual(Set(first.keys), Set(plain.keys))
+        let reused = doc.pourFills(for: copper, plain: false)
+        XCTAssertEqual(Set(reused.keys), Set(plain.keys))
+        XCTAssertEqual(reused.values.map(\.pieces.count).sorted(), plain.values.map(\.pieces.count).sorted())
+    }
 }

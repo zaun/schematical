@@ -16,8 +16,8 @@ enum ReferenceLabel {
     static func anchor(for chip: PlacedChip) -> CGPoint? {
         guard chip.showsReference, !chip.reference.isEmpty else { return nil }
         let x = chip.sideMargin + chip.layout.size.width / 2
-        if chip.symbol == .gate { return GateSymbolView.referenceLabel(for: chip).point }
-        if chip.symbol.canRotate, chip.rotation != 0 { return turnedAnchor(for: chip, x: x) }
+        // A gate's label follows the gate's own, turned or not (the switch).
+        if chip.symbol != .gate, chip.symbol.canRotate, chip.rotation != 0 { return turnedAnchor(for: chip, x: x) }
         switch chip.symbol {
         case .diode, .plainDiode:
             // Above the LED's light arrows (their tips at y = 4); diodes use

@@ -1,6 +1,6 @@
 # plan-68-AJ: App coverage — Canvas
 
-Last updated: 2026-11-25
+Last updated: 2026-11-26
 Effort: large (3h–1d)
 Depends on: plan-68-AI
 
@@ -94,7 +94,14 @@ controller tests both run in the phase gate.
 
 ### Phase 1 — 9 files, `PartInfoViews.swift` … `SchematicCanvasView.swift`
 
-- [ ] Close every uncovered line of these files per § 3; ratchet rows removed.
+- [x] Close every uncovered line of these files per § 3 (2026-11-26). `LOGIC_COV_WORK=/tmp/logic-cov-AJ node scripts/coverage.js --app --tests SchematicCanvasControllerTests,SchematicCanvasRenderTests,SymbolPaintSweepTests,SchematicLayersPaintTests,CanvasPanelsViewTests,ScrollPanTests,SelectionModelTests,PourPanelTests,PourConnectivityTests,PourCanvasTests,PourFillTests,PourModelTests,CutoutPourTests,RatsnestTests,AddOnBoardTests,CardSlotTests,HeaderBoardTests,ViaTests,PullResistorTests,HoleTests,PlaneNetTests,NetLabelsTests,NetListTests,BusNetworkTests,PadHoverTests,BoardCopperTests,ReferencePositionTests,ReferenceDragTests,RelayBuzzerTests,SchematicClipboardTests,SplitPartEditTests,SchematicVoltageRefusalTests,SchematicSceneTests,SchematicNoteTests,SchematicPainterTests,SlideSwitchTests,StackupAnalysisTests,StackupSectionTests,TactileSwitchTests,TestPointTests,TransistorTests,SelectionGestureTests --only schematical/schematical/Canvas`
+  → no `path:line` for any of the nine files, nor for `SchematicCanvasLayers.swift` (split from
+  `SchematicCanvasView.swift` by plan-68-V) or the new `SchematicCanvasController.swift`; the run's
+  tests: 421 passed, 0 failed, 0 skipped.
+- [x] ratchet rows: parent
+  Ratchet rows: removed by the parent in this letter's commit (20 rows). Re-measured in the
+  shared tree by the parent with this letter's classes: no `path:line` for any of its files,
+  no failed test.
 
 Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
@@ -104,7 +111,13 @@ Commit: —
 
 ### Phase 2 — 16 files, `SchematicClipboard.swift` … `WidthCalculator.swift`
 
-- [ ] As Phase 1, for these files.
+- [x] As Phase 1, for these files (2026-11-26, same run): no `path:line` for any of the sixteen;
+  `node scripts/source-size.js --check` (new files staged) → exit 0 (largest new file
+  `SchematicCanvasController.swift`, 768 lines).
+- [x] ratchet rows: parent
+  Ratchet rows: removed by the parent in this letter's commit (20 rows). Re-measured in the
+  shared tree by the parent with this letter's classes: no `path:line` for any of its files,
+  no failed test.
 
 Acceptance: as Phase 1.
   Check: as Phase 1; `SZ` → exit 0 (est. 10 min).
@@ -126,7 +139,29 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- (2026-11-26) `SchematicCanvasView`'s gesture, hover, drawing-key, double-click, drop and
+  play-mode logic (its `@State` and private functions) moved to `SchematicCanvasController`
+  (`Canvas/SchematicCanvasController.swift`, with `SchematicCanvasContext`, the view's inputs
+  rebuilt on each call so a tool change is seen at once). The view keeps one controller in
+  `@State` and hands it each event in one-line closures; it shrank from 934 to 244 lines.
+  Behaviour is unchanged; two reads moved to the call: Shift and the key window are read in the
+  drag gesture's `onChanged` (as before) and passed in (`pressChanged(_:shift:keyWindow:in:)`).
+  The view's callbacks lost their default closures (never run; `ContentView` passes all of
+  them). `DragPress` got public initializers and `isClick`.
+- (2026-11-26) Unreachable code restructured: `ReferenceLabel.anchor`'s early return for a gate
+  made the switch's `.gate` case dead; the gate now skips the turned path and takes the switch
+  case (same result, turned or not, tested). `StackupAnalysis.ellipticRatio`'s AGM loop had a
+  `return` after 40 steps no modulus reaches; it is now one `while` bounded by 40 steps.
+- (2026-11-26) `ScrollPanNSView` is no longer private and its check is `takes(_:at:modifiers:dx:dy:)`
+  (`handle` wraps it): a scroll `NSEvent` made in a test carries the pointer's location, not the
+  one set on its `CGEvent`, and the local monitor never sees one sent through the app, so the test
+  finds the view in its window and hands it scrolls directly.
+- (2026-11-26) `@State` defaults made explicit in `init`s (xccov never counts a default):
+  `ReferenceSection`, `WidthCalculatorSheet`, `ValueField`.
+- (2026-11-26) Picker tests host panels in a `.columns` form: a grouped form's menu pickers never
+  fill their menus in the test host (as plan-68-AI found). Board lengths snap to the trace grid, so
+  the panel tests compare within `board.traceGrid`.
+- No bug found.
 
 ## Summary
 

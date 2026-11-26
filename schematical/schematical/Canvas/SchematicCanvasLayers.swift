@@ -9,17 +9,20 @@ struct DragPress {
     var location: CGPoint
     var translation: CGSize
 
-    init(_ value: DragGesture.Value) {
-        startLocation = value.startLocation
-        location = value.location
-        translation = value.translation
-    }
-
-    private init(startLocation: CGPoint, location: CGPoint, translation: CGSize) {
+    init(startLocation: CGPoint, location: CGPoint, translation: CGSize) {
         self.startLocation = startLocation
         self.location = location
         self.translation = translation
     }
+
+    /// A press from `start` to `location`, moved by the difference.
+    init(from start: CGPoint, to location: CGPoint) {
+        self.init(startLocation: start, location: location,
+                  translation: CGSize(width: location.x - start.x, height: location.y - start.y))
+    }
+
+    /// A press that ended about where it started, in screen points.
+    var isClick: Bool { hypot(translation.width, translation.height) < 3 }
 
     /// The same press with its start moved by `shift` (the canvas scrolled by
     /// that much), the pointer staying where it is.

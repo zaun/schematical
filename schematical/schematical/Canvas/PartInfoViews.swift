@@ -36,9 +36,18 @@ struct ReferenceSection: View {
     /// The page the sidebar is on; a rename goes on both pages' undo lists.
     let page: EditorPage
 
-    @State private var prefix = ""
-    @State private var number = ""
+    @State private var prefix: String
+    @State private var number: String
     @State private var referenceError: String?
+
+    init(document: SchematicDocument, chip: PlacedChip, page: EditorPage) {
+        self.document = document
+        self.chip = chip
+        self.page = page
+        _prefix = State(initialValue: "")
+        _number = State(initialValue: "")
+        _referenceError = State(initialValue: nil)
+    }
     @FocusState private var referenceFocus: ReferenceField?
 
     private enum ReferenceField { case prefix, number }

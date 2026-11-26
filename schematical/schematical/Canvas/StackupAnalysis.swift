@@ -190,11 +190,13 @@ nonisolated struct StackupAnalysis: Sendable {
     /// `K(k')/K(k)` for the modulus `k` through the arithmetic–geometric mean.
     private static func ellipticRatio(_ k: Double) -> Double {
         func agm(_ a: Double, _ b: Double) -> Double {
+            // It converges in a handful of steps for any modulus here; the
+            // bound only stops a pair that never meets to the last bit.
             var a = a, b = b
-            for _ in 0..<40 {
-                let next = ((a + b) / 2, (a * b).squareRoot())
-                if abs(next.0 - next.1) < 1e-15 { return next.0 }
-                (a, b) = next
+            var steps = 0
+            while abs(a - b) >= 1e-15, steps < 40 {
+                (a, b) = ((a + b) / 2, (a * b).squareRoot())
+                steps += 1
             }
             return a
         }

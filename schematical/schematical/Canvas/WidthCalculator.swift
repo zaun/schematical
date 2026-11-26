@@ -138,12 +138,12 @@ struct WidthCalculatorSheet: View {
     let apply: (Int) -> Void
 
     @Environment(\.dismiss) private var dismiss
-    @State private var kind = Kind.impedance
+    @State private var kind: Kind
     @State private var layer: CopperLayer
-    @State private var impedance = 50.0
-    @State private var differential = 100.0
+    @State private var impedance: Double
+    @State private var differential: Double
     @State private var gapMM: Double
-    @State private var amps = 1.0
+    @State private var amps: Double
     @State private var rise: Double
 
     init(document: SchematicDocument, layers: [CopperLayer], layer: CopperLayer, gapMM: Double,
@@ -151,7 +151,11 @@ struct WidthCalculatorSheet: View {
         self.document = document
         self.layers = layers
         self.apply = apply
+        _kind = State(initialValue: .impedance)
         _layer = State(initialValue: layer)
+        _impedance = State(initialValue: 50)
+        _differential = State(initialValue: 100)
+        _amps = State(initialValue: 1)
         _gapMM = State(initialValue: gapMM)
         _rise = State(initialValue: document.board.stackup.temperatureRise)
     }

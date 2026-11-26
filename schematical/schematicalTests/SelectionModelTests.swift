@@ -339,4 +339,19 @@ final class SelectionModelTests: XCTestCase {
         XCTAssertTrue(unselected.schematicSelection.isEmpty)
         XCTAssertTrue(unselected.boardSelection.isEmpty)
     }
+
+    /// plan-68-AJ: a group base is empty until it holds an item; the title
+    /// block alone counts, and the PCB's counts every kind it holds.
+    func testGroupBasesAreEmptyUntilTheyHoldAnItem() {
+        var schematic = SchematicGroupBase()
+        XCTAssertTrue(schematic.isEmpty)
+        schematic.titleBlock = CGPoint(x: 1, y: 2)
+        XCTAssertFalse(schematic.isEmpty)
+        var board = BoardGroupBase()
+        XCTAssertTrue(board.isEmpty)
+        board.vias[UUID()] = .zero
+        board.cutouts[UUID()] = .polygon([])
+        XCTAssertFalse(board.isEmpty)
+        XCTAssertEqual(board.count, 2)
+    }
 }
