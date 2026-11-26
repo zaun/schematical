@@ -12,6 +12,21 @@
   every lettered sub-plan, plus any edits to other plans it causes. Don't
   make one commit per sub-plan.
 
+## Source size and coverage
+
+- **No source file over 1000 lines of code.** Code lines are non-blank lines
+  that are not only comments. Scope and counting: `docs/testing.md`; check:
+  `node scripts/source-size.js --check` (also run by `ctest` as
+  `source_size_check`). When a file would go over, split it into logical
+  units that can be tested on their own — never into arbitrary halves — and
+  aim for no new file over 800.
+- **100% line coverage.** Every line of app, backend and script code is run
+  by a test. A change that adds or changes code adds the tests that run it
+  in the same commit. An unreachable line is deleted or restructured; there
+  is no exclusion list. Check: `node scripts/coverage.js --check`, run in
+  every plan's landing tier (it is not part of `ctest` or `xcodebuild
+  test`).
+
 ## Testing in the app
 
 - When you drive the real mouse to test the app (clicks, drags, hovers),

@@ -99,11 +99,11 @@ negotiate. Letters B–Z point here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-48 (timer / op-amp) is merged to `main`. Its worktree edits `PartCatalog.swift`, `SchematicCanvasView.swift`, `library_check.c` and `backend/CMakeLists.txt`, which this plan splits; the owner ruled it lands first. | `git log --oneline -1 --grep='plan-48-I: landing'` names a commit on `main`, and `ls planning/plan-48-*.md` → no matches (archived) | MET (2026-11-25: merged at `e2f6811a`; the branch is gone, so `git branch --list worktree-P-48` → no output; `ls planning/plan-48-*.md` → no matches) |
-| The backend tests pass on the starting tree | `CT` → `100% tests passed` | MET (2026-11-25 at `e2f6811a`: 77 of 77) |
-| The plan number is free | `ls planning planning/completed \| grep -c '^plan-68'` → only this plan's files | MET (2026-11-25: 0 before these files were written) |
-| Xcode's coverage tools are present | `xcrun --find llvm-cov` and `xcrun --find llvm-profdata` and `xcrun --find xccov` each print a path | MET (2026-11-25: all three, Xcode 26.3 17C529) |
-| node has the built-in test coverage | `node --help \| grep -c experimental-test-coverage` → `1` | MET (2026-11-25: node v24.12.0) |
+| plan-48 (timer / op-amp) is merged to `main`. Its worktree edits `PartCatalog.swift`, `SchematicCanvasView.swift`, `library_check.c` and `backend/CMakeLists.txt`, which this plan splits; the owner ruled it lands first. | `git log --oneline -1 --grep='plan-48-I: landing'` names a commit on `main`, and `ls planning/plan-48-*.md` → no matches (archived) | MET (re-run 2026-11-25 at plan start, `63e2f7d2`: `4d8148bb plan-48-I: landing gates met…`; `ls planning/plan-48-*.md` → no matches) |
+| The backend tests pass on the starting tree | `CT` → `100% tests passed` | MET (re-run at plan start, `63e2f7d2`: `100% tests passed, 0 tests failed out of 77`) |
+| The plan number is free | `ls planning planning/completed \| grep -c '^plan-68'` → only this plan's files | MET (re-run at plan start: 38 = the 37 plan files + `plan-68-data`) |
+| Xcode's coverage tools are present | `xcrun --find llvm-cov` and `xcrun --find llvm-profdata` and `xcrun --find xccov` each print a path | MET (re-run at plan start: all three print a path) |
+| node has the built-in test coverage | `node --help \| grep -c experimental-test-coverage` → `1` | MET (re-run at plan start: `1`) |
 
 Everything below is written against the world where these hold.
 
@@ -378,7 +378,7 @@ runs).
 
 Text only; safe alone.
 
-- [ ] `AGENTS.md`: a new `## Source size and coverage` section after `## Git`:
+- [x] `AGENTS.md`: a new `## Source size and coverage` section after `## Git`:
   - **No source file over 1000 lines of code.** Code lines are non-blank lines
     that are not only comments. Scope and counting: `docs/testing.md`; check:
     `node scripts/source-size.js --check` (also run by `ctest` as
@@ -391,16 +391,17 @@ Text only; safe alone.
     is no exclusion list. Check: `node scripts/coverage.js --check`, run in
     every plan's landing tier (it is not part of `ctest` or `xcodebuild
     test`).
-- [ ] `docs/testing.md` (new): the three test commands (`CT`, `XB`, `NT`, plus
+- [x] `docs/testing.md` (new): the three test commands (`CT`, `XB`, `NT`, plus
   `python3 -m unittest discover -s scripts/tests`), § 3.1 counting, § 3.2
   scope, § 3.3 coverage tiers, how to read `COV` output, the ratchets (§ 3.4)
   and that they are temporary (plan-68).
-- [ ] `docs/backend.md` § Tests: one line for `source_size_check` and
+- [x] `docs/backend.md` § Tests: one line for `source_size_check` and
   `basicsim`, pointing at `docs/testing.md`.
 
 Acceptance: both rules are in `AGENTS.md` and the doc names every command.
   Check: `grep -c '1000 lines of code\|100% line coverage' AGENTS.md` → 2, and
   `grep -c 'source-size.js\|coverage.js' docs/testing.md` → at least 2 (est. 1 s).
+  Observed: `2` and `2`.
 Commit: —
 
 ### Phase 2 — the size checker and its ctest

@@ -893,6 +893,7 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
 
 `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build && ctest --test-dir /tmp/logic-build`
 
+- `source_size_check` — no in-scope file over 1000 lines of code (`scripts/source-size.js --check`; rules and coverage in [testing.md](testing.md)). `basicsim` (built from `basicsim/`, which also builds this tree) is a test there too.
 - `library_check` — the loader's rules, every rejection case.
 - `listing_check`, `trace_check` — every part's facts and a hash of its
   simulated behavior against `tests/golden/` (recorded from the original C
