@@ -164,7 +164,7 @@ Acceptance: the old program, on the moved benches, prints what it printed.
   (`diff` → no output) (est. 1 min).
   Observed: moot as a separate step — Phase 1 and Phase 2 landed together
   (Corrections); Phase 2's check, which is strictly stronger, passed.
-Commit: —
+Commit: 461b37d2
 
 ### Phase 2 — the thirteen programs
 
@@ -187,7 +187,7 @@ file is at or under 800 code lines.
   `test-output-before/serial_test.txt` (`diff` → no output), each program
   prints `PASS`; the largest new file is `serial_intel_test.c` at 711 code
   lines; `SZ` → exit 0; `CT` → `100% tests passed, 0 tests failed out of 90`.
-Commit: —
+Commit: 461b37d2
 
 ## Validation Plan
 

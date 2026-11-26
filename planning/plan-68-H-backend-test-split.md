@@ -105,9 +105,13 @@ proves each `.json` equals the literal's value before the literal is deleted.
 
 ### Phase 1 — the JSON fixtures out of C
 
-- [ ] `read_test_fixture` in `tests/support/read_file.{c,h}`; the serial
-  bench's `read_fixture` calls it.
-- [ ] Write `tests/fixtures/{counter,shift,latch}/{parts,footprints}.json`
+- [x] ~~`read_test_fixture` in `tests/support/read_file.{c,h}`; the serial
+  bench's `read_fixture` calls it.~~ — moot: `tests/support/read_file.h`
+  already has `char *read_file(const char *path)`, and every test program
+  has `GOLDEN_DIR` (`logic_test`'s compile definition), so each program reads
+  `read_file(GOLDEN_DIR "/../fixtures/<area>/<file>")` directly; a second
+  helper would only wrap that one call.
+- [x] Write `tests/fixtures/{counter,shift,latch}/{parts,footprints}.json`
   from the literals by a throwaway C program that prints each literal (so the
   compiler does the unescaping); then `counter_test.c`, `shift_test.c`,
   `latch_test.c` read the files and the literals are deleted.
@@ -117,6 +121,13 @@ Acceptance: the three programs load the same text and print what they printed.
   assertion in each program passes once (then removed); `CT -R
   'counter_test|shift_test|latch_test|serial_'` → pass; each program's sorted
   output equals its `test-output-before` file (est. 2 min).
+  Observed: the files were written by compiling each literal into a
+  throwaway program that prints it (`planning/plan-68-data/fixtures_out.py`),
+  so the compiler did the unescaping; what it printed is the literal after
+  the `dequote` every `load` applies (`'` → `"`), which makes the files plain
+  JSON and leaves `load`'s dequote a no-op on them (the script asserts no
+  `'` is left). The three programs' sorted output equals their
+  `test-output-before` files (`diff` → no output, exit 0 each).
 Commit: —
 
 ### Phase 2 — library_check, cpu_test, counter_test
