@@ -107,7 +107,7 @@ Acceptance: no uncovered line in these files.
   Check: `node scripts/coverage.js --app --tests <the classes the commit
   names> --only <file>` → no `path:line` for each file; `XB -only-testing`
   those classes → pass (est. 10 min: one scoped coverage build and run).
-Commit: —
+Commit: 3257c85c
 
 ### Phase 2 — 16 files, `SchematicClipboard.swift` … `WidthCalculator.swift`
 
@@ -121,7 +121,7 @@ Commit: —
 
 Acceptance: as Phase 1.
   Check: as Phase 1; `SZ` → exit 0 (est. 10 min).
-Commit: —
+Commit: 3257c85c
 
 ## Validation Plan
 
@@ -162,6 +162,8 @@ Commit: —
   fill their menus in the test host (as plan-68-AI found). Board lengths snap to the trace grid, so
   the panel tests compare within `board.traceGrid`.
 - No bug found.
+- (parent) **One commit.** The letter's phases landed together, so its Commit lines
+  name the same commit.
 
 ## Summary
 
