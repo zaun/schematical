@@ -403,6 +403,25 @@ static void shape_of(const cJSON *device, char *out, size_t cap) {
     }
 }
 
+/* The index of the device `id` in a kind's file, -1 when it has none. */
+static int device_index(const char *file, const char *id) {
+    char *text = read_file(parts_path(file));
+    cJSON *root = cJSON_Parse(text);
+    const cJSON *devices = cJSON_GetObjectItemCaseSensitive(root, "devices");
+    int i, found = -1;
+
+    for (i = 0; i < cJSON_GetArraySize(devices) && found < 0; i++) {
+        const cJSON *each = cJSON_GetObjectItemCaseSensitive(cJSON_GetArrayItem(devices, i), "id");
+
+        if (cJSON_IsString(each) && strcmp(each->valuestring, id) == 0) {
+            found = i;
+        }
+    }
+    cJSON_Delete(root);
+    free(text);
+    return found;
+}
+
 /* Device `at` of a kind's file, alone, with its first part. */
 static char *nth_device(const char *file, int at, char **part_name) {
     char *text = read_file(parts_path(file));
@@ -578,9 +597,31 @@ int main(void) {
     long made;
     int shape_count = 0;
 
+    /* one line at a time, so a slow or crashing sweep shows how far it got */
+    setvbuf(stdout, NULL, _IOLBF, 0);
     logic_alloc_init();
     made = sweep("part_library_create", create_library, NULL);
     printf("ok   part_library_create (%ld allocations)\n", made);
+    {
+        /* A failed allocation records its call site (what a FAIL line prints
+           for atos); arming the next failure clears it. */
+        void *refused;
+        void *site;
+
+        logic_alloc_fail_at(1);
+        refused = logic_malloc(8);
+        site = logic_alloc_failed_site();
+        logic_alloc_fail_at(2);
+        if (refused != NULL || site == NULL || logic_alloc_failed_site() != NULL) {
+            printf("FAIL: the failed allocation's site: refused %p, site %p, after re-arming %p\n", refused, site,
+                   logic_alloc_failed_site());
+            failures++;
+        } else {
+            printf("ok   a failed allocation records its site (offset 0x%lx)\n",
+                   (unsigned long)((const char *)site - (const char *)_dyld_get_image_header(0)));
+        }
+        logic_alloc_fail_at(0);
+    }
 
     {
         char *footprints = subset("footprints.json", "footprints", "style", 0);
@@ -631,6 +672,44 @@ int main(void) {
             made = sweep("load_part_file with an inline datasheet", load_text, &ds_file);
             printf("ok   load_part_file, inline datasheet (%ld allocations)\n", made);
             part_library_unload_last_part_file(base);
+        }
+        {
+            /* A generic part (no shipped file has one: generic.json lists no
+               device), as generic_test writes it. */
+            static const char GENERIC[] =
+                "{\"format\":\"schematical-part\",\"version\":1,\"uuid\":\"B0000000-2222-4333-8444-5555555555AA\","
+                "\"kind\":\"generic\",\"devices\":[{\"id\":\"custom\",\"function\":\"Sensor\","
+                "\"description\":\"A sensor\",\"drawer\":[\"Custom\"],\"simulated\":false,"
+                "\"pinouts\":{\"default\":[{\"number\":1,\"name\":\"VCC\",\"role\":\"power\"},"
+                "{\"number\":2,\"name\":\"GND\",\"role\":\"ground\"},{\"number\":3,\"name\":\"OUT\",\"role\":\"output\"}]},"
+                "\"parts\":[{\"name\":\"OOM-GEN\",\"manufacturer\":\"Generic\",\"package\":\"SOT-23\","
+                "\"pinout\":\"default\",\"footprint\":\"SOT23-3\"}]}]}";
+            Load gen = {load_part_file, base, GENERIC, "oom-generic.schpart"};
+            char *name = NULL;
+            char *text = one_device("socket.json", &name);
+            cJSON *root = cJSON_Parse(text);
+            cJSON *part = cJSON_GetArrayItem(
+                cJSON_GetObjectItemCaseSensitive(cJSON_GetArrayItem(cJSON_GetObjectItemCaseSensitive(root, "devices"), 0),
+                                                 "parts"),
+                0);
+            PartLibrary *fresh = base_library();
+            char *finished;
+            Load sock = {load_parts, fresh, NULL, "socket.json"};
+
+            made = sweep("load_part_file, a generic part", load_text, &gen);
+            printf("ok   load_part_file, generic (%ld allocations)\n", made);
+            part_library_unload_last_part_file(base);
+            /* a socket part with a contact finish (no shipped socket names one) */
+            cJSON_AddStringToObject(part, "finish", "gold");
+            finished = cJSON_PrintUnformatted(root);
+            sock.text = finished;
+            made = sweep("load_parts socket.json with a finish", load_text, &sock);
+            printf("ok   load_parts, a socket's finish (%ld allocations)\n", made);
+            cJSON_free(finished);
+            cJSON_Delete(root);
+            cJSON_free(text);
+            free(name);
+            part_library_destroy(fresh);
         }
         made = sweep_removal("part_library_retire_part", base, PART_FILE, "6F1C2E8A-3B7D-4C55-9A61-0E2B4D7F9C1F", 1);
         printf("ok   part_library_retire_part (%ld allocations)\n", made);
@@ -699,7 +778,11 @@ int main(void) {
         char what[256];
 
         snprintf(what, sizeof what, "load_parts %s", files[i]);
+        /* Every kind's loader with each kind_alloc a chunk of its own, so each
+           allocation failing in turn reaches each NULL check (plan-68-L Phase 3). */
+        kind_arena_chunk = 16;
         made = sweep(what, load_text, &ld);
+        kind_arena_chunk = 64 * 1024;
         {
             int at[512];
             int n = shapes(files[i], at, 512), j;
@@ -712,7 +795,9 @@ int main(void) {
                 OnePart part = {all, other, 1, 1};
 
                 snprintf(what, sizeof what, "load_parts %s device %d", files[i], at[j]);
+                kind_arena_chunk = 16;
                 sweep(what, load_text, &each);
+                kind_arena_chunk = 64 * 1024;
                 if (other != NULL && simulated(all, other)) {
                     snprintf(what, sizeof what, "wired circuit of %s (%s)", other, files[i]);
                     part.runs = run_part(&part).ok;
@@ -752,6 +837,62 @@ int main(void) {
         free(files[i]);
     }
     part_library_destroy(all);
+    {
+        /* Loader sections the shapes above miss (their keys are nested, not
+           top-level), each on a real device, chunked (plan-68-L Phase 3). */
+        static const char *const EXTRA[][3] = {
+            {"converter.json", "DAC60504", ""}, /* pins.resetSelect.resets, protocol.triggers */
+            {"converter.json", "ADS7800", ""},  /* protocol.read as a map */
+            {"rtc.json", "BQ3285", ""},         /* clock.periodic, clock.ram */
+            {"leddriver.json", "MAX6957", ""},  /* display.ports sinkValues, pullupValues */
+            {"serial.json", "XR16C854", "intel"}, /* channels' irtx, on an intel bus */
+        };
+        size_t e;
+
+        for (e = 0; e < sizeof EXTRA / sizeof EXTRA[0]; e++) {
+            int at = device_index(EXTRA[e][0], EXTRA[e][1]);
+            char *other = NULL;
+            char *device;
+            PartLibrary *fresh;
+            Load each;
+            char what[128];
+
+            if (at < 0) {
+                printf("FAIL: %s has no device %s\n", EXTRA[e][0], EXTRA[e][1]);
+                failures++;
+                continue;
+            }
+            device = nth_device(EXTRA[e][0], at, &other);
+            if (strcmp(EXTRA[e][2], "intel") == 0) {
+                /* Every shipped part naming a channel's irtx has the
+                   intel-motorola bus, whose loader makes the Exar block first;
+                   with an intel bus (a part file may have one) the channel's
+                   irtx makes it. */
+                cJSON *root = cJSON_Parse(device);
+                cJSON *bus = cJSON_GetObjectItemCaseSensitive(cJSON_GetArrayItem(
+                    cJSON_GetObjectItemCaseSensitive(root, "devices"), 0), "bus");
+
+                cJSON_ReplaceItemInObjectCaseSensitive(bus, "style", cJSON_CreateString("intel"));
+                cJSON_free(device);
+                device = cJSON_PrintUnformatted(root);
+                cJSON_Delete(root);
+            }
+            fresh = base_library();
+            each.load = load_parts;
+            each.library = fresh;
+            each.text = device;
+            each.source = EXTRA[e][0];
+            snprintf(what, sizeof what, "load_parts %s %s%s%s, chunked", EXTRA[e][0], EXTRA[e][1], *EXTRA[e][2] ? " " : "",
+                     EXTRA[e][2]);
+            kind_arena_chunk = 16;
+            made = sweep(what, load_text, &each);
+            kind_arena_chunk = 64 * 1024;
+            printf("ok   %s (%ld allocations)\n", what, made);
+            part_library_destroy(fresh);
+            cJSON_free(device);
+            free(other);
+        }
+    }
 
     printf("ok   %d device shapes across the kinds\n", shape_count);
     made = sweep("erc_check with 3160 problems", erc_many, NULL);
@@ -793,6 +934,14 @@ int main(void) {
         }
         made = sweep("a timer among 9 diodes, 9 capacitors, 17 resistors", run_several, &rc);
         printf("ok   timer RC lists (%ld allocations)\n", made);
+        {
+            /* a pull-up the first RC link, so the link list first grows for it
+               (plan-68-L; power_timer wires the capacitor, part timer + 2) */
+            Several pulled = {lib, {"ICM7555ESA+", "PULLUP-5V", "AEA1616102M035R"}, 3, NULL, power_timer};
+
+            made = sweep("a timer whose first RC link is a pull-up", run_several, &pulled);
+            printf("ok   a pull-up's RC link (%ld allocations)\n", made);
+        }
         part_library_destroy(lib);
     }
     {

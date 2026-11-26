@@ -144,14 +144,37 @@ Commit: 16d39f16
 
 ### Phase 3 — the chunked arena over every kind's loader
 
-- [ ] After plan-68-M … S land: oom_test sets `kind_arena_chunk` over the
+- [x] After plan-68-M … S land: oom_test sets `kind_arena_chunk` over the
   per-kind `load_parts` sweep too, so every kind's `kind_alloc` NULL paths
   are run; each crash or leak it finds is fixed (the converter loader's
   `cvl_name_id` is one, Corrections), and the lines the model letters left
   as "kind_alloc NULL paths left for the parent" are gone.
+  Done: chunk 16 over each kind's first device and each device shape; extra
+  chunked sweeps for the loader sections no shape reaches (DAC60504's
+  `resetSelect`/`triggers`, ADS7800's read map, BQ3285's `periodic`/`ram`,
+  MAX6957's port values, XR16C854's channel `irtx` on an intel bus), a
+  generic part file, a socket part with a `finish`, and a timer whose first
+  RC link is a pull-up; a direct check that a failed allocation records its
+  site (`logic_alloc_failed_site`). Fixed on the way: `cvl_space_index`
+  (Corrections). `LOGIC_COV_WORK=/tmp/p68-covB node scripts/coverage.js
+  --backend` → exit 0, `backend: 60195 lines, 0 uncovered, 100.00%`, no
+  ctest failure; oom_test alone → exit 0 in 215 s (with seven app builds
+  running alongside).
+
+- [x] (added: no letter covered it, and plan-68-AK needs the ratchet empty)
+  `basicsim/main.c` to no uncovered line: it takes an optional gate file,
+  and ctest runs each way it stops (no file, a file that is not JSON, a
+  missing part, a NAND too slow for a checkpoint) on fixtures written from
+  gate.json by `basicsim/tests/make_fixtures.py`.
+  Done: `ctest -R '^basicsim'` → 5 tests pass (`basicsim`,
+  `basicsim_no_file`, `basicsim_bad_file`, `basicsim_missing_part`,
+  `basicsim_slow_nand`); the coverage run above lists no line of
+  `basicsim/main.c` (115 lines). `logic_char`'s switch is a table now (its
+  `return '?'` after the full switch could not run); a failed run, a
+  mismatch and a missing part end in one place.
 
 Acceptance: no `kind_alloc`/`kind_strdup` NULL check is uncovered anywhere
-in `backend/src`.
+in `backend/src`, and `basicsim/main.c` has no uncovered line.
   Check: `node scripts/coverage.js --backend` → none of the listed lines is a
   `return` after a NULL `kind_alloc`/`kind_strdup`; oom_test passes.
 Commit: —
@@ -211,6 +234,17 @@ Commit: —
   re-runs the check for that. Fixed with `connector_contact_pins`
   (`connector.c`) used by the voltage check's join; the regression test is
   `circuit_misuse_test`'s `check_unplug_stops`.
+- **Phase 3, first run of the chunked per-kind sweep** (2026-11-26, with
+  M–S's tests in the tree): oom_test segfaulted on `converter.json`'s first
+  device: `cvl_space_index` stored an unchecked `kind_strdup` and counted
+  it, so the next lookup `strcmp`ed NULL. With converter, lcddriver,
+  leddriver and rtc skipped (a temporary local skip, since removed), every
+  other kind's file passed the chunked sweep. M had finished, so the parent
+  fixed `cvl_space_index` (both allocations checked before either is
+  stored); the whole oom_test then exits 0, converter.json (247
+  allocations), lcddriver.json (1753), leddriver.json (1441) and rtc.json
+  (810) included. (The `cvl_name_id` crash an earlier run hit was fixed
+  by M.)
 
 
 ## Summary

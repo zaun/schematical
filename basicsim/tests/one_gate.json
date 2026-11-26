@@ -1,0 +1,402 @@
+{
+ "format": "schematical-parts",
+ "version": 1,
+ "kind": "gate",
+ "devices": [
+  {
+   "id": "74_08",
+   "function": "AND",
+   "description": "Quad 2-input AND gate",
+   "drawer": [
+    "Logic",
+    "Gates"
+   ],
+   "note": "CD54AC08F3A, CD74AC08E, CD74AC08M, CD74AC08M96: VCC 1.5-5.5 V (cd74ac08 p.4) | 5962-9753401QCA, 5962-9753401QDA, SNJ54LVC08AJ, SNJ54LVC08AW, 5962-9753401Q2A, SNJ54LVC08AFK: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc08a p.5 (SN54LVC08A table)) | SN74LVC08AMDREP, SN74LVC08AMPWREP, SN74LVC08AQDREP, SN74LVC08AQPWREP, V62/04655-01XE, V62/04655-01YE, V62/04655-02XE, V62/04655-02YE: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc08a-ep p.2) | SN74LVC08AQPWRG4Q1, SN74LVC08AQPWRQ1, SN74LVC08AWBQARQ1: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc08a-q1 p.4) | SN54LS08J, SNJ54LS08J, SNJ54LS08W, SNJ54LS08FK: VCC 4.5-5.5 V (sn74ls08 p.4 (scan, SN54LS08 column)) | SN74S08D, SN74S08N: VCC 4.75-5.25 V (sn74ls08 p.5 (scan, SN74S08 column))",
+   "pinouts": {
+    "p14": [
+     {
+      "number": 1,
+      "name": "1A",
+      "role": "input",
+      "group": "gate-1"
+     },
+     {
+      "number": 2,
+      "name": "1B",
+      "role": "input",
+      "group": "gate-1"
+     },
+     {
+      "number": 3,
+      "name": "1Y",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "2A",
+      "role": "input",
+      "group": "gate-2"
+     },
+     {
+      "number": 5,
+      "name": "2B",
+      "role": "input",
+      "group": "gate-2"
+     },
+     {
+      "number": 6,
+      "name": "2Y",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 8,
+      "name": "3Y",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "3A",
+      "role": "input",
+      "group": "gate-3"
+     },
+     {
+      "number": 10,
+      "name": "3B",
+      "role": "input",
+      "group": "gate-3"
+     },
+     {
+      "number": 11,
+      "name": "4Y",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "4A",
+      "role": "input",
+      "group": "gate-4"
+     },
+     {
+      "number": 13,
+      "name": "4B",
+      "role": "input",
+      "group": "gate-4"
+     },
+     {
+      "number": 14,
+      "name": "VCC",
+      "role": "power"
+     }
+    ],
+    "lccc20": [
+     {
+      "number": 1,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 2,
+      "name": "1A",
+      "role": "input",
+      "group": "gate-1"
+     },
+     {
+      "number": 3,
+      "name": "1B",
+      "role": "input",
+      "group": "gate-1"
+     },
+     {
+      "number": 4,
+      "name": "1Y",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 6,
+      "name": "2A",
+      "role": "input",
+      "group": "gate-2"
+     },
+     {
+      "number": 7,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 8,
+      "name": "2B",
+      "role": "input",
+      "group": "gate-2"
+     },
+     {
+      "number": 9,
+      "name": "2Y",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 11,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 12,
+      "name": "3Y",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "3A",
+      "role": "input",
+      "group": "gate-3"
+     },
+     {
+      "number": 14,
+      "name": "3B",
+      "role": "input",
+      "group": "gate-3"
+     },
+     {
+      "number": 15,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 16,
+      "name": "4Y",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 18,
+      "name": "4A",
+      "role": "input",
+      "group": "gate-4"
+     },
+     {
+      "number": 19,
+      "name": "4B",
+      "role": "input",
+      "group": "gate-4"
+     },
+     {
+      "number": 20,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "gates": [
+    {
+     "op": "and",
+     "inputs": [
+      "1A",
+      "1B"
+     ],
+     "output": "1Y"
+    },
+    {
+     "op": "and",
+     "inputs": [
+      "2A",
+      "2B"
+     ],
+     "output": "2Y"
+    },
+    {
+     "op": "and",
+     "inputs": [
+      "3A",
+      "3B"
+     ],
+     "output": "3Y"
+    },
+    {
+     "op": "and",
+     "inputs": [
+      "4A",
+      "4B"
+     ],
+     "output": "4Y"
+    }
+   ],
+   "timing": {
+    "HC": {
+     "rise": 10,
+     "fall": 10,
+     "vcc": [
+      2,
+      6
+     ],
+     "note": "Typical at 4.5 V and 25 C. VCC 2-6 V (sn74hc08 p.4 (also cd74hc08 p.4, sn74hc08-q1 p.4: 2-6))"
+    },
+    "HCT": {
+     "rise": 15,
+     "fall": 15,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "Typical at 4.5 V and 25 C. VCC 4.5-5.5 V (sn74hct08 p.4 (also cd74hct08 p.4: 4.5-5.5))"
+    },
+    "HCS": {
+     "rise": 7,
+     "fall": 7,
+     "vcc": [
+      2,
+      6
+     ],
+     "note": "Typical at 4.5 V and 25 C, SN74HCS08. VCC 2-6 V (sn74hcs08 p.4 (also sn74hcs08-q1 p.4))"
+    },
+    "AC": {
+     "rise": 5.5,
+     "fall": 5.5,
+     "vcc": [
+      2,
+      6
+     ],
+     "note": "Typical at 5 V and 25 C. VCC 2-6 V (sn74ac08 p.4 (SN54/SN74 both 2-6; -q1 p.4, -ep p.4 same))"
+    },
+    "ACT": {
+     "rise": 6.5,
+     "fall": 6.5,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "Typical at 5 V and 25 C. VCC 4.5-5.5 V (sn74act08 p.4 (also cd74act08 p.4, -q1 p.4, -ep p.2))"
+    },
+    "AHC": {
+     "rise": 5.8,
+     "fall": 5.8,
+     "vcc": [
+      2,
+      5.5
+     ],
+     "note": "Typical at 5 V and 25 C (50 pF load), SN74AHC08. VCC 2-5.5 V (sn74ahc08 p.5 (VI max 5.5 = VCC max, so no inputMax; -ep p.3, q-q1 p.4 same))"
+    },
+    "AHCT": {
+     "rise": 5,
+     "fall": 5,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "Typical at 5 V and 25 C (15 pF load). VCC 4.5-5.5 V (sn74ahct08 p.5 (VI max 5.5 = VCC max, so no inputMax; -ep p.2, q-q1 p.4 same))"
+    },
+    "LV": {
+     "rise": 7.5,
+     "fall": 7.5,
+     "vcc": [
+      2,
+      5.5
+     ],
+     "note": "Typical at 3.3 V and 25 C (50 pF load), SN74LV08A. VCC 2-5.5 V (sn74lv08a p.5 (VI max 5.5 = VCC max, so no inputMax; -ep p.3, -q1 p.4 same))"
+    },
+    "LVC": {
+     "rise": 2.6,
+     "fall": 2.6,
+     "vcc": [
+      1.65,
+      3.6
+     ],
+     "inputMax": 5.5,
+     "note": "Typical at 3.3 V and 25 C (50 pF load), SN74LVC08A. VCC 1.65-3.6 V, inputs to 5.5 V (sn74lvc08a p.6 (SN74LVC08A table))"
+    },
+    "ALVC": {
+     "rise": 2.9,
+     "fall": 2.9,
+     "vcc": [
+      1.65,
+      3.6
+     ],
+     "note": "Max at 3.3 V, -40 to 85 C (SN74ALVC08 gives no typical). VCC 1.65-3.6 V (sn74alvc08 p.2 (VI max 3.6 = VCC max; -ep p.2, -q1 p.2 same))"
+    },
+    "AUC": {
+     "rise": 1,
+     "fall": 1,
+     "vcc": [
+      0.8,
+      2.7
+     ],
+     "inputMax": 3.6,
+     "note": "Typical at 1.8 V and 25 C (15 pF load), SN74AUC08. VCC 0.8-2.7 V, inputs to 3.6 V (sn74auc08 p.2)"
+    },
+    "LS": {
+     "rise": 8,
+     "fall": 10,
+     "vcc": [
+      4.75,
+      5.25
+     ],
+     "note": "Typical at 5 V and 25 C. (15 pF load). VCC 4.75-5.25 V (sn74ls08 p.4 (scan, SN74LS08 column))"
+    },
+    "ALS": {
+     "rise": 14,
+     "fall": 10,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "Maximum at 5 V over the recommended temperature range. VCC 4.5-5.5 V (sn74als08 p.2 (SN54ALS08 and SN74ALS08 both 4.5-5.5))"
+    },
+    "AS": {
+     "rise": 5.5,
+     "fall": 5.5,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "Maximum at 5 V over the recommended temperature range. VCC 4.5-5.5 V (sn74als08 p.3 (SN54AS08 and SN74AS08 both 4.5-5.5))"
+    },
+    "S": {
+     "rise": 4.5,
+     "fall": 5,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "Typical at 5 V and 25 C.(15 pF load). VCC 4.5-5.5 V (sn74ls08 p.5 (scan, SN54S08 column))"
+    },
+    "F": {
+     "rise": 3.8,
+     "fall": 3.6,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "note": "Typical at 5 V and 25 C. VCC 4.5-5.5 V (sn74f08 p.2)"
+    }
+   },
+   "parts": [
+    {
+     "name": "SN74LS08N",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "sn74ls08",
+     "package": "DIP",
+     "pinout": "p14",
+     "footprint": "PDIP-14",
+     "family": "LS"
+    }
+   ]
+  }
+ ]
+}

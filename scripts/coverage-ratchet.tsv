@@ -1,7 +1,5 @@
-3	backend/src/logic_alloc.c
 336	backend/tools/avr8js-oracle/oracle.js
 9	backend/tools/jsmooch-gen/run.js
-32	basicsim/main.c
 61	schematical/schematical/Automation/AutomationBoard.swift
 41	schematical/schematical/Automation/AutomationFolder.swift
 38	schematical/schematical/Automation/AutomationRead.swift
