@@ -142,9 +142,7 @@ static void *osc_create(const void *config) {
     OscState *state;
     size_t i;
 
-    if (hz == 0) {
-        return NULL;
-    }
+    /* hz >= 1: osc_load_part keeps defaultHz within minHz..maxHz, and minHz >= 1. */
     state = logic_malloc(sizeof(*state));
     if (state == NULL) {
         return NULL;

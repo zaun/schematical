@@ -556,14 +556,11 @@ static void powerswitch_timer(Sim *sim, SimInstance *instance, void *raw, uint32
     PowerSwitchState *state = raw;
     const PowerSwitchPins *pins = state->pins;
     const PowerSwitchElement *e;
-    size_t k = timer_id;
+    size_t k = timer_id;   /* < count: start and pin_changed schedule only a switch k < count */
     LogicValue vin;
     unsigned char want;
     size_t i;
 
-    if (k >= pins->count) {
-        return;
-    }
     e = &pins->device->elements[k];
     vin = read_input(sim, instance, pins, k);
     if (vin == LOGIC_X) {

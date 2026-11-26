@@ -301,12 +301,10 @@ static void *eeprom_create(const void *config) {
     return state;
 }
 
+/* Never NULL: the engine destroys only states create returned, and eeprom_create passes its own. */
 static void eeprom_destroy(void *raw) {
     EepromState *state = raw;
 
-    if (state == NULL) {
-        return;
-    }
     logic_free(state->value);
     logic_free(state->known);
     logic_free(state->buf_value);

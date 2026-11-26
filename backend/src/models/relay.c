@@ -32,7 +32,6 @@
 #define RELAY_DELAY_PS 1000000000ULL   /* 1 ms, every relay, both ways */
 #define MAX_COILS 8
 #define MAX_POLES 8
-#define NONE ((size_t)-1)
 
 static const char *const DEVICE_KEYS[] = {"type", "coils", "latching", "contacts", NULL};
 static const char *const PART_KEYS[] = {"coilVolts", "coilOhms", "contactAmps", "contactVolts",
@@ -240,17 +239,67 @@ static void count_uses(const RelayDevice *device, const PartPin *pins, size_t pi
     }
 }
 
-/* The first pin of a name; NONE for a NULL name; NONE with an error set when it names no pin. */
+/* The first pin of a name (a coil's "a" and "b" are required, so never NULL); -1 with an error set
+   when it names no pin. */
 static int first_pin(KindContext *ctx, const PartPin *pins, size_t pin_count, const char *name,
                      size_t *tmp, size_t *out) {
-    if (name == NULL) {
-        *out = NONE;
-        return 0;
-    }
     if (kind_pins(ctx, pins, pin_count, name, tmp, pin_count) == 0) {
         return -1;
     }
     *out = tmp[0];
+    return 0;
+}
+
+/* The poles' contact sets and the same-name ties of every pin an entry uses. 0, or -1 with an
+   error set. */
+static int bind_poles(KindContext *ctx, const RelayDevice *device, const PartPin *pins, size_t pin_count,
+                      const Use *use, RelayPins *bound) {
+    size_t k;
+    size_t i;
+    size_t *common = kind_alloc(ctx, (pin_count + 1) * sizeof(*common));
+    size_t *other = kind_alloc(ctx, (pin_count + 1) * sizeof(*other));
+
+    if (common == NULL || other == NULL) {
+        return -1;
+    }
+    for (k = 0; k < device->info.poles; k++) {
+        const PoleEntry *pole = &device->pole[k];
+        size_t nc_count = kind_pins(ctx, pins, pin_count, pole->common, common, pin_count);
+        size_t n;
+
+        if (nc_count == 0) {
+            return -1;
+        }
+        for (i = 0; i < 2; i++) {
+            const char *name = i == 0 ? pole->no : pole->nc;
+            ContactSet *set = i == 0 ? &bound->no[k] : &bound->nc[k];
+
+            if (name == NULL) {
+                if (contacts_new(ctx, set, 0) != 0) {
+                    return -1;
+                }
+                continue;
+            }
+            n = kind_pins(ctx, pins, pin_count, name, other, pin_count);
+            if (n == 0 || contacts_new(ctx, set, nc_count * n) != 0) {
+                return -1;
+            }
+            contacts_cross(set, common, nc_count, other, n);
+        }
+        bound->channel[k] = device->info.latching ? 0 : pole->coil - 1;
+    }
+    /* Every name an entry uses: its pins are one node. */
+    for (i = 0; i < pin_count; i++) {
+        size_t j;
+
+        for (j = 0; j < i && strcmp(pins[j].name, pins[i].name) != 0; j++) {
+        }
+        if (use[i].entries > 0 && j == i) {         /* the first pin of a name an entry uses */
+            size_t n = kind_pins(ctx, pins, pin_count, pins[i].name, other, pin_count);
+
+            contacts_within(&bound->ties, other, n);
+        }
+    }
     return 0;
 }
 
@@ -306,57 +355,7 @@ static void *relay_bind_pinout(KindContext *ctx, const void *raw, const PartPin 
         }
         bound->polarized[k] = device->coil[k].polarized;
     }
-    {
-        size_t *common = kind_alloc(ctx, (pin_count + 1) * sizeof(*common));
-        size_t *other = kind_alloc(ctx, (pin_count + 1) * sizeof(*other));
-
-        if (common == NULL || other == NULL) {
-            return NULL;
-        }
-        for (k = 0; k < device->info.poles; k++) {
-            const PoleEntry *pole = &device->pole[k];
-            size_t nc_count = kind_pins(ctx, pins, pin_count, pole->common, common, pin_count);
-            size_t n;
-
-            if (nc_count == 0) {
-                return NULL;
-            }
-            for (i = 0; i < 2; i++) {
-                const char *name = i == 0 ? pole->no : pole->nc;
-                ContactSet *set = i == 0 ? &bound->no[k] : &bound->nc[k];
-
-                if (name == NULL) {
-                    if (contacts_new(ctx, set, 0) != 0) {
-                        return NULL;
-                    }
-                    continue;
-                }
-                n = kind_pins(ctx, pins, pin_count, name, other, pin_count);
-                if (n == 0 || contacts_new(ctx, set, nc_count * n) != 0) {
-                    return NULL;
-                }
-                contacts_cross(set, common, nc_count, other, n);
-            }
-            bound->channel[k] = device->info.latching ? 0 : pole->coil - 1;
-        }
-        /* Every name an entry uses: its pins are one node. */
-        for (i = 0; i < pin_count; i++) {
-            size_t j;
-            size_t n;
-
-            if (use[i].entries == 0) {
-                continue;
-            }
-            for (j = 0; j < i && strcmp(pins[j].name, pins[i].name) != 0; j++) {
-            }
-            if (j < i) {
-                continue;                               /* not the first pin of its name */
-            }
-            n = kind_pins(ctx, pins, pin_count, pins[i].name, other, pin_count);
-            contacts_within(&bound->ties, other, n);
-        }
-    }
-    return bound;
+    return bind_poles(ctx, device, pins, pin_count, use, bound) == 0 ? bound : NULL;
 }
 
 /* A number above 0 and at most max, scaled by `unit` and rounded (at least 1); 0 when absent. */
@@ -545,12 +544,10 @@ static void relay_timer(Sim *sim, SimInstance *instance, void *raw, uint32_t tim
     RelayState *state = raw;
     const PartRelay *info = state->part->relay;
     const RelayPins *pins = state->pins;
-    size_t channel = timer_id;
+    size_t channel = timer_id;   /* < channels: relay_start and relay_pin_changed schedule only
+                                    a channel (a latching relay's 0, else a coil's own) */
     int want;
 
-    if (channel >= info->channels) {
-        return;
-    }
     want = state->armature[channel];
     if (!info->latching) {
         want = coil_drive(sim, instance, pins, channel) != 0;

@@ -117,9 +117,6 @@ TerminalPins *terminals_bind(KindContext *ctx, const char *what, const char *con
 }
 
 int terminals_contact(const TerminalPins *terminals, size_t k, size_t *a, size_t *b) {
-    if (terminals == NULL) {
-        return 0;
-    }
     if (k < terminals->main.count) {
         return contacts_at(&terminals->main, k, a, b);
     }

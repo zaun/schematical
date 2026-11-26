@@ -84,14 +84,15 @@ static void *diode_load_device(KindContext *ctx, const cJSON *json) {
     return device;
 }
 
-static int add_link(KindContext *ctx, DiodeLinks *links, size_t cap, size_t a, size_t c) {
-    if (links->count == cap) {
-        return kind_error(ctx, "too many diode links");
-    }
+/* The links fit in cap (diode_bind_pinout): a pair's anode and cathode
+   names are different, so their pins are disjoint and na * nc <= n * n / 4;
+   the same-name ties are 2 * (m - 1) per name of m pins, at most 2 * (n - 1)
+   in all; count * n * n / 4 + 2 * n - 2 < count * n * n + n for every
+   count >= 1. */
+static void add_link(DiodeLinks *links, size_t a, size_t c) {
     links->anode[links->count] = a;
     links->cathode[links->count] = c;
     links->count++;
-    return 0;
 }
 
 static void *diode_bind_pinout(KindContext *ctx, const void *raw, const PartPin *pins,
@@ -138,9 +139,7 @@ static void *diode_bind_pinout(KindContext *ctx, const void *raw, const PartPin 
             used[anodes[a]] = 1;
             for (c = 0; c < nc; c++) {
                 used[cathodes[c]] = 1;
-                if (add_link(ctx, links, cap, anodes[a], cathodes[c]) != 0) {
-                    return NULL;
-                }
+                add_link(links, anodes[a], cathodes[c]);
             }
         }
     }
@@ -158,9 +157,8 @@ static void *diode_bind_pinout(KindContext *ctx, const void *raw, const PartPin 
         }
         for (j = i + 1; j < pin_count; j++) {
             if (pins[j].role == PIN_INOUT && strcmp(pins[j].name, pins[i].name) == 0) {
-                if (add_link(ctx, links, cap, i, j) != 0 || add_link(ctx, links, cap, j, i) != 0) {
-                    return NULL;
-                }
+                add_link(links, i, j);
+                add_link(links, j, i);
             }
         }
     }

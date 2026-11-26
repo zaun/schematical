@@ -232,52 +232,41 @@ void smem_apply_pending(SmState *s) {
     Pending *p = &s->pend;
     uint32_t i;
 
-    switch (p->kind) {
-        case P_PAGE: {
-            int and_mode = s->dev->type == SM_FLASH;
+    if (p->kind == P_PAGE) {
+        int and_mode = s->dev->type == SM_FLASH;
 
-            for (i = 0; i < s->dev->page_size; i++) {
-                if (s->buf_loaded[i]) {
-                    smem_put_byte(s, s->page_base + i, s->buf_value[i], p->maybe ? 0 : s->buf_known[i],
-                             and_mode);
-                }
+        for (i = 0; i < s->dev->page_size; i++) {
+            if (s->buf_loaded[i]) {
+                smem_put_byte(s, s->page_base + i, s->buf_value[i], p->maybe ? 0 : s->buf_known[i],
+                              and_mode);
             }
-            break;
         }
-        case P_CORRUPT:
-            smem_corrupt_matching(s, p->addr, p->known, p->length);
-            break;
-        case P_ERASE:
-            erase_bytes(s, p->addr, p->length, p->maybe);
-            break;
-        case P_WRSR:
-        case P_WRSR_FLASH:
-            if (p->kind == P_WRSR_FLASH && s->dev->prot == PROT_BLOCK) {
-                if (p->maybe) {
-                    s->bp_known = 0;
-                    s->lock = TX;
-                } else {
-                    s->bp = (uint8_t)((p->value >> 2) & 1u);
-                    s->bp_known = (uint8_t)((p->value_known >> 2) & 1u);
-                    s->lock = !(p->value_known & 0x80) ? TX : (p->value & 0x80) ? T1 : T0;
-                }
-            } else if (p->kind == P_WRSR) {
-                if (p->maybe) {
-                    s->bp_known = 0;
-                    if (s->dev->prot == PROT_WPEN) {
-                        s->lock = TX;
-                    }
-                } else {
-                    s->bp = (uint8_t)((p->value >> 2) & 3u);
-                    s->bp_known = (uint8_t)((p->value_known >> 2) & 3u);
-                    if (s->dev->prot == PROT_WPEN) {
-                        s->lock = !(p->value_known & 0x80) ? TX : (p->value & 0x80) ? T1 : T0;
-                    }
-                }
+    } else if (p->kind == P_CORRUPT) {
+        smem_corrupt_matching(s, p->addr, p->known, p->length);
+    } else if (p->kind == P_ERASE) {
+        erase_bytes(s, p->addr, p->length, p->maybe);
+    } else if (p->kind == P_WRSR_FLASH && s->dev->prot == PROT_BLOCK) {
+        if (p->maybe) {
+            s->bp_known = 0;
+            s->lock = TX;
+        } else {
+            s->bp = (uint8_t)((p->value >> 2) & 1u);
+            s->bp_known = (uint8_t)((p->value_known >> 2) & 1u);
+            s->lock = !(p->value_known & 0x80) ? TX : (p->value & 0x80) ? T1 : T0;
+        }
+    } else if (p->kind == P_WRSR) {
+        if (p->maybe) {
+            s->bp_known = 0;
+            if (s->dev->prot == PROT_WPEN) {
+                s->lock = TX;
             }
-            break;
-        case P_NONE:
-            break;
+        } else {
+            s->bp = (uint8_t)((p->value >> 2) & 3u);
+            s->bp_known = (uint8_t)((p->value_known >> 2) & 3u);
+            if (s->dev->prot == PROT_WPEN) {
+                s->lock = !(p->value_known & 0x80) ? TX : (p->value & 0x80) ? T1 : T0;
+            }
+        }
     }
     p->kind = P_NONE;
 }
@@ -290,13 +279,12 @@ static void finish_busy(SmState *s) {
     }
 }
 
-/* Starts an operation taking `duration`; 0 applies it at once. */
+/* Starts an operation taking `duration`; 0 applies it at once. Only a flash operation can take 0
+   (an optional "writeStatus"): an eeprom's "writeCycle" is required above 0, and an F-RAM starts
+   none. */
 void smem_start_op(SmState *s, SimTime duration) {
     if (duration == 0) {
         smem_apply_pending(s);
-        if (s->dev->type == SM_EEPROM) {
-            s->wel = T0;
-        }
         return;
     }
     s->busy = 1;
@@ -390,9 +378,8 @@ static void sm_timer(Sim *sim, SimInstance *instance, void *raw, uint32_t timer_
     (void)timer_id;
     s->sim = sim;
     s->instance = instance;
-    if (s->passive || !s->busy) {
-        return;
-    }
+    /* The one timer is smem_start_op's, set while busy (no operation starts while busy, and a
+       passive state starts none), so the state is busy here. */
     if (sim_now(sim) >= s->busy_until) {
         finish_busy(s);
     }
@@ -457,11 +444,8 @@ static size_t sm_pin_count(const void *config) {
 }
 
 static void sm_destroy(void *raw) {
-    SmState *s = raw;
+    SmState *s = raw;   /* never NULL: the engine destroys only states sm_create returned */
 
-    if (s == NULL) {
-        return;
-    }
     logic_free(s->value);
     logic_free(s->known);
     logic_free(s->sprot);

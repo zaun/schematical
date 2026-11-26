@@ -389,9 +389,8 @@ static void analyze(Ctx *x, unsigned section, TimerState *out) {
     out->mode = TIMER_LATCH;
     out->reason = TIMER_OK;
     out->first_ps = out->high_ps = out->low_ps = 0;
-    if (!timer_section_pins(part, section, &pins)) {
-        return;
-    }
+    /* section < timer_count: circuit.c asks for each section of a timer part, so this is 1. */
+    (void)timer_section_pins(part, section, &pins);
     t = net_of(x, x->part, pins.thres);
     r = net_of(x, x->part, pins.trig);
     d = net_of(x, x->part, pins.disch);

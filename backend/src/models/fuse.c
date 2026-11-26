@@ -160,6 +160,10 @@ static int fuse_load_part(KindContext *ctx, const void *raw, const void *bound, 
 }
 
 int fuse_fixed_contact(const Part *part, size_t k, size_t *a, size_t *b) {
+    /* model_pins.h: 0 for a part of another kind (its bound is no TerminalPins). */
+    if (part == NULL || part->kind != PART_FUSE) {
+        return 0;
+    }
     return terminals_contact(part_internal(part)->bound, k, a, b);
 }
 

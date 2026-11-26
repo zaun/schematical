@@ -327,10 +327,9 @@ static size_t *expand_side(KindContext *ctx, const char *key, const char *const 
             kind_error(ctx, "\"%s\" is not a %s pin", names[i], commons ? "common" : "segment");
             return NULL;
         }
+        /* found >= 1: display7_bind_pinout checked that every segment and common pin is in the
+           pinout before it expands the sides. */
         found = kind_pins(ctx, pins, pin_count, names[i], indices, 64);
-        if (found == 0) {
-            return NULL;
-        }
         for (j = 0; j < found && n < pin_count; j++) {
             indices_out[n++] = indices[j];
         }

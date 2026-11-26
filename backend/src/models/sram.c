@@ -136,12 +136,10 @@ typedef struct {
 static void store(SramState *state, uint32_t address, uint32_t mask, uint32_t value, uint32_t known) {
     size_t page_index = address >> SRAM_PAGE_BITS;
     size_t offset = address & (SRAM_PAGE_WORDS - 1);
-    SramPage *page;
+    SramPage *page = state->pages[page_index];
 
-    if (address >= state->word_count) {
-        return;
-    }
-    page = state->pages[page_index];
+    /* address < word_count: every caller passes a fully known address of address_bits bits
+       (write_end after address_known, corrupt masked by word_count - 1). */
     if (page == NULL) {
         if ((known & mask) == 0) {
             return; /* storing X in a page that is still all X */
@@ -160,11 +158,9 @@ static void store(SramState *state, uint32_t address, uint32_t mask, uint32_t va
 static void fetch(const SramState *state, uint32_t address, uint32_t *value, uint32_t *known) {
     const SramPage *page;
 
+    /* address < word_count: a fully known address of address_bits bits, or memory_read's range. */
     *value = 0;
     *known = 0;
-    if (address >= state->word_count) {
-        return;
-    }
     page = state->pages[address >> SRAM_PAGE_BITS];
     if (page != NULL) {
         *value = page->value[address & (SRAM_PAGE_WORDS - 1)];
@@ -260,10 +256,9 @@ static int read_select(Sim *sim, SimInstance *instance, const SramState *state) 
     return all_of(levels, count);
 }
 
-static int read_low_active(Sim *sim, SimInstance *instance, size_t pin, int missing) {
-    if (pin == SRAM_NO_PIN) {
-        return missing;
-    }
+/* OE#, WE# and the byte enables are always bound (a device names OE# and WE#; a lane's byte
+   enable is read only when the device has byte enables). */
+static int read_low_active(Sim *sim, SimInstance *instance, size_t pin) {
     return level_of(sim_read_pin(sim, instance, pin), 0);
 }
 
@@ -307,11 +302,11 @@ static int sync_inputs(Sim *sim, SimInstance *instance, SramState *state) {
     }
 
     update_control(&state->sel, read_select(sim, instance, state), now);
-    update_control(&state->oe, read_low_active(sim, instance, state->oe_pin, 1), now);
-    update_control(&state->we, read_low_active(sim, instance, state->we_pin, 0), now);
+    update_control(&state->oe, read_low_active(sim, instance, state->oe_pin), now);
+    update_control(&state->we, read_low_active(sim, instance, state->we_pin), now);
     for (i = 0; i < state->lane_count; i++) {
         int level = state->be_count > 0
-            ? read_low_active(sim, instance, state->be_pin[i], 0)
+            ? read_low_active(sim, instance, state->be_pin[i])
             : 1;
         update_control(&state->be[i], level, now);
     }
@@ -1000,13 +995,11 @@ static void *sram_create(const void *config) {
     return state;
 }
 
+/* Never NULL: the engine destroys only states sram_create returned. */
 static void sram_destroy(void *raw) {
     SramState *state = raw;
     size_t i;
 
-    if (state == NULL) {
-        return;
-    }
     for (i = 0; i < state->page_count; i++) {
         logic_free(state->pages[i]);
     }

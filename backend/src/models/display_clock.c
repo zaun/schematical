@@ -165,7 +165,7 @@ void clock_pin(CvState *s, const ClockCfg *k, ClockState *c, size_t pin) {
     }
 }
 
-/* A clock timer; returns 1 when `id` was one of its own. */
+/* A clock timer (an id with kind bits: every one is the clock's own); returns 1. */
 int clock_timer(CvState *s, const ClockCfg *k, ClockState *c, uint32_t id) {
     unsigned kind = (id >> 24) & 0xFu, i = (id >> 16) & 0xFFu;
     uint32_t gen = id & 0xFFFFu;
@@ -187,9 +187,8 @@ int clock_timer(CvState *s, const ClockCfg *k, ClockState *c, uint32_t id) {
         schedule_tick(s, c);
         return 1;
     }
-    if ((kind != CK_DEBOUNCE && kind != CK_REPEAT) || i >= k->key_count) {
-        return 0;
-    }
+    /* CK_DEBOUNCE or CK_REPEAT of key i < key_count: tid() makes these three kinds only, each
+       for a key of this device. */
     {
         ClkKey *key = &c->key[i];
 
@@ -216,13 +215,12 @@ int clock_timer(CvState *s, const ClockCfg *k, ClockState *c, uint32_t id) {
             sim_schedule_timer(s->sim, s->inst, tid(CK_REPEAT, i, key->gen), scaled(s, k, k->first_ps));
             return 1;
         }
-        if (c->test) {
-            return 1;
+        if (!c->test) {             /* both held: nothing steps */
+            step(c, k, i);
+            sim_schedule_timer(s->sim, s->inst, tid(CK_REPEAT, i, key->gen), scaled(s, k, k->repeat_ps));
         }
-        step(c, k, i);
-        sim_schedule_timer(s->sim, s->inst, tid(CK_REPEAT, i, key->gen), scaled(s, k, k->repeat_ps));
+        return 1;
     }
-    return 1;
 }
 
 /* ---- What is lit ----------------------------------------------------------------------------- */
@@ -288,10 +286,3 @@ int clock_lit(const CvState *s, const ClockCfg *k, const ClockState *c, unsigned
     return 0;
 }
 
-/* The snapshot a bench reads: 12-hour face, hour 0-23, minute, second. */
-void clock_time(const ClockState *c, int *h12, int *hour, int *min, int *sec) {
-    *h12 = c->h12;
-    *hour = c->hour;
-    *min = c->min;
-    *sec = c->sec;
-}

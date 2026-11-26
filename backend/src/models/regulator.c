@@ -383,7 +383,7 @@ static int regulator_load_part(KindContext *ctx, const void *raw, const void *bo
     uint32_t *vref = kind_alloc(ctx, (device->count + 1) * sizeof(*vref));
     uint32_t vout_max = 0, vin_min = 0, vin_max = 0, dropout = 0;
     uint64_t iout = 0, iq = 0, fsw = 0;
-    int any_linear = 0, any_switching = 0, any_fixed = 0, any_adjust = 0;
+    int any_linear = 0, any_switching = 0;
     size_t k;
 
     (void)bound;
@@ -393,8 +393,6 @@ static int regulator_load_part(KindContext *ctx, const void *raw, const void *bo
     for (k = 0; k < device->count; k++) {
         any_linear |= device->elements[k].linear;
         any_switching |= !device->elements[k].linear;
-        any_adjust |= device->elements[k].adjust != NULL;
-        any_fixed |= device->elements[k].adjust == NULL;
     }
     if (per_element(ctx, json, "vout", 100, device->count, vout) != 0 ||
         per_element(ctx, json, "vref", 10, device->count, vref) != 0) {
@@ -417,10 +415,9 @@ static int regulator_load_part(KindContext *ctx, const void *raw, const void *bo
             }
         }
     }
-    if (any_fixed && any_adjust && !cJSON_IsArray(kind_member(ctx, json, "vout", 0))) {
-        return kind_error(ctx, "a regulator part with fixed and adjustable regulators gives \"vout\" and "
-                               "\"vref\" as arrays");
-    }
+    /* A part mixing fixed and adjustable regulators has given "vout" and "vref" as arrays: a single
+       "vout" is every element's (per_element), so the adjustable one refused it above, and with no
+       "vout" the fixed one did. */
     if (kind_member(ctx, json, "voutMax", 0) != NULL &&
         (volts_value(ctx, kind_member(ctx, json, "voutMax", 0), "voutMax", 1000, 0, &vout_max) != 0)) {
         return -1;
@@ -634,14 +631,11 @@ static LogicValue read_input(const Sim *sim, const SimInstance *instance, const 
 static void regulator_timer(Sim *sim, SimInstance *instance, void *raw, uint32_t timer_id) {
     RegulatorState *state = raw;
     const RegulatorPins *pins = state->pins;
-    size_t k = timer_id;
+    size_t k = timer_id;   /* < count: start and pin_changed schedule only an element k < count */
     LogicValue vin;
     unsigned char want;
     size_t i;
 
-    if (k >= pins->count) {
-        return;
-    }
     vin = read_input(sim, instance, pins, k);
     if (vin == LOGIC_X) {
         want = REG_X;

@@ -1,0 +1,576 @@
+{
+ "format": "schematical-parts",
+ "version": 1,
+ "kind": "sram",
+ "devices": [
+  {
+   "id": "r68-sram-twr",
+   "function": "8 KB",
+   "description": "fixture",
+   "drawer": [],
+   "pinouts": {
+    "p28": [
+     {
+      "number": 1,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 2,
+      "name": "A12",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 3,
+      "name": "A7",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 4,
+      "name": "A6",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 5,
+      "name": "A5",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 6,
+      "name": "A4",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 7,
+      "name": "A3",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 8,
+      "name": "A2",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 9,
+      "name": "A1",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 10,
+      "name": "A0",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 11,
+      "name": "DQ0",
+      "role": "inout"
+     },
+     {
+      "number": 12,
+      "name": "DQ1",
+      "role": "inout"
+     },
+     {
+      "number": 13,
+      "name": "DQ2",
+      "role": "inout"
+     },
+     {
+      "number": 14,
+      "name": "Vss",
+      "role": "ground"
+     },
+     {
+      "number": 15,
+      "name": "DQ3",
+      "role": "inout"
+     },
+     {
+      "number": 16,
+      "name": "DQ4",
+      "role": "inout"
+     },
+     {
+      "number": 17,
+      "name": "DQ5",
+      "role": "inout"
+     },
+     {
+      "number": 18,
+      "name": "DQ6",
+      "role": "inout"
+     },
+     {
+      "number": 19,
+      "name": "DQ7",
+      "role": "inout"
+     },
+     {
+      "number": 20,
+      "name": "CE#",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 21,
+      "name": "A10",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 22,
+      "name": "OE#",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 23,
+      "name": "A11",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 24,
+      "name": "A9",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 25,
+      "name": "A8",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 26,
+      "name": "CE2",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "WE#",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 28,
+      "name": "Vcc",
+      "role": "power"
+     }
+    ]
+   },
+   "address": [
+    "A0",
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9",
+    "A10",
+    "A11",
+    "A12"
+   ],
+   "data": [
+    "DQ0",
+    "DQ1",
+    "DQ2",
+    "DQ3",
+    "DQ4",
+    "DQ5",
+    "DQ6",
+    "DQ7"
+   ],
+   "chipEnable": [
+    "CE#"
+   ],
+   "chipEnableHigh": [
+    "CE2"
+   ],
+   "outputEnable": "OE#",
+   "writeEnable": "WE#",
+   "byteEnable": [],
+   "grades": {
+    "55": {
+     "trc": 55,
+     "taa": 55,
+     "tace": 55,
+     "toe": 30,
+     "toh": 10,
+     "tclz": 10,
+     "tolz": 5,
+     "tchz": 20,
+     "tohz": 20,
+     "twc": 55,
+     "taw": 50,
+     "tcw": 50,
+     "twp": 45,
+     "tdw": 25,
+     "twhz": 20,
+     "tow": 5,
+     "vcc": [
+      2.7,
+      5.5
+     ],
+     "twr": 10,
+     "tdh": 5
+    }
+   },
+   "parts": [
+    {
+     "package": "DIP",
+     "pinout": "p28",
+     "footprint": "PDIP-28-600",
+     "grade": "55",
+     "name": "R68-SRAM-TWR"
+    }
+   ]
+  },
+  {
+   "id": "r68-sram-1be",
+   "function": "256 KB",
+   "description": "fixture",
+   "drawer": [],
+   "pinouts": {
+    "tsop2": [
+     {
+      "number": 1,
+      "name": "A4",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 2,
+      "name": "A3",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 3,
+      "name": "A2",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 4,
+      "name": "A1",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 5,
+      "name": "A0",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 6,
+      "name": "CE#",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 7,
+      "name": "DQ0",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "DQ1",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "DQ2",
+      "role": "inout"
+     },
+     {
+      "number": 10,
+      "name": "DQ3",
+      "role": "inout"
+     },
+     {
+      "number": 11,
+      "name": "Vcc",
+      "role": "power"
+     },
+     {
+      "number": 12,
+      "name": "Vss",
+      "role": "ground"
+     },
+     {
+      "number": 13,
+      "name": "DQ4",
+      "role": "inout"
+     },
+     {
+      "number": 14,
+      "name": "DQ5",
+      "role": "inout"
+     },
+     {
+      "number": 15,
+      "name": "DQ6",
+      "role": "inout"
+     },
+     {
+      "number": 16,
+      "name": "DQ7",
+      "role": "inout"
+     },
+     {
+      "number": 17,
+      "name": "WE#",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 18,
+      "name": "A16",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 19,
+      "name": "A15",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 20,
+      "name": "A14",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 21,
+      "name": "A13",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 22,
+      "name": "A12",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 23,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 24,
+      "name": "A11",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 25,
+      "name": "A10",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 26,
+      "name": "A9",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 27,
+      "name": "A8",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 28,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 29,
+      "name": "DQ8",
+      "role": "inout"
+     },
+     {
+      "number": 30,
+      "name": "DQ9",
+      "role": "inout"
+     },
+     {
+      "number": 31,
+      "name": "DQ10",
+      "role": "inout"
+     },
+     {
+      "number": 32,
+      "name": "DQ11",
+      "role": "inout"
+     },
+     {
+      "number": 33,
+      "name": "Vcc",
+      "role": "power"
+     },
+     {
+      "number": 34,
+      "name": "Vss",
+      "role": "ground"
+     },
+     {
+      "number": 35,
+      "name": "DQ12",
+      "role": "inout"
+     },
+     {
+      "number": 36,
+      "name": "DQ13",
+      "role": "inout"
+     },
+     {
+      "number": 37,
+      "name": "DQ14",
+      "role": "inout"
+     },
+     {
+      "number": 38,
+      "name": "DQ15",
+      "role": "inout"
+     },
+     {
+      "number": 39,
+      "name": "LB#",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 40,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 41,
+      "name": "OE#",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 42,
+      "name": "A7",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 43,
+      "name": "A6",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 44,
+      "name": "A5",
+      "role": "input",
+      "group": "address"
+     }
+    ]
+   },
+   "address": [
+    "A0",
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9",
+    "A10",
+    "A11",
+    "A12",
+    "A13",
+    "A14",
+    "A15",
+    "A16"
+   ],
+   "data": [
+    "DQ0",
+    "DQ1",
+    "DQ2",
+    "DQ3",
+    "DQ4",
+    "DQ5",
+    "DQ6",
+    "DQ7",
+    "DQ8",
+    "DQ9",
+    "DQ10",
+    "DQ11",
+    "DQ12",
+    "DQ13",
+    "DQ14",
+    "DQ15"
+   ],
+   "chipEnable": [
+    "CE#"
+   ],
+   "chipEnableHigh": [],
+   "outputEnable": "OE#",
+   "writeEnable": "WE#",
+   "byteEnable": [
+    "LB#"
+   ],
+   "grades": {
+    "55": {
+     "trc": 55,
+     "taa": 55,
+     "tace": 55,
+     "toe": 30,
+     "tba": 55,
+     "toh": 10,
+     "tclz": 10,
+     "tolz": 5,
+     "tblz": 10,
+     "tchz": 20,
+     "tohz": 20,
+     "tbhz": 25,
+     "twc": 55,
+     "taw": 50,
+     "tcw": 50,
+     "tbw": 50,
+     "twp": 45,
+     "tdw": 25,
+     "twhz": 20,
+     "tow": 5,
+     "vcc": [
+      2.7,
+      5.5
+     ]
+    }
+   },
+   "parts": [
+    {
+     "package": "TSOP-II",
+     "pinout": "tsop2",
+     "footprint": "TSOP2-44-400",
+     "grade": "55",
+     "name": "R68-SRAM-1BE"
+    }
+   ]
+  }
+ ]
+}

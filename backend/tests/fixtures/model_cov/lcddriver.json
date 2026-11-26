@@ -1,0 +1,668 @@
+{
+ "format": "schematical-parts",
+ "version": 1,
+ "kind": "lcddriver",
+ "devices": [
+  {
+   "id": "r68-pcf85176",
+   "function": "LCD",
+   "description": "fixture",
+   "drawer": [],
+   "pinouts": {
+    "p56": [
+     {
+      "number": 1,
+      "name": "BP2",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "BP1",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "BP3",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "S0",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "S1",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "S2",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "S3",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "S4",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "S5",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "S6",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "S7",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "S8",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "S9",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "S10",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "S11",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "S12",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "S13",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "S14",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "S15",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "S16",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "S17",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "S18",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "S19",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "S20",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "S21",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "S22",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "S23",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "S24",
+      "role": "output"
+     },
+     {
+      "number": 29,
+      "name": "S25",
+      "role": "output"
+     },
+     {
+      "number": 30,
+      "name": "S26",
+      "role": "output"
+     },
+     {
+      "number": 31,
+      "name": "S27",
+      "role": "output"
+     },
+     {
+      "number": 32,
+      "name": "S28",
+      "role": "output"
+     },
+     {
+      "number": 33,
+      "name": "S29",
+      "role": "output"
+     },
+     {
+      "number": 34,
+      "name": "S30",
+      "role": "output"
+     },
+     {
+      "number": 35,
+      "name": "S31",
+      "role": "output"
+     },
+     {
+      "number": 36,
+      "name": "S32",
+      "role": "output"
+     },
+     {
+      "number": 37,
+      "name": "S33",
+      "role": "output"
+     },
+     {
+      "number": 38,
+      "name": "S34",
+      "role": "output"
+     },
+     {
+      "number": 39,
+      "name": "S35",
+      "role": "output"
+     },
+     {
+      "number": 40,
+      "name": "S36",
+      "role": "output"
+     },
+     {
+      "number": 41,
+      "name": "S37",
+      "role": "output"
+     },
+     {
+      "number": 42,
+      "name": "S38",
+      "role": "output"
+     },
+     {
+      "number": 43,
+      "name": "S39",
+      "role": "output"
+     },
+     {
+      "number": 44,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 45,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 46,
+      "name": "SYNC",
+      "role": "inout",
+      "activeLow": true
+     },
+     {
+      "number": 47,
+      "name": "CLK",
+      "role": "inout"
+     },
+     {
+      "number": 48,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 49,
+      "name": "OSC",
+      "role": "input"
+     },
+     {
+      "number": 50,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 51,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 52,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 53,
+      "name": "SA0",
+      "role": "input"
+     },
+     {
+      "number": 54,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 55,
+      "name": "VLCD",
+      "role": "power"
+     },
+     {
+      "number": 56,
+      "name": "BP0",
+      "role": "output"
+     }
+    ]
+   },
+   "vcc": [
+    1.8,
+    5.5
+   ],
+   "analog": [
+    "VLCD"
+   ],
+   "bus": {
+    "style": "i2c",
+    "scl": "SCL",
+    "sda": "SDA",
+    "address": [
+     "SA0"
+    ],
+    "table": [
+     56,
+     57,
+     null,
+     null
+    ]
+   },
+   "registers": [
+    {
+     "name": "MODE",
+     "width": 4,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "M",
+       "bits": [
+        1,
+        0
+       ]
+      },
+      {
+       "name": "B",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "E",
+       "bits": [
+        3,
+        3
+       ]
+      }
+     ]
+    },
+    {
+     "name": "PTR",
+     "width": 6,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "P",
+       "bits": [
+        5,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SUB",
+     "width": 3,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "A",
+       "bits": [
+        2,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "BANK",
+     "width": 2,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "I",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "O",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "BLINK",
+     "width": 3,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "AB",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "BF",
+       "bits": [
+        1,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "HW",
+     "width": 3,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "A0",
+       "bits": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "A1",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "A2",
+       "bits": [
+        2,
+        2
+       ]
+      }
+     ]
+    }
+   ],
+   "protocol": {
+    "frame": "stream",
+    "commands": [
+     {
+      "name": "mode-set (C=1)",
+      "in": "110xebmm",
+      "set": {
+       "MODE.E": "e",
+       "MODE.B": "b",
+       "MODE.M": "m"
+      }
+     },
+     {
+      "name": "load-data-pointer (C=1)",
+      "in": "10pppppp",
+      "set": {
+       "PTR.P": "p"
+      }
+     },
+     {
+      "name": "device-select (C=1)",
+      "in": "11100aaa",
+      "set": {
+       "SUB.A": "a"
+      }
+     },
+     {
+      "name": "bank-select (C=1)",
+      "in": "111110io",
+      "set": {
+       "BANK.I": "i",
+       "BANK.O": "o"
+      }
+     },
+     {
+      "name": "blink-select (C=1)",
+      "in": "11110aff",
+      "set": {
+       "BLINK.AB": "a",
+       "BLINK.BF": "f"
+      }
+     },
+     {
+      "name": "mode-set (C=0)",
+      "in": "010xebmm",
+      "set": {
+       "MODE.E": "e",
+       "MODE.B": "b",
+       "MODE.M": "m"
+      },
+      "action": "lcdload"
+     },
+     {
+      "name": "load-data-pointer (C=0)",
+      "in": "00pppppp",
+      "set": {
+       "PTR.P": "p"
+      },
+      "action": "lcdload"
+     },
+     {
+      "name": "device-select (C=0)",
+      "in": "01100aaa",
+      "set": {
+       "SUB.A": "a"
+      },
+      "action": "lcdload"
+     },
+     {
+      "name": "bank-select (C=0)",
+      "in": "011110io",
+      "set": {
+       "BANK.I": "i",
+       "BANK.O": "o"
+      },
+      "action": "lcdload"
+     },
+     {
+      "name": "blink-select (C=0)",
+      "in": "01110aff",
+      "set": {
+       "BLINK.AB": "a",
+       "BLINK.BF": "f"
+      },
+      "action": "lcdload"
+     }
+    ]
+   },
+   "pins": {
+    "levels": [
+     {
+      "pin": "A0",
+      "field": "HW.A0"
+     },
+     {
+      "pin": "A1",
+      "field": "HW.A1"
+     },
+     {
+      "pin": "A2",
+      "field": "HW.A2"
+     }
+    ]
+   },
+   "display": {
+    "driver": "lcd",
+    "mode": {
+     "field": "MODE.M",
+     "values": {
+      "0": "1:4",
+      "1": "static",
+      "2": "1:2"
+     }
+    },
+    "backplanes": [
+     "BP0",
+     "BP1",
+     "BP2",
+     "BP3"
+    ],
+    "slots": {
+     "static": [
+      [
+       "BP0",
+       "BP1",
+       "BP2",
+       "BP3"
+      ]
+     ],
+     "1:2": [
+      [
+       "BP0",
+       "BP2"
+      ],
+      [
+       "BP1",
+       "BP3"
+      ]
+     ],
+     "1:4": [
+      [
+       "BP0"
+      ],
+      [
+       "BP1"
+      ],
+      [
+       "BP2"
+      ],
+      [
+       "BP3"
+      ]
+     ]
+    },
+    "segmentPins": [
+     "S0",
+     "S1",
+     "S2",
+     "S3",
+     "S4",
+     "S5",
+     "S6",
+     "S7",
+     "S8",
+     "S9",
+     "S10",
+     "S11",
+     "S12",
+     "S13",
+     "S14",
+     "S15",
+     "S16",
+     "S17",
+     "S18",
+     "S19",
+     "S20",
+     "S21",
+     "S22",
+     "S23",
+     "S24",
+     "S25",
+     "S26",
+     "S27",
+     "S28",
+     "S29",
+     "S30",
+     "S31",
+     "S32",
+     "S33",
+     "S34",
+     "S35",
+     "S36",
+     "S37",
+     "S38",
+     "S39"
+    ],
+    "ram": {
+     "bytes": 20,
+     "address": 0
+    },
+    "frameUs": 6487,
+    "enable": "MODE.E=1",
+    "outputBank": "BANK.O",
+    "load": {
+     "pointer": "PTR.P",
+     "step": {
+      "static": 8,
+      "1:2": 4,
+      "1:4": 2
+     },
+     "bank": "BANK.I"
+    }
+   },
+   "parts": [
+    {
+     "package": "TSSOP",
+     "pinout": "p56",
+     "footprint": "TSSOP-56",
+     "name": "R68-PCF85176"
+    }
+   ]
+  }
+ ]
+}

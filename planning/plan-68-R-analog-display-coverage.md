@@ -109,8 +109,33 @@ test written to match.
 
 ### Phase 1 — `serialmem.c`, `charlcd.c`, `relay.c`, `eeprom.c`, `regulator.c`, `sram.c`, `display7.c`, `timer_rc.c`
 
-- [ ] Re-run `COV --backend --only` for each file; close every line per § 3.
-- [ ] Ratchet rows removed for each file at 0.
+- [x] Re-run `COV --backend --only` for each file; close every line per § 3.
+  Observed: the letter's files went from 1203 uncovered lines (first run,
+  `LOGIC_COV_WORK=/tmp/logic-cov-R … --only backend/src`) to 138; what is left
+  is 135 lines that run only when `kind_alloc` / `kind_strdup` (or
+  `contacts_new`, which calls it) returns NULL, left for the parent's
+  `kind_arena_chunk` sweep in oom_test (not set by any test here), one
+  `logic_realloc` failure (timer_rc.c:202-203, add_link growing for a pull
+  link), and display_out.c:568-569 (see Corrections: a loader gap in
+  converter_load.c, another letter's file). New programs: kind_reject_cov_test
+  (276 loader cases as data in tests/fixtures/kind_reject/), model_pins_cov_test,
+  display_cov_test, tlc6983_cov_test, sram_cov_test, power_cov_test,
+  charlcd_cov_test, eeprom_cov_test, serialmem_cov_test, pcf1179c_cov_test,
+  display_out_cov_test (fixtures in tests/fixtures/model_cov/).
+  `ctest --test-dir /tmp/p68-build-R` → "100% tests passed, 0 tests failed out of 163".
+  Done by the parent (plan-68-L Phase 3): oom_test sweeps every kind's loader with
+  `kind_arena_chunk` 16, so the `kind_alloc` NULL returns left here run;
+  `LOGIC_COV_WORK=/tmp/p68-covB node scripts/coverage.js --backend` →
+  `backend: 60195 lines, 0 uncovered, 100.00%` (no ctest failure); this
+  letter's 39 coverage-ratchet rows removed.
+- [x] Ratchet rows removed for each file at 0.
+  Not done here: the letter does not edit scripts/coverage-ratchet.tsv (the
+  parent writes it once the kind_alloc paths are covered).
+  Done by the parent (plan-68-L Phase 3): oom_test sweeps every kind's loader with
+  `kind_arena_chunk` 16, so the `kind_alloc` NULL returns left here run;
+  `LOGIC_COV_WORK=/tmp/p68-covB node scripts/coverage.js --backend` →
+  `backend: 60195 lines, 0 uncovered, 100.00%` (no ctest failure); this
+  letter's 39 coverage-ratchet rows removed.
 
 Acceptance: these files have no uncovered line.
   Check: `node scripts/coverage.js --backend --only <file>` → no `path:line`
@@ -119,7 +144,14 @@ Commit: —
 
 ### Phase 2 — `timer.c`, `transistor.c`, `powerswitch.c`, `lcd.c`, `dekatron.c`, `display_out.c`, `resistor.c`, `nixie.c`, `diode.c`, `display_ccsi.c`, `connector.c`, `buzzer.c`, `opamp.c`, `switch.c`, `crystal.c`, `oscillator.c`, `display_clock.c`, `terminals.c`, `capacitor.c`, `fuse.c`, `inductor.c`, `generic.c`, `led.c`, `header.c`, `socket.c`, `supply.c`, `model_pins.c`
 
-- [ ] As Phase 1, for these files.
+- [x] As Phase 1, for these files (the same runs and programs; the same three
+  kinds of leftover lines). `node scripts/source-size.js --check` → exit 0;
+  every new test program is under 400 lines.
+  Done by the parent (plan-68-L Phase 3): oom_test sweeps every kind's loader with
+  `kind_arena_chunk` 16, so the `kind_alloc` NULL returns left here run;
+  `LOGIC_COV_WORK=/tmp/p68-covB node scripts/coverage.js --backend` →
+  `backend: 60195 lines, 0 uncovered, 100.00%` (no ctest failure); this
+  letter's 39 coverage-ratchet rows removed.
 
 Acceptance: as Phase 1, for these files.
   Check: as Phase 1; `SZ` → exit 0 (est. 2 min per run).
@@ -138,7 +170,65 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- **TLC6983 chip-index read (model bug, fixed).** display_ccsi.c decoded a
+  read only for IDs `AA6x` (`(id & 0xF0) == 0x60`), so the chip-index read
+  `AA70h` its own comment lists was never answered. The datasheet's register
+  map (tlc6983.pdf § 8.7, Table 8-5: "Chip Index R/W AA10h / AA70h") has it.
+  Fixed (`ID_INDEX_READ`); regression: tlc6983_cov_test "after CHIP_INDEX the
+  one chip on the chain reads index 0 (AA70)". No golden line changes
+  (trace_check and listing_check pass).
+- **TLC6983 scan after SCAN_NUM changes (behavior change).** A VSYNC that
+  applied a smaller SCAN_NUM left a line past the new count on until the next
+  scan step; display_out.c's CCSI pin path now re-applies the outputs when
+  the line count changes, so the scan restarts within the new count at once
+  (and apply's slot clamp is reachable). Regression: tlc6983_cov_test "after
+  SCAN_NUM 1 at VSYNC only LINE0 and LINE1 are scanned".
+- **Contract fix: inductor_fixed_contact / fuse_fixed_contact** answered for
+  any part (model_pins.h: "0 … for a part of another kind"); each now checks
+  its kind (a fuse passed to the inductor call read the wrong bound). Test:
+  model_pins_cov_test.
+- **Loader gap, not fixed (another letter's file).** converter_load.c checks
+  "action lcdload needs an lcd display with a load section" only inside
+  `if (dev->disp != NULL)`, so a device with an `lcdload` command and no
+  "display" loads, and disp_lcd_byte's `c == NULL` guard
+  (display_out.c:568-569) is the only thing between it and a NULL
+  dereference. Moving the check out of that `if` makes the whole guard
+  unreachable (the loader then guarantees an lcd display with a load).
+- **Dead code removed / restructured (callers read).** connector_contact_pins
+  (no caller then; the parent has since re-added it with a voltage.c caller);
+  ccsi_frames_dropped / ccsi_state and clock_time (no caller); the dropped
+  counter. Unreachable checks, each with the reason in a comment:
+  generic_bind_pinout's empty pinout (lib_load_pinout refuses it first);
+  crystal_create / osc_create hz == 0 (the loaders refuse it); diode's link
+  capacity and resistor's tie capacity (counting bound in the comment);
+  terminals_contact(NULL) (callers pass a bound TerminalPins); store / fetch
+  range checks in sram.c and read_low_active's missing pin (every caller
+  passes a known address / a bound pin); the NULL checks in sram_destroy,
+  eeprom_destroy and sm_destroy (the engine destroys only created states);
+  eeprom spoil_last's valid check (its only caller checked it); relay
+  first_pin(NULL) (coil names are required) and relay_timer's channel check;
+  the timer-id range checks in regulator, powerswitch, transistor and timer
+  (each schedules only its own k < count); timer_rc analyze's section check;
+  regulator's "fixed and adjustable … as arrays" error (a scalar vout is every
+  element's, so an earlier check refuses it); display7 expand_side's
+  found == 0 (bind checked every pin first); charlcd's status "RAM unknown,
+  AC known" bit (lose() makes both unknown); serialmem's zero-duration
+  EEPROM branch (an EEPROM's writeCycle is required above 0), sm_timer's
+  busy / passive guard (no operation starts while busy) and apply_pending's
+  P_NONE case (now an if-chain); display_out's DISP_CLOCK slot clamp (a clock
+  scans all its backplanes) and disp_timer's NULL guard; display_clock's
+  timer-kind check (tid() makes only the three kinds).
+  Restructured only for an llvm-cov zero-count artifact on a reachable line:
+  relay's pole binding (moved to bind_poles), charlcd's cursor/display shift
+  (moved to cursor_shift), display_out's ASCII7 case.
+- **Expectations corrected while writing tests** (the model was right): an X
+  on SI is a data bit, not an X transaction (serialmem's transaction X comes
+  from CS# / SCK / HOLD#, serial_target.c); the ICM7244 font's code for 'a'
+  (61h) is 21h, '!' (six bits, not upper-casing).
+- **(parent) The loader gap is fixed.** converter_load.c now refuses an `lcdload` on any device that lacks an lcd display with a load section (regression: converter_load_cov_test "lcdload without a display", plan-68-M's Corrections), so `disp_lcd_byte`'s guard (display_out.c:568-569) is unreachable and is gone.
+- **(parent) The last lines:** oom_test (plan-68-L Phase 3) now sweeps a generic part file (generic.c's `kind_alloc`), a socket part with a `finish` (socket.c), and a timer whose first RC link is a pull-up (timer_rc.c:202, the link list's first growth).
+- **(parent) One commit for both phases.** The letter's two phases landed
+  together, so both Commit lines name the same commit.
 
 ## Summary
 

@@ -400,6 +400,18 @@ logic_serial_test(serial_n68_ext_test serial_bench_d serial_bench_exar serial_be
 logic_serial_test(serial_n68_exar_test serial_bench_d serial_bench_exar serial_bench_n68)
 logic_serial_test(serial_n68_5g_test serial_bench_d serial_bench_exar serial_bench_n68)
 logic_serial_test(serial_n68_bridge_test serial_bench_maxim serial_bench_bridge serial_bench_n68)
+# plan-68-R
+logic_test(kind_reject_cov_test)
+logic_test(model_pins_cov_test)
+logic_test(display_cov_test)
+logic_test(tlc6983_cov_test)
+logic_test(sram_cov_test)
+logic_test(power_cov_test)
+logic_bench_test(charlcd_cov_test charlcd_bench)
+logic_test(eeprom_cov_test)
+logic_bench_test(serialmem_cov_test serialmem_bench)
+logic_test(pcf1179c_cov_test)
+logic_test(display_out_cov_test)
 # plan-68-Q
 logic_bench_test(logic_ff_cov_test q_cov_bench)
 logic_bench_test(counter_sync_cov_test q_cov_bench)

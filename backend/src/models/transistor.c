@@ -461,14 +461,11 @@ static void transistor_pin_changed(Sim *sim, SimInstance *instance, void *raw, s
 static void transistor_timer(Sim *sim, SimInstance *instance, void *raw, uint32_t timer_id) {
     TransistorState *state = raw;
     const TransistorPins *pins = state->pins;
-    size_t k = timer_id;
+    size_t k = timer_id;   /* < count: start and pin_changed schedule only an element k < count */
     LogicValue v;
     int want;
     size_t i;
 
-    if (k >= pins->count) {
-        return;
-    }
     v = sim_read_pin(sim, instance, pins->control[k]);
     want = pins->device->elements[k].on_level ? v == LOGIC_1 : v == LOGIC_0;
     if (want == state->on[k]) {

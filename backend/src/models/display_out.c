@@ -87,15 +87,10 @@ static uint32_t segments_of(DispDecode d, uint32_t value) {
         return CODEB_FONT[value & 0xFu];
     case DEC_BCD:
         return (value & 0xFu) <= 9 ? HEX_FONT[value & 0xFu] : 0;
-    case DEC_ASCII7: {
-        uint32_t c = value & 0x7Fu;
-
-        return c < 32 ? 0 : ASCII_FONT[c - 32];
-    }
-    case DEC_ASCII16:
+    case DEC_ASCII7:
+        return (value & 0x7Fu) < 32 ? 0 : ASCII_FONT[(value & 0x7Fu) - 32];
+    default:   /* DEC_ASCII16; DEC_NONE never comes here (is_decoded is 0 for it) */
         return ASCII16_FONT[value & 0x3Fu];
-    default:
-        return 0;
     }
 }
 
@@ -430,10 +425,7 @@ static void apply(CvState *s) {
     case DISP_PORTS:
         apply_ports(s, c);
         break;
-    case DISP_CLOCK:
-        if (st->slot >= c->bp_count) {
-            st->slot = 0;
-        }
+    case DISP_CLOCK:   /* slot < bp_count: a clock scans its backplanes, all of them (active_slots) */
         apply_clock(s, c, st->slot, st->frame);
         break;
     case DISP_CCSI:
@@ -502,11 +494,8 @@ int disp_start(CvState *s) {
 
 void disp_timer(CvState *s, uint32_t id) {
     const DispCfg *c = s->dev->disp;
-    DispState *st = s->disp;
+    DispState *st = s->disp;   /* a display that scans: only disp_start and this timer set CV_TM_DISP */
 
-    if (st == NULL || !scans(c)) {
-        return;
-    }
     if (st->clk != NULL && ((id >> 24) & 0xFu) != 0) {
         if (clock_timer(s, c->clock, st->clk, id)) {
             apply(s);
@@ -535,7 +524,12 @@ void disp_pin(CvState *s, size_t pin) {
         clock_pin(s, s->dev->disp->clock, st->clk, pin);
         apply(s);
     } else if (st != NULL && st->ccsi != NULL) {
+        unsigned lines = ccsi_lines(st->ccsi);
+
         ccsi_pin(s, s->dev->disp->ccsi, st->ccsi, pin);
+        if (ccsi_lines(st->ccsi) != lines) {
+            apply(s);   /* SCAN_NUM changed (at VSYNC): a line past the new count is no longer scanned */
+        }
     }
 }
 
@@ -570,9 +564,8 @@ void disp_lcd_byte(CvState *s, uint8_t byte) {
     unsigned mode, rows, offset = 0, j;
     uint32_t ptr, sub = 0, hw = 0;
 
-    if (c == NULL || c->driver != DISP_LCD || !c->has_load) {
-        return;
-    }
+    /* Only an lcdload command gets here, and the loader refuses one unless the
+       display is an lcd with a load section (converter_load.c). */
     mode = lcd_mode(s, c);
     rows = c->mode_slots[mode];
     if (c->has_in_bank && rows <= 2 && cv_field_get(s, &c->ld_bank) != 0) {

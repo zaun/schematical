@@ -1,0 +1,257 @@
+{
+ "format": "schematical-parts",
+ "version": 1,
+ "kind": "eeprom",
+ "devices": [
+  {
+   "id": "r68-at28c64b",
+   "function": "8 KB",
+   "description": "fixture",
+   "drawer": [],
+   "pinouts": {
+    "plcc32": [
+     {
+      "number": 1,
+      "name": "DC",
+      "role": "nc"
+     },
+     {
+      "number": 2,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 3,
+      "name": "A12",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 4,
+      "name": "A7",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 5,
+      "name": "A6",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 6,
+      "name": "A5",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 7,
+      "name": "A4",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 8,
+      "name": "A3",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 9,
+      "name": "A2",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 10,
+      "name": "A1",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 11,
+      "name": "A0",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 12,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 13,
+      "name": "I/O0",
+      "role": "inout"
+     },
+     {
+      "number": 14,
+      "name": "I/O1",
+      "role": "inout"
+     },
+     {
+      "number": 15,
+      "name": "I/O2",
+      "role": "inout"
+     },
+     {
+      "number": 16,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 17,
+      "name": "DC",
+      "role": "nc"
+     },
+     {
+      "number": 18,
+      "name": "I/O3",
+      "role": "inout"
+     },
+     {
+      "number": 19,
+      "name": "I/O4",
+      "role": "inout"
+     },
+     {
+      "number": 20,
+      "name": "I/O5",
+      "role": "inout"
+     },
+     {
+      "number": 21,
+      "name": "I/O6",
+      "role": "inout"
+     },
+     {
+      "number": 22,
+      "name": "I/O7",
+      "role": "inout"
+     },
+     {
+      "number": 23,
+      "name": "CE#",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 24,
+      "name": "A10",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 25,
+      "name": "OE#",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 26,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 27,
+      "name": "A11",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 28,
+      "name": "A9",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 29,
+      "name": "A8",
+      "role": "input",
+      "group": "address"
+     },
+     {
+      "number": 30,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 31,
+      "name": "WE#",
+      "role": "input",
+      "activeLow": true
+     },
+     {
+      "number": 32,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "address": [
+    "A0",
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9",
+    "A10",
+    "A11",
+    "A12"
+   ],
+   "data": [
+    "I/O0",
+    "I/O1",
+    "I/O2",
+    "I/O3",
+    "I/O4",
+    "I/O5",
+    "I/O6",
+    "I/O7"
+   ],
+   "chipEnable": "CE#",
+   "outputEnable": "OE#",
+   "writeEnable": "WE#",
+   "pageSize": 64,
+   "commandAddresses": [
+    "1555",
+    "0AAA"
+   ],
+   "protection": "off",
+   "grades": {
+    "R68": {
+     "tacc": 150,
+     "tce": 150,
+     "toe": 70,
+     "tdf": 50,
+     "tah": 50,
+     "twp": 100,
+     "tds": 50,
+     "twph": 50,
+     "tblc": 150000,
+     "twc": 10000000,
+     "vcc": [
+      4.5,
+      5.5
+     ],
+     "toh": 20,
+     "tdh": 10,
+     "toeh": 10
+    }
+   },
+   "parts": [
+    {
+     "package": "PLCC",
+     "pinout": "plcc32",
+     "footprint": "PLCC-32",
+     "name": "R68-AT28C64B",
+     "grade": "R68"
+    }
+   ]
+  }
+ ]
+}

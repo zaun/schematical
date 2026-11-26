@@ -136,7 +136,9 @@ static void *resistor_bind_pinout(KindContext *ctx, const void *raw, const PartP
         links->b[links->count] = bs[0];
         links->count++;
     }
-    /* Same-named pins: tied both ways, first pin to each other one. */
+    /* Same-named pins: tied both ways, first pin to each other one. A name
+       of m pins adds 2 * (m - 1) ties, so all of them are at most
+       2 * (pin_count - 1) and fit in tie_cap. */
     for (i = 0; i < pin_count; i++) {
         size_t j;
 
@@ -150,10 +152,6 @@ static void *resistor_bind_pinout(KindContext *ctx, const void *raw, const PartP
         }
         for (j = i + 1; j < pin_count; j++) {
             if (pins[j].role == PIN_INOUT && strcmp(pins[j].name, pins[i].name) == 0) {
-                if (links->tie_count + 2 > tie_cap) {
-                    kind_error(ctx, "too many same-named resistor pins");
-                    return NULL;
-                }
                 links->tie_from[links->tie_count] = i;
                 links->tie_to[links->tie_count++] = j;
                 links->tie_from[links->tie_count] = j;

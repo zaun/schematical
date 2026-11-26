@@ -271,11 +271,9 @@ static void record_unknown_write(Sim *sim, SimInstance *instance, EepromState *s
     }
 }
 
-/* A hold time after the latest load was missed: that byte is X. */
+/* A hold time after the latest load was missed: that byte is X. Only hold_checks calls it, after
+   it checked last_hold_valid. */
 static void spoil_last(EepromState *state) {
-    if (!state->last_hold_valid) {
-        return;
-    }
     state->last_known = 0;
     switch (state->last_target) {
         case LAST_BUFFER:

@@ -16,7 +16,6 @@
 
 
 #include <stdlib.h>
-#include <string.h>
 
 #include "converter_int.h"
 #include "display_ccsi.h"
@@ -25,7 +24,8 @@
 enum { LINES = 16, PIXELS = 16, MAX_FRAME = 2048, TX_MAX = 128 };
 
 enum { ID_FC0 = 0xAA00, ID_FC1, ID_FC2, ID_FC3, ID_FC4, ID_FC10 = 0xAA0A, ID_FC11,
-       ID_INDEX = 0xAA10, ID_SRAM = 0xAA30, ID_SOFT = 0xAA80, ID_VSYNC = 0xAAF0, ID_READ = 0x60 };
+       ID_INDEX = 0xAA10, ID_SRAM = 0xAA30, ID_SOFT = 0xAA80, ID_VSYNC = 0xAAF0, ID_READ = 0x60,
+       ID_INDEX_READ = 0xAA70 };
 
 typedef struct CcsiState {
     uint64_t fc[7];             /* FC0 FC1 FC2 FC3 FC4 FC10 FC11 */
@@ -40,7 +40,6 @@ typedef struct CcsiState {
     uint8_t tx[TX_MAX];
     size_t tx_len, tx_pos;
     LogicValue sclk;
-    unsigned dropped;           /* frames refused: bad length or check bit */
 } CcsiState;
 
 static const uint64_t FC_MASK[7] = {
@@ -141,24 +140,23 @@ static void write_sram(CcsiState *c, uint64_t unit) {
     }
 }
 
+/* A frame of n bits (the command and its data, without START and END); a bad length or check bit
+   drops it: nothing changes. */
 static void frame(CcsiState *c, size_t n) {
     unsigned id;
     size_t at, units;
     int slot;
 
     if (n < 17 || (n - 17) % 17 != 0) {
-        c->dropped++;
         return;
     }
     for (at = 0; at < n; at += 17) {
         if (c->bits[at + 16] != (uint8_t)!c->bits[at + 15]) {
-            c->dropped++;
-            return;
+                return;
         }
     }
     units = (n - 17) / 51;
     if ((n - 17) % 51 != 0) {
-        c->dropped++;
         return;
     }
     id = word_at(c->bits, 0);
@@ -187,18 +185,19 @@ static void frame(CcsiState *c, size_t n) {
             c->fc[1] = c->fc01_shadow[1] | (c->fc[1] & ~FC_MASK[1]);
         }
         c->has_shadow[0] = c->has_shadow[1] = 0;
-    } else if ((id & 0xFF00u) == 0xAA00u && (id & 0xF0u) == ID_READ) {
-        /* read: FC0-FC4 (AA60-64), FC10-11 (AA6A-B), FC12-15 (AA6C-F), chip index (AA70) */
+    } else if ((id & 0xFFF0u) == (0xAA00u | ID_READ) || id == ID_INDEX_READ) {
+        /* read (§ 8.7, Table 8-5 Register Maps): FC0-FC4 (AA60-64), FC10-11 (AA6A-B), FC12-15 (AA6C-F, the
+           LOD / LSD flags: none here, 0), chip index (AA70); AA65-69 are no register */
         uint64_t v = 0;
-        unsigned low = id & 0x1Fu;
+        unsigned low = id & 0x0Fu;
 
-        if (id == (0xAA00u | 0x70u)) {
+        if (id == ID_INDEX_READ) {
             v = (uint64_t)c->index;
         } else if (low <= 4) {
             v = c->fc[low];
         } else if (low == 0x0A || low == 0x0B) {
             v = c->fc[low - 5];
-        } else if (low < 0x0C || low > 0x0F) {
+        } else if (low < 0x0C) {
             return;
         }
         c->tx_len = c->tx_pos = 0;
@@ -265,17 +264,6 @@ void ccsi_pin(CvState *s, const CcsiCfg *k, CcsiState *c, size_t pin) {
 }
 
 /* ---- Outputs -------------------------------------------------------------------------------- */
-
-unsigned ccsi_frames_dropped(const CcsiState *c) {
-    return c->dropped;
-}
-
-void ccsi_state(const CcsiState *c, uint64_t *fc, unsigned *bank_sel, unsigned *line_count, unsigned *chan_count) {
-    memcpy(fc, c->fc, sizeof c->fc);
-    *bank_sel = c->bank_sel;
-    *line_count = c->line_count;
-    *chan_count = c->chan_count;
-}
 
 /* The slot's outputs: line `slot` low (when it is one of the 16 pins), the others released; each
    pixel's colour output high while its 16-bit gray is nonzero, in the displayed bank. */

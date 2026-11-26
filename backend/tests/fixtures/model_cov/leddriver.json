@@ -1,0 +1,220 @@
+{
+ "format": "schematical-parts",
+ "version": 1,
+ "kind": "leddriver",
+ "devices": [
+  {
+   "id": "r68-a16",
+   "function": "LED driver",
+   "description": "fixture",
+   "drawer": [],
+   "pinouts": {
+    "p": [
+     {
+      "number": 1,
+      "name": "CS",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "SCLK",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "DIN",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "DIG1",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "DIG2",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "SA1",
+      "role": "output"
+     },
+     {
+      "number": 7,
+      "name": "SA2",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "SB",
+      "role": "output"
+     },
+     {
+      "number": 9,
+      "name": "SC",
+      "role": "output"
+     },
+     {
+      "number": 10,
+      "name": "SD1",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "SD2",
+      "role": "output"
+     },
+     {
+      "number": 12,
+      "name": "SE",
+      "role": "output"
+     },
+     {
+      "number": 13,
+      "name": "SF",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "SG1",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "SG2",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "SH",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "SI",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "SJ",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "SK",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "SL",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "SM",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "VCC",
+      "role": "power"
+     },
+     {
+      "number": 23,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 24,
+      "name": "NC",
+      "role": "nc"
+     }
+    ]
+   },
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "bus": {
+    "style": "spi",
+    "cs": "CS",
+    "sclk": "SCLK",
+    "mosi": "DIN",
+    "mode": 0
+   },
+   "registers": [
+    {
+     "name": "DIGIT1",
+     "address": 1,
+     "width": 8,
+     "reset": 0,
+     "fields": []
+    },
+    {
+     "name": "DIGIT2",
+     "address": 2,
+     "width": 8,
+     "reset": 0,
+     "fields": []
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "W",
+      "in": "aaaaaaaa dddddddd",
+      "action": "write",
+      "address": "a",
+      "data": "d"
+     }
+    ]
+   },
+   "display": {
+    "driver": "digits",
+    "digits": 2,
+    "digitPins": [
+     "DIG1",
+     "DIG2"
+    ],
+    "digitActive": "high",
+    "segmentPins": [
+     "SA1",
+     "SA2",
+     "SB",
+     "SC",
+     "SD1",
+     "SD2",
+     "SE",
+     "SF",
+     "SG1",
+     "SG2",
+     "SH",
+     "SI",
+     "SJ",
+     "SK",
+     "SL",
+     "SM"
+    ],
+    "segmentActive": "high",
+    "ram": [
+     "DIGIT1",
+     "DIGIT2"
+    ],
+    "decode": "ascii16",
+    "scan": {
+     "periodUs": 100
+    }
+   },
+   "parts": [
+    {
+     "name": "R68-A16",
+     "package": "SOIC",
+     "pinout": "p",
+     "footprint": "SOIC-24W"
+    }
+   ]
+  }
+ ]
+}

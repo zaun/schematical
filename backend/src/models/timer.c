@@ -564,9 +564,8 @@ static void timer_timer(Sim *sim, SimInstance *instance, void *raw, uint32_t id)
         }
         return;
     }
-    if (index >= model->section_count) {
-        return;
-    }
+    /* index < section_count: a section's timers carry its own index (timer_id), and a timer has
+       1 or 2 sections. */
     section = &model->sections[index];
     if ((id >> 1) != section->epoch) {
         return;   /* a RESET or a newer start dropped it */

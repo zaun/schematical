@@ -1,0 +1,398 @@
+{
+ "format": "schematical-parts",
+ "version": 1,
+ "kind": "lcddriver",
+ "devices": [
+  {
+   "id": "r68-pcf1179c",
+   "function": "LCD clock",
+   "description": "fixture",
+   "drawer": [],
+   "pinouts": {
+    "so28": [
+     {
+      "number": 1,
+      "name": "S1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "DATA",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "OSC_IN",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "OSC_OUT",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 6,
+      "name": "MODE",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "VPP",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "TS",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "ENABLE",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "VDD",
+      "role": "power"
+     },
+     {
+      "number": 11,
+      "name": "FLASH",
+      "role": "input"
+     },
+     {
+      "number": 12,
+      "name": "SEL",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "S2",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "B4/C4",
+      "role": "output"
+     },
+     {
+      "number": 15,
+      "name": "G4/D4",
+      "role": "output"
+     },
+     {
+      "number": 16,
+      "name": "F4/E4",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "B3/C3",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "G3/A3/D3",
+      "role": "output"
+     },
+     {
+      "number": 19,
+      "name": "F3/E3",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "A4/COL",
+      "role": "output"
+     },
+     {
+      "number": 21,
+      "name": "B2/C2",
+      "role": "output"
+     },
+     {
+      "number": 22,
+      "name": "G2/D2",
+      "role": "output"
+     },
+     {
+      "number": 23,
+      "name": "F2/E2",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "B1/C1",
+      "role": "output"
+     },
+     {
+      "number": 25,
+      "name": "A2/A1/D1/E1/G1",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "AM/PM",
+      "role": "output"
+     },
+     {
+      "number": 27,
+      "name": "BP2",
+      "role": "output"
+     },
+     {
+      "number": 28,
+      "name": "BP1",
+      "role": "output"
+     }
+    ]
+   },
+   "vcc": [
+    3,
+    6
+   ],
+   "inputMax": 6.3,
+   "analog": [
+    "OSC_IN",
+    "OSC_OUT"
+   ],
+   "bus": {
+    "style": "none"
+   },
+   "display": {
+    "driver": "clock",
+    "backplanes": [
+     "BP1",
+     "BP2"
+    ],
+    "segmentPins": [
+     "B4/C4",
+     "G4/D4",
+     "F4/E4",
+     "B3/C3",
+     "G3/A3/D3",
+     "F3/E3",
+     "A4/COL",
+     "B2/C2",
+     "G2/D2",
+     "F2/E2",
+     "B1/C1",
+     "A2/A1/D1/E1/G1",
+     "AM/PM"
+    ],
+    "frameUs": 15625,
+    "mode": "MODE",
+    "flash": "FLASH",
+    "enable": "ENABLE",
+    "fast": "TS",
+    "data": "DATA",
+    "keys": [
+     {
+      "pin": "S1",
+      "unit": "hour"
+     },
+     {
+      "pin": "S2",
+      "unit": "minute"
+     }
+    ],
+    "debounceMs": 65,
+    "firstRepeatMs": 1000,
+    "repeatMs": 250,
+    "fastDivisor": 64,
+    "digits": [
+     {
+      "value": "hourTens",
+      "cells": [
+       {
+        "pin": "A2/A1/D1/E1/G1",
+        "bp": "BP2"
+       },
+       {
+        "pin": "B1/C1",
+        "bp": "BP1"
+       },
+       {
+        "pin": "B1/C1",
+        "bp": "BP2"
+       },
+       {
+        "pin": "A2/A1/D1/E1/G1",
+        "bp": "BP2"
+       },
+       {
+        "pin": "A2/A1/D1/E1/G1",
+        "bp": "BP2"
+       },
+       null,
+       {
+        "pin": "A2/A1/D1/E1/G1",
+        "bp": "BP2"
+       }
+      ],
+      "glyphs": [
+       "0000000",
+       "0110000"
+      ]
+     },
+     {
+      "value": "hourUnits",
+      "cells": [
+       {
+        "pin": "A2/A1/D1/E1/G1",
+        "bp": "BP1"
+       },
+       {
+        "pin": "B2/C2",
+        "bp": "BP1"
+       },
+       {
+        "pin": "B2/C2",
+        "bp": "BP2"
+       },
+       {
+        "pin": "G2/D2",
+        "bp": "BP2"
+       },
+       {
+        "pin": "F2/E2",
+        "bp": "BP2"
+       },
+       {
+        "pin": "F2/E2",
+        "bp": "BP1"
+       },
+       {
+        "pin": "G2/D2",
+        "bp": "BP1"
+       }
+      ],
+      "glyphs": [
+       "1111110",
+       "0110000",
+       "1101101",
+       "1111001",
+       "0110011",
+       "1011011",
+       "1011111",
+       "1110000",
+       "1111111",
+       "1111011"
+      ]
+     },
+     {
+      "value": "minuteTens",
+      "cells": [
+       {
+        "pin": "G3/A3/D3",
+        "bp": "BP2"
+       },
+       {
+        "pin": "B3/C3",
+        "bp": "BP1"
+       },
+       {
+        "pin": "B3/C3",
+        "bp": "BP2"
+       },
+       {
+        "pin": "G3/A3/D3",
+        "bp": "BP2"
+       },
+       {
+        "pin": "F3/E3",
+        "bp": "BP2"
+       },
+       {
+        "pin": "F3/E3",
+        "bp": "BP1"
+       },
+       {
+        "pin": "G3/A3/D3",
+        "bp": "BP1"
+       }
+      ],
+      "glyphs": [
+       "1111110",
+       "0110000",
+       "1101101",
+       "1111001",
+       "0110011",
+       "1011011"
+      ]
+     },
+     {
+      "value": "minuteUnits",
+      "cells": [
+       {
+        "pin": "A4/COL",
+        "bp": "BP1"
+       },
+       {
+        "pin": "B4/C4",
+        "bp": "BP1"
+       },
+       {
+        "pin": "B4/C4",
+        "bp": "BP2"
+       },
+       {
+        "pin": "G4/D4",
+        "bp": "BP2"
+       },
+       {
+        "pin": "F4/E4",
+        "bp": "BP2"
+       },
+       {
+        "pin": "F4/E4",
+        "bp": "BP1"
+       },
+       {
+        "pin": "G4/D4",
+        "bp": "BP1"
+       }
+      ],
+      "glyphs": [
+       "1111110",
+       "0110000",
+       "1101101",
+       "1111001",
+       "0110011",
+       "1011011",
+       "1011111",
+       "1110000",
+       "1111111",
+       "1111011"
+      ]
+     }
+    ],
+    "colon": {
+     "pin": "A4/COL",
+     "bp": "BP2"
+    },
+    "am": {
+     "pin": "AM/PM",
+     "bp": "BP1"
+    },
+    "pm": {
+     "pin": "AM/PM",
+     "bp": "BP2"
+    }
+   },
+   "parts": [
+    {
+     "package": "SOIC",
+     "pinout": "so28",
+     "footprint": "SOIC-28W",
+     "name": "R68-PCF1179C"
+    }
+   ]
+  }
+ ]
+}

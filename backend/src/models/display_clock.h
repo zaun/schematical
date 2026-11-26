@@ -14,6 +14,5 @@ void clock_pin(CvState *s, const ClockCfg *k, struct ClockState *c, size_t pin);
 int clock_timer(CvState *s, const ClockCfg *k, struct ClockState *c, uint32_t id);
 int clock_lit(const CvState *s, const ClockCfg *k, const struct ClockState *c, unsigned seg,
               unsigned bp);
-void clock_time(const struct ClockState *c, int *h12, int *hour, int *min, int *sec);
 
 #endif

@@ -185,6 +185,18 @@ static void write_data(CharLcdState *st, CharLcdCtl *ctl, SimTime now, uint8_t v
     ac_step(ctl, ctl->id);
 }
 
+/* Cursor/display shift: S/C (1 display, 0 cursor) and R/L, each 0, 1 or -1 for X. */
+static void cursor_shift(CharLcdCtl *ctl, int sc, int rl) {
+    if (sc < 0) {
+        ctl->ac = -1;
+        ctl->shift = -1;
+    } else if (sc == 1) {
+        shift_step(ctl, rl < 0 ? -1 : !rl);   /* right: shift - 1 */
+    } else {
+        ac_step(ctl, rl);                     /* right: AC + 1 */
+    }
+}
+
 static void write_instruction(CharLcdState *st, CharLcdCtl *ctl, SimTime now, uint8_t v,
                               uint8_t k) {
     int which = -1;
@@ -229,20 +241,9 @@ static void write_instruction(CharLcdState *st, CharLcdCtl *ctl, SimTime now, ui
             ctl->c = bit_of(v, k, 1);
             ctl->b = bit_of(v, k, 0);
             break;
-        case 4: { /* Cursor/display shift */
-            int sc = bit_of(v, k, 3);
-            int rl = bit_of(v, k, 2);
-
-            if (sc < 0) {
-                ctl->ac = -1;
-                ctl->shift = -1;
-            } else if (sc == 1) {
-                shift_step(ctl, rl < 0 ? -1 : !rl);   /* right: shift - 1 */
-            } else {
-                ac_step(ctl, rl);                     /* right: AC + 1 */
-            }
+        case 4:   /* Cursor/display shift */
+            cursor_shift(ctl, bit_of(v, k, 3), bit_of(v, k, 2));
             break;
-        }
         case 5:   /* Function set */
             ctl->dl = bit_of(v, k, 4);
             ctl->n = bit_of(v, k, 3);
@@ -328,10 +329,10 @@ static void read_byte(const CharLcdCtl *ctl, SimTime now, int rs, uint8_t *value
         if (ctl->ac < 0) {
             *known &= 0x80;
         } else {
+            /* ram is known here: only lose() makes it unknown, and it makes AC unknown too;
+               every instruction that sets AC also sets ram, and ac_step keeps AC unknown
+               while ram is. */
             *value |= (uint8_t)(ctl->ac & 0x7F);
-            if (ctl->ram < 0) {
-                *known &= (uint8_t)~0x40;
-            }
         }
     } else if (rs == 1) {
         if (busy_flag(ctl, now) != 0 || ctl->ram < 0 || ctl->ac < 0) {

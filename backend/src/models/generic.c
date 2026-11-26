@@ -32,13 +32,13 @@ static void *generic_load_device(KindContext *ctx, const cJSON *json) {
     return device;
 }
 
+/* At least one pin: the loader refuses an empty pinout for every kind (lib_load_pinout) before
+   it binds one. */
 static void *generic_bind_pinout(KindContext *ctx, const void *raw, const PartPin *pins,
                                  size_t pin_count) {
+    (void)ctx;
     (void)pins;
-    if (pin_count == 0) {
-        kind_error(ctx, "a generic part needs at least one pin");
-        return NULL;
-    }
+    (void)pin_count;
     return (void *)raw;
 }
 

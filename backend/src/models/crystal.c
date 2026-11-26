@@ -164,9 +164,7 @@ static void *crystal_create(const void *config) {
     uint64_t hz = part->crystal->hz;
     CrystalState *state;
 
-    if (hz == 0) {
-        return NULL;
-    }
+    /* hz >= 1: crystal_load_part refuses a part below 1 Hz. */
     state = logic_malloc(sizeof(*state));
     if (state == NULL) {
         return NULL;
