@@ -5421,9 +5421,7 @@ final class SchematicDocument {
             guard let index = buses.firstIndex(where: { $0.id == id }) else { return false }
             let old = buses[index]
             guard lines.map(\.id) == old.lines.map(\.id) else { return false }
-            guard !zip(old.lines, lines).contains(where: { before, after in
-                before.isHorizontal != after.isHorizontal || before.direction != after.direction
-            }) else { return false }
+            guard !zip(old.lines, lines).contains(where: { $0.isHorizontal != $1.isHorizontal || $0.direction != $1.direction }) else { return false }
             var edited = old
             edited.lines = lines
             guard edited.isValid, edited.jointShapes == old.jointShapes, edited.portsFit else { return false }
@@ -5494,9 +5492,7 @@ final class SchematicDocument {
         fileprivate let action: Action
 
         fileprivate init(message: String, action: Action) {
-            id = UUID()
-            self.message = message
-            self.action = action
+            (id, self.message, self.action) = (UUID(), message, action)
         }
 
         fileprivate enum Action {
