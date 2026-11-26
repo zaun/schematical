@@ -70,8 +70,11 @@ typedef struct {
     unsigned first;   /* index of its first byte in the TX buffer (writes) */
 } Segment;
 
+/* The engine's next step. Only a step timer of the current generation reads
+   it, and every one is scheduled by step_later, so there is no idle value:
+   engine_end and a reset bump the generation instead. */
 typedef enum {
-    E_IDLE, E_WAIT_BUS, E_START_HOLD, E_LOW, E_RISE, E_HIGH, E_FALL, E_RS_RELEASE, E_RS_RISE,
+    E_WAIT_BUS, E_START_HOLD, E_LOW, E_RISE, E_HIGH, E_FALL, E_RS_RELEASE, E_RS_RISE,
     E_RS_HIGH, E_STOP_LOW, E_STOP_RISE, E_STOP_HIGH
 } Step;
 
@@ -211,7 +214,6 @@ static void update_gpio(SpState *s) {
 
 static void engine_end(SpState *s, uint8_t status, uint8_t known) {
     s->busy = 0;
-    s->step = E_IDLE;
     s->gen++;
     set_lines(s, LOGIC_Z, LOGIC_Z);
     s->stat = (SpReg){status, known};
@@ -422,8 +424,6 @@ static void engine_step(SpState *s) {
             set_lines(s, LOGIC_Z, LOGIC_Z);   /* STOP */
             engine_end(s, s->stat.v, s->stat.k);
             return;
-        default:
-            return;
     }
 }
 
@@ -530,7 +530,7 @@ static void i2c_command(SpState *s) {
                                   n2, 0};
             s->seg_count = 2;
             break;
-        case 0x03:   /* N1, N2, addr1, data x N1, addr2, data x N2 */
+        default:     /* 0x03 (spi_end passes 0x00-0x03 only): N1, N2, addr1, data x N1, addr2, data x N2 */
             n1 = s->msg[1];
             n2 = s->msg[2];
             if (s->msg_len < 4 || n1 == 0 || n2 == 0 || s->msg_len < 5 + n1 + n2 ||
@@ -552,8 +552,6 @@ static void i2c_command(SpState *s) {
             }
             s->seg_count = 2;
             break;
-        default:
-            return;
     }
     /* The I2C START follows the message after td (35 us). */
     s->stat = (SpReg){ST_BUSY, 0xFF};
@@ -682,9 +680,8 @@ static void spi_end(void *context, unsigned bits) {
     if (s->unknown || s->in_reset || s->msg_len == 0) {
         return;
     }
-    if (bits % 8 != 0) {
-        /* A partial byte: the message is malformed; nothing more happens. */
-    }
+    /* A partial last byte (bits % 8 != 0) is dropped: the whole bytes count. */
+    (void)bits;
     if (s->msg_k[0] != 0xFF) {
         /* An unknown command could have been a register write: X there (P2). */
         if (((s->msg[0] ^ 0x20u) & s->msg_k[0]) == 0 && s->msg_len >= 3) {
@@ -745,7 +742,6 @@ static void reset_state(SpState *s) {
     s->power_down = 0;
     s->ignoring = 0;
     s->busy = 0;
-    s->step = E_IDLE;
     s->gen++;
     s->msg_len = 0;
 }
@@ -796,13 +792,9 @@ static void sp_start(Sim *sim, SimInstance *instance, void *raw) {
     s->scl_seen = level(s, s->pins->scl, LOGIC_X);
     s->sda_seen = level(s, s->pins->sda, LOGIC_X);
     s->in_reset = 0;
-    if (level(s, s->pins->reset, LOGIC_1) == LOGIC_0) {
-        s->in_reset = 1;   /* low at power-on: held from the start */
-        serial_host_hold(&s->host, sim, instance, 1);
-    } else {
-        apply_reset(s);
-    }
-    outputs(s);
+    /* No net is driven yet at start (RESET reads Z, inactive): a RESET held low
+       from power-on is seen at its first pin event, after tsa. */
+    apply_reset(s);
 }
 
 static void sp_timer(Sim *sim, SimInstance *instance, void *raw, uint32_t id) {
@@ -825,15 +817,13 @@ static void sp_timer(Sim *sim, SimInstance *instance, void *raw, uint32_t id) {
     if (gen != (s->gen & 0x1FFFFFFFu) || s->in_reset || s->unknown || s->power_down) {
         return;
     }
-    switch (kind) {
-        case TM_BEGIN: engine_begin(s); break;
-        case TM_STEP: engine_step(s); break;
-        case TM_TIMEOUT:
-            if (s->busy) {
-                engine_end(s, ST_TIMEOUT, 0xFF);
-            }
-            break;
-        default: break;
+    /* The kinds scheduled: TM_RESET (above), TM_BEGIN, TM_STEP, TM_TIMEOUT. */
+    if (kind == TM_BEGIN) {
+        engine_begin(s);
+    } else if (kind == TM_STEP) {
+        engine_step(s);
+    } else if (s->busy) {
+        engine_end(s, ST_TIMEOUT, 0xFF);
     }
 }
 
@@ -871,20 +861,10 @@ static void sp_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t pi
 
 /* ---- Terminal: none (no UART) ---------------------------------------------------------------------- */
 
+/* No channels: serial.c asks line() and async() only for a channel below
+   channels(), so the model has neither (NULL). */
 static unsigned sp_channels(const void *raw) {
     (void)raw;
-    return 0;
-}
-
-static SerialLine *sp_line(void *raw, unsigned channel) {
-    (void)raw;
-    (void)channel;
-    return NULL;
-}
-
-static int sp_async(const void *raw, unsigned channel) {
-    (void)raw;
-    (void)channel;
     return 0;
 }
 
@@ -1023,5 +1003,5 @@ const SerialModel SC18IS604_MODEL = {
     "sc18is604", KEYS, TIMING, NULL,
     sp_load_device, sp_bind, NULL, sp_open_drain,
     sp_create, sp_destroy, sp_start, sp_pin_changed, sp_timer,
-    sp_channels, sp_line, sp_async
+    sp_channels, NULL, NULL
 };

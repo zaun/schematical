@@ -59,9 +59,6 @@
 13	backend/src/models/mux_stored.c
 14	backend/src/models/mux.c
 31	backend/src/models/nixie.c
-107	backend/src/models/ns16550_bridge_kind.c
-128	backend/src/models/ns16550_bridge.c
-200	backend/src/models/ns16550_xr1280.c
 21	backend/src/models/opamp.c
 14	backend/src/models/oscillator.c
 16	backend/src/models/pio_pia6521.c
@@ -88,8 +85,6 @@
 132	backend/src/models/serial_max310x_data.c
 154	backend/src/models/serial_max310x_regs.c
 45	backend/src/models/serial_max310x.c
-107	backend/src/models/serial_sc18is604.c
-97	backend/src/models/serial_target.c
 24	backend/src/models/serial_usbuart.c
 29	backend/src/models/serial_util.h
 68	backend/src/models/serial.c

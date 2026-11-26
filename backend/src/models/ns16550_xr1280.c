@@ -657,11 +657,16 @@ static unsigned fc_count(const NsChannel *c, int tx) {
     return tx ? c->tx_count : c->rx_count;
 }
 
+/* The registers xr_decode names for a read (the X_ ones; the write-only
+   SHR, SFR, MCR and FCR addresses read as the core's). */
 void xr_peek_reg(NsChannel *c, int reg, uint8_t *v, uint8_t *k) {
     NsState *s = c->owner;
     NsBridge *br = s->bridge;
     NbChannel *n = nb_ch(c);
     int sel = gen_select(n);
+    unsigned mode = n->emsr.v & 3u;
+    Reg r;
+    Reg m;
 
     *v = 0;
     *k = 0xFF;
@@ -679,17 +684,12 @@ void xr_peek_reg(NsChannel *c, int reg, uint8_t *v, uint8_t *k) {
         case X_GPIOINV: *v = br->gpioinv.v; *k = br->gpioinv.k; break;
         case X_GPIOSEL: *v = br->gpiosel.v; *k = br->gpiosel.k; break;
         case X_GPIOLVL: gpiolvl(s, v, k); break;
-        case X_EMSR_FC: {
-            unsigned mode = n->emsr.v & 3u;
-            int tx = mode == 1 || (mode == 3 && n->fc_toggle);
-
-            *v = (uint8_t)fc_count(c, tx);
+        case X_EMSR_FC:
+            *v = (uint8_t)fc_count(c, mode == 1 || (mode == 3 && n->fc_toggle));
             break;
-        }
-        case X_DLL: {
-            Reg r = sel == 1 ? n->dll_rx : n->dll_tx;
-            Reg m = sel == 1 ? n->dlm_rx : n->dlm_tx;
-
+        case X_DLL:
+            r = sel == 1 ? n->dll_rx : n->dll_tx;
+            m = sel == 1 ? n->dlm_rx : n->dlm_tx;
             if (r.k == 0xFF && m.k == 0xFF && r.v == 0 && m.v == 0) {
                 *k = 0;   /* DREV: value not printed (decisions.md) */
             } else {
@@ -697,23 +697,15 @@ void xr_peek_reg(NsChannel *c, int reg, uint8_t *v, uint8_t *k) {
                 *k = r.k;
             }
             break;
-        }
-        case X_DLM: {
-            Reg r = sel == 1 ? n->dlm_rx : n->dlm_tx;
-
+        case X_DLM:
+            r = sel == 1 ? n->dlm_rx : n->dlm_tx;
             *v = r.v;
             *k = r.k;
             break;
-        }
-        case X_DLD: {
-            Reg r = sel == 1 ? n->dld_rx : n->dld_tx;
-
+        case X_DLD:
+            r = sel == 1 ? n->dld_rx : n->dld_tx;
             *v = (uint8_t)((n->dld_tx.v & 0xC0u) | (r.v & 0x3Fu));
             *k = (uint8_t)((n->dld_tx.k & 0xC0u) | (r.k & 0x3Fu));
-            break;
-        }
-        default:
-            *k = 0;   /* write-only registers read X */
             break;
     }
 }
@@ -738,6 +730,37 @@ static void pass_to_core(NsState *s, NsChannel *c, unsigned address, uint8_t v, 
     br->raw = 0;
 }
 
+/* DLD[7:6] (the generator select) first, then DLD[5:0] to that generator. */
+static void write_dld(NsChannel *c, NbChannel *n, uint8_t v, uint8_t k) {
+    n->dld_tx.v = (uint8_t)((n->dld_tx.v & 0x3Fu) | (v & 0xC0u));
+    n->dld_tx.k = (uint8_t)((n->dld_tx.k & 0x3Fu) | (k & 0xC0u));
+    if (gen_select(n) != 1) {
+        n->dld_tx.v = (uint8_t)((n->dld_tx.v & 0xC0u) | (v & 0x3Fu));
+        n->dld_tx.k = (uint8_t)((n->dld_tx.k & 0xC0u) | (k & 0x3Fu));
+    }
+    if (gen_select(n) != 0) {
+        n->dld_rx = (Reg){(uint8_t)(v & 0x3Fu), (uint8_t)(k | 0xC0u)};
+    }
+    xr_load_divisors(c);
+    ns_update_format(c);
+}
+
+/* MCR[2] moves 4 pins between the modem and the GPIOs: their MSR bits change
+   function, not level (no deltas). */
+static void write_mcr(NsState *s, NsChannel *c, uint8_t v, uint8_t k) {
+    uint8_t mask = ns_ext_mcr_mask(c);
+    Reg next = {(uint8_t)((c->mcr.v & ~mask) | (v & mask)), (uint8_t)((c->mcr.k & ~mask) | (k & mask))};
+
+    if (((next.v ^ c->mcr.v) & 0x04u) != 0 || ((next.k ^ c->mcr.k) & 0x04u) != 0) {
+        c->mcr.v = (uint8_t)((c->mcr.v & ~0x04u) | (next.v & 0x04u));
+        c->mcr.k = (uint8_t)((c->mcr.k & ~0x04u) | (next.k & 0x04u));
+        ns_modem_refresh(s, c);
+        xr_gpio_changed(s);
+    }
+    pass_to_core(s, c, 4, v, k);
+}
+
+/* The registers xr_decode names for a write (every X_ one). */
 void xr_write_reg(NsState *s, NsChannel *c, int reg, uint8_t v, uint8_t k) {
     NsBridge *br = s->bridge;
     NbChannel *n = nb_ch(c);
@@ -775,47 +798,13 @@ void xr_write_reg(NsState *s, NsChannel *c, int reg, uint8_t v, uint8_t k) {
             set_gen(n, &n->dlm_tx, &n->dlm_rx, v, k);
             xr_load_divisors(c);
             break;
-        case X_DLD: {
-            /* DLD[7:6] (the generator select) first, then DLD[5:0] to that generator. */
-            uint8_t sel_v = v & 0xC0u;
-            uint8_t sel_k = k & 0xC0u;
-
-            n->dld_tx.v = (uint8_t)((n->dld_tx.v & 0x3Fu) | sel_v);
-            n->dld_tx.k = (uint8_t)((n->dld_tx.k & 0x3Fu) | sel_k);
-            if (gen_select(n) != 1) {
-                n->dld_tx.v = (uint8_t)((n->dld_tx.v & 0xC0u) | (v & 0x3Fu));
-                n->dld_tx.k = (uint8_t)((n->dld_tx.k & 0xC0u) | (k & 0x3Fu));
-            }
-            if (gen_select(n) != 0) {
-                n->dld_rx = (Reg){(uint8_t)(v & 0x3Fu), (uint8_t)(k | 0xC0u)};
-            }
-            xr_load_divisors(c);
-            ns_update_format(c);
-            break;
-        }
-        case X_MCR: {
-            uint8_t mask = ns_ext_mcr_mask(c);
-            Reg next = {(uint8_t)((c->mcr.v & ~mask) | (v & mask)),
-                        (uint8_t)((c->mcr.k & ~mask) | (k & mask))};
-
-            /* MCR[2] moves 4 pins between the modem and the GPIOs: their
-               MSR bits change function, not level (no deltas). */
-            if (((next.v ^ c->mcr.v) & 0x04u) != 0 || ((next.k ^ c->mcr.k) & 0x04u) != 0) {
-                c->mcr.v = (uint8_t)((c->mcr.v & ~0x04u) | (next.v & 0x04u));
-                c->mcr.k = (uint8_t)((c->mcr.k & ~0x04u) | (next.k & 0x04u));
-                ns_modem_refresh(s, c);
-                xr_gpio_changed(s);
-            }
-            pass_to_core(s, c, 4, v, k);
-            break;
-        }
+        case X_DLD: write_dld(c, n, v, k); break;
+        case X_MCR: write_mcr(s, c, v, k); break;
         case X_FCR:
             if (enhanced(c) && (k & 1u) && (v & 1u)) {
                 n->wake_en = nb_known1((Reg){v, k}, 3);   /* FCR[3] wake-up interrupt enable */
             }
             pass_to_core(s, c, 2, v, k);
-            break;
-        default:
             break;
     }
 }

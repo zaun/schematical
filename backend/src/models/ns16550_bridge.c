@@ -240,10 +240,8 @@ static int sc_decode(const NsChannel *c, unsigned a, int write) {
     }
 }
 
+/* Called by decode_any (ns16550_ext.c) for a device with a bridge only. */
 int ns_bridge_decode(const NsChannel *c, unsigned address, int write) {
-    if (c->owner->bridge == NULL) {
-        return R_CORE;
-    }
     if (brs_is_xr(c->owner->dev)) {
         return xr_decode(c, address, write);
     }
@@ -436,11 +434,8 @@ void ns_bridge_peek_reg(NsChannel *c, int reg, uint8_t *v, uint8_t *k) {
         case B_TRCTL: *v = n->trctl.v; *k = n->trctl.k; break;
         case B_ISCR: *v = pi_iscr(c); break;
         default:
-            if (brs_is_xr(s->dev)) {
-                xr_peek_reg(c, reg, v, k);
-            } else {
-                *k = 0;
-            }
+            /* The XR20M1280's own registers: sc_decode names only the B_ ones above. */
+            xr_peek_reg(c, reg, v, k);
             break;
     }
 }
@@ -480,9 +475,6 @@ void ns_bridge_write_reg(NsState *s, NsChannel *c, int reg, uint8_t v, uint8_t k
             if (v & 0x08u) {
                 software_reset(s);
                 return;
-            }
-            if (s->dev->bridge->gpio_count == 0) {
-                return;   /* SC16IS740: only the software-reset bit */
             }
             br->iocontrol = (Reg){(uint8_t)(v & 0x07u), (uint8_t)(k | 0xF8u)};
             if (s->dev->channel_count < 2) {
@@ -531,13 +523,11 @@ void ns_bridge_write_reg(NsState *s, NsChannel *c, int reg, uint8_t v, uint8_t k
     }
 }
 
+/* Called by the core (ns16550_io.c) for a device with a bridge only. */
 int ns_bridge_read_done(NsChannel *c, unsigned address, Cause *cause) {
     NsState *s = c->owner;
     int reg;
 
-    if (s->bridge == NULL) {
-        return 0;
-    }
     reg = ns_bridge_decode(c, address, 0);
     if (reg == R_CORE && brs_is_xr(s->dev)) {
         NbChannel *n = nb_ch(c);
@@ -608,12 +598,8 @@ static void write_unknown(NsState *s) {
 
 static void advance(NsState *s) {
     NsBridge *br = s->bridge;
-    const NsChannel *c;
+    const NsChannel *c = &s->ch[br->sub_ch];   /* host_write and host_read_done check the channel */
 
-    if (br->sub_x || br->sub_ch >= s->dev->channel_count) {
-        return;
-    }
-    c = &s->ch[br->sub_ch];
     /* PI7C9X SFR[4]: bursts auto-increment the sub-address (decisions.md). */
     if (s->dev->extended == EXT_SC16IS_SFR && nb_known1(nb_ch(c)->sfr, 4)) {
         br->sub_reg = (br->sub_reg + 1u) & ((1u << s->dev->bridge->reg_bits) - 1u);

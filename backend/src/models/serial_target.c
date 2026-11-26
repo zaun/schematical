@@ -103,9 +103,6 @@ static void spi_shift(SerialSpi *spi, Sim *sim, SimInstance *instance,
     if (events->shift != NULL) {
         events->shift(events->context, spi->bits);
     }
-    if (!spi->active) {
-        return;
-    }
     if ((spi->pins->mode & 1u) == 0 && spi->bits == 0) {
         return;   /* a trailing edge before any bit: nothing to shift */
     }
@@ -364,9 +361,7 @@ static void i2c_rising(SerialI2c *i2c, Sim *sim, SimInstance *instance,
     switch (i2c->phase) {
         case SERIAL_I2C_ADDRESS:
         case SERIAL_I2C_WRITE:
-            if (i2c->bits >= 8) {
-                break;
-            }
+            /* bits < 8 here: the fall after the 8th bit always leaves this phase. */
             i2c->in = (uint8_t)((i2c->in << 1) | (sda == LOGIC_1 ? 1u : 0u));
             i2c->in_known = (uint8_t)((i2c->in_known << 1) | (sda == LOGIC_X ? 0u : 1u));
             if (++i2c->bits < 8) {
@@ -466,9 +461,8 @@ void serial_i2c_start(SerialI2c *i2c, Sim *sim, SimInstance *instance) {
     i2c->sda = input_level(sim, instance, i2c->pins->sda);
     i2c->phase = SERIAL_I2C_IDLE;
     i2c->selected = 0;
-    if (i2c->scl == LOGIC_1 && i2c->sda == LOGIC_1) {
-        strap_sample(i2c, sim, instance, i2c->strap_idle);
-    }
+    /* No strap sample here: at start no net is driven yet (every level reads
+       X), so the first idle sample comes from serial_i2c_pin. */
 }
 
 void serial_i2c_enable(SerialI2c *i2c, Sim *sim, SimInstance *instance, int enabled) {
@@ -769,6 +763,7 @@ static void set_mode(SerialHost *host, Sim *sim, SimInstance *instance, SerialHo
 /* The front end the style and the select pin (live or sampled) pick now. */
 static void update_mode(SerialHost *host, Sim *sim, SimInstance *instance) {
     SerialHostMode mode = SERIAL_HOST_NONE;
+    LogicValue level;
 
     if (!host->held) {
         switch (host->dev->style) {
@@ -778,17 +773,14 @@ static void update_mode(SerialHost *host, Sim *sim, SimInstance *instance) {
             case SERIAL_HOST_I2C:
                 mode = SERIAL_HOST_ON_I2C;
                 break;
-            case SERIAL_HOST_I2C_SPI: {
-                LogicValue level = host->dev->select_live
-                                       ? input_level(sim, instance, host->pins->select)
-                                       : host->sampled;
-
+            case SERIAL_HOST_I2C_SPI:
+                level = host->dev->select_live ? input_level(sim, instance, host->pins->select)
+                                               : host->sampled;
                 if (level != LOGIC_X) {
                     mode = (int)(level == LOGIC_1) == host->dev->spi_level ? SERIAL_HOST_ON_SPI
                                                                            : SERIAL_HOST_ON_I2C;
                 }
                 break;
-            }
         }
     }
     set_mode(host, sim, instance, mode);
@@ -842,8 +834,6 @@ int serial_host_i2c_address(const SerialHost *host) {
         index += (unsigned)tie * scale;
         scale *= 4;
     }
-    if (index >= host->dev->table_count) {
-        return -1;
-    }
+    /* index < 4 ^ strap_count = table_count: load_i2c sizes the table so. */
     return host->dev->table[index];
 }

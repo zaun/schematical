@@ -371,6 +371,11 @@ logic_test(relay_test)
 logic_test(buzzer_test)
 logic_test(timer_test)
 logic_test(opamp_test)
+# plan-68-O
+logic_serial_test(serial_bridge_more_test serial_bench_maxim serial_bench_bridge serial_bench_cov)
+logic_serial_test(serial_xr1280_more_test serial_bench_maxim serial_bench_bridge serial_bench_cov)
+logic_serial_test(serial_sc18is604_more_test serial_bench_maxim serial_bench_bridge serial_bench_cov)
+logic_serial_test(serial_target_more_test serial_bench_maxim serial_bench_bridge serial_bench_cov)
 # plan-68-M
 logic_bench_test(converter_load_cov_test library_check_bench)
 logic_bench_test(converter_disp_load_cov_test library_check_bench)

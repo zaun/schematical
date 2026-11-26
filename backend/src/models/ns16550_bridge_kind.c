@@ -225,10 +225,8 @@ int ns_bridge_bind(KindContext *ctx, const NsDevice *d, const PartPin *pins, siz
     return 0;
 }
 
+/* Called by ns_open_drain for a device with a bridge, with a pin of the part. */
 int ns_bridge_open_drain(const NsDevice *d, const NsPins *p, size_t pin) {
-    if (pin == SERIAL_NO_PIN || p->bridge == NULL) {
-        return 0;
-    }
     return pin == p->bridge->irq || serial_host_open_drain(&d->bridge->host, &p->bridge->host, pin);
 }
 
@@ -659,17 +657,16 @@ int ns_bridge_load_divisor(NsChannel *c) {
 
 int ns_bridge_factor(const NsChannel *c) {
     const NbChannel *n;
+    unsigned mode;
 
     if (c->owner->bridge == NULL) {
         return 0;
     }
     n = nb_ch(c);
+    mode = (n->dld.v >> 4) & 3u;
     switch (c->owner->dev->extended) {
-        case EXT_SC16IS_DLD: {
-            unsigned mode = (n->dld.v >> 4) & 3u;
-
+        case EXT_SC16IS_DLD:
             return mode == 0 ? 16 : mode == 1 ? 8 : 4;   /* DLD[5:4]: 16x, 8x, 4x */
-        }
         case EXT_SC16IS_SFR:
             /* Sample rate 16 - SCR + N (TRCTL[7:4], CPR[3:0]). */
             return (int)(16u - ((n->trctl.v >> 4) & 0x0Fu) + (n->cpr.v & 0x0Fu));
