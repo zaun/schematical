@@ -105,8 +105,8 @@ change the most.
 
 ### Phase 1 — ns16550.c and ns16550_exar.c
 
-- [ ] Split both per § 3; new files in `backend/CMakeLists.txt`.
-- [ ] Ratchet: the two size rows removed; their coverage rows replaced by
+- [x] Split both per § 3; new files in `backend/CMakeLists.txt`.
+- [x] Ratchet: the two size rows removed; their coverage rows replaced by
   their pieces' rows (`COV --backend --write-ratchet`; `git diff scripts/coverage-ratchet.tsv` shows the diff
   only renames).
 
@@ -114,13 +114,19 @@ Acceptance: behavior and coverage identical.
   Check: `CT` → all pass, `git status --short backend/tests/golden` → no
   output; `COV --backend` total uncovered equals the total before the phase
   (recorded in the phase's commit message) (est. 2 min).
+  Observed (both phases together): `CT` → 104 of 105 pass, the one failure
+  `source_size_check` reporting the five stale rows this commit removes;
+  `git status --short backend/tests/golden` → no output; `COV --backend` →
+  `60689 lines, 7090 uncovered` before and after, and each model's pieces
+  sum to its old row (ns16550 37+31+117+141 = 326, exar 85+69+102+75 = 331,
+  bridge 128+109 = 237, max310x 50+132+154 = 336, i82510 68+71 = 139).
 Commit: —
 
 ### Phase 2 — max310x, bridge, i82510
 
-- [ ] Split the three per § 3; CMake; ratchet rows as Phase 1.
-- [ ] `docs/backend.md` § Layout: the new files and headers.
-- [ ] XB build: `xcodebuild -project schematical/schematical.xcodeproj -scheme
+- [x] Split the three per § 3; CMake; ratchet rows as Phase 1.
+- [x] `docs/backend.md` § Layout: the new files and headers.
+- [x] XB build: `xcodebuild -project schematical/schematical.xcodeproj -scheme
   schematical -derivedDataPath /tmp/p68-dd CODE_SIGNING_ALLOWED=NO build`
   succeeds (the app compiles the new files through the synchronized folder).
 
@@ -129,6 +135,14 @@ Acceptance: as Phase 1; and no serial model file over 800.
   'models/(ns16550|serial_)' | awk '$1>800'` → no output; the app build →
   `** BUILD SUCCEEDED **` (est. 5 min: the app build is the only check that the
   Xcode target picks the files up).
+  Observed: the largest piece is `ns16550_exar.c` at 780; the app build
+  linked (the `XB` run of plan-68-B's classes, `Executed 122 tests`, built
+  the app with these files).
+
+  The app build first failed on `MAX310X_MODEL` defined twice: the original
+  file has a tentative definition (`const SerialModel MAX310X_MODEL;`) ahead
+  of the real one, which the split put in another piece; the splitter now
+  turns such a line into `extern`. CMake's archive build had not shown it.
 Commit: —
 
 ## Validation Plan
@@ -144,7 +158,27 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- **Phases 1 and 2 landed together**, by one script
+  (`planning/plan-68-data/split_model.py`), and both phases' checks ran on
+  the result.
+- **Shared names were renamed, not only un-`static`ed.** The non-goal said
+  no name changes beyond `static` removal; that cannot hold: once global, a
+  shared name can clash with any other global in the link. `load_byte` and
+  `bus_write` (ns16550) clashed with plan-68-G/H's test bench helpers, and a
+  plain `ns_` prefix with the ns16550 core's existing `ns_*` wrappers. So
+  every name a piece shares that was `static` before takes the model's
+  prefix (`nsc_`, `exs_`, `brs_`, `m31x_`, `i82_`; each checked unused with
+  `grep -c`), renamed in code only, never in strings or comments, and never
+  after `.`/`->` (`fstat` is both an exar function and a struct field).
+  Names that were already global keep theirs. `nm`-based check:
+  `planning/plan-68-data/clash_check.sh` prints no name defined twice.
+- **New internal headers, not the existing ones.** ns16550's pieces share
+  `ns16550_core_int.h` (new) rather than `ns16550_int.h`, which
+  `ns16550_ext.c`, `_exar.c`, `_bridge.c`, `_xr1280.c` and `_lpt.c` also
+  include: the core's private types do not belong in theirs.
+- **A shared table's `extern` carries its length** (`m31x_VARIANTS[4]`),
+  counted from the initializer, because another piece takes its `sizeof`;
+  the compiler rejects the pair if the count is wrong.
 
 ## Summary
 

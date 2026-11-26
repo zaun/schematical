@@ -94,9 +94,15 @@ add_library(logic STATIC
     src/models/serial_line.c
     src/models/serial_bus.c
     src/models/ns16550.c
+    src/models/ns16550_io.c
+    src/models/ns16550_kind.c
+    src/models/ns16550_load.c
     src/models/ns16550_ext.c
     src/models/ns16550_lpt.c
     src/models/ns16550_exar.c
+    src/models/ns16550_exar_load.c
+    src/models/ns16550_exar_flow.c
+    src/models/ns16550_exar_pins.c
     src/models/serial_target.c
     src/models/converter.c
     src/models/converter_load.c
@@ -108,12 +114,16 @@ add_library(logic STATIC
     src/models/leddriver.c
     src/models/lcddriver.c
     src/models/ns16550_bridge.c
+    src/models/ns16550_bridge_kind.c
     src/models/ns16550_xr1280.c
     src/models/serial_max3100.c
     src/models/serial_max310x.c
+    src/models/serial_max310x_data.c
+    src/models/serial_max310x_regs.c
     src/models/serial_ay1013.c
     src/models/serial_i8251.c
     src/models/serial_i82510.c
+    src/models/serial_i82510_regs.c
     src/models/serial_acia6551.c
     src/models/serial_usbuart.c
     src/models/serial_hs82c52.c

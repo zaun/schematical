@@ -729,7 +729,23 @@ backend/
                            model, the terminal hooks), serial_line.c (baud
                            generator, transmitter, receiver, sent log,
                            terminal sender), serial_bus.c (Intel host bus),
-                           ns16550.c (the 16450/16550 family);
+                           ns16550.c (the 16450/16550 family: state,
+                           FIFOs, interrupts, outputs, reset, create;
+                           plan-68-I split it) with ns16550_io.c (receive,
+                           transmit, registers, bus events),
+                           ns16550_kind.c (engine callbacks, the device
+                           loader and binding), ns16550_load.c (the
+                           loader's key readers), ns16550_core_int.h;
+                           ns16550_exar.c with ns16550_exar_load.c,
+                           ns16550_exar_flow.c, ns16550_exar_pins.c and
+                           ns16550_exar_int.h; ns16550_bridge.c with
+                           ns16550_bridge_kind.c, ns16550_bridge_int.h;
+                           serial_max310x.c with serial_max310x_data.c,
+                           serial_max310x_regs.c, serial_max310x_int.h;
+                           serial_i82510.c with serial_i82510_regs.c,
+                           serial_i82510_int.h. Names a piece shares with
+                           another that were static before carry the
+                           model's prefix (nsc_, exs_, brs_, m31x_, i82_);
                            pio.c + pio.h (the pio kind: loader, model
                            table, the model that forwards to a pio model),
                            bus65.c + bus65.h (the 65xx peripheral bus the
