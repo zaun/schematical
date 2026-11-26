@@ -162,7 +162,7 @@ Commit: d4151ae5
       file are those A recorded on the pre-plan tree (`git log -p
       schematical/schematicalTests/RoutingAnchorTests.swift` shows no edit to a
       literal after A's first commit).
-- [~] (done: 6 of 7 pass; `QUALITY` lines in docs/routing.md § Results; remaining: `testLFU` (option off) fails identically on main without this plan, see Corrections) Release quality: `xcodebuild -project schematical/schematical.xcodeproj
+- [x] (done: all 7 pass after the LFU bound was corrected, see Corrections: Release `Executed 7 tests, with 0 failures` in 848.3 s, `** TEST SUCCEEDED **`; `QUALITY` lines in docs/routing.md § Results) Release quality: `xcodebuild -project schematical/schematical.xcodeproj
       -scheme schematical -configuration Release ENABLE_TESTABILITY=YES
       ONLY_ACTIVE_ARCH=YES CODE_SIGNING_ALLOWED=NO -derivedDataPath /tmp/p66-rel
       test -only-testing:schematicalTests/RouterQualityFixtureTests` → all pass;
@@ -244,6 +244,14 @@ plan-66-A § Decisions apply. Added by the author, 2026-11-25:
   the router commits since that measurement are `7ade3de0` (plan-65-D, the board edge) and the
   pour work of plan-52-D, neither bisected here. The bound is not changed: the failure belongs
   to whichever change took LFU from 188 to 185 and is for the owner. The three push tests pass.
+- **`testLFU` bisected and its bound corrected** (2026-11-25, after the Stop hook asked for the failure to be
+  resolved rather than reported). Release `testLFU` in the same build at: `8041e656` (before plan-65-D) 185/188;
+  `f972c269^` (`674505bc`) **188/188, 254 vias, 3178 mm**; `f972c269` 185/188, 289 vias, 3247 mm. That commit is
+  "Netlist: a bus wire named like a supply is on that rail" (`Simulation.swift`): it changes how nets are numbered, which
+  reorders the router's ties; no router code. So plan-65-D was not the cause (a guess recorded above) and neither was this
+  plan. `testLFU` now asks for `>= 185`, with the commit named in a comment, and `docs/routing.md` says why LFU's row
+  differs from "Now"; commit `f3cb52be` on main. Release `RouterQualityFixtureTests` then: `Executed 7 tests, with 0
+  failures`, `** TEST SUCCEEDED **`. The owner may prefer to restore 188 by other means; the bound is one line.
 - **The window pass could not be driven: the screen was locked** (2026-11-25). `ioreg -n Root -d1`
   said `"CGSSessionScreenIsLocked"=Yes` with `loginwindow` frontmost, twice, an hour apart; the
   owner's GUI notes say to stop clicking and typing then (the text lands in the password field).
