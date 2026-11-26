@@ -14,7 +14,7 @@ const childProcess = require('child_process');
 const sizeRule = require('./source-size.js');
 
 const ROOT = path.resolve(__dirname, '..');
-const WORK = '/tmp/logic-cov';
+const WORK = process.env.LOGIC_COV_WORK || '/tmp/logic-cov';
 const RATCHET = 'scripts/coverage-ratchet.tsv';
 const TIERS = ['backend', 'app', 'scripts'];
 const APP_TIMEOUT_S = 3600;
